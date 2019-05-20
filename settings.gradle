@@ -1,1 +1,2 @@
-include ':app'
+include ':CampfireSDK', ':DevSupJava', ':DevSupportAndroid', ':CampfireApi', ':CampfireApiMedia'
+project(':DevSupportAndroid').projectDir = new File('DevSupAndroid/DevSupportAndroid')

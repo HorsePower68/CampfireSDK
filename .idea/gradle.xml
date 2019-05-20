@@ -8,7 +8,11 @@
         <option name="modules">
           <set>
             <option value="$PROJECT_DIR$" />
-            <option value="$PROJECT_DIR$/app" />
+            <option value="$PROJECT_DIR$/CampfireApi" />
+            <option value="$PROJECT_DIR$/CampfireApiMedia" />
+            <option value="$PROJECT_DIR$/CampfireSDK" />
+            <option value="$PROJECT_DIR$/DevSupAndroid/DevSupportAndroid" />
+            <option value="$PROJECT_DIR$/DevSupJava" />
           </set>
         </option>
         <option name="resolveModulePerSourceSet" value="false" />
