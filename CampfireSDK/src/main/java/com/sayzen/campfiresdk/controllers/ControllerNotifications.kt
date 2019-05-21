@@ -86,10 +86,19 @@ object ControllerNotifications {
     var token: String = ""
     var activityClass: Class<Activity>? = null
     var notificationExecutor: NotificationExecutor? = null
+    var logoColored = R.drawable.logo_alpha_no_margins
+    var logoWhite = R.drawable.logo_alpha_black_and_white_no_margins
 
-    fun init(activityClass: Class<Activity>, notificationExecutor: NotificationExecutor) {
-        ControllerNotifications.activityClass = activityClass
-        ControllerNotifications.notificationExecutor = notificationExecutor
+    fun init(
+        activityClass: Class<Activity>,
+        logoColored: Int,
+        logoWhite: Int,
+        notificationExecutor: NotificationExecutor
+    ) {
+        this.logoColored = logoColored
+        this.logoWhite = logoWhite
+        this.activityClass = activityClass
+        this.notificationExecutor = notificationExecutor
         GoogleNotifications.init({ token: String? ->
             onToken(
                 token
@@ -108,11 +117,13 @@ object ControllerNotifications {
         if (!message.data.containsKey("my_data")) return
 
         val notification = Notification.instance(Json(message.data["my_data"]!!))
-        ToolsThreads.main { EventBus.post(
-            EventNotification(
-                notification
+        ToolsThreads.main {
+            EventBus.post(
+                EventNotification(
+                    notification
+                )
             )
-        ) }
+        }
 
         val b1 = notificationExecutor!!.canShowBySettings(notification)
         val parser = parser(notification)
@@ -127,7 +138,7 @@ object ControllerNotifications {
             if (text.isNotEmpty()) {
 
                 val icon =
-                    if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) R.drawable.logo_alpha_black_and_white_no_margins else R.drawable.logo_alpha_no_margins
+                    if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) logoWhite else logoColored
                 val intent = Intent(
                     SupAndroid.appContext,
                     activityClass
@@ -705,6 +716,7 @@ object ControllerNotifications {
         override fun getTitle(): String {
             return ToolsResources.sCap(if (n.blockLastUnits) R.string.moderation_notification_publications_is_blocked else if (n.blockUnitType == API.UNIT_TYPE_REVIEW) R.string.moderation_notification_review_is_blocked else R.string.moderation_notification_publication_is_blocked)
         }
+
         override fun getIcon() = R.drawable.ic_security_white_24dp
 
     }
