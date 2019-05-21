@@ -1,4 +1,4 @@
-package com.sayzen.campfiresdk
+package com.sayzen.campfiresdk.models.events.notifications
 
 import com.dzen.campfire.api.models.notifications.Notification
 

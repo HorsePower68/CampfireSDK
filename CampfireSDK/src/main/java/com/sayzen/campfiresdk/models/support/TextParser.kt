@@ -1,4 +1,4 @@
-package com.sayzen.campfiresdk
+package com.sayzen.campfiresdk.models.support
 
 
 import com.sup.dev.java.libs.debug.err
@@ -137,7 +137,12 @@ class TextParser(
                     val color = "" + c1 + c2 + c3 + c4 + c5 + c6
                     val next = findNext('}', 7)
                     if (next != -1) {
-                        result += "<font color=\"#$color\">${TextParser(text.substring(i + 7, next)).parse()}</font>"
+                        result += "<font color=\"#$color\">${TextParser(
+                            text.substring(
+                                i + 7,
+                                next
+                            )
+                        ).parse()}</font>"
                         i = next + 1
                         return true
                     }
