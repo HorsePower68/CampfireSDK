@@ -1,0 +1,152 @@
+package com.sayzen.campfiresdk.adapters
+
+import android.support.v7.widget.LinearLayoutManager
+import android.support.v7.widget.RecyclerView
+import com.dzen.campfire.api.models.UnitComment
+import com.dzen.campfire.api.models.notifications.NotificationComment
+import com.dzen.campfire.api.models.notifications.NotificationCommentAnswer
+import com.dzen.campfire.api.requests.units.RCommentsGetAll
+import com.sayzen.campfiresdk.R
+import com.sayzen.campfiresdk.controllers.ControllerApi
+import com.sayzen.campfiresdk.models.events.units.EventCommentRemove
+import com.sayzen.campfiresdk.controllers.api
+import com.sayzen.campfiresdk.models.cards.comments.CardComment
+import com.sayzen.campfiresdk.models.events.notifications.EventNotification
+import com.sayzen.campfiresdk.models.widgets.WidgetComment
+import com.sup.dev.android.tools.ToolsToast
+import com.sup.dev.android.views.cards.CardSpace
+import com.sup.dev.android.views.support.adapters.recycler_view.RecyclerCardAdapterLoading
+import com.sup.dev.java.libs.eventBus.EventBus
+import com.sup.dev.java.tools.ToolsThreads
+
+class AdapterComments(
+        private val parentUnitId: Long,
+        private var scrollToCommentId: Long,
+        private val vRecycler: RecyclerView,
+        private val startFromBottom: Boolean = false
+) : RecyclerCardAdapterLoading<CardComment, UnitComment>(CardComment::class, null) {
+
+    companion object {
+        val COUNT = 500
+    }
+
+    private val eventBus = EventBus
+            .subscribe(EventNotification::class) { this.onNotification(it) }
+            .subscribe(EventCommentRemove::class) { this.onEventCommentRemove(it) }
+
+    private var needScrollToBottom = false
+
+    init {
+        setBottomLoader { onLoad, cards ->
+            RCommentsGetAll(parentUnitId, if (cards.isEmpty()) 0 else cards.get(cards.size - 1).unit.dateCreate, false, startFromBottom)
+                    .onComplete { r -> onLoad.invoke(r.units) }
+                    .onError {
+                        remove(CardSpace::class)
+                        onLoad.invoke(null)
+                    }
+                    .send(api)
+        }
+        setMapper { unit ->
+            CardComment.instance(unit, true,
+                    { comment ->
+                        if (ControllerApi.isCurrentAccount(comment.creatorId)) return@instance false
+                        WidgetComment(parentUnitId, comment) { id -> loadAndScrollTo(id) }.asSheetShow()
+                        true
+                    },
+                    { comment ->
+                        WidgetComment(comment.parentUnitId, if (ControllerApi.isCurrentAccount(comment.creatorId)) null else comment, null, comment.id, comment.creatorName + ": " + comment.text) { id -> loadAndScrollTo(id) }.asSheetShow()
+                    },
+                    { id ->
+                        for (i in get(CardComment::class)) {
+                            if (i.unit.id == id) {
+                                i.flash()
+                                vRecycler.scrollToPosition(indexOf(i))
+                                break
+                            }
+                        }
+                    }
+            )
+        }
+        setShowLoadingCardBottom(false)
+        setShowLoadingCardTop(true)
+        addOnLoadedNotEmpty { onCommentsPackLoaded() }
+        setRetryMessage(R.string.error_network, R.string.app_retry)
+        setEmptyMessage(R.string.comments_empty, R.string.app_comment) { WidgetComment(parentUnitId, null) { id -> loadAndScrollTo(id) }.asSheetShow() }
+        setNotifyCount(5)
+        ToolsThreads.main(true) { this.loadBottom() }
+    }
+
+    fun enebleTopLoader() {
+        setTopLoader { onLoad, cards ->
+            RCommentsGetAll(parentUnitId, if (cards.isEmpty()) 0 else cards.get(0).unit.dateCreate, true, startFromBottom)
+                    .onComplete { r -> onLoad.invoke(r.units) }
+                    .onNetworkError { onLoad.invoke(null) }
+                    .send(api)
+        }
+    }
+
+    private fun onCommentsPackLoaded() {
+        remove(CardSpace::class)
+        if (get(CardComment::class).size % COUNT != 0) add(CardSpace(64))
+
+        if (scrollToCommentId == -1L) {
+            scrollToCommentId = 0
+            val v = get(CardComment::class)
+            val index = if(v.isNotEmpty()) indexOf(v.get(0))+1 else size()
+            ToolsThreads.main(600) { vRecycler.scrollToPosition(index) }
+        } else if (scrollToCommentId != 0L) {
+            for (c in get(CardComment::class)) {
+                if (c.unit.id == scrollToCommentId) {
+                    scrollToCommentId = 0
+                    ToolsThreads.main(600) {
+                        vRecycler.scrollToPosition(indexOf(c) + 1)
+                        c.flash()
+                    }
+                }
+            }
+            if (scrollToCommentId != 0L) {
+                ToolsToast.show(R.string.error_gone_comment)
+                scrollToCommentId = 0
+            }
+        }
+
+        if (needScrollToBottom) {
+            needScrollToBottom = false
+        }
+
+    }
+
+    fun loadAndScrollTo(scrollToCommentId: Long) {
+        this.scrollToCommentId = scrollToCommentId
+        loadBottom()
+    }
+
+    //
+    //  EventBus
+    //
+
+    private fun onEventCommentRemove(e: EventCommentRemove) {
+        if (e.parentUnitId == parentUnitId) {
+            if (get(CardComment::class).size == 0) {
+                remove(CardSpace::class)
+                reloadBottom()
+            }
+        }
+    }
+
+    private fun onNotification(e: EventNotification) {
+        if (e.notification is NotificationComment)
+            if (e.notification.unitId == parentUnitId) {
+                needScrollToBottom = (vRecycler.layoutManager as LinearLayoutManager).findLastCompletelyVisibleItemPosition() == itemCount - 1
+                loadBottom()
+            }
+
+        if (e.notification is NotificationCommentAnswer)
+            if (e.notification.unitId == parentUnitId) {
+                needScrollToBottom = (vRecycler.layoutManager as LinearLayoutManager).findLastCompletelyVisibleItemPosition() == itemCount - 1
+                loadBottom()
+            }
+
+    }
+
+}

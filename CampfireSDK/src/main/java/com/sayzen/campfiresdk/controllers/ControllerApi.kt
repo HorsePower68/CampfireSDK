@@ -3,6 +3,7 @@ package com.sayzen.campfiresdk.controllers
 
 import android.graphics.Bitmap
 import android.text.Html
+import android.text.util.Linkify
 import android.view.Gravity
 import android.widget.TextView
 import com.dzen.campfire.api.API
@@ -15,6 +16,8 @@ import com.dzen.campfire.api.models.lvl.LvlInfoUser
 import com.dzen.campfire.api.requests.accounts.RAccountsLogin
 import com.dzen.campfire.api.requests.accounts.RAccountsLoginSimple
 import com.dzen.campfire.api.requests.accounts.RAccountsRegistration
+import com.dzen.campfire.api.requests.units.RUnitsAdminClearReports
+import com.dzen.campfire.api.requests.units.RUnitsOnShare
 import com.dzen.campfire.api.requests.units.RUnitsRemove
 import com.dzen.campfire.api.requests.units.RUnitsReport
 import com.dzen.campfire.api_media.APIMedia
@@ -22,31 +25,29 @@ import com.dzen.campfire.api_media.requests.RResourcesGet
 import com.sayzen.campfiresdk.R
 import com.sayzen.campfiresdk.models.support.TextParser
 import com.sayzen.campfiresdk.models.events.units.EventUnitRemove
-import com.sayzen.devsupandroidgoogle.ControllerToken
+import com.sayzen.campfiresdk.models.events.units.EventUnitReportsAdd
+import com.sayzen.campfiresdk.models.events.units.EventUnitReportsClear
+import com.sayzen.devsupandroidgoogle.ControllerGoogleToken
 import com.sup.dev.android.libs.api_simple.ApiRequestsSupporter
 import com.sup.dev.android.libs.image_loader.ImageLoaderId
 import com.sup.dev.android.tools.*
 import com.sup.dev.android.views.views.ViewTextLinkable
 import com.sup.dev.android.views.widgets.WidgetAlert
+import com.sup.dev.android.views.widgets.WidgetField
 import com.sup.dev.java.classes.items.Item3
 import com.sup.dev.java.classes.items.ItemNullable
 import com.sup.dev.java.libs.api_simple.client.TokenProvider
 import com.sup.dev.java.libs.eventBus.EventBus
 import com.sup.dev.java.tools.ToolsThreads
+import java.util.regex.Pattern
 
 val api: API = API(
-    ControllerToken.instanceTokenProvider(),
-    API.IP,
+    ControllerGoogleToken.instanceTokenProvider(),
+        if (ControllerCampfireSDK.IS_DEBUG) (if (ControllerCampfireSDK.IS_USE_SECOND_IP) ControllerCampfireSDK.SECOND_IP else "192.168.0.64") else API.IP,
     API.PORT_HTTPS,
     API.PORT_CERTIFICATE,
     { key, token -> ToolsStorage.put(key, token) },
-    {
-        val token = ToolsStorage.getString(it, null)
-        if (ControllerApi.account.id == 0L) ControllerApi.login(
-            token
-        ) { }
-        token
-    }
+    { ToolsStorage.getString(it, null) }
 )
 
 val apiMedia: APIMedia = APIMedia(
@@ -79,7 +80,7 @@ object ControllerApi {
     private var serverTimeDelta = 0L
     private var fandomsKarmaCounts: Array<Item3<Long, Long, Long>?>? = null
 
-    fun init() {
+    internal fun init() {
         ApiRequestsSupporter.init(api)
 
         ImageLoaderId.loader = { imageId ->
@@ -92,15 +93,30 @@ object ControllerApi {
         }
     }
 
-    fun getLanguage() =
-        getLanguageByCode(getLanguageCode())
+    fun getLanguageId(): Long {
+        val code = ControllerSettings.appLanguage
+        var englishId = 1L
+        for (i in API.LANGUAGES) {
+            if (i.code == code) return i.id
+            if (i.code == "en") englishId = i.id
+        }
+        return englishId
+    }
 
-    fun getLanguageCode() = getLanguageByCode(ToolsAndroid.getLanguageCode()).code
+    fun getLanguage() = getLanguage(getLanguageCode())
 
-    fun getLanguageByCode(code: String): Language {
+    fun getLanguageCode() = getLanguage(ToolsAndroid.getLanguageCode()).code
+
+    fun getLanguage(code: String): Language {
         for (i in API.LANGUAGES) if (i.code == code.toLowerCase()) return i
         return API.LANGUAGES[0]
     }
+
+    fun getLanguage(languageId: Long): Language {
+        for (l in API.LANGUAGES) if (l.id == languageId) return l
+        return API.LANGUAGES[0]
+    }
+
 
     fun makeTextHtml(vText: TextView) {
         val text = vText.text.toString().replace("<", "&#60;")
@@ -149,29 +165,6 @@ object ControllerApi {
         return bytes
     }
 
-    fun reportUnit(unitId: Long, stringRes: Int, stringResGone: Int) {
-        ApiRequestsSupporter.executeEnabledConfirm(stringRes,
-            R.string.app_report, RUnitsReport(unitId)) { r ->
-            ToolsToast.show(R.string.app_reported)
-        }
-            .onApiError(RUnitsReport.E_ALREADY_EXIST) { ToolsToast.show(R.string.app_report_already_exist) }
-            .onApiError(API.ERROR_GONE) { ToolsToast.show(stringResGone) }
-    }
-
-    fun removeUnit(unitId: Long, stringRes: Int, stringResGone: Int, onRemove: () -> kotlin.Unit = {}) {
-        ApiRequestsSupporter.executeEnabledConfirm(stringRes,
-            R.string.app_remove, RUnitsRemove(unitId)) { r ->
-            EventBus.post(EventUnitRemove(unitId))
-            ToolsToast.show(R.string.app_removed)
-            onRemove.invoke()
-        }.onApiError(API.ERROR_GONE) { ToolsToast.show(stringResGone) }
-    }
-
-    fun makeLinkable(vText: ViewTextLinkable) {
-        makeTextHtml(vText)
-        ToolsView.makeLinksClickable(vText)
-    }
-
     fun isCurrentAccount(accountId: Long): Boolean {
         return account.id == accountId
     }
@@ -192,7 +185,7 @@ object ControllerApi {
             .onComplete {
                 account = it.account ?: Account()
                 if (account.id == 0L) {
-                    RAccountsRegistration(getLanguageByCode(getLanguageCode()).id, null)
+                    RAccountsRegistration(getLanguage(getLanguageCode()).id, null)
                         .onComplete {
                             account.id = it.accountId
                         }
@@ -312,5 +305,117 @@ object ControllerApi {
             else -> ""
         }
     }
+
+    fun makeLinkable(vText: ViewTextLinkable, onReplace: () -> kotlin.Unit = {}) {
+        replaceLinkable(vText, API.LINK_SHORT_POST_ID, API.LINK_POST)
+        replaceLinkable(vText, API.LINK_SHORT_REVIEW_ID, API.LINK_REVIEW)
+        replaceLinkable(vText, API.LINK_SHORT_CHAT_ID, API.LINK_CHAT)
+        replaceLinkable(vText, API.LINK_SHORT_FANDOM_ID, API.LINK_FANDOM)
+        replaceLinkable(vText, API.LINK_SHORT_PROFILE_ID, API.LINK_PROFILE_ID)
+        replaceLinkable(vText, API.LINK_SHORT_MODERATION_ID, API.LINK_MODERATION)
+        replaceLinkable(vText, API.LINK_SHORT_FORUM_ID, API.LINK_FORUM)
+        replaceLinkable(vText, API.LINK_SHORT_EVENT, API.LINK_EVENT)
+        replaceLinkable(vText, API.LINK_SHORT_TAG, API.LINK_TAG)
+        replaceLinkable(vText, API.LINK_SHORT_RULES_USER, API.LINK_RULES_USER)
+        replaceLinkable(vText, API.LINK_SHORT_RULES_MODER, API.LINK_RULES_MODER)
+        replaceLinkable(vText, API.LINK_SHORT_CREATORS, API.LINK_CREATORS)
+        replaceLinkable(vText, API.LINK_SHORT_ABOUT, API.LINK_ABOUT)
+        replaceLinkable(vText, API.LINK_SHORT_BOX_WITH_FIREWIRKS, API.LINK_BOX_WITH_FIREWORKS)
+        replaceLinkable(vText, API.LINK_SHORT_PROFILE, API.LINK_PROFILE_NAME)
+
+        onReplace.invoke()
+        makeTextHtml(vText)
+
+        makeLinkable(vText, API.LINK_SHORT_POST_ID, API.LINK_POST)
+        makeLinkable(vText, API.LINK_SHORT_REVIEW_ID, API.LINK_REVIEW)
+        makeLinkable(vText, API.LINK_SHORT_CHAT_ID, API.LINK_CHAT)
+        makeLinkable(vText, API.LINK_SHORT_FANDOM_ID, API.LINK_FANDOM)
+        makeLinkable(vText, API.LINK_SHORT_PROFILE_ID, API.LINK_PROFILE_ID)
+        makeLinkable(vText, API.LINK_SHORT_MODERATION_ID, API.LINK_MODERATION)
+        makeLinkable(vText, API.LINK_SHORT_FORUM_ID, API.LINK_FORUM)
+        makeLinkable(vText, API.LINK_SHORT_EVENT, API.LINK_EVENT)
+        makeLinkable(vText, API.LINK_SHORT_TAG, API.LINK_TAG)
+        makeLinkableInner(vText, API.LINK_SHORT_RULES_USER, API.LINK_RULES_USER)
+        makeLinkableInner(vText, API.LINK_SHORT_RULES_MODER, API.LINK_RULES_MODER)
+        makeLinkableInner(vText, API.LINK_SHORT_CREATORS, API.LINK_CREATORS)
+        makeLinkableInner(vText, API.LINK_SHORT_ABOUT, API.LINK_ABOUT)
+        makeLinkableInner(vText, API.LINK_SHORT_BOX_WITH_FIREWIRKS, API.LINK_BOX_WITH_FIREWORKS)
+        makeLinkable(vText, API.LINK_SHORT_PROFILE, API.LINK_PROFILE_NAME, "([A-Za-z0-9#]+)")
+
+        ToolsView.makeLinksClickable(vText)
+    }
+
+    private fun replaceLinkable(vText: TextView, short: String, link: String) {
+        vText.text = vText.text.toString().replace(link, short)
+    }
+
+    private fun makeLinkableInner(vText: TextView, short: String, link: String) {
+        makeLinkable(vText, short, link, "")
+    }
+
+    private fun makeLinkable(vText: TextView, short: String, link: String) {
+        makeLinkable(vText, short, link, "([A-Za-z0-9_-]+)")
+    }
+
+    private fun makeLinkable(vText: TextView, short: String, link: String, spec: String) {
+        Linkify.addLinks(vText, Pattern.compile("$short$spec"), link, null, { match, url ->
+            link + url.substring(short.length)
+        })
+    }
+
+
+    //
+    //  Share
+    //
+
+    fun sharePost(unitId: Long) {
+        WidgetField()
+                .setHint(R.string.app_message)
+                .setOnCancel(R.string.app_cancel)
+                .setOnEnter(R.string.app_share) { w, text ->
+                    ToolsIntent.shareText(text + "\n\r" + linkToPost(unitId))
+                    ToolsThreads.main(10000) { RUnitsOnShare(unitId).send(api) }
+                }
+                .asSheetShow()
+    }
+
+    fun shareReview(unitId: Long) {
+        WidgetField()
+                .setHint(R.string.app_message)
+                .setOnCancel(R.string.app_cancel)
+                .setOnEnter(R.string.app_share) { w, text ->
+                    ToolsIntent.shareText(text + "\n\r" + linkToReview(unitId))
+                }
+                .asSheetShow()
+    }
+
+    //
+    //  Requests
+    //
+
+    fun reportUnit(unitId: Long, stringRes: Int, stringResGone: Int) {
+        ApiRequestsSupporter.executeEnabledConfirm(stringRes, R.string.app_report, RUnitsReport(unitId)) { r ->
+            ToolsToast.show(R.string.app_reported)
+            EventBus.post(EventUnitReportsAdd(unitId))
+        }
+                .onApiError(RUnitsReport.E_ALREADY_EXIST) { ToolsToast.show(R.string.app_report_already_exist) }
+                .onApiError(API.ERROR_GONE) { ToolsToast.show(stringResGone) }
+    }
+
+    fun removeUnit(unitId: Long, stringRes: Int, stringResGone: Int, onRemove: () -> kotlin.Unit = {}) {
+        ApiRequestsSupporter.executeEnabledConfirm(stringRes, R.string.app_remove, RUnitsRemove(unitId)) { r ->
+            EventBus.post(EventUnitRemove(unitId))
+            ToolsToast.show(R.string.app_removed)
+            onRemove.invoke()
+        }.onApiError(API.ERROR_GONE) { ToolsToast.show(stringResGone) }
+    }
+
+    fun adminClearReportUnit(unitId: Long, stringRes: Int, stringResGone: Int) {
+        ApiRequestsSupporter.executeEnabledConfirm(stringRes, R.string.app_clear, RUnitsAdminClearReports(unitId)) { r ->
+            ToolsToast.show(R.string.app_done)
+            EventBus.post(EventUnitReportsClear(unitId))
+        }.onApiError(API.ERROR_GONE) { ToolsToast.show(stringResGone) }
+    }
+
 
 }

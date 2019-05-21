@@ -26,6 +26,7 @@ dependencies {
     api project(':CampfireApi')
     api project(':CampfireApiMedia')
     api project(':DevSupportAndroidGoogle')
+    implementation files('libs/YouTubeAndroidPlayerApi.jar')
 }
 
 tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile).all {

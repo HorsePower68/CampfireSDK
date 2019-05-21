@@ -33,7 +33,7 @@ object ControllerChats {
 
     val readDates = HashMap<ChatTag, Long>()
 
-    fun init() {
+    internal fun init() {
 
     }
 

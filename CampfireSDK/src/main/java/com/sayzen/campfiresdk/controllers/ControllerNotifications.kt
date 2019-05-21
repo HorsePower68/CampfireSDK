@@ -89,7 +89,7 @@ object ControllerNotifications {
     var logoColored = R.drawable.logo_alpha_no_margins
     var logoWhite = R.drawable.logo_alpha_black_and_white_no_margins
 
-    fun init(
+    internal fun init(
         activityClass: Class<Activity>,
         logoColored: Int,
         logoWhite: Int,
@@ -143,7 +143,7 @@ object ControllerNotifications {
                     SupAndroid.appContext,
                     activityClass
                 )
-                val title = ToolsResources.s(R.string.app_name)
+                val title = SupAndroid.TEXT_APP_NAME?:""
                 val tag = tag(notification.id)
 
                 intent.putExtra(EXTRA_NOTIFICATION, notification.json(true, Json()).toString())

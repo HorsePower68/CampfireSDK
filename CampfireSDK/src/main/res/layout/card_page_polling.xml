@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <com.sup.dev.android.views.views.ViewTextLinkable
+            android:id="@+id/vTitle"
+            style="@style/Base.TextAppearance.AppCompat.Body1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="16dp"
+            android:layout_marginLeft="16dp"
+            android:layout_marginTop="8dp"/>
+
+        <LinearLayout
+            android:id="@+id/vContainer"
+            android:padding="16dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical" />
+
+    </LinearLayout>
+
+
+    <com.sup.dev.android.views.views.ViewIcon
+        android:id="@+id/vMore"
+        style="@style/Icon.18"
+        android:layout_gravity="right"
+        android:layout_margin="8dp"
+        android:background="@drawable/shape_circle_focus_dark"
+        android:src="@drawable/ic_more_vert_white_18dp" />
+
+
+</FrameLayout>
