@@ -1,10 +1,12 @@
 package com.sayzen.campfiresdk.controllers
 
 import com.dzen.campfire.api.requests.units.RUnitsKarmaAdd
+import com.sayzen.campfiresdk.R
 import com.sayzen.campfiresdk.app.CampfreConstants
 import com.sayzen.campfiresdk.models.events.units.EventUnitKarmaAdd
 import com.sayzen.campfiresdk.models.events.units.EventUnitKarmaStateChanged
 import com.sup.dev.android.libs.api_simple.ApiRequestsSupporter
+import com.sup.dev.android.tools.ToolsToast
 import com.sup.dev.java.classes.Subscription
 import com.sup.dev.java.libs.eventBus.EventBus
 import com.sup.dev.java.tools.ToolsThreads
@@ -49,14 +51,19 @@ object ControllerKarma {
         init {
             subscription = ToolsThreads.main(CampfreConstants.RATE_TIME) {
                 ApiRequestsSupporter.execute(RUnitsKarmaAdd(unitId, up)) { r ->
-                    if(rates[unitId] == this) rates.remove(unitId)
                     EventBus.post(EventUnitKarmaAdd(unitId, r.myKarmaCount))
-                }.onFinish { clearRate() }
+                }
+                    .onApiError(RUnitsKarmaAdd.E_SELF_UNIT) { ToolsToast.show(R.string.error_rate_self_unit) }
+                    .onFinish {
+                        if(rates[unitId] == this) rates.remove(unitId)
+                        clearRate()
+                    }
             }
         }
 
         fun clearRate() {
             subscription.unsubscribe()
+            EventBus.post(EventUnitKarmaStateChanged(unitId))
         }
 
 

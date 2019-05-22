@@ -60,6 +60,10 @@ abstract class ViewKarma(
 
     }
 
+    fun clear(){
+        update(0,0,0,0,0)
+    }
+
     fun update(unitId: Long,
                karmaCount: Long,
                myKarma: Long,

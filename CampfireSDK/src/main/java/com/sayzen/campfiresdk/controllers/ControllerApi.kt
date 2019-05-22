@@ -13,7 +13,6 @@ import com.dzen.campfire.api.models.account.Account
 import com.dzen.campfire.api.models.lvl.LvlInfo
 import com.dzen.campfire.api.models.lvl.LvlInfoAdmin
 import com.dzen.campfire.api.models.lvl.LvlInfoUser
-import com.dzen.campfire.api.requests.accounts.RAccountsLogin
 import com.dzen.campfire.api.requests.accounts.RAccountsLoginSimple
 import com.dzen.campfire.api.requests.accounts.RAccountsRegistration
 import com.dzen.campfire.api.requests.units.RUnitsAdminClearReports
@@ -43,7 +42,7 @@ import java.util.regex.Pattern
 
 val api: API = API(
     ControllerGoogleToken.instanceTokenProvider(),
-        if (ControllerCampfireSDK.IS_DEBUG) (if (ControllerCampfireSDK.IS_USE_SECOND_IP) ControllerCampfireSDK.SECOND_IP else "192.168.0.64") else API.IP,
+    if (ControllerCampfireSDK.IS_DEBUG) (if (ControllerCampfireSDK.IS_USE_SECOND_IP) ControllerCampfireSDK.SECOND_IP else "192.168.0.64") else API.IP,
     API.PORT_HTTPS,
     API.PORT_CERTIFICATE,
     { key, token -> ToolsStorage.put(key, token) },
@@ -76,7 +75,6 @@ fun instanceTokenProvider(): TokenProvider {
 object ControllerApi {
 
     var account = Account()
-    var loginInProgress = false
     private var serverTimeDelta = 0L
     private var fandomsKarmaCounts: Array<Item3<Long, Long, Long>?>? = null
 
@@ -123,7 +121,14 @@ object ControllerApi {
         vText.text = Html.fromHtml(TextParser(text).parse().replace("\n", "<br />"))
     }
 
-    fun toBytes(bitmap: Bitmap?, size: Int, w: Int = 0, h: Int = 0, weakSizesMode: Boolean = false, callback: (ByteArray?) -> Unit) {
+    fun toBytes(
+        bitmap: Bitmap?,
+        size: Int,
+        w: Int = 0,
+        h: Int = 0,
+        weakSizesMode: Boolean = false,
+        callback: (ByteArray?) -> Unit
+    ) {
         if (ToolsAndroid.isMainThread()) {
             ToolsThreads.thread {
                 callback.invoke(
@@ -175,64 +180,70 @@ object ControllerApi {
         //  setServerTimeDelta(0)
     }
 
-    fun login(token: String?, onFinish: () -> Unit) {
-        if (loginInProgress || token == null) {
-            onFinish.invoke()
-            return
-        }
-        loginInProgress = true
-        RAccountsLoginSimple(ControllerNotifications.token)
-            .onComplete {
-                account = it.account ?: Account()
-                if (account.id == 0L) {
-                    RAccountsRegistration(getLanguage(getLanguageCode()).id, null)
-                        .onComplete {
-                            account.id = it.accountId
-                        }
-                        .onFinish {
-                            loginInProgress = false
-                            onFinish.invoke()
-                        }
-                        .send(api)
-                } else {
-                    onFinish.invoke()
-                    loginInProgress = false
+
+    fun enableAutoRegistration() {
+        ControllerGoogleToken.tokenPostExecutor = { token, callback ->
+            if (token == null) {
+                callback.invoke(token)
+            } else {
+                loginWithRegistration(token) {
+                    callback.invoke(token)
                 }
             }
-            .onError {
-                loginInProgress = false
+        }
+    }
+
+
+    fun loginWithRegistration(loginToken: String?, onFinish: () -> Unit) {
+        if (account.id != 0L) onFinish.invoke()
+        login(loginToken) {
+            if (account.id == 0L) {
+                val r = RAccountsRegistration(getLanguage(getLanguageCode()).id, null)
+                    .onFinish {
+                        login(loginToken) {
+                            onFinish.invoke()
+                        }
+                    }
+                r.loginToken = loginToken
+                r.send(api)
+            } else {
                 onFinish.invoke()
             }
-            .send(api)
+        }
     }
 
-    fun can(adminInfo: LvlInfoUser): Boolean {
-        if (account.id == 1L) return true
-        return account.lvl >= adminInfo.lvl && account.karma30 >= adminInfo.karmaCount
+    fun loginIfTokenExist(){
+        val token = api.getAccessToken()
+        if(token != null && token.isNotEmpty()){
+            login(null){
+
+            }
+        }
     }
 
-    fun can(adminInfo: LvlInfoAdmin): Boolean {
-        if (account.id == 1L) return true
-        return account.lvl >= adminInfo.lvl && account.karma30 >= adminInfo.karmaCount
-    }
-
-    fun can(fandomId: Long, languageId: Long, moderateInfo: LvlInfo): Boolean {
-        if (account.id == 1L) return true
-        if (can(API.LVL_ADMIN_MODER)) return true
-        return account.lvl >= moderateInfo.lvl && getKarmaCount(fandomId, languageId) >= moderateInfo.karmaCount
-    }
-
-    fun startCampForAccount(accountId: Long) {
-        openLink(API.LINK_PROFILE_ID + accountId)
+    private fun login(loginToken: String?, onFinish: () -> Unit) {
+        val r = RAccountsLoginSimple(ControllerNotifications.token)
+            .onComplete {
+                account = it.account ?: Account()
+                setParams(it.serverTime, emptyArray(), emptyArray(), emptyArray())
+            }
+            .onFinish { onFinish.invoke() }
+        r.loginToken = loginToken
+        r.send(api)
     }
 
     fun currentTime() = System.currentTimeMillis() + serverTimeDelta
 
-    fun setParams(r: RAccountsLogin.Response) {
-        serverTimeDelta = r.serverTime - System.currentTimeMillis()
-        fandomsKarmaCounts = arrayOfNulls(r.karmaCounts.size)
-        for (i in fandomsKarmaCounts!!.indices) (fandomsKarmaCounts as Array)[i] = Item3(r.fandomsIds[i], r.languagesIds[i], r.karmaCounts[i])
+    fun setParams(serverTime: Long, fandomsIds: Array<Long>, languagesIds: Array<Long>, karmaCounts: Array<Long>) {
+        serverTimeDelta = serverTime - System.currentTimeMillis()
+        fandomsKarmaCounts = arrayOfNulls(karmaCounts.size)
+        for (i in fandomsKarmaCounts!!.indices) (fandomsKarmaCounts as Array)[i] =
+            Item3(fandomsIds[i], languagesIds[i], karmaCounts[i])
     }
+
+    //
+    //  Account
+    //
 
     fun getKarmaCount(fandomId: Long, languageId: Long): Long {
         if (fandomsKarmaCounts == null) return 0
@@ -243,19 +254,8 @@ object ControllerApi {
         return 0
     }
 
-    fun openLink(link: String) {
-        WidgetAlert()
-            .setOnCancel(R.string.app_cancel)
-            .setOnEnter(R.string.app_open) { ToolsIntent.openLink(link) }
-            .setText(R.string.message_link)
-            .setTextGravity(Gravity.CENTER)
-            .setTitleImage(R.drawable.ic_security_white_48dp)
-            .setTitleImageBackgroundRes(R.color.blue_700)
-            .asSheetShow()
-    }
-
-
-    fun isModerator(accountId: Long, lvl: Long) = !isProtoadmin(accountId, lvl) && !isAdmin(accountId, lvl) && lvl >= API.LVL_MODERATOR_BLOCK.lvl
+    fun isModerator(accountId: Long, lvl: Long) =
+        !isProtoadmin(accountId, lvl) && !isAdmin(accountId, lvl) && lvl >= API.LVL_MODERATOR_BLOCK.lvl
 
     fun isAdmin(accountId: Long, lvl: Long) = !isProtoadmin(accountId, lvl) && lvl >= API.LVL_ADMIN_MODER.lvl
 
@@ -275,9 +275,40 @@ object ControllerApi {
 
     fun isProtoadmin() = isProtoadmin(account)
 
+    fun can(adminInfo: LvlInfoUser): Boolean {
+        if (account.id == 1L) return true
+        return account.lvl >= adminInfo.lvl && account.karma30 >= adminInfo.karmaCount
+    }
+
+    fun can(adminInfo: LvlInfoAdmin): Boolean {
+        if (account.id == 1L) return true
+        return account.lvl >= adminInfo.lvl && account.karma30 >= adminInfo.karmaCount
+    }
+
+    fun can(fandomId: Long, languageId: Long, moderateInfo: LvlInfo): Boolean {
+        if (account.id == 1L) return true
+        if (can(API.LVL_ADMIN_MODER)) return true
+        return account.lvl >= moderateInfo.lvl && getKarmaCount(fandomId, languageId) >= moderateInfo.karmaCount
+    }
+
     //
     //  Links
     //
+
+    fun startCampForAccount(accountId: Long) {
+        openLink(API.LINK_PROFILE_ID + accountId)
+    }
+
+    fun openLink(link: String) {
+        WidgetAlert()
+            .setOnCancel(R.string.app_cancel)
+            .setOnEnter(R.string.app_open) { ToolsIntent.openLink(link) }
+            .setText(R.string.message_link)
+            .setTextGravity(Gravity.CENTER)
+            .setTitleImage(R.drawable.ic_security_white_48dp)
+            .setTitleImageBackgroundRes(R.color.blue_700)
+            .asSheetShow()
+    }
 
     fun linkToUser(name: String) = API.LINK_PROFILE_NAME + name
     fun linkToFandom(fandomId: Long) = API.LINK_FANDOM + fandomId
@@ -287,11 +318,15 @@ object ControllerApi {
     fun linkToModeration(moderationId: Long) = API.LINK_MODERATION + moderationId
     fun linkToForum(forumId: Long) = API.LINK_FORUM + forumId
     fun linkToPostComment(parentUnitId: Long, commentId: Long) = API.LINK_POST + parentUnitId + "_" + commentId
-    fun linkToModerationComment(parentUnitId: Long, commentId: Long) = API.LINK_MODERATION + parentUnitId + "_" + commentId
+    fun linkToModerationComment(parentUnitId: Long, commentId: Long) =
+        API.LINK_MODERATION + parentUnitId + "_" + commentId
+
     fun linkToForumComment(parentUnitId: Long, commentId: Long) = API.LINK_FORUM + parentUnitId + "_" + commentId
     fun linkToChat(fandomId: Long) = API.LINK_CHAT + fandomId
     fun linkToChat(fandomId: Long, languageId: Long) = API.LINK_CHAT + fandomId + "_" + languageId
-    fun linkToChatMessage(messageId: Long, fandomId: Long, languageId: Long) = API.LINK_CHAT + fandomId + "_" + languageId + "_" + messageId
+    fun linkToChatMessage(messageId: Long, fandomId: Long, languageId: Long) =
+        API.LINK_CHAT + fandomId + "_" + languageId + "_" + messageId
+
     fun linkToEvent(eventId: Long) = API.LINK_EVENT + eventId
     fun linkToTag(tagId: Long) = API.LINK_TAG + tagId
 
@@ -370,23 +405,23 @@ object ControllerApi {
 
     fun sharePost(unitId: Long) {
         WidgetField()
-                .setHint(R.string.app_message)
-                .setOnCancel(R.string.app_cancel)
-                .setOnEnter(R.string.app_share) { w, text ->
-                    ToolsIntent.shareText(text + "\n\r" + linkToPost(unitId))
-                    ToolsThreads.main(10000) { RUnitsOnShare(unitId).send(api) }
-                }
-                .asSheetShow()
+            .setHint(R.string.app_message)
+            .setOnCancel(R.string.app_cancel)
+            .setOnEnter(R.string.app_share) { w, text ->
+                ToolsIntent.shareText(text + "\n\r" + linkToPost(unitId))
+                ToolsThreads.main(10000) { RUnitsOnShare(unitId).send(api) }
+            }
+            .asSheetShow()
     }
 
     fun shareReview(unitId: Long) {
         WidgetField()
-                .setHint(R.string.app_message)
-                .setOnCancel(R.string.app_cancel)
-                .setOnEnter(R.string.app_share) { w, text ->
-                    ToolsIntent.shareText(text + "\n\r" + linkToReview(unitId))
-                }
-                .asSheetShow()
+            .setHint(R.string.app_message)
+            .setOnCancel(R.string.app_cancel)
+            .setOnEnter(R.string.app_share) { w, text ->
+                ToolsIntent.shareText(text + "\n\r" + linkToReview(unitId))
+            }
+            .asSheetShow()
     }
 
     //
@@ -398,8 +433,8 @@ object ControllerApi {
             ToolsToast.show(R.string.app_reported)
             EventBus.post(EventUnitReportsAdd(unitId))
         }
-                .onApiError(RUnitsReport.E_ALREADY_EXIST) { ToolsToast.show(R.string.app_report_already_exist) }
-                .onApiError(API.ERROR_GONE) { ToolsToast.show(stringResGone) }
+            .onApiError(RUnitsReport.E_ALREADY_EXIST) { ToolsToast.show(R.string.app_report_already_exist) }
+            .onApiError(API.ERROR_GONE) { ToolsToast.show(stringResGone) }
     }
 
     fun removeUnit(unitId: Long, stringRes: Int, stringResGone: Int, onRemove: () -> kotlin.Unit = {}) {
@@ -411,7 +446,11 @@ object ControllerApi {
     }
 
     fun adminClearReportUnit(unitId: Long, stringRes: Int, stringResGone: Int) {
-        ApiRequestsSupporter.executeEnabledConfirm(stringRes, R.string.app_clear, RUnitsAdminClearReports(unitId)) { r ->
+        ApiRequestsSupporter.executeEnabledConfirm(
+            stringRes,
+            R.string.app_clear,
+            RUnitsAdminClearReports(unitId)
+        ) { r ->
             ToolsToast.show(R.string.app_done)
             EventBus.post(EventUnitReportsClear(unitId))
         }.onApiError(API.ERROR_GONE) { ToolsToast.show(stringResGone) }

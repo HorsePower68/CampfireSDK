@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.design.widget.CoordinatorLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        style="@style/Root.Content">
+
+    <android.support.design.widget.AppBarLayout
+            style="@style/AppBar">
+
+        <android.support.v7.widget.Toolbar
+                style="@style/Toolbar"
+                app:title="@string/app_comments"/>
+
+    </android.support.design.widget.AppBarLayout>
+
+    <android.support.v7.widget.RecyclerView
+            style="@style/Recycler"
+            android:background="?content_background"/>
+
+    <android.support.design.widget.FloatingActionButton
+            style="@style/Fab"
+            android:src="@drawable/ic_mode_comment_white_24dp"/>
+
+
+</android.support.design.widget.CoordinatorLayout>

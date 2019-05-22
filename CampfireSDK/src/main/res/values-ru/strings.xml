@@ -49,6 +49,7 @@
     <string name="app_reported">Жалоба принята, скоро мы проверим это</string>
     <string name="app_report_already_exist">Вы уже жаловались на это</string>
     <string name="app_published">Опубликовано</string>
+    <string name="app_publish">Опубликовать</string>
     <string name="app_changed">Изменено</string>
     <string name="app_save">Сохранить</string>
     <string name="app_accept">Принять</string>
@@ -154,6 +155,7 @@
     <string name="app_note">Заметка</string>
     <string name="app_congratulations">Поздравляем!</string>
     <string name="app_edited">ред.</string>
+    <string name="app_comments">Комментарии</string>
 
     <string name="he">он</string>
     <string name="she">она</string>
@@ -532,6 +534,7 @@
     <string name="error_cant_find_images">Изображений не найдено</string>
     <string name="error_max_items_count">Слишком много элементов</string>
     <string name="error_cant_create_tag_without_category">Нельзя создать тег пока нет категорий</string>
+    <string name="error_rate_self_unit">Вы не можете оценить свою публикацию</string>
 
     <string name="profile_report_confirm">Пожаловаться на пользователя?</string>
     <string name="profile_story">История</string>
