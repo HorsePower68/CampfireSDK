@@ -26,59 +26,20 @@ object ControllerNotifications {
 
     val EXTRA_NOTIFICATION = "EXTRA_NOTIFICATION"
 
-    private val groupId_app = ToolsNotifications.instanceGroup(
-        1,
-        R.string.settings_notifications_filter_app
-    )
-    private val groupId_publications = ToolsNotifications.instanceGroup(
-        2,
-        R.string.settings_notifications_filter_publications
-    )
-    private val groupId_chat = ToolsNotifications.instanceGroup(
-        3,
-        R.string.settings_notifications_filter_chat
-    )
+    private val groupId_app = ToolsNotifications.instanceGroup(1, R.string.settings_notifications_filter_app)
+    private val groupId_publications = ToolsNotifications.instanceGroup(2, R.string.settings_notifications_filter_publications)
+    private val groupId_chat = ToolsNotifications.instanceGroup(3, R.string.settings_notifications_filter_chat)
 
-    private val chanelFollows =
-        ToolsNotifications.instanceChanel(1).setName(R.string.settings_notifications_filter_follows).setGroupId(
-            groupId_app
-        ).init()
-    private val chanelAchievements = ToolsNotifications.instanceChanel(2).setName(R.string.app_achievements).setGroupId(
-        groupId_app
-    ).init()
-    private val chanelOther =
-        ToolsNotifications.instanceChanel(3).setName(R.string.settings_notifications_filter_app_other).setGroupId(
-            groupId_app
-        ).init()
-    private val chanelComments =
-        ToolsNotifications.instanceChanel(4).setName(R.string.settings_notifications_filter_comments).setGroupId(
-            groupId_publications
-        ).init()
-    private val chanelKarma =
-        ToolsNotifications.instanceChanel(5).setName(R.string.settings_notifications_filter_karma).setGroupId(
-            groupId_publications
-        ).init()
-    private val chanelCommentsAnswers =
-        ToolsNotifications.instanceChanel(6).setName(R.string.settings_notifications_filter_answers).setGroupId(
-            groupId_publications
-        ).init()
-    private val chanelFollowsPost =
-        ToolsNotifications.instanceChanel(7).setName(R.string.settings_notifications_filter_follows_publications)
-            .setGroupId(
-                groupId_publications
-            ).init()
-    private val chanelImportant =
-        ToolsNotifications.instanceChanel(8).setName(R.string.settings_notifications_filter_important).setGroupId(
-            groupId_publications
-        ).init()
-    private val chanelChatMessages =
-        ToolsNotifications.instanceChanel(9).setName(R.string.settings_notifications_filter_chat_messages).setGroupId(
-            groupId_chat
-        ).setGroupingType(ToolsNotifications.GroupingType.SINGLE).init()
-    private val chanelChatAnswers =
-        ToolsNotifications.instanceChanel(10).setName(R.string.settings_notifications_filter_chat_answers).setGroupId(
-            groupId_chat
-        ).setGroupingType(ToolsNotifications.GroupingType.SINGLE).init()
+    private val chanelFollows = ToolsNotifications.instanceChanel(1).setName(R.string.settings_notifications_filter_follows).setGroupId(groupId_app).init()
+    private val chanelAchievements = ToolsNotifications.instanceChanel(2).setName(R.string.app_achievements).setGroupId(groupId_app).init()
+    private val chanelOther = ToolsNotifications.instanceChanel(3).setName(R.string.settings_notifications_filter_app_other).setGroupId(groupId_app).init()
+    private val chanelComments = ToolsNotifications.instanceChanel(4).setName(R.string.settings_notifications_filter_comments).setGroupId(groupId_publications).init()
+    private val chanelKarma = ToolsNotifications.instanceChanel(5).setName(R.string.settings_notifications_filter_karma).setGroupId(groupId_publications).init()
+    private val chanelCommentsAnswers = ToolsNotifications.instanceChanel(6).setName(R.string.settings_notifications_filter_answers).setGroupId(groupId_publications).init()
+    private val chanelFollowsPost = ToolsNotifications.instanceChanel(7).setName(R.string.settings_notifications_filter_follows_publications).setGroupId(groupId_publications).init()
+    private val chanelImportant = ToolsNotifications.instanceChanel(8).setName(R.string.settings_notifications_filter_important).setGroupId(groupId_publications).init()
+    private val chanelChatMessages = ToolsNotifications.instanceChanel(9).setName(R.string.settings_notifications_filter_chat_messages).setGroupId(groupId_chat).setGroupingType(ToolsNotifications.GroupingType.SINGLE).init()
+    private val chanelChatAnswers = ToolsNotifications.instanceChanel(10).setName(R.string.settings_notifications_filter_chat_answers).setGroupId(groupId_chat).setGroupingType(ToolsNotifications.GroupingType.SINGLE).init()
 
     val TYPE_NOTIFICATIONS = 1
     val TYPE_CHAT = 2
@@ -100,9 +61,7 @@ object ControllerNotifications {
         this.activityClass = activityClass
         this.notificationExecutor = notificationExecutor
         GoogleNotifications.init({ token: String? ->
-            onToken(
-                token
-            )
+            onToken(token)
         }, { message: RemoteMessage -> onMessage(message) })
     }
 

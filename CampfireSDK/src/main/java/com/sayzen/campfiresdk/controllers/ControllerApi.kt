@@ -41,20 +41,20 @@ import com.sup.dev.java.tools.ToolsThreads
 import java.util.regex.Pattern
 
 val api: API = API(
-    ControllerGoogleToken.instanceTokenProvider(),
-    if (ControllerCampfireSDK.IS_DEBUG) (if (ControllerCampfireSDK.IS_USE_SECOND_IP) ControllerCampfireSDK.SECOND_IP else "192.168.0.64") else API.IP,
-    API.PORT_HTTPS,
-    API.PORT_CERTIFICATE,
-    { key, token -> ToolsStorage.put(key, token) },
-    { ToolsStorage.getString(it, null) }
+        ControllerGoogleToken.instanceTokenProvider(),
+        if (ControllerCampfireSDK.IS_DEBUG) (if (ControllerCampfireSDK.IS_USE_SECOND_IP) ControllerCampfireSDK.SECOND_IP else "192.168.0.64") else API.IP,
+        API.PORT_HTTPS,
+        API.PORT_CERTIFICATE,
+        { key, token -> ToolsStorage.put(key, token) },
+        { ToolsStorage.getString(it, null) }
 )
 
 val apiMedia: APIMedia = APIMedia(
-    instanceTokenProvider(),
-    APIMedia.IP,
-    APIMedia.PORT_HTTPS,
-    APIMedia.PORT_CERTIFICATE,
-    { key, token -> }, { "cats" }
+        instanceTokenProvider(),
+        APIMedia.IP,
+        APIMedia.PORT_HTTPS,
+        APIMedia.PORT_CERTIFICATE,
+        { key, token -> }, { "cats" }
 )
 
 fun instanceTokenProvider(): TokenProvider {
@@ -85,8 +85,8 @@ object ControllerApi {
             val item = ItemNullable<ByteArray>(null)
             if (imageId > 0)
                 RResourcesGet(imageId)
-                    .onComplete { r -> item.a = r.bytes }
-                    .sendNow(apiMedia)
+                        .onComplete { r -> item.a = r.bytes }
+                        .sendNow(apiMedia)
             item.a
         }
     }
@@ -122,35 +122,17 @@ object ControllerApi {
     }
 
     fun toBytes(
-        bitmap: Bitmap?,
-        size: Int,
-        w: Int = 0,
-        h: Int = 0,
-        weakSizesMode: Boolean = false,
-        callback: (ByteArray?) -> Unit
+            bitmap: Bitmap?,
+            size: Int,
+            w: Int = 0,
+            h: Int = 0,
+            weakSizesMode: Boolean = false,
+            callback: (ByteArray?) -> Unit
     ) {
         if (ToolsAndroid.isMainThread()) {
-            ToolsThreads.thread {
-                callback.invoke(
-                    toBytesNow(
-                        bitmap,
-                        size,
-                        w,
-                        h,
-                        weakSizesMode
-                    )
-                )
-            }
+            ToolsThreads.thread { callback.invoke(toBytesNow(bitmap, size, w, h, weakSizesMode)) }
         } else {
-            callback.invoke(
-                toBytesNow(
-                    bitmap,
-                    size,
-                    w,
-                    h,
-                    weakSizesMode
-                )
-            )
+            callback.invoke(toBytesNow(bitmap, size, w, h, weakSizesMode))
         }
     }
 
@@ -177,7 +159,7 @@ object ControllerApi {
     fun clear() {
         this.account = Account()
         this.fandomsKarmaCounts = null
-        //  setServerTimeDelta(0)
+        serverTimeDelta = 0
     }
 
 
@@ -199,11 +181,11 @@ object ControllerApi {
         login(loginToken) {
             if (account.id == 0L) {
                 val r = RAccountsRegistration(getLanguage(getLanguageCode()).id, null)
-                    .onFinish {
-                        login(loginToken) {
-                            onFinish.invoke()
+                        .onFinish {
+                            login(loginToken) {
+                                onFinish.invoke()
+                            }
                         }
-                    }
                 r.loginToken = loginToken
                 r.send(api)
             } else {
@@ -212,10 +194,10 @@ object ControllerApi {
         }
     }
 
-    fun loginIfTokenExist(){
+    fun loginIfTokenExist() {
         val token = api.getAccessToken()
-        if(token != null && token.isNotEmpty()){
-            login(null){
+        if (token != null && token.isNotEmpty()) {
+            login(null) {
 
             }
         }
@@ -223,11 +205,11 @@ object ControllerApi {
 
     private fun login(loginToken: String?, onFinish: () -> Unit) {
         val r = RAccountsLoginSimple(ControllerNotifications.token)
-            .onComplete {
-                account = it.account ?: Account()
-                setParams(it.serverTime, emptyArray(), emptyArray(), emptyArray())
-            }
-            .onFinish { onFinish.invoke() }
+                .onComplete {
+                    account = it.account ?: Account()
+                    setParams(it.serverTime, emptyArray(), emptyArray(), emptyArray())
+                }
+                .onFinish { onFinish.invoke() }
         r.loginToken = loginToken
         r.send(api)
     }
@@ -238,7 +220,7 @@ object ControllerApi {
         serverTimeDelta = serverTime - System.currentTimeMillis()
         fandomsKarmaCounts = arrayOfNulls(karmaCounts.size)
         for (i in fandomsKarmaCounts!!.indices) (fandomsKarmaCounts as Array)[i] =
-            Item3(fandomsIds[i], languagesIds[i], karmaCounts[i])
+                Item3(fandomsIds[i], languagesIds[i], karmaCounts[i])
     }
 
     //
@@ -255,7 +237,7 @@ object ControllerApi {
     }
 
     fun isModerator(accountId: Long, lvl: Long) =
-        !isProtoadmin(accountId, lvl) && !isAdmin(accountId, lvl) && lvl >= API.LVL_MODERATOR_BLOCK.lvl
+            !isProtoadmin(accountId, lvl) && !isAdmin(accountId, lvl) && lvl >= API.LVL_MODERATOR_BLOCK.lvl
 
     fun isAdmin(accountId: Long, lvl: Long) = !isProtoadmin(accountId, lvl) && lvl >= API.LVL_ADMIN_MODER.lvl
 
@@ -301,13 +283,13 @@ object ControllerApi {
 
     fun openLink(link: String) {
         WidgetAlert()
-            .setOnCancel(R.string.app_cancel)
-            .setOnEnter(R.string.app_open) { ToolsIntent.openLink(link) }
-            .setText(R.string.message_link)
-            .setTextGravity(Gravity.CENTER)
-            .setTitleImage(R.drawable.ic_security_white_48dp)
-            .setTitleImageBackgroundRes(R.color.blue_700)
-            .asSheetShow()
+                .setOnCancel(R.string.app_cancel)
+                .setOnEnter(R.string.app_open) { ToolsIntent.openLink(link) }
+                .setText(R.string.message_link)
+                .setTextGravity(Gravity.CENTER)
+                .setTitleImage(R.drawable.ic_security_white_48dp)
+                .setTitleImageBackgroundRes(R.color.blue_700)
+                .asSheetShow()
     }
 
     fun linkToUser(name: String) = API.LINK_PROFILE_NAME + name
@@ -319,13 +301,13 @@ object ControllerApi {
     fun linkToForum(forumId: Long) = API.LINK_FORUM + forumId
     fun linkToPostComment(parentUnitId: Long, commentId: Long) = API.LINK_POST + parentUnitId + "_" + commentId
     fun linkToModerationComment(parentUnitId: Long, commentId: Long) =
-        API.LINK_MODERATION + parentUnitId + "_" + commentId
+            API.LINK_MODERATION + parentUnitId + "_" + commentId
 
     fun linkToForumComment(parentUnitId: Long, commentId: Long) = API.LINK_FORUM + parentUnitId + "_" + commentId
     fun linkToChat(fandomId: Long) = API.LINK_CHAT + fandomId
     fun linkToChat(fandomId: Long, languageId: Long) = API.LINK_CHAT + fandomId + "_" + languageId
     fun linkToChatMessage(messageId: Long, fandomId: Long, languageId: Long) =
-        API.LINK_CHAT + fandomId + "_" + languageId + "_" + messageId
+            API.LINK_CHAT + fandomId + "_" + languageId + "_" + messageId
 
     fun linkToEvent(eventId: Long) = API.LINK_EVENT + eventId
     fun linkToTag(tagId: Long) = API.LINK_TAG + tagId
@@ -405,23 +387,23 @@ object ControllerApi {
 
     fun sharePost(unitId: Long) {
         WidgetField()
-            .setHint(R.string.app_message)
-            .setOnCancel(R.string.app_cancel)
-            .setOnEnter(R.string.app_share) { w, text ->
-                ToolsIntent.shareText(text + "\n\r" + linkToPost(unitId))
-                ToolsThreads.main(10000) { RUnitsOnShare(unitId).send(api) }
-            }
-            .asSheetShow()
+                .setHint(R.string.app_message)
+                .setOnCancel(R.string.app_cancel)
+                .setOnEnter(R.string.app_share) { w, text ->
+                    ToolsIntent.shareText(text + "\n\r" + linkToPost(unitId))
+                    ToolsThreads.main(10000) { RUnitsOnShare(unitId).send(api) }
+                }
+                .asSheetShow()
     }
 
     fun shareReview(unitId: Long) {
         WidgetField()
-            .setHint(R.string.app_message)
-            .setOnCancel(R.string.app_cancel)
-            .setOnEnter(R.string.app_share) { w, text ->
-                ToolsIntent.shareText(text + "\n\r" + linkToReview(unitId))
-            }
-            .asSheetShow()
+                .setHint(R.string.app_message)
+                .setOnCancel(R.string.app_cancel)
+                .setOnEnter(R.string.app_share) { w, text ->
+                    ToolsIntent.shareText(text + "\n\r" + linkToReview(unitId))
+                }
+                .asSheetShow()
     }
 
     //
@@ -433,8 +415,8 @@ object ControllerApi {
             ToolsToast.show(R.string.app_reported)
             EventBus.post(EventUnitReportsAdd(unitId))
         }
-            .onApiError(RUnitsReport.E_ALREADY_EXIST) { ToolsToast.show(R.string.app_report_already_exist) }
-            .onApiError(API.ERROR_GONE) { ToolsToast.show(stringResGone) }
+                .onApiError(RUnitsReport.E_ALREADY_EXIST) { ToolsToast.show(R.string.app_report_already_exist) }
+                .onApiError(API.ERROR_GONE) { ToolsToast.show(stringResGone) }
     }
 
     fun removeUnit(unitId: Long, stringRes: Int, stringResGone: Int, onRemove: () -> kotlin.Unit = {}) {
@@ -447,9 +429,9 @@ object ControllerApi {
 
     fun adminClearReportUnit(unitId: Long, stringRes: Int, stringResGone: Int) {
         ApiRequestsSupporter.executeEnabledConfirm(
-            stringRes,
-            R.string.app_clear,
-            RUnitsAdminClearReports(unitId)
+                stringRes,
+                R.string.app_clear,
+                RUnitsAdminClearReports(unitId)
         ) { r ->
             ToolsToast.show(R.string.app_done)
             EventBus.post(EventUnitReportsClear(unitId))
