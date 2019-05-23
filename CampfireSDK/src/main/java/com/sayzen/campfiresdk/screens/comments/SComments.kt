@@ -47,7 +47,7 @@ class SComments constructor(
 
         adapter = AdapterComments(unit.id, commentId, vRecycler)
 
-        vFab.setOnClickListener { v -> WidgetComment(unit.id) { cId -> adapter.loadAndScrollTo(cId) }.asSheetShow() }
+        vFab.setOnClickListener { v -> WidgetComment(unit.id) { comment -> adapter.addComment(comment) }.asSheetShow() }
         vRecycler.adapter = adapter
     }
 

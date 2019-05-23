@@ -35,48 +35,30 @@ class AdapterComments(
             .subscribe(EventCommentRemove::class) { this.onEventCommentRemove(it) }
 
     private var needScrollToBottom = false
+    private val cardSpace = CardSpace(64)
 
     init {
         setBottomLoader { onLoad, cards ->
             RCommentsGetAll(parentUnitId, if (cards.isEmpty()) 0 else cards.get(cards.size - 1).unit.dateCreate, false, startFromBottom)
                     .onComplete { r -> onLoad.invoke(r.units) }
                     .onError {
-                        remove(CardSpace::class)
+                        remove(cardSpace)
                         onLoad.invoke(null)
                     }
                     .send(api)
         }
-        setMapper { unit ->
-            CardComment.instance(unit, true,
-                    { comment ->
-                        if (ControllerApi.isCurrentAccount(comment.creatorId)) return@instance false
-                        WidgetComment(parentUnitId, comment) { id -> loadAndScrollTo(id) }.asSheetShow()
-                        true
-                    },
-                    { comment ->
-                        WidgetComment(comment.parentUnitId, if (ControllerApi.isCurrentAccount(comment.creatorId)) null else comment, null, comment.id, comment.creatorName + ": " + comment.text) { id -> loadAndScrollTo(id) }.asSheetShow()
-                    },
-                    { id ->
-                        for (i in get(CardComment::class)) {
-                            if (i.unit.id == id) {
-                                i.flash()
-                                vRecycler.scrollToPosition(indexOf(i))
-                                break
-                            }
-                        }
-                    }
-            )
-        }
+        setMapper { unit -> instanceCard(unit) }
         setShowLoadingCardBottom(false)
         setShowLoadingCardTop(true)
+        addToSameCards = false
         addOnLoadedNotEmpty { onCommentsPackLoaded() }
         setRetryMessage(R.string.error_network, R.string.app_retry)
-        setEmptyMessage(R.string.comments_empty, R.string.app_comment) { WidgetComment(parentUnitId, null) { id -> loadAndScrollTo(id) }.asSheetShow() }
+        setEmptyMessage(R.string.comments_empty, R.string.app_comment) { WidgetComment(parentUnitId, null) { comment -> addComment(comment) }.asSheetShow() }
         setNotifyCount(5)
         ToolsThreads.main(true) { this.loadBottom() }
     }
 
-    fun enebleTopLoader() {
+    fun enableTopLoader() {
         setTopLoader { onLoad, cards ->
             RCommentsGetAll(parentUnitId, if (cards.isEmpty()) 0 else cards.get(0).unit.dateCreate, true, startFromBottom)
                     .onComplete { r -> onLoad.invoke(r.units) }
@@ -86,8 +68,8 @@ class AdapterComments(
     }
 
     private fun onCommentsPackLoaded() {
-        remove(CardSpace::class)
-        if (get(CardComment::class).size % COUNT != 0) add(CardSpace(64))
+        remove(cardSpace)
+        if (get(CardComment::class).size % COUNT != 0) add(cardSpace)
 
         if (scrollToCommentId == -1L) {
             scrollToCommentId = 0
@@ -116,9 +98,39 @@ class AdapterComments(
 
     }
 
+    fun addComment(unitComment:UnitComment){
+        remove(cardSpace)
+        val card = instanceCard(unitComment)
+        add(card)
+        card.flash()
+        add(cardSpace)
+    }
+
     fun loadAndScrollTo(scrollToCommentId: Long) {
         this.scrollToCommentId = scrollToCommentId
         loadBottom()
+    }
+
+    private fun instanceCard(unit:UnitComment):CardComment{
+        return CardComment.instance(unit, true,
+                { comment ->
+                    if (ControllerApi.isCurrentAccount(comment.creatorId)) return@instance false
+                    WidgetComment(parentUnitId, comment) { comment -> addComment(comment) }.asSheetShow()
+                    true
+                },
+                { comment ->
+                    WidgetComment(comment.parentUnitId, if (ControllerApi.isCurrentAccount(comment.creatorId)) null else comment, null, comment.id, comment.creatorName + ": " + comment.text) { comment -> addComment(comment) }.asSheetShow()
+                },
+                { id ->
+                    for (i in get(CardComment::class)) {
+                        if (i.unit.id == id) {
+                            i.flash()
+                            vRecycler.scrollToPosition(indexOf(i))
+                            break
+                        }
+                    }
+                }
+        )
     }
 
     //
@@ -128,7 +140,7 @@ class AdapterComments(
     private fun onEventCommentRemove(e: EventCommentRemove) {
         if (e.parentUnitId == parentUnitId) {
             if (get(CardComment::class).size == 0) {
-                remove(CardSpace::class)
+                remove(cardSpace)
                 reloadBottom()
             }
         }

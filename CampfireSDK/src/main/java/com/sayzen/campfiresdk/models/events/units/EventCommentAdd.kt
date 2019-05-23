@@ -1,3 +1,5 @@
 package com.sayzen.campfiresdk.models.events.units
 
-class EventCommentAdd(val parentUnitId: Long, val commentId: Long)
+import com.dzen.campfire.api.models.UnitComment
+
+class EventCommentAdd(val parentUnitId: Long, val comment: UnitComment)

@@ -13,10 +13,12 @@ import com.sup.dev.android.libs.screens.navigator.Navigator
 import com.sup.dev.android.tools.ToolsResources
 import com.sup.dev.android.views.views.ViewAvatar
 import com.sup.dev.android.views.views.ViewTextLinkable
-import com.sup.dev.java.libs.debug.log
 import com.sup.dev.java.tools.ToolsDate
 
-class CardEvent(override val unit: UnitEvent) : CardUnit(unit) {
+class CardEvent(
+        override val unit: UnitEvent,
+        val isFeedInFandom : Boolean
+) : CardUnit(unit) {
 
     private val xFandom = XFandom(unit, unit.dateCreate) { update() }
     private val xAccount = XAccount(unit, unit.dateCreate) { update() }
@@ -193,8 +195,7 @@ class CardEvent(override val unit: UnitEvent) : CardUnit(unit) {
                 }
             }
             is ApiEventFandomMakeModerator -> {
-                log("targetAccountId=${e.targetAccountId} targetAccountName=${e.targetAccountName} ownerAccountId=${e.ownerAccountId} ownerAccountName=${e.ownerAccountName} creatorId=${unit.creatorId}")
-                if (e.targetAccountId == unit.creatorId) {
+                if (e.targetAccountId == unit.creatorId || isFeedInFandom) {
                     text = ToolsResources.sCap(R.string.unit_event_make_moderator, ControllerApi.linkToUser(e.ownerAccountName), ToolsResources.sex(e.ownerAccountSex, R.string.he_make, R.string.she_make), e.fandomName + " (${ControllerApi.linkToFandom(e.fandomId, e.languageId)})")
                     view.setOnClickListener { v -> ControllerCampfireSDK.onToAccountClicked(e.ownerAccountId, Navigator.TO) }
                 } else {

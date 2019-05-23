@@ -19,14 +19,20 @@ import com.sup.dev.java.libs.eventBus.EventBus
 abstract class CardUnit(open val unit: Unit) : Card(), NotifyItem {
 
     companion object {
-        fun instance(unit: Unit, vRecycler: RecyclerView? = null, showFandom: Boolean = false, dividers: Boolean = false): CardUnit {
+        fun instance(
+                unit: Unit,
+                vRecycler: RecyclerView? = null,
+                showFandom: Boolean = false,
+                dividers: Boolean = false,
+                isFeedInFandom: Boolean = false
+        ): CardUnit {
 
             val cardUnit = when (unit) {
                 is UnitComment -> CardComment.instance(unit, dividers)
                 is UnitPost -> CardPost(vRecycler, unit)
                 is UnitChatMessage -> CardChatMessage.instance(unit)
                 is UnitModeration -> CardModeration(unit)
-                is UnitEvent -> CardEvent(unit)
+                is UnitEvent -> CardEvent(unit, isFeedInFandom)
                 is UnitReview -> CardReview(unit)
                 is UnitForum -> CardForum(unit)
                 else -> throw RuntimeException("Unknown unit type [" + unit.unitType + "]")

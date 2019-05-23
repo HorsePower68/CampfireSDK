@@ -36,7 +36,7 @@ class WidgetComment constructor(
         private val changeComment: UnitComment?,
         private var quoteId: Long,
         private var quoteText: String,
-        private val onCreated: ((Long) -> Unit)?
+        private val onCreated: ((UnitComment) -> Unit)?
 ) : Widget(R.layout.widget_comment_input) {
 
     private val vSend: ViewIcon = findViewById(R.id.vSend)
@@ -49,9 +49,9 @@ class WidgetComment constructor(
 
     constructor(changeComment: UnitComment) : this(0, null, changeComment, 0, "", null)
 
-    constructor(unitId: Long, onCreated: (Long) -> Unit) : this(unitId, null, null, 0, "", onCreated)
+    constructor(unitId: Long, onCreated: (UnitComment) -> Unit) : this(unitId, null, null, 0, "", onCreated)
 
-    constructor(unitId: Long, answer: UnitComment?, onCreated: (Long) -> Unit) : this(unitId, answer, null, 0, "", onCreated)
+    constructor(unitId: Long, answer: UnitComment?, onCreated: (UnitComment) -> Unit) : this(unitId, answer, null, 0, "", onCreated)
 
     init {
 
@@ -119,10 +119,10 @@ class WidgetComment constructor(
     }
 
 
-    private fun afterSend(commentId: Long) {
+    private fun afterSend(comment: UnitComment) {
         ToolsToast.show(R.string.app_published)
-        onCreated?.invoke(commentId)
-        EventBus.post(EventCommentAdd(unitId, commentId))
+        onCreated?.invoke(comment)
+        EventBus.post(EventCommentAdd(unitId, comment))
         if (ControllerSettings.watchPost) EventBus.post(EventUnitCommentWatchChange(unitId, true))
         hide()
     }
@@ -158,7 +158,7 @@ class WidgetComment constructor(
 
     private fun sendText(text: String, parentId: Long) {
         ApiRequestsSupporter.executeEnabled(this, RUnitsCommentCreate(unitId, text, null, null, parentId, ControllerSettings.watchPost, quoteId)) { r ->
-            afterSend(r.commentId)
+            afterSend(r.comment)
         }
     }
 
@@ -216,7 +216,7 @@ class WidgetComment constructor(
                 }
                 bytes[0] = byt
             }
-            ApiRequestsSupporter.executeProgressDialog(RUnitsCommentCreate(unitId, text, bytes, gif, parentId, ControllerSettings.watchPost, quoteId)) { r -> afterSend(r.commentId) }
+            ApiRequestsSupporter.executeProgressDialog(RUnitsCommentCreate(unitId, text, bytes, gif, parentId, ControllerSettings.watchPost, quoteId)) { r -> afterSend(r.comment) }
                     .onApiError(RUnitsCommentCreate.E_BAD_UNIT_STATUS) { ToolsToast.show(R.string.error_gone) }
                     .onFinish { setEnabled(true) }
         }
