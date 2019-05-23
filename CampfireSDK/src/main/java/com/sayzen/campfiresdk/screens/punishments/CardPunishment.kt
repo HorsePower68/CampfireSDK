@@ -40,8 +40,15 @@ class CardPunishment(
             )
             setOnClick { ControllerCampfireSDK.onToAccountClicked(punishment.fromAccountId, Navigator.TO) }
         } else {
-            if (punishment.banDate > 0) text = ToolsResources.sCap(R.string.profile_punishment_card_ban, ControllerApi.linkToUser(punishment.fromAccountName), ToolsResources.sex(punishment.fromAccountSex, R.string.he_blocked, R.string.she_blocked), "" + punishment.fandomName + " (" + ControllerApi.linkToFandom(punishment.fandomId, punishment.languageId) + ")", ToolsDate.dateToStringFull(punishment.banDate))
-            else text = ToolsResources.sCap(R.string.profile_punishment_card_warn, ControllerApi.linkToUser(punishment.fromAccountName), ToolsResources.sex(punishment.fromAccountSex, R.string.he_warn, R.string.she_warn), "" + punishment.fandomName + " (" + ControllerApi.linkToFandom(punishment.fandomId, punishment.languageId) + ")")
+            if (punishment.banDate > 0) text = ToolsResources.sCap(R.string.profile_punishment_card_ban,
+                    ControllerApi.linkToUser(punishment.fromAccountName),
+                    ToolsResources.sex(punishment.fromAccountSex, R.string.he_blocked, R.string.she_blocked),
+                    "" + punishment.fandomName + " (" + ControllerApi.linkToFandom(punishment.fandomId, punishment.languageId) + ")",
+                    ToolsDate.dateToStringFull(punishment.banDate))
+            else text = ToolsResources.sCap(R.string.profile_punishment_card_warn,
+                    ControllerApi.linkToUser(punishment.fromAccountName),
+                    ToolsResources.sex(punishment.fromAccountSex, R.string.he_warn, R.string.she_warn),
+                    "" + punishment.fandomName + " (" + ControllerApi.linkToFandom(punishment.fandomId, punishment.languageId) + ")")
             setOnClick { ControllerCampfireSDK.onToFandomClicked(punishment.fandomId, punishment.languageId, Navigator.TO) }
         }
 

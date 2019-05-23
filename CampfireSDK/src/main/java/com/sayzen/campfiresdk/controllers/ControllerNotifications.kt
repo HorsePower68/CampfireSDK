@@ -274,102 +274,39 @@ object ControllerNotifications {
 
     fun parser(n: Notification): Parser {
         return when (n) {
-            is NotificationComment -> NotificationCommentParser(
-                n
-            )
-            is NotificationAccountsFollowsAdd -> NotificationAccountsFollowsAddParser(
-                n
-            )
-            is NotificationCommentAnswer -> NotificationCommentAnswerParser(
-                n
-            )
-            is NotificationChatMessage -> NotificationChatMessageParser(
-                n
-            )
-            is NotificationChatAnswer -> NotificationChatAnswerParser(
-                n
-            )
-            is NotificationFollowsPublication -> NotificationFollowsPublicationParser(
-                n
-            )
-            is NotificationFandomRemoveModerator -> NotificationFandomRemoveModeratorParser(
-                n
-            )
-            is NotificationFandomMakeModerator -> NotificationFandomMakeModeratorParser(
-                n
-            )
-            is NotificationAchievement -> NotificationAchievementParser(
-                n
-            )
-            is NotificationFandomAccepted -> NotificationFandomAcceptedParser(
-                n
-            )
-            is NotificationUnitBlock -> NotificationUnitBlockParser(
-                n
-            )
-            is NotificationUnitBlockAfterReport -> NotificationUnitBlockAfterReportParser(
-                n
-            )
-            is NotificationKarmaAdd -> NotificationKarmaAddParser(
-                n
-            )
-            is NotificationUnitImportant -> NotificationUnitImportantParser(
-                n
-            )
-            is NotificationModerationToDraft -> NotificationModerationToDraftParser(
-                n
-            )
-            is NotificationModerationPostTags -> NotificationModerationPostTagsParser(
-                n
-            )
-            is NotificationAdminBlock -> NotificationBlockParser(
-                n
-            )
-            is NotificationForgive -> NotificationForgiveParser(
-                n
-            )
-            is NotificationPunishmentRemove -> NotificationPunishmentRemoveParser(
-                n
-            )
-            is NotificationQuestProgress -> NotificationQuestProgressParser(
-                n
-            )
-            is NotificationChatMessageChange -> NotificationChatMessageChangeParser(
-                n
-            )
-            is NotificationChatMessageRemove -> NotificationChatMessageRemoveParser(
-                n
-            )
-            is NotificationChatRead -> NotificationChatReadParser(
-                n
-            )
-            is NotificationChatTyping -> NotificationChatTypingParser(
-                n
-            )
-            is NotificationProjectABParamsChanged -> NotificationProjectABParamsChangedParser(
-                n
-            )
-            is NotificationAdminNameRemove -> NotificationAdminNameRemoveParser(
-                n
-            )
-            is NotificationAdminDescriptionRemove -> NotificationAdminDescriptionRemoveParser(
-                n
-            )
-            is NotificationAdminLinkRemove -> NotificationAdminLinkRemoveParser(
-                n
-            )
-            is NotificationAdminStatusRemove -> NotificationAdminStatusRemoveParser(
-                n
-            )
-            is NotificationModerationRejected -> NotificationModerationRejectedParser(
-                n
-            )
-            is NotificationUnitRestore -> NotificationUnitRestoreParser(
-                n
-            )
-            is NotificationAdminPostFandomChange -> NotificationAdminPostFandomChangeParser(
-                n
-            )
+            is NotificationComment -> NotificationCommentParser(n)
+            is NotificationAccountsFollowsAdd -> NotificationAccountsFollowsAddParser(n)
+            is NotificationCommentAnswer -> NotificationCommentAnswerParser(n)
+            is NotificationChatMessage -> NotificationChatMessageParser(n)
+            is NotificationChatAnswer -> NotificationChatAnswerParser(n)
+            is NotificationFollowsPublication -> NotificationFollowsPublicationParser(n)
+            is NotificationFandomRemoveModerator -> NotificationFandomRemoveModeratorParser(n)
+            is NotificationFandomMakeModerator -> NotificationFandomMakeModeratorParser(n)
+            is NotificationAchievement -> NotificationAchievementParser(n)
+            is NotificationFandomAccepted -> NotificationFandomAcceptedParser(n)
+            is NotificationUnitBlock -> NotificationUnitBlockParser(n)
+            is NotificationUnitBlockAfterReport -> NotificationUnitBlockAfterReportParser(n)
+            is NotificationKarmaAdd -> NotificationKarmaAddParser(n)
+            is NotificationUnitImportant -> NotificationUnitImportantParser(n)
+            is NotificationModerationToDraft -> NotificationModerationToDraftParser(n)
+            is NotificationModerationPostTags -> NotificationModerationPostTagsParser(n)
+            is NotificationAdminBlock -> NotificationBlockParser(n)
+            is NotificationForgive -> NotificationForgiveParser(n)
+            is NotificationPunishmentRemove -> NotificationPunishmentRemoveParser(n)
+            is NotificationQuestProgress -> NotificationQuestProgressParser(n)
+            is NotificationChatMessageChange -> NotificationChatMessageChangeParser(n)
+            is NotificationChatMessageRemove -> NotificationChatMessageRemoveParser(n)
+            is NotificationChatRead -> NotificationChatReadParser(n)
+            is NotificationChatTyping -> NotificationChatTypingParser(n)
+            is NotificationProjectABParamsChanged -> NotificationProjectABParamsChangedParser(n)
+            is NotificationAdminNameRemove -> NotificationAdminNameRemoveParser(n)
+            is NotificationAdminDescriptionRemove -> NotificationAdminDescriptionRemoveParser(n)
+            is NotificationAdminLinkRemove -> NotificationAdminLinkRemoveParser(n)
+            is NotificationAdminStatusRemove -> NotificationAdminStatusRemoveParser(n)
+            is NotificationModerationRejected -> NotificationModerationRejectedParser(n)
+            is NotificationUnitRestore -> NotificationUnitRestoreParser(n)
+            is NotificationAdminPostFandomChange -> NotificationAdminPostFandomChangeParser(n)
+            is NotificationMention -> NotificationMentionParser(n)
 
             else -> {
                 throw RuntimeException("Unknown Notification $n")
@@ -1129,6 +1066,24 @@ object ControllerNotifications {
         }
 
         override fun getIcon() = R.drawable.ic_security_white_24dp
+
+    }
+
+    private class NotificationMentionParser(override val n: NotificationMention) : Parser(n) {
+
+        override fun post(icon: Int, intent: Intent, text: String, title: String, tag: String) {
+            chanelOther.post(icon, title, text, intent, tag)
+        }
+
+        override fun asString(html: Boolean): String {
+            return n.text
+        }
+
+        override fun getTitle(): String {
+            return ToolsResources.sCap(R.string.notification_mention, n.fromAccountName, ToolsResources.sex(n.fromAccountSex, R.string.he_mentioned, R.string.she_mentioned))
+        }
+
+        override fun getIcon() = R.drawable.ic_person_white_24dp
 
     }
 

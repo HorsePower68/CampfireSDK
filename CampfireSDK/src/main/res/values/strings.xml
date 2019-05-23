@@ -209,6 +209,8 @@
     <string name="she_restore">restored</string>
     <string name="he_move">moved</string>
     <string name="she_move">moved</string>
+    <string name="he_mentioned">mentioned</string>
+    <string name="she_mentioned">mentioned</string>
 
     <string name="filter_events">Events</string>
     <string name="filter_posts">Posts</string>
@@ -260,6 +262,7 @@
     <string name="notification_admin_moderation_rejected">%s %s your moderation action</string>
     <string name="notification_admin_moderation_restore">Your publication has restored</string>
     <string name="notification_admin_post_fandom_change">Administrator %s %s your post from fandom %s to %s</string>
+    <string name="notification_mention">%s %s you</string>
 
     <string name="message_publication_rules">The content that you publish in the application should be directly relevant to the subject matter of the app and meet all of the [Google rules]</string>
     <string name="message_link">By clicking on this link you will leave the application. We are not responsible for the materials and possible threats caused by the resources located at this link.</string>

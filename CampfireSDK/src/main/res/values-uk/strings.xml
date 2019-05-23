@@ -209,6 +209,8 @@
     <string name="she_restore">восстановила</string>
     <string name="he_move">переместил</string>
     <string name="she_move">переместила</string>
+    <string name="he_mentioned">упомянул</string>
+    <string name="she_mentioned">упомянула</string>
 
     <string name="filter_events">События</string>
     <string name="filter_posts">Посты</string>
@@ -260,6 +262,7 @@
     <string name="notification_admin_moderation_rejected">%s %s ваше модераторское действие</string>
     <string name="notification_admin_moderation_restore">Ваша публикация востановлена</string>
     <string name="notification_admin_post_fandom_change">Администартор %s %s ваш пост из фэндома %s в %s</string>
+    <string name="notification_mention">%s %s вас</string>
 
     <string name="message_publication_rules">Контент, который вы публикуете в приложении, должен иметь прямое отношение к тематике приложения и соответствовать всем [правилам Google]</string>
     <string name="message_link">Перейдя по этой ссылке вы покинете приложение. Мы не несем ответственности за материалы и возможные угрозы, вызванные ресурсом находящемся по этой ссылке.</string>
