@@ -27,7 +27,7 @@ object ControllerCampfireSDK {
     var SEARCH_FANDOM: (callback: (Fandom) -> Unit) -> Unit = { }
 
     fun init(
-            activityClass: Class<Activity>,
+            activityClass: Class<out Activity>,
             logoColored: Int,
             logoWhite: Int,
             notificationExecutor: ControllerNotifications.NotificationExecutor,

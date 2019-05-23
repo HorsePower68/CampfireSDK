@@ -45,13 +45,13 @@ object ControllerNotifications {
     val TYPE_CHAT = 2
 
     var token: String = ""
-    var activityClass: Class<Activity>? = null
+    var activityClass: Class<out Activity>? = null
     var notificationExecutor: NotificationExecutor? = null
     var logoColored = R.drawable.logo_alpha_no_margins
     var logoWhite = R.drawable.logo_alpha_black_and_white_no_margins
 
     internal fun init(
-        activityClass: Class<Activity>,
+        activityClass: Class<out Activity>,
         logoColored: Int,
         logoWhite: Int,
         notificationExecutor: NotificationExecutor
@@ -96,12 +96,8 @@ object ControllerNotifications {
             info("ControllerNotifications text $text")
             if (text.isNotEmpty()) {
 
-                val icon =
-                    if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) logoWhite else logoColored
-                val intent = Intent(
-                    SupAndroid.appContext,
-                    activityClass
-                )
+                val icon = if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) logoWhite else logoColored
+                val intent = Intent(SupAndroid.appContext, activityClass)
                 val title = SupAndroid.TEXT_APP_NAME?:""
                 val tag = tag(notification.id)
 

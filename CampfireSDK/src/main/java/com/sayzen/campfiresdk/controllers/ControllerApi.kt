@@ -323,7 +323,7 @@ object ControllerApi {
         }
     }
 
-    fun makeLinkable(vText: ViewTextLinkable, onReplace: () -> kotlin.Unit = {}) {
+    fun makeLinkable(vText: ViewTextLinkable, onReplace: () -> Unit = {}) {
         replaceLinkable(vText, API.LINK_SHORT_POST_ID, API.LINK_POST)
         replaceLinkable(vText, API.LINK_SHORT_REVIEW_ID, API.LINK_REVIEW)
         replaceLinkable(vText, API.LINK_SHORT_CHAT_ID, API.LINK_CHAT)
