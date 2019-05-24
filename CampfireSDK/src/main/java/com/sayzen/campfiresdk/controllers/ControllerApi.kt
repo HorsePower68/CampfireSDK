@@ -223,6 +223,14 @@ object ControllerApi {
                 Item3(fandomsIds[i], languagesIds[i], karmaCounts[i])
     }
 
+    fun logout(onComplete:()->Unit){
+        ControllerNotifications.hideAll()
+        ControllerToken.logout{
+            clear()
+            onComplete.invoke()
+        }
+    }
+
     //
     //  Account
     //

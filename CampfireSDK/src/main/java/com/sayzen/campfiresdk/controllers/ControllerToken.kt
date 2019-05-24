@@ -1,7 +1,7 @@
 package com.sayzen.campfiresdk.controllers
 
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
-import com.sayzen.devsupandroidgoogle.GoogleAuth
+import com.sayzen.devsupandroidgoogle.ControllerGoogleToken
 import com.sup.dev.java.libs.api_simple.client.TokenProvider
 
 object ControllerToken {
@@ -41,9 +41,8 @@ object ControllerToken {
 
     private fun logoutNow(callback: (() -> Unit)) {
         api.clearTokens()
-        ControllerApi.clear()
         googleAccount = null
-        GoogleAuth.exit(callback)
+        ControllerGoogleToken.logout(callback)
     }
 
     fun getToken(onResult: (String?) -> Unit) {
@@ -51,7 +50,7 @@ object ControllerToken {
             onResult.invoke(googleAccount!!.idToken)
             return
         }
-        GoogleAuth.getGoogleToken { googleAccount ->
+        ControllerGoogleToken.getGoogleToken { googleAccount ->
             ControllerToken.googleAccount = googleAccount
             onResult.invoke(googleAccount?.idToken)
         }
