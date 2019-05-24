@@ -1072,16 +1072,12 @@ object ControllerNotifications {
     private class NotificationMentionParser(override val n: NotificationMention) : Parser(n) {
 
         override fun post(icon: Int, intent: Intent, text: String, title: String, tag: String) {
-            chanelOther.post(icon, title, text, intent, tag)
+            chanelOther.post(icon, getTitle(), text, intent, tag)
         }
 
-        override fun asString(html: Boolean): String {
-            return n.text
-        }
+        override fun asString(html: Boolean) = n.text
 
-        override fun getTitle(): String {
-            return ToolsResources.sCap(R.string.notification_mention, n.fromAccountName, ToolsResources.sex(n.fromAccountSex, R.string.he_mentioned, R.string.she_mentioned))
-        }
+        override fun getTitle() = ToolsResources.sCap(R.string.notification_mention, n.fromAccountName, ToolsResources.sex(n.fromAccountSex, R.string.he_mentioned, R.string.she_mentioned))
 
         override fun getIcon() = R.drawable.ic_person_white_24dp
 

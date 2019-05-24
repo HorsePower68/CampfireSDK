@@ -36,10 +36,10 @@ import java.util.*
 
 object ControllerUnits {
 
-    fun toUnit(unitType: Long, unitId: Long, commentId: Long = 0, unitTypeParent: Long = 0) {
-        if (unitType == API.UNIT_TYPE_POST || unitTypeParent == API.UNIT_TYPE_POST) ControllerCampfireSDK.onToPostClicked(unitId, commentId, Navigator.TO)
-        if (unitType == API.UNIT_TYPE_MODERATION || unitTypeParent == API.UNIT_TYPE_MODERATION) ControllerCampfireSDK.onToModerationClicked(unitId, commentId, Navigator.TO)
-        if (unitType == API.UNIT_TYPE_FORUM || unitTypeParent == API.UNIT_TYPE_FORUM) ControllerCampfireSDK.onToForumClicked(unitId, commentId, Navigator.TO)
+    fun toUnit(unitType: Long, unitId: Long, commentId: Long = 0) {
+        if (unitType == API.UNIT_TYPE_POST) ControllerCampfireSDK.onToPostClicked(unitId, commentId, Navigator.TO)
+        if (unitType == API.UNIT_TYPE_MODERATION) ControllerCampfireSDK.onToModerationClicked(unitId, commentId, Navigator.TO)
+        if (unitType == API.UNIT_TYPE_FORUM) ControllerCampfireSDK.onToForumClicked(unitId, commentId, Navigator.TO)
     }
 
     fun block(unit: Unit, onBlock: () -> kotlin.Unit = {}) {

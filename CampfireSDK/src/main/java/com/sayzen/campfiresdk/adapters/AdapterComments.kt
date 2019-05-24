@@ -50,7 +50,7 @@ class AdapterComments(
         setMapper { unit -> instanceCard(unit) }
         setShowLoadingCardBottom(false)
         setShowLoadingCardTop(true)
-        addToSameCards = false
+        setRemoveSame(true)
         addOnLoadedNotEmpty { onCommentsPackLoaded() }
         setRetryMessage(R.string.error_network, R.string.app_retry)
         setEmptyMessage(R.string.comments_empty, R.string.app_comment) { WidgetComment(parentUnitId, null) { comment -> addComment(comment) }.asSheetShow() }
