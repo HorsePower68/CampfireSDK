@@ -156,12 +156,12 @@ object ControllerApi {
         return account.id == accountId
     }
 
-    fun clear() {
-        this.account = Account()
-        this.fandomsKarmaCounts = null
-        serverTimeDelta = 0
+    fun setCurrentAccount(account: Account){
+        this.account= account
+        ToolsStorage.put("lst account", account.id)
     }
 
+    fun getLastAccount() =  ToolsStorage.getLong("lst account", account.id)
 
     fun enableAutoRegistration() {
         ControllerGoogleToken.tokenPostExecutor = { token, callback ->
@@ -226,7 +226,9 @@ object ControllerApi {
     fun logout(onComplete:()->Unit){
         ControllerNotifications.hideAll()
         ControllerToken.logout{
-            clear()
+            setCurrentAccount(Account())
+            this.fandomsKarmaCounts = null
+            serverTimeDelta = 0
             onComplete.invoke()
         }
     }
