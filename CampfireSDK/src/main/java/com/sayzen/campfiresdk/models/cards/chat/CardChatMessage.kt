@@ -24,6 +24,7 @@ import com.sayzen.campfiresdk.models.events.chat.EventChatMessageChanged
 import com.sayzen.campfiresdk.models.events.chat.EventChatReadDateChanged
 import com.sayzen.campfiresdk.models.events.chat.EventUpdateChats
 import com.sayzen.campfiresdk.models.events.notifications.EventNotification
+import com.sayzen.campfiresdk.screens.chat.SChat
 import com.sup.dev.android.libs.screens.navigator.Navigator
 import com.sup.dev.android.models.EventStyleChanged
 import com.sup.dev.android.tools.*
@@ -266,7 +267,7 @@ abstract class CardChatMessage constructor(
         }
 
         if (onClick == null) {
-            ControllerCampfireSDK.onToChatClicked(unit.chatType, unit.fandomId, unit.languageId, Navigator.TO)
+            SChat.instance(unit.chatType, unit.fandomId, unit.languageId, Navigator.TO)
             return false
         } else {
             return onClick!!.invoke(unit)
