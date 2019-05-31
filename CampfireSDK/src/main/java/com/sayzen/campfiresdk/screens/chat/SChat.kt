@@ -341,6 +341,7 @@ class SChat private constructor(
             adapter!!.add(carSpace)
             if (b) vRecycler.smoothScrollToPosition(vRecycler.adapter!!.itemCount)
         }
+        setState(State.NONE)
     }
 
 
@@ -458,7 +459,7 @@ class SChat private constructor(
     private fun onNotification(e: EventNotification) {
         if (e.notification is NotificationChatMessage) {
             val n = e.notification
-            if (tag == (n as NotificationChatMessage).tag && !ControllerApi.isCurrentAccount(n.unitChatMessage.creatorId)) {
+            if (tag == n.tag && !ControllerApi.isCurrentAccount(n.unitChatMessage.creatorId)) {
                 addMessage(n.unitChatMessage)
 
                 if (Navigator.getCurrent() == this && SupAndroid.activityIsVisible) ControllerChats.readRequest(tag)
@@ -469,7 +470,7 @@ class SChat private constructor(
         }
         if (e.notification is NotificationChatAnswer) {
             val n = e.notification
-            if (tag == (n as NotificationChatAnswer).tag) {
+            if (tag == n.tag) {
                 addMessage(n.unitChatMessage)
                 ControllerChats.readRequest(tag)
 
