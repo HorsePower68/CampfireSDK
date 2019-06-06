@@ -4,6 +4,7 @@ import android.app.Activity
 import com.dzen.campfire.api.models.Fandom
 import com.dzen.campfire.api.models.units.UnitForum
 import com.sup.dev.android.libs.screens.navigator.NavigationAction
+import com.sup.dev.android.views.screens.SAlert
 
 object ControllerCampfireSDK {
 
@@ -37,6 +38,8 @@ object ControllerCampfireSDK {
         ControllerChats.init()
         ControllerNotifications.init(activityClass, logoColored, logoWhite, notificationExecutor)
         ControllerToken.init(onLoginFailed)
+
+        SAlert.GLOBAL_SHOW_WHOOPS = false
     }
 
     fun onToFandomClicked(fandomId: Long, languageId: Long, action: NavigationAction) {

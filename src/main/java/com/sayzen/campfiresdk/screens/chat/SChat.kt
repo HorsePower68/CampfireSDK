@@ -39,7 +39,6 @@ import com.sup.dev.android.views.views.ViewAvatarTitle
 import com.sup.dev.android.views.views.ViewEditTextMedia
 import com.sup.dev.android.views.views.ViewIcon
 import com.sup.dev.android.views.views.ViewTextLinkable
-import com.sup.dev.java.libs.debug.log
 import com.sup.dev.java.libs.eventBus.EventBus
 import com.sup.dev.java.tools.*
 
@@ -63,9 +62,9 @@ class SChat private constructor(
         }
 
         fun instance(tag: ChatTag, action: NavigationAction, onShow: (SChat) -> Unit = {}) {
+            ControllerCampfireSDK.ON_SCREEN_CHAT_START.invoke()
             ApiRequestsSupporter.executeInterstitial(action, RChatGet(tag)) { r ->
                 ControllerChats.putRead(tag, r.anotherReadDate)
-                ControllerCampfireSDK.ON_SCREEN_CHAT_START.invoke()
                 val screen = SChat(tag, r.subscribed, r.chatName, r.chatImageId, r.chatBackgroundImageId, r.chatInfo_1, r.chatInfo_2, r.chatInfo_3)
                 onShow.invoke(screen)
                 screen
