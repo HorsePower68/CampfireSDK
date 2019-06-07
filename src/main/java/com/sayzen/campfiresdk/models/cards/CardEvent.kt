@@ -40,7 +40,7 @@ class CardEvent(
         val vDate: TextView = view.findViewById(R.id.vDate)
         val vName: TextView = view.findViewById(R.id.vName)
 
-        vDate.text = ToolsDate.dateToStringCustom(unit.dateCreate)
+        vDate.text = ToolsDate.dateToString(unit.dateCreate)
         vAvatarTitle.vImageView.setBackgroundColor(0x00000000)  //  For achievements background
         view.setOnClickListener { }
 

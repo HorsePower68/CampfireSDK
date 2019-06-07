@@ -225,7 +225,8 @@ object ControllerApi {
 
     fun logout(onComplete:()->Unit){
         ControllerNotifications.hideAll()
-        ControllerToken.logout{
+        ControllerGoogleToken.logout{
+            api.clearTokens()
             setCurrentAccount(Account())
             this.fandomsKarmaCounts = null
             serverTimeDelta = 0

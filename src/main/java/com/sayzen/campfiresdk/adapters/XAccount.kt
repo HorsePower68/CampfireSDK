@@ -87,7 +87,7 @@ class XAccount(
         setView(viewAvatar.vAvatar)
         viewAvatar.setOnClickListener { v -> ControllerCampfireSDK.onToAccountClicked(accountId, Navigator.TO) }
         viewAvatar.setTitle(name)
-        if (date != 0L) viewAvatar.setSubtitle(ToolsDate.dateToStringCustom(date))
+        if (date != 0L) viewAvatar.setSubtitle(ToolsDate.dateToString(date))
     }
 
     fun setView(vTitle: TextView, vImage: ImageView, vImageBig: ImageView? = null) {

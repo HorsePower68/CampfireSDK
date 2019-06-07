@@ -933,8 +933,9 @@
     <string name="movies_1_15">Fiction</string>
     <string name="movies_2_1">Feature</string>
     <string name="movies_2_2">Short</string>
-    <string name="movies_2_3">Show</string>
-    <string name="movies_2_4">Cartoon</string>
+    <string name="movies_2_3">Series</string>
+    <string name="movies_2_4">Show</string>
+    <string name="movies_2_5">Cartoon</string>
 
     <string name="site_1_1">Forum</string>
     <string name="site_1_2">Web-card</string>

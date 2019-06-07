@@ -924,7 +924,8 @@
     <string name="movies_2_1">Полнометражный</string>
     <string name="movies_2_2">Короткометражный</string>
     <string name="movies_2_3">Сериал</string>
-    <string name="movies_2_4">Мультфильм</string>
+    <string name="movies_2_4">Шоу</string>
+    <string name="movies_2_5">Мультфильм</string>
 
     <string name="site_1_1">Форум</string>
     <string name="site_1_2">Визитка</string>

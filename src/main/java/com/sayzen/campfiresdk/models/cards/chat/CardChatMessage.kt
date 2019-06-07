@@ -247,10 +247,10 @@ abstract class CardChatMessage constructor(
         if (vLabel != null) {
             if (ControllerApi.isCurrentAccount(unit.creatorId)) {
                 (vLabel.layoutParams as LinearLayout.LayoutParams).gravity = Gravity.RIGHT
-                vLabel.text = ToolsDate.dateToStringCustom(unit.dateCreate) + (if (unit.changed) " " + ToolsResources.s(R.string.app_edited) else "")
+                vLabel.text = ToolsDate.dateToString(unit.dateCreate) + (if (unit.changed) " " + ToolsResources.s(R.string.app_edited) else "")
             } else {
                 (vLabel.layoutParams as LinearLayout.LayoutParams).gravity = Gravity.LEFT
-                vLabel.text = xAccount.name + "  " + ToolsDate.dateToStringCustom(unit.dateCreate) + (if (unit.changed) " " + ToolsResources.s(R.string.app_edited) else "")
+                vLabel.text = xAccount.name + "  " + ToolsDate.dateToString(unit.dateCreate) + (if (unit.changed) " " + ToolsResources.s(R.string.app_edited) else "")
             }
         }
     }

@@ -152,7 +152,7 @@ abstract class CardComment protected constructor(
         if (!showFandom) xAccount.setView(vAvatar)
         else xFandom.setView(vAvatar)
 
-        vLabel.text = unit.creatorName + "   " + ToolsDate.dateToStringCustom(unit.dateCreate) + (if (unit.changed) " " + ToolsResources.s(R.string.app_edited) else "")
+        vLabel.text = unit.creatorName + "   " + ToolsDate.dateToString(unit.dateCreate) + (if (unit.changed) " " + ToolsResources.s(R.string.app_edited) else "")
 
         vDivider.visibility = if (dividers) View.VISIBLE else View.GONE
 

@@ -3,6 +3,7 @@ package com.sayzen.campfiresdk.controllers
 import android.app.Activity
 import com.dzen.campfire.api.models.Fandom
 import com.dzen.campfire.api.models.units.UnitForum
+import com.sayzen.devsupandroidgoogle.ControllerGoogleToken
 import com.sup.dev.android.libs.screens.navigator.NavigationAction
 import com.sup.dev.android.views.screens.SAlert
 
@@ -37,7 +38,7 @@ object ControllerCampfireSDK {
         ControllerApi.init()
         ControllerChats.init()
         ControllerNotifications.init(activityClass, logoColored, logoWhite, notificationExecutor)
-        ControllerToken.init(onLoginFailed)
+        ControllerGoogleToken.init("276237287601-6e9aoah4uivbjh6lnn1l9hna6taljd9u.apps.googleusercontent.com", onLoginFailed)
 
         SAlert.GLOBAL_SHOW_WHOOPS = false
     }

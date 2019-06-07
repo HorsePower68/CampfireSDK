@@ -54,7 +54,7 @@ class XFandom(
         setView(viewAvatar.vAvatar)
 
         if (name.isNotEmpty()) viewAvatar.setTitle(name)
-        if (date != 0L) viewAvatar.setSubtitle(ToolsDate.dateToStringCustom(date))
+        if (date != 0L) viewAvatar.setSubtitle(ToolsDate.dateToString(date))
     }
 
     fun setView(vText: TextView, vImage: ImageView?, vImageBig: ImageView? = null) {

@@ -2,6 +2,7 @@ package com.sayzen.campfiresdk.adapters
 
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
+import android.view.View
 import com.dzen.campfire.api.models.UnitComment
 import com.dzen.campfire.api.models.notifications.NotificationComment
 import com.dzen.campfire.api.models.notifications.NotificationCommentAnswer
@@ -20,7 +21,7 @@ import com.sup.dev.java.libs.eventBus.EventBus
 import com.sup.dev.java.tools.ToolsThreads
 
 class AdapterComments(
-        private val parentUnitId: Long,
+        private val unitId: Long,
         private var scrollToCommentId: Long,
         private val vRecycler: RecyclerView,
         private val startFromBottom: Boolean = false
@@ -39,7 +40,7 @@ class AdapterComments(
 
     init {
         setBottomLoader { onLoad, cards ->
-            RCommentsGetAll(parentUnitId, if (cards.isEmpty()) 0 else cards.get(cards.size - 1).unit.dateCreate, false, startFromBottom)
+            RCommentsGetAll(unitId, if (cards.isEmpty()) 0 else cards.get(cards.size - 1).unit.dateCreate, false, startFromBottom)
                     .onComplete { r -> onLoad.invoke(r.units) }
                     .onError {
                         remove(cardSpace)
@@ -53,14 +54,26 @@ class AdapterComments(
         setRemoveSame(true)
         addOnLoadedNotEmpty { onCommentsPackLoaded() }
         setRetryMessage(R.string.error_network, R.string.app_retry)
-        setEmptyMessage(R.string.comments_empty, R.string.app_comment) { WidgetComment(parentUnitId, null) { comment -> addComment(comment) }.asSheetShow() }
+        setEmptyMessage(R.string.comments_empty, R.string.app_comment) { showCommentDialog() }
         setNotifyCount(5)
         ToolsThreads.main(true) { this.loadBottom() }
     }
 
+    fun setCommentButton(view: View){
+        view.setOnClickListener { v -> showCommentDialog() }
+    }
+
+    fun showCommentDialog(){
+        WidgetComment(unitId, null) { comment ->
+            val card = addComment(comment)
+            vRecycler.scrollToPosition(indexOf(card) + 1)
+            card.flash()
+        }.asSheetShow()
+    }
+
     fun enableTopLoader() {
         setTopLoader { onLoad, cards ->
-            RCommentsGetAll(parentUnitId, if (cards.isEmpty()) 0 else cards.get(0).unit.dateCreate, true, startFromBottom)
+            RCommentsGetAll(unitId, if (cards.isEmpty()) 0 else cards.get(0).unit.dateCreate, true, startFromBottom)
                     .onComplete { r -> onLoad.invoke(r.units) }
                     .onNetworkError { onLoad.invoke(null) }
                     .send(api)
@@ -98,12 +111,13 @@ class AdapterComments(
 
     }
 
-    fun addComment(unitComment:UnitComment){
+    fun addComment(unitComment:UnitComment):CardComment{
         remove(cardSpace)
         val card = instanceCard(unitComment)
         add(card)
         card.flash()
         add(cardSpace)
+        return card
     }
 
     fun loadAndScrollTo(scrollToCommentId: Long) {
@@ -115,7 +129,7 @@ class AdapterComments(
         return CardComment.instance(unit, true,
                 { comment ->
                     if (ControllerApi.isCurrentAccount(comment.creatorId)) return@instance false
-                    WidgetComment(parentUnitId, comment) { comment -> addComment(comment) }.asSheetShow()
+                    WidgetComment(unitId, comment) { comment -> addComment(comment) }.asSheetShow()
                     true
                 },
                 { comment ->
@@ -138,7 +152,7 @@ class AdapterComments(
     //
 
     private fun onEventCommentRemove(e: EventCommentRemove) {
-        if (e.parentUnitId == parentUnitId) {
+        if (e.parentUnitId == unitId) {
             if (get(CardComment::class).size == 0) {
                 remove(cardSpace)
                 reloadBottom()
@@ -148,13 +162,13 @@ class AdapterComments(
 
     private fun onNotification(e: EventNotification) {
         if (e.notification is NotificationComment)
-            if (e.notification.unitId == parentUnitId) {
+            if (e.notification.unitId == unitId) {
                 needScrollToBottom = (vRecycler.layoutManager as LinearLayoutManager).findLastCompletelyVisibleItemPosition() == itemCount - 1
                 loadBottom()
             }
 
         if (e.notification is NotificationCommentAnswer)
-            if (e.notification.unitId == parentUnitId) {
+            if (e.notification.unitId == unitId) {
                 needScrollToBottom = (vRecycler.layoutManager as LinearLayoutManager).findLastCompletelyVisibleItemPosition() == itemCount - 1
                 loadBottom()
             }

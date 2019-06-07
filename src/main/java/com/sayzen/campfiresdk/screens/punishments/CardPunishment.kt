@@ -63,7 +63,7 @@ class CardPunishment(
             }
 
         setTitle(text)
-        setSubtitle(ToolsDate.dateToStringCustom(punishment.dateCreate))
+        setSubtitle(ToolsDate.dateToString(punishment.dateCreate))
         setDividerVisible(true)
 
         if (punishment.fandomId > 0) setOnCLickAvatar { ControllerCampfireSDK.onToFandomClicked(punishment.fandomId, punishment.languageId, Navigator.TO) }

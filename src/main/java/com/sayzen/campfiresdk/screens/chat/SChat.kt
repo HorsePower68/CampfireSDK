@@ -144,7 +144,7 @@ class SChat private constructor(
             xAccount.setView(vAvatarTitle)
 
             if (!xAccount.isOnline()) {
-                vAvatarTitle.setSubtitle(ToolsResources.sCap(R.string.app_was_online, ToolsResources.sex(chatInfo_3, R.string.he_was, R.string.she_was), ToolsDate.dateToStringCustom(xAccount.getLastOnlineTime())))
+                vAvatarTitle.setSubtitle(ToolsResources.sCap(R.string.app_was_online, ToolsResources.sex(chatInfo_3, R.string.he_was, R.string.she_was), ToolsDate.dateToString(xAccount.getLastOnlineTime())))
                 vAvatarTitle.vSubtitle.setTextColor(ToolsResources.getColor(R.color.grey_500))
             } else {
                 vAvatarTitle.setSubtitle(ToolsResources.s(R.string.app_online))

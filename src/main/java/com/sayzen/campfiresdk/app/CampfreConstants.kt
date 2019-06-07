@@ -338,7 +338,8 @@ object CampfreConstants {
     val MOVIES_2 = arrayOf(FandomParam(1, R.string.movies_2_1),
         FandomParam(2, R.string.movies_2_2),
         FandomParam(3, R.string.movies_2_3),
-        FandomParam(5, R.string.movies_2_4)
+        FandomParam(4, R.string.movies_2_4),
+        FandomParam(5, R.string.movies_2_5)
     )
     val SITE_1 = arrayOf(FandomParam(1, R.string.site_1_1),
         FandomParam(2, R.string.site_1_2),

@@ -109,7 +109,7 @@ class CardChat(
                 }
                 vAvatar.setSubtitle(t)
             }
-            vMessageDate.text = ToolsDate.dateToStringCustom(unit.unitChatMessage.dateCreate)
+            vMessageDate.text = ToolsDate.dateToString(unit.unitChatMessage.dateCreate)
         } else {
             vMessageDate.text = ""
             vAvatar.setSubtitle(ToolsResources.s(R.string.app_empty))

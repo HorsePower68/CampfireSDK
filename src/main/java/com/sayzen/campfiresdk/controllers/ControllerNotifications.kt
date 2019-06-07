@@ -588,7 +588,7 @@ object ControllerNotifications {
             return (""
                     + (if (n.blockAccountDate > 0) " " + ToolsResources.s(
                 R.string.moderation_notification_account_is_blocked,
-                ToolsDate.dateToStringCustom(n.blockAccountDate)
+                ToolsDate.dateToString(n.blockAccountDate)
             ) else "")
                     + if (ToolsText.empty(n.comment)) "" else " " + ToolsResources.s(R.string.moderation_notification_moderator_comment) + " " + comment)
         }
@@ -612,7 +612,7 @@ object ControllerNotifications {
             return (""
                     + (if (n.blockAccountDate > 0) " " + ToolsResources.s(
                 R.string.moderation_notification_account_is_blocked,
-                ToolsDate.dateToStringCustom(n.blockAccountDate)
+                ToolsDate.dateToString(n.blockAccountDate)
             ) else "")
                     + if (ToolsText.empty(n.comment)) "" else " " + ToolsResources.s(R.string.moderation_notification_moderator_comment) + " " + comment)
         }
@@ -758,7 +758,7 @@ object ControllerNotifications {
             return if (n.blockAccountDate > 0) {
                 (ToolsResources.sCap(
                     R.string.moderation_notification_blocked,
-                    ToolsDate.dateToStringCustom(n.blockAccountDate)
+                    ToolsDate.dateToString(n.blockAccountDate)
                 ))
             } else {
                 (ToolsResources.sCap(R.string.moderation_notification_warned))

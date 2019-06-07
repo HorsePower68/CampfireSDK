@@ -56,10 +56,10 @@ class CardChatMessageImage(
 
         if (ControllerApi.isCurrentAccount(unit.creatorId)) {
             (vLabelImage.layoutParams as FrameLayout.LayoutParams).gravity = Gravity.RIGHT or Gravity.BOTTOM
-            vLabelImage.text = ToolsDate.dateToStringCustom(unit.dateCreate)
+            vLabelImage.text = ToolsDate.dateToString(unit.dateCreate)
         } else {
             (vLabelImage.layoutParams as FrameLayout.LayoutParams).gravity = Gravity.LEFT or Gravity.BOTTOM
-            vLabelImage.text = xAccount.name + "  " + ToolsDate.dateToStringCustom(unit.dateCreate)
+            vLabelImage.text = xAccount.name + "  " + ToolsDate.dateToString(unit.dateCreate)
         }
 
 
