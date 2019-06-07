@@ -41,7 +41,7 @@ class TextParser(
             if (parse('^', "<\$i>", "</\$i>")) continue
             if (parse('~', "<\$s>", "</\$s>")) continue
             if (parse('_', "<\$u>", "</\$u>")) continue
-            if (parseColorHesh()) continue
+            if (parseColorHash()) continue
             if (parseColorName("red", "D32F2F")) continue
             if (parseColorName("pink", "C2185B")) continue
             if (parseColorName("purple", "7B1FA2")) continue
@@ -124,7 +124,7 @@ class TextParser(
         }
     }
 
-    private fun parseColorHesh(): Boolean {
+    private fun parseColorHash(): Boolean {
         try {
             if (text[i] == '{') {
                 val c1 = nextColorChar(i + 1)
@@ -156,7 +156,7 @@ class TextParser(
     }
 
     private fun nextColorChar(i: Int): Char? {
-        if (text[i] == '1' || text[i] == '2' || text[i] == '3' || text[i] == '4' || text[i] == '5' || text[i] == '6' || text[i] == '7' || text[i] == '8' || text[i] == '9' || textLow[i] == 'a' || textLow[i] == 'b' || textLow[i] == 'c' || textLow[i] == 'd' || textLow[i] == 'e' || textLow[i] == 'f') return text[i]
+        if (text[i] == '0' || text[i] == '1' || text[i] == '2' || text[i] == '3' || text[i] == '4' || text[i] == '5' || text[i] == '6' || text[i] == '7' || text[i] == '8' || text[i] == '9' || textLow[i] == 'a' || textLow[i] == 'b' || textLow[i] == 'c' || textLow[i] == 'd' || textLow[i] == 'e' || textLow[i] == 'f') return text[i]
         return null
     }
 
