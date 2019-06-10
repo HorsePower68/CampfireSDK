@@ -150,6 +150,7 @@ abstract class CardChatMessage constructor(
 
         if (vText != null) {
             vText.text = unit.text
+            vText.visibility = if(unit.text.isEmpty()) View.GONE else View.VISIBLE
 
             ControllerApi.makeLinkable(vText) {
                 val myName = ControllerApi.account.name + ","

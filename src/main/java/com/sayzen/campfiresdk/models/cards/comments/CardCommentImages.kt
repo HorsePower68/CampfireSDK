@@ -1,11 +1,13 @@
 package com.sayzen.campfiresdk.models.cards.comments
 
 import android.view.View
+import android.widget.TextView
 import com.dzen.campfire.api.models.UnitComment
 import com.sayzen.campfiresdk.R
 import com.sup.dev.android.libs.screens.navigator.Navigator
 import com.sup.dev.android.tools.ToolsView
 import com.sup.dev.android.views.screens.SImageView
+import com.sup.dev.android.views.views.ViewImagesContainer
 import com.sup.dev.android.views.views.ViewImagesSwipe
 
 class CardCommentImages(
@@ -20,7 +22,7 @@ class CardCommentImages(
 
     override fun bind(view: View) {
 
-        val vImages: ViewImagesSwipe = view.findViewById(R.id.vImages)
+        val vImages: ViewImagesContainer = view.findViewById(R.id.vImages)
 
         ToolsView.setOnLongClickCoordinates(vImages) { view1, x, y -> popup?.asSheetShow() }
         vImages.setOnClickListener { Navigator.to(SImageView(unit.imageId)) }

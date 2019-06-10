@@ -7,20 +7,18 @@ import com.dzen.campfire.api.models.units.post.PageImages
 import com.sayzen.campfiresdk.R
 import com.sayzen.campfiresdk.controllers.ControllerApi
 import com.sup.dev.android.tools.ToolsImagesLoader
-import com.sup.dev.android.views.views.ViewImagesSwipe
+import com.sup.dev.android.views.views.ViewImagesContainer
 import com.sup.dev.android.views.views.ViewTextLinkable
 
 class CardPageImages(page: PageImages) : CardPage(page) {
 
-    override fun getLayout(): Int {
-        return R.layout.card_page_images
-    }
+    override fun getLayout() = R.layout.card_page_images
 
     override fun bindView(view: View) {
         super.bindView(view)
         val vTextEmpty: TextView = view.findViewById(R.id.vTextEmpty)
         val vTitle: ViewTextLinkable = view.findViewById(R.id.vTitle)
-        val vImagesSwipe: ViewImagesSwipe = view.findViewById(R.id.vImagesSwipe)
+        val vImagesSwipe: ViewImagesContainer = view.findViewById(R.id.vImagesSwipe)
         vTitle.setTextIsSelectable(clickable)
 
         vTitle.text = (page as PageImages).title
