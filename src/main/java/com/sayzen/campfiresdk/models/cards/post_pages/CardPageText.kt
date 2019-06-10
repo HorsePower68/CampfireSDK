@@ -9,12 +9,15 @@ import com.sup.dev.android.views.views.ViewTextLinkable
 
 class CardPageText(page: PageText) : CardPage(page) {
 
+    var maxLines = Integer.MAX_VALUE
+
     override fun getLayout() = R.layout.card_page_text
 
     override fun bindView(view: View) {
         super.bindView(view)
         val vText: ViewTextLinkable = view.findViewById(R.id.vText)
         vText.setTextIsSelectable(clickable)
+        vText.maxLines = maxLines;
 
         vText.text = (page as PageText).text
         vText.textSize = (if ((page as PageText).size == PageText.SIZE_0) 14 else 21).toFloat()

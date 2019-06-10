@@ -46,6 +46,22 @@ object ControllerUnits {
         WidgetModerationBlock.show(unit, onBlock)
     }
 
+    fun report(unit: Unit){
+        ControllerApi.reportUnit(
+                unit.id,
+                R.string.post_report_confirm,
+                R.string.post_error_gone
+        )
+    }
+    fun clearReports(unit: Unit){
+        ControllerApi.adminClearReportUnit(
+                unit.id,
+                R.string.post_clear_reports_confirm,
+                R.string.post_error_gone
+        )
+    }
+
+
     //
     //  Tag
     //
@@ -189,6 +205,7 @@ object ControllerUnits {
                 }.condition(unit.isPublic)
                 .add(R.string.unit_menu_comments_watch) { w, card -> changeWatchComments(unit.id) }.condition(unit.isPublic)
                 .add(R.string.app_report) { w, card -> ControllerApi.reportUnit(unit.id, R.string.forum_report_confirm, R.string.forum_error_gone) }.condition(unit.isPublic)
+                .add(R.string.app_clear_reports) { w, card -> clearReports(unit) }.backgroundRes(R.color.blue_700).condition(ControllerPost.ENABLED_CLEAR_REPORTS && ControllerApi.can(unit.fandomId, unit.languageId, API.LVL_MODERATOR_BLOCK) && unit.reportsCount > 0)
                 .add(R.string.app_change) { w, card -> changeForum(unit) }.condition(unit.isPublic && ControllerApi.can(unit.fandomId, unit.languageId, API.LVL_MODERATOR_FORUMS)).backgroundRes(R.color.blue_700)
                 .add(R.string.app_remove) { w, card -> removeForum(unit.id) }.condition(unit.isPublic && ControllerApi.can(unit.fandomId, unit.languageId, API.LVL_MODERATOR_FORUMS)).backgroundRes(R.color.blue_700)
                 .asSheetShow()

@@ -39,6 +39,7 @@ import com.sup.dev.android.views.views.ViewAvatarTitle
 import com.sup.dev.android.views.views.ViewEditTextMedia
 import com.sup.dev.android.views.views.ViewIcon
 import com.sup.dev.android.views.views.ViewTextLinkable
+import com.sup.dev.java.libs.debug.log
 import com.sup.dev.java.libs.eventBus.EventBus
 import com.sup.dev.java.tools.*
 
@@ -329,16 +330,19 @@ class SChat private constructor(
     private fun afterSend(message: UnitChatMessage) {
         clearInput()
         EventBus.post(EventUpdateChats())
-        addMessage(message)
+        addMessage(message, true)
     }
 
-    private fun addMessage(message: UnitChatMessage) {
+    private fun addMessage(message: UnitChatMessage, forceScroll: Boolean) {
         val b = isNeedScrollAfterAdd()
         if (adapter != null) {
             adapter!!.remove(carSpace)
             adapter!!.add(instanceCard(message))
             adapter!!.add(carSpace)
-            if (b) vRecycler.smoothScrollToPosition(vRecycler.adapter!!.itemCount)
+            if (forceScroll)
+                vRecycler.scrollToPosition(vRecycler.adapter!!.itemCount-1)
+            else if (b)
+                vRecycler.smoothScrollToPosition(vRecycler.adapter!!.itemCount-1)
         }
         setState(State.NONE)
     }
@@ -459,7 +463,7 @@ class SChat private constructor(
         if (e.notification is NotificationChatMessage) {
             val n = e.notification
             if (tag == n.tag && !ControllerApi.isCurrentAccount(n.unitChatMessage.creatorId)) {
-                addMessage(n.unitChatMessage)
+                addMessage(n.unitChatMessage, false)
 
                 if (Navigator.getCurrent() == this && SupAndroid.activityIsVisible) ControllerChats.readRequest(tag)
                 else needUpdate = true
@@ -470,10 +474,10 @@ class SChat private constructor(
         if (e.notification is NotificationChatAnswer) {
             val n = e.notification
             if (tag == n.tag) {
-                addMessage(n.unitChatMessage)
+                addMessage(n.unitChatMessage, false)
                 ControllerChats.readRequest(tag)
 
-                if (Navigator.getCurrent() == this  && SupAndroid.activityIsVisible) ControllerChats.readRequest(tag)
+                if (Navigator.getCurrent() == this && SupAndroid.activityIsVisible) ControllerChats.readRequest(tag)
                 else needUpdate = true
 
             }

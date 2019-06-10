@@ -51,10 +51,10 @@ object ControllerNotifications {
     var logoWhite = R.drawable.logo_alpha_black_and_white_no_margins
 
     internal fun init(
-        activityClass: Class<out Activity>,
-        logoColored: Int,
-        logoWhite: Int,
-        notificationExecutor: NotificationExecutor
+            activityClass: Class<out Activity>,
+            logoColored: Int,
+            logoWhite: Int,
+            notificationExecutor: NotificationExecutor
     ) {
         this.logoColored = logoColored
         this.logoWhite = logoWhite
@@ -78,9 +78,9 @@ object ControllerNotifications {
         val notification = Notification.instance(Json(message.data["my_data"]!!))
         ToolsThreads.main {
             EventBus.post(
-                EventNotification(
-                    notification
-                )
+                    EventNotification(
+                            notification
+                    )
             )
         }
 
@@ -98,7 +98,7 @@ object ControllerNotifications {
 
                 val icon = if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) logoWhite else logoColored
                 val intent = Intent(SupAndroid.appContext, activityClass)
-                val title = SupAndroid.TEXT_APP_NAME?:""
+                val title = SupAndroid.TEXT_APP_NAME ?: ""
                 val tag = tag(notification.id)
 
                 intent.putExtra(EXTRA_NOTIFICATION, notification.json(true, Json()).toString())
@@ -118,8 +118,8 @@ object ControllerNotifications {
 
     fun hideAll(tag: String = "") {
         hide(
-            TYPE_CHAT,
-            tag
+                TYPE_CHAT,
+                tag
         )
         hide(-1, tag)
     }
@@ -185,13 +185,13 @@ object ControllerNotifications {
     fun removeNotificationFromNew(types: Array<Long>) {
         val subArray = getNewNotifications(types)
         for (i in subArray) newNotifications = ToolsCollections.removeItem(
-            i,
-            newNotifications
+                i,
+                newNotifications
         )
         for (i in subArray) hideAll(
-            tag(
-                i.id
-            )
+                tag(
+                        i.id
+                )
         )
         val array = Array(subArray.size) { subArray[it].id }
         EventBus.post(EventNotificationsCountChanged())
@@ -201,23 +201,23 @@ object ControllerNotifications {
     fun removeNotificationFromNew(notificationId: Long) {
         val array = Array(newNotifications.size) { newNotifications[it] }
         for (i in array) if (i.id == notificationId) removeNotificationFromNew(
-            i
+                i
         )
     }
 
     private fun removeNotificationFromNew(n: Notification) {
         val oldSize = newNotifications.size
         newNotifications = ToolsCollections.removeItem(
-            n,
-            newNotifications
+                n,
+                newNotifications
         )
         if (oldSize != newNotifications.size) {
             RAccountsNotificationsView(arrayOf(n.id), emptyArray()).send(api)
         }
         hideAll(
-            tag(
-                n.id
-            )
+                tag(
+                        n.id
+                )
         )
         EventBus.post(EventNotificationReaded(n.id))
         EventBus.post(EventNotificationsCountChanged())
@@ -229,16 +229,16 @@ object ControllerNotifications {
             if (n::class == nClass) {
                 when (n) {
                     is NotificationFollowsPublication -> if (n.unitId == arg1) removeNotificationFromNew(
-                        n
+                            n
                     )
                     is NotificationUnitImportant -> if (n.publicationId == arg1) removeNotificationFromNew(
-                        n
+                            n
                     )
                     is NotificationComment -> if (n.commentId == arg1) removeNotificationFromNew(
-                        n
+                            n
                     )
                     is NotificationCommentAnswer -> if (n.commentId == arg1) removeNotificationFromNew(
-                        n
+                            n
                     )
                 }
             }
@@ -259,9 +259,9 @@ object ControllerNotifications {
         }
 
         RAccountsNotificationsRemoveToken(token)
-            .onComplete { r -> onClear?.invoke() }
-            .onError { ex -> onError?.invoke() }
-            .send(api)
+                .onComplete { r -> onClear?.invoke() }
+                .onError { ex -> onError?.invoke() }
+                .send(api)
     }
 
     private fun onToken(token: String?) {
@@ -354,35 +354,22 @@ object ControllerNotifications {
             }
             if (n.parentUnitType == API.UNIT_TYPE_MODERATION) {
                 title = if (ControllerApi.getLastAccount() == n.unitCreatorId) ToolsResources.sCap(
-                    R.string.notification_moderation_comment, n.accountName, ToolsResources.sex(
+                        R.string.notification_moderation_comment, n.accountName, ToolsResources.sex(
                         n.accountSex,
                         R.string.he_comment,
                         R.string.she_comment
-                    )
+                )
                 )
                 else ToolsResources.sCap(
-                    R.string.notification_moderation_comment_watch, n.accountName, ToolsResources.sex(
+                        R.string.notification_moderation_comment_watch, n.accountName, ToolsResources.sex(
                         n.accountSex,
                         R.string.he_comment,
                         R.string.she_comment
-                    )
+                )
                 )
             }
             if (n.parentUnitType == API.UNIT_TYPE_FORUM) {
-                title = if (ControllerApi.getLastAccount() == n.unitCreatorId) ToolsResources.sCap(
-                    R.string.notification_forum_comment_watch, n.accountName, ToolsResources.sex(
-                        n.accountSex,
-                        R.string.he_comment,
-                        R.string.she_comment
-                    )
-                )
-                else ToolsResources.sCap(
-                    R.string.notification_forum_comment_watch, n.accountName, ToolsResources.sex(
-                        n.accountSex,
-                        R.string.he_comment,
-                        R.string.she_comment
-                    )
-                )
+                title = n.unitName
             }
             return title
         }
@@ -396,11 +383,11 @@ object ControllerNotifications {
         }
 
         override fun asString(html: Boolean) = ToolsResources.sCap(
-            R.string.notification_profile_follows_add, n.accountName, ToolsResources.sex(
+                R.string.notification_profile_follows_add, n.accountName, ToolsResources.sex(
                 n.accountSex,
                 R.string.he_subscribed,
                 R.string.she_subscribed
-            )
+        )
         )
 
         override fun getIcon() = R.drawable.ic_person_white_24dp
@@ -421,11 +408,11 @@ object ControllerNotifications {
         override fun getIcon() = R.drawable.ic_mode_comment_white_18dp
 
         override fun getTitle() = ToolsResources.sCap(
-            R.string.notification_comments_answer, n.accountName, ToolsResources.sex(
+                R.string.notification_comments_answer, n.accountName, ToolsResources.sex(
                 n.accountSex,
                 R.string.he_replied,
                 R.string.she_replied
-            )
+        )
         )
 
     }
@@ -442,18 +429,18 @@ object ControllerNotifications {
             if (n.tag.chatType == API.CHAT_TYPE_FANDOM) {
                 title = unit.fandomName
                 if (chatMessagesCount > 1) text = ToolsResources.s(
-                    R.string.notification_chat_many, chatMessagesCount, ToolsResources.getPlural(
+                        R.string.notification_chat_many, chatMessagesCount, ToolsResources.getPlural(
                         R.plurals.new_fem, chatMessagesCount
-                    ), ToolsResources.getPlural(R.plurals.messages, chatMessagesCount)
+                ), ToolsResources.getPlural(R.plurals.messages, chatMessagesCount)
                 )
             } else {
                 title = unit.creatorName
                 if (chatMessagesCount > 1) text = ToolsResources.s(
-                    R.string.notification_chat_private_many, chatMessagesCount, ToolsResources.getPlural(
+                        R.string.notification_chat_private_many, chatMessagesCount, ToolsResources.getPlural(
                         R.plurals.new_fem, chatMessagesCount
-                    ), ToolsResources.getPlural(R.plurals.private_, chatMessagesCount), ToolsResources.getPlural(
+                ), ToolsResources.getPlural(R.plurals.private_, chatMessagesCount), ToolsResources.getPlural(
                         R.plurals.messages, chatMessagesCount
-                    )
+                )
                 )
             }
 
@@ -464,7 +451,7 @@ object ControllerNotifications {
         override fun asString(html: Boolean): String {
             if (n.tag.chatType == API.CHAT_TYPE_FANDOM) {
                 return if (n.unitChatMessage.resourceId != 0L && n.unitChatMessage.text.isEmpty()) n.unitChatMessage.creatorName + ": " + ToolsResources.s(
-                    R.string.app_image
+                        R.string.app_image
                 )
                 else n.unitChatMessage.creatorName + ": " + n.unitChatMessage.text
             } else {
@@ -488,7 +475,7 @@ object ControllerNotifications {
 
         override fun asString(html: Boolean): String {
             return if (n.unitChatMessage.resourceId != 0L && n.unitChatMessage.text.isEmpty()) n.unitChatMessage.creatorName + ": " + ToolsResources.s(
-                R.string.app_image
+                    R.string.app_image
             )
             else n.unitChatMessage.creatorName + ": " + n.unitChatMessage.text
         }
@@ -504,11 +491,11 @@ object ControllerNotifications {
         }
 
         override fun asString(html: Boolean) = ToolsResources.sCap(
-            R.string.notifications_follows_new_content, n.accountName, ToolsResources.sex(
+                R.string.notifications_follows_new_content, n.accountName, ToolsResources.sex(
                 n.accountSex,
                 R.string.he_make,
                 R.string.she_make
-            )
+        )
         )
 
         override fun getIcon() = R.drawable.ic_person_white_24dp
@@ -516,14 +503,14 @@ object ControllerNotifications {
     }
 
     private class NotificationFandomRemoveModeratorParser(override val n: NotificationFandomRemoveModerator) :
-        Parser(n) {
+            Parser(n) {
 
         override fun post(icon: Int, intent: Intent, text: String, title: String, tag: String) {
             chanelOther.post(icon, title, text, intent, tag)
         }
 
         override fun asString(html: Boolean) =
-            ToolsResources.sCap(R.string.notifications_fandom_remove_moderator, n.fandomName)
+                ToolsResources.sCap(R.string.notifications_fandom_remove_moderator, n.fandomName)
 
         override fun getIcon() = R.drawable.ic_security_white_24dp
 
@@ -536,7 +523,7 @@ object ControllerNotifications {
         }
 
         override fun asString(html: Boolean) =
-            ToolsResources.sCap(R.string.notifications_fandom_make_moderator, n.fandomName)
+                ToolsResources.sCap(R.string.notifications_fandom_make_moderator, n.fandomName)
 
         override fun getIcon() = R.drawable.ic_security_white_24dp
 
@@ -587,8 +574,8 @@ object ControllerNotifications {
             val comment = if (!html) n.comment else ToolsHTML.i(n.comment)
             return (""
                     + (if (n.blockAccountDate > 0) " " + ToolsResources.s(
-                R.string.moderation_notification_account_is_blocked,
-                ToolsDate.dateToString(n.blockAccountDate)
+                    R.string.moderation_notification_account_is_blocked,
+                    ToolsDate.dateToString(n.blockAccountDate)
             ) else "")
                     + if (ToolsText.empty(n.comment)) "" else " " + ToolsResources.s(R.string.moderation_notification_moderator_comment) + " " + comment)
         }
@@ -611,8 +598,8 @@ object ControllerNotifications {
             val comment = if (!html) n.comment else ToolsHTML.i(n.comment)
             return (""
                     + (if (n.blockAccountDate > 0) " " + ToolsResources.s(
-                R.string.moderation_notification_account_is_blocked,
-                ToolsDate.dateToString(n.blockAccountDate)
+                    R.string.moderation_notification_account_is_blocked,
+                    ToolsDate.dateToString(n.blockAccountDate)
             ) else "")
                     + if (ToolsText.empty(n.comment)) "" else " " + ToolsResources.s(R.string.moderation_notification_moderator_comment) + " " + comment)
         }
@@ -633,43 +620,43 @@ object ControllerNotifications {
 
         override fun asString(html: Boolean): String {
             val karmsS = if (!html) "" + (n.karmaCount / 100) else ToolsHTML.font_color(
-                "" + (n.karmaCount / 100),
-                if (n.karmaCount < 0) ToolsHTML.color_red else ToolsHTML.color_green
+                    "" + (n.karmaCount / 100),
+                    if (n.karmaCount < 0) ToolsHTML.color_red else ToolsHTML.color_green
             )
             if (n.unitType == API.UNIT_TYPE_POST) return ToolsResources.sCap(
-                R.string.notification_post_karma, n.accountName, ToolsResources.sex(
+                    R.string.notification_post_karma, n.accountName, ToolsResources.sex(
                     n.accountSex,
                     R.string.he_rate,
                     R.string.she_rate
-                ), karmsS
+            ), karmsS
             )
             if (n.unitType == API.UNIT_TYPE_COMMENT) return ToolsResources.sCap(
-                R.string.notification_comments_karma, n.accountName, ToolsResources.sex(
+                    R.string.notification_comments_karma, n.accountName, ToolsResources.sex(
                     n.accountSex,
                     R.string.he_rate,
                     R.string.she_rate
-                ), karmsS
+            ), karmsS
             )
             if (n.unitType == API.UNIT_TYPE_MODERATION) return ToolsResources.sCap(
-                R.string.notification_moderation_karma, n.accountName, ToolsResources.sex(
+                    R.string.notification_moderation_karma, n.accountName, ToolsResources.sex(
                     n.accountSex,
                     R.string.he_rate,
                     R.string.she_rate
-                ), karmsS
+            ), karmsS
             )
             if (n.unitType == API.UNIT_TYPE_REVIEW) return ToolsResources.sCap(
-                R.string.notification_karma_review, n.accountName, ToolsResources.sex(
+                    R.string.notification_karma_review, n.accountName, ToolsResources.sex(
                     n.accountSex,
                     R.string.he_rate,
                     R.string.she_rate
-                ), karmsS
+            ), karmsS
             )
             if (n.unitType == API.UNIT_TYPE_FORUM) return ToolsResources.sCap(
-                R.string.notification_karma_forum, n.accountName, ToolsResources.sex(
+                    R.string.notification_karma_forum, n.accountName, ToolsResources.sex(
                     n.accountSex,
                     R.string.he_rate,
                     R.string.she_rate
-                ), karmsS
+            ), karmsS
             )
             return ""
         }
@@ -685,7 +672,7 @@ object ControllerNotifications {
         }
 
         override fun asString(html: Boolean) =
-            ToolsResources.sCap(R.string.notifications_important_publication, n.fandomName)
+                ToolsResources.sCap(R.string.notifications_important_publication, n.fandomName)
 
         override fun getIcon() = R.drawable.ic_star_white_24dp
 
@@ -705,11 +692,11 @@ object ControllerNotifications {
 
         override fun getTitle(): String {
             return ToolsResources.sCap(
-                R.string.notifications_moderation_to_drafts, n.moderatorName, ToolsResources.sex(
+                    R.string.notifications_moderation_to_drafts, n.moderatorName, ToolsResources.sex(
                     n.moderatorSex,
                     R.string.he_return,
                     R.string.she_return
-                )
+            )
             )
         }
 
@@ -731,11 +718,11 @@ object ControllerNotifications {
 
         override fun getTitle(): String {
             return ToolsResources.sCap(
-                R.string.notifications_moderation_tags, n.moderatorName, ToolsResources.sex(
+                    R.string.notifications_moderation_tags, n.moderatorName, ToolsResources.sex(
                     n.moderatorSex,
                     R.string.he_changed,
                     R.string.she_changed
-                )
+            )
             )
         }
 
@@ -757,8 +744,8 @@ object ControllerNotifications {
         override fun getTitle(): String {
             return if (n.blockAccountDate > 0) {
                 (ToolsResources.sCap(
-                    R.string.moderation_notification_blocked,
-                    ToolsDate.dateToString(n.blockAccountDate)
+                        R.string.moderation_notification_blocked,
+                        ToolsDate.dateToString(n.blockAccountDate)
                 ))
             } else {
                 (ToolsResources.sCap(R.string.moderation_notification_warned))
@@ -783,11 +770,11 @@ object ControllerNotifications {
 
         override fun getTitle(): String {
             return ToolsResources.sCap(
-                R.string.notifications_moderation_forgive, n.moderatorName, ToolsResources.sex(
+                    R.string.notifications_moderation_forgive, n.moderatorName, ToolsResources.sex(
                     n.moderatorSex,
                     R.string.he_forgive,
                     R.string.she_forgive
-                ), n.fandomName
+            ), n.fandomName
             )
         }
 
@@ -802,11 +789,11 @@ object ControllerNotifications {
         }
 
         override fun asString(html: Boolean) = ToolsResources.sCap(
-            R.string.notification_punishment_remove, n.fromAccountName, ToolsResources.sex(
+                R.string.notification_punishment_remove, n.fromAccountName, ToolsResources.sex(
                 n.fromAccountSex,
                 R.string.he_remove,
                 R.string.she_remove
-            )
+        )
         )
 
         override fun getIcon() = R.drawable.ic_security_white_24dp
@@ -874,7 +861,7 @@ object ControllerNotifications {
     }
 
     private class NotificationProjectABParamsChangedParser(override val n: NotificationProjectABParamsChanged) :
-        Parser(n) {
+            Parser(n) {
 
         override fun post(icon: Int, intent: Intent, text: String, title: String, tag: String) {
 
@@ -899,11 +886,11 @@ object ControllerNotifications {
 
         override fun getTitle(): String {
             return ToolsResources.sCap(
-                R.string.notification_admin_name_remove, n.adminName, ToolsResources.sex(
+                    R.string.notification_admin_name_remove, n.adminName, ToolsResources.sex(
                     n.adminSex,
                     R.string.he_remove,
                     R.string.she_remove
-                )
+            )
             )
         }
 
@@ -912,7 +899,7 @@ object ControllerNotifications {
     }
 
     private class NotificationAdminDescriptionRemoveParser(override val n: NotificationAdminDescriptionRemove) :
-        Parser(n) {
+            Parser(n) {
 
         override fun post(icon: Int, intent: Intent, text: String, title: String, tag: String) {
             chanelOther.post(icon, getTitle(), text, intent, tag)
@@ -925,11 +912,11 @@ object ControllerNotifications {
 
         override fun getTitle(): String {
             return ToolsResources.sCap(
-                R.string.notification_admin_description_remove, n.adminName, ToolsResources.sex(
+                    R.string.notification_admin_description_remove, n.adminName, ToolsResources.sex(
                     n.adminSex,
                     R.string.he_remove,
                     R.string.she_remove
-                )
+            )
             )
         }
 
@@ -950,11 +937,11 @@ object ControllerNotifications {
 
         override fun getTitle(): String {
             return ToolsResources.sCap(
-                R.string.notification_admin_link_remove, n.adminName, ToolsResources.sex(
+                    R.string.notification_admin_link_remove, n.adminName, ToolsResources.sex(
                     n.adminSex,
                     R.string.he_remove,
                     R.string.she_remove
-                )
+            )
             )
         }
 
@@ -975,11 +962,11 @@ object ControllerNotifications {
 
         override fun getTitle(): String {
             return ToolsResources.sCap(
-                R.string.notification_admin_status_remove, n.adminName, ToolsResources.sex(
+                    R.string.notification_admin_status_remove, n.adminName, ToolsResources.sex(
                     n.adminSex,
                     R.string.he_remove,
                     R.string.she_remove
-                )
+            )
             )
         }
 
@@ -1000,11 +987,11 @@ object ControllerNotifications {
 
         override fun getTitle(): String {
             return ToolsResources.sCap(
-                R.string.notification_admin_moderation_rejected, n.adminName, ToolsResources.sex(
+                    R.string.notification_admin_moderation_rejected, n.adminName, ToolsResources.sex(
                     n.adminSex,
                     R.string.he_reject,
                     R.string.she_reject
-                )
+            )
             )
         }
 
@@ -1032,7 +1019,7 @@ object ControllerNotifications {
     }
 
     private class NotificationAdminPostFandomChangeParser(override val n: NotificationAdminPostFandomChange) :
-        Parser(n) {
+            Parser(n) {
 
         override fun post(icon: Int, intent: Intent, text: String, title: String, tag: String) {
             chanelOther.post(icon, title, text, intent, tag)
@@ -1045,11 +1032,11 @@ object ControllerNotifications {
 
         override fun getTitle(): String {
             return ToolsResources.sCap(
-                R.string.notification_admin_post_fandom_change, n.adminName, ToolsResources.sex(
+                    R.string.notification_admin_post_fandom_change, n.adminName, ToolsResources.sex(
                     n.adminSex,
                     R.string.he_move,
                     R.string.she_move
-                ), n.oldFandomName, n.newFandomName
+            ), n.oldFandomName, n.newFandomName
             )
         }
 
