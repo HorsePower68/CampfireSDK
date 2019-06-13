@@ -63,8 +63,8 @@ class AdapterComments(
         view.setOnClickListener { v -> showCommentDialog() }
     }
 
-    fun showCommentDialog(){
-        WidgetComment(unitId, null) { comment ->
+    fun showCommentDialog(comment:UnitComment?=null, changeComment:UnitComment?=null, quoteId: Long=0,  quoteText: String=""){
+        WidgetComment(unitId, comment, changeComment, quoteId, quoteText) { comment ->
             val card = addComment(comment)
             vRecycler.scrollToPosition(indexOf(card) + 1)
             card.flash()
@@ -129,11 +129,11 @@ class AdapterComments(
         return CardComment.instance(unit, true,
                 { comment ->
                     if (ControllerApi.isCurrentAccount(comment.creatorId)) return@instance false
-                    WidgetComment(unitId, comment) { comment -> addComment(comment) }.asSheetShow()
+                    showCommentDialog(comment)
                     true
                 },
                 { comment ->
-                    WidgetComment(comment.parentUnitId, if (ControllerApi.isCurrentAccount(comment.creatorId)) null else comment, null, comment.id, comment.creatorName + ": " + comment.text) { comment -> addComment(comment) }.asSheetShow()
+                    showCommentDialog(if (ControllerApi.isCurrentAccount(comment.creatorId)) null else comment, null, comment.id, comment.creatorName + ": " + comment.text)
                 },
                 { id ->
                     for (i in get(CardComment::class)) {
