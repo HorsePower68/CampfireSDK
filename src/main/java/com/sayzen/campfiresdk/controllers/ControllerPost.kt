@@ -22,6 +22,7 @@ import com.sup.dev.android.tools.ToolsToast
 import com.sup.dev.android.views.support.adapters.recycler_view.RecyclerCardAdapter
 import com.sup.dev.android.views.widgets.WidgetField
 import com.sup.dev.android.views.widgets.WidgetMenu
+import com.sup.dev.java.libs.debug.log
 import com.sup.dev.java.libs.eventBus.EventBus
 import java.util.ArrayList
 
@@ -49,6 +50,7 @@ object ControllerPost {
     var ENABLED_MODER_CHANGE_FANDOM = false
 
     fun showPostPopup(view: View, unit: UnitPost) {
+
         val w = WidgetMenu()
             .add(R.string.bookmark) { w, card -> ControllerUnits.changeBookmark(unit.id) }.condition(ENABLED_BOOKMARK && unit.isPublic)
             .add(R.string.unit_menu_comments_watch) { w, card -> ControllerUnits.changeWatchComments(unit.id) }.condition(ENABLED_WATCH && unit.isPublic)
@@ -64,8 +66,7 @@ object ControllerPost {
             .groupCondition(!ControllerApi.isCurrentAccount(unit.creatorId) && unit.isPublic)
             .add(R.string.app_report) { w, card -> ControllerUnits.report(unit) }.condition(ENABLED_REPORT)
             .add(R.string.app_clear_reports) { w, card -> ControllerUnits.clearReports(unit) }.backgroundRes(R.color.blue_700).condition(ENABLED_CLEAR_REPORTS && ControllerApi.can(unit.fandomId, unit.languageId, API.LVL_MODERATOR_BLOCK) && unit.reportsCount > 0)
-            .add(R.string.app_block) { w, card -> ControllerUnits.block(unit) }.backgroundRes(R.color.blue_700)
-            .condition(ENABLED_BLOCK && ControllerApi.can(unit.fandomId, unit.languageId, API.LVL_MODERATOR_BLOCK))
+            .add(R.string.app_block) { w, card -> ControllerUnits.block(unit) }.backgroundRes(R.color.blue_700).condition(ENABLED_BLOCK && ControllerApi.can(unit.fandomId, unit.languageId, API.LVL_MODERATOR_BLOCK))
             .add(R.string.unit_menu_moderator_to_drafts) { w, card -> moderatorToDrafts(unit.id) }.backgroundRes(R.color.blue_700).condition(ENABLED_MODER_TO_DRAFT && ControllerApi.can(unit.fandomId, unit.languageId, API.LVL_MODERATOR_TO_DRAFTS))
             .add(R.string.post_menu_change_tags) { w, card -> changeTagsModer(unit) }.backgroundRes(R.color.blue_700).condition(ENABLED_MODER_CHANGE_TAGS && ControllerApi.can(unit.fandomId, unit.languageId, API.LVL_MODERATOR_POST_TAGS))
             .clearGroupCondition()
