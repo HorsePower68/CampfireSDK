@@ -241,6 +241,7 @@ abstract class CardChatMessage constructor(
 
         if (vAvatar != null) {
             vAvatar.visibility = if (ControllerApi.isCurrentAccount(unit.creatorId)) View.GONE else View.VISIBLE
+            if(unit.chatTag().chatType == API.CHAT_TYPE_PRIVATE) vAvatar.visibility = View.GONE
             if (!showFandom) xAccount.setView(vAvatar)
             else xFandom.setView(vAvatar)
         }

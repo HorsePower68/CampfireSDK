@@ -50,7 +50,8 @@ class SChat private constructor(
         var chatBackgroundImageId: Long,
         val chatInfo_1: Long,
         val chatInfo_2: Long,
-        val chatInfo_3: Long)
+        val chatInfo_3: Long,
+        val chatInfo_4: Long)
     : SLoadingRecycler<CardChatMessage, UnitChatMessage>(R.layout.screen_chat), ScreenShare {
 
     companion object {
@@ -65,7 +66,7 @@ class SChat private constructor(
             ControllerCampfireSDK.ON_SCREEN_CHAT_START.invoke()
             ApiRequestsSupporter.executeInterstitial(action, RChatGet(tag)) { r ->
                 ControllerChats.putRead(tag, r.anotherReadDate)
-                val screen = SChat(tag, r.subscribed, r.chatName, r.chatImageId, r.chatBackgroundImageId, r.chatInfo_1, r.chatInfo_2, r.chatInfo_3)
+                val screen = SChat(tag, r.subscribed, r.chatName, r.chatImageId, r.chatBackgroundImageId, r.chatInfo_1, r.chatInfo_2, r.chatInfo_3, r.chatInfo_4)
                 onShow.invoke(screen)
                 screen
             }
@@ -140,7 +141,7 @@ class SChat private constructor(
             vAvatarTitle.setOnClickListener { Navigator.to(SChatSubscribers(tag.targetId, tag.targetSubId, chatName)) }
         } else {
             val anotherId = if (tag.targetId == ControllerApi.account.id) tag.targetSubId else tag.targetId
-            val xAccount = XAccount(anotherId, chatName, chatImageId, chatInfo_1, chatInfo_2) { update() }
+            val xAccount = XAccount(anotherId, chatName, chatImageId, chatInfo_1, chatInfo_4, chatInfo_2) { update() }
             xAccount.setView(vAvatarTitle)
 
             if (!xAccount.isOnline()) {
