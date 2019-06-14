@@ -116,6 +116,48 @@ object ControllerSettings {
             onSettingsUpdated()
         }
 
+    var longPlusFandomId: Long
+        get() = accountSettings.longPlusFandomId
+        set(b) {
+            accountSettings.longPlusFandomId = b
+            onSettingsUpdated()
+        }
+
+    var longPlusFandomLanguageId: Long
+        get() = if(accountSettings.longPlusFandomLanguageId == 0L) ControllerApi.getLanguage(appLanguage).id else accountSettings.longPlusFandomLanguageId
+        set(b) {
+            accountSettings.longPlusFandomLanguageId = b
+            onSettingsUpdated()
+        }
+
+    var longPlusFandomName: String
+        get() = accountSettings.longPlusFandomName
+        set(b) {
+            accountSettings.longPlusFandomName = b
+            onSettingsUpdated()
+        }
+
+    var fastPublicationFandomId: Long
+        get() = accountSettings.fastPublicationFandomId
+        set(b) {
+            accountSettings.fastPublicationFandomId = b
+            onSettingsUpdated()
+        }
+
+    var fastPublicationFandomLanguageId: Long
+        get() = if(accountSettings.fastPublicationFandomLanguageId == 0L) ControllerApi.getLanguage(appLanguage).id else accountSettings.fastPublicationFandomLanguageId
+        set(b) {
+            accountSettings.fastPublicationFandomLanguageId = b
+            onSettingsUpdated()
+        }
+
+    var fastPublicationFandomName: String
+        get() = accountSettings.fastPublicationFandomName
+        set(b) {
+            accountSettings.fastPublicationFandomName = b
+            onSettingsUpdated()
+        }
+
     //
     //  Notifications Settings
     //

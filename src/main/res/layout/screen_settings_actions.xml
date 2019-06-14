@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.design.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    style="@style/Root.Content"
+    android:orientation="vertical">
+
+    <android.support.design.widget.AppBarLayout
+        style="@style/AppBar">
+
+        <android.support.v7.widget.Toolbar
+            style="@style/Toolbar"
+            app:title="@string/settings_actions"/>
+    </android.support.design.widget.AppBarLayout>
+
+    <android.support.v4.widget.NestedScrollView
+        style="@style/Scroll">
+
+        <LinearLayout
+            android:id="@+id/vSettingsContainer"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:orientation="vertical">
+
+            <com.sup.dev.android.views.settings.Settings
+                android:id="@+id/vLongPlus"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:Settings_icon="@drawable/ic_add_white_24dp"
+                app:Settings_icon_background="@color/blue_500"
+                app:Settings_title="@string/settings_actions_long_plus"/>
+
+            <com.sup.dev.android.views.settings.Settings
+                android:id="@+id/vFastPost"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:Settings_icon="@drawable/ic_share_white_24dp"
+                app:Settings_icon_background="@color/light_blue_500"
+                app:Settings_title="@string/settings_actions_fast_publications"/>
+
+        </LinearLayout>
+
+    </android.support.v4.widget.NestedScrollView>
+
+</android.support.design.widget.CoordinatorLayout>

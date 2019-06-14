@@ -89,6 +89,8 @@
     <attr name="ic_border_top_24dp" format="reference"/>
     <attr name="ic_border_right_24dp" format="reference"/>
     <attr name="ic_border_bottom_24dp" format="reference"/>
+    <attr name="ic_not_interested_24dp" format="reference"/>
+    <attr name="ic_wb_incandescent_24dp" format="reference"/>
 
     <style name="CampfireRootThemeBlack" parent="AppThemeDark">
         <item name="icon_games">@drawable/icon_games_white</item>
@@ -180,6 +182,8 @@
         <item name="ic_border_top_24dp">@drawable/ic_border_top_white_24dp</item>
         <item name="ic_border_right_24dp">@drawable/ic_border_right_white_24dp</item>
         <item name="ic_border_bottom_24dp">@drawable/ic_border_bottom_white_24dp</item>
+        <item name="ic_not_interested_24dp">@drawable/ic_not_interested_white_24dp</item>
+        <item name="ic_wb_incandescent_24dp">@drawable/ic_wb_incandescent_white_24dp</item>
     </style>
 
     <style name="CampfireRootThemeWhite" parent="AppThemeLight">
@@ -272,6 +276,8 @@
         <item name="ic_border_top_24dp">@drawable/ic_border_top_black_24dp</item>
         <item name="ic_border_right_24dp">@drawable/ic_border_right_black_24dp</item>
         <item name="ic_border_bottom_24dp">@drawable/ic_border_bottom_black_24dp</item>
+        <item name="ic_not_interested_24dp">@drawable/ic_not_interested_black_24dp</item>
+        <item name="ic_wb_incandescent_24dp">@drawable/ic_wb_incandescent_black_24dp</item>
     </style>
 
     <style name="CampfireTheme" parent="CampfireRootThemeBlack">

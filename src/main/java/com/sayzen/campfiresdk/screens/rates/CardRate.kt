@@ -15,7 +15,7 @@ class CardRate(
         val rate: Rate
 ) : CardAvatar(), NotifyItem {
 
-    private val xAccount = XAccount(rate.accountId, rate.accountName, rate.accountImageId, rate.accountLvl, rate.accountLastOnlineTime){
+    private val xAccount = XAccount(rate.accountId, rate.accountName, rate.accountImageId, rate.accountLvl, rate.accountKarma30, rate.accountLastOnlineTime){
         update()
     }
 

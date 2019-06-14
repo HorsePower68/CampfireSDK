@@ -207,7 +207,7 @@ object ControllerApi {
         val r = RAccountsLoginSimple(ControllerNotifications.token)
                 .onComplete {
                     account = it.account ?: Account()
-                    setParams(it.serverTime, emptyArray(), emptyArray(), emptyArray())
+                    setServerTime(it.serverTime)
                 }
                 .onFinish { onFinish.invoke() }
         r.loginToken = loginToken
@@ -216,8 +216,11 @@ object ControllerApi {
 
     fun currentTime() = System.currentTimeMillis() + serverTimeDelta
 
-    fun setParams(serverTime: Long, fandomsIds: Array<Long>, languagesIds: Array<Long>, karmaCounts: Array<Long>) {
+    fun setServerTime(serverTime: Long) {
         serverTimeDelta = serverTime - System.currentTimeMillis()
+    }
+
+    fun setFandomsKarma(fandomsIds: Array<Long>, languagesIds: Array<Long>, karmaCounts: Array<Long>){
         fandomsKarmaCounts = arrayOfNulls(karmaCounts.size)
         for (i in fandomsKarmaCounts!!.indices) (fandomsKarmaCounts as Array)[i] =
                 Item3(fandomsIds[i], languagesIds[i], karmaCounts[i])

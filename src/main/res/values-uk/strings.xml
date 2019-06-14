@@ -148,7 +148,7 @@
     <string name="app_create_post">Создать пост</string>
     <string name="app_add_into_draft">Добавить к черновику</string>
     <string name="app_add_to_message">Добавить к сообщению</string>
-    <string name="app_add_to_anything">Быстрый пост в Anything</string>
+    <string name="app_add_to_anything">Быстрый пост в %s</string>
     <string name="app_close">Закрыть</string>
     <string name="app_remove_text">Удалить текст</string>
     <string name="app_bot">Бот</string>
@@ -633,10 +633,13 @@
     <string name="settings_black_list">Черный список</string>
     <string name="settings_fandom_background">Отображать фон в чатах</string>
     <string name="settings_language">Язык</string>
+    <string name="settings_actions">Действия</string>
     <string name="settings_rate">Оценить приложение</string>
     <string name="settings_start_screen">Стартовый экран</string>
     <string name="settings_mail">Написать разработчику</string>
     <string name="settings_translate">Помочь с переводом (GitHub)</string>
+    <string name="settings_actions_long_plus">Быстрое создание поста</string>
+    <string name="settings_actions_fast_publications">Быстрая публикация</string>
     <string name="settings_notifications_none">Получать уведомления</string>
     <string name="settings_notifications_enabled">Приложение получает уведомления</string>
     <string name="settings_notifications_disabled">Уведомления отключены до %s</string>
