@@ -252,7 +252,10 @@ abstract class CardChatMessage constructor(
                 vLabel.text = ToolsDate.dateToString(unit.dateCreate) + (if (unit.changed) " " + ToolsResources.s(R.string.app_edited) else "")
             } else {
                 (vLabel.layoutParams as LinearLayout.LayoutParams).gravity = Gravity.LEFT
-                vLabel.text = xAccount.name + "  " + ToolsDate.dateToString(unit.dateCreate) + (if (unit.changed) " " + ToolsResources.s(R.string.app_edited) else "")
+                if(unit.chatTag().chatType == API.CHAT_TYPE_PRIVATE)
+                    vLabel.text = ToolsDate.dateToString(unit.dateCreate) + (if (unit.changed) " " + ToolsResources.s(R.string.app_edited) else "")
+                else
+                    vLabel.text = xAccount.name + "  " + ToolsDate.dateToString(unit.dateCreate) + (if (unit.changed) " " + ToolsResources.s(R.string.app_edited) else "")
             }
         }
     }

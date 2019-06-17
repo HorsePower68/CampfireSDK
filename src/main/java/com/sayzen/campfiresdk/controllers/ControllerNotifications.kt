@@ -17,6 +17,8 @@ import com.sayzen.devsupandroidgoogle.GoogleNotifications
 import com.sup.dev.android.app.SupAndroid
 import com.sup.dev.android.tools.ToolsNotifications
 import com.sup.dev.android.tools.ToolsResources
+import com.sup.dev.java.classes.items.Item
+import com.sup.dev.java.classes.items.Item3
 import com.sup.dev.java.libs.debug.info
 import com.sup.dev.java.libs.debug.log
 import com.sup.dev.java.libs.eventBus.EventBus
@@ -150,12 +152,7 @@ object ControllerNotifications {
     //
 
     private var newNotifications: Array<Notification> = emptyArray()
-
-    fun getNewNotificationsCount(): Int {
-        var count = 0
-        for (i in newNotifications) if (notificationExecutor!!.notificationsFilterEnabled(i.getType())) count++
-        return count
-    }
+    private var removeBuffer: ArrayList<NewNotificationKiller> = ArrayList()
 
     fun addNewNotifications(n: Notification) {
         if (n.isShadow()) return
@@ -164,17 +161,21 @@ object ControllerNotifications {
             if (it == newNotifications.size) n
             else newNotifications[it]
         }
+        actualizeNewNotifications()
         EventBus.post(EventNotificationsCountChanged())
     }
 
     fun setNewNotifications(array: Array<Notification>) {
         newNotifications = array
+        actualizeNewNotifications()
         EventBus.post(EventNotificationsCountChanged())
     }
 
-    fun removeNotificationFromNewAll() {
-        newNotifications = emptyArray()
-        EventBus.post(EventNotificationsCountChanged())
+
+    fun getNewNotificationsCount(): Int {
+        var count = 0
+        for (i in newNotifications) if (notificationExecutor!!.notificationsFilterEnabled(i.getType())) count++
+        return count
     }
 
     fun getNewNotifications(types: Array<Long> = emptyArray()): Array<Notification> {
@@ -183,17 +184,24 @@ object ControllerNotifications {
         return list.toTypedArray()
     }
 
+    fun actualizeNewNotifications() {
+        val removeList = ArrayList<NewNotificationKiller>()
+        for (i in removeBuffer) {
+            removeNotificationFromNew(i, false, false)
+            if (i.dateCreate + 1000L * 60 * 5 < System.currentTimeMillis()) removeList.add(i)
+        }
+        for (i in removeList) removeBuffer.remove(i)
+    }
+
+    fun removeNotificationFromNewAll() {
+        newNotifications = emptyArray()
+        EventBus.post(EventNotificationsCountChanged())
+    }
+
     fun removeNotificationFromNew(types: Array<Long>) {
         val subArray = getNewNotifications(types)
-        for (i in subArray) newNotifications = ToolsCollections.removeItem(
-                i,
-                newNotifications
-        )
-        for (i in subArray) hideAll(
-                tag(
-                        i.id
-                )
-        )
+        for (i in subArray) newNotifications = ToolsCollections.removeItem(i, newNotifications)
+        for (i in subArray) hideAll(tag(i.id))
         val array = Array(subArray.size) { subArray[it].id }
         EventBus.post(EventNotificationsCountChanged())
         RAccountsNotificationsView(array, emptyArray()).send(api)
@@ -201,52 +209,52 @@ object ControllerNotifications {
 
     fun removeNotificationFromNew(notificationId: Long) {
         val array = Array(newNotifications.size) { newNotifications[it] }
-        for (i in array) if (i.id == notificationId) removeNotificationFromNew(
-                i
-        )
+        for (i in array) if (i.id == notificationId) removeNotificationFromNew(i)
     }
 
-    private fun removeNotificationFromNew(n: Notification) {
+    fun removeNotificationFromNew(n: Notification) {
+        removeNotificationFromNew(n, true)
+    }
+
+    private fun removeNotificationFromNew(n: Notification, sendCountEvent:Boolean) {
         val oldSize = newNotifications.size
-        newNotifications = ToolsCollections.removeItem(
-                n,
-                newNotifications
-        )
-        if (oldSize != newNotifications.size) {
-            RAccountsNotificationsView(arrayOf(n.id), emptyArray()).send(api)
-        }
-        hideAll(
-                tag(
-                        n.id
-                )
-        )
+        newNotifications = ToolsCollections.removeItem(n, newNotifications)
+        if (oldSize != newNotifications.size) RAccountsNotificationsView(arrayOf(n.id), emptyArray()).send(api)
+        hideAll(tag(n.id))
         EventBus.post(EventNotificationReaded(n.id))
-        EventBus.post(EventNotificationsCountChanged())
+        if(sendCountEvent) {
+            EventBus.post(EventNotificationsCountChanged())
+        }
     }
 
     fun removeNotificationFromNew(nClass: Any, arg1: Long = 0, arg2: Long = 0) {
-        val array = Array(newNotifications.size) { newNotifications[it] }
-        for (n in array) {
-            if (n::class == nClass) {
-                when (n) {
-                    is NotificationFollowsPublication -> if (n.unitId == arg1) removeNotificationFromNew(
-                            n
-                    )
-                    is NotificationUnitImportant -> if (n.publicationId == arg1) removeNotificationFromNew(
-                            n
-                    )
-                    is NotificationComment -> if (n.commentId == arg1) removeNotificationFromNew(
-                            n
-                    )
-                    is NotificationCommentAnswer -> if (n.commentId == arg1) removeNotificationFromNew(
-                            n
-                    )
-                }
-            }
-        }
-
+        removeNotificationFromNew(NewNotificationKiller(nClass, arg1, arg2), true, true)
     }
 
+    private fun removeNotificationFromNew(k: NewNotificationKiller, addToBuffer: Boolean, sendCountEvent: Boolean) {
+        if (addToBuffer) removeBuffer.add(k)
+        val array = Array(newNotifications.size) { newNotifications[it] }
+        for (n in array) if (willKill(k, n)) removeNotificationFromNew(n, sendCountEvent)
+    }
+
+    private fun willKill(k: NewNotificationKiller, n: Notification): Boolean {
+        if (n::class == k.nClass) {
+            when (n) {
+                is NotificationFollowsPublication -> if (n.unitId == k.arg1) return true
+                is NotificationUnitImportant -> if (n.publicationId == k.arg1) return true
+                is NotificationComment -> if (n.commentId == k.arg1) return true
+                is NotificationCommentAnswer -> if (n.commentId == k.arg1) return true
+            }
+        }
+        return false
+    }
+
+    private class NewNotificationKiller(
+            val nClass: Any,
+            val arg1: Long,
+            val arg2: Long,
+            val dateCreate: Long = System.currentTimeMillis()
+    )
 
     //
     //  Token
