@@ -100,7 +100,8 @@ abstract class CardComment protected constructor(
 
         if (vRoot != null && onQuote != null) {
             popup = createPopup(vRoot)
-            SwipeView(vRoot, null, ToolsResources.getColorAttr(R.attr.content_background),
+            val vSwipeIcon: View = view.findViewById(R.id.vSwipeIcon)
+            SwipeView(vRoot, vSwipeIcon, ToolsResources.getColorAttr(R.attr.content_background),
                     { x, y ->
                         if (ControllerApi.isCurrentAccount(unit.creatorId)) popup?.asSheetShow()
                         else onClick()

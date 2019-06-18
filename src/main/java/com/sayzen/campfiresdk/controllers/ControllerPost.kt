@@ -22,7 +22,6 @@ import com.sup.dev.android.tools.ToolsToast
 import com.sup.dev.android.views.support.adapters.recycler_view.RecyclerCardAdapter
 import com.sup.dev.android.views.widgets.WidgetField
 import com.sup.dev.android.views.widgets.WidgetMenu
-import com.sup.dev.java.libs.debug.log
 import com.sup.dev.java.libs.eventBus.EventBus
 import java.util.ArrayList
 

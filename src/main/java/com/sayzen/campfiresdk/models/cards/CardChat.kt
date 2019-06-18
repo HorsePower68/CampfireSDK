@@ -64,6 +64,7 @@ class CardChat(
         val vMessageDate: TextView = view.findViewById(R.id.vMessageDate)
         val vNotRead: View = view.findViewById(R.id.vNotRead)
         val vRoot: ViewGroup = view.findViewById(R.id.vRoot)
+        val vSwipeIcon: View = view.findViewById(R.id.vSwipeIcon)
 
         vAvatar.vSubtitle.ellipsize = TextUtils.TruncateAt.END
         vAvatar.vSubtitle.setSingleLine()
@@ -74,7 +75,7 @@ class CardChat(
 
         vNotRead.visibility = if (hasUnread) View.GONE else View.VISIBLE
 
-        SwipeView(vRoot, null,
+        SwipeView(vRoot, vSwipeIcon,
                 ToolsResources.getColorAttr(R.attr.content_background),
                 { x, y -> if (onSelected != null) onSelected!!.invoke(unit) else SChat.instance(unit.tag, Navigator.TO) },
                 { x, y -> ControllerChats.instanceChatPopup(unit.tag).asSheetShow() },

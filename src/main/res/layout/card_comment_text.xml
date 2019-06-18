@@ -8,8 +8,7 @@
 
 
     <ImageView
-        style="@style/Icon"
-        android:layout_gravity="center|right"
+        style="@style/Icon.Swipe"
         android:src="?ic_reply_24dp" />
 
     <FrameLayout
