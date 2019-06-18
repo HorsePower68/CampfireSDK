@@ -65,7 +65,16 @@ object ControllerNotifications {
         GoogleNotifications.init({ token: String? ->
             onToken(token)
         }, { message: RemoteMessage -> onMessage(message) })
+
+        ToolsNotifications.notificationsListener = {intent, type, tag ->
+            if (intent.hasExtra(EXTRA_NOTIFICATION)) {
+                val notificationJson = intent.getStringExtra(EXTRA_NOTIFICATION)
+                intent.removeExtra(EXTRA_NOTIFICATION)
+                doAction(notificationJson)
+            }
+        }
     }
+
 
     //
     //  Message
