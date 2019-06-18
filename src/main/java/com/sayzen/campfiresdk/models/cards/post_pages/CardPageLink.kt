@@ -3,13 +3,17 @@ package com.sayzen.campfiresdk.models.cards.post_pages
 import android.view.View
 
 import com.dzen.campfire.api.models.units.post.PageLink
+import com.dzen.campfire.api.models.units.post.UnitPost
 import com.sayzen.campfiresdk.R
 import com.sayzen.campfiresdk.controllers.ControllerApi
 import com.sup.dev.android.tools.ToolsAndroid
 import com.sup.dev.android.tools.ToolsToast
 import com.sup.dev.android.views.views.ViewTextLinkable
 
-class CardPageLink(page: PageLink) : CardPage(page) {
+class CardPageLink(
+        unit: UnitPost?,
+        page: PageLink
+) : CardPage(unit, page) {
 
     override fun getLayout() = R.layout.card_page_link
 

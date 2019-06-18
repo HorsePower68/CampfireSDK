@@ -28,10 +28,10 @@ import com.sayzen.campfiresdk.screens.chat.SChat
 import com.sup.dev.android.libs.screens.navigator.Navigator
 import com.sup.dev.android.models.EventStyleChanged
 import com.sup.dev.android.tools.*
-import com.sup.dev.android.views.support.SwipeView
 import com.sup.dev.android.views.support.adapters.recycler_view.RecyclerCardAdapterLoadingInterface
 import com.sup.dev.android.views.views.ViewAvatar
 import com.sup.dev.android.views.views.ViewImagesSwipe
+import com.sup.dev.android.views.views.ViewSwipe
 import com.sup.dev.android.views.views.ViewTextLinkable
 import com.sup.dev.android.views.widgets.Widget
 import com.sup.dev.android.views.widgets.WidgetMenu
@@ -88,37 +88,33 @@ abstract class CardChatMessage constructor(
 
     override fun bindView(view: View) {
         super.bindView(view)
-        val vTouch: ViewGroup? = view.findViewById(R.id.vTouch)
         val vNotRead: View? = view.findViewById(R.id.vNotRead)
+        val vSwipe: ViewSwipe? = view.findViewById(R.id.vSwipe)
         val vText: ViewTextLinkable? = view.findViewById(R.id.vCommentText)
-        val vRoot: ViewGroup? = view.findViewById(R.id.vRoot)
         val vRootContainer: ViewGroup? = view.findViewById(R.id.vRootContainer)
         val vMessageContainer: MaterialCardView? = view.findViewById(R.id.vMessageContainer)
         val vReports: TextView? = view.findViewById(R.id.vReports)
         val vQuoteContainer: View? = view.findViewById(R.id.vQuoteContainer)
         val vQuoteText: ViewTextLinkable? = view.findViewById(R.id.vQuoteText)
         val vQuoteImage: ViewImagesSwipe? = view.findViewById(R.id.vQuoteImage)
-        val vReplyIcon: View? = view.findViewById(R.id.vReplyIcon)
 
 
-        if (vRoot != null && vReplyIcon != null && onQuote != null) {
-            vReplyIcon.visibility = View.VISIBLE
-            popup = createPopup(vRoot)
-            SwipeView(vRoot, vReplyIcon, 0x00000000,
-                    { x, y ->
-                        if (ControllerApi.isCurrentAccount(unit.creatorId)) popup?.asSheetShow()
-                        else onClick()
-                    },
-                    { x, y -> popup?.asSheetShow() },
-                    {
-                        if (onQuote != null && (unit.type == UnitChatMessage.TYPE_TEXT || unit.type == UnitChatMessage.TYPE_IMAGE || unit.type == UnitChatMessage.TYPE_GIF || unit.type == UnitChatMessage.TYPE_IMAGES))
-                            onQuote?.invoke(unit)
-                        else
-                            onClick?.invoke(unit)
-                    })
+        if (vSwipe != null && onQuote != null) {
+            popup = createPopup(vSwipe)
+
+            vSwipe.onClick = { x, y ->
+                if (ControllerApi.isCurrentAccount(unit.creatorId)) popup?.asSheetShow()
+                else onClick()
+            }
+            vSwipe.onLongClick = { x, y -> popup?.asSheetShow() }
+            vSwipe.onSwipe = {
+                if (onQuote != null && (unit.type == UnitChatMessage.TYPE_TEXT || unit.type == UnitChatMessage.TYPE_IMAGE || unit.type == UnitChatMessage.TYPE_GIF || unit.type == UnitChatMessage.TYPE_IMAGES))
+                    onQuote?.invoke(unit)
+                else
+                    onClick?.invoke(unit)
+            }
         } else {
-            vReplyIcon?.visibility = View.GONE
-            if (vRoot != null) popup = createPopup(vRoot)
+            if (vSwipe != null) popup = createPopup(vSwipe)
         }
 
         if (vQuoteContainer != null) {

@@ -28,9 +28,9 @@ import com.sup.dev.android.tools.ToolsAndroid
 import com.sup.dev.android.tools.ToolsImagesLoader
 import com.sup.dev.android.tools.ToolsResources
 import com.sup.dev.android.tools.ToolsToast
-import com.sup.dev.android.views.support.SwipeView
 import com.sup.dev.android.views.views.ViewAvatar
 import com.sup.dev.android.views.views.ViewImagesSwipe
+import com.sup.dev.android.views.views.ViewSwipe
 import com.sup.dev.android.views.views.ViewTextLinkable
 import com.sup.dev.android.views.widgets.Widget
 import com.sup.dev.android.views.widgets.WidgetMenu
@@ -87,7 +87,7 @@ abstract class CardComment protected constructor(
 
     override fun bindView(view: View) {
         super.bindView(view)
-        val vTouch: View? = view.findViewById(R.id.vTouch)
+        val vSwipe: ViewSwipe? = view.findViewById(R.id.vSwipe)
         val vAvatar: ViewAvatar = view.findViewById(R.id.vAvatar)
         val vLabel: TextView = view.findViewById(R.id.vLabel)
         val vRoot: ViewGroup? = view.findViewById(R.id.vRoot)
@@ -100,21 +100,19 @@ abstract class CardComment protected constructor(
 
         if (vRoot != null && onQuote != null) {
             popup = createPopup(vRoot)
-            val vSwipeIcon: View = view.findViewById(R.id.vSwipeIcon)
-            SwipeView(vRoot, vSwipeIcon, ToolsResources.getColorAttr(R.attr.content_background),
-                    { x, y ->
-                        if (ControllerApi.isCurrentAccount(unit.creatorId)) popup?.asSheetShow()
-                        else onClick()
-                    },
-                    { x, y -> popup?.asSheetShow() },
-                    {
-                        if (unit.type == UnitComment.TYPE_TEXT || unit.type == UnitComment.TYPE_IMAGE || unit.type == UnitComment.TYPE_GIF || unit.type == UnitComment.TYPE_IMAGES)
-                            onQuote.invoke(unit)
-                        else
-                            onClick?.invoke(unit)
-                    })
+            vSwipe?.onClick =  { x, y ->
+                if (ControllerApi.isCurrentAccount(unit.creatorId)) popup?.asSheetShow()
+                else onClick()
+            }
+            vSwipe?.onLongClick = { x, y -> popup?.asSheetShow() }
+            vSwipe?.onSwipe = {
+                if (unit.type == UnitComment.TYPE_TEXT || unit.type == UnitComment.TYPE_IMAGE || unit.type == UnitComment.TYPE_GIF || unit.type == UnitComment.TYPE_IMAGES)
+                    onQuote.invoke(unit)
+                else
+                    onClick?.invoke(unit)
+            }
         } else {
-            if (vTouch != null) popup = createPopup(vTouch)
+            if (vSwipe != null) popup = createPopup(vSwipe)
         }
 
         if (vQuoteContainer != null) {

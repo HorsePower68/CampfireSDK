@@ -1,20 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout
+<com.sup.dev.android.views.views.ViewSwipe
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:background="@color/blue_700"
+    android:id="@+id/vSwipe"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
-
-    <ImageView
-        style="@style/Icon"
-        android:id="@+id/vReplyIcon"
-        android:layout_gravity="bottom|right"
-        android:src="?ic_reply_24dp"/>
+    android:layout_height="wrap_content"
+    android:src="?ic_reply_24dp"
+    android:background="@color/transparent"
+    app:ViewSwipe_background="@color/blue_700">
 
     <FrameLayout
-        android:id="@+id/vRoot"
-        android:background="@color/transparent"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingTop="8dp"
@@ -133,4 +128,4 @@
 
     </FrameLayout>
 
-</FrameLayout>
+</com.sup.dev.android.views.views.ViewSwipe>

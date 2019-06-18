@@ -3,14 +3,16 @@ package com.sayzen.campfiresdk.models.cards.post_pages
 import android.view.View
 import android.widget.ImageView
 import com.dzen.campfire.api.models.units.post.PageVideo
+import com.dzen.campfire.api.models.units.post.UnitPost
 import com.sayzen.campfiresdk.R
 import com.sayzen.campfiresdk.controllers.ControllerYoutube
 import com.sup.dev.android.tools.ToolsImagesLoader
 import com.sup.dev.android.views.views.ViewIcon
 
 class CardPageVideo(
-         page: PageVideo
-) : CardPage(page) {
+        unit: UnitPost?,
+        page: PageVideo
+) : CardPage(unit, page) {
 
     override fun getLayout() = R.layout.card_page_video
 

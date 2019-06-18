@@ -10,6 +10,7 @@ import com.sup.dev.android.views.views.ViewIcon
 import com.sup.dev.android.views.widgets.WidgetMenu
 
 abstract class CardPage(
+        val unit: UnitPost?,
         page: Page
 ) : Card(), NotifyItem {
 
@@ -19,16 +20,16 @@ abstract class CardPage(
         //  Static
         //
 
-        fun instance(page: Page): CardPage {
-            if (page is PageText) return CardPageText(page)
-            if (page is PageImage) return CardPageImage(page)
-            if (page is PageImages) return CardPageImages(page)
-            if (page is PageLink) return CardPageLink(page)
-            if (page is PageQuote) return CardPageQuote(page)
-            if (page is PageSpoiler) return CardPageSpoiler(page)
-            if (page is PagePolling) return CardPagePolling(page)
-            if (page is PageVideo) return CardPageVideo(page)
-            if (page is PageTable) return CardPageTable(page)
+        fun instance(unit: UnitPost?, page: Page): CardPage {
+            if (page is PageText) return CardPageText(unit, page)
+            if (page is PageImage) return CardPageImage(unit, page)
+            if (page is PageImages) return CardPageImages(unit, page)
+            if (page is PageLink) return CardPageLink(unit, page)
+            if (page is PageQuote) return CardPageQuote(unit, page)
+            if (page is PageSpoiler) return CardPageSpoiler(unit, page)
+            if (page is PagePolling) return CardPagePolling(unit, page)
+            if (page is PageVideo) return CardPageVideo(unit, page)
+            if (page is PageTable) return CardPageTable(unit, page)
 
             throw RuntimeException("Unknown page $page")
         }

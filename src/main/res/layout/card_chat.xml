@@ -1,17 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<com.sup.dev.android.views.views.ViewSwipe
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/vSwipe"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@color/blue_700">
-
-    <ImageView
-        style="@style/Icon.Swipe"
-        android:src="?ic_done_all_24dp" />
+    android:background="?content_background"
+    android:src="?ic_done_all_24dp"
+    app:ViewSwipe_background="@color/blue_700">
 
     <FrameLayout
-        android:id="@+id/vRoot"
-        android:background="?content_background"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
@@ -84,9 +82,8 @@
 
     </FrameLayout>
 
-
     <View
         style="@style/Divider"
         android:layout_gravity="bottom" />
 
-</FrameLayout>
+</com.sup.dev.android.views.views.ViewSwipe>

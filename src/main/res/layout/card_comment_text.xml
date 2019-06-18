@@ -1,28 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-             android:id="@+id/vTouch"
-             style="@style/TouchableForeground"
-             android:layout_width="match_parent"
-             android:layout_height="wrap_content"
-    android:background="@color/blue_700">
-
-
-    <ImageView
-        style="@style/Icon.Swipe"
-        android:src="?ic_reply_24dp" />
+<com.sup.dev.android.views.views.ViewSwipe
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/vSwipe"
+    style="@style/TouchableForeground"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="?content_background"
+    android:src="?ic_reply_24dp"
+    app:ViewSwipe_background="@color/blue_700">
 
     <FrameLayout
-        android:id="@+id/vRoot"
-        android:background="?content_background"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
         <LinearLayout
             android:id="@+id/vRootContainer"
-            android:paddingTop="8dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:paddingTop="8dp">
 
             <LinearLayout
                 android:layout_width="0dp"
@@ -103,9 +100,9 @@
 
                             <com.sup.dev.android.views.views.ViewImagesSwipe
                                 android:id="@+id/vQuoteImage"
-                                android:layout_marginTop="4dp"
                                 android:layout_width="wrap_content"
-                                android:layout_height="96dp"/>
+                                android:layout_height="96dp"
+                                android:layout_marginTop="4dp" />
 
                         </LinearLayout>
 
@@ -136,4 +133,4 @@
 
     <View style="@style/Divider" />
 
-</FrameLayout>
+</com.sup.dev.android.views.views.ViewSwipe>

@@ -2,10 +2,14 @@ package com.sayzen.campfiresdk.models.cards.post_pages
 
 import android.view.View
 import com.dzen.campfire.api.models.units.post.PageTable
+import com.dzen.campfire.api.models.units.post.UnitPost
 import com.sayzen.campfiresdk.R
 import com.sup.dev.android.views.views.table.ViewTable
 
-class CardPageTable(page: PageTable) : CardPage(page) {
+class CardPageTable(
+        unit: UnitPost?,
+        page: PageTable
+) : CardPage(unit, page) {
 
     override fun getLayout() = R.layout.card_page_table
 

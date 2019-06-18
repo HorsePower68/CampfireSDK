@@ -1,8 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<com.sup.dev.android.views.views.ViewSwipe
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/vSwipe"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:src="?ic_reply_24dp"
+    android:background="@color/transparent"
+    app:ViewSwipe_background="@color/blue_700">
 
     <ImageView
         android:id="@+id/vReplyIcon"
@@ -14,7 +19,6 @@
         android:id="@+id/vRoot"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/transparent"
         android:paddingTop="8dp"
         android:paddingBottom="8dp">
 
@@ -160,4 +164,4 @@
 
     </FrameLayout>
 
-</FrameLayout>
+</com.sup.dev.android.views.views.ViewSwipe>

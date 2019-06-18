@@ -84,7 +84,7 @@ class CardPost constructor(
             if (isShowFull) {
                 var i = 0
                 while (i < unit.pages.size) {
-                    val pageView = CardPage.instance(unit.pages[i])
+                    val pageView = CardPage.instance(unit, unit.pages[i])
                     pages.add(pageView)
                     if (pageView is CardPageSpoiler) {
                         pageView.pages = pages
@@ -118,7 +118,7 @@ class CardPost constructor(
     }
 
     private fun addPage(page: Page){
-        val card = CardPage.instance(page)
+        val card = CardPage.instance(unit, page)
         if(card is CardPageSpoiler && !isShowFull) {
             card.onClick = {
                 toggleShowFull()

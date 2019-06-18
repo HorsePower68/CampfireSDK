@@ -4,13 +4,17 @@ import android.view.View
 import android.widget.TextView
 
 import com.dzen.campfire.api.models.units.post.PageImages
+import com.dzen.campfire.api.models.units.post.UnitPost
 import com.sayzen.campfiresdk.R
 import com.sayzen.campfiresdk.controllers.ControllerApi
 import com.sup.dev.android.tools.ToolsImagesLoader
 import com.sup.dev.android.views.views.ViewImagesContainer
 import com.sup.dev.android.views.views.ViewTextLinkable
 
-class CardPageImages(page: PageImages) : CardPage(page) {
+class CardPageImages(
+        unit: UnitPost?,
+        page: PageImages
+) : CardPage(unit, page) {
 
     override fun getLayout() = R.layout.card_page_images
 

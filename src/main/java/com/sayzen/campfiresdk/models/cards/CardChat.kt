@@ -19,9 +19,9 @@ import com.sayzen.campfiresdk.screens.chat.SChat
 import com.sup.dev.android.libs.screens.navigator.Navigator
 import com.sup.dev.android.tools.ToolsResources
 import com.sup.dev.android.views.cards.Card
-import com.sup.dev.android.views.support.SwipeView
 import com.sup.dev.android.views.views.ViewAvatarTitle
 import com.sup.dev.android.views.views.ViewChipMini
+import com.sup.dev.android.views.views.ViewSwipe
 import com.sup.dev.java.libs.eventBus.EventBus
 import com.sup.dev.java.tools.ToolsDate
 
@@ -63,8 +63,7 @@ class CardChat(
         val vMessagesCounter: ViewChipMini = view.findViewById(R.id.vMessagesCounter)
         val vMessageDate: TextView = view.findViewById(R.id.vMessageDate)
         val vNotRead: View = view.findViewById(R.id.vNotRead)
-        val vRoot: ViewGroup = view.findViewById(R.id.vRoot)
-        val vSwipeIcon: View = view.findViewById(R.id.vSwipeIcon)
+        val vSwipe: ViewSwipe = view.findViewById(R.id.vSwipe)
 
         vAvatar.vSubtitle.ellipsize = TextUtils.TruncateAt.END
         vAvatar.vSubtitle.setSingleLine()
@@ -75,11 +74,9 @@ class CardChat(
 
         vNotRead.visibility = if (hasUnread) View.GONE else View.VISIBLE
 
-        SwipeView(vRoot, vSwipeIcon,
-                ToolsResources.getColorAttr(R.attr.content_background),
-                { x, y -> if (onSelected != null) onSelected!!.invoke(unit) else SChat.instance(unit.tag, Navigator.TO) },
-                { x, y -> ControllerChats.instanceChatPopup(unit.tag).asSheetShow() },
-                { if (hasUnread) ControllerChats.readRequest(unit.tag) })
+        vSwipe.onClick =  { x, y -> if (onSelected != null) onSelected!!.invoke(unit) else SChat.instance(unit.tag, Navigator.TO) }
+        vSwipe.onLongClick = { x, y -> ControllerChats.instanceChatPopup(unit.tag).asSheetShow() }
+        vSwipe.onSwipe = { if (hasUnread) ControllerChats.readRequest(unit.tag) }
 
         if (unit.tag.chatType == API.CHAT_TYPE_FANDOM) {
             xFandom.setView(vAvatar.vAvatar)

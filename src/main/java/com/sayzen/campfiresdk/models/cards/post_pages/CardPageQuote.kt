@@ -3,11 +3,15 @@ package com.sayzen.campfiresdk.models.cards.post_pages
 import android.view.View
 
 import com.dzen.campfire.api.models.units.post.PageQuote
+import com.dzen.campfire.api.models.units.post.UnitPost
 import com.sayzen.campfiresdk.R
 import com.sayzen.campfiresdk.controllers.ControllerApi
 import com.sup.dev.android.views.views.ViewTextLinkable
 
-class CardPageQuote(page: PageQuote) : CardPage(page) {
+class CardPageQuote(
+        unit: UnitPost?,
+        page: PageQuote
+) : CardPage(unit, page) {
 
     override fun getLayout() = R.layout.card_page_quote
 

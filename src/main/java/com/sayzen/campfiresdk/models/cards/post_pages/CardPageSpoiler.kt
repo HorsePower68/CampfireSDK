@@ -4,6 +4,7 @@ import android.view.View
 import android.widget.ImageView
 
 import com.dzen.campfire.api.models.units.post.PageSpoiler
+import com.dzen.campfire.api.models.units.post.UnitPost
 import com.sayzen.campfiresdk.R
 import com.sayzen.campfiresdk.controllers.ControllerApi
 import com.sayzen.campfiresdk.controllers.ControllerPost
@@ -13,7 +14,10 @@ import com.sup.dev.android.views.support.adapters.recycler_view.RecyclerCardAdap
 import com.sup.dev.android.views.views.ViewTextLinkable
 import java.util.ArrayList
 
-class CardPageSpoiler(page: PageSpoiler) : CardPage(page) {
+class CardPageSpoiler(
+        unit: UnitPost?,
+        page: PageSpoiler
+) : CardPage(unit, page) {
 
     var pages:ArrayList<CardPage>? = null
     var onClick:()->Unit = {}

@@ -3,11 +3,15 @@ package com.sayzen.campfiresdk.models.cards.post_pages
 import android.view.View
 
 import com.dzen.campfire.api.models.units.post.PageText
+import com.dzen.campfire.api.models.units.post.UnitPost
 import com.sayzen.campfiresdk.R
 import com.sayzen.campfiresdk.controllers.ControllerApi
 import com.sup.dev.android.views.views.ViewTextLinkable
 
-class CardPageText(page: PageText) : CardPage(page) {
+class CardPageText(
+        unit: UnitPost?,
+        page: PageText
+) : CardPage(unit, page) {
 
     var maxLines = Integer.MAX_VALUE
 
