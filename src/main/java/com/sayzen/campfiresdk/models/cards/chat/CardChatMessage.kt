@@ -268,7 +268,7 @@ abstract class CardChatMessage constructor(
         }
 
         if (onClick == null) {
-            SChat.instance(unit.chatType, unit.fandomId, unit.languageId, Navigator.TO)
+            SChat.instance(unit.chatType, unit.fandomId, unit.languageId, true, Navigator.TO)
             return false
         } else {
             return onClick!!.invoke(unit)

@@ -90,7 +90,6 @@ abstract class CardComment protected constructor(
         val vSwipe: ViewSwipe? = view.findViewById(R.id.vSwipe)
         val vAvatar: ViewAvatar = view.findViewById(R.id.vAvatar)
         val vLabel: TextView = view.findViewById(R.id.vLabel)
-        val vRoot: ViewGroup? = view.findViewById(R.id.vRoot)
         val vDivider: View = view.findViewById(R.id.vDivider)
         val vText: ViewTextLinkable = view.findViewById(R.id.vCommentText)
         val vReports: TextView? = view.findViewById(R.id.vReports)
@@ -98,18 +97,19 @@ abstract class CardComment protected constructor(
         val vQuoteText: ViewTextLinkable? = view.findViewById(R.id.vQuoteText)
         val vQuoteImage: ViewImagesSwipe? = view.findViewById(R.id.vQuoteImage)
 
-        if (vRoot != null && onQuote != null) {
-            popup = createPopup(vRoot)
-            vSwipe?.onClick =  { x, y ->
+        if (vSwipe != null && onQuote != null) {
+            popup = createPopup(vSwipe)
+            vSwipe.onClick =  { x, y ->
                 if (ControllerApi.isCurrentAccount(unit.creatorId)) popup?.asSheetShow()
                 else onClick()
             }
-            vSwipe?.onLongClick = { x, y -> popup?.asSheetShow() }
-            vSwipe?.onSwipe = {
-                if (unit.type == UnitComment.TYPE_TEXT || unit.type == UnitComment.TYPE_IMAGE || unit.type == UnitComment.TYPE_GIF || unit.type == UnitComment.TYPE_IMAGES)
+            vSwipe.onLongClick = { x, y -> popup?.asSheetShow() }
+            vSwipe.onSwipe = {
+                if (unit.type == UnitComment.TYPE_TEXT || unit.type == UnitComment.TYPE_IMAGE || unit.type == UnitComment.TYPE_GIF || unit.type == UnitComment.TYPE_IMAGES) {
                     onQuote.invoke(unit)
-                else
+                }else {
                     onClick?.invoke(unit)
+                }
             }
         } else {
             if (vSwipe != null) popup = createPopup(vSwipe)

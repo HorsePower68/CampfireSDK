@@ -74,7 +74,7 @@ class CardChat(
 
         vNotRead.visibility = if (hasUnread) View.GONE else View.VISIBLE
 
-        vSwipe.onClick =  { x, y -> if (onSelected != null) onSelected!!.invoke(unit) else SChat.instance(unit.tag, Navigator.TO) }
+        vSwipe.onClick =  { x, y -> if (onSelected != null) onSelected!!.invoke(unit) else SChat.instance(unit.tag, true, Navigator.TO) }
         vSwipe.onLongClick = { x, y -> ControllerChats.instanceChatPopup(unit.tag).asSheetShow() }
         vSwipe.onSwipe = { if (hasUnread) ControllerChats.readRequest(unit.tag) }
 

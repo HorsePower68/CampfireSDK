@@ -56,14 +56,14 @@ class SChat private constructor(
 
     companion object {
 
-        fun instance(chatType: Long, targetId: Long, targetSubId: Long, action: NavigationAction) {
+        fun instance(chatType: Long, targetId: Long, targetSubId: Long, setStack: Boolean, action: NavigationAction) {
             val targetSubId = if (chatType != API.CHAT_TYPE_FANDOM || targetSubId != 0L) targetSubId else ControllerApi.getLanguageId()
             val tag = ChatTag(chatType, targetId, targetSubId)
-            instance(tag, action)
+            instance(tag, setStack, action)
         }
 
-        fun instance(tag: ChatTag, action: NavigationAction, onShow: (SChat) -> Unit = {}) {
-            ControllerCampfireSDK.ON_SCREEN_CHAT_START.invoke()
+        fun instance(tag: ChatTag, setStack: Boolean, action: NavigationAction, onShow: (SChat) -> Unit = {}) {
+            if (setStack) ControllerCampfireSDK.ON_SCREEN_CHAT_START.invoke()
             ApiRequestsSupporter.executeInterstitial(action, RChatGet(tag)) { r ->
                 ControllerChats.putRead(tag, r.anotherReadDate)
                 val screen = SChat(tag, r.subscribed, r.chatName, r.chatImageId, r.chatBackgroundImageId, r.chatInfo_1, r.chatInfo_2, r.chatInfo_3, r.chatInfo_4)
@@ -340,9 +340,9 @@ class SChat private constructor(
             adapter!!.add(instanceCard(message))
             adapter!!.add(carSpace)
             if (forceScroll)
-                vRecycler.scrollToPosition(vRecycler.adapter!!.itemCount-1)
+                vRecycler.scrollToPosition(vRecycler.adapter!!.itemCount - 1)
             else if (b)
-                vRecycler.smoothScrollToPosition(vRecycler.adapter!!.itemCount-1)
+                vRecycler.smoothScrollToPosition(vRecycler.adapter!!.itemCount - 1)
         }
         setState(State.NONE)
     }
