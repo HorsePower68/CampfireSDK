@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.sup.dev.android.views.views.ViewSwipe
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<com.sup.dev.android.views.views.ViewSwipe xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/vSwipe"
     style="@style/TouchableForeground"
@@ -30,7 +29,7 @@
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="8dp"
+                    android:layout_marginLeft="16dp"
                     android:layout_marginTop="12dp"
                     android:orientation="vertical">
 
@@ -48,75 +47,82 @@
                         android:layout_marginTop="4dp"
                         android:drawableLeft="?ic_security_18dp"
                         android:drawablePadding="4dp"
-                        android:gravity="center"/>
+                        android:gravity="center" />
 
                 </LinearLayout>
 
                 <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginLeft="14dp"
+                    android:layout_marginTop="4dp"
+                    android:orientation="vertical">
+
+                    <com.sup.dev.android.views.views.ViewTextLinkable
+                        android:id="@+id/vLabelName"
+                        style="@style/Base.TextAppearance.AppCompat.Body1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
+
+                    <com.sup.dev.android.views.views.ViewTextLinkable
+                        android:id="@+id/vLabelDate"
+                        style="@style/Base.TextAppearance.AppCompat.Caption"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
+
+                </LinearLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/vQuoteContainer"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="16dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginRight="16dp"
+                android:layout_marginBottom="4dp"
+                android:orientation="horizontal">
+
+                <View
+                    android:layout_width="2dp"
+                    android:layout_height="match_parent"
+                    android:background="?colorAccent" />
+
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="2dp"
-                    android:layout_marginBottom="4dp"
-                    android:orientation="vertical"
-                    android:padding="12dp">
+                    android:layout_marginLeft="4dp"
+                    android:layout_marginTop="1dp"
+                    android:layout_marginBottom="1dp"
+                    android:orientation="vertical">
 
-                    <TextView
-                        android:id="@+id/vLabel"
-                        style="@style/Base.TextAppearance.AppCompat.Caption"
+                    <com.sup.dev.android.views.views.ViewTextLinkable
+                        android:id="@+id/vQuoteText"
+                        style="@style/TextAppearance.AppCompat.Caption"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content" />
 
-
-                    <LinearLayout
-                        android:id="@+id/vQuoteContainer"
+                    <com.sup.dev.android.views.views.ViewImagesSwipe
+                        android:id="@+id/vQuoteImage"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="8dp"
-                        android:layout_marginTop="8dp"
-                        android:layout_marginRight="8dp"
-                        android:layout_marginBottom="4dp"
-                        android:orientation="horizontal">
+                        android:layout_height="96dp"
+                        android:layout_marginTop="4dp" />
 
-                        <View
-                            android:layout_width="2dp"
-                            android:layout_height="match_parent"
-                            android:background="?colorAccent" />
-
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginLeft="4dp"
-                            android:layout_marginTop="1dp"
-                            android:layout_marginBottom="1dp"
-                            android:orientation="vertical">
-
-                            <com.sup.dev.android.views.views.ViewTextLinkable
-                                android:id="@+id/vQuoteText"
-                                style="@style/TextAppearance.AppCompat.Caption"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content" />
-
-                            <com.sup.dev.android.views.views.ViewImagesSwipe
-                                android:id="@+id/vQuoteImage"
-                                android:layout_width="wrap_content"
-                                android:layout_height="96dp"
-                                android:layout_marginTop="4dp" />
-
-
-                        </LinearLayout>
-
-                    </LinearLayout>
-
-                    <com.sup.dev.android.views.views.ViewTextLinkable
-                        android:id="@+id/vCommentText"
-                        style="@style/Base.TextAppearance.AppCompat.Body1"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginBottom="8dp"/>
 
                 </LinearLayout>
 
             </LinearLayout>
+
+            <com.sup.dev.android.views.views.ViewTextLinkable
+                android:id="@+id/vCommentText"
+                style="@style/Base.TextAppearance.AppCompat.Body1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="16dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginRight="16dp"
+                android:layout_marginBottom="8dp" />
 
             <com.sup.dev.android.views.views.ViewImagesContainer
                 android:id="@+id/vImages"

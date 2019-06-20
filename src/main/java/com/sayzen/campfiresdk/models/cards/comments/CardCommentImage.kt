@@ -24,16 +24,9 @@ class CardCommentImage(
 
         val vImage: ImageView = view.findViewById(R.id.vImage)
         val vGifProgressBar: View = view.findViewById(R.id.vGifProgressBar)
-        val vLabelImage: TextView = view.findViewById(R.id.vLabelImage)
-        val vLabel: TextView = view.findViewById(R.id.vLabel)
         val vCommentText: TextView = view.findViewById(R.id.vCommentText)
 
-        vLabelImage.text = vLabel.text
-
-        vLabel.visibility = if(unit.text.isEmpty()) View.GONE else View.VISIBLE
         vCommentText.visibility = if(unit.text.isEmpty()) View.GONE else View.VISIBLE
-        vLabelImage.visibility = if(unit.text.isEmpty()) View.VISIBLE else View.GONE
-
 
         ToolsView.setOnLongClickCoordinates(vImage) { view1, x, y -> popup?.asSheetShow() }
 

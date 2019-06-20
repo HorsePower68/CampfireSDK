@@ -89,7 +89,8 @@ abstract class CardComment protected constructor(
         super.bindView(view)
         val vSwipe: ViewSwipe? = view.findViewById(R.id.vSwipe)
         val vAvatar: ViewAvatar = view.findViewById(R.id.vAvatar)
-        val vLabel: TextView = view.findViewById(R.id.vLabel)
+        val vLabelName: TextView = view.findViewById(R.id.vLabelName)
+        val vLabelDate: TextView = view.findViewById(R.id.vLabelDate)
         val vDivider: View = view.findViewById(R.id.vDivider)
         val vText: ViewTextLinkable = view.findViewById(R.id.vCommentText)
         val vReports: TextView? = view.findViewById(R.id.vReports)
@@ -151,7 +152,8 @@ abstract class CardComment protected constructor(
         if (!showFandom) xAccount.setView(vAvatar)
         else xFandom.setView(vAvatar)
 
-        vLabel.text = unit.creatorName + "   " + ToolsDate.dateToString(unit.dateCreate) + (if (unit.changed) " " + ToolsResources.s(R.string.app_edited) else "")
+        vLabelName.text = unit.creatorName
+        vLabelDate.text = ToolsDate.dateToString(unit.dateCreate) + (if (unit.changed) " " + ToolsResources.s(R.string.app_edited) else "")
 
         vDivider.visibility = if (dividers) View.VISIBLE else View.GONE
 
