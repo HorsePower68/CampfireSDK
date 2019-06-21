@@ -124,6 +124,7 @@ object CampfreConstants {
         AppLevel(R.string.lvl_user_punishment_remove, API.LVL_ADMIN_USER_PUNISHMENTS_REMOVE, R.color.red_500),
         AppLevel(R.string.lvl_remove_moderator, API.LVL_ADMIN_REMOVE_MODERATOR, R.color.red_500),
         AppLevel(R.string.lvl_make_moderators, API.LVL_ADMIN_MAKE_MODERATOR, R.color.red_500),
+        AppLevel(R.string.lvl_fandom_close, API.LVL_ADMIN_FANDOM_CLOSE, R.color.red_500),
         AppLevel(R.string.lvl_remove_fandoms, API.LVL_ADMIN_FANDOM_REMOVE, R.color.red_500),
         AppLevel(R.string.lvl_community_admin, API.LVL_ADMIN_FANDOM_ADMIN, R.color.red_500)
     )

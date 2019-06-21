@@ -17,7 +17,7 @@ import com.sup.dev.java.tools.ToolsDate
 
 class CardEvent(
         override val unit: UnitEvent,
-        val isFeedInFandom : Boolean
+        val isFeedInFandom: Boolean
 ) : CardUnit(unit) {
 
     private val xFandom = XFandom(unit, unit.dateCreate) { update() }
@@ -149,6 +149,14 @@ class CardEvent(
             }
             is ApiEventFandomRename -> {
                 text = ToolsResources.sCap(R.string.unit_event_fandom_rename, ToolsResources.sex(e.ownerAccountSex, R.string.he_rename, R.string.she_rename), e.oldName, "" + e.newName + " (" + ControllerApi.linkToFandom(e.fandomId) + ")")
+
+                view.setOnClickListener { v -> ControllerCampfireSDK.onToFandomClicked(e.fandomId, 0, Navigator.TO) }
+            }
+            is ApiEventFandomClose -> {
+                text = ToolsResources.sCap(
+                        R.string.unit_event_fandom_close,
+                        if (e.closed) ToolsResources.sex(e.ownerAccountSex, R.string.he_close, R.string.she_close) else ToolsResources.sex(e.ownerAccountSex, R.string.he_open, R.string.she_open),
+                        e.fandomName + "(" + ControllerApi.linkToFandom(e.fandomId) + ")")
 
                 view.setOnClickListener { v -> ControllerCampfireSDK.onToFandomClicked(e.fandomId, 0, Navigator.TO) }
             }

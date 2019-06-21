@@ -211,6 +211,10 @@
     <string name="she_move">переместила</string>
     <string name="he_mentioned">упомянул</string>
     <string name="she_mentioned">упомянула</string>
+    <string name="he_open">открыл</string>
+    <string name="she_open">открыла</string>
+    <string name="he_close">закрыл</string>
+    <string name="she_close">закрыла</string>
 
     <string name="filter_events">События</string>
     <string name="filter_posts">Посты</string>
@@ -269,6 +273,9 @@
     <string name="message_removed_by_server">Удалено сервером для экономии памяти</string>
     <string name="message_do_ban_user">%s пользователя</string>
     <string name="message_lvl_dialog">Вы получили новый уровень, перейдите в раздел привилегий чтобы проверить новые способности.</string>
+    <string name="message_closed_fandom">Этот фэндом является закрытым. Информация в нём может быть не прияемлема для некоторых людей. Нажимая "продолжить" вы подтверждаете что вам есть 18 лет и вы понимаете что информация в этом фэндоме может вам навредить.</string>
+    <string name="message_closed_fandom_post">Этот пост находится в закрытом фэндоме. Информация в нём может быть не прияемлема для некоторых людей. Нажимая "продолжить" вы подтверждаете что вам есть 18 лет и вы понимаете что информация в этом посте может вам навредить.</string>
+    <string name="message_closed_fandom_check">Больше не предупреждать для этого фэндома.</string>
 
     <string name="moderation_notification_blocked">Ваш аккаунт заблокирован.</string>
     <string name="moderation_notification_warned">Вы были предупреждены.</string>
@@ -372,6 +379,8 @@
     <string name="fandoms_suggest_tamplate_bad_image">Некорректный аватар</string>
     <string name="fandoms_suggest_tamplate_bad_image_title">Некорректная картинка</string>
     <string name="fandoms_suggest_tamplate_bad_genress">Некорректные жанры</string>
+    <string name="fandoms_suggest_closed_title">Закрыть фэндом</string>
+    <string name="fandoms_suggest_closed_help">Посты не будут отображаться в общей ленте. (Нельзя публиковать запрещенный контент)</string>
     <string name="fandom_posts_empty">В этом фэндоме пока нет статей</string>
     <string name="fandom_tags_remove_conf">Удалить этот тег?</string>
     <string name="fandom_tags_name">Название тега</string>
@@ -387,6 +396,8 @@
     <string name="fandom_gallery_remove_confirm">Удалить это изображение?</string>
     <string name="fandom_link_remove_confirm">Удалить эту ссылку?</string>
     <string name="fandom_remove_confirm">Удалить этот фэндом?</string>
+    <string name="fandom_close_confirm">Закрыть этот фэндом?</string>
+    <string name="fandom_open_confirm">Открыть этот фэндом?</string>
     <string name="fandom_search_name">Название фэндома (не обязательно)</string>
     <string name="fandom_show_details">Показать подробности</string>
     <string name="fandom_hide_details">Скрыть подробности</string>
@@ -509,6 +520,7 @@
     <string name="lvl_user_punishment_remove">Возможность удалять наказания пользователей</string>
     <string name="lvl_remove_moderator">Возможность лишить пользователя права модерировать фэндом</string>
     <string name="lvl_make_moderators">Возможность сделать пользователя модератором в фэндоме. Дает пользователю необходимую карму для того чтобы стать модератором.</string>
+    <string name="lvl_fandom_close">Возможность открыть / закрыть фэндом</string>
     <string name="lvl_remove_fandoms">Возможность удалять фэндомы</string>
     <string name="lvl_protoadmin">Протоадмин. Доступ к красной кнопке</string>
 
@@ -1021,6 +1033,7 @@
     <string name="unit_event_remove_titile_image_admin">%s фоновую картинку пользователя %s</string>
     <string name="unit_event_remove_fandom">%s фэндом %s</string>
     <string name="unit_event_fandom_rename">%s фэндом с %s на %s</string>
+    <string name="unit_event_fandom_close">%s фэндом %s</string>
     <string name="unit_event_fandom_avatar">%s аватар фэндома %s</string>
     <string name="unit_event_fandom_image_title">Изменил фоновое изображение фэндома %s</string>
     <string name="unit_event_fandom_parameters">%s параметры фэндома %s</string>

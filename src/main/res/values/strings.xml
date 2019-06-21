@@ -211,6 +211,10 @@
     <string name="she_move">moved</string>
     <string name="he_mentioned">mentioned</string>
     <string name="she_mentioned">mentioned</string>
+    <string name="he_open">open</string>
+    <string name="she_open">open</string>
+    <string name="he_close">close</string>
+    <string name="she_close">close</string>
 
     <string name="filter_events">Events</string>
     <string name="filter_posts">Posts</string>
@@ -269,6 +273,9 @@
     <string name="message_removed_by_server">Removed by server to save memory</string>
     <string name="message_do_ban_user">%s user</string>
     <string name="message_lvl_dialog">You have received a new level, go to the privilege screen to view new abilities.</string>
+    <string name="message_closed_fandom">This fandom is closed. Information in it may not be acceptable for some people. By clicking "continue" you confirm that you are 18 years old and you understand that the information in this fandom can harm you.</string>
+    <string name="message_closed_fandom_post">This post is in a closed fandom. Information in it may not be acceptable for some people. By clicking "continue" you confirm that you are 18 years old and you understand that the information in this post can harm you.</string>
+    <string name="message_closed_fandom_check">No more warning for this fandom.</string>
 
     <string name="moderation_notification_blocked">Your account is banned until %s.</string>
     <string name="moderation_notification_warned">You have been warned.</string>
@@ -379,6 +386,8 @@
     <string name="fandoms_suggest_tamplate_bad_image_title_text" translatable="false">Incorrect title image. The picture must belong to the fandom and be of good quality.</string>
     <string name="fandoms_suggest_tamplate_bad_genress">Incorrect genres</string>
     <string name="fandoms_suggest_tamplate_bad_genress_text" translatable="false">Uncorrected list of genres. Genres do not correspond to the proposed fandom.</string>
+    <string name="fandoms_suggest_closed_title">Close fandom</string>
+    <string name="fandoms_suggest_closed_help">Posts will not be displayed in the common feed. (You can not publish prohibited content)</string>
     <string name="fandom_posts_empty">There are no posts in this fandom yet</string>
     <string name="fandom_tags_remove_conf">Remove this tag?</string>
     <string name="fandom_tags_name">Name of tag</string>
@@ -394,6 +403,8 @@
     <string name="fandom_gallery_remove_confirm">Remove this image?</string>
     <string name="fandom_link_remove_confirm">Remove this link?</string>
     <string name="fandom_remove_confirm">Remove this fandom?</string>
+    <string name="fandom_close_confirm">Close this fandom?</string>
+    <string name="fandom_open_confirm">Open this fandom?</string>
     <string name="fandom_search_name">Fandom name (not necessarily)</string>
     <string name="fandom_show_details">Show details</string>
     <string name="fandom_hide_details">Hide details</string>
@@ -516,6 +527,7 @@
     <string name="lvl_user_punishment_remove">Ability to remove user punishments</string>
     <string name="lvl_remove_moderator">Ability to deprive the user from the right to moderate the fandom</string>
     <string name="lvl_make_moderators">Ability to make the user a moderator in fandom. Gives the user the karma to become a moderator.</string>
+    <string name="lvl_fandom_close">Ability to open / close a fandom</string>
     <string name="lvl_remove_fandoms">Ability to remove fandoms</string>
     <string name="lvl_protoadmin">Protoadmin. Access to the red button</string>
 
@@ -1030,6 +1042,7 @@
     <string name="unit_event_remove_titile_image_admin">%s title image to user %s</string>
     <string name="unit_event_remove_fandom">%s fandom %s</string>
     <string name="unit_event_fandom_rename">%s fandom from %s to %s</string>
+    <string name="unit_event_fandom_close">%s fandom %s</string>
     <string name="unit_event_fandom_avatar">%s avatar of fandom %s</string>
     <string name="unit_event_fandom_image_title">Changed fandom title image</string>
     <string name="unit_event_fandom_parameters">%s parameters of fandom %s</string>
