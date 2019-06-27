@@ -91,7 +91,7 @@ class TextParser(
 
                 if (text[i + name.length + 1] == ' ') {
                     val next = findNext('}', name.length + 1)
-                    val t = TextParser(text.substring(i + name.length + 1, next)).parse()
+                    val t = TextParser(text.substring(i + name.length + 2, next)).parse()
                     if (next != -1) {
                         if(name == "rainbow"){
                             var x = -1

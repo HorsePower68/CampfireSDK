@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/vTouch"
+    style="@style/TouchableForeground"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/blue_700">
+
+    <ImageView
+        style="@style/Icon"
+        android:layout_gravity="right|center"
+        android:src="?ic_reply_24dp" />
+
+    <FrameLayout
+        android:id="@+id/vRoot"
+        android:background="?content_background"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:id="@+id/vRootContainer"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingTop="8dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:orientation="horizontal">
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="8dp"
+                    android:layout_marginTop="12dp"
+                    android:orientation="vertical">
+
+                    <com.sup.dev.android.views.views.ViewAvatar
+                        android:id="@+id/vAvatar"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp" />
+
+                    <TextView
+                        android:id="@+id/vReports"
+                        style="@style/TextAppearance.AppCompat.Caption"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginTop="4dp"
+                        android:drawableLeft="?ic_security_18dp"
+                        android:drawablePadding="4dp"
+                        android:gravity="center"
+                        android:text="10" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="2dp"
+                    android:layout_marginBottom="4dp"
+                    android:orientation="vertical"
+                    android:padding="12dp">
+
+                    <TextView
+                        android:id="@+id/vLabel"
+                        style="@style/Base.TextAppearance.AppCompat.Caption"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Zeon 15:40" />
+
+
+                    <LinearLayout
+                        android:id="@+id/vQuoteContainer"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="8dp"
+                        android:layout_marginTop="8dp"
+                        android:layout_marginRight="8dp"
+                        android:layout_marginBottom="4dp"
+                        android:orientation="horizontal">
+
+                        <View
+                            android:layout_width="2dp"
+                            android:layout_height="match_parent"
+                            android:background="?colorAccent" />
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="4dp"
+                            android:layout_marginTop="1dp"
+                            android:layout_marginBottom="1dp"
+                            android:orientation="vertical">
+
+                            <com.sup.dev.android.views.views.ViewTextLinkable
+                                android:id="@+id/vQuoteText"
+                                style="@style/TextAppearance.AppCompat.Caption"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content" />
+
+                            <com.sup.dev.android.views.views.ViewImagesSwipe
+                                android:id="@+id/vQuoteImage"
+                                android:layout_width="wrap_content"
+                                android:layout_height="96dp"
+                                android:layout_marginTop="4dp" />
+
+
+                        </LinearLayout>
+
+                    </LinearLayout>
+
+                    <com.sup.dev.android.views.views.ViewTextLinkable
+                        android:id="@+id/vCommentText"
+                        style="@style/Base.TextAppearance.AppCompat.Body1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="8dp"
+                        android:text="asdasdasd asd asdsadas asd asdas asdasdas asdasdasdasd" />
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <com.sup.dev.android.views.views.ViewImagesSwipe
+                android:id="@+id/vImages"
+                android:layout_width="match_parent"
+                android:layout_height="128dp" />
+
+            <com.sayzen.campfiresdk.views.ViewKarmaHorizontal
+                android:id="@+id/vKarma"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="right|bottom"
+                android:layout_marginRight="4dp"
+                android:layout_marginBottom="4dp" />
+        </LinearLayout>
+
+    </FrameLayout>
+
+    <View style="@style/Divider" />
+
+</FrameLayout>

@@ -181,7 +181,7 @@ class CardPost constructor(
         vBestCommentRootContainer.visibility = if (unit.bestComment == null) View.GONE else View.VISIBLE
 
         if (unit.bestComment != null) {
-            val cardComment = CardComment.instance(unit.bestComment!!, false)
+            val cardComment = CardComment.instance(unit.bestComment!!, false, true)
             val cardCommentView = cardComment.instanceView(view.context)
             cardComment.bindView(cardCommentView)
             vBestCommentContainer.addView(cardCommentView)

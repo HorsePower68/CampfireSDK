@@ -11,8 +11,9 @@
     <string name="app_back">Назад</string>
     <string name="app_dont_show_again">Больше не показывать</string>
     <string name="app_attention">Внимание</string>
-    <string name="app_downloading">Загрузка</string>
-    <string name="app_downloaded">Загрузка завершена</string>
+    <string name="app_download">Скачать</string>
+    <string name="app_downloading">Скачивание</string>
+    <string name="app_downloaded">Скачивание завершено</string>
     <string name="app_loading">Загрузка</string>
     <string name="app_done">Готово</string>
     <string name="app_choose">Выбрать</string>
@@ -273,8 +274,8 @@
     <string name="message_removed_by_server">Удалено сервером для экономии памяти</string>
     <string name="message_do_ban_user">%s пользователя</string>
     <string name="message_lvl_dialog">Вы получили новый уровень, перейдите в раздел привилегий чтобы проверить новые способности.</string>
-    <string name="message_closed_fandom">Этот фэндом является закрытым. Информация в нём может быть не прияемлема для некоторых людей. Нажимая "продолжить" вы подтверждаете что вам есть 18 лет и вы понимаете что информация в этом фэндоме может вам навредить.</string>
-    <string name="message_closed_fandom_post">Этот пост находится в закрытом фэндоме. Информация в нём может быть не прияемлема для некоторых людей. Нажимая "продолжить" вы подтверждаете что вам есть 18 лет и вы понимаете что информация в этом посте может вам навредить.</string>
+    <string name="message_closed_fandom">Этот фэндом является закрытым. Информация в нём может быть не приемлема для некоторых людей. Нажимая "продолжить" вы подтверждаете что вам есть 18 лет и вы понимаете что информация в этом фэндоме может вам навредить.</string>
+    <string name="message_closed_fandom_post">Этот пост находится в закрытом фэндоме. Информация в нём может быть не приемлема для некоторых людей. Нажимая "продолжить" вы подтверждаете что вам есть 18 лет и вы понимаете что информация в этом посте может вам навредить.</string>
     <string name="message_closed_fandom_check">Больше не предупреждать для этого фэндома.</string>
 
     <string name="moderation_notification_blocked">Ваш аккаунт заблокирован.</string>
@@ -723,6 +724,8 @@
     <string name="post_page_polling_remove_confirm">Удалить этот вариант?</string>
     <string name="post_page_remove_confirm">Удалить эту страницу?</string>
     <string name="post_rates_empty">Здесь еще нет оценок</string>
+    <string name="post_page_download_alert">Будьте осторожны при загрузке файлов из приложения, они могут навредить вашему устройству.</string>
+    <string name="post_page_download_unzip">Файл будет автоматически разархивирован.</string>
 
     <string name="post_create_cancel_alert">Вы уверены, что хотите отменить создание?</string>
     <string name="post_create_tags_empty">Здесь вы могли выбрать теги, но у фэндома их еще нет :(</string>

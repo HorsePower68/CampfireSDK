@@ -28,7 +28,7 @@ abstract class CardUnit(open val unit: Unit) : Card(), NotifyItem {
         ): CardUnit {
 
             val cardUnit = when (unit) {
-                is UnitComment -> CardComment.instance(unit, dividers)
+                is UnitComment -> CardComment.instance(unit, dividers, false)
                 is UnitPost -> CardPost(vRecycler, unit)
                 is UnitChatMessage -> CardChatMessage.instance(unit)
                 is UnitModeration -> CardModeration(unit)

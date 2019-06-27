@@ -46,6 +46,7 @@ import com.sup.dev.java.tools.ToolsThreads
 abstract class CardComment protected constructor(
         override val unit: UnitComment,
         private val dividers: Boolean,
+        protected val miniSize: Boolean,
         private val onClick: ((UnitComment) -> Boolean)? = null,
         private val onQuote: ((UnitComment) -> Unit)? = null,
         private var onGoTo: ((Long) -> Unit)? = null
@@ -54,11 +55,11 @@ abstract class CardComment protected constructor(
 
     companion object {
 
-        fun instance(unit: UnitComment, dividers: Boolean, onClick: ((UnitComment) -> Boolean)? = null, onQuote: ((UnitComment) -> Unit)? = null, onGoTo: ((Long) -> Unit)? = null): CardComment {
+        fun instance(unit: UnitComment, dividers: Boolean, miniSize: Boolean, onClick: ((UnitComment) -> Boolean)? = null, onQuote: ((UnitComment) -> Unit)? = null, onGoTo: ((Long) -> Unit)? = null): CardComment {
             when (unit.type) {
-                UnitComment.TYPE_TEXT -> return CardCommentText(unit, dividers, onClick, onQuote, onGoTo)
-                UnitComment.TYPE_IMAGE, UnitComment.TYPE_GIF -> return CardCommentImage(unit, dividers, onClick, onQuote, onGoTo)
-                UnitComment.TYPE_IMAGES -> return CardCommentImages(unit, dividers, onClick, onQuote, onGoTo)
+                UnitComment.TYPE_TEXT -> return CardCommentText(unit, dividers, miniSize, onClick, onQuote, onGoTo)
+                UnitComment.TYPE_IMAGE, UnitComment.TYPE_GIF -> return CardCommentImage(unit, dividers, miniSize, onClick, onQuote, onGoTo)
+                UnitComment.TYPE_IMAGES -> return CardCommentImages(unit, dividers, miniSize, onClick, onQuote, onGoTo)
                 else -> throw RuntimeException("Unknown type ${unit.type}")
             }
         }
@@ -89,9 +90,10 @@ abstract class CardComment protected constructor(
         super.bindView(view)
         val vSwipe: ViewSwipe? = view.findViewById(R.id.vSwipe)
         val vAvatar: ViewAvatar = view.findViewById(R.id.vAvatar)
-        val vLabelName: TextView = view.findViewById(R.id.vLabelName)
-        val vLabelDate: TextView = view.findViewById(R.id.vLabelDate)
-        val vDivider: View = view.findViewById(R.id.vDivider)
+        val vLabel: TextView? = view.findViewById(R.id.vLabel)
+        val vLabelName: TextView? = view.findViewById(R.id.vLabelName)
+        val vLabelDate: TextView? = view.findViewById(R.id.vLabelDate)
+        val vDivider: View? = view.findViewById(R.id.vDivider)
         val vText: ViewTextLinkable = view.findViewById(R.id.vCommentText)
         val vReports: TextView? = view.findViewById(R.id.vReports)
         val vQuoteContainer: View? = view.findViewById(R.id.vQuoteContainer)
@@ -100,7 +102,7 @@ abstract class CardComment protected constructor(
 
         if (vSwipe != null && onQuote != null) {
             popup = createPopup(vSwipe)
-            vSwipe.onClick =  { x, y ->
+            vSwipe.onClick = { x, y ->
                 if (ControllerApi.isCurrentAccount(unit.creatorId)) popup?.asSheetShow()
                 else onClick()
             }
@@ -108,7 +110,7 @@ abstract class CardComment protected constructor(
             vSwipe.onSwipe = {
                 if (unit.type == UnitComment.TYPE_TEXT || unit.type == UnitComment.TYPE_IMAGE || unit.type == UnitComment.TYPE_GIF || unit.type == UnitComment.TYPE_IMAGES) {
                     onQuote.invoke(unit)
-                }else {
+                } else {
                     onClick?.invoke(unit)
                 }
             }
@@ -152,10 +154,10 @@ abstract class CardComment protected constructor(
         if (!showFandom) xAccount.setView(vAvatar)
         else xFandom.setView(vAvatar)
 
-        vLabelName.text = unit.creatorName
-        vLabelDate.text = ToolsDate.dateToString(unit.dateCreate) + (if (unit.changed) " " + ToolsResources.s(R.string.app_edited) else "")
-
-        vDivider.visibility = if (dividers) View.VISIBLE else View.GONE
+        if (vLabelName != null) vLabelName.text = unit.creatorName
+        if (vLabelDate != null) vLabelDate.text = ToolsDate.dateToString(unit.dateCreate) + (if (unit.changed) " " + ToolsResources.s(R.string.app_edited) else "")
+        if (vLabel != null) vLabel.text = unit.creatorName + "   " + ToolsDate.dateToString(unit.dateCreate) + (if (unit.changed) " " + ToolsResources.s(R.string.app_edited) else "")
+        if (vDivider != null) vDivider.visibility = if (dividers) View.VISIBLE else View.GONE
 
         bind(view)
         updateKarma()
@@ -204,8 +206,8 @@ abstract class CardComment protected constructor(
 
     private fun updateKarma() {
         if (getView() == null) return
-        val vKarma: ViewKarma = getView()!!.findViewById(R.id.vKarma)
-        xKarma.setView(vKarma)
+        val vKarma: ViewKarma? = getView()!!.findViewById(R.id.vKarma)
+        if (vKarma != null) xKarma.setView(vKarma)
     }
 
     private fun onClick(): Boolean {

@@ -41,6 +41,7 @@ class CardEvent(
         val vName: TextView = view.findViewById(R.id.vName)
 
         vDate.text = ToolsDate.dateToString(unit.dateCreate)
+        vName.text = ""
         vAvatarTitle.vImageView.setBackgroundColor(0x00000000)  //  For achievements background
         view.setOnClickListener { }
 

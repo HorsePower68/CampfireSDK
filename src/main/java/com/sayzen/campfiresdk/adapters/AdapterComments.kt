@@ -126,7 +126,7 @@ class AdapterComments(
     }
 
     private fun instanceCard(unit:UnitComment):CardComment{
-        return CardComment.instance(unit, true,
+        return CardComment.instance(unit, true, false,
                 { comment ->
                     if (ControllerApi.isCurrentAccount(comment.creatorId)) return@instance false
                     showCommentDialog(comment)

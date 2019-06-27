@@ -11,6 +11,7 @@ Campfire has anime fandoms and gaming fandoms.</string>
     <string name="app_back">Back</string>
     <string name="app_dont_show_again">Don\'t show again</string>
     <string name="app_attention">Attention</string>
+    <string name="app_download">Download</string>
     <string name="app_downloading">Downloading</string>
     <string name="app_downloaded">Downloaded</string>
     <string name="app_loading">Loading</string>
@@ -725,6 +726,8 @@ Campfire has anime fandoms and gaming fandoms.</string>
     <string name="post_page_polling_remove_confirm">Remove this option?</string>
     <string name="post_page_remove_confirm">Remove this page?</string>
     <string name="post_rates_empty">There is no any rating yet</string>
+    <string name="post_page_download_alert">Be careful when downloading files from the application, they can harm your device.</string>
+    <string name="post_page_download_unzip">The file will automatically unzip.</string>
 
     <string name="post_create_cancel_alert">Are you sure you want to cancel creation?</string>
     <string name="post_create_tags_empty">This fandom doesn\'t have any tags yet :(</string>

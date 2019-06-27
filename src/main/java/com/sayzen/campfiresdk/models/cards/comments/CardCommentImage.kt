@@ -13,12 +13,13 @@ import com.sup.dev.android.views.screens.SImageView
 class CardCommentImage(
         unit: UnitComment,
         dividers: Boolean,
+        miniSize: Boolean,
         onClick: ((UnitComment) -> Boolean)? = null,
         onQuote: ((UnitComment) -> Unit)? = null,
         onGoTo: ((Long) -> Unit)?
-) : CardComment(unit, dividers, onClick, onQuote, onGoTo) {
+) : CardComment(unit, dividers, miniSize, onClick, onQuote, onGoTo) {
 
-    override fun getLayout() = R.layout.card_comment_image
+    override fun getLayout() = if (miniSize) R.layout.card_comment_image_mini else R.layout.card_comment_image
 
     override fun bind(view: View) {
 
@@ -26,7 +27,7 @@ class CardCommentImage(
         val vGifProgressBar: View = view.findViewById(R.id.vGifProgressBar)
         val vCommentText: TextView = view.findViewById(R.id.vCommentText)
 
-        vCommentText.visibility = if(unit.text.isEmpty()) View.GONE else View.VISIBLE
+        vCommentText.visibility = if (unit.text.isEmpty()) View.GONE else View.VISIBLE
 
         ToolsView.setOnLongClickCoordinates(vImage) { view1, x, y -> popup?.asSheetShow() }
 

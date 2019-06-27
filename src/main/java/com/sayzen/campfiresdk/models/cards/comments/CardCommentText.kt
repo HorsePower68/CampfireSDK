@@ -7,12 +7,13 @@ import com.sayzen.campfiresdk.R
 class CardCommentText(
         unit: UnitComment,
         dividers: Boolean,
+        miniSize: Boolean,
         onClick: ((UnitComment) -> Boolean)? = null,
         onQuote: ((UnitComment) -> Unit)? = null,
         onGoTo: ((Long) -> Unit)?
-) : CardComment(unit, dividers, onClick, onQuote, onGoTo) {
+) : CardComment(unit, dividers, miniSize, onClick, onQuote, onGoTo) {
 
-    override fun getLayout() = R.layout.card_comment_text
+    override fun getLayout() = if(miniSize) R.layout.card_comment_text_mini else R.layout.card_comment_text
 
     override fun bind(view: View) {
 
