@@ -1,6 +1,6 @@
 package com.sayzen.campfiresdk.app
 
-import android.support.annotation.DrawableRes
+import androidx.annotation.DrawableRes
 import com.dzen.campfire.api.API
 import com.dzen.campfire.api.models.AchievementInfo
 import com.dzen.campfire.api.models.QuestInfo

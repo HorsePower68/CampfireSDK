@@ -22,6 +22,7 @@
     <string name="app_notify">Уведомить</string>
     <string name="app_style">Стиль</string>
     <string name="app_bookmarks">Закладки</string>
+    <string name="app_draft">Черновик</string>
     <string name="app_drafts">Черновики</string>
     <string name="app_settings">Настройки</string>
     <string name="app_to_finish">Завершить</string>
@@ -157,6 +158,8 @@
     <string name="app_congratulations">Поздравляем!</string>
     <string name="app_edited">ред.</string>
     <string name="app_comments">Комментарии</string>
+    <string name="app_choose_image">Выбрать изображение</string>
+    <string name="app_title">Заголовок</string>
 
     <string name="he">он</string>
     <string name="she">она</string>

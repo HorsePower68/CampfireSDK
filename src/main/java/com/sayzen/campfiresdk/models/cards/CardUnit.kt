@@ -1,6 +1,6 @@
 package com.sayzen.campfiresdk.models.cards
 
-import android.support.v7.widget.RecyclerView
+import androidx.recyclerview.widget.RecyclerView
 import com.dzen.campfire.api.models.UnitComment
 import com.dzen.campfire.api.models.UnitReview
 import com.dzen.campfire.api.models.units.Unit
@@ -21,7 +21,7 @@ abstract class CardUnit(open val unit: Unit) : Card(), NotifyItem {
     companion object {
         fun instance(
                 unit: Unit,
-                vRecycler: RecyclerView? = null,
+                vRecycler: androidx.recyclerview.widget.RecyclerView? = null,
                 showFandom: Boolean = false,
                 dividers: Boolean = false,
                 isFeedInFandom: Boolean = false

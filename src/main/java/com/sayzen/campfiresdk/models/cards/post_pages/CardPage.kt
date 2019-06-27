@@ -1,6 +1,6 @@
 package com.sayzen.campfiresdk.models.cards.post_pages
 
-import android.support.annotation.CallSuper
+import androidx.annotation.CallSuper
 import android.view.View
 import com.dzen.campfire.api.models.units.post.*
 import com.sayzen.campfiresdk.R

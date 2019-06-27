@@ -48,8 +48,7 @@
                         android:layout_marginTop="4dp"
                         android:drawableLeft="?ic_security_18dp"
                         android:drawablePadding="4dp"
-                        android:gravity="center"
-                        android:text="10" />
+                        android:gravity="center"/>
 
                 </LinearLayout>
 

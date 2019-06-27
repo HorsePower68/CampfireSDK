@@ -1,6 +1,6 @@
 package com.sayzen.campfiresdk.models.widgets
 
-import android.support.v7.widget.RecyclerView
+import androidx.recyclerview.widget.RecyclerView
 import android.view.View
 import com.dzen.campfire.api.API
 import com.dzen.campfire.api.models.UnitComment
@@ -41,7 +41,7 @@ class WidgetComment constructor(
 
     private val vSend: ViewIcon = findViewById(R.id.vSend)
     private val vAttach: ViewIcon = findViewById(R.id.vAttach)
-    private val vAttachRecycler: RecyclerView = findViewById(R.id.vAttachRecycler)
+    private val vAttachRecycler: androidx.recyclerview.widget.RecyclerView = findViewById(R.id.vAttachRecycler)
     private val vText: ViewEditTextMedia = findViewById(R.id.vText)
     private val vQuoteText: ViewTextLinkable = findViewById(R.id.vQuoteText)
 

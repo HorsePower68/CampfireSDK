@@ -1,7 +1,7 @@
 package com.sayzen.campfiresdk.models.cards
 
-import android.support.annotation.DrawableRes
-import android.support.annotation.StringRes
+import androidx.annotation.DrawableRes
+import androidx.annotation.StringRes
 import android.view.View
 import android.widget.TextView
 import com.sayzen.campfiresdk.R

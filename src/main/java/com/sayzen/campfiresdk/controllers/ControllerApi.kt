@@ -176,8 +176,15 @@ object ControllerApi {
     }
 
 
+    fun loginWithRegistration(onFinish: () -> Unit) {
+        loginWithRegistration(null, onFinish)
+    }
+
     fun loginWithRegistration(loginToken: String?, onFinish: () -> Unit) {
-        if (account.id != 0L) onFinish.invoke()
+        if (account.id != 0L) {
+            onFinish.invoke()
+            return
+        }
         login(loginToken) {
             if (account.id == 0L) {
                 val r = RAccountsRegistration(getLanguage(getLanguageCode()).id, null)

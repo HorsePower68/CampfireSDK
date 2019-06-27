@@ -3,8 +3,8 @@ package com.sayzen.campfiresdk.screens.chat
 
 import android.graphics.Bitmap
 import android.net.Uri
-import android.support.v7.widget.LinearLayoutManager
-import android.support.v7.widget.RecyclerView
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
@@ -83,7 +83,7 @@ class SChat private constructor(
     private val vSend: ViewIcon = findViewById(R.id.vSend)
     private val vLine: View = findViewById(R.id.vLine)
     private val vAttach: ViewIcon = findViewById(R.id.vAttach)
-    private val vAttachRecycler: RecyclerView = findViewById(R.id.vAttachRecycler)
+    private val vAttachRecycler: androidx.recyclerview.widget.RecyclerView = findViewById(R.id.vAttachRecycler)
     private val vText: ViewEditTextMedia = findViewById(R.id.vText)
     private val vMenu: ViewIcon
     private val vNotifications: ViewIcon
@@ -121,7 +121,7 @@ class SChat private constructor(
         vSend.setOnClickListener { v -> onSendClicked() }
         vText.addTextChangedListener(TextWatcherChanged { sendTyping() })
 
-        val layoutManager = LinearLayoutManager(context)
+        val layoutManager = androidx.recyclerview.widget.LinearLayoutManager(context)
         layoutManager.stackFromEnd = true
         vRecycler.layoutManager = layoutManager
 
@@ -273,7 +273,7 @@ class SChat private constructor(
                 .send(api)
     }
 
-    fun isNeedScrollAfterAdd() = (vRecycler.layoutManager as LinearLayoutManager).findLastCompletelyVisibleItemPosition() == vRecycler.adapter!!.itemCount - 1
+    fun isNeedScrollAfterAdd() = (vRecycler.layoutManager as androidx.recyclerview.widget.LinearLayoutManager).findLastCompletelyVisibleItemPosition() == vRecycler.adapter!!.itemCount - 1
 
     fun setLock(b: Boolean) {
         vAttach.isEnabled = !b

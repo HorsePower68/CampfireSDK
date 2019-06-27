@@ -1,7 +1,7 @@
 package com.sayzen.campfiresdk.models.cards.chat
 
 import android.graphics.drawable.ColorDrawable
-import android.support.design.card.MaterialCardView
+import com.google.android.material.card.MaterialCardView
 import android.text.Html
 import android.view.Gravity
 import android.view.View

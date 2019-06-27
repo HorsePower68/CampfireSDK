@@ -1,6 +1,6 @@
 package com.sayzen.campfiresdk.models.objects
 
-import android.support.annotation.StringRes
+import androidx.annotation.StringRes
 
 import com.sup.dev.android.tools.ToolsResources
 

@@ -1,6 +1,6 @@
 package com.sayzen.campfiresdk.models.cards
 
-import android.support.v7.widget.RecyclerView
+import androidx.recyclerview.widget.RecyclerView
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
@@ -35,7 +35,7 @@ import com.sup.dev.java.tools.ToolsThreads
 import java.util.*
 
 class CardPost constructor(
-        private val vRecycler: RecyclerView?,
+        private val vRecycler: androidx.recyclerview.widget.RecyclerView?,
         override val unit: UnitPost,
         var onClick: ((UnitPost) -> Unit)? = null
 ) : CardUnit(unit) {

@@ -1,8 +1,8 @@
 package com.sayzen.campfiresdk.models.support
 
 import android.graphics.Bitmap
-import android.support.v7.widget.LinearLayoutManager
-import android.support.v7.widget.RecyclerView
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import android.view.View
 import android.widget.ImageView
 import com.dzen.campfire.api.API
@@ -27,7 +27,7 @@ import com.sup.dev.java.tools.ToolsThreads
 
 class Attach(
         val vAttach: ViewIcon,
-        val vAttachRecycler: RecyclerView,
+        val vAttachRecycler: androidx.recyclerview.widget.RecyclerView,
         val onUpdate: () -> Unit = {},
         val onSupportScreenHide: () -> Unit = {}
 ) {
@@ -38,7 +38,7 @@ class Attach(
 
     init {
         vAttach.setOnClickListener { onAttachClicked() }
-        vAttachRecycler.layoutManager = LinearLayoutManager(vAttachRecycler.context, LinearLayoutManager.HORIZONTAL, false)
+        vAttachRecycler.layoutManager = androidx.recyclerview.widget.LinearLayoutManager(vAttachRecycler.context, androidx.recyclerview.widget.LinearLayoutManager.HORIZONTAL, false)
         clear()
         initerd = true
     }
@@ -46,7 +46,7 @@ class Attach(
     fun clear() {
         adapter.clear()
         adapter = RecyclerCardAdapter()
-        adapter.setCardW(RecyclerView.LayoutParams.WRAP_CONTENT)
+        adapter.setCardW(androidx.recyclerview.widget.RecyclerView.LayoutParams.WRAP_CONTENT)
         vAttachRecycler.adapter = adapter
         updateAttach()
     }

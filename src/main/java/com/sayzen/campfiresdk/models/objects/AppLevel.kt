@@ -1,6 +1,6 @@
 package com.sayzen.campfiresdk.models.objects
 
-import android.support.annotation.StringRes
+import androidx.annotation.StringRes
 import com.dzen.campfire.api.models.lvl.LvlInfo
 import com.sayzen.campfiresdk.R
 

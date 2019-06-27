@@ -1,8 +1,8 @@
 package com.sayzen.campfiresdk.screens.comments
 
-import android.support.design.widget.FloatingActionButton
-import android.support.v7.widget.LinearLayoutManager
-import android.support.v7.widget.RecyclerView
+import com.google.android.material.floatingactionbutton.FloatingActionButton
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.dzen.campfire.api.models.units.Unit
 import com.dzen.campfire.api.requests.post.RPostGet
 import com.sayzen.campfiresdk.R
@@ -36,14 +36,14 @@ class SComments constructor(
         .subscribe(EventUnitRemove::class) { this.onEventUnitRemove(it) }
         .subscribe(EventCommentAdd::class) {this.onCommentAdd(it) }
 
-    private val vRecycler: RecyclerView = findViewById(R.id.vRecycler)
+    private val vRecycler: androidx.recyclerview.widget.RecyclerView = findViewById(R.id.vRecycler)
     private val vFab: FloatingActionButton = findViewById(R.id.vFab)
 
     private val adapter: AdapterComments
 
     init {
 
-        vRecycler.layoutManager = LinearLayoutManager(context)
+        vRecycler.layoutManager = androidx.recyclerview.widget.LinearLayoutManager(context)
 
         adapter = AdapterComments(unit.id, commentId, vRecycler)
 
