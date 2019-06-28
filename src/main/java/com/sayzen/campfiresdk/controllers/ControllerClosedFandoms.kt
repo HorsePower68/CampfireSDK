@@ -4,7 +4,6 @@ import com.sayzen.campfiresdk.R
 import com.sup.dev.android.libs.screens.Screen
 import com.sup.dev.android.libs.screens.navigator.Navigator
 import com.sup.dev.android.views.widgets.WidgetAlert
-import com.sup.dev.java.libs.debug.log
 
 object ControllerClosedFandoms {
 
