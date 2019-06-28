@@ -30,21 +30,23 @@ class CardPageDownload(
     override fun bindView(view: View) {
         super.bindView(view)
         val page = this.page as PageDownload
+        val vSubTitle: TextView = view.findViewById(R.id.vSubTitle)
         val vTitle: TextView = view.findViewById(R.id.vTitle)
         val vDownload: Button = view.findViewById(R.id.vDownload)
 
-        vTitle.text = page.title
+
+        vTitle.text = ToolsResources.s(R.string.app_file) + ": " + ToolsText.numToBytesString(page.size)
+
+        vSubTitle.text = page.title
         if (page.patch.isNotEmpty()) {
-            vTitle.text = vTitle.text.toString() + if (vTitle.text.isNotEmpty()) "\n" else ""
-            vTitle.text = vTitle.text.toString() + page.patch
+            vSubTitle.text = vSubTitle.text.toString() + if (vSubTitle.text.isNotEmpty()) "\n" else ""
+            vSubTitle.text = vSubTitle.text.toString() + page.patch
         }
         if (page.autoUnzip) {
-            vTitle.text = vTitle.text.toString() + if (vTitle.text.isNotEmpty()) "\n" else ""
-            vTitle.text = vTitle.text.toString() + ToolsResources.s(R.string.post_page_download_unzip)
+            vSubTitle.text = vSubTitle.text.toString() + if (vSubTitle.text.isNotEmpty()) "\n" else ""
+            vSubTitle.text = vSubTitle.text.toString() + ToolsResources.s(R.string.post_page_download_unzip)
         }
-        vTitle.visibility = if (vTitle.text.isEmpty()) View.GONE else View.VISIBLE
-
-        vDownload.text = ToolsResources.s(R.string.app_download) + "(${ToolsText.numToBytesString(page.size)})"
+        vSubTitle.visibility = if (vSubTitle.text.isEmpty()) View.GONE else View.VISIBLE
 
         if (clickable) vDownload.setOnClickListener { download() }
         else vDownload.setOnClickListener(null)

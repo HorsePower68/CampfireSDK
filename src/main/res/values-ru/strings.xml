@@ -161,6 +161,7 @@
     <string name="app_choose_image">Выбрать изображение</string>
     <string name="app_title">Заголовок</string>
     <string name="app_confirm">Подтвердить</string>
+    <string name="app_file">Файл</string>
 
     <string name="he">он</string>
     <string name="she">она</string>
