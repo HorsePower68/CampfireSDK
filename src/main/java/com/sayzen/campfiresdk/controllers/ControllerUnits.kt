@@ -54,11 +54,7 @@ object ControllerUnits {
         )
     }
     fun clearReports(unit: Unit){
-        ControllerApi.adminClearReportUnit(
-                unit.id,
-                R.string.post_clear_reports_confirm,
-                R.string.post_error_gone
-        )
+        ControllerApi.clearReportsUnit(unit.id, unit.unitType)
     }
 
 

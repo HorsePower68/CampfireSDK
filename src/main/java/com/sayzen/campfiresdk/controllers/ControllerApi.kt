@@ -13,6 +13,7 @@ import com.dzen.campfire.api.models.account.Account
 import com.dzen.campfire.api.models.lvl.LvlInfo
 import com.dzen.campfire.api.models.lvl.LvlInfoAdmin
 import com.dzen.campfire.api.models.lvl.LvlInfoUser
+import com.dzen.campfire.api.requests.accounts.RAccountsClearReports
 import com.dzen.campfire.api.requests.accounts.RAccountsLoginSimple
 import com.dzen.campfire.api.requests.accounts.RAccountsRegistration
 import com.dzen.campfire.api.requests.units.RUnitsAdminClearReports
@@ -22,6 +23,7 @@ import com.dzen.campfire.api.requests.units.RUnitsReport
 import com.dzen.campfire.api_media.APIMedia
 import com.dzen.campfire.api_media.requests.RResourcesGet
 import com.sayzen.campfiresdk.R
+import com.sayzen.campfiresdk.models.events.account.EventAccountReportsCleared
 import com.sayzen.campfiresdk.models.support.TextParser
 import com.sayzen.campfiresdk.models.events.units.EventUnitRemove
 import com.sayzen.campfiresdk.models.events.units.EventUnitReportsAdd
@@ -156,12 +158,12 @@ object ControllerApi {
         return account.id == accountId
     }
 
-    fun setCurrentAccount(account: Account){
-        this.account= account
+    fun setCurrentAccount(account: Account) {
+        this.account = account
         ToolsStorage.put("lst account", account.id)
     }
 
-    fun getLastAccount() =  ToolsStorage.getLong("lst account", account.id)
+    fun getLastAccount() = ToolsStorage.getLong("lst account", account.id)
 
     fun enableAutoRegistration() {
         ControllerGoogleToken.tokenPostExecutor = { token, callback ->
@@ -227,15 +229,15 @@ object ControllerApi {
         serverTimeDelta = serverTime - System.currentTimeMillis()
     }
 
-    fun setFandomsKarma(fandomsIds: Array<Long>, languagesIds: Array<Long>, karmaCounts: Array<Long>){
+    fun setFandomsKarma(fandomsIds: Array<Long>, languagesIds: Array<Long>, karmaCounts: Array<Long>) {
         fandomsKarmaCounts = arrayOfNulls(karmaCounts.size)
         for (i in fandomsKarmaCounts!!.indices) (fandomsKarmaCounts as Array)[i] =
                 Item3(fandomsIds[i], languagesIds[i], karmaCounts[i])
     }
 
-    fun logout(onComplete:()->Unit){
+    fun logout(onComplete: () -> Unit) {
         ControllerNotifications.hideAll()
-        ControllerGoogleToken.logout{
+        ControllerGoogleToken.logout {
             api.clearTokens()
             setCurrentAccount(Account())
             this.fandomsKarmaCounts = null
@@ -450,7 +452,16 @@ object ControllerApi {
         }.onApiError(API.ERROR_GONE) { ToolsToast.show(stringResGone) }
     }
 
-    fun adminClearReportUnit(unitId: Long, stringRes: Int, stringResGone: Int) {
+    fun clearReportsUnit(unitId: Long, unitType: Long) {
+        when(unitType){
+            API.UNIT_TYPE_CHAT_MESSAGE -> clearReportsUnit(unitId,  R.string.chat_clear_reports_confirm, R.string.chat_error_gone)
+            API.UNIT_TYPE_POST -> clearReportsUnit(unitId,  R.string.post_clear_reports_confirm, R.string.post_error_gone)
+            API.UNIT_TYPE_COMMENT -> clearReportsUnit(unitId,  R.string.comment_clear_reports_confirm, R.string.comment_error_gone)
+            API.UNIT_TYPE_REVIEW -> clearReportsUnit(unitId,  R.string.review_clear_reports_confirm, R.string.review_error_gone)
+        }
+    }
+
+    private fun clearReportsUnit(unitId: Long, stringRes: Int, stringResGone: Int) {
         ApiRequestsSupporter.executeEnabledConfirm(
                 stringRes,
                 R.string.app_clear,
@@ -461,5 +472,23 @@ object ControllerApi {
         }.onApiError(API.ERROR_GONE) { ToolsToast.show(stringResGone) }
     }
 
+    fun clearReportsUnitNow(unitId: Long) {
+        ApiRequestsSupporter.execute(RUnitsAdminClearReports(unitId)) { r ->
+            EventBus.post(EventUnitReportsClear(unitId))
+        }
+    }
+
+    fun clearUserReports(accountId: Long) {
+        ApiRequestsSupporter.executeEnabledConfirm(R.string.app_clear_reports_confirm, R.string.app_clear, RAccountsClearReports(accountId)) { r ->
+            EventBus.post(EventAccountReportsCleared(accountId))
+            ToolsToast.show(R.string.app_done)
+        }
+    }
+
+    fun clearUserReportsNow(accountId: Long) {
+        ApiRequestsSupporter.execute(RAccountsClearReports(accountId)) { r ->
+            EventBus.post(EventAccountReportsCleared(accountId))
+        }
+    }
 
 }

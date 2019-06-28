@@ -4,7 +4,6 @@ import android.graphics.drawable.ColorDrawable
 import android.os.Build
 import android.text.Html
 import android.view.View
-import android.view.ViewGroup
 import android.widget.TextView
 import com.dzen.campfire.api.API
 import com.dzen.campfire.api.models.UnitComment
@@ -240,7 +239,7 @@ abstract class CardComment protected constructor(
                 .add(R.string.app_quote) { w, c -> onQuote?.invoke(unit) }.condition(onQuote != null && (unit.type == UnitComment.TYPE_TEXT || unit.type == UnitComment.TYPE_IMAGE || unit.type == UnitComment.TYPE_GIF || unit.type == UnitComment.TYPE_IMAGES))
                 .groupCondition(!ControllerApi.isCurrentAccount(unit.creatorId))
                 .add(R.string.app_report) { w, c -> ControllerApi.reportUnit(unit.id, R.string.comment_report_confirm, R.string.comment_error_gone) }
-                .add(R.string.app_clear_reports) { w, c -> ControllerApi.adminClearReportUnit(unit.id, R.string.comment_clear_reports_confirm, R.string.comment_error_gone) }.backgroundRes(R.color.blue_700).condition(ControllerApi.can(unit.fandomId, unit.languageId, API.LVL_MODERATOR_BLOCK) && unit.reportsCount > 0)
+                .add(R.string.app_clear_reports) { w, c -> ControllerApi.clearReportsUnit(unit.id, unit.unitType) }.backgroundRes(R.color.blue_700).condition(ControllerApi.can(unit.fandomId, unit.languageId, API.LVL_MODERATOR_BLOCK) && unit.reportsCount > 0)
                 .add(R.string.app_block) { w, c -> ControllerUnits.block(unit) }.backgroundRes(R.color.blue_700).condition(ControllerApi.can(unit.fandomId, unit.languageId, API.LVL_MODERATOR_BLOCK))
                 .showPopupWhenClickAndLongClick(vTouch) { onClick() }
 
