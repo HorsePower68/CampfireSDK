@@ -6,18 +6,21 @@ import com.sup.dev.android.app.SupAndroid
 import com.sup.dev.java.libs.debug.err
 import com.sup.dev.java.tools.ToolsThreads
 import java.io.DataInputStream
-import java.lang.Exception
 import java.net.HttpURLConnection
 import java.net.URL
 
 object ControllerYoutube {
 
-    private val DEVELOPER_KEY = "AIzaSyDfeLzabWR4ZqbxcrF6zFEymqtVqspbvww"
+    private val DEVELOPER_KEY_PT_1 = "AIzaSyDfeLzabWR4"
+    private val DEVELOPER_KEY_PT_2 = "ZqbxcrF6zFEymqtVqsp"
+    private val DEVELOPER_KEY_PT_3 = "bvww"
     private val REQ_START_STANDALONE_PLAYER = 1
     private val REQ_RESOLVE_SERVICE_MISSING = 2
 
     fun play(id: String) {
-        val intent = YouTubeStandalonePlayer.createVideoIntent(SupAndroid.activity!!, DEVELOPER_KEY, id, 0, true, false)
+        val intent = YouTubeStandalonePlayer.createVideoIntent(SupAndroid.activity!!,
+                DEVELOPER_KEY_PT_1 + DEVELOPER_KEY_PT_2 + DEVELOPER_KEY_PT_3,
+                id, 0, true, false)
         val resolveInfo = SupAndroid.activity!!.packageManager.queryIntentActivities(intent, 0)
 
         if (resolveInfo != null && !resolveInfo.isEmpty()) {
@@ -27,13 +30,13 @@ object ControllerYoutube {
         }
     }
 
-    fun getImage(id:String, onLoad: (ByteArray?) -> Unit) {
+    fun getImage(id: String, onLoad: (ByteArray?) -> Unit) {
         ToolsThreads.thread {
             onLoad.invoke(getImageNow(id))
         }
     }
 
-    fun getImageNow(id:String): ByteArray? {
+    fun getImageNow(id: String): ByteArray? {
         try {
             val url = URL("https://img.youtube.com/vi/$id/0.jpg")
             val connection = url.openConnection() as HttpURLConnection
