@@ -9,6 +9,7 @@ import com.sup.dev.android.libs.api_simple.ApiRequestsSupporter
 import com.dzen.campfire.api.models.units.tags.UnitTag
 import com.sayzen.campfiresdk.R
 import com.sayzen.campfiresdk.controllers.ControllerCampfireSDK
+import com.sayzen.campfiresdk.screens.fandoms.STags
 import com.sup.dev.android.libs.screens.navigator.Navigator
 import com.sup.dev.android.tools.ToolsToast
 import com.sup.dev.android.views.settings.SettingsField
@@ -71,14 +72,14 @@ class WidgetCategoryCreate(
     private fun sendCreate() {
         ApiRequestsSupporter.executeEnabled(this, RTagsCreate(vName.getText(), vComment.getText(), fandomId, languageId, 0, null)) { r ->
             ToolsToast.show(R.string.app_done)
-            ControllerCampfireSDK.onToTagsClicked(fandomId, languageId, Navigator.REPLACE)
+            STags.instance(fandomId, languageId, Navigator.REPLACE)
         }
     }
 
     private fun sendChange() {
         ApiRequestsSupporter.executeEnabled(this, RTagsChange(tag!!.id, vName.getText(), vComment.getText(), null, false)) { r ->
             ToolsToast.show(R.string.app_done)
-            ControllerCampfireSDK.onToTagsClicked(fandomId, languageId, Navigator.REPLACE)
+            STags.instance(fandomId, languageId, Navigator.REPLACE)
         }
     }
 

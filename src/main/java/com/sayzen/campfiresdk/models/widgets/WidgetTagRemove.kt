@@ -7,6 +7,7 @@ import com.sup.dev.android.libs.api_simple.ApiRequestsSupporter
 import com.dzen.campfire.api.models.units.tags.UnitTag
 import com.sayzen.campfiresdk.R
 import com.sayzen.campfiresdk.controllers.ControllerCampfireSDK
+import com.sayzen.campfiresdk.screens.fandoms.STags
 import com.sup.dev.android.libs.screens.navigator.Navigator
 import com.sup.dev.android.tools.ToolsToast
 import com.sup.dev.android.views.settings.SettingsField
@@ -47,7 +48,7 @@ class WidgetTagRemove(
 
         ApiRequestsSupporter.executeEnabledConfirm(R.string.fandom_tags_remove_conf, R.string.app_remove, RTagsRemove(vComment.getText(), tag.id)) { r ->
             ToolsToast.show(R.string.app_done)
-            ControllerCampfireSDK.onToTagsClicked(tag.fandomId, tag.languageId, Navigator.REPLACE)
+            STags.instance(tag.fandomId, tag.languageId, Navigator.REPLACE)
             hide()
         }
     }

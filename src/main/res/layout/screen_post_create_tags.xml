@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="?android:windowBackground"
+    android:orientation="vertical">
+
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
+        android:id="@+id/vRoot"
+        style="@style/Root.Content"
+        android:layout_weight="1"
+        android:background="?content_background">
+
+        <com.google.android.material.appbar.AppBarLayout
+            style="@style/AppBar">
+
+            <androidx.appcompat.widget.Toolbar
+                style="@style/Toolbar"
+                app:title="@string/app_tags"/>
+
+        </com.google.android.material.appbar.AppBarLayout>
+
+        <androidx.core.widget.NestedScrollView
+            style="@style/Scroll"
+            android:layout_height="wrap_content">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:id="@+id/vTagsContainer"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="16dp"
+                    android:layout_marginRight="16dp"
+                    android:orientation="vertical"/>
+
+                <View
+                    android:layout_width="0dp"
+                    android:layout_height="96dp"/>
+
+            </LinearLayout>
+
+        </androidx.core.widget.NestedScrollView>
+
+        <LinearLayout
+            android:id="@+id/vMessageContainer"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:orientation="vertical">
+
+            <ImageView
+                android:layout_width="168dp"
+                android:layout_height="168dp"
+                android:layout_gravity="center"
+                android:layout_marginBottom="16dp"
+                android:src="@drawable/bg_11"/>
+
+            <TextView
+                style="@style/Base.TextAppearance.AppCompat.Subhead"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:maxWidth="240dp"
+                android:text="@string/post_create_tags_empty"/>
+
+        </LinearLayout>
+
+        <View
+            android:id="@+id/vLine"
+            android:layout_width="match_parent"
+            android:layout_height="4dp"
+            android:layout_gravity="bottom"/>
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            style="@style/Fab"
+            android:src="@drawable/ic_done_white_24dp"
+            app:backgroundTint="@color/green_400"/>
+
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+
+    <FrameLayout
+        android:id="@+id/vMenuContainer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="?colorPrimary"
+        android:padding="8dp">
+
+        <CheckBox
+            android:id="@+id/vNotifyFollowers"
+            android:layout_gravity="center|left"
+            android:layout_marginLeft="8dp"
+            android:text="@string/post_create_notify_followers"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+    </FrameLayout>
+
+</LinearLayout>
+

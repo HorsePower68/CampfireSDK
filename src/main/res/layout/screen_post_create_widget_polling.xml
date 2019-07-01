@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    style="@style/Root.Content">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <com.google.android.material.appbar.AppBarLayout style="@style/AppBar">
+
+            <androidx.appcompat.widget.Toolbar
+                style="@style/Toolbar"
+                app:title="@string/post_page_table">
+
+                <com.sup.dev.android.views.views.ViewButton
+                    android:id="@+id/vCreate"
+                    style="@style/Button.Text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="right|center"
+                    android:text="@string/app_create" />
+
+            </androidx.appcompat.widget.Toolbar>
+
+        </com.google.android.material.appbar.AppBarLayout>
+
+        <ScrollView style="@style/Scroll">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="16dp">
+
+                <TextView
+                    android:id="@+id/vTitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    style="@style/TextAppearance.AppCompat.Body1"
+                    android:textColor="?color_stroke" />
+
+                <com.google.android.material.textfield.TextInputLayout
+                    style="@style/TextInputLayout.Outlined">
+
+                    <EditText
+                        android:id="@+id/vPgeTitle"
+                        style="@style/Field"
+                        android:inputType="textCapSentences|textAutoComplete|textAutoCorrect" />
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="?color_stroke"
+                    android:text="@string/post_page_polling_options" />
+
+                <LinearLayout
+                    android:id="@+id/vContainer"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical" />
+
+                <com.sup.dev.android.views.views.ViewButton
+                    android:id="@+id/vAdd"
+                    style="@style/Button.Text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/app_add" />
+
+            </LinearLayout>
+
+
+        </ScrollView>
+
+
+    </LinearLayout>
+
+</FrameLayout>

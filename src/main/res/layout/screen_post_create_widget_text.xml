@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    style="@style/Root.Content">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <com.google.android.material.appbar.AppBarLayout
+            style="@style/AppBar">
+
+            <androidx.appcompat.widget.Toolbar
+                style="@style/Toolbar"
+                app:title="@string/post_page_text">
+
+                <com.sup.dev.android.views.views.ViewIcon
+                    android:id="@+id/vTextTitle"
+                    style="@style/Icon.Toolbar"
+                    android:src="?ic_text_fields_24dp"/>
+
+            </androidx.appcompat.widget.Toolbar>
+
+        </com.google.android.material.appbar.AppBarLayout>
+
+        <EditText
+            android:id="@+id/vField"
+            android:layout_marginTop="8dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="8dp"
+            android:layout_weight="1"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:hint="@string/post_page_text_hint"
+            android:background="@null"
+            android:inputType="textMultiLine|textCapSentences|textAutoCorrect"/>
+
+    </LinearLayout>
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        style="@style/Fab.Mini"
+        android:src="@drawable/ic_done_white_24dp"/>
+
+</FrameLayout>

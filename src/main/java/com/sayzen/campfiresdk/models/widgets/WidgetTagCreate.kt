@@ -11,6 +11,7 @@ import com.sup.dev.android.libs.api_simple.ApiRequestsSupporter
 import com.dzen.campfire.api.models.units.tags.UnitTag
 import com.sayzen.campfiresdk.R
 import com.sayzen.campfiresdk.controllers.ControllerCampfireSDK
+import com.sayzen.campfiresdk.screens.fandoms.STags
 import com.sup.dev.android.libs.screens.navigator.Navigator
 import com.sup.dev.android.tools.ToolsBitmap
 import com.sup.dev.android.tools.ToolsImagesLoader
@@ -115,7 +116,7 @@ class WidgetTagCreate private constructor(
         ApiRequestsSupporter.executeEnabled(this, RTagsCreate(vName.getText(), vComment.getText(), fandomId, languageId, parentId, image)
         ) { r ->
             ToolsToast.show(R.string.app_done)
-            ControllerCampfireSDK.onToTagsClicked(fandomId, languageId, Navigator.REPLACE)
+            STags.instance(fandomId, languageId, Navigator.REPLACE)
         }
     }
 
@@ -123,7 +124,7 @@ class WidgetTagCreate private constructor(
         ApiRequestsSupporter.executeEnabled(this, RTagsChange(tag!!.id, vName.getText(), vComment.getText(), image, removeImage)
         ) { r ->
             ToolsToast.show(R.string.app_done)
-            ControllerCampfireSDK.onToTagsClicked(fandomId, languageId, Navigator.REPLACE)
+            STags.instance(fandomId, languageId, Navigator.REPLACE)
         }
     }
 }

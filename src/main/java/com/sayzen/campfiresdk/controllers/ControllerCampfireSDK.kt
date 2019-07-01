@@ -22,7 +22,6 @@ object ControllerCampfireSDK {
     var ON_TO_POST_TAGS_CLICKED: (postId: Long, isMyUnit: Boolean, action: NavigationAction) -> Unit = { postId, isMyUnit, action -> }
     var ON_TO_FORUM_CLICKED: (forumId: Long, commentId: Long, action: NavigationAction) -> Unit = { forumId, commentId, action -> }
     var ON_TO_ACHIEVEMENT_CLICKED: (accountId: Long, accountName: String, accountLvl: Long, achievementIndex: Long, toPrev: Boolean, action: NavigationAction) -> Unit = { accountId, accountName, accountLvl, achievementIndex, toPrev, action -> }
-    var ON_TO_TAGS_CLICKED: (fandomId: Long, languageId: Long, action: NavigationAction) -> Unit = { fandomId, languageId, action -> }
     var ON_CHANGE_FORUM_CLICKED: (unit: UnitForum) -> Unit = { unit -> }
     var ON_SCREEN_CHAT_START: () -> Unit = {  }
 
@@ -77,10 +76,6 @@ object ControllerCampfireSDK {
 
     fun onToAchievementClicked(accountId: Long, accountName: String, accountLvl: Long, achievementIndex: Long, toPrev: Boolean, action: NavigationAction) {
         ON_TO_ACHIEVEMENT_CLICKED.invoke(accountId, accountName, accountLvl, achievementIndex, toPrev, action)
-    }
-
-    fun onToTagsClicked(fandomId: Long, languageId: Long, action: NavigationAction) {
-        ON_TO_TAGS_CLICKED.invoke(fandomId, languageId, action)
     }
 
 }

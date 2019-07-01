@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="?android:windowBackground"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <com.google.android.material.appbar.AppBarLayout
+        style="@style/AppBar">
+
+        <androidx.appcompat.widget.Toolbar
+            style="@style/Toolbar"
+            app:title="@string/post_draft">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="-16dp"
+                android:orientation="horizontal">
+
+                <com.sup.dev.android.views.views.ViewAvatarTitle
+                    android:id="@+id/vAvatarTitle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"/>
+
+            </LinearLayout>
+
+        </androidx.appcompat.widget.Toolbar>
+
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <androidx.recyclerview.widget.RecyclerView
+        style="@style/Recycler"
+        android:background="?content_background"/>
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        style="@style/Fab"
+        android:id="@+id/vAdd"
+        android:layout_marginRight="92dp"
+        android:src="@drawable/ic_add_white_24dp"/>
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        style="@style/Fab"
+        android:id="@+id/vFinish"
+        android:src="@drawable/ic_send_white_24dp"/>
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>
