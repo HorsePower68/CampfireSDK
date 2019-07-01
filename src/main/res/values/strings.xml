@@ -100,6 +100,7 @@
     <string name="app_category">Category</string>
     <string name="app_is_typing">is typing…</string>
     <string name="app_feed">Feed</string>
+    <string name="app_genre">Genre</string>
     <string name="app_genres">Genres</string>
     <string name="app_instrument">Instrument</string>
     <string name="app_purpose">Purpose</string>

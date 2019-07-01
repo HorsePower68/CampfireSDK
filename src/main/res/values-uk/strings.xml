@@ -100,6 +100,7 @@
     <string name="app_category">Категория</string>
     <string name="app_is_typing">печатает…</string>
     <string name="app_feed">Лента</string>
+    <string name="app_genre">Жанр</string>
     <string name="app_genres">Жанры</string>
     <string name="app_instrument">Инструмент</string>
     <string name="app_purpose">Назначение</string>
