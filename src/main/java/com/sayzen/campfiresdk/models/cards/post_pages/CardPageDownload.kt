@@ -10,15 +10,14 @@ import com.dzen.campfire.api.models.units.post.PageImage
 import com.dzen.campfire.api.models.units.post.UnitPost
 import com.dzen.campfire.api_media.requests.RResourcesGet
 import com.sayzen.campfiresdk.R
+import com.sayzen.campfiresdk.controllers.apiMedia
 import com.sup.dev.android.libs.api_simple.ApiRequestsSupporter
 import com.sup.dev.android.libs.screens.navigator.Navigator
-import com.sup.dev.android.tools.ToolsImagesLoader
-import com.sup.dev.android.tools.ToolsResources
-import com.sup.dev.android.tools.ToolsToast
-import com.sup.dev.android.tools.ToolsView
+import com.sup.dev.android.tools.*
 import com.sup.dev.android.views.screens.SImageView
 import com.sup.dev.android.views.widgets.WidgetAlert
 import com.sup.dev.java.tools.ToolsText
+import com.sup.dev.java.tools.ToolsThreads
 
 class CardPageDownload(
         unit: UnitPost?,
@@ -63,11 +62,23 @@ class CardPageDownload(
                 .setTitleImageBackgroundRes(R.color.blue_700)
                 .setOnEnter(R.string.app_download) {
 
-                    ApiRequestsSupporter.executeProgressDialog(R.string.app_downloading, RResourcesGet(page.resourceId)) { r ->
-
-                        ToolsToast.show(R.string.app_done)
-                    }
-
+                    val dProgress = ToolsView.showProgressDialog(R.string.app_downloading)
+                    RResourcesGet(page.resourceId)
+                            .onComplete { r ->
+                                ToolsPermission.requestWritePermission {
+                                    val dProgress2 = ToolsView.showProgressDialog(R.string.app_downloading)
+                                    ToolsThreads.thread {
+                                        ToolsFilesAndroid.unpackZip(page.patch, r.bytes)
+                                        ToolsThreads.main {
+                                            dProgress2.hide()
+                                            dProgress.hide()    //  Почему-то не скрывается в onFinish
+                                            ToolsToast.show(R.string.app_done)
+                                        }
+                                    }
+                                }
+                            }
+                            .onFinish { dProgress.hide() }
+                            .send(apiMedia)
                 }
                 .asSheetShow()
 

@@ -20,7 +20,7 @@ import com.sup.dev.java.libs.eventBus.EventBus
 import com.sup.dev.java.libs.eventBus.EventBusSubscriber
 import com.sup.dev.java.tools.ToolsThreads
 
-class SPost private constructor(
+class SPost constructor(
         private val unit: UnitPost,
         val tags: Array<UnitTag>,
         commentId: Long
