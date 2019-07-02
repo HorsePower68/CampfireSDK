@@ -100,7 +100,7 @@ object ControllerNotifications {
         val b2 = parser.canShow()
 
         addNewNotifications(notification)
-        info("ControllerNotifications can show $b1 $b2")
+        info("ControllerNotifications can show [${notification}] $b1 $b2")
 
         if (b1 && b2) {
             val text = parser.asString(false)

@@ -102,7 +102,7 @@ class WidgetComment constructor(
 
     private fun onCancel() {
         if (attach.isHasContent()
-                || (answer != null && getText() != answer.creatorName + ",")
+                || (getText().isNotEmpty() && answer != null && getText() != answer.creatorName + ",")
                 || (changeComment != null && getText() != changeComment.text.trim())
                 || (answer == null && changeComment == null && getText().isNotEmpty())
         ) {
