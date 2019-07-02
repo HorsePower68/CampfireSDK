@@ -39,6 +39,7 @@ import com.sup.dev.java.classes.items.Item3
 import com.sup.dev.java.classes.items.ItemNullable
 import com.sup.dev.java.libs.api_simple.client.TokenProvider
 import com.sup.dev.java.libs.eventBus.EventBus
+import com.sup.dev.java.libs.json.Json
 import com.sup.dev.java.tools.ToolsThreads
 import java.util.regex.Pattern
 
@@ -160,10 +161,16 @@ object ControllerApi {
 
     fun setCurrentAccount(account: Account) {
         this.account = account
-        ToolsStorage.put("lst account", account.id)
+        ToolsStorage.put("account json", account.json(true, Json()))
+        ControllerPolling.clear()
     }
 
-    fun getLastAccount() = ToolsStorage.getLong("lst account", account.id)
+    fun getLastAccount():Account{
+        val json = ToolsStorage.getJson("account json")?:Json()
+        val account = Account()
+        account.json(false, json)
+        return account
+    }
 
     fun enableAutoRegistration() {
         ControllerGoogleToken.tokenPostExecutor = { token, callback ->

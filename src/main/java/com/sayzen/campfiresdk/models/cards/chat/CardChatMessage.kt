@@ -146,7 +146,7 @@ abstract class CardChatMessage constructor(
 
         if (vText != null) {
             vText.text = unit.text
-            vText.visibility = if(unit.text.isEmpty()) View.GONE else View.VISIBLE
+            vText.visibility = if (unit.text.isEmpty()) View.GONE else View.VISIBLE
 
             ControllerApi.makeLinkable(vText) {
                 val myName = ControllerApi.account.name + ","
@@ -155,10 +155,14 @@ abstract class CardChatMessage constructor(
         }
 
         if (vNotRead != null) {
-            vNotRead.visibility = if (!ControllerApi.isCurrentAccount(unit.creatorId)
-                    || ControllerChats.isRead(unit.chatTag(), unit.dateCreate)
-                    || unit.chatType != API.CHAT_TYPE_PRIVATE)
-                View.GONE else View.VISIBLE
+
+            if (!ControllerApi.isCurrentAccount(unit.creatorId) || unit.chatType != API.CHAT_TYPE_PRIVATE)
+                vNotRead.visibility = View.GONE
+            else if (ControllerChats.isRead(unit.chatTag(), unit.dateCreate))
+                vNotRead.visibility = View.INVISIBLE
+            else
+                vNotRead.visibility = View.VISIBLE
+
         }
 
 
@@ -237,7 +241,7 @@ abstract class CardChatMessage constructor(
 
         if (vAvatar != null) {
             vAvatar.visibility = if (ControllerApi.isCurrentAccount(unit.creatorId)) View.GONE else View.VISIBLE
-            if(unit.chatTag().chatType == API.CHAT_TYPE_PRIVATE) vAvatar.visibility = View.GONE
+            if (unit.chatTag().chatType == API.CHAT_TYPE_PRIVATE) vAvatar.visibility = View.GONE
             if (!showFandom) xAccount.setView(vAvatar)
             else xFandom.setView(vAvatar)
         }
@@ -248,7 +252,7 @@ abstract class CardChatMessage constructor(
                 vLabel.text = ToolsDate.dateToString(unit.dateCreate) + (if (unit.changed) " " + ToolsResources.s(R.string.app_edited) else "")
             } else {
                 (vLabel.layoutParams as LinearLayout.LayoutParams).gravity = Gravity.LEFT
-                if(unit.chatTag().chatType == API.CHAT_TYPE_PRIVATE)
+                if (unit.chatTag().chatType == API.CHAT_TYPE_PRIVATE)
                     vLabel.text = ToolsDate.dateToString(unit.dateCreate) + (if (unit.changed) " " + ToolsResources.s(R.string.app_edited) else "")
                 else
                     vLabel.text = xAccount.name + "  " + ToolsDate.dateToString(unit.dateCreate) + (if (unit.changed) " " + ToolsResources.s(R.string.app_edited) else "")

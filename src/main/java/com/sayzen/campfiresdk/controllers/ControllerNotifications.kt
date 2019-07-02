@@ -366,11 +366,11 @@ object ControllerNotifications {
         override fun getTitle(): String {
             var title = ""
             if (n.parentUnitType == API.UNIT_TYPE_POST) {
-                title = if (ControllerApi.getLastAccount() == n.unitCreatorId) ToolsResources.sCap(R.string.notification_post_comment, n.accountName, ToolsResources.sex(n.accountSex, R.string.he_comment, R.string.she_comment))
+                title = if (ControllerApi.getLastAccount().id == n.unitCreatorId) ToolsResources.sCap(R.string.notification_post_comment, n.accountName, ToolsResources.sex(n.accountSex, R.string.he_comment, R.string.she_comment))
                 else ToolsResources.sCap(R.string.notification_post_comment_watch, n.accountName, ToolsResources.sex(n.accountSex, R.string.he_comment, R.string.she_comment))
             }
             if (n.parentUnitType == API.UNIT_TYPE_MODERATION) {
-                title = if (ControllerApi.getLastAccount() == n.unitCreatorId) ToolsResources.sCap(
+                title = if (ControllerApi.getLastAccount().id == n.unitCreatorId) ToolsResources.sCap(
                         R.string.notification_moderation_comment, n.accountName, ToolsResources.sex(
                         n.accountSex,
                         R.string.he_comment,

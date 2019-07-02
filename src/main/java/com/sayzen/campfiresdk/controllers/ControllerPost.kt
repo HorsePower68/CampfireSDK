@@ -69,7 +69,7 @@ object ControllerPost {
             .add(R.string.unit_menu_moderator_to_drafts) { w, card -> moderatorToDrafts(unit.id) }.backgroundRes(R.color.blue_700).condition(ENABLED_MODER_TO_DRAFT && ControllerApi.can(unit.fandomId, unit.languageId, API.LVL_MODERATOR_TO_DRAFTS))
             .add(R.string.post_menu_change_tags) { w, card -> changeTagsModer(unit) }.backgroundRes(R.color.blue_700).condition(ENABLED_MODER_CHANGE_TAGS && ControllerApi.can(unit.fandomId, unit.languageId, API.LVL_MODERATOR_POST_TAGS))
             .clearGroupCondition()
-            .add(if (unit.important == API.UNIT_IMPORTANT_IMPORTANT) R.string.unit_menu_important_unmark else R.string.unit_menu_important_mark) { w, card -> markAsImportant(unit.id, !(unit.important == API.UNIT_IMPORTANT_IMPORTANT)) }.backgroundRes(R.color.blue_700).condition(ENABLED_INPORTANT && ControllerApi.can(unit.fandomId, unit.languageId, API.LVL_MODERATOR_BLOCK) && unit.isPublic)
+            .add(if (unit.important == API.UNIT_IMPORTANT_IMPORTANT) R.string.unit_menu_important_unmark else R.string.unit_menu_important_mark) { w, card -> markAsImportant(unit.id, !(unit.important == API.UNIT_IMPORTANT_IMPORTANT)) }.backgroundRes(R.color.blue_700).condition(ENABLED_INPORTANT && ControllerApi.can(unit.fandomId, unit.languageId, API.LVL_MODERATOR_IMPORTANT) && unit.isPublic)
             .groupCondition(!ControllerApi.isCurrentAccount(unit.creatorId) && unit.isPublic)
             .add(R.string.admin_make_moder) { w, card -> makeModerator(unit) }.backgroundRes(R.color.red_700)
             .condition(ENABLED_MAKE_MODER && ControllerApi.can(API.LVL_ADMIN_MAKE_MODERATOR))
