@@ -18,9 +18,11 @@ import com.sup.dev.android.app.SupAndroid
 import com.sup.dev.android.libs.api_simple.ApiRequestsSupporter
 import com.sup.dev.android.tools.ToolsNotifications
 import com.sup.dev.android.tools.ToolsResources
+import com.sup.dev.android.tools.ToolsStorage
 import com.sup.dev.java.libs.debug.info
 import com.sup.dev.java.libs.eventBus.EventBus
 import com.sup.dev.java.libs.json.Json
+import com.sup.dev.java.libs.json.JsonArray
 import com.sup.dev.java.tools.*
 
 object ControllerNotifications {
@@ -159,6 +161,7 @@ object ControllerNotifications {
     //
 
     private var newNotifications: Array<Notification> = emptyArray()
+
     private var removeBuffer: ArrayList<NewNotificationKiller> = ArrayList()
 
     fun addNewNotifications(n: Notification) {
@@ -169,21 +172,28 @@ object ControllerNotifications {
             else newNotifications[it]
         }
         actualizeNewNotifications()
-        EventBus.post(EventNotificationsCountChanged())
     }
 
     fun setNewNotifications(array: Array<Notification>) {
         newNotifications = array
         actualizeNewNotifications()
+    }
+
+    private fun actualizeNewNotifications() {
+        val removeList = ArrayList<NewNotificationKiller>()
+        for (i in removeBuffer) {
+            removeNotificationFromNew(i, false, false)
+            if (i.dateCreate + 1000L * 60 * 5 < System.currentTimeMillis()) removeList.add(i)
+        }
+        for (i in removeList) removeBuffer.remove(i)
+
+        var count = 0
+        for (i in newNotifications) if (notificationExecutor!!.notificationsFilterEnabled(i.getType())) count++
+        ToolsStorage.put("ControllerNotification_count", count)
         EventBus.post(EventNotificationsCountChanged())
     }
 
-
-    fun getNewNotificationsCount(): Int {
-        var count = 0
-        for (i in newNotifications) if (notificationExecutor!!.notificationsFilterEnabled(i.getType())) count++
-        return count
-    }
+    fun getNewNotificationsCount() = ToolsStorage.getInt("ControllerNotification_count", 0)
 
     fun getNewNotifications(types: Array<Long> = emptyArray()): Array<Notification> {
         val list = ArrayList<Notification>()
@@ -191,18 +201,9 @@ object ControllerNotifications {
         return list.toTypedArray()
     }
 
-    fun actualizeNewNotifications() {
-        val removeList = ArrayList<NewNotificationKiller>()
-        for (i in removeBuffer) {
-            removeNotificationFromNew(i, false, false)
-            if (i.dateCreate + 1000L * 60 * 5 < System.currentTimeMillis()) removeList.add(i)
-        }
-        for (i in removeList) removeBuffer.remove(i)
-    }
-
     fun removeNotificationFromNewAll() {
         newNotifications = emptyArray()
-        EventBus.post(EventNotificationsCountChanged())
+        actualizeNewNotifications()
         ApiRequestsSupporter.execute(RAccountsNotificationsView(emptyArray(), emptyArray())) { r -> }
     }
 
@@ -212,7 +213,7 @@ object ControllerNotifications {
         for (i in subArray) hideAll(tag(i.id))
         val array = Array(subArray.size) { subArray[it].id }
         if (array.isNotEmpty()) RAccountsNotificationsView(array, emptyArray()).send(api)
-        EventBus.post(EventNotificationsCountChanged())
+        actualizeNewNotifications()
     }
 
     fun removeNotificationFromNew(notificationId: Long) {
@@ -231,7 +232,7 @@ object ControllerNotifications {
         hideAll(tag(n.id))
         EventBus.post(EventNotificationReaded(n.id))
         if (sendCountEvent) {
-            EventBus.post(EventNotificationsCountChanged())
+            actualizeNewNotifications()
         }
     }
 

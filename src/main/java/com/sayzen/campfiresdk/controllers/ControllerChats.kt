@@ -28,8 +28,8 @@ import com.sup.dev.java.tools.ToolsThreads
 object ControllerChats {
 
     val eventBus = EventBus
-        .subscribe(EventNotification::class) { e: EventNotification -> onNotification(e) }
-        .subscribe(EventChatRead::class) { e: EventChatRead -> onEventChatRead(e) }
+            .subscribe(EventNotification::class) { e: EventNotification -> onNotification(e) }
+            .subscribe(EventChatRead::class) { e: EventChatRead -> onEventChatRead(e) }
 
     val readDates = HashMap<ChatTag, Long>()
 
@@ -43,22 +43,22 @@ object ControllerChats {
 
     fun instanceChatPopup(tag: ChatTag, onRemove: () -> Unit = {}): WidgetMenu {
         return WidgetMenu()
-            .add(R.string.chat_read) { w, card -> readRequest(tag) }
-            .add(R.string.app_copy_link) { w, card ->
-                ToolsAndroid.setToClipboard(ControllerApi.linkToChat(tag.targetId))
-                ToolsToast.show(R.string.app_copied)
-            }.condition(tag.chatType == API.CHAT_TYPE_FANDOM)
-            .add(R.string.app_copy_link_with_language) { w, card ->
-                ToolsAndroid.setToClipboard(ControllerApi.linkToChat(tag.targetId, tag.targetSubId))
-                ToolsToast.show(R.string.app_copied)
-            }.condition(tag.chatType == API.CHAT_TYPE_FANDOM)
-            .add(R.string.chat_remove) { w, card ->
-                ApiRequestsSupporter.executeProgressDialog(RChatRemove(tag)) { r ->
-                    EventBus.post(EventChatRemoved(tag))
-                    onRemove.invoke()
-                    ToolsToast.show(R.string.app_done)
+                .add(R.string.chat_read) { w, card -> readRequest(tag) }
+                .add(R.string.app_copy_link) { w, card ->
+                    ToolsAndroid.setToClipboard(ControllerApi.linkToChat(tag.targetId))
+                    ToolsToast.show(R.string.app_copied)
+                }.condition(tag.chatType == API.CHAT_TYPE_FANDOM)
+                .add(R.string.app_copy_link_with_language) { w, card ->
+                    ToolsAndroid.setToClipboard(ControllerApi.linkToChat(tag.targetId, tag.targetSubId))
+                    ToolsToast.show(R.string.app_copied)
+                }.condition(tag.chatType == API.CHAT_TYPE_FANDOM)
+                .add(R.string.chat_remove) { w, card ->
+                    ApiRequestsSupporter.executeProgressDialog(RChatRemove(tag)) { r ->
+                        EventBus.post(EventChatRemoved(tag))
+                        onRemove.invoke()
+                        ToolsToast.show(R.string.app_done)
+                    }
                 }
-            }
     }
 
 
@@ -78,11 +78,10 @@ object ControllerChats {
         ToolsStorage.put("ControllerChats", JsonArray())
     }
 
-    fun getMessagesCount(): Int {
-        var count = 0
-        val list = loadMessagesCounts()
-        for (i in list) if (i.a3) count++
-        return count
+    fun getMessagesCount() = ToolsStorage.getInt("ControllerChats_count", 0)
+
+    fun incrementMessagesCount(tag: ChatTag, showInNavigation: Boolean) {
+        setMessagesCount(tag, getMessagesCount(tag) + 1, showInNavigation)
     }
 
     fun setMessagesCount(tag: ChatTag, count: Int, showInNavigation: Boolean) {
@@ -101,11 +100,12 @@ object ControllerChats {
 
         saveMessagesCounts(list)
 
-        EventBus.post(EventChatMessagesCountChanged(tag))
-    }
+        var count = 0
+        for (i in list) if (i.a3) count++
 
-    fun incrementMessagesCount(tag: ChatTag, showInNavigation: Boolean) {
-        setMessagesCount(tag, getMessagesCount(tag) + 1, showInNavigation)
+        ToolsStorage.put("ControllerChats_count", count)
+
+        EventBus.post(EventChatMessagesCountChanged(tag))
     }
 
     fun getMessagesCount(tag: ChatTag): Int {
@@ -124,7 +124,7 @@ object ControllerChats {
         val array = ToolsStorage.getJsonArray("ControllerChats", JsonArray()).getJsons()
         val list = ArrayList<Item3<ChatTag, Int, Boolean>>()
         for (j in array) try {
-            list.add(Item3(ChatTag(j!!.getString("tag", "0,0,0")!!), j.getInt("count"), j.getBoolean("showInNavigation")))
+            list.add(Item3(ChatTag(j!!.getString("tag", "0,0,0")), j.getInt("count"), j.getBoolean("showInNavigation")))
         } catch (e: Exception) {
             err(e)
         }
