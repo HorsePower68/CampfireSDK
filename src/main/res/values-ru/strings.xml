@@ -356,6 +356,17 @@
     <string name="administration_fandoms_empty">Никто не предлагал новые фэндомы</string>
 
     <string name="feed_empty">Ничего не нашлось</string>
+    <string name="feed_loading_1">(\/)._.(\/)</string>
+    <string name="feed_loading_2">Содержит ГМО!</string>
+    <string name="feed_loading_3">Помогите, меня здесь держат насильно!</string>
+    <string name="feed_loading_4">Красной кнопки не существует!</string>
+    <string name="feed_loading_5">Вперёд и вниз!</string>
+    <string name="feed_loading_6">В любой непонятной ситуации пиши Zeon\'у</string>
+    <string name="feed_loading_7">Когда уже будет сайт!?</string>
+    <string name="feed_loading_8">На 90% безопаснее обычных приложений</string>
+    <string name="feed_loading_9">Не обновляйте ленту слишком часто, вы сломаете сервер!</string>
+    <string name="feed_loading_10">Вытирайте ноги!</string>
+    <string name="feed_loading">Загружаем вашу ленту</string>
     <string name="feed_all">Все побликации</string>
     <string name="feed_subscribed">Только подписки</string>
     <string name="feed_important">Только важные</string>

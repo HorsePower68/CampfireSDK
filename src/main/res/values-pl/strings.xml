@@ -354,6 +354,17 @@ Campfire has anime fandoms and gaming fandoms.</string>
     <string name="administration_fandoms_empty">No suggested fandoms yet</string>
 
     <string name="feed_empty">Nothing was found</string>
+    <string name="feed_loading_1">(\/)._.(\/)</string>
+    <string name="feed_loading_2">Contains GMOs!</string>
+    <string name="feed_loading_3">Help, they keep me here by force!</string>
+    <string name="feed_loading_4">There is no red button!</string>
+    <string name="feed_loading_5">Forward and down!</string>
+    <string name="feed_loading_6">In any strange situation write to Zeon</string>
+    <string name="feed_loading_7">When will they make the site !?</string>
+    <string name="feed_loading_8">90% safer than normal applications</string>
+    <string name="feed_loading_9">Do not refresh feed too often, you will break the server!</string>
+    <string name="feed_loading_10">Wipe your feet!</string>
+    <string name="feed_loading">Loading you\'r feed</string>
     <string name="feed_all">All publications</string>
     <string name="feed_subscribed">Subscribed only</string>
     <string name="feed_important">Important only</string>
