@@ -15,10 +15,9 @@ import com.sayzen.campfiresdk.models.events.notifications.EventNotificationReade
 import com.sayzen.campfiresdk.models.events.notifications.EventNotificationsCountChanged
 import com.sayzen.devsupandroidgoogle.GoogleNotifications
 import com.sup.dev.android.app.SupAndroid
+import com.sup.dev.android.libs.api_simple.ApiRequestsSupporter
 import com.sup.dev.android.tools.ToolsNotifications
 import com.sup.dev.android.tools.ToolsResources
-import com.sup.dev.java.classes.items.Item
-import com.sup.dev.java.classes.items.Item3
 import com.sup.dev.java.libs.debug.info
 import com.sup.dev.java.libs.eventBus.EventBus
 import com.sup.dev.java.libs.json.Json
@@ -66,7 +65,7 @@ object ControllerNotifications {
             onToken(token)
         }, { message: RemoteMessage -> onMessage(message) })
 
-        ToolsNotifications.notificationsListener = {intent, type, tag ->
+        ToolsNotifications.notificationsListener = { intent, type, tag ->
             if (intent.hasExtra(EXTRA_NOTIFICATION)) {
                 val notificationJson = intent.getStringExtra(EXTRA_NOTIFICATION)
                 intent.removeExtra(EXTRA_NOTIFICATION)
@@ -188,7 +187,7 @@ object ControllerNotifications {
 
     fun getNewNotifications(types: Array<Long> = emptyArray()): Array<Notification> {
         val list = ArrayList<Notification>()
-        for (i in newNotifications) if (types.isEmpty() || types.contains(i.getType())) list.add(i)
+        for (i in newNotifications) if (types.contains(i.getType())) list.add(i)
         return list.toTypedArray()
     }
 
@@ -204,6 +203,7 @@ object ControllerNotifications {
     fun removeNotificationFromNewAll() {
         newNotifications = emptyArray()
         EventBus.post(EventNotificationsCountChanged())
+        ApiRequestsSupporter.execute(RAccountsNotificationsView(emptyArray(), emptyArray())) { r -> }
     }
 
     fun removeNotificationFromNew(types: Array<Long>) {
@@ -211,8 +211,8 @@ object ControllerNotifications {
         for (i in subArray) newNotifications = ToolsCollections.removeItem(i, newNotifications)
         for (i in subArray) hideAll(tag(i.id))
         val array = Array(subArray.size) { subArray[it].id }
+        if (array.isNotEmpty()) RAccountsNotificationsView(array, emptyArray()).send(api)
         EventBus.post(EventNotificationsCountChanged())
-        RAccountsNotificationsView(array, emptyArray()).send(api)
     }
 
     fun removeNotificationFromNew(notificationId: Long) {
@@ -224,13 +224,13 @@ object ControllerNotifications {
         removeNotificationFromNew(n, true)
     }
 
-    private fun removeNotificationFromNew(n: Notification, sendCountEvent:Boolean) {
+    private fun removeNotificationFromNew(n: Notification, sendCountEvent: Boolean) {
         val oldSize = newNotifications.size
         newNotifications = ToolsCollections.removeItem(n, newNotifications)
         if (oldSize != newNotifications.size) RAccountsNotificationsView(arrayOf(n.id), emptyArray()).send(api)
         hideAll(tag(n.id))
         EventBus.post(EventNotificationReaded(n.id))
-        if(sendCountEvent) {
+        if (sendCountEvent) {
             EventBus.post(EventNotificationsCountChanged())
         }
     }
@@ -243,6 +243,11 @@ object ControllerNotifications {
         if (addToBuffer) removeBuffer.add(k)
         val array = Array(newNotifications.size) { newNotifications[it] }
         for (n in array) if (willKill(k, n)) removeNotificationFromNew(n, sendCountEvent)
+    }
+
+    fun isNew(notificationId: Long): Boolean {
+        for (n in newNotifications) if (n.id == notificationId) return true
+        return false
     }
 
     private fun willKill(k: NewNotificationKiller, n: Notification): Boolean {
