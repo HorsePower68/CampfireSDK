@@ -63,6 +63,7 @@ object ControllerNotifications {
         this.logoWhite = logoWhite
         this.activityClass = activityClass
         this.notificationExecutor = notificationExecutor
+        ToolsNotifications.defChanelId = chanelOther.getId()
         GoogleNotifications.init({ token: String? ->
             onToken(token)
         }, { message: RemoteMessage -> onMessage(message) })
