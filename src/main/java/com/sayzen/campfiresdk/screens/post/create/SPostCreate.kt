@@ -2,6 +2,8 @@ package com.sayzen.campfiresdk.screens.post.create
 
 import android.graphics.Bitmap
 import android.net.Uri
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.dzen.campfire.api.API
 import com.dzen.campfire.api.models.units.post.*
@@ -73,7 +75,7 @@ class SPostCreate constructor(
 
     constructor(fandomId: Long, languageId: Long, fandomName: String, fandomImageId: Long) : this(fandomId, languageId, fandomName, fandomImageId, null, emptyArray(), true)
 
-    private val vRecycler: androidx.recyclerview.widget.RecyclerView = findViewById(R.id.vRecycler)
+    private val vRecycler: RecyclerView = findViewById(R.id.vRecycler)
     private val vAdd: FloatingActionButton = findViewById(R.id.vAdd)
     private val vFinish: FloatingActionButton = findViewById(R.id.vFinish)
     private val vAvatarTitle: ViewAvatarTitle = findViewById(R.id.vAvatarTitle)
@@ -126,7 +128,7 @@ class SPostCreate constructor(
 
 
         vAdd.setOnClickListener { v -> onFabClicked() }
-        vRecycler.layoutManager = androidx.recyclerview.widget.LinearLayoutManager(vRecycler.context)
+        vRecycler.layoutManager = LinearLayoutManager(vRecycler.context)
         vRecycler.adapter = adapter
         vRecycler.scrollToPosition(adapter.size()-1)
 

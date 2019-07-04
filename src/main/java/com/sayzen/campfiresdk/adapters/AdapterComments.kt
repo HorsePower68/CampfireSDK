@@ -23,7 +23,7 @@ import com.sup.dev.java.tools.ToolsThreads
 class AdapterComments(
         private val unitId: Long,
         private var scrollToCommentId: Long,
-        private val vRecycler: androidx.recyclerview.widget.RecyclerView,
+        private val vRecycler: RecyclerView,
         private val startFromBottom: Boolean = false
 ) : RecyclerCardAdapterLoading<CardComment, UnitComment>(CardComment::class, null) {
 
@@ -163,13 +163,13 @@ class AdapterComments(
     private fun onNotification(e: EventNotification) {
         if (e.notification is NotificationComment)
             if (e.notification.unitId == unitId) {
-                needScrollToBottom = (vRecycler.layoutManager as androidx.recyclerview.widget.LinearLayoutManager).findLastCompletelyVisibleItemPosition() == itemCount - 1
+                needScrollToBottom = (vRecycler.layoutManager as LinearLayoutManager).findLastCompletelyVisibleItemPosition() == itemCount - 1
                 loadBottom()
             }
 
         if (e.notification is NotificationCommentAnswer)
             if (e.notification.unitId == unitId) {
-                needScrollToBottom = (vRecycler.layoutManager as androidx.recyclerview.widget.LinearLayoutManager).findLastCompletelyVisibleItemPosition() == itemCount - 1
+                needScrollToBottom = (vRecycler.layoutManager as LinearLayoutManager).findLastCompletelyVisibleItemPosition() == itemCount - 1
                 loadBottom()
             }
 

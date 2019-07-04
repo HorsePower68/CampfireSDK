@@ -57,14 +57,14 @@ val apiMedia: APIMedia = APIMedia(
         APIMedia.IP,
         APIMedia.PORT_HTTPS,
         APIMedia.PORT_CERTIFICATE,
-        { key, token -> }, { "cats" }
+        { key, token -> }, { "" }
 )
 
 fun instanceTokenProvider(): TokenProvider {
     return object : TokenProvider {
 
         override fun getToken(callbackSource: (String?) -> Unit) {
-            callbackSource.invoke("cats")
+            callbackSource.invoke("")
         }
 
         override fun clearToken() {

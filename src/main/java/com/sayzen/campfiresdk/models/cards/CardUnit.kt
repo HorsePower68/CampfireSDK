@@ -21,7 +21,7 @@ abstract class CardUnit(open val unit: Unit) : Card(), NotifyItem {
     companion object {
         fun instance(
                 unit: Unit,
-                vRecycler: androidx.recyclerview.widget.RecyclerView? = null,
+                vRecycler: RecyclerView? = null,
                 showFandom: Boolean = false,
                 dividers: Boolean = false,
                 isFeedInFandom: Boolean = false

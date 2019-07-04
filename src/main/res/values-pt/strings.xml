@@ -354,7 +354,7 @@ Campfire has anime fandoms and gaming fandoms.</string>
     <string name="administration_fandoms_empty">No suggested fandoms yet</string>
 
     <string name="feed_empty">Nothing was found</string>
-    <string name="feed_loading_1">(\/)._.(\/)</string>
+    <string name="feed_loading_1">(\\/)._.(\\/)</string>
     <string name="feed_loading_2">Contains GMOs!</string>
     <string name="feed_loading_3">Help, they keep me here by force!</string>
     <string name="feed_loading_4">There is no red button!</string>
@@ -364,6 +364,8 @@ Campfire has anime fandoms and gaming fandoms.</string>
     <string name="feed_loading_8">90% safer than normal applications</string>
     <string name="feed_loading_9">Do not refresh feed too often, you will break the server!</string>
     <string name="feed_loading_10">Wipe your feet!</string>
+    <string name="feed_loading_11">How to turn off the summer box !?</string>
+    <string name="feed_loading_12">Hello World</string>
     <string name="feed_loading">Loading you\'r feed</string>
     <string name="feed_all">All publications</string>
     <string name="feed_subscribed">Subscribed only</string>
@@ -385,6 +387,7 @@ Campfire has anime fandoms and gaming fandoms.</string>
     <string name="fandoms_subscription_all">All</string>
     <string name="fandoms_subscription_important">Important</string>
     <string name="fandoms_empty">No fandoms found</string>
+    <string name="fandoms_loading">Loading of fandoms list</string>
     <string name="fandoms_global">Global search</string>
     <string name="fandoms_suggest">Suggest a fandom</string>
     <string name="fandoms_suggest_suggested">Fandom suggested</string>
@@ -423,13 +426,17 @@ Campfire has anime fandoms and gaming fandoms.</string>
     <string name="fandom_subscription_notify">Notify about important posts</string>
     <string name="fandom_review_empty">No reviews</string>
 
+    <string name="chats_empty">You don\'t have chats</string>
+    <string name="chats_loading">Loading you\'r chats</string>
+
     <string name="chat_never">You won\'t receive any notifications</string>
     <string name="chat_time">You receive notifications until: %s</string>
     <string name="chat_forever">You always receive notifications</string>
     <string name="chat_block_message">%s temporarily %s user %s</string>
     <string name="chat_warn_message">%s %s user %s</string>
     <string name="chat_empty_fandom">There are no messages here yet. Be the first.</string>
-    <string name="chat_empty_private">There are no messages here yet.</string>
+    <string name="chat_empty_private">There are no messages here yet</string>
+    <string name="chat_loading">Loading messages</string>
     <string name="chat_remove">Remove from chats</string>
     <string name="chat_read">Mark as read</string>
     <string name="chat_remove_confirm">Remove this message?</string>
@@ -443,7 +450,9 @@ Campfire has anime fandoms and gaming fandoms.</string>
     <string name="comment_error_gone">Looks like someone deleted this comment</string>
 
     <string name="forum_empty">There are no topic in this fandom yet</string>
+    <string name="forum_loading">Loading of forums list</string>
     <string name="forum_empty_messages">There are no messages in this forum yet</string>
+    <string name="forum_loading_messages">Loading of forum\'s messages</string>
     <string name="forum_creation_hint">Text of forum main page</string>
     <string name="forum_error_gone">Looks like someone deleted this forum.</string>
     <string name="forum_remove_confirm">Remove this forum?</string>
@@ -648,6 +657,7 @@ Campfire has anime fandoms and gaming fandoms.</string>
     <string name="intro_google_text">Welcome, please select your account</string>
 
     <string name="bookmarks_empty">You don\'t have any bookmarks</string>
+    <string name="bookmarks_loading">Loading you\'r bookmarks</string>
     <string name="bookmark">Bookmark</string>
     <string name="bookmarks_add">Add bookmark</string>
     <string name="bookmarks_remove">Remove bookmark</string>
@@ -655,6 +665,7 @@ Campfire has anime fandoms and gaming fandoms.</string>
     <string name="bookmarks_removed">Bookmark is removed</string>
 
     <string name="notifications_empty">You don\'t have any notification</string>
+    <string name="notifications_loading">Loading you\'r notifications</string>
 
     <string name="achievements_notification">You got a new achievement:</string>
 
@@ -734,6 +745,7 @@ Campfire has anime fandoms and gaming fandoms.</string>
     <string name="post_page_polling_change_alert">If you change the polling, all responses will be lost.</string>
     <string name="post_change_alert">Any changes in the published post are immediately visible to users. For serious changes, return the post to drafts.</string>
     <string name="post_drafts_empty_text">You don\'t have any draft yet</string>
+    <string name="post_drafts_loading">Loading you\'r drafts</string>
     <string name="post_search_empty">Nothing is found, try another tag</string>
     <string name="post_search_action">To tags</string>
     <string name="post_page_images_empty">No images in the list.</string>

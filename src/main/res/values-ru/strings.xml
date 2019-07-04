@@ -356,7 +356,7 @@
     <string name="administration_fandoms_empty">Никто не предлагал новые фэндомы</string>
 
     <string name="feed_empty">Ничего не нашлось</string>
-    <string name="feed_loading_1">(\/)._.(\/)</string>
+    <string name="feed_loading_1">(\\/)._.(\\/)</string>
     <string name="feed_loading_2">Содержит ГМО!</string>
     <string name="feed_loading_3">Помогите, меня здесь держат насильно!</string>
     <string name="feed_loading_4">Красной кнопки не существует!</string>
@@ -366,6 +366,8 @@
     <string name="feed_loading_8">На 90% безопаснее обычных приложений</string>
     <string name="feed_loading_9">Не обновляйте ленту слишком часто, вы сломаете сервер!</string>
     <string name="feed_loading_10">Вытирайте ноги!</string>
+    <string name="feed_loading_11">Как выключить летнию коробку!?</string>
+    <string name="feed_loading_12">Hello World</string>
     <string name="feed_loading">Загружаем вашу ленту</string>
     <string name="feed_all">Все побликации</string>
     <string name="feed_subscribed">Только подписки</string>
@@ -387,6 +389,7 @@
     <string name="fandoms_subscription_all">Всё</string>
     <string name="fandoms_subscription_important">Важные</string>
     <string name="fandoms_empty">Не найдено фэндомов</string>
+    <string name="fandoms_loading">Загрука списка фэндомов</string>
     <string name="fandoms_global">Глобальный поиск</string>
     <string name="fandoms_suggest">Предложить фэндом</string>
     <string name="fandoms_suggest_suggested">Фэндом предложен</string>
@@ -425,13 +428,17 @@
     <string name="fandom_subscription_notify">Уведомлять о важных постах</string>
     <string name="fandom_review_empty">Нет отзывов</string>
 
+    <string name="chats_empty">У вас пока нет чатов</string>
+    <string name="chats_loading">Загрузка ваших чатов</string>
+
     <string name="chat_never">Вы не получаете уведомлений</string>
     <string name="chat_time">Вы получаете уведомления до: %s</string>
     <string name="chat_forever">Вы всегда получаете уведомления</string>
     <string name="chat_block_message">%s временно %s пользователя %s</string>
     <string name="chat_warn_message">%s %s пользователя %s</string>
     <string name="chat_empty_fandom">Здесь еще нет сообщений. Будьте первым.</string>
-    <string name="chat_empty_private">Здесь еще нет сообщений.</string>
+    <string name="chat_empty_private">Здесь еще нет сообщений</string>
+    <string name="chat_loading">Загрузка сообщений</string>
     <string name="chat_remove">Удалить из чатов</string>
     <string name="chat_read">Пометить как прочитанный</string>
     <string name="chat_remove_confirm">Удалить это сообщение?</string>
@@ -445,7 +452,9 @@
     <string name="comment_error_gone">Похоже кто-то удалил этот комментарий</string>
 
     <string name="forum_empty">На форуме этого фэндома пока нет ни одной темы</string>
+    <string name="forum_loading">Загрузка списка форумов</string>
     <string name="forum_empty_messages">На этом форуме еще нет сообщений</string>
+    <string name="forum_loading_messages">Загрузка сообщений форума</string>
     <string name="forum_creation_hint">Текст главной страницы форума</string>
     <string name="forum_error_gone">Похоже кто-то удалил этот форум</string>
     <string name="forum_remove_confirm">Удалить этот форум?</string>
@@ -648,6 +657,7 @@
     <string name="intro_google_text">Добро пожаловать, пожалуйста, выберите ваш аккаунт</string>
 
     <string name="bookmarks_empty">У вас пока нет закладок</string>
+    <string name="bookmarks_loading">зарузка ваших закладок</string>
     <string name="bookmark">Закладка</string>
     <string name="bookmarks_add">Добавить в закладки</string>
     <string name="bookmarks_remove">Удалить из закладок</string>
@@ -655,6 +665,7 @@
     <string name="bookmarks_removed">Удалено из закладок</string>
 
     <string name="notifications_empty">У вас пока нет уведомлений</string>
+    <string name="notifications_loading">Загрузка ваших уведомлений</string>
 
     <string name="achievements_notification">У вас новое достижение:</string>
 
@@ -734,6 +745,7 @@
     <string name="post_page_polling_change_alert">При изменении опроса все ответы будут потеряны.</string>
     <string name="post_change_alert">Любые изменения в опубликованном посте сразу видны пользователям. Для серьезных изменений верните пост в черновики через меню.</string>
     <string name="post_drafts_empty_text">У вас пока нет черновиков</string>
+    <string name="post_drafts_loading">Загрузка ваших черновиков</string>
     <string name="post_search_empty">Ничего не найдено, попробуйте другой тег</string>
     <string name="post_search_action">К тегам</string>
     <string name="post_page_images_empty">Нет изображений в списке.</string>

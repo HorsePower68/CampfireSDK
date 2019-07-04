@@ -4,11 +4,11 @@ package com.sayzen.campfiresdk.screens.chat
 import android.graphics.Bitmap
 import android.net.Uri
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.recyclerview.widget.RecyclerView
 import com.dzen.campfire.api.API
 import com.dzen.campfire.api.models.ChatTag
 import com.dzen.campfire.api.models.notifications.NotificationChatAnswer
@@ -83,7 +83,7 @@ class SChat private constructor(
     private val vSend: ViewIcon = findViewById(R.id.vSend)
     private val vLine: View = findViewById(R.id.vLine)
     private val vAttach: ViewIcon = findViewById(R.id.vAttach)
-    private val vAttachRecycler: androidx.recyclerview.widget.RecyclerView = findViewById(R.id.vAttachRecycler)
+    private val vAttachRecycler: RecyclerView = findViewById(R.id.vAttachRecycler)
     private val vText: ViewEditTextMedia = findViewById(R.id.vText)
     private val vMenu: ViewIcon
     private val vNotifications: ViewIcon
@@ -118,10 +118,11 @@ class SChat private constructor(
 
         setBackgroundImage(R.drawable.bg_5)
         setTextEmpty(if (tag.chatType == API.CHAT_TYPE_FANDOM) R.string.chat_empty_fandom else R.string.chat_empty_private)
+        setTextProgress(R.string.chat_loading)
         vSend.setOnClickListener { v -> onSendClicked() }
         vText.addTextChangedListener(TextWatcherChanged { sendTyping() })
 
-        val layoutManager = androidx.recyclerview.widget.LinearLayoutManager(context)
+        val layoutManager = LinearLayoutManager(context)
         layoutManager.stackFromEnd = true
         vRecycler.layoutManager = layoutManager
 
@@ -273,7 +274,7 @@ class SChat private constructor(
                 .send(api)
     }
 
-    fun isNeedScrollAfterAdd() = (vRecycler.layoutManager as androidx.recyclerview.widget.LinearLayoutManager).findLastCompletelyVisibleItemPosition() == vRecycler.adapter!!.itemCount - 1
+    fun isNeedScrollAfterAdd() = (vRecycler.layoutManager as LinearLayoutManager).findLastCompletelyVisibleItemPosition() == vRecycler.adapter!!.itemCount - 1
 
     fun setLock(b: Boolean) {
         vAttach.isEnabled = !b

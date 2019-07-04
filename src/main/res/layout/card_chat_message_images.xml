@@ -9,12 +9,6 @@
     android:background="@color/transparent"
     app:ViewSwipe_background="@color/blue_700">
 
-    <ImageView
-        android:id="@+id/vReplyIcon"
-        style="@style/Icon"
-        android:layout_gravity="bottom|right"
-        android:src="?ic_reply_24dp" />
-
     <FrameLayout
         android:id="@+id/vRoot"
         android:layout_width="match_parent"

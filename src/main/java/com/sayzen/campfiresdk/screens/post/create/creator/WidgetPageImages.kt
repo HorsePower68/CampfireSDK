@@ -6,6 +6,8 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.dzen.campfire.api.API
 import com.dzen.campfire.api.models.units.post.PageImages
 import com.dzen.campfire.api.requests.post.RPostChangePage
@@ -37,7 +39,7 @@ class WidgetPageImages(
 
     private val vPageTitle: SettingsField = findViewById(R.id.vPgeTitle)
     private val vAdd: View = findViewById(R.id.vAdd)
-    private val vAttachRecycler: androidx.recyclerview.widget.RecyclerView = findViewById(R.id.vAttachRecycler)
+    private val vAttachRecycler: RecyclerView = findViewById(R.id.vAttachRecycler)
     private val vTextEmpty: TextView = findViewById(R.id.vTextEmpty)
     private val vEnter: Button = findViewById(R.id.vEnter)
     private val adapter: RecyclerCardAdapter = RecyclerCardAdapter()
@@ -51,7 +53,7 @@ class WidgetPageImages(
         vEnter.setOnClickListener { onEnter() }
         vAdd.setOnClickListener { addImage() }
 
-        vAttachRecycler.layoutManager = androidx.recyclerview.widget.LinearLayoutManager(vAttachRecycler.context, androidx.recyclerview.widget.LinearLayoutManager.HORIZONTAL, false)
+        vAttachRecycler.layoutManager = LinearLayoutManager(vAttachRecycler.context, LinearLayoutManager.HORIZONTAL, false)
         vAttachRecycler.adapter = adapter
         adapter.setCardW(ViewGroup.LayoutParams.WRAP_CONTENT)
 

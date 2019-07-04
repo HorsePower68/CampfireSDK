@@ -27,7 +27,7 @@ import com.sup.dev.java.tools.ToolsThreads
 
 class Attach(
         val vAttach: ViewIcon,
-        val vAttachRecycler: androidx.recyclerview.widget.RecyclerView,
+        val vAttachRecycler: RecyclerView,
         val onUpdate: () -> Unit = {},
         val onSupportScreenHide: () -> Unit = {}
 ) {
@@ -38,7 +38,7 @@ class Attach(
 
     init {
         vAttach.setOnClickListener { onAttachClicked() }
-        vAttachRecycler.layoutManager = androidx.recyclerview.widget.LinearLayoutManager(vAttachRecycler.context, androidx.recyclerview.widget.LinearLayoutManager.HORIZONTAL, false)
+        vAttachRecycler.layoutManager = LinearLayoutManager(vAttachRecycler.context, LinearLayoutManager.HORIZONTAL, false)
         clear()
         initerd = true
     }
@@ -46,7 +46,7 @@ class Attach(
     fun clear() {
         adapter.clear()
         adapter = RecyclerCardAdapter()
-        adapter.setCardW(androidx.recyclerview.widget.RecyclerView.LayoutParams.WRAP_CONTENT)
+        adapter.setCardW(RecyclerView.LayoutParams.WRAP_CONTENT)
         vAttachRecycler.adapter = adapter
         updateAttach()
     }

@@ -36,14 +36,14 @@ class SComments constructor(
         .subscribe(EventUnitRemove::class) { this.onEventUnitRemove(it) }
         .subscribe(EventCommentAdd::class) {this.onCommentAdd(it) }
 
-    private val vRecycler: androidx.recyclerview.widget.RecyclerView = findViewById(R.id.vRecycler)
+    private val vRecycler: RecyclerView = findViewById(R.id.vRecycler)
     private val vFab: FloatingActionButton = findViewById(R.id.vFab)
 
     private val adapter: AdapterComments
 
     init {
 
-        vRecycler.layoutManager = androidx.recyclerview.widget.LinearLayoutManager(context)
+        vRecycler.layoutManager = LinearLayoutManager(context)
 
         adapter = AdapterComments(unit.id, commentId, vRecycler)
 

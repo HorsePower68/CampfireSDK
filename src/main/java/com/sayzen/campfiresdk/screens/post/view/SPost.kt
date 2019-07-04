@@ -2,6 +2,8 @@ package com.sayzen.campfiresdk.screens.post.view
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import android.view.View
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.dzen.campfire.api.models.notifications.NotificationFollowsPublication
 import com.dzen.campfire.api.models.notifications.NotificationUnitImportant
 import com.dzen.campfire.api.models.units.post.UnitPost
@@ -16,6 +18,7 @@ import com.sup.dev.android.libs.api_simple.ApiRequestsSupporter
 import com.sup.dev.android.libs.screens.Screen
 import com.sup.dev.android.libs.screens.navigator.NavigationAction
 import com.sup.dev.android.libs.screens.navigator.Navigator
+import com.sup.dev.android.tools.ToolsView
 import com.sup.dev.java.libs.eventBus.EventBus
 import com.sup.dev.java.libs.eventBus.EventBusSubscriber
 import com.sup.dev.java.tools.ToolsThreads
@@ -47,7 +50,7 @@ class SPost constructor(
             .subscribe(EventPostPublishedChange::class) { this.onPostPublicationChange(it) }
             .subscribe(EventPostNotifyFollowers::class) { this.onEventPostNotifyFollowers(it) }
 
-    private val vRecycler: androidx.recyclerview.widget.RecyclerView = findViewById(R.id.vRecycler)
+    private val vRecycler: RecyclerView = findViewById(R.id.vRecycler)
     private val vMenu: View = findViewById(R.id.vMenu)
     private val vFab: FloatingActionButton = findViewById(R.id.vFab)
     private val vShare: View = findViewById(R.id.vShare)
@@ -56,7 +59,8 @@ class SPost constructor(
 
     init {
 
-        vRecycler.layoutManager = androidx.recyclerview.widget.LinearLayoutManager(context)
+        vRecycler.layoutManager = LinearLayoutManager(context)
+        ToolsView.setRecyclerAnimation(vRecycler)
 
         adapter = AdapterComments(unit.id, commentId, vRecycler)
 
