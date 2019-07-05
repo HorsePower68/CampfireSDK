@@ -68,9 +68,11 @@ fun instanceTokenProvider(): TokenProvider {
         }
 
         override fun clearToken() {
+            ControllerApi.setCurrentAccount(Account())
         }
 
         override fun onLoginFailed() {
+            ControllerApi.setCurrentAccount(Account())
         }
     }
 }

@@ -103,6 +103,8 @@ class SChat private constructor(
     private val attach = Attach(vAttach, vAttachRecycler)
     private val carSpace = CardSpace(16)
     private var needUpdate = false
+    private var loaded = false
+    private val addAfterLoadList = ArrayList<UnitChatMessage>()
 
     init {
         isBottomNavigationShadowAvailable = false
@@ -184,6 +186,7 @@ class SChat private constructor(
                 .setBottomLoader { onLoad, cards ->
                     subscription = RChatMessageGetAll(tag, if (cards.isEmpty()) 0 else cards[cards.size - 1].unit.dateCreate, false)
                             .onComplete { r ->
+                                loaded = true
                                 adapter!!.remove(carSpace)
                                 onLoad.invoke(r.units)
                                 adapter!!.add(carSpace)
@@ -194,6 +197,9 @@ class SChat private constructor(
                                 EventBus.post(EventChatRead(tag))
                                 if (r.units.isNotEmpty())
                                     EventBus.post(EventChatNewBottomMessage(tag, r.units[r.units.size - 1]))
+                                ToolsThreads.main(true){
+                                    for(c in addAfterLoadList) addMessage(c, true)
+                                }
                             }
                             .onNetworkError { onLoad.invoke(null) }
                             .send(api)
@@ -335,6 +341,10 @@ class SChat private constructor(
     }
 
     private fun addMessage(message: UnitChatMessage, forceScroll: Boolean) {
+        if(!loaded){
+            addAfterLoadList.add(message)
+            return
+        }
         val b = isNeedScrollAfterAdd()
         if (adapter != null) {
             adapter!!.remove(carSpace)
