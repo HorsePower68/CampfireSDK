@@ -9,39 +9,51 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 
-    <LinearLayout
+    <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingLeft="16dp"
-        android:paddingTop="8dp"
-        android:background="#30606060"
-        android:paddingRight="16dp"
-        android:paddingBottom="8dp"
-        android:orientation="vertical">
+        android:background="@color/focus"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp"
+        android:padding="1dp">
 
-        <TextView
-            android:id="@+id/vTitle"
-            style="@style/TextAppearance.AppCompat.Body1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-
-        <com.sup.dev.android.views.views.ViewTextLinkable
-            android:id="@+id/vSubTitle"
-            style="@style/Base.TextAppearance.AppCompat.Caption"
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="6dp" />
+            android:paddingLeft="8dp"
+            android:paddingTop="8dp"
+            android:paddingRight="8dp"
+            android:paddingBottom="8dp"
+            android:background="?content_background"
+            android:orientation="vertical">
 
-        <Button
-            android:id="@+id/vDownload"
-            style="@style/Button.Outlined"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/app_download"
-            android:layout_gravity="center"
-            android:layout_marginTop="16dp" />
+            <TextView
+                android:id="@+id/vTitle"
+                style="@style/TextAppearance.AppCompat.Body1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
 
-    </LinearLayout>
+            <com.sup.dev.android.views.views.ViewTextLinkable
+                android:id="@+id/vSubTitle"
+                style="@style/Base.TextAppearance.AppCompat.Caption"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="6dp" />
+
+            <Button
+                android:id="@+id/vDownload"
+                style="@style/Button.Outlined"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/app_download"
+                android:layout_gravity="center"
+                android:layout_marginTop="16dp" />
+
+        </LinearLayout>
+
+    </FrameLayout>
 
     <com.sup.dev.android.views.views.ViewIcon
         android:id="@+id/vMore"
