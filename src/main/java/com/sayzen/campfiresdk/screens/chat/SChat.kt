@@ -280,7 +280,10 @@ class SChat private constructor(
                 .send(api)
     }
 
-    fun isNeedScrollAfterAdd() = (vRecycler.layoutManager as LinearLayoutManager).findLastCompletelyVisibleItemPosition() == vRecycler.adapter!!.itemCount - 1
+    fun isNeedScrollAfterAdd():Boolean{
+        if(vRecycler.layoutManager !is LinearLayoutManager || adapter == null) return false
+        return (vRecycler.layoutManager as LinearLayoutManager).findLastCompletelyVisibleItemPosition() == vRecycler.adapter!!.itemCount - 1
+    }
 
     fun setLock(b: Boolean) {
         vAttach.isEnabled = !b

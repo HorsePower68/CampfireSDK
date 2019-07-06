@@ -124,10 +124,10 @@
 
             </LinearLayout>
 
-            <com.sup.dev.android.views.views.ViewImagesSwipe
+            <com.sup.dev.android.views.views.ViewImagesContainer
                 android:id="@+id/vImages"
                 android:layout_width="match_parent"
-                android:layout_height="128dp" />
+                android:layout_height="wrap_content" />
 
             <com.sayzen.campfiresdk.views.ViewKarmaHorizontal
                 android:id="@+id/vKarma"
