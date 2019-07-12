@@ -142,11 +142,7 @@ class WidgetModerationBlock(
         ApiRequestsSupporter.executeEnabledConfirm(alertText, alertAction,
                 RFandomsModerationBlock(unit.id, banTime, vBlockLast.isChecked(), vComment.getText().trim { it <= ' ' }, blockInApp)) { r ->
             onBlock.invoke()
-            if (unit.unitType == API.UNIT_TYPE_REVIEW) {
-                EventBus.post(EventFandomReviewTextRemoved(unit.id))
-            } else {
-                for (id in r.blockedUnitsIds!!) EventBus.post(EventUnitRemove(id))
-            }
+            afterBlock(r.blockedUnitsIds!!)
             ToolsToast.show(finishToast)
             hide()
         }
@@ -154,6 +150,24 @@ class WidgetModerationBlock(
                     ToolsToast.show(R.string.moderation_low_karma)
                     hide()
                 }
+                .onApiError(RFandomsModerationBlock.E_ALREADY) { r ->
+                    ToolsToast.show(R.string.error_already_blocked)
+                    afterBlock(emptyArray())
+                    hide()
+                }
+                .onApiError(RFandomsModerationBlock.E_DRAFT) { r ->
+                    ToolsToast.show(R.string.error_already_returned_to_drafts)
+                    afterBlock(emptyArray())
+                    hide()
+                }
+    }
+
+    private fun afterBlock(blockedUnitsIds:Array<Long>){
+        if (unit.unitType == API.UNIT_TYPE_REVIEW) {
+            EventBus.post(EventFandomReviewTextRemoved(unit.id))
+        } else {
+            for (id in blockedUnitsIds) EventBus.post(EventUnitRemove(id))
+        }
     }
 
     fun setActionText(text: Int): WidgetModerationBlock {

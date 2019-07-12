@@ -186,6 +186,10 @@ class SChat private constructor(
                 .setBottomLoader { onLoad, cards ->
                     subscription = RChatMessageGetAll(tag, if (cards.isEmpty()) 0 else cards[cards.size - 1].unit.dateCreate, false)
                             .onComplete { r ->
+                                if(loaded){
+                                    onLoad.invoke(emptyArray())
+                                    return@onComplete
+                                }
                                 loaded = true
                                 adapter!!.remove(carSpace)
                                 onLoad.invoke(r.units)

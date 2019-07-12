@@ -366,6 +366,19 @@ Campfire has anime fandoms and gaming fandoms.</string>
     <string name="feed_loading_10">Wipe your feet!</string>
     <string name="feed_loading_11">How to turn off the summer box !?</string>
     <string name="feed_loading_12">Hello World</string>
+    <string name="feed_loading_13">Anarchy and self-regulation!</string>
+    <string name="feed_loading_14">This could be your ad.</string>
+    <string name="feed_loading_15">Madness and courage!</string>
+    <string name="feed_loading_16">People are leaving us, my Lord!</string>
+    <string name="feed_loading_17">Welcome, my Lord, your stronghold awaits.</string>
+    <string name="feed_loading_18">The people love You, my Lord.</string>
+    <string name="feed_loading_19">Big brother\'s watching you.</string>
+    <string name="feed_loading_20">Careful! activity detected in anime fandoms.</string>
+    <string name="feed_loading_21">Crush them with intelligence!</string>
+    <string name="feed_loading_22">There is no limit to anlimits!</string>
+    <string name="feed_loading_23">Give robbery!</string>
+    <string name="feed_loading_24">From homing missiles produced persecution mania.</string>
+    <string name="feed_loading_25">All systems are working normally...orking normally...orking normally....</string>
     <string name="feed_loading">Loading you\'r feed</string>
     <string name="feed_all">All publications</string>
     <string name="feed_subscribed">Subscribed only</string>
@@ -577,6 +590,8 @@ Campfire has anime fandoms and gaming fandoms.</string>
     <string name="error_max_items_count">Too many items</string>
     <string name="error_cant_create_tag_without_category">Cannot create tag without categories</string>
     <string name="error_rate_self_unit">Cannot rate your own publication</string>
+    <string name="error_already_blocked">Someone already blocked it.</string>
+    <string name="error_already_returned_to_drafts">Someone already put it back in the draft</string>
 
 
     <string name="profile_report_confirm">Report this user?</string>

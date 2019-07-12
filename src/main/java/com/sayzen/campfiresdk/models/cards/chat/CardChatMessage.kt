@@ -150,7 +150,7 @@ abstract class CardChatMessage constructor(
 
             ControllerApi.makeLinkable(vText) {
                 val myName = ControllerApi.account.name + ","
-                if (unit.text.startsWith(myName)) vText.text = Html.fromHtml(ToolsHTML.font_color(myName, "#FF6D00") + unit.text.substring(myName.length))
+                if (unit.text.startsWith(myName)) vText.text = "{ff6d00 $myName}" + unit.text.substring(myName.length)
             }
         }
 
