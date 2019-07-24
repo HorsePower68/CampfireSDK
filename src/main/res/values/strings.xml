@@ -1243,6 +1243,7 @@
         \n - ^Italic^
         \n - ~Strikethrough~
         \n - _Underlined_
+        \n - [Link name]link
         \n - {red Red}{blue Blue}{AA5480 #AA5480}
         \n - \\ - Makes a character ordinary \\* = *
     </string>

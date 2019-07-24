@@ -22,8 +22,7 @@ object ControllerSettings {
     private var updateSettingsStarted = false
 
     fun init() {
-        accountSettings.json(false, ToolsStorage.getJson("ControllerSettings_accountSettings")
-                ?: Json())
+        accountSettings.json(false, ToolsStorage.getJson("ControllerSettings_accountSettings") ?: Json())
     }
 
     private fun onSettingsUpdated() {
@@ -51,6 +50,7 @@ object ControllerSettings {
 
     fun setSettings(accountSettings: AccountSettings) {
         this.accountSettings = accountSettings
+        ToolsStorage.put("ControllerSettings_accountSettings", ControllerSettings.accountSettings.json(true, Json()))
         ViewCircleImage.SQUARE_GLOBAL_MODE = styleAvatarsSquare
         ViewCircleImage.SQUARE_GLOBAL_CORNED = ToolsView.dpToPx(styleAvatarsRounding)
         EventBus.post(EventStyleChanged())

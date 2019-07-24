@@ -372,7 +372,7 @@
     <string name="feed_loading_14">Здесь могла быть ваша реклама.</string>
     <string name="feed_loading_15">Безумие и отвага!</string>
     <string name="feed_loading_16">Люди покидают нас, Милорд!</string>
-    <string name="feed_loading_17">Добро пожаловать, милорд,ваша цитадель ждет.</string>
+    <string name="feed_loading_17">Добро пожаловать, милорд, ваша цитадель ждет.</string>
     <string name="feed_loading_18">Народ любит Вас, милорд.</string>
     <string name="feed_loading_19">Большой брат следит за тобой.</string>
     <string name="feed_loading_20">Осторожно! обнаружена активность в аниме фэндомах.</string>
@@ -402,7 +402,7 @@
     <string name="fandoms_subscription_all">Всё</string>
     <string name="fandoms_subscription_important">Важные</string>
     <string name="fandoms_empty">Не найдено фэндомов</string>
-    <string name="fandoms_loading">Загрука списка фэндомов</string>
+    <string name="fandoms_loading">Загрузка списка фэндомов</string>
     <string name="fandoms_global">Глобальный поиск</string>
     <string name="fandoms_suggest">Предложить фэндом</string>
     <string name="fandoms_suggest_suggested">Фэндом предложен</string>
@@ -1236,6 +1236,7 @@
         \n - ^Курсив^
         \n - ~Зачерктнутый~
         \n - _Подчеркнутый_
+        \n - [Название ссылки]ссылка
         \n - {red Красный}{blue Синий}{AA5480 #AA5480}
         \n - \\ - Делает символ обычным \\* = *
 

@@ -2,17 +2,19 @@ package com.sayzen.campfiresdk.models.support
 
 
 import com.sup.dev.java.libs.debug.err
+import com.sup.dev.java.libs.debug.log
+import com.sup.dev.java.tools.ToolsText
 import java.lang.Exception
 
 class TextParser(
-    val text: String
+        val text: String
 ) {
 
     private val textLow = text.toLowerCase()
     private var result: String? = null
     private var i = 0
     private var lastCharWasSpace = true
-    private var firstWordChar:Char = '.'
+    private var firstWordChar: Char = '.'
 
     fun parse(): String {
         if (result == null) parseText()
@@ -22,17 +24,17 @@ class TextParser(
     private fun parseText() {
         result = ""
         while (i < text.length) {
-            if(lastCharWasSpace) firstWordChar = text[i]
+            if (lastCharWasSpace) firstWordChar = text[i]
             lastCharWasSpace = text[i] == ' '
 
-            if(firstWordChar == '@'){
+            if (firstWordChar == '@') {
                 result += text[i++]
                 continue
             }
 
             if (text[i] == '\\'
-                && text.length > i + 1
-                && (text[i + 1] == '*' || text[i + 1] == '^' || text[i + 1] == '~' || text[i + 1] == '_' || text[i + 1] == '{' || text[i + 1] == '}')) {
+                    && text.length > i + 1
+                    && (text[i + 1] == '*' || text[i + 1] == '^' || text[i + 1] == '~' || text[i + 1] == '_' || text[i + 1] == '{' || text[i + 1] == '}')) {
                 i++
                 result += text[i++]
                 continue
@@ -41,6 +43,7 @@ class TextParser(
             if (parse('^', "<\$i>", "</\$i>")) continue
             if (parse('~', "<\$s>", "</\$s>")) continue
             if (parse('_', "<\$u>", "</\$u>")) continue
+            if (parseLink()) continue
             if (parseColorHash()) continue
             if (parseColorName("red", "D32F2F")) continue
             if (parseColorName("pink", "C2185B")) continue
@@ -93,10 +96,10 @@ class TextParser(
                     val next = findNext('}', name.length + 1)
                     val t = TextParser(text.substring(i + name.length + 2, next)).parse()
                     if (next != -1) {
-                        if(name == "rainbow"){
+                        if (name == "rainbow") {
                             var x = -1
-                            for(i in t) result += rainbow("$i", x++)
-                        }else {
+                            for (i in t) result += rainbow("$i", x++)
+                        } else {
                             result += "<font color=\"#$hash\">$t</font>"
                         }
                         i = next + 1
@@ -111,8 +114,8 @@ class TextParser(
         }
     }
 
-    private fun rainbow(s:String, index:Int):String{
-        return when(index%7){
+    private fun rainbow(s: String, index: Int): String {
+        return when (index % 7) {
             0 -> "<font color=\"#F44336\">$s</font>"
             1 -> "<font color=\"#FF9800\">$s</font>"
             2 -> "<font color=\"#FFEB3B\">$s</font>"
@@ -138,14 +141,40 @@ class TextParser(
                     val next = findNext('}', 7)
                     if (next != -1) {
                         result += "<font color=\"#$color\">${TextParser(
-                            text.substring(
-                                i + 7,
-                                next
-                            )
+                                text.substring(
+                                        i + 7,
+                                        next
+                                )
                         ).parse()}</font>"
                         i = next + 1
                         return true
                     }
+                }
+            }
+            return false
+        } catch (e: Exception) {
+            err(e)
+            return false
+        }
+    }
+
+    private fun parseLink(): Boolean {
+        try {
+            if (text[i] == '[') {
+                val nextClose = findNext(']')
+
+                if (nextClose == -1) return false
+
+                var nextSpace = findNext(' ', nextClose)
+                if (nextSpace == -1) nextSpace = text.length
+
+                val name = text.substring(i + 1, nextClose)
+                val link = text.substring(nextClose + 1, nextSpace)
+
+                if (ToolsText.isWebLink(link)) {
+                    result += "<a href=\"${ToolsText.castToWebLink(link)}\">$name</a>"
+                    i = nextSpace
+                    return true
                 }
             }
             return false
