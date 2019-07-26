@@ -114,6 +114,7 @@
     <string name="app_reject">Отклонить</string>
     <string name="app_profile">Профиль</string>
     <string name="app_image">Изображение</string>
+    <string name="app_voice_message">Голосовое сообщение</string>
     <string name="app_empty">Пусто</string>
     <string name="app_open">Открыть</string>
     <string name="app_share">Поделиться</string>
@@ -699,6 +700,10 @@
     <string name="settings_translate">Помочь с переводом (GitHub)</string>
     <string name="settings_actions_long_plus">Быстрое создание поста</string>
     <string name="settings_actions_fast_publications">Быстрая публикация</string>
+    <string name="settings_voice_messages">Голосовые сообщения</string>
+    <string name="settings_voice_messages_auto_lock">Автоматически блокировать запись звука</string>
+    <string name="settings_voice_messages_auto_send">Автоматически отправлять сообщение после записи</string>
+    <string name="settings_voice_messages_dont_receive">Не получать голосовые сообщения в личных чатах</string>
     <string name="settings_notifications_none">Получать уведомления</string>
     <string name="settings_notifications_enabled">Приложение получает уведомления</string>
     <string name="settings_notifications_disabled">Уведомления отключены до %s</string>

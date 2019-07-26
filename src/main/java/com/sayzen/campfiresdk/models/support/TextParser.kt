@@ -2,7 +2,6 @@ package com.sayzen.campfiresdk.models.support
 
 
 import com.sup.dev.java.libs.debug.err
-import com.sup.dev.java.libs.debug.log
 import com.sup.dev.java.tools.ToolsText
 import java.lang.Exception
 

@@ -1,156 +1,216 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="?android:windowBackground"
-    android:orientation="vertical">
+    android:background="?android:windowBackground">
 
-    <androidx.coordinatorlayout.widget.CoordinatorLayout
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_weight="1">
+        android:orientation="vertical">
 
-        <com.google.android.material.appbar.AppBarLayout
-            style="@style/AppBar">
+        <androidx.coordinatorlayout.widget.CoordinatorLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1">
 
-            <androidx.appcompat.widget.Toolbar
-                style="@style/Toolbar.NoScroll">
+            <com.google.android.material.appbar.AppBarLayout style="@style/AppBar">
+
+                <androidx.appcompat.widget.Toolbar style="@style/Toolbar.NoScroll">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="-16dp"
+                        android:orientation="horizontal">
+
+                        <com.sup.dev.android.views.views.ViewAvatarTitle
+                            android:id="@+id/vAvatarTitle"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1" />
+
+                        <LinearLayout
+                            android:id="@+id/vToolbarIconsContainer"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:gravity="center"
+                            android:orientation="horizontal" />
+
+                    </LinearLayout>
+
+
+                </androidx.appcompat.widget.Toolbar>
+
+            </com.google.android.material.appbar.AppBarLayout>
+
+            <ImageView
+                android:id="@+id/vFandomBackground"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:scaleType="centerCrop" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                style="@style/Recycler"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+
+            <TextView
+                android:id="@+id/vTypingText"
+                style="@style/TextAppearance.AppCompat.Caption"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom"
+                android:background="@color/focus"
+                android:paddingLeft="8dp"
+                android:paddingTop="2dp"
+                android:paddingRight="2dp"
+                android:paddingBottom="2dp"
+                android:text="User is typing..."
+                android:textColor="?revers_color_lighted" />
+
+            <FrameLayout
+                android:id="@+id/vEmptySubContainer"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+
+            <View
+                android:id="@+id/vLine"
+                android:layout_width="match_parent"
+                android:layout_height="4dp"
+                android:layout_gravity="bottom" />
+
+        </androidx.coordinatorlayout.widget.CoordinatorLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:background="?colorPrimary"
+            android:orientation="vertical"
+            android:padding="4dp">
+
+            <LinearLayout
+                android:id="@+id/vQuoteContainer"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <com.sup.dev.android.views.views.ViewTextLinkable
+                    android:id="@+id/vQuoteText"
+                    style="@style/TextAppearance.AppCompat.Caption"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:padding="16dp" />
+
+                <com.sup.dev.android.views.views.ViewIcon
+                    android:id="@+id/vQuoteRemove"
+                    style="@style/Icon.18"
+                    android:layout_gravity="top"
+                    android:src="?ic_clear_18dp" />
+
+            </LinearLayout>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/vAttachRecycler"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:layout_marginBottom="4dp"
+                android:orientation="horizontal" />
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="-16dp"
                     android:orientation="horizontal">
 
-                    <com.sup.dev.android.views.views.ViewAvatarTitle
-                        android:id="@+id/vAvatarTitle"
+                    <LinearLayout
+                        android:id="@+id/vFieldContainer"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"/>
+                        android:layout_weight="1">
+
+                        <com.sup.dev.android.views.views.ViewIcon
+                            android:id="@+id/vAttach"
+                            style="@style/Icon"
+                            android:layout_gravity="top"
+                            android:src="?ic_attach_file_24dp" />
+
+                        <com.sup.dev.android.views.views.ViewEditTextMedia
+                            android:id="@+id/vText"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:layout_marginLeft="8dp"
+                            android:layout_weight="1"
+                            android:background="@null"
+                            android:hint="@string/app_message"
+                            android:inputType="textCapSentences|textMultiLine|textAutoCorrect|textAutoComplete"
+                            android:maxLines="9" />
+
+                    </LinearLayout>
 
                     <LinearLayout
-                        android:id="@+id/vToolbarIconsContainer"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:gravity="center"
-                        android:orientation="horizontal"/>
+                        android:id="@+id/vVoiceContainer"
+                        android:layout_width="match_parent"
+                        android:layout_weight="1"
+                        android:layout_height="wrap_content">
+
+                        <TextView
+                            android:id="@+id/vVoiceLabel"
+                            android:layout_width="wrap_content"
+                            android:layout_gravity="center"
+                            android:layout_marginLeft="16dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            style="@style/TextAppearance.AppCompat.Body1"/>
+
+                        <com.sup.dev.android.views.views.ViewIcon
+                            android:id="@+id/vVoicePlay"
+                            style="@style/Icon"
+                            android:layout_gravity="bottom"
+                            android:layout_marginRight="8dp"
+                            android:src="?ic_play_arrow_24dp" />
+
+                        <com.sup.dev.android.views.views.ViewIcon
+                            android:id="@+id/vVoiceRemove"
+                            style="@style/Icon"
+                            android:layout_gravity="bottom"
+                            android:layout_marginRight="8dp"
+                            android:src="?ic_clear_24dp" />
+
+
+                    </LinearLayout>
+
+                    <com.sup.dev.android.views.views.ViewIcon
+                        android:id="@+id/vSend"
+                        style="@style/Icon"
+                        android:layout_gravity="bottom"
+                        android:src="?ic_send_24dp" />
 
                 </LinearLayout>
 
+            </FrameLayout>
 
-            </androidx.appcompat.widget.Toolbar>
-
-        </com.google.android.material.appbar.AppBarLayout>
-
-        <ImageView
-            android:id="@+id/vFandomBackground"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_gravity="center"
-            android:scaleType="centerCrop"/>
-
-        <androidx.recyclerview.widget.RecyclerView
-            style="@style/Recycler"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"/>
-
-        <TextView
-            android:id="@+id/vTypingText"
-            style="@style/TextAppearance.AppCompat.Caption"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="bottom"
-            android:background="@color/focus"
-            android:textColor="?revers_color_lighted"
-            android:paddingLeft="8dp"
-            android:paddingTop="2dp"
-            android:paddingRight="2dp"
-            android:paddingBottom="2dp"
-            android:text="User is typing..."/>
-
-        <FrameLayout
-            android:id="@+id/vEmptySubContainer"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"/>
-
-        <View
-            android:id="@+id/vLine"
-            android:layout_width="match_parent"
-            android:layout_height="4dp"
-            android:layout_gravity="bottom"/>
-
-    </androidx.coordinatorlayout.widget.CoordinatorLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="?colorPrimary"
-        android:orientation="vertical"
-        android:padding="4dp">
-
-        <LinearLayout
-            android:id="@+id/vQuoteContainer"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
-            <com.sup.dev.android.views.views.ViewTextLinkable
-                android:id="@+id/vQuoteText"
-                android:padding="16dp"
-                style="@style/TextAppearance.AppCompat.Caption"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"/>
-
-            <com.sup.dev.android.views.views.ViewIcon
-                android:id="@+id/vQuoteRemove"
-                android:layout_gravity="top"
-                style="@style/Icon.18"
-                android:src="?ic_clear_18dp"/>
-
-        </LinearLayout>
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/vAttachRecycler"
-            android:orientation="horizontal"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="4dp"
-            android:layout_marginBottom="4dp"/>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
-            <com.sup.dev.android.views.views.ViewIcon
-                android:id="@+id/vAttach"
-                style="@style/Icon"
-                android:layout_gravity="top"
-                android:src="?ic_attach_file_24dp"/>
-
-            <com.sup.dev.android.views.views.ViewEditTextMedia
-                android:id="@+id/vText"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginLeft="8dp"
-                android:layout_weight="1"
-                android:background="@null"
-                android:hint="@string/app_message"
-                android:inputType="textCapSentences|textMultiLine|textAutoCorrect|textAutoComplete"
-                android:maxLines="9"/>
-
-            <com.sup.dev.android.views.views.ViewIcon
-                android:id="@+id/vSend"
-                style="@style/Icon"
-                android:layout_gravity="bottom"
-                android:src="?ic_send_24dp"/>
 
         </LinearLayout>
 
     </LinearLayout>
 
-</LinearLayout>
+    <com.sup.dev.android.views.ViewVoiceRecord
+        android:id="@+id/vVoiceRecorder"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|right"
+        android:clickable="true"
+        android:focusable="true"
+        android:layout_margin="4dp" />
 
+</FrameLayout>

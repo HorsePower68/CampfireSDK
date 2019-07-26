@@ -96,6 +96,7 @@ class CardChat(
                 var t = unit.unitChatMessage.creatorName + ": "
                 t += when {
                     unit.unitChatMessage.resourceId > 0 -> ToolsResources.s(R.string.app_image)
+                    unit.unitChatMessage.voiceResourceId > 0 -> ToolsResources.s(R.string.app_voice_message)
                     unit.unitChatMessage.imageIdArray.isNotEmpty() -> ToolsResources.s(R.string.app_image)
                     unit.unitChatMessage.blockModerationEventId != 0L -> {
                         if (unit.unitChatMessage.blockDate > 0L)

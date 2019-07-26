@@ -52,6 +52,8 @@ abstract class CardChatMessage constructor(
         var onGoTo: ((Long) -> Unit)? = null
 ) : CardUnit(unit) {
 
+    var changeEnabled = true
+
     companion object {
 
         fun instance(unit: UnitChatMessage,
@@ -65,6 +67,7 @@ abstract class CardChatMessage constructor(
                 UnitChatMessage.TYPE_IMAGE, UnitChatMessage.TYPE_GIF -> return CardChatMessageImage(unit, onClick, onChange, onQuote, onGoTo)
                 UnitChatMessage.TYPE_IMAGES -> return CardChatMessageImages(unit, onClick, onChange, onQuote, onGoTo)
                 UnitChatMessage.TYPE_BLOCK -> return CardChatMessageModeration(unit, onClick, onChange, onQuote, onGoTo)
+                UnitChatMessage.TYPE_VOICE -> return CardChatMessageVoice(unit, onClick, onChange, onQuote, onGoTo)
                 else -> throw RuntimeException("Unknown type ${unit.type}")
             }
         }
@@ -291,7 +294,7 @@ abstract class CardChatMessage constructor(
                         EventBus.post(EventUpdateChats())
                     }
                 }
-                .add(R.string.app_change) { w, c -> onChange?.invoke(unit) }
+                .add(R.string.app_change) { w, c -> onChange?.invoke(unit) }.condition(changeEnabled)
                 .clearGroupCondition()
                 .add(R.string.app_copy) { w, c ->
                     ToolsAndroid.setToClipboard(unit.text)

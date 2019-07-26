@@ -28,6 +28,7 @@ object ControllerPost {
 
     var ON_PRE_SHOW_MENU: (Unit, WidgetMenu) -> kotlin.Unit = { u, w -> }
 
+
     var ENABLED_BOOKMARK = false
     var ENABLED_WATCH = false
     var ENABLED_SHARE = false

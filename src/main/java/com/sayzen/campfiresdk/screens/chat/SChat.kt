@@ -80,27 +80,16 @@ class SChat private constructor(
             .subscribe(EventChatSubscriptionChanged::class) { this.onEventChatSubscriptionChanged(it) }
             .subscribe(EventFandomBackgroundImageChanged::class) { this.onEventFandomBackgroundImageChanged(it) }
 
-    private val vSend: ViewIcon = findViewById(R.id.vSend)
     private val vLine: View = findViewById(R.id.vLine)
-    private val vAttach: ViewIcon = findViewById(R.id.vAttach)
-    private val vAttachRecycler: RecyclerView = findViewById(R.id.vAttachRecycler)
-    private val vText: ViewEditTextMedia = findViewById(R.id.vText)
     private val vMenu: ViewIcon
     private val vNotifications: ViewIcon
     private val vTypingText: TextView = findViewById(R.id.vTypingText)
     private val vAvatarTitle: ViewAvatarTitle = findViewById(R.id.vAvatarTitle)
-    private val vQuoteContainer: ViewGroup = findViewById(R.id.vQuoteContainer)
-    private val vQuoteText: ViewTextLinkable = findViewById(R.id.vQuoteText)
-    private val vQuoteRemove: ViewIcon = findViewById(R.id.vQuoteRemove)
     private val vFandomBackground: ImageView = findViewById(R.id.vFandomBackground)
 
-    private var lastTypingSent = 0L
+    private val fieldLogic = FieldLogic(this)
+
     private var scrollAfterLoad = false
-    private var unitAnswer: UnitChatMessage? = null
-    private var unitChange: UnitChatMessage? = null
-    private var quoteText = ""
-    private var quoteId = 0L
-    private val attach = Attach(vAttach, vAttachRecycler)
     private val carSpace = CardSpace(16)
     private var needUpdate = false
     private var loaded = false
@@ -115,14 +104,10 @@ class SChat private constructor(
         vMenu = addToolbarIcon(ToolsResources.getDrawableAttrId(R.attr.ic_more_vert_24dp)) { v ->
             ControllerChats.instanceChatPopup(tag) { Navigator.remove(this) }.asSheetShow()
         }
-        vQuoteContainer.visibility = View.GONE
-        vQuoteRemove.setOnClickListener { setQuote("") }
 
         setBackgroundImage(R.drawable.bg_5)
         setTextEmpty(if (tag.chatType == API.CHAT_TYPE_FANDOM) R.string.chat_empty_fandom else R.string.chat_empty_private)
         setTextProgress(R.string.chat_loading)
-        vSend.setOnClickListener { v -> onSendClicked() }
-        vText.addTextChangedListener(TextWatcherChanged { sendTyping() })
 
         val layoutManager = LinearLayoutManager(context)
         layoutManager.stackFromEnd = true
@@ -132,7 +117,6 @@ class SChat private constructor(
         update()
         updateTyping()
         updateBackground()
-        updateMedieEditText()
     }
 
     private fun update() {
@@ -226,15 +210,15 @@ class SChat private constructor(
                     if (ControllerApi.isCurrentAccount(unit.creatorId)) {
                         false
                     } else {
-                        setAnswer(unit)
+                        fieldLogic.setAnswer(unit)
                         true
                     }
                 },
-                { unit -> setChange(unit) },
+                { unit -> fieldLogic.setChange(unit) },
                 { unit ->
-                    if (!ControllerApi.isCurrentAccount(unit.creatorId)) setAnswer(unit)
-                    setQuote(unit.creatorName + ": " + unit.text, unit.id)
-                    ToolsView.showKeyboard(vText)
+                    if (!ControllerApi.isCurrentAccount(unit.creatorId)) fieldLogic.setAnswer(unit)
+                    fieldLogic.setQuote(unit.creatorName + ": " + unit.text, unit.id)
+                    ToolsView.showKeyboard(fieldLogic.vText)
                 },
                 { id ->
                     if (adapter == null) return@instance
@@ -266,14 +250,6 @@ class SChat private constructor(
         vTypingText.text = text
     }
 
-    private fun sendTyping() {
-        if (lastTypingSent > System.currentTimeMillis() - 5000) return
-        val t = vText.text
-        if (t == null || t.isEmpty()) return
-        lastTypingSent = System.currentTimeMillis()
-        RChatTyping(tag).send(api)
-    }
-
     fun sendSubscribe(subscribed: Boolean) {
         if (tag.chatType != API.CHAT_TYPE_FANDOM) return
         RChatSubscribe(tag, subscribed)
@@ -289,65 +265,16 @@ class SChat private constructor(
         return (vRecycler.layoutManager as LinearLayoutManager).findLastCompletelyVisibleItemPosition() == vRecycler.adapter!!.itemCount - 1
     }
 
-    fun setLock(b: Boolean) {
-        vAttach.isEnabled = !b
-        vText.isEnabled = !b
-        vSend.isEnabled = !b
-        vQuoteRemove.isEnabled = !b
-        vQuoteText.isEnabled = !b
-    }
-
-    fun updateMedieEditText() {
-        if (unitChange == null) vText.setCallback { link -> sendLink(link, getParentId(), false) }
-        else vText.setCallback(null)
-    }
-
-    private fun setChange(unitChange: UnitChatMessage?) {
-        if (this.unitChange != null && unitChange == null) vText.setText(null)
-        this.unitChange = unitChange
-
-        updateMedieEditText()
-
-        vSend.setImageResource(ToolsResources.getDrawableAttrId(if (unitChange == null) R.attr.ic_send_24dp else R.attr.ic_done_24dp))
-        vAttach.visibility = if (unitChange == null) View.VISIBLE else View.GONE
-        if (unitChange != null) {
-            vText.setText(unitChange.text)
-            vText.setSelection(vText.text!!.length)
-            ToolsView.showKeyboard(vText)
-            setQuote(unitChange.quoteText, unitChange.quoteId)
-        }
-    }
-
-    private fun setQuote(quoteText: String, quoteId: Long = 0) {
-        this.quoteText = quoteText
-        this.quoteId = quoteId
-        vQuoteContainer.visibility = if (quoteText.isEmpty()) View.GONE else View.VISIBLE
-        vQuoteText.text = quoteText
-        ControllerApi.makeTextHtml(vQuoteText)
-    }
 
     override fun onBackPressed(): Boolean {
-        if (unitChange != null) {
-            setChange(null)
+        if (fieldLogic.unitChange != null) {
+            fieldLogic.setChange(null)
             return true
         }
         return super.onBackPressed()
     }
 
-    private fun clearInput() {
-        setQuote("")
-        attach.clear()
-        vText.setText("")
-        setChange(null)
-    }
-
-    private fun afterSend(message: UnitChatMessage) {
-        clearInput()
-        EventBus.post(EventUpdateChats())
-        addMessage(message, true)
-    }
-
-    private fun addMessage(message: UnitChatMessage, forceScroll: Boolean) {
+    fun addMessage(message: UnitChatMessage, forceScroll: Boolean) {
         if(!loaded){
             addAfterLoadList.add(message)
             return
@@ -363,113 +290,6 @@ class SChat private constructor(
                 vRecycler.smoothScrollToPosition(vRecycler.adapter!!.itemCount - 1)
         }
         setState(State.NONE)
-    }
-
-
-    //
-    //  Send
-    //
-
-    private fun getText() = vText.text!!.toString().trim { it <= ' ' }
-
-    private fun getParentId(): Long {
-        var parentId: Long = 0
-        if (unitAnswer != null && getText().startsWith(unitAnswer!!.creatorName + ", "))
-            parentId = unitAnswer!!.id
-        return parentId
-
-    }
-
-    private fun onSendClicked() {
-        val text = getText()
-        val parentId = getParentId()
-
-        if (text.isEmpty() && !attach.isHasContent()) return
-
-        if (unitChange == null) {
-            if (attach.isHasContent()) sendImage(text, parentId)
-            else if (ToolsText.isWebLink(text)) sendLink(text, parentId, true)
-            else sendText(text, parentId)
-        } else sendChange(text)
-    }
-
-    //
-    //  Text
-    //
-
-    private fun sendText(text: String, parentId: Long) {
-        setLock(true)
-        ApiRequestsSupporter.execute(RChatMessageCreate(tag, text, null, null, parentId, quoteId)) { r ->
-            afterSend(r.message)
-        }
-                .onApiError(RChatMessageCreate.E_BLACK_LIST) {
-                    ToolsToast.show(R.string.error_black_list)
-                }
-                .onFinish { setLock(false) }
-    }
-
-    private fun sendChange(text: String) {
-        val unitChangeId = unitChange!!.id
-        ApiRequestsSupporter.executeEnabledCallback(RChatMessageChange(unitChangeId, quoteId, text), { r ->
-            ToolsToast.show(R.string.app_changed)
-            eventBus.post(EventChatMessageChanged(unitChangeId, text, quoteId, quoteText))
-            clearInput()
-        }, { enabled -> setLock(!enabled) })
-
-    }
-
-    //
-    //  Link
-    //
-
-    private fun sendLink(text: String, parentId: Long, send: Boolean) {
-        val dialog = ToolsView.showProgressDialog()
-        ToolsNetwork.getBytesFromURL(text, 10) { bytes ->
-            if (bytes == null || !ToolsBytes.isImage(bytes)) {
-                dialog.hide()
-                if (send) sendText(text, parentId)
-                else vText.setText(text)
-            } else {
-                attach.attachUrl(text, dialog) {
-                    if (send) sendText(text, parentId)
-                    else vText.setText(text)
-                }
-            }
-
-        }
-    }
-
-    //
-    //  Image
-    //
-
-    private fun sendImage(text: String, parentId: Long) {
-        setLock(true)
-        ToolsThreads.thread {
-            val bytes = attach.getBytes()
-            val gif = if (bytes.size == 1 && ToolsBytes.isGif(bytes[0])) bytes[0] else null
-            if (gif != null) {
-                val bt = ToolsBitmap.decode(bytes[0])
-                if (bt == null) {
-                    setLock(false)
-                    ToolsToast.show(R.string.error_cant_load_image)
-                    return@thread
-                }
-                val byt = ToolsBitmap.toBytes(bt, API.CHAT_MESSAGE_IMAGE_WEIGHT)
-                if (byt == null) {
-                    setLock(false)
-                    ToolsToast.show(R.string.error_cant_load_image)
-                    return@thread
-                }
-                bytes[0] = byt
-            }
-            ApiRequestsSupporter.executeProgressDialog(RChatMessageCreate(tag, text, bytes, gif, parentId, quoteId)) { r ->
-                afterSend(r.message)
-                setLock(false)
-            }
-                    .onApiError(RChatMessageCreate.E_BLACK_LIST) { ToolsToast.show(R.string.error_black_list) }
-                    .onFinish { setLock(false) }
-        }
     }
 
 
@@ -531,30 +351,11 @@ class SChat private constructor(
     }
 
     //
-    //  Setters
-    //
-
-    private fun setAnswer(unitAnswer: UnitChatMessage): Boolean {
-        setChange(null)
-        if (ControllerApi.isCurrentAccount(unitAnswer.creatorId)) return false
-        var text = vText.text!!.toString()
-        if (this.unitAnswer != null && text.startsWith(this.unitAnswer!!.creatorName + ", ")) {
-            text = text.substring((this.unitAnswer!!.creatorName + ", ").length)
-        }
-        this.unitAnswer = unitAnswer
-        vText.setText(unitAnswer.creatorName + ", " + text)
-        vText.setSelection(vText.text!!.length)
-        ToolsView.showKeyboard(vText)
-        return true
-    }
-
-
-    //
     //  Share
     //
 
     override fun addText(text: String, postAfterAdd: Boolean) {
-        vText.setText(text)
+        fieldLogic.setText(text)
     }
 
     override fun addImage(image: Uri, postAfterAdd: Boolean) {
@@ -567,7 +368,7 @@ class SChat private constructor(
                     return@getFromUri
                 }
 
-                attach.setImageBitmapNow(it, dialog)
+                fieldLogic.attach.setImageBitmapNow(it, dialog)
             }, {
                 dialog.hide()
                 ToolsToast.show(R.string.error_cant_load_image)
@@ -577,7 +378,7 @@ class SChat private constructor(
 
     override fun addImage(image: Bitmap, postAfterAdd: Boolean) {
         val dialog = ToolsView.showProgressDialog()
-        attach.setImageBitmapNow(image, dialog)
+        fieldLogic.attach.setImageBitmapNow(image, dialog)
     }
 
 

@@ -114,6 +114,7 @@
     <string name="app_reject">Reject</string>
     <string name="app_profile">Profile</string>
     <string name="app_image">Image</string>
+    <string name="app_voice_message">Voice message</string>
     <string name="app_empty">Empty</string>
     <string name="app_open">Open</string>
     <string name="app_share">Share</string>
@@ -705,6 +706,10 @@
     <string name="settings_translate">Help with translation (GitHub)</string>
     <string name="settings_actions_long_plus">Fast post creation</string>
     <string name="settings_actions_fast_publications">Fast posting</string>
+    <string name="settings_voice_messages">Voice messages</string>
+    <string name="settings_voice_messages_auto_lock">Automatically block sound recording</string>
+    <string name="settings_voice_messages_auto_send">Automatically send message after recording</string>
+    <string name="settings_voice_messages_dont_receive">Do not receive voice messages in private chats.</string>
     <string name="settings_notifications_none">Receive notifications</string>
     <string name="settings_notifications_enabled">The app receive notifications</string>
     <string name="settings_notifications_disabled">Notifications are muted until: %s</string>
