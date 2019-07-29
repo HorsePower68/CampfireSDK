@@ -12,6 +12,7 @@ import android.widget.TextView
 import com.dzen.campfire.api.API
 import com.dzen.campfire.api.models.notifications.NotificationChatMessageChange
 import com.dzen.campfire.api.models.notifications.NotificationChatMessageRemove
+import com.dzen.campfire.api.models.notifications.NotificationMention
 import com.dzen.campfire.api.models.units.chat.UnitChatMessage
 import com.sayzen.campfiresdk.R
 import com.sayzen.campfiresdk.adapters.XAccount
@@ -25,6 +26,7 @@ import com.sayzen.campfiresdk.models.events.chat.EventChatReadDateChanged
 import com.sayzen.campfiresdk.models.events.chat.EventUpdateChats
 import com.sayzen.campfiresdk.models.events.notifications.EventNotification
 import com.sayzen.campfiresdk.screens.chat.SChat
+import com.sup.dev.android.app.SupAndroid
 import com.sup.dev.android.libs.screens.navigator.Navigator
 import com.sup.dev.android.models.EventStyleChanged
 import com.sup.dev.android.tools.*
@@ -38,6 +40,7 @@ import com.sup.dev.android.views.widgets.WidgetMenu
 import com.sup.dev.java.classes.Subscription
 import com.sup.dev.java.classes.animation.AnimationPendulum
 import com.sup.dev.java.classes.animation.AnimationPendulumColor
+import com.sup.dev.java.libs.debug.log
 import com.sup.dev.java.libs.eventBus.EventBus
 import com.sup.dev.java.tools.ToolsColor
 import com.sup.dev.java.tools.ToolsDate
@@ -101,15 +104,23 @@ abstract class CardChatMessage constructor(
         val vQuoteText: ViewTextLinkable? = view.findViewById(R.id.vQuoteText)
         val vQuoteImage: ViewImagesSwipe? = view.findViewById(R.id.vQuoteImage)
 
+        if(SupAndroid.activityIsVisible) {
+            ControllerNotifications.removeNotificationFromNew(NotificationMention::class, unit.id)
+        }
+
 
         if (vSwipe != null && onQuote != null) {
             popup = createPopup(vSwipe)
 
             vSwipe.onClick = { x, y ->
+                log("On clicked")
                 if (ControllerApi.isCurrentAccount(unit.creatorId)) popup?.asSheetShow()
                 else onClick()
             }
-            vSwipe.onLongClick = { x, y -> popup?.asSheetShow() }
+            vSwipe.onLongClick = { x, y ->
+                log("On Long clicked")
+                popup?.asSheetShow()
+            }
             vSwipe.onSwipe = {
                 if (onQuote != null && (unit.type == UnitChatMessage.TYPE_TEXT || unit.type == UnitChatMessage.TYPE_IMAGE || unit.type == UnitChatMessage.TYPE_GIF || unit.type == UnitChatMessage.TYPE_IMAGES))
                     onQuote?.invoke(unit)

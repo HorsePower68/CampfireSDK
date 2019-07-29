@@ -142,7 +142,7 @@ class TextParser(
                     if (next != -1) {
                         result += "<font color=\"#$color\">${TextParser(
                                 text.substring(
-                                        i + 7,
+                                        i + 8,
                                         next
                                 )
                         ).parse()}</font>"

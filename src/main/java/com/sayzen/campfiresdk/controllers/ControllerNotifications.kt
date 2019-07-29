@@ -259,6 +259,7 @@ object ControllerNotifications {
                 is NotificationUnitImportant -> if (n.publicationId == k.arg1) return true
                 is NotificationComment -> if (n.commentId == k.arg1) return true
                 is NotificationCommentAnswer -> if (n.commentId == k.arg1) return true
+                is NotificationMention -> if (n.unitId == k.arg1) return true
             }
         }
         return false

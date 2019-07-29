@@ -34,13 +34,13 @@ class Attach(
 
     private var adapter = RecyclerCardAdapter()
     private var enabled = true
-    private var initerd = false
+    private var inited = false
 
     init {
         vAttach.setOnClickListener { onAttachClicked() }
         vAttachRecycler.layoutManager = LinearLayoutManager(vAttachRecycler.context, LinearLayoutManager.HORIZONTAL, false)
         clear()
-        initerd = true
+        inited = true
     }
 
     fun clear() {
@@ -54,7 +54,7 @@ class Attach(
     private fun updateAttach() {
         vAttachRecycler.visibility = if (isHasContent()) View.VISIBLE else View.GONE
         vAttach.isEnabled = adapter.size() < API.CHAT_MESSAGE_MAX_IMAGES_COUNT && enabled
-        if(initerd)onUpdate.invoke()
+        if(inited)onUpdate.invoke()
     }
 
     private fun addBytes(bytes: ByteArray) {

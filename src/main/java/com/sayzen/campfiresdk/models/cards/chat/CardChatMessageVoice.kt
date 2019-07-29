@@ -40,7 +40,6 @@ class CardChatMessageVoice(
         val vPlay: ViewIcon = view.findViewById(R.id.vPlay)
         val vSoundLine: ViewSoundLine = view.findViewById(R.id.vSoundLine)
 
-        for (i in 0 until unit.voiceMask.size) log("i[$i] " + unit.voiceMask[i])
         vSoundLine.setSoundMask(unit.voiceMask)
 
         vTimeLabel.text = ToolsText.toTime(unit.voiceMs)

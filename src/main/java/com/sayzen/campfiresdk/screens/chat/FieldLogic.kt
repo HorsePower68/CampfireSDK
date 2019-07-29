@@ -27,6 +27,7 @@ import com.sup.dev.android.views.support.watchers.TextWatcherChanged
 import com.sup.dev.android.views.views.ViewEditTextMedia
 import com.sup.dev.android.views.views.ViewIcon
 import com.sup.dev.android.views.views.ViewTextLinkable
+import com.sup.dev.java.libs.debug.log
 import com.sup.dev.java.libs.eventBus.EventBus
 import com.sup.dev.java.tools.ToolsBytes
 import com.sup.dev.java.tools.ToolsNetwork
@@ -51,15 +52,16 @@ class FieldLogic(
     val vVoiceRemove: ViewIcon = screen.findViewById(R.id.vVoiceRemove)
     val vVoiceLabel: TextView = screen.findViewById(R.id.vVoiceLabel)
 
-    val attach = Attach(vAttach, vAttachRecycler)
+    val attach = Attach(vAttach, vAttachRecycler, { updateAction() }, {})
     private val utilsAudioPlayer = UtilsAudioPlayer()
 
     private var lastTypingSent = 0L
+    private var isRecording = false
     private var unitAnswer: UnitChatMessage? = null
     var unitChange: UnitChatMessage? = null
     private var quoteText = ""
     private var quoteId = 0L
-    private var voiceBytes:ByteArray? = null
+    private var voiceBytes: ByteArray? = null
 
     init {
         vVoiceContainer.visibility = View.GONE
@@ -72,29 +74,18 @@ class FieldLogic(
         vVoiceRecorder.onRecordingProgress = { vVoiceLabel.text = ToolsText.toTime(it) }
         vVoiceRecorder.onRecordingStart = {
             vVoiceLabel.text = ToolsText.toTime(0)
-            vFieldContainer.visibility = View.GONE
-            vVoiceContainer.visibility = View.VISIBLE
-            vVoicePlay.visibility = View.INVISIBLE
-            vVoiceRemove.visibility = View.INVISIBLE
+            isRecording = true
+            updateAction()
         }
         vVoiceRecorder.onRecordingStop = {
             voiceBytes = it
-            if(voiceBytes == null){
-                vVoiceContainer.visibility = View.GONE
-                vFieldContainer.visibility = View.VISIBLE
-            }else{
-                vFieldContainer.visibility = View.GONE
-                vVoiceContainer.visibility = View.VISIBLE
-                vVoicePlay.visibility = View.VISIBLE
-                vVoiceRemove.visibility = View.VISIBLE
-                updateAction()
-            }
+            isRecording = false
+            updateAction()
         }
 
         vVoiceRemove.setOnClickListener {
             voiceBytes = null
-            vVoiceContainer.visibility = View.GONE
-            vFieldContainer.visibility = View.VISIBLE
+            updateAction()
         }
         vVoicePlay.setOnClickListener {
             utilsAudioPlayer.stop()
@@ -146,10 +137,16 @@ class FieldLogic(
     }
 
     private fun updateAction() {
-        vSend.visibility = if (vText.text.toString().isNotEmpty() || attach.isHasContent() || quoteId != 0L || unitChange != null || voiceBytes != null) View.VISIBLE else View.INVISIBLE
-        vVoiceRecorder.visibility = if (vText.text.toString().isNotEmpty() || attach.isHasContent() || quoteId != 0L || unitChange != null || voiceBytes != null) View.INVISIBLE else View.VISIBLE
-    }
+        vSend.visibility = if (vText.text.toString().isNotEmpty() || attach.isHasContent() || quoteId != 0L || unitChange != null || voiceBytes != null) View.VISIBLE else View.GONE
+        vVoiceRecorder.visibility = if (vText.text.toString().isNotEmpty() || attach.isHasContent() || quoteId != 0L || unitChange != null || voiceBytes != null) View.GONE else View.VISIBLE
 
+        if (isRecording || voiceBytes != null) vFieldContainer.visibility = View.GONE
+        else vFieldContainer.visibility = View.VISIBLE
+
+        vVoiceContainer.visibility = if (vFieldContainer.visibility == View.VISIBLE) View.GONE else View.VISIBLE
+        vVoicePlay.visibility = if (voiceBytes == null) View.INVISIBLE else View.VISIBLE
+        vVoiceRemove.visibility = if (voiceBytes == null) View.INVISIBLE else View.VISIBLE
+    }
 
     //
     //  Send
@@ -167,7 +164,7 @@ class FieldLogic(
 
     private fun onSendClicked() {
 
-        if(voiceBytes != null){
+        if (voiceBytes != null) {
             sendVoice()
             return
         }
@@ -227,8 +224,6 @@ class FieldLogic(
         setLock(true)
         ApiRequestsSupporter.execute(RChatMessageCreate(screen.tag, "", null, null, voiceBytes, 0L, quoteId)) { r ->
             voiceBytes = null
-            vFieldContainer.visibility = View.VISIBLE
-            vVoiceContainer.visibility = View.GONE
             afterSend(r.message)
         }
                 .onApiError(RChatMessageCreate.E_BLACK_LIST) {

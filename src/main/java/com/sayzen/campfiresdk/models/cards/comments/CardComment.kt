@@ -9,6 +9,7 @@ import com.dzen.campfire.api.API
 import com.dzen.campfire.api.models.UnitComment
 import com.dzen.campfire.api.models.notifications.NotificationComment
 import com.dzen.campfire.api.models.notifications.NotificationCommentAnswer
+import com.dzen.campfire.api.models.notifications.NotificationMention
 import com.sayzen.campfiresdk.R
 import com.sayzen.campfiresdk.adapters.XAccount
 import com.sayzen.campfiresdk.adapters.XFandom
@@ -23,6 +24,7 @@ import com.sayzen.campfiresdk.views.ViewKarma
 import com.sayzen.campfiresdk.controllers.ControllerNotifications
 import com.sayzen.campfiresdk.controllers.ControllerUnits
 import com.sayzen.campfiresdk.models.widgets.WidgetComment
+import com.sup.dev.android.app.SupAndroid
 import com.sup.dev.android.tools.ToolsAndroid
 import com.sup.dev.android.tools.ToolsImagesLoader
 import com.sup.dev.android.tools.ToolsResources
@@ -78,11 +80,6 @@ abstract class CardComment protected constructor(
     private var subscriptionFlash: Subscription? = null
     protected var popup: Widget? = null
 
-    init {
-        ControllerNotifications.removeNotificationFromNew(NotificationComment::class, unit.id)
-        ControllerNotifications.removeNotificationFromNew(NotificationCommentAnswer::class, unit.id)
-    }
-
     protected abstract fun bind(view: View)
 
     override fun bindView(view: View) {
@@ -98,6 +95,12 @@ abstract class CardComment protected constructor(
         val vQuoteContainer: View? = view.findViewById(R.id.vQuoteContainer)
         val vQuoteText: ViewTextLinkable? = view.findViewById(R.id.vQuoteText)
         val vQuoteImage: ViewImagesSwipe? = view.findViewById(R.id.vQuoteImage)
+
+        if(SupAndroid.activityIsVisible) {
+            ControllerNotifications.removeNotificationFromNew(NotificationComment::class, unit.id)
+            ControllerNotifications.removeNotificationFromNew(NotificationCommentAnswer::class, unit.id)
+            ControllerNotifications.removeNotificationFromNew(NotificationMention::class, unit.id)
+        }
 
         if (vSwipe != null && onQuote != null) {
             popup = createPopup(vSwipe)
