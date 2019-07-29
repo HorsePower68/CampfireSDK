@@ -3,10 +3,15 @@ package com.sayzen.campfiresdk.models.cards.chat
 import android.view.View
 import android.widget.TextView
 import com.dzen.campfire.api.models.units.chat.UnitChatMessage
+import com.dzen.campfire.api_media.requests.RResourcesGet
 import com.sayzen.campfiresdk.R
 import com.sayzen.campfiresdk.controllers.ControllerVoiceMessages
+import com.sayzen.campfiresdk.controllers.apiMedia
 import com.sayzen.campfiresdk.models.events.chat.EventVoiceMessageStateChanged
+import com.sayzen.campfiresdk.models.events.chat.EventVoiceMessageStep
 import com.sup.dev.android.views.views.ViewIcon
+import com.sup.dev.android.views.views.ViewSoundLine
+import com.sup.dev.java.libs.debug.log
 import com.sup.dev.java.libs.eventBus.EventBus
 import com.sup.dev.java.tools.ToolsText
 
@@ -20,8 +25,9 @@ class CardChatMessageVoice(
 
     val eventBus = EventBus
             .subscribe(EventVoiceMessageStateChanged::class) { update() }
+            .subscribe(EventVoiceMessageStep::class) { if (it.id == unit.voiceResourceId) updatePlayTime() }
 
-    init{
+    init {
         changeEnabled = false
     }
 
@@ -32,6 +38,10 @@ class CardChatMessageVoice(
 
         val vTimeLabel: TextView = view.findViewById(R.id.vTimeLabel)
         val vPlay: ViewIcon = view.findViewById(R.id.vPlay)
+        val vSoundLine: ViewSoundLine = view.findViewById(R.id.vSoundLine)
+
+        for (i in 0 until unit.voiceMask.size) log("i[$i] " + unit.voiceMask[i])
+        vSoundLine.setSoundMask(unit.voiceMask)
 
         vTimeLabel.text = ToolsText.toTime(unit.voiceMs)
 
@@ -53,6 +63,16 @@ class CardChatMessageVoice(
                 ControllerVoiceMessages.play(unit.voiceResourceId)
         }
 
+        updatePlayTime()
+
+    }
+
+    private fun updatePlayTime() {
+        val view = getView()
+        if (view == null) return
+
+        val vSoundLine: ViewSoundLine = view.findViewById(R.id.vSoundLine)
+        vSoundLine.setProgress(ControllerVoiceMessages.getPlayTimeMs(unit.voiceResourceId).toFloat(), unit.voiceMs.toFloat())
     }
 
 

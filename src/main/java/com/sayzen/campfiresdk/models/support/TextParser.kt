@@ -58,6 +58,7 @@ class TextParser(
             if (parseColorName("orange", "F57C00")) continue
             if (parseColorName("brown", "5D4037")) continue
             if (parseColorName("grey", "616161")) continue
+            if (parseColorName("campfire", "FF6D00")) continue
             if (parseColorName("rainbow", "-")) continue
             result += text[i++]
         }
