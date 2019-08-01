@@ -20,6 +20,8 @@
     <string name="app_link">Link</string>
     <string name="app_notifications">Notifications</string>
     <string name="app_notify">Notify</string>
+    <string name="app_pin">Pin</string>
+    <string name="app_unpin">Unpin</string>
     <string name="app_style">Style</string>
     <string name="app_bookmarks">Bookmarks</string>
     <string name="app_to_finish">Finish</string>
@@ -380,6 +382,12 @@
     <string name="feed_loading_23">Give robbery!</string>
     <string name="feed_loading_24">From homing missiles produced persecution mania.</string>
     <string name="feed_loading_25">All systems are working normally...orking normally...orking normally....</string>
+    <string name="feed_loading_26">Before use, consult a specialist.</string>
+    <string name="feed_loading_27">Know... The world always needs new heroes.</string>
+    <string name="feed_loading_28">Heroes never die!</string>
+    <string name="feed_loading_29">Appreciate these last moments of silence.</string>
+    <string name="feed_loading_30">If you\'re reading this, the feed isn\'t loaded yet.</string>
+    <string name="feed_loading_31">Faster read, soon this message will disappear!</string>
     <string name="feed_loading">Loading you\'r feed</string>
     <string name="feed_all">All publications</string>
     <string name="feed_subscribed">Subscribed only</string>
@@ -546,8 +554,10 @@
     <string name="lvl_moderate_gallery">Ability to change fandom gallery</string>
     <string name="lvl_moderate_links">Ability to change fandom links</string>
     <string name="lvl_moderate_important">Ability to mark a publication as important. Fandom subscribers will receive a notification of this.</string>
+    <string name="lvl_moderate_pin_post">Ability to pin a post in fandom</string>
     <string name="lvl_moderate_review_remove_text">Remove text from reviews on fandom.</string>
     <string name="lvl_avatar_gif">Ability to change avatar with GIF</string>
+    <string name="lvl_pin_post">Ability to pin a post in your profile</string>
     <string name="lvl_app_profile_image_gif">Ability to change profile title image with GIF</string>
     <string name="lvl_ads_remove">Disabling ads in the app</string>
     <string name="lvl_admin_moder">Administrator. Ability to use moderator functions in all fandoms, regardless of their karma</string>
@@ -1119,7 +1129,13 @@
     <string name="unit_menu_important_mark_confirm">Mark this publication as important?</string>
     <string name="unit_menu_important_unmark_confirm">Remove important mark from this publication?</string>
     <string name="unit_menu_change_fandom">Change fandom</string>
+    <string name="unit_menu_pin_in_profile">Pin in the profile</string>
+    <string name="unit_menu_unpin_in_profile">Unpin from profile</string>
+    <string name="unit_menu_pin_in_fandom">Pin in the fandom</string>
+    <string name="unit_menu_unpin_in_fandom">Unpin from fandom</string>
     <string name="unit_menu_change_fandom_confirm">Change this post fandom?</string>
+    <string name="unit_menu_pin_profile_confirm">Pin post to profile?</string>
+    <string name="unit_menu_unpin_profile_confirm">Unpin post from profile?</string>
     <string name="unit_menu_comments_watch">Follow the comments</string>
     <string name="unit_menu_comments_watch_on">You follow the comments</string>
     <string name="unit_menu_comments_watch_off">You no longer follow the comments</string>

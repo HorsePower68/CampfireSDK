@@ -1,9 +1,9 @@
 package com.sayzen.campfiresdk.models.cards
 
-import androidx.recyclerview.widget.RecyclerView
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.recyclerview.widget.RecyclerView
 import com.dzen.campfire.api.API
 import com.dzen.campfire.api.models.units.post.Page
 import com.dzen.campfire.api.models.units.post.PagePolling
@@ -16,7 +16,6 @@ import com.sayzen.campfiresdk.adapters.XKarma
 import com.sayzen.campfiresdk.controllers.ControllerApi
 import com.sayzen.campfiresdk.controllers.ControllerCampfireSDK
 import com.sayzen.campfiresdk.controllers.ControllerPost
-import com.sayzen.campfiresdk.controllers.ControllerUnits
 import com.sayzen.campfiresdk.models.PostList
 import com.sayzen.campfiresdk.models.cards.comments.CardComment
 import com.sayzen.campfiresdk.models.cards.post_pages.CardPage
@@ -35,7 +34,7 @@ import com.sup.dev.java.tools.ToolsThreads
 import java.util.*
 
 class CardPost constructor(
-        private val vRecycler: androidx.recyclerview.widget.RecyclerView?,
+        private val vRecycler: RecyclerView?,
         override val unit: UnitPost,
         var onClick: ((UnitPost) -> Unit)? = null
 ) : CardUnit(unit) {
@@ -117,9 +116,9 @@ class CardPost constructor(
         update()
     }
 
-    private fun addPage(page: Page){
+    private fun addPage(page: Page) {
         val card = CardPage.instance(unit, page)
-        if(card is CardPageSpoiler && !isShowFull) {
+        if (card is CardPageSpoiler && !isShowFull) {
             card.onClick = {
                 toggleShowFull()
                 update()
@@ -172,7 +171,8 @@ class CardPost constructor(
             vPagesContainer.addView(v)
         }
 
-        if (unit.important == API.UNIT_IMPORTANT_IMPORTANT) vTitleContainer.setBackgroundColor(ToolsResources.getColor(R.color.blue_700))
+        if (unit.isPined) vTitleContainer.setBackgroundColor(ToolsResources.getColor(R.color.lime_700))
+        else if (unit.important == API.UNIT_IMPORTANT_IMPORTANT) vTitleContainer.setBackgroundColor(ToolsResources.getColor(R.color.blue_700))
         else vTitleContainer.setBackgroundColor(0x00000000)
 
         vPagesCount.setOnClickListener { toggleShowFull() }
@@ -192,7 +192,7 @@ class CardPost constructor(
                 ControllerCampfireSDK.onToPostClicked(unit.id, -1, Navigator.TO)
         }
         vComments.setOnLongClickListener {
-            WidgetComment(unit.id, null) {  }.asSheetShow()
+            WidgetComment(unit.id, null) { }.asSheetShow()
             true
         }
 
@@ -250,7 +250,7 @@ class CardPost constructor(
     }
 
     private fun updateShowAll(vPagesCount: TextView, vMaxSizes: LayoutMaxSizes, vPagesContainer: ViewGroup) {
-        vPagesCount.visibility =  if (unit.pages.size > 2 || vMaxSizes.isCroppedH() || vPagesContainer.measuredHeight > ToolsView.dpToPx(480)) View.VISIBLE else  View.INVISIBLE
+        vPagesCount.visibility = if (unit.pages.size > 2 || vMaxSizes.isCroppedH() || vPagesContainer.measuredHeight > ToolsView.dpToPx(480)) View.VISIBLE else View.INVISIBLE
     }
 
     override fun notifyItem() {
@@ -308,7 +308,7 @@ class CardPost constructor(
     }
 
     private fun onPostPublicationChange(e: EventPostPublishedChange) {
-        if(e.unitId == unit.id) {
+        if (e.unitId == unit.id) {
             if (e.published && unit.status == API.STATUS_DRAFT && adapter != null) adapter!!.remove(this)
             if (!e.published && unit.status == API.STATUS_PUBLIC && adapter != null) adapter!!.remove(this)
         }

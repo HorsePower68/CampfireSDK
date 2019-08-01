@@ -10,6 +10,8 @@ import com.dzen.campfire.api.requests.fandoms.RFandomsModerationImportant
 import com.dzen.campfire.api.requests.fandoms.RFandomsModerationToDrafts
 import com.dzen.campfire.api.requests.post.RPostChangeFandom
 import com.dzen.campfire.api.requests.post.RPostNotifyFollowers
+import com.dzen.campfire.api.requests.post.RPostPinAccount
+import com.dzen.campfire.api.requests.post.RPostPinFandom
 import com.sayzen.campfiresdk.R
 import com.sayzen.campfiresdk.models.cards.post_pages.CardPage
 import com.sayzen.campfiresdk.models.cards.post_pages.CardPageSpoiler
@@ -47,6 +49,8 @@ object ControllerPost {
     var ENABLED_INPORTANT = false
     var ENABLED_MAKE_MODER = false
     var ENABLED_MODER_CHANGE_FANDOM = false
+    var ENABLED_PIN_PROFILE = false
+    var ENABLED_PIN_FANDOM = false
 
     fun showPostPopup(view: View, unit: UnitPost) {
 
@@ -62,12 +66,16 @@ object ControllerPost {
                 .add(R.string.app_remove) { w, card -> remove(unit) }.condition(ENABLED_REMOVE)
                 .add(R.string.app_to_drafts) { w, card -> toDrafts(unit) }.condition(ENABLED_TO_DRAFTS && unit.isPublic)
                 .add(R.string.unit_menu_change_fandom) { w, card -> changeFandom(unit.id) }.condition(ENABLED_CHANGE_FANDOM)
+                .add(R.string.unit_menu_pin_in_profile) { w, card -> pinInProfile(unit) }.condition(ENABLED_PIN_PROFILE && ControllerApi.can(API.LVL_CAN_PIN_POST) && unit.isPublic && !unit.isPined)
+                .add(R.string.unit_menu_unpin_in_profile) { w, card -> unpinInProfile(unit) }.condition(ENABLED_PIN_PROFILE && unit.isPined)
                 .groupCondition(!ControllerApi.isCurrentAccount(unit.creatorId) && unit.isPublic)
                 .add(R.string.app_report) { w, card -> ControllerUnits.report(unit) }.condition(ENABLED_REPORT)
                 .add(R.string.app_clear_reports) { w, card -> ControllerUnits.clearReports(unit) }.backgroundRes(R.color.blue_700).condition(ENABLED_CLEAR_REPORTS && ControllerApi.can(unit.fandomId, unit.languageId, API.LVL_MODERATOR_BLOCK) && unit.reportsCount > 0)
                 .add(R.string.app_block) { w, card -> ControllerUnits.block(unit) }.backgroundRes(R.color.blue_700).condition(ENABLED_BLOCK && ControllerApi.can(unit.fandomId, unit.languageId, API.LVL_MODERATOR_BLOCK))
                 .add(R.string.unit_menu_moderator_to_drafts) { w, card -> moderatorToDrafts(unit.id) }.backgroundRes(R.color.blue_700).condition(ENABLED_MODER_TO_DRAFT && ControllerApi.can(unit.fandomId, unit.languageId, API.LVL_MODERATOR_TO_DRAFTS))
                 .add(R.string.post_menu_change_tags) { w, card -> changeTagsModer(unit) }.backgroundRes(R.color.blue_700).condition(ENABLED_MODER_CHANGE_TAGS && ControllerApi.can(unit.fandomId, unit.languageId, API.LVL_MODERATOR_POST_TAGS))
+                .add(R.string.unit_menu_pin_in_fandom) { w, card -> pinInFandom(unit) }.backgroundRes(R.color.blue_700).condition(ENABLED_PIN_FANDOM && ControllerApi.can(unit.fandomId, unit.languageId, API.LVL_MODERATOR_PIN_POST) && unit.isPublic && !unit.isPined)
+                .add(R.string.unit_menu_unpin_in_fandom) { w, card -> unpinInFandom(unit) }.backgroundRes(R.color.blue_700).condition(ENABLED_PIN_FANDOM && ControllerApi.can(unit.fandomId, unit.languageId, API.LVL_MODERATOR_PIN_POST) && unit.isPined)
                 .clearGroupCondition()
                 .add(if (unit.important == API.UNIT_IMPORTANT_IMPORTANT) R.string.unit_menu_important_unmark else R.string.unit_menu_important_mark) { w, card -> markAsImportant(unit.id, !(unit.important == API.UNIT_IMPORTANT_IMPORTANT)) }.backgroundRes(R.color.blue_700).condition(ENABLED_INPORTANT && ControllerApi.can(unit.fandomId, unit.languageId, API.LVL_MODERATOR_IMPORTANT) && unit.isPublic)
                 .groupCondition(!ControllerApi.isCurrentAccount(unit.creatorId) && unit.isPublic)
@@ -79,6 +87,60 @@ object ControllerPost {
                 .clearGroupCondition()
         ON_PRE_SHOW_MENU.invoke(unit, w)
         w.asSheetShow()
+    }
+
+    fun pinInFandom(unit: UnitPost) {
+        WidgetField()
+                .setTitle(R.string.unit_menu_pin_in_fandom)
+                .setHint(R.string.comments_hint)
+                .setOnCancel(R.string.app_cancel)
+                .setMin(API.MODERATION_COMMENT_MIN_L)
+                .setMax(API.MODERATION_COMMENT_MAX_L)
+                .setOnEnter(R.string.app_pin) { w, comment ->
+                    ApiRequestsSupporter.executeEnabled(w, RPostPinFandom(unit.id, unit.fandomId, unit.languageId, comment)) {
+                        EventBus.post(EventPostPinedFandom(unit.fandomId, unit.languageId, unit))
+                        ToolsToast.show(R.string.app_done)
+                    }
+                }
+                .asSheetShow()
+    }
+
+    fun unpinInFandom(unit: UnitPost) {
+        WidgetField()
+                .setTitle(R.string.unit_menu_unpin_in_fandom)
+                .setHint(R.string.comments_hint)
+                .setOnCancel(R.string.app_cancel)
+                .setMin(API.MODERATION_COMMENT_MIN_L)
+                .setMax(API.MODERATION_COMMENT_MAX_L)
+                .setOnEnter(R.string.app_unpin) { w, comment ->
+                    ApiRequestsSupporter.executeEnabled(w, RPostPinFandom(0, unit.fandomId, unit.languageId, comment)) {
+                        EventBus.post(EventPostPinedFandom(unit.fandomId, unit.languageId, null))
+                        ToolsToast.show(R.string.app_done)
+                    }
+                }
+                .asSheetShow()
+    }
+
+    fun pinInProfile(unit: UnitPost) {
+        ApiRequestsSupporter.executeEnabledConfirm(
+                R.string.unit_menu_pin_profile_confirm,
+                R.string.app_pin,
+                RPostPinAccount(unit.id)
+        ) {
+            EventBus.post(EventPostPinedProfile(unit.creatorId, unit))
+            ToolsToast.show(R.string.app_done)
+        }
+    }
+
+    fun unpinInProfile(unit: UnitPost) {
+        ApiRequestsSupporter.executeEnabledConfirm(
+                R.string.unit_menu_unpin_profile_confirm,
+                R.string.app_unpin,
+                RPostPinAccount(0)
+        ) {
+            EventBus.post(EventPostPinedProfile(unit.creatorId, null))
+            ToolsToast.show(R.string.app_done)
+        }
     }
 
     fun notifyFollowers(unitId: Long) {
