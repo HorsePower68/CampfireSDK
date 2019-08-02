@@ -12,7 +12,7 @@
 
             <androidx.appcompat.widget.Toolbar
                 style="@style/Toolbar"
-                app:title="@string/post_page_table">
+                app:title="@string/post_page_polling">
 
                 <com.sup.dev.android.views.views.ViewButton
                     android:id="@+id/vCreate"

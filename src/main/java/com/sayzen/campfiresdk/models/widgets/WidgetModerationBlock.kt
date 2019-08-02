@@ -23,6 +23,7 @@ import com.sup.dev.android.views.support.watchers.TextWatcherChanged
 import com.sup.dev.android.views.widgets.Widget
 import com.sup.dev.android.views.widgets.WidgetMenu
 import com.sup.dev.java.libs.eventBus.EventBus
+import com.sup.dev.java.tools.ToolsColor
 
 class WidgetModerationBlock(
         private val unit: com.dzen.campfire.api.models.units.Unit,
@@ -66,6 +67,7 @@ class WidgetModerationBlock(
 
         vComment.vField.addTextChangedListener(TextWatcherChanged { t -> updateFinishEnabled() })
 
+        if (bansCount > 0 || warnsCount > 2) vPunishments.setBackgroundColor(ToolsColor.setAlpha(100, ToolsResources.getColor(R.color.red_700)))
         vPunishments.setTitle(ToolsResources.s(R.string.moderation_widget_block_user_punishments, bansCount, warnsCount))
         vPunishments.setOnClickListener {
             val screen = SPunishments(unit.creatorId, unit.creatorName)
@@ -162,7 +164,7 @@ class WidgetModerationBlock(
                 }
     }
 
-    private fun afterBlock(blockedUnitsIds:Array<Long>){
+    private fun afterBlock(blockedUnitsIds: Array<Long>) {
         if (unit.unitType == API.UNIT_TYPE_REVIEW) {
             EventBus.post(EventFandomReviewTextRemoved(unit.id))
         } else {

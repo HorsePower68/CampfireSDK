@@ -56,7 +56,7 @@
                 android:layout_height="wrap_content"
                 app:Settings_title="@string/settings_voice_messages"/>
 
-            <com.sup.dev.android.views.settings.Settings
+            <com.sup.dev.android.views.settings.SettingsSwitcher
                 android:id="@+id/vVoiceAutoLock"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -64,7 +64,7 @@
                 app:Settings_icon_background="@color/green_500"
                 app:Settings_title="@string/settings_voice_messages_auto_lock"/>
 
-            <com.sup.dev.android.views.settings.Settings
+            <com.sup.dev.android.views.settings.SettingsSwitcher
                 android:id="@+id/vVoiceAutoSend"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -72,7 +72,7 @@
                 app:Settings_icon_background="@color/light_green_500"
                 app:Settings_title="@string/settings_voice_messages_auto_send"/>
 
-            <com.sup.dev.android.views.settings.Settings
+            <com.sup.dev.android.views.settings.SettingsSwitcher
                 android:id="@+id/vVoiceIgnore"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

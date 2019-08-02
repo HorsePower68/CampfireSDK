@@ -1,6 +1,5 @@
 package com.sayzen.campfiresdk.screens.chat
 
-import android.view.TextureView
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
@@ -12,6 +11,7 @@ import com.dzen.campfire.api.requests.chat.RChatMessageCreate
 import com.dzen.campfire.api.requests.chat.RChatTyping
 import com.sayzen.campfiresdk.R
 import com.sayzen.campfiresdk.controllers.ControllerApi
+import com.sayzen.campfiresdk.controllers.ControllerSettings
 import com.sayzen.campfiresdk.controllers.api
 import com.sayzen.campfiresdk.models.events.chat.EventChatMessageChanged
 import com.sayzen.campfiresdk.models.events.chat.EventUpdateChats
@@ -27,7 +27,6 @@ import com.sup.dev.android.views.support.watchers.TextWatcherChanged
 import com.sup.dev.android.views.views.ViewEditTextMedia
 import com.sup.dev.android.views.views.ViewIcon
 import com.sup.dev.android.views.views.ViewTextLinkable
-import com.sup.dev.java.libs.debug.log
 import com.sup.dev.java.libs.eventBus.EventBus
 import com.sup.dev.java.tools.ToolsBytes
 import com.sup.dev.java.tools.ToolsNetwork
@@ -76,11 +75,13 @@ class FieldLogic(
             vVoiceLabel.text = ToolsText.toTime(0)
             isRecording = true
             updateAction()
+            if(ControllerSettings.voiceMessagesAutoLock) vVoiceRecorder.lock()
         }
         vVoiceRecorder.onRecordingStop = {
             voiceBytes = it
             isRecording = false
             updateAction()
+            if(voiceBytes != null && ControllerSettings.voiceMessagesAutoSend) sendVoice()
         }
 
         vVoiceRemove.setOnClickListener {

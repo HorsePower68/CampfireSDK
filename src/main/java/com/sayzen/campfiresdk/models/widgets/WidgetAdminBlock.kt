@@ -21,6 +21,7 @@ import com.sup.dev.android.views.support.watchers.TextWatcherChanged
 import com.sup.dev.android.views.widgets.Widget
 import com.sup.dev.android.views.widgets.WidgetMenu
 import com.sup.dev.java.libs.eventBus.EventBus
+import com.sup.dev.java.tools.ToolsColor
 
 class WidgetAdminBlock(
         private val accountId: Long,
@@ -55,6 +56,7 @@ class WidgetAdminBlock(
 
         vComment.vField.addTextChangedListener(TextWatcherChanged { t -> updateFinishEnabled() })
 
+        if (bansCount > 0 || warnsCount > 2) vPunishments.setBackgroundColor(ToolsColor.setAlpha(100, ToolsResources.getColor(R.color.red_700)))
         vPunishments.setTitle(ToolsResources.s(R.string.moderation_widget_block_user_punishments, bansCount, warnsCount))
         vPunishments.setOnClickListener {
             val screen = SPunishments(accountId, accountName)

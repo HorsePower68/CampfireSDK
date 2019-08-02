@@ -158,6 +158,27 @@ object ControllerSettings {
             onSettingsUpdated()
         }
 
+    var voiceMessagesAutoLock: Boolean
+        get() = accountSettings.voiceMessagesAutoLock
+        set(b) {
+            accountSettings.voiceMessagesAutoLock = b
+            onSettingsUpdated()
+        }
+
+    var voiceMessagesAutoSend: Boolean
+        get() = accountSettings.voiceMessagesAutoSend
+        set(b) {
+            accountSettings.voiceMessagesAutoSend = b
+            onSettingsUpdated()
+        }
+
+    var voiceMessagesIgnore: Boolean
+        get() = accountSettings.voiceMessagesIgnore
+        set(b) {
+            accountSettings.voiceMessagesIgnore = b
+            onSettingsUpdated()
+        }
+
     //
     //  Notifications Settings
     //
