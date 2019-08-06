@@ -142,7 +142,7 @@ class WidgetModerationBlock(
         val blockInApp = if (ControllerApi.can(API.LVL_ADMIN_BAN)) vBlockInApp.isChecked() else false
 
         ApiRequestsSupporter.executeEnabledConfirm(alertText, alertAction,
-                RFandomsModerationBlock(unit.id, banTime, vBlockLast.isChecked(), vComment.getText().trim { it <= ' ' }, blockInApp)) { r ->
+                RFandomsModerationBlock(unit.id, banTime, vBlockLast.isChecked(), vComment.getText().trim { it <= ' ' }, blockInApp, ControllerApi.getLanguageId())) { r ->
             onBlock.invoke()
             afterBlock(r.blockedUnitsIds!!)
             ToolsToast.show(finishToast)

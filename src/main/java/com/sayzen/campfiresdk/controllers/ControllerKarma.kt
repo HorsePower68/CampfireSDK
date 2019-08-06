@@ -50,7 +50,7 @@ object ControllerKarma {
 
         init {
             subscription = ToolsThreads.main(CampfreConstants.RATE_TIME) {
-                ApiRequestsSupporter.execute(RUnitsKarmaAdd(unitId, up)) { r ->
+                ApiRequestsSupporter.execute(RUnitsKarmaAdd(unitId, up, ControllerApi.getLanguageId())) { r ->
                     EventBus.post(EventUnitKarmaAdd(unitId, r.myKarmaCount))
                 }
                     .onApiError(RUnitsKarmaAdd.E_SELF_UNIT) { ToolsToast.show(R.string.error_rate_self_unit) }

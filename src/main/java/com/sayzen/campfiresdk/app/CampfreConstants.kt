@@ -28,7 +28,8 @@ object CampfreConstants {
         Rule(R.string.rules_users_10_title, R.string.rules_users_10),
         Rule(R.string.rules_users_11_title, R.string.rules_users_11),
         Rule(R.string.rules_users_12_title, R.string.rules_users_12),
-        Rule(R.string.rules_users_13_title, R.string.rules_users_13)
+        Rule(R.string.rules_users_13_title, R.string.rules_users_13),
+        Rule(R.string.rules_users_14_title, R.string.rules_users_14)
     )
     val RULES_MODER = arrayOf(
         R.string.rules_moderators_1,

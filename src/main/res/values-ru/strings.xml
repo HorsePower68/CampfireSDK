@@ -588,6 +588,7 @@
     <string name="error_moderator_too_many">У пользователя слишком много модерируемых фэндомов.</string>
     <string name="error_moderator_moderators_exist">В этом фэндоме уже есть модераторы.</string>
     <string name="error_moderator_low_lvl">У пользователя слишком низкий уровень.</string>
+    <string name="error_moderator_admin">Пользователь уже администратор.</string>
     <string name="error_login_taken">Это имя уже занято.</string>
     <string name="error_low_lvl_or_karma">Вы не можете сделать это. Проверьте свой уровень и карму.</string>
     <string name="error_black_list">Пользователь добавил вас в черный список</string>
@@ -1110,6 +1111,8 @@
     <string name="unit_menu_change_fandom">Изменить фэндом</string>
     <string name="unit_menu_pin_in_profile">Закрепить в профиле</string>
     <string name="unit_menu_unpin_in_profile">Открепить от профиля</string>
+    <string name="unit_menu_multi_languages">Сделать мультиязычным</string>
+    <string name="unit_menu_multi_languages_confirm">Сделать этот пост мультиязычным? Его увидят пользователи на всех языках.</string>
     <string name="unit_menu_pin_in_fandom">Закрепить в фэндоме</string>
     <string name="unit_menu_unpin_in_fandom">Открепить от фэндома</string>
     <string name="unit_menu_change_fandom_confirm">Изменить фэндом этого поста?</string>
@@ -1161,6 +1164,8 @@
     <string name="rules_users_12_title">Форматирование</string>
     <string name="rules_users_13">Запрещено выпрашивать поставить оценку публикации.</string>
     <string name="rules_users_13_title">Попрошайничество</string>
+    <string name="rules_users_14">Запрещено использовать функции приложение во вред. Например делать пост мультиязычным, в случае если он может быть не понятен на других языках.</string>
+    <string name="rules_users_14_title">Использование функций не по назначению</string>
 
     <string name="rules_moderators_info">Пожалуйста прочтите все правила для модераторов, чтобы использовать свои привилегии на благо сообщества. При нарушении правил модерации, аккаунт будет заблокирован на длительный срок и возможно лишен права модерировать приложение в будущем. Администраторы могут видеть удаленные публикации, и принять меры, если модератор нарушил правила.</string>
     <string name="rules_moderators_1">Не будьте слишком строгими. Помните что у нас не тоталитарный режим, не удаляйте публикации и не блокируйте пользователей за каждую мелочь.</string>

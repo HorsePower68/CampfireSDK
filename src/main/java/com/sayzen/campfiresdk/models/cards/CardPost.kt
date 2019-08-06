@@ -18,9 +18,7 @@ import com.sayzen.campfiresdk.controllers.ControllerCampfireSDK
 import com.sayzen.campfiresdk.controllers.ControllerPost
 import com.sayzen.campfiresdk.models.PostList
 import com.sayzen.campfiresdk.models.cards.comments.CardComment
-import com.sayzen.campfiresdk.models.cards.post_pages.CardPage
-import com.sayzen.campfiresdk.models.cards.post_pages.CardPagePolling
-import com.sayzen.campfiresdk.models.cards.post_pages.CardPageSpoiler
+import com.sayzen.campfiresdk.models.cards.post_pages.*
 import com.sayzen.campfiresdk.models.events.units.*
 import com.sayzen.campfiresdk.models.widgets.WidgetComment
 import com.sayzen.campfiresdk.views.ViewKarma
@@ -48,6 +46,7 @@ class CardPost constructor(
             .subscribe(EventCommentRemove::class) { onEventCommentRemove2(it) }
             .subscribe(EventPostNotifyFollowers::class) { onEventPostNotifyFollowers(it) }
             .subscribe(EventUnitBlockedRemove::class) { onEventUnitBlockedRemove(it) }
+            .subscribe(EventPostMMultilanguage::class) { onEventPostMMultilanguage(it) }
 
     private val pages = ArrayList<CardPage>()
     private val xKarma = XKarma(unit) { updateKarma() }
@@ -133,7 +132,6 @@ class CardPost constructor(
         val vTitleContainer: ViewGroup = view.findViewById(R.id.vTitleContainer)
         val vComments: TextView = view.findViewById(R.id.vComments)
         val vReports: TextView = view.findViewById(R.id.vReports)
-        val vAvatar: ViewAvatarTitle = view.findViewById(R.id.vAvatar)
         val vContainerInfo: View = view.findViewById(R.id.vInfoContainer)
         val vMenu: View = view.findViewById(R.id.vMenu)
         val vPagesCount: TextView = view.findViewById(R.id.vPagesCount)
@@ -143,8 +141,6 @@ class CardPost constructor(
 
         vComments.text = unit.subUnitsCount.toString() + ""
         vReports.text = unit.reportsCount.toString() + ""
-        if (!showFandom) xAccount.setView(vAvatar)
-        else xFandom.setView(vAvatar)
 
         vReports.visibility = if (unit.reportsCount > 0 && ControllerApi.can(unit.fandomId, unit.languageId, API.LVL_MODERATOR_BLOCK)) View.VISIBLE else View.GONE
 
@@ -164,7 +160,7 @@ class CardPost constructor(
         }
 
         for (page in pages) {
-            page.clickable = isShowFull || (page is CardPageSpoiler)
+            page.clickable = isShowFull || (page is CardPageSpoiler) || (page is CardPageImage) || (page is CardPageImages)
             page.postIsDraft = unit.isDraft
             val v = page.instanceView(view.context)
             page.bindView(v)
@@ -196,8 +192,16 @@ class CardPost constructor(
             true
         }
 
+        updateAvatar()
         updateShowAll()
         updateKarma()
+    }
+
+    private fun updateAvatar() {
+        if (getView() == null) return
+        val vAvatar: ViewAvatarTitle = getView()!!.findViewById(R.id.vAvatar)
+        if (!showFandom) xAccount.setView(vAvatar)
+        else xFandom.setView(vAvatar)
     }
 
     private fun updateKarma() {
@@ -311,6 +315,13 @@ class CardPost constructor(
         if (e.unitId == unit.id) {
             if (e.published && unit.status == API.STATUS_DRAFT && adapter != null) adapter!!.remove(this)
             if (!e.published && unit.status == API.STATUS_PUBLIC && adapter != null) adapter!!.remove(this)
+        }
+    }
+
+    private fun onEventPostMMultilanguage(e: EventPostMMultilanguage) {
+        if (e.unitId == unit.id) {
+            xFandom.languageId = -1L
+            updateAvatar()
         }
     }
 

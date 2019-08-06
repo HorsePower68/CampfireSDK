@@ -45,9 +45,14 @@ class XFandom(
 
     fun setView(viewAvatar: ViewAvatar) {
         ToolsImagesLoader.load(imageId).into(viewAvatar.vImageView)
-        viewAvatar.setChipText(if (showLanguage && languageId > 0) ControllerApi.getLanguage(languageId).code else "")
+
+        if (!showLanguage) viewAvatar.setChipText("")
+        else if (languageId > 0) viewAvatar.setChipText(ControllerApi.getLanguage(languageId).code)
+        else if (languageId == -1L) viewAvatar.setChipText("∞")
+        else viewAvatar.setChipText("")
+
         viewAvatar.vChip.setBackgroundColor(ToolsResources.getAccentColor(viewAvatar.context))
-        viewAvatar.setOnClickListener { v -> ControllerCampfireSDK.onToFandomClicked(fandomId, languageId, Navigator.TO) }
+        viewAvatar.setOnClickListener { ControllerCampfireSDK.onToFandomClicked(fandomId, languageId, Navigator.TO) }
     }
 
     fun setView(viewAvatar: ViewAvatarTitle) {
