@@ -248,6 +248,8 @@ object ControllerApi {
         ControllerNotifications.hideAll()
         ControllerGoogleToken.logout {
             api.clearTokens()
+            ControllerChats.clearMessagesCount()
+            ControllerNotifications.setNewNotifications(emptyArray())
             setCurrentAccount(Account())
             this.fandomsKarmaCounts = null
             serverTimeDelta = 0

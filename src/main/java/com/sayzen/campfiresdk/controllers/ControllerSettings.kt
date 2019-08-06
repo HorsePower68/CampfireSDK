@@ -179,6 +179,20 @@ object ControllerSettings {
             onSettingsUpdated()
         }
 
+    var helloIsShowed: Boolean
+        get() = accountSettings.helloIsShowed
+        set(b) {
+            accountSettings.helloIsShowed = b
+            onSettingsUpdated()
+        }
+
+    var viewedForums: Array<Long>
+        get() = accountSettings.viewedForums
+        set(b) {
+            accountSettings.viewedForums = b
+            onSettingsUpdated()
+        }
+
     //
     //  Notifications Settings
     //

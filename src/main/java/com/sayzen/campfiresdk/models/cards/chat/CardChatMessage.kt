@@ -40,6 +40,7 @@ import com.sup.dev.android.views.widgets.WidgetMenu
 import com.sup.dev.java.classes.Subscription
 import com.sup.dev.java.classes.animation.AnimationPendulum
 import com.sup.dev.java.classes.animation.AnimationPendulumColor
+import com.sup.dev.java.libs.debug.Debug
 import com.sup.dev.java.libs.debug.log
 import com.sup.dev.java.libs.eventBus.EventBus
 import com.sup.dev.java.tools.ToolsColor
@@ -119,6 +120,7 @@ abstract class CardChatMessage constructor(
             }
             vSwipe.onLongClick = { x, y ->
                 log("On Long clicked")
+                Debug.printStack()
                 popup?.asSheetShow()
             }
             vSwipe.onSwipe = {
