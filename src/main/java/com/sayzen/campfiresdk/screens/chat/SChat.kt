@@ -34,11 +34,8 @@ import com.sup.dev.android.tools.*
 import com.sup.dev.android.views.cards.CardSpace
 import com.sup.dev.android.views.screens.SLoadingRecycler
 import com.sup.dev.android.views.support.adapters.recycler_view.RecyclerCardAdapterLoading
-import com.sup.dev.android.views.support.watchers.TextWatcherChanged
 import com.sup.dev.android.views.views.ViewAvatarTitle
-import com.sup.dev.android.views.views.ViewEditTextMedia
 import com.sup.dev.android.views.views.ViewIcon
-import com.sup.dev.android.views.views.ViewTextLinkable
 import com.sup.dev.java.libs.eventBus.EventBus
 import com.sup.dev.java.tools.*
 
@@ -206,7 +203,7 @@ class SChat private constructor(
 
     private fun instanceCard(u: UnitChatMessage): CardChatMessage {
         return CardChatMessage.instance(u,
-                { unit ->
+                onClick = { unit ->
                     if (ControllerApi.isCurrentAccount(unit.creatorId)) {
                         false
                     } else {
@@ -214,13 +211,13 @@ class SChat private constructor(
                         true
                     }
                 },
-                { unit -> fieldLogic.setChange(unit) },
-                { unit ->
+                onChange = { unit -> fieldLogic.setChange(unit) },
+                onQuote = { unit ->
                     if (!ControllerApi.isCurrentAccount(unit.creatorId)) fieldLogic.setAnswer(unit)
                     fieldLogic.setQuote(unit.creatorName + ": " + unit.text, unit.id)
                     ToolsView.showKeyboard(fieldLogic.vText)
                 },
-                { id ->
+                onGoTo = { id ->
                     if (adapter == null) return@instance
                     for (i in adapter!!.get(CardChatMessage::class)) {
                         if (i.unit.id == id) {
@@ -229,6 +226,9 @@ class SChat private constructor(
                             break
                         }
                     }
+                },
+                onBlocked = {
+                    addMessage(it, false)
                 }
         )
     }

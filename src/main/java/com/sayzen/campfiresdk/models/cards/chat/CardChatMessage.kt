@@ -2,7 +2,6 @@ package com.sayzen.campfiresdk.models.cards.chat
 
 import android.graphics.drawable.ColorDrawable
 import com.google.android.material.card.MaterialCardView
-import android.text.Html
 import android.view.Gravity
 import android.view.View
 import android.view.ViewGroup
@@ -25,6 +24,8 @@ import com.sayzen.campfiresdk.models.events.chat.EventChatMessageChanged
 import com.sayzen.campfiresdk.models.events.chat.EventChatReadDateChanged
 import com.sayzen.campfiresdk.models.events.chat.EventUpdateChats
 import com.sayzen.campfiresdk.models.events.notifications.EventNotification
+import com.sayzen.campfiresdk.models.events.units.EventUnitBlocked
+import com.sayzen.campfiresdk.models.events.units.EventUnitBlockedRemove
 import com.sayzen.campfiresdk.screens.chat.SChat
 import com.sup.dev.android.app.SupAndroid
 import com.sup.dev.android.libs.screens.navigator.Navigator
@@ -41,11 +42,9 @@ import com.sup.dev.java.classes.Subscription
 import com.sup.dev.java.classes.animation.AnimationPendulum
 import com.sup.dev.java.classes.animation.AnimationPendulumColor
 import com.sup.dev.java.libs.debug.Debug
-import com.sup.dev.java.libs.debug.log
 import com.sup.dev.java.libs.eventBus.EventBus
 import com.sup.dev.java.tools.ToolsColor
 import com.sup.dev.java.tools.ToolsDate
-import com.sup.dev.java.tools.ToolsHTML
 import com.sup.dev.java.tools.ToolsThreads
 
 abstract class CardChatMessage constructor(
@@ -53,7 +52,8 @@ abstract class CardChatMessage constructor(
         var onClick: ((UnitChatMessage) -> Boolean)? = null,
         var onChange: ((UnitChatMessage) -> Unit)? = null,
         var onQuote: ((UnitChatMessage) -> Unit)? = null,
-        var onGoTo: ((Long) -> Unit)? = null
+        var onGoTo: ((Long) -> Unit)? = null,
+        var onBlocked: ((UnitChatMessage) -> Unit)? = null
 ) : CardUnit(unit) {
 
     var changeEnabled = true
@@ -64,14 +64,15 @@ abstract class CardChatMessage constructor(
                      onClick: ((UnitChatMessage) -> Boolean)? = null,
                      onChange: ((UnitChatMessage) -> Unit)? = null,
                      onQuote: ((UnitChatMessage) -> Unit)? = null,
-                     onGoTo: ((Long) -> Unit)? = null
+                     onGoTo: ((Long) -> Unit)? = null,
+                     onBlocked: ((UnitChatMessage) -> Unit)? = null
         ): CardChatMessage {
             when (unit.type) {
-                UnitChatMessage.TYPE_TEXT -> return CardChatMessageText(unit, onClick, onChange, onQuote, onGoTo)
-                UnitChatMessage.TYPE_IMAGE, UnitChatMessage.TYPE_GIF -> return CardChatMessageImage(unit, onClick, onChange, onQuote, onGoTo)
-                UnitChatMessage.TYPE_IMAGES -> return CardChatMessageImages(unit, onClick, onChange, onQuote, onGoTo)
-                UnitChatMessage.TYPE_BLOCK -> return CardChatMessageModeration(unit, onClick, onChange, onQuote, onGoTo)
-                UnitChatMessage.TYPE_VOICE -> return CardChatMessageVoice(unit, onClick, onChange, onQuote, onGoTo)
+                UnitChatMessage.TYPE_TEXT -> return CardChatMessageText(unit, onClick, onChange, onQuote, onGoTo, onBlocked)
+                UnitChatMessage.TYPE_IMAGE, UnitChatMessage.TYPE_GIF -> return CardChatMessageImage(unit, onClick, onChange, onQuote, onGoTo, onBlocked)
+                UnitChatMessage.TYPE_IMAGES -> return CardChatMessageImages(unit, onClick, onChange, onQuote, onGoTo, onBlocked)
+                UnitChatMessage.TYPE_BLOCK -> return CardChatMessageModeration(unit, onClick, onChange, onQuote, onGoTo, onBlocked)
+                UnitChatMessage.TYPE_VOICE -> return CardChatMessageVoice(unit, onClick, onChange, onQuote, onGoTo, onBlocked)
                 else -> throw RuntimeException("Unknown type ${unit.type}")
             }
         }
@@ -82,9 +83,10 @@ abstract class CardChatMessage constructor(
             .subscribe(EventNotification::class) { onNotification(it) }
             .subscribe(EventChatMessageChanged::class) { onEventChanged(it) }
             .subscribe(EventChatReadDateChanged::class) { onEventChatReadDateChanged(it) }
-            .subscribe(EventUnitReportsClear::class) { this.onEventUnitReportsClear(it) }
-            .subscribe(EventUnitReportsAdd::class) { this.onEventUnitReportsAdd(it) }
+            .subscribe(EventUnitReportsClear::class) { onEventUnitReportsClear(it) }
+            .subscribe(EventUnitReportsAdd::class) { onEventUnitReportsAdd(it) }
             .subscribe(EventStyleChanged::class) { update() }
+            .subscribe(EventUnitBlocked::class) { onEventUnitBlocked(it) }
 
     val xAccount = XAccount(unit) { updateAccount() }
     val xFandom = XFandom(unit, unit.dateCreate) { updateAccount() }
@@ -105,7 +107,7 @@ abstract class CardChatMessage constructor(
         val vQuoteText: ViewTextLinkable? = view.findViewById(R.id.vQuoteText)
         val vQuoteImage: ViewImagesSwipe? = view.findViewById(R.id.vQuoteImage)
 
-        if(SupAndroid.activityIsVisible) {
+        if (SupAndroid.activityIsVisible) {
             ControllerNotifications.removeNotificationFromNew(NotificationMention::class, unit.id)
         }
 
@@ -114,12 +116,10 @@ abstract class CardChatMessage constructor(
             popup = createPopup(vSwipe)
 
             vSwipe.onClick = { x, y ->
-                log("On clicked")
                 if (ControllerApi.isCurrentAccount(unit.creatorId)) popup?.asSheetShow()
                 else onClick()
             }
             vSwipe.onLongClick = { x, y ->
-                log("On Long clicked")
                 Debug.printStack()
                 popup?.asSheetShow()
             }
@@ -370,6 +370,13 @@ abstract class CardChatMessage constructor(
         if (e.unitId == unit.id) {
             unit.reportsCount = 0
             update()
+        }
+    }
+
+    private fun onEventUnitBlocked(e: EventUnitBlocked) {
+        if (e.unitId == unit.id) {
+            if (onBlocked != null && e.unitChatMessage != null) onBlocked!!.invoke(e.unitChatMessage)
+
         }
     }
 

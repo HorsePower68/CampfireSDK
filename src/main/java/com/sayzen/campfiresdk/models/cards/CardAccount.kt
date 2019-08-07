@@ -10,10 +10,10 @@ import com.sup.dev.android.views.cards.CardAvatar
 import com.sup.dev.android.views.views.ViewAvatarTitle
 
 open class CardAccount(
-        account: Account
+        val account: Account
 ) : CardAvatar(), NotifyItem {
 
-    val xAccount = XAccount(account, 0L, 0L, 0L){
+    val xAccount = XAccount(account, 0L, 0L, 0L) {
         update()
     }
 
@@ -35,6 +35,11 @@ open class CardAccount(
 
     override fun setOnClick(onClick: () -> Unit): CardAccount {
         return super.setOnClick(onClick) as CardAccount
+    }
+
+    override fun equals(other: Any?): Boolean {
+        return if (other is CardAccount) account.id == other.account.id
+        else super.equals(other)
     }
 
 }

@@ -3,6 +3,7 @@ package com.sayzen.campfiresdk.models.widgets
 import android.view.View
 import android.widget.Button
 import com.dzen.campfire.api.API
+import com.dzen.campfire.api.models.units.chat.UnitChatMessage
 import com.dzen.campfire.api.requests.accounts.RAccountsPunishmentsGetInfo
 import com.dzen.campfire.api.requests.fandoms.RFandomsModerationBlock
 import com.sayzen.campfiresdk.R
@@ -10,6 +11,7 @@ import com.sayzen.campfiresdk.models.events.fandom.EventFandomReviewTextRemoved
 import com.sayzen.campfiresdk.models.events.units.EventUnitRemove
 import com.sayzen.campfiresdk.app.CampfreConstants
 import com.sayzen.campfiresdk.controllers.ControllerApi
+import com.sayzen.campfiresdk.models.events.units.EventUnitBlocked
 import com.sayzen.campfiresdk.screens.punishments.SPunishments
 import com.sup.dev.android.libs.api_simple.ApiRequestsSupporter
 import com.sup.dev.android.libs.screens.navigator.Navigator
@@ -144,7 +146,7 @@ class WidgetModerationBlock(
         ApiRequestsSupporter.executeEnabledConfirm(alertText, alertAction,
                 RFandomsModerationBlock(unit.id, banTime, vBlockLast.isChecked(), vComment.getText().trim { it <= ' ' }, blockInApp, ControllerApi.getLanguageId())) { r ->
             onBlock.invoke()
-            afterBlock(r.blockedUnitsIds!!)
+            afterBlock(r.blockedUnitsIds, r.unitChatMessage)
             ToolsToast.show(finishToast)
             hide()
         }
@@ -154,21 +156,22 @@ class WidgetModerationBlock(
                 }
                 .onApiError(RFandomsModerationBlock.E_ALREADY) { r ->
                     ToolsToast.show(R.string.error_already_blocked)
-                    afterBlock(emptyArray())
+                    afterBlock(emptyArray(), null)
                     hide()
                 }
                 .onApiError(RFandomsModerationBlock.E_DRAFT) { r ->
                     ToolsToast.show(R.string.error_already_returned_to_drafts)
-                    afterBlock(emptyArray())
+                    afterBlock(emptyArray(), null)
                     hide()
                 }
     }
 
-    private fun afterBlock(blockedUnitsIds: Array<Long>) {
+    private fun afterBlock(blockedUnitsIds: Array<Long>, unitChatMessage: UnitChatMessage?) {
         if (unit.unitType == API.UNIT_TYPE_REVIEW) {
             EventBus.post(EventFandomReviewTextRemoved(unit.id))
         } else {
             for (id in blockedUnitsIds) EventBus.post(EventUnitRemove(id))
+            for (id in blockedUnitsIds) EventBus.post(EventUnitBlocked(id, unitChatMessage))
         }
     }
 
