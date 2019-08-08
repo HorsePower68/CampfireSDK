@@ -384,4 +384,9 @@ abstract class CardChatMessage constructor(
         }
     }
 
+    override fun equals(other: Any?): Boolean {
+        return if(other is CardChatMessage) unit.id == other.unit.id
+        else super.equals(other)
+    }
+
 }
