@@ -227,9 +227,8 @@ class FieldLogic(
             voiceBytes = null
             afterSend(r.message)
         }
-                .onApiError(RChatMessageCreate.E_BLACK_LIST) {
-                    ToolsToast.show(R.string.error_black_list)
-                }
+                .onApiError(RChatMessageCreate.E_BLACK_LIST) { ToolsToast.show(R.string.error_black_list) }
+                .onApiError(RChatMessageCreate.E_IS_IGNORE_VOICE_MESSAGES) { ToolsToast.show(R.string.error_ignore_voice_messages) }
                 .onFinish { setLock(false) }
     }
 

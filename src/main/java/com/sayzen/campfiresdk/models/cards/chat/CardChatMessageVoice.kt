@@ -34,13 +34,11 @@ class CardChatMessageVoice(
     override fun bindView(view: View) {
         super.bindView(view)
 
-        val vTimeLabel: TextView = view.findViewById(R.id.vTimeLabel)
         val vPlay: ViewIcon = view.findViewById(R.id.vPlay)
         val vSoundLine: ViewSoundLine = view.findViewById(R.id.vSoundLine)
 
         vSoundLine.setSoundMask(unit.voiceMask)
 
-        vTimeLabel.text = ToolsText.toTime(unit.voiceMs)
 
         if (ControllerVoiceMessages.isLoading(unit.voiceResourceId)) {
             vPlay.isEnabled = false
@@ -68,8 +66,15 @@ class CardChatMessageVoice(
         val view = getView()
         if (view == null) return
 
+        val vTimeLabel: TextView = view.findViewById(R.id.vTimeLabel)
         val vSoundLine: ViewSoundLine = view.findViewById(R.id.vSoundLine)
-        vSoundLine.setProgress(ControllerVoiceMessages.getPlayTimeMs(unit.voiceResourceId).toFloat(), unit.voiceMs.toFloat())
+
+        val time = ControllerVoiceMessages.getPlayTimeMs(unit.voiceResourceId)
+        if (ControllerVoiceMessages.isPlay(unit.voiceResourceId) || ControllerVoiceMessages.isPause(unit.voiceResourceId))
+            vTimeLabel.text = ToolsText.toTime(unit.voiceMs - time)
+        else
+            vTimeLabel.text = ToolsText.toTime(unit.voiceMs)
+        vSoundLine.setProgress(time.toFloat(), unit.voiceMs.toFloat())
     }
 
 

@@ -592,6 +592,7 @@
     <string name="error_login_taken">Это имя уже занято.</string>
     <string name="error_low_lvl_or_karma">Вы не можете сделать это. Проверьте свой уровень и карму.</string>
     <string name="error_black_list">Пользователь добавил вас в черный список</string>
+    <string name="error_ignore_voice_messages">Пользователь не принимает голосовые сообщения</string>
     <string name="error_gone_comment">Похоже коментарий был удален</string>
     <string name="error_cant_load_video">Ошибка при загрузке видео</string>
     <string name="error_permission_files">У приложения нет доступа к файлам, проверьте настройки Android</string>

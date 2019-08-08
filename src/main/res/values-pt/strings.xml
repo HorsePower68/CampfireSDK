@@ -590,6 +590,7 @@ Campfire has anime fandoms and gaming fandoms.</string>
     <string name="error_login_taken">This name is already taken</string>
     <string name="error_low_lvl_or_karma">You can\'t do that. Check your level and karma.</string>
     <string name="error_black_list">Has blacklisted you</string> <!-- if username is not given before the string, string can be replaced with "You are blacklisted!"-->
+    <string name="error_ignore_voice_messages">User does not accept voice messages</string>
     <string name="error_gone_comment">Looks like the comment is removed</string>
     <string name="error_cant_load_video">Failed to load video</string>
     <string name="error_permission_files">The app does not have permission to access files, check Android settings</string>

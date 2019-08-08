@@ -4,8 +4,10 @@ import com.dzen.campfire.api_media.requests.RResourcesGet
 import com.sayzen.campfiresdk.R
 import com.sayzen.campfiresdk.models.events.chat.EventVoiceMessageStateChanged
 import com.sayzen.campfiresdk.models.events.chat.EventVoiceMessageStep
+import com.sup.dev.android.libs.screens.navigator.Navigator
 import com.sup.dev.android.tools.ToolsToast
 import com.sup.dev.android.utils.UtilsAudioPlayer
+import com.sup.dev.java.libs.debug.log
 import com.sup.dev.java.libs.eventBus.EventBus
 
 object ControllerVoiceMessages {
@@ -24,9 +26,16 @@ object ControllerVoiceMessages {
             playTimeMs = it
             EventBus.post(EventVoiceMessageStep(currentId))
         }
+
+        Navigator.addOnScreenChanged {
+            log("addOnScreenChanged")
+            stop(currentId)
+            false
+        }
     }
 
     fun play(id: Long) {
+        log("play $id")
         if (currentId == id) {
             if(isPause(currentId)) resume(id)
             return
@@ -36,40 +45,49 @@ object ControllerVoiceMessages {
         currentId = id
 
         unitsAudioPlayer.stop()
-        setState(State.LOADING)
+        setState(id, State.LOADING)
         RResourcesGet(id)
-                .onComplete { startPlay(it.bytes) }
+                .onComplete { startPlay(id, it.bytes) }
                 .onError {
-                    setState(State.NONE)
+                    stop(id)
                     ToolsToast.show(R.string.error_unknown)
                 }
                 .send(apiMedia)
     }
 
-    private fun startPlay(bytes:ByteArray){
-        setState(State.PLAY)
+    fun stop(id: Long){
+        log("stop $id")
+        if (currentId != id) return
+        setState(id, State.NONE)
+        unitsAudioPlayer.stop()
+    }
+
+    private fun startPlay(id: Long, bytes:ByteArray){
+        if (currentId != id) return
+        setState(id, State.PLAY)
         playTimeMs = 0L
         unitsAudioPlayer.play(bytes) {
             currentId = 0L
-            setState(State.NONE)
+            setState(id, State.NONE)
         }
     }
 
     fun pause(id: Long) {
         if (currentId != id) return
 
-        setState(State.PAUSE)
+        setState(id, State.PAUSE)
         unitsAudioPlayer.pause()
     }
 
     fun resume(id: Long) {
         if (currentId != id) return
 
-        setState(State.PLAY)
+        setState(id, State.PLAY)
         unitsAudioPlayer.resume()
     }
 
-    private fun setState(state:State){
+    private fun setState(id: Long, state:State){
+        if (currentId != id) return
         this.state = state
         EventBus.post(EventVoiceMessageStateChanged())
     }
