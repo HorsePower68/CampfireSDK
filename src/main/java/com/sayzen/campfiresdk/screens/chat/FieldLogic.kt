@@ -66,7 +66,7 @@ class FieldLogic(
         vVoiceContainer.visibility = View.GONE
         vQuoteContainer.visibility = View.GONE
         vQuoteRemove.setOnClickListener { setQuote("") }
-        vSend.setOnClickListener { v -> onSendClicked() }
+        vSend.setOnClickListener { onSendClicked() }
         vText.addTextChangedListener(TextWatcherChanged { onTextChanged() })
 
         vVoiceRecorder.maxRecordingTimeMs = API.CHAT_MESSAGE_VOICE_MAX_MS

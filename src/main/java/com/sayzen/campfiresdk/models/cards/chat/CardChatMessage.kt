@@ -110,7 +110,9 @@ abstract class CardChatMessage constructor(
         if (SupAndroid.activityIsVisible) {
             ControllerNotifications.removeNotificationFromNew(NotificationMention::class, unit.id)
         }
-
+        if (vSwipe != null){
+            vSwipe.swipeEnabled = this !is CardChatMessageVoice
+        }
 
         if (vSwipe != null && onQuote != null) {
             popup = createPopup(vSwipe)
@@ -132,6 +134,8 @@ abstract class CardChatMessage constructor(
         } else {
             if (vSwipe != null) popup = createPopup(vSwipe)
         }
+
+
 
         if (vQuoteContainer != null) {
             vQuoteContainer.visibility = if (unit.quoteText.isEmpty() && unit.quoteImages.isEmpty()) View.GONE else View.VISIBLE
