@@ -5,7 +5,7 @@
     android:id="@+id/vSwipe"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:src="?ic_reply_24dp"
+    android:src="@drawable/ic_reply_white_24dp"
     android:background="@color/transparent"
     app:ViewSwipe_background="@color/blue_700">
 

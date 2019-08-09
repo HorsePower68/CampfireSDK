@@ -225,6 +225,8 @@
     <string name="she_open">открыла</string>
     <string name="he_close">закрыл</string>
     <string name="she_close">закрыла</string>
+    <string name="he_pined">закрепил</string>
+    <string name="she_pined">закрепилa</string>
 
     <string name="filter_events">События</string>
     <string name="filter_posts">Посты</string>
@@ -352,6 +354,7 @@
     <string name="moderation_tag_move_tag">%s тег %s перед %s.</string>
     <string name="moderation_tag_move_category">%s категорию %s перед %s.</string>
     <string name="moderation_tag_move_tag_between_category">%s тег %s из категории %s в %s.</string>
+    <string name="moderation_pin_post_in_fandom">%s пост %s.</string>
     <string name="moderation_checked_empty">Не проверено</string>
     <string name="moderation_checked_no">Отклонено %s</string>
     <string name="moderation_checked_yes">Подтверждено %s</string>
@@ -747,6 +750,7 @@
     <string name="settings_style_theme_3">Белый (альфа-версия)</string>
     <string name="settings_style_default_alert">Все ваши изменения будут потеряны.</string>
     <string name="settings_black_list_empty">Черный список пока пуст</string>
+    <string name="settings_style_theme_restatr">Перезапустить приложение для применения нового стиля?</string>
 
     <string name="review_remove_confirm">Удалить этот отзыв?</string>
     <string name="review_error_gone">Похоже кто-то удалил этот отзыв</string>

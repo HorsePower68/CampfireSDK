@@ -21,6 +21,7 @@ object ControllerVoiceMessages {
     private var playTimeMs = 0L
 
     init {
+        unitsAudioPlayer.useProximity = true
         Navigator.addOnScreenChanged {
             stop(currentId)
             false
@@ -67,8 +68,8 @@ object ControllerVoiceMessages {
             EventBus.post(EventVoiceMessageStep(currentId))
         }
         unitsAudioPlayer.play(bytes) {
-            if (currentId == id) currentId = 0L
             setState(id, State.NONE)
+            if (currentId == id) currentId = 0L
         }
     }
 

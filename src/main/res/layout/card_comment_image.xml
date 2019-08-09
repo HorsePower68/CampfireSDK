@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="?content_background"
-    android:src="?ic_reply_24dp"
+    android:src="@drawable/ic_reply_white_24dp"
     app:ViewSwipe_background="@color/blue_700">
 
     <FrameLayout
