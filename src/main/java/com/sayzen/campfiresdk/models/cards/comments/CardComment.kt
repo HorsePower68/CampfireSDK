@@ -18,7 +18,6 @@ import com.sayzen.campfiresdk.controllers.ControllerApi
 import com.sayzen.campfiresdk.models.cards.CardUnit
 import com.sayzen.campfiresdk.models.events.units.EventCommentChange
 import com.sayzen.campfiresdk.models.events.units.EventCommentRemove
-import com.sayzen.campfiresdk.models.events.units.EventUnitReportsAdd
 import com.sayzen.campfiresdk.models.events.units.EventUnitReportsClear
 import com.sayzen.campfiresdk.views.ViewKarma
 import com.sayzen.campfiresdk.controllers.ControllerNotifications
@@ -69,8 +68,6 @@ abstract class CardComment protected constructor(
 
     private val eventBus = EventBus
             .subscribe(EventCommentChange::class) { e: EventCommentChange -> this.onCommentChange(e) }
-            .subscribe(EventUnitReportsClear::class) { this.onEventUnitReportsClear(it) }
-            .subscribe(EventUnitReportsAdd::class) { this.onEventUnitReportsAdd(it) }
 
     private val xKarma: XKarma = XKarma(unit) { updateKarma() }
     protected val xFandom: XFandom = XFandom(unit, unit.dateCreate) { update() }
@@ -285,20 +282,5 @@ abstract class CardComment protected constructor(
             update()
         }
     }
-
-    private fun onEventUnitReportsAdd(e: EventUnitReportsAdd) {
-        if (e.unitId == unit.id) {
-            unit.reportsCount++
-            update()
-        }
-    }
-
-    private fun onEventUnitReportsClear(e: EventUnitReportsClear) {
-        if (e.unitId == unit.id) {
-            unit.reportsCount = 0
-            update()
-        }
-    }
-
 
 }

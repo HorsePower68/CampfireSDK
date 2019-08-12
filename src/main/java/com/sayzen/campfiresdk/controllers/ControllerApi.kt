@@ -333,6 +333,8 @@ object ControllerApi {
     fun linkToReview(reviewId: Long) = API.LINK_REVIEW + reviewId
     fun linkToModeration(moderationId: Long) = API.LINK_MODERATION + moderationId
     fun linkToForum(forumId: Long) = API.LINK_FORUM + forumId
+    fun linkToSticker(id: Long) = API.LINK_FORUM + id
+    fun linkToStickersPack(id: Long) = API.LINK_FORUM + id
     fun linkToPostComment(parentUnitId: Long, commentId: Long) = API.LINK_POST + parentUnitId + "_" + commentId
     fun linkToModerationComment(parentUnitId: Long, commentId: Long) =
             API.LINK_MODERATION + parentUnitId + "_" + commentId

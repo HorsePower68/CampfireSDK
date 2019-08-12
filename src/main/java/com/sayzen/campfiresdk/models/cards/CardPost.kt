@@ -41,8 +41,6 @@ class CardPost constructor(
             .subscribe(EventPostChanged::class) { onPostChange(it) }
             .subscribe(EventPostPublishedChange::class) { onPostPublicationChange(it) }
             .subscribe(EventPollingChanged::class) { onEventPollingChanged(it) }
-            .subscribe(EventUnitReportsClear::class) { onEventUnitReportsClear(it) }
-            .subscribe(EventUnitReportsAdd::class) { onEventUnitReportsAdd(it) }
             .subscribe(EventCommentRemove::class) { onEventCommentRemove2(it) }
             .subscribe(EventPostNotifyFollowers::class) { onEventPostNotifyFollowers(it) }
             .subscribe(EventUnitBlockedRemove::class) { onEventUnitBlockedRemove(it) }
@@ -274,20 +272,6 @@ class CardPost constructor(
         if (e.unitId == unit.id) {
             unit.pages = e.pages
             updatePages()
-        }
-    }
-
-    private fun onEventUnitReportsClear(e: EventUnitReportsClear) {
-        if (e.unitId == unit.id) {
-            unit.reportsCount = 0
-            update()
-        }
-    }
-
-    private fun onEventUnitReportsAdd(e: EventUnitReportsAdd) {
-        if (e.unitId == unit.id) {
-            unit.reportsCount++
-            update()
         }
     }
 

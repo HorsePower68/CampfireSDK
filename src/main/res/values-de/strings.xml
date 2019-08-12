@@ -96,6 +96,7 @@ Campfire has anime fandoms and gaming fandoms.</string>
     <string name="app_follow">Follow</string>
     <string name="app_unfollow">Unfollow</string>
     <string name="app_online">Online</string>
+    <string name="app_stickers">Stickers</string>
     <string name="app_was_online">%s online %s</string>
     <string name="app_crop">Crop</string>
     <string name="app_tag">Tag</string>
@@ -484,6 +485,9 @@ Campfire has anime fandoms and gaming fandoms.</string>
     <string name="forum_clear_reports_confirm">Clear this forum reports?</string>
     <string name="forum_report_confirm">Report this forum?</string>
 
+    <string name="stickers_pack_view_empty">There are no stickers in this pack yet</string>
+    <string name="stickers_packs_empty">There\'s not a single pack of stickers here.</string>
+
     <string name="achi_click">(click)</string>
     <string name="achi_you_are_here">You are here</string>
     <string name="achi_spoiler_instruction">Instruction</string>
@@ -675,6 +679,8 @@ Campfire has anime fandoms and gaming fandoms.</string>
     <string name="profile_rate_moderation">%s moderation %s</string>
     <string name="profile_rate_review">%s review %s</string>
     <string name="profile_rate_forum">%s forum %s</string>
+    <string name="profile_rate_stikers_pack">%s stickers pack %s</string>
+    <string name="profile_rate_sticker">%s sticker %s</string>
 
 
     <string name="about_privacy_policy">Privacy policy</string>

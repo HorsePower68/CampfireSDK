@@ -9,8 +9,12 @@ import com.dzen.campfire.api.models.units.post.UnitPost
 import com.dzen.campfire.api.models.units.chat.UnitChatMessage
 import com.dzen.campfire.api.models.units.events.UnitEvent
 import com.dzen.campfire.api.models.units.moderations.UnitModeration
+import com.dzen.campfire.api.models.units.stickers.UnitStricker
+import com.dzen.campfire.api.models.units.stickers.UnitStrickersPack
 import com.sayzen.campfiresdk.models.cards.chat.CardChatMessage
 import com.sayzen.campfiresdk.models.cards.comments.CardComment
+import com.sayzen.campfiresdk.models.cards.stickers.CardSticker
+import com.sayzen.campfiresdk.models.cards.stickers.CardStickersPack
 import com.sayzen.campfiresdk.models.events.units.*
 import com.sup.dev.android.views.cards.Card
 import com.sup.dev.android.views.support.adapters.NotifyItem
@@ -35,6 +39,8 @@ abstract class CardUnit(open val unit: Unit) : Card(), NotifyItem {
                 is UnitEvent -> CardEvent(unit, isFeedInFandom)
                 is UnitReview -> CardReview(unit)
                 is UnitForum -> CardForum(unit)
+                is UnitStricker -> CardSticker(unit)
+                is UnitStrickersPack -> CardStickersPack(unit)
                 else -> throw RuntimeException("Unknown unit type [" + unit.unitType + "]")
             }
 
@@ -51,6 +57,8 @@ abstract class CardUnit(open val unit: Unit) : Card(), NotifyItem {
             .subscribe(EventCommentRemove::class) { this.onEventCommentRemove(it) }
             .subscribe(EventUnitFandomChanged::class) { this.onEventUnitFandomChanged(it) }
             .subscribe(EventUnitImportantChange::class) { this.onEventUnitImportantChange(it) }
+            .subscribe(EventUnitReportsClear::class) { this.onEventUnitReportsClear(it) }
+            .subscribe(EventUnitReportsAdd::class) { this.onEventUnitReportsAdd(it) }
 
     var showFandom: Boolean = false
 
@@ -94,6 +102,20 @@ abstract class CardUnit(open val unit: Unit) : Card(), NotifyItem {
     private fun onEventUnitImportantChange(e: EventUnitImportantChange) {
         if (e.unitId == unit.id) {
             unit.important = e.important
+            update()
+        }
+    }
+
+    private fun onEventUnitReportsClear(e: EventUnitReportsClear) {
+        if (e.unitId == unit.id) {
+            unit.reportsCount = 0
+            update()
+        }
+    }
+
+    private fun onEventUnitReportsAdd(e: EventUnitReportsAdd) {
+        if (e.unitId == unit.id) {
+            unit.reportsCount++
             update()
         }
     }

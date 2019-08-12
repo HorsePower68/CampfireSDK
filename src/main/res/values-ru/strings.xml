@@ -96,6 +96,7 @@
     <string name="app_follow">Подписаться</string>
     <string name="app_unfollow">Отписаться</string>
     <string name="app_online">Онлайн</string>
+    <string name="app_stickers">Стикеры</string>
     <string name="app_was_online">%s онлайн %s</string>
     <string name="app_crop">Обрезать</string>
     <string name="app_tag">Тег</string>
@@ -486,6 +487,9 @@
     <string name="forum_clear_reports_confirm">Удалить жалобы на этот форум?</string>
     <string name="forum_report_confirm">Пожаловаться на этот форум?</string>
 
+    <string name="stickers_pack_view_empty">В этом наборе еще нет стикеров</string>
+    <string name="stickers_packs_empty">Здесь нет ни одного набора стикеров</string>
+
     <string name="achi_click">(нажмите)</string>
     <string name="achi_you_are_here">Вы здесь</string>
     <string name="achi_spoiler_instruction">Обучение</string>
@@ -676,6 +680,8 @@
     <string name="profile_rate_moderation">%s модерацию %s</string>
     <string name="profile_rate_review">%s отзыв %s</string>
     <string name="profile_rate_forum">%s форум %s</string>
+    <string name="profile_rate_stikers_pack">%s набор стикеров %s</string>
+    <string name="profile_rate_sticker">%s стикер %s</string>
 
     <string name="about_privacy_policy">Политика конфиденциальности</string>
 

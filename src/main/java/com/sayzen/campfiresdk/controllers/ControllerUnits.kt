@@ -21,6 +21,7 @@ import com.sayzen.campfiresdk.models.events.units.*
 import com.sayzen.campfiresdk.models.widgets.WidgetModerationBlock
 import com.sayzen.campfiresdk.models.objects.TagParent
 import com.sayzen.campfiresdk.models.widgets.WidgetCategoryCreate
+import com.sayzen.campfiresdk.screens.stickers.SStickersView
 import com.sup.dev.android.libs.api_simple.ApiRequestsSupporter
 import com.sup.dev.android.libs.screens.navigator.Navigator
 import com.sup.dev.android.tools.ToolsAndroid
@@ -40,6 +41,8 @@ object ControllerUnits {
         if (unitType == API.UNIT_TYPE_POST) ControllerCampfireSDK.onToPostClicked(unitId, commentId, Navigator.TO)
         if (unitType == API.UNIT_TYPE_MODERATION) ControllerCampfireSDK.onToModerationClicked(unitId, commentId, Navigator.TO)
         if (unitType == API.UNIT_TYPE_FORUM) ControllerCampfireSDK.onToForumClicked(unitId, commentId, Navigator.TO)
+        if (unitType == API.UNIT_TYPE_STICKER) SStickersView.instanceBySticker(unitId, Navigator.TO)
+        if (unitType == API.UNIT_TYPE_STICKERS_PACK) SStickersView.instance(unitId, Navigator.TO)
     }
 
     fun block(unit: Unit, onBlock: () -> kotlin.Unit = {}) {

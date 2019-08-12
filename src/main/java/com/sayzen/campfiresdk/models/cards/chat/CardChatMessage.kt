@@ -18,14 +18,11 @@ import com.sayzen.campfiresdk.adapters.XAccount
 import com.sayzen.campfiresdk.adapters.XFandom
 import com.sayzen.campfiresdk.controllers.*
 import com.sayzen.campfiresdk.models.cards.CardUnit
-import com.sayzen.campfiresdk.models.events.units.EventUnitReportsAdd
-import com.sayzen.campfiresdk.models.events.units.EventUnitReportsClear
 import com.sayzen.campfiresdk.models.events.chat.EventChatMessageChanged
 import com.sayzen.campfiresdk.models.events.chat.EventChatReadDateChanged
 import com.sayzen.campfiresdk.models.events.chat.EventUpdateChats
 import com.sayzen.campfiresdk.models.events.notifications.EventNotification
 import com.sayzen.campfiresdk.models.events.units.EventUnitBlocked
-import com.sayzen.campfiresdk.models.events.units.EventUnitBlockedRemove
 import com.sayzen.campfiresdk.screens.chat.SChat
 import com.sup.dev.android.app.SupAndroid
 import com.sup.dev.android.libs.screens.navigator.Navigator
@@ -83,8 +80,6 @@ abstract class CardChatMessage constructor(
             .subscribe(EventNotification::class) { onNotification(it) }
             .subscribe(EventChatMessageChanged::class) { onEventChanged(it) }
             .subscribe(EventChatReadDateChanged::class) { onEventChatReadDateChanged(it) }
-            .subscribe(EventUnitReportsClear::class) { onEventUnitReportsClear(it) }
-            .subscribe(EventUnitReportsAdd::class) { onEventUnitReportsAdd(it) }
             .subscribe(EventStyleChanged::class) { update() }
             .subscribe(EventUnitBlocked::class) { onEventUnitBlocked(it) }
 
@@ -361,20 +356,6 @@ abstract class CardChatMessage constructor(
 
     private fun onEventChatReadDateChanged(e: EventChatReadDateChanged) {
         if (e.tag == unit.chatTag()) update()
-    }
-
-    private fun onEventUnitReportsAdd(e: EventUnitReportsAdd) {
-        if (e.unitId == unit.id) {
-            unit.reportsCount++
-            update()
-        }
-    }
-
-    private fun onEventUnitReportsClear(e: EventUnitReportsClear) {
-        if (e.unitId == unit.id) {
-            unit.reportsCount = 0
-            update()
-        }
     }
 
     private fun onEventUnitBlocked(e: EventUnitBlocked) {

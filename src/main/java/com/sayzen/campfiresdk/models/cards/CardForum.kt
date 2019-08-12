@@ -11,8 +11,6 @@ import com.sayzen.campfiresdk.controllers.ControllerApi
 import com.sayzen.campfiresdk.controllers.ControllerCampfireSDK
 import com.sayzen.campfiresdk.controllers.ControllerUnits
 import com.sayzen.campfiresdk.models.events.fandom.EventForumChanged
-import com.sayzen.campfiresdk.models.events.units.EventUnitReportsAdd
-import com.sayzen.campfiresdk.models.events.units.EventUnitReportsClear
 import com.sayzen.campfiresdk.views.ViewKarma
 import com.sup.dev.android.libs.screens.navigator.Navigator
 import com.sup.dev.android.tools.ToolsImagesLoader
@@ -22,8 +20,6 @@ import com.sup.dev.java.libs.eventBus.EventBus
 class CardForum(override val unit: UnitForum) : CardUnit(unit) {
 
     private val eventBus = EventBus
-            .subscribe(EventUnitReportsClear::class) { this.onEventUnitReportsClear(it) }
-            .subscribe(EventUnitReportsAdd::class) { this.onEventUnitReportsAdd(it) }
             .subscribe(EventForumChanged::class) { this.onEventForumChanged(it) }
 
     private val xFandom = XFandom(unit, unit.dateCreate) { update() }
@@ -70,20 +66,6 @@ class CardForum(override val unit: UnitForum) : CardUnit(unit) {
     //
     //  EventBus
     //
-
-    private fun onEventUnitReportsClear(e: EventUnitReportsClear) {
-        if (e.unitId == unit.id) {
-            unit.reportsCount = 0
-            update()
-        }
-    }
-
-    private fun onEventUnitReportsAdd(e: EventUnitReportsAdd) {
-        if (e.unitId == unit.id) {
-            unit.reportsCount++
-            update()
-        }
-    }
 
     private fun onEventForumChanged(e: EventForumChanged) {
         if (e.unitId == unit.id) {

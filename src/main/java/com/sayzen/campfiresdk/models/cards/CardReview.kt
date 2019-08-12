@@ -15,8 +15,6 @@ import com.sayzen.campfiresdk.controllers.ControllerApi
 import com.sayzen.campfiresdk.models.events.fandom.EventFandomReviewChanged
 import com.sayzen.campfiresdk.models.events.fandom.EventFandomReviewRemoved
 import com.sayzen.campfiresdk.models.events.fandom.EventFandomReviewTextRemoved
-import com.sayzen.campfiresdk.models.events.units.EventUnitReportsAdd
-import com.sayzen.campfiresdk.models.events.units.EventUnitReportsClear
 import com.sayzen.campfiresdk.models.widgets.WidgetModerationBlock
 import com.sayzen.campfiresdk.models.widgets.WidgetReview
 import com.sayzen.campfiresdk.views.ViewKarma
@@ -36,8 +34,6 @@ import com.sup.dev.java.tools.ToolsThreads
 class CardReview(override val unit: UnitReview) : CardUnit(unit) {
 
     private val eventBus = EventBus
-            .subscribe(EventUnitReportsClear::class) { this.onEventUnitReportsClear(it) }
-            .subscribe(EventUnitReportsAdd::class) { this.onEventUnitReportsAdd(it) }
             .subscribe(EventFandomReviewChanged::class) { this.onEventFandomReviewChanged(it) }
             .subscribe(EventFandomReviewTextRemoved::class) { this.onEventFandomReviewTextRemoved(it) }
 
@@ -156,19 +152,6 @@ class CardReview(override val unit: UnitReview) : CardUnit(unit) {
     //  EventBus
     //
 
-    private fun onEventUnitReportsClear(e: EventUnitReportsClear) {
-        if (e.unitId == unit.id) {
-            unit.reportsCount = 0
-            update()
-        }
-    }
-
-    private fun onEventUnitReportsAdd(e: EventUnitReportsAdd) {
-        if (e.unitId == unit.id) {
-            unit.reportsCount++
-            update()
-        }
-    }
 
     private fun onEventFandomReviewChanged(e: EventFandomReviewChanged) {
         if (e.fandomId == unit.fandomId && e.languageId == unit.languageId && ControllerApi.isCurrentAccount(unit.creatorId)) {
