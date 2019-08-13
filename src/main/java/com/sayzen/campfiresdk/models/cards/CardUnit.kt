@@ -9,8 +9,8 @@ import com.dzen.campfire.api.models.units.post.UnitPost
 import com.dzen.campfire.api.models.units.chat.UnitChatMessage
 import com.dzen.campfire.api.models.units.events.UnitEvent
 import com.dzen.campfire.api.models.units.moderations.UnitModeration
-import com.dzen.campfire.api.models.units.stickers.UnitStricker
-import com.dzen.campfire.api.models.units.stickers.UnitStrickersPack
+import com.dzen.campfire.api.models.units.stickers.UnitSticker
+import com.dzen.campfire.api.models.units.stickers.UnitStickersPack
 import com.sayzen.campfiresdk.models.cards.chat.CardChatMessage
 import com.sayzen.campfiresdk.models.cards.comments.CardComment
 import com.sayzen.campfiresdk.models.cards.stickers.CardSticker
@@ -39,8 +39,8 @@ abstract class CardUnit(open val unit: Unit) : Card(), NotifyItem {
                 is UnitEvent -> CardEvent(unit, isFeedInFandom)
                 is UnitReview -> CardReview(unit)
                 is UnitForum -> CardForum(unit)
-                is UnitStricker -> CardSticker(unit)
-                is UnitStrickersPack -> CardStickersPack(unit)
+                is UnitSticker -> CardSticker(unit)
+                is UnitStickersPack -> CardStickersPack(unit)
                 else -> throw RuntimeException("Unknown unit type [" + unit.unitType + "]")
             }
 

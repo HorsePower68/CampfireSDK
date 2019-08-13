@@ -489,6 +489,8 @@
 
     <string name="stickers_pack_view_empty">В этом наборе еще нет стикеров</string>
     <string name="stickers_packs_empty">Здесь нет ни одного набора стикеров</string>
+    <string name="stickers_packs_remove_confirm">Удалить набор стикеров?</string>
+    <string name="stickers_remove_confirm">Удалить стикер стикеров?</string>
 
     <string name="achi_click">(нажмите)</string>
     <string name="achi_you_are_here">Вы здесь</string>

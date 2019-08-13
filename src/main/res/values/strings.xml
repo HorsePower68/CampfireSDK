@@ -494,6 +494,8 @@
 
     <string name="stickers_pack_view_empty">There are no stickers in this pack yet</string>
     <string name="stickers_packs_empty">There\'s not a single pack of stickers here.</string>
+    <string name="stickers_packs_remove_confirm">Remove stckers pack?</string>
+    <string name="stickers_remove_confirm">Remove this sticker?</string>
 
     <string name="achi_click">(click)</string>
     <string name="achi_you_are_here">You are here</string>

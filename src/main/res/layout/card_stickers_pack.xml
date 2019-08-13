@@ -1,6 +1,35 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    style="@style/TouchableForeground"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="?content_background"
+    android:orientation="vertical">
+
+    <FrameLayout
+        android:id="@+id/vTitleContainer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingTop="4dp">
+
+        <com.sup.dev.android.views.views.ViewAvatarTitle
+            android:id="@+id/vAvatar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="16dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp"/>
+
+        <com.sup.dev.android.views.views.ViewIcon
+            android:id="@+id/vMenu"
+            style="@style/Icon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right"
+            android:src="?ic_more_vert_grey_18dp"/>
+
+    </FrameLayout>
 
 </LinearLayout>

@@ -5,6 +5,7 @@ import com.dzen.campfire.api.API
 import com.dzen.campfire.api.models.units.Unit
 import com.dzen.campfire.api.models.units.UnitForum
 import com.dzen.campfire.api.models.units.moderations.*
+import com.dzen.campfire.api.models.units.stickers.UnitStickersPack
 import com.dzen.campfire.api.models.units.tags.UnitTag
 import com.dzen.campfire.api.requests.fandoms.*
 import com.dzen.campfire.api.requests.post.RPostToDrafts
@@ -13,6 +14,7 @@ import com.dzen.campfire.api.requests.tags.RTagsMoveCategory
 import com.dzen.campfire.api.requests.tags.RTagsMoveTag
 import com.dzen.campfire.api.requests.units.RUnitsBookmarksChange
 import com.dzen.campfire.api.requests.units.RUnitsCommentsWatchChange
+import com.dzen.campfire.api.requests.units.RUnitsRemove
 import com.dzen.campfire.screens.fandoms.tags.WidgetTagCreate
 import com.dzen.campfire.screens.fandoms.tags.WidgetTagRemove
 import com.sayzen.campfiresdk.R
@@ -21,6 +23,7 @@ import com.sayzen.campfiresdk.models.events.units.*
 import com.sayzen.campfiresdk.models.widgets.WidgetModerationBlock
 import com.sayzen.campfiresdk.models.objects.TagParent
 import com.sayzen.campfiresdk.models.widgets.WidgetCategoryCreate
+import com.sayzen.campfiresdk.screens.stickers.SStickersPackCreate
 import com.sayzen.campfiresdk.screens.stickers.SStickersView
 import com.sup.dev.android.libs.api_simple.ApiRequestsSupporter
 import com.sup.dev.android.libs.screens.navigator.Navigator
@@ -198,10 +201,7 @@ object ControllerUnits {
 
     fun showForumPopup(view: View, unit: UnitForum) {
         WidgetMenu()
-                .add(R.string.app_copy_link) { w, card ->
-                    ToolsAndroid.setToClipboard(ControllerApi.linkToForum(unit.id))
-                    ToolsToast.show(R.string.app_copied)
-                }.condition(unit.isPublic)
+                .add(R.string.app_copy_link) { w, card -> ToolsAndroid.setToClipboard(ControllerApi.linkToForum(unit.id));ToolsToast.show(R.string.app_copied) }.condition(unit.isPublic)
                 .add(R.string.unit_menu_comments_watch) { w, card -> changeWatchComments(unit.id) }.condition(unit.isPublic)
                 .add(R.string.app_report) { w, card -> ControllerApi.reportUnit(unit.id, R.string.forum_report_confirm, R.string.forum_error_gone) }.condition(unit.isPublic)
                 .add(R.string.app_clear_reports) { w, card -> clearReports(unit) }.backgroundRes(R.color.blue_700).condition(ControllerPost.ENABLED_CLEAR_REPORTS && ControllerApi.can(unit.fandomId, unit.languageId, API.LVL_MODERATOR_BLOCK) && unit.reportsCount > 0)
@@ -211,7 +211,6 @@ object ControllerUnits {
     }
 
     fun removeForum(unitId: Long) {
-
         WidgetField()
                 .setHint(R.string.moderation_widget_comment)
                 .setOnCancel(R.string.app_cancel)
@@ -224,12 +223,32 @@ object ControllerUnits {
                     }
                 }
                 .asSheetShow()
-
-
     }
 
     fun changeForum(unit: UnitForum) {
        ControllerCampfireSDK.ON_CHANGE_FORUM_CLICKED.invoke(unit)
+    }
+
+    //
+    //  Stickers
+    //
+
+    fun showStickerPackPopup(view: View, unit: UnitStickersPack) {
+        WidgetMenu()
+                .add(R.string.app_copy_link) { w, card -> ToolsAndroid.setToClipboard(ControllerApi.linkToStickersPack(unit.id)); ToolsToast.show(R.string.app_copied) }
+                .add(R.string.app_change) { w, card -> Navigator.to(SStickersPackCreate(unit)) }.condition(unit.creatorId == ControllerApi.account.id)
+                .add(R.string.app_remove) { w, card -> removeStickersPack(unit.id) }.condition(unit.creatorId == ControllerApi.account.id)
+                .add(R.string.app_report) { w, card -> ControllerApi.reportUnit(unit.id, R.string.forum_report_confirm, R.string.forum_error_gone) }
+                .add(R.string.app_clear_reports) { w, card -> clearReports(unit) }.backgroundRes(R.color.red_700).condition(ControllerPost.ENABLED_CLEAR_REPORTS && ControllerApi.can(API.LVL_ADMIN_MODER) && unit.reportsCount > 0)
+                .add(R.string.app_remove) { w, card ->  }.condition(ControllerApi.can(API.LVL_ADMIN_MODER)).backgroundRes(R.color.red_700).condition(unit.creatorId != ControllerApi.account.id)
+                .asSheetShow()
+    }
+
+    fun removeStickersPack(unitId: Long) {
+        ApiRequestsSupporter.executeEnabledConfirm(R.string.stickers_packs_remove_confirm, R.string.app_remove, RUnitsRemove(unitId)){ r->
+            EventBus.post(EventUnitRemove(unitId))
+            ToolsToast.show(R.string.app_done)
+        }
     }
 
     //
