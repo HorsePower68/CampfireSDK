@@ -70,6 +70,7 @@ abstract class CardChatMessage constructor(
                 UnitChatMessage.TYPE_IMAGES -> return CardChatMessageImages(unit, onClick, onChange, onQuote, onGoTo, onBlocked)
                 UnitChatMessage.TYPE_BLOCK -> return CardChatMessageModeration(unit, onClick, onChange, onQuote, onGoTo, onBlocked)
                 UnitChatMessage.TYPE_VOICE -> return CardChatMessageVoice(unit, onClick, onChange, onQuote, onGoTo, onBlocked)
+                UnitChatMessage.TYPE_STICKER -> return CardChatMessageSticker(unit, onClick, onChange, onQuote, onGoTo, onBlocked)
                 else -> throw RuntimeException("Unknown type ${unit.type}")
             }
         }
