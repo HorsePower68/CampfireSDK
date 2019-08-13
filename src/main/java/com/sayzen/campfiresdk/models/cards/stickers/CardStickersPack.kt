@@ -39,10 +39,11 @@ class CardStickersPack(
 
         ToolsImagesLoader.load(unit.imageId).into(vAvatar.vAvatar.vImageView)
         vAvatar.setTitle(unit.name)
+        vAvatar.setSubtitle(unit.creatorName)
 
         vMenu.setOnClickListener { ControllerUnits.showStickerPackPopup(vMenu, unit) }
 
-        view.setOnClickListener { Navigator.to(SStickersView(unit.id, 0, unit.name, unit.imageId)) }
+        view.setOnClickListener { Navigator.to(SStickersView(unit, 0)) }
     }
 
     override fun notifyItem() {

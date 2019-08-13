@@ -77,7 +77,7 @@ class SStickersPackCreate(
 
         if(unit == null) {
             ApiRequestsSupporter.executeProgressDialog(RStickersPackCreate(name, image)) { r ->
-                Navigator.to(SStickersView(r.stickersPack.id, 0, name, r.stickersPack.imageId))
+                Navigator.to(SStickersView(r.stickersPack, 0))
                 Navigator.remove(this)
                 EventBus.post(EventStickersPackCreate(r.stickersPack))
             }

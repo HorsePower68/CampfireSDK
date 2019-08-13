@@ -4,6 +4,7 @@ import android.view.View
 import androidx.recyclerview.widget.GridLayoutManager
 import com.dzen.campfire.api.API
 import com.dzen.campfire.api.models.units.stickers.UnitSticker
+import com.dzen.campfire.api.models.units.stickers.UnitStickersPack
 import com.dzen.campfire.api.requests.stickers.RStickersAdd
 import com.dzen.campfire.api.requests.stickers.RStickersGetAll
 import com.dzen.campfire.api.requests.stickers.RStickersPacksGetInfo
@@ -29,10 +30,8 @@ import com.sup.dev.java.tools.ToolsBytes
 import com.sup.dev.java.tools.ToolsThreads
 
 class SStickersView(
-        val packId: Long,
-        val stickerId: Long,
-        var packName: String,
-        var packAvatarId: Long
+        val stickersPack: UnitStickersPack,
+        val stickerId: Long
 ) : SLoadingRecycler<CardSticker, UnitSticker>(R.layout.screen_stickers_view) {
 
     companion object {
@@ -47,22 +46,21 @@ class SStickersView(
 
         fun instance(packId: Long, stickerId: Long, action: NavigationAction) {
             ApiRequestsSupporter.executeInterstitial(action, RStickersPacksGetInfo(packId, stickerId)) { r ->
-                SStickersView(r.packId, stickerId, r.packName, r.packAvatarId)
+                SStickersView(r.stickersPack, stickerId)
             }
         }
 
     }
 
     private val eventBus = EventBus
-            .subscribe(EventStickerCreate::class) { adapter?.add(CardSticker(it.sticker)) }
+            .subscribe(EventStickerCreate::class) { onEventStickerCreate(it) }
             .subscribe(EventStickersPackChanged::class) { onEventStickersPackChanged(it) }
-            .subscribe(EventUnitRemove::class) { if (it.unitId == packId) Navigator.remove(this) }
+            .subscribe(EventUnitRemove::class) { if (it.unitId == stickersPack.id) Navigator.remove(this) }
 
     private val vAvatarTitle: ViewAvatarTitle = findViewById(R.id.vAvatarTitle)
     private var loaded = false
 
     init {
-        setTitle(packName)
         setTextEmpty(R.string.stickers_pack_view_empty)
         setBackgroundImage(R.drawable.bg_4)
 
@@ -78,16 +76,21 @@ class SStickersView(
         updateTitle()
     }
 
-    private fun updateTitle(){
-        vAvatarTitle.setTitle(packName)
-        ToolsImagesLoader.load(packAvatarId).into(vAvatarTitle.vAvatar.vImageView)
+    private fun updateTitle() {
+        vAvatarTitle.setTitle(stickersPack.name)
+        vAvatarTitle.setSubtitle(stickersPack.creatorName)
+        ToolsImagesLoader.load(stickersPack.imageId).into(vAvatarTitle.vAvatar.vImageView)
 
     }
 
     override fun instanceAdapter(): RecyclerCardAdapterLoading<CardSticker, UnitSticker> {
-        return RecyclerCardAdapterLoading<CardSticker, UnitSticker>(CardSticker::class) { CardSticker(it) }
+        return RecyclerCardAdapterLoading<CardSticker, UnitSticker>(CardSticker::class) {
+            val card = CardSticker(it)
+            if (it.id == stickerId) card.flash()
+            card
+        }
                 .setBottomLoader { onLoad, cards ->
-                    subscription = RStickersGetAll(packId)
+                    subscription = RStickersGetAll(stickersPack.id)
                             .onComplete { r ->
                                 if (loaded) {
                                     onLoad.invoke(emptyArray())
@@ -161,16 +164,24 @@ class SStickersView(
     }
 
     private fun changeAvatarNow(dialog: WidgetProgressTransparent, bytes: ByteArray, gifBytes: ByteArray?) {
-        ApiRequestsSupporter.executeProgressDialog(dialog, RStickersAdd(packId, bytes, gifBytes)) { r ->
+        ApiRequestsSupporter.executeProgressDialog(dialog, RStickersAdd(stickersPack.id, bytes, gifBytes)) { r ->
             ToolsToast.show(R.string.app_done)
             EventBus.post(EventStickerCreate(r.sticker))
         }
     }
 
-    private fun onEventStickersPackChanged(e:EventStickersPackChanged){
-        if(e.stickersPack.id == stickerId){
-            packName = e.stickersPack.name
-            packAvatarId = e.stickersPack.imageId
+    private fun onEventStickerCreate(e:EventStickerCreate){
+        if(e.sticker.tag_1 == stickersPack.id) {
+            val card = CardSticker(e.sticker)
+            adapter?.add(card)
+            card.flash()
+        }
+    }
+
+    private fun onEventStickersPackChanged(e: EventStickersPackChanged) {
+        if (e.stickersPack.id == stickerId) {
+            stickersPack.name = e.stickersPack.name
+            stickersPack.imageId = e.stickersPack.imageId
             updateTitle()
         }
     }

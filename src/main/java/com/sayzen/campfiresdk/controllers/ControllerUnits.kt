@@ -5,6 +5,7 @@ import com.dzen.campfire.api.API
 import com.dzen.campfire.api.models.units.Unit
 import com.dzen.campfire.api.models.units.UnitForum
 import com.dzen.campfire.api.models.units.moderations.*
+import com.dzen.campfire.api.models.units.stickers.UnitSticker
 import com.dzen.campfire.api.models.units.stickers.UnitStickersPack
 import com.dzen.campfire.api.models.units.tags.UnitTag
 import com.dzen.campfire.api.requests.fandoms.*
@@ -238,7 +239,7 @@ object ControllerUnits {
                 .add(R.string.app_copy_link) { w, card -> ToolsAndroid.setToClipboard(ControllerApi.linkToStickersPack(unit.id)); ToolsToast.show(R.string.app_copied) }
                 .add(R.string.app_change) { w, card -> Navigator.to(SStickersPackCreate(unit)) }.condition(unit.creatorId == ControllerApi.account.id)
                 .add(R.string.app_remove) { w, card -> removeStickersPack(unit.id) }.condition(unit.creatorId == ControllerApi.account.id)
-                .add(R.string.app_report) { w, card -> ControllerApi.reportUnit(unit.id, R.string.forum_report_confirm, R.string.forum_error_gone) }
+                .add(R.string.app_report) { w, card -> ControllerApi.reportUnit(unit.id, R.string.stickers_packs_report_confirm, R.string.stickers_packs_error_gone) }
                 .add(R.string.app_clear_reports) { w, card -> clearReports(unit) }.backgroundRes(R.color.red_700).condition(ControllerPost.ENABLED_CLEAR_REPORTS && ControllerApi.can(API.LVL_ADMIN_MODER) && unit.reportsCount > 0)
                 .add(R.string.app_remove) { w, card ->  }.condition(ControllerApi.can(API.LVL_ADMIN_MODER)).backgroundRes(R.color.red_700).condition(unit.creatorId != ControllerApi.account.id)
                 .asSheetShow()
@@ -246,6 +247,23 @@ object ControllerUnits {
 
     fun removeStickersPack(unitId: Long) {
         ApiRequestsSupporter.executeEnabledConfirm(R.string.stickers_packs_remove_confirm, R.string.app_remove, RUnitsRemove(unitId)){ r->
+            EventBus.post(EventUnitRemove(unitId))
+            ToolsToast.show(R.string.app_done)
+        }
+    }
+
+    fun showStickerPopup(view: View, x:Int, y:Int, unit: UnitSticker) {
+        WidgetMenu()
+                .add(R.string.app_copy_link) { w, card -> ToolsAndroid.setToClipboard(ControllerApi.linkToSticker(unit.id)); ToolsToast.show(R.string.app_copied) }
+                .add(R.string.app_remove) { w, card -> removeSticker(unit.id) }.condition(unit.creatorId == ControllerApi.account.id)
+                .add(R.string.app_report) { w, card -> ControllerApi.reportUnit(unit.id, R.string.stickers_report_confirm, R.string.sticker_error_gone) }
+                .add(R.string.app_clear_reports) { w, card -> clearReports(unit) }.backgroundRes(R.color.red_700).condition(ControllerPost.ENABLED_CLEAR_REPORTS && ControllerApi.can(API.LVL_ADMIN_MODER) && unit.reportsCount > 0)
+                .add(R.string.app_remove) { w, card ->  }.condition(ControllerApi.can(API.LVL_ADMIN_MODER)).backgroundRes(R.color.red_700).condition(unit.creatorId != ControllerApi.account.id)
+                .asPopupShow(view, x, y)
+    }
+
+    fun removeSticker(unitId: Long) {
+        ApiRequestsSupporter.executeEnabledConfirm(R.string.stickers_remove_confirm, R.string.app_remove, RUnitsRemove(unitId)){ r->
             EventBus.post(EventUnitRemove(unitId))
             ToolsToast.show(R.string.app_done)
         }

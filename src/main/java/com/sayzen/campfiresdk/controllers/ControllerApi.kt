@@ -333,23 +333,17 @@ object ControllerApi {
     fun linkToReview(reviewId: Long) = API.LINK_REVIEW + reviewId
     fun linkToModeration(moderationId: Long) = API.LINK_MODERATION + moderationId
     fun linkToForum(forumId: Long) = API.LINK_FORUM + forumId
-    fun linkToSticker(id: Long) = API.LINK_FORUM + id
-    fun linkToStickersPack(id: Long) = API.LINK_FORUM + id
+    fun linkToSticker(id: Long) = API.LINK_STICKER + id
+    fun linkToStickersPack(id: Long) = API.LINK_STICKERS_PACK + id
     fun linkToPostComment(parentUnitId: Long, commentId: Long) = API.LINK_POST + parentUnitId + "_" + commentId
-    fun linkToModerationComment(parentUnitId: Long, commentId: Long) =
-            API.LINK_MODERATION + parentUnitId + "_" + commentId
-
+    fun linkToModerationComment(parentUnitId: Long, commentId: Long) = API.LINK_MODERATION + parentUnitId + "_" + commentId
     fun linkToForumComment(parentUnitId: Long, commentId: Long) = API.LINK_FORUM + parentUnitId + "_" + commentId
     fun linkToChat(fandomId: Long) = API.LINK_CHAT + fandomId
     fun linkToChat(fandomId: Long, languageId: Long) = API.LINK_CHAT + fandomId + "_" + languageId
-    fun linkToChatMessage(messageId: Long, fandomId: Long, languageId: Long) =
-            API.LINK_CHAT + fandomId + "_" + languageId + "_" + messageId
-
+    fun linkToChatMessage(messageId: Long, fandomId: Long, languageId: Long) = API.LINK_CHAT + fandomId + "_" + languageId + "_" + messageId
     fun linkToEvent(eventId: Long) = API.LINK_EVENT + eventId
     fun linkToTag(tagId: Long) = API.LINK_TAG + tagId
-
     fun linkToComment(comment: UnitComment) = linkToComment(comment.id, comment.parentUnitType, comment.parentUnitId)
-
     fun linkToComment(commentId: Long, unitType: Long, unitId: Long): String {
         return when (unitType) {
             API.UNIT_TYPE_POST -> linkToPostComment(unitId, commentId)
@@ -367,6 +361,8 @@ object ControllerApi {
         replaceLinkable(vText, API.LINK_SHORT_PROFILE_ID, API.LINK_PROFILE_ID)
         replaceLinkable(vText, API.LINK_SHORT_MODERATION_ID, API.LINK_MODERATION)
         replaceLinkable(vText, API.LINK_SHORT_FORUM_ID, API.LINK_FORUM)
+        replaceLinkable(vText, API.LINK_SHORT_STICKER, API.LINK_STICKER)
+        replaceLinkable(vText, API.LINK_SHORT_STICKERS_PACK, API.LINK_STICKERS_PACK)
         replaceLinkable(vText, API.LINK_SHORT_EVENT, API.LINK_EVENT)
         replaceLinkable(vText, API.LINK_SHORT_TAG, API.LINK_TAG)
         replaceLinkable(vText, API.LINK_SHORT_RULES_USER, API.LINK_RULES_USER)
@@ -387,6 +383,8 @@ object ControllerApi {
         makeLinkable(vText, API.LINK_SHORT_PROFILE_ID, API.LINK_PROFILE_ID)
         makeLinkable(vText, API.LINK_SHORT_MODERATION_ID, API.LINK_MODERATION)
         makeLinkable(vText, API.LINK_SHORT_FORUM_ID, API.LINK_FORUM)
+        makeLinkable(vText, API.LINK_SHORT_STICKER, API.LINK_STICKER)
+        makeLinkable(vText, API.LINK_SHORT_STICKERS_PACK, API.LINK_STICKERS_PACK)
         makeLinkable(vText, API.LINK_SHORT_EVENT, API.LINK_EVENT)
         makeLinkable(vText, API.LINK_SHORT_TAG, API.LINK_TAG)
         makeLinkableInner(vText, API.LINK_SHORT_RULES_USER, API.LINK_RULES_USER)
