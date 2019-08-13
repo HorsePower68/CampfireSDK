@@ -223,7 +223,7 @@ class FieldLogic(
 
     fun sendVoice() {
         setLock(true)
-        ApiRequestsSupporter.execute(RChatMessageCreate(screen.tag, "", null, null, voiceBytes, 0L, quoteId)) { r ->
+        ApiRequestsSupporter.execute(RChatMessageCreate(screen.tag, "", null, null, voiceBytes, 0L, quoteId, 0)) { r ->
             voiceBytes = null
             afterSend(r.message)
         }
@@ -234,7 +234,7 @@ class FieldLogic(
 
     private fun sendText(text: String, parentId: Long) {
         setLock(true)
-        ApiRequestsSupporter.execute(RChatMessageCreate(screen.tag, text, null, null, null, parentId, quoteId)) { r ->
+        ApiRequestsSupporter.execute(RChatMessageCreate(screen.tag, text, null, null, null, parentId, quoteId, 0)) { r ->
             afterSend(r.message)
         }
                 .onApiError(RChatMessageCreate.E_BLACK_LIST) {
@@ -290,7 +290,7 @@ class FieldLogic(
                 }
                 bytes[0] = byt
             }
-            ApiRequestsSupporter.executeProgressDialog(RChatMessageCreate(screen.tag, text, bytes, gif, null, parentId, quoteId)) { r ->
+            ApiRequestsSupporter.executeProgressDialog(RChatMessageCreate(screen.tag, text, bytes, gif, null, parentId, quoteId, 0)) { r ->
                 afterSend(r.message)
                 setLock(false)
             }

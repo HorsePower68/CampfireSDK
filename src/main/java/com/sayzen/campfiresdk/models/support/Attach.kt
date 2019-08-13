@@ -101,6 +101,9 @@ class Attach(
                 .setOnSelected { w, bytes,index ->
                     parseAttachBytes(bytes, null)
                 }
+                .addFab(R.drawable.ic_mood_white_24dp){
+
+                }
                 .asSheetShow()
     }
 
