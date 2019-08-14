@@ -17,7 +17,7 @@ import com.sup.dev.java.tools.ToolsThreads
 
 object ControllerSettings {
 
-    private var accountSettings = AccountSettings()
+    var accountSettings = AccountSettings()
     private var updateSettingsTime = 0L
     private var updateSettingsStarted = false
 

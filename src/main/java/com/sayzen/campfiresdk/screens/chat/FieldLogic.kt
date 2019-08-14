@@ -6,6 +6,7 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.dzen.campfire.api.API
 import com.dzen.campfire.api.models.units.chat.UnitChatMessage
+import com.dzen.campfire.api.models.units.stickers.UnitSticker
 import com.dzen.campfire.api.requests.chat.RChatMessageChange
 import com.dzen.campfire.api.requests.chat.RChatMessageCreate
 import com.dzen.campfire.api.requests.chat.RChatTyping
@@ -51,7 +52,7 @@ class FieldLogic(
     val vVoiceRemove: ViewIcon = screen.findViewById(R.id.vVoiceRemove)
     val vVoiceLabel: TextView = screen.findViewById(R.id.vVoiceLabel)
 
-    val attach = Attach(vAttach, vAttachRecycler, { updateAction() }, {})
+    val attach = Attach(vAttach, vAttachRecycler, { updateAction() }, {}, {sendSticker(it)})
     private val utilsAudioPlayer = UtilsAudioPlayer()
 
     private var lastTypingSent = 0L
@@ -297,6 +298,16 @@ class FieldLogic(
                     .onApiError(RChatMessageCreate.E_BLACK_LIST) { ToolsToast.show(R.string.error_black_list) }
                     .onFinish { setLock(false) }
         }
+    }
+
+    private fun sendSticker(sticker: UnitSticker) {
+        setLock(true)
+        ApiRequestsSupporter.executeProgressDialog(RChatMessageCreate(screen.tag, "", null, null, null, 0, 0, sticker.id)) { r ->
+            afterSend(r.message)
+            setLock(false)
+        }
+                .onApiError(RChatMessageCreate.E_BLACK_LIST) { ToolsToast.show(R.string.error_black_list) }
+                .onFinish { setLock(false) }
     }
 
     private fun sendTyping() {

@@ -6,8 +6,10 @@ import androidx.recyclerview.widget.RecyclerView
 import android.view.View
 import android.widget.ImageView
 import com.dzen.campfire.api.API
+import com.dzen.campfire.api.models.units.stickers.UnitSticker
 import com.sayzen.campfiresdk.R
 import com.sayzen.campfiresdk.controllers.ControllerApi
+import com.sayzen.campfiresdk.views.WidgetStickers
 import com.sup.dev.android.libs.screens.navigator.Navigator
 import com.sup.dev.android.tools.ToolsBitmap
 import com.sup.dev.android.tools.ToolsGif
@@ -29,7 +31,8 @@ class Attach(
         val vAttach: ViewIcon,
         val vAttachRecycler: RecyclerView,
         val onUpdate: () -> Unit = {},
-        val onSupportScreenHide: () -> Unit = {}
+        val onSupportScreenHide: () -> Unit = {},
+        val onStickerSelected: (UnitSticker) -> Unit = {}
 ) {
 
     private var adapter = RecyclerCardAdapter()
@@ -38,6 +41,7 @@ class Attach(
 
     init {
         vAttach.setOnClickListener { onAttachClicked() }
+        vAttach.setOnLongClickListener { onStickersClicked(null); true }
         vAttachRecycler.layoutManager = LinearLayoutManager(vAttachRecycler.context, LinearLayoutManager.HORIZONTAL, false)
         clear()
         inited = true
@@ -54,7 +58,7 @@ class Attach(
     private fun updateAttach() {
         vAttachRecycler.visibility = if (isHasContent()) View.VISIBLE else View.GONE
         vAttach.isEnabled = adapter.size() < API.CHAT_MESSAGE_MAX_IMAGES_COUNT && enabled
-        if(inited)onUpdate.invoke()
+        if (inited) onUpdate.invoke()
     }
 
     private fun addBytes(bytes: ByteArray) {
@@ -95,16 +99,19 @@ class Attach(
     }
 
     private fun onAttachClicked() {
-        WidgetChooseImage()
-                .setMaxSelectCount(API.CHAT_MESSAGE_MAX_IMAGES_COUNT)
+        val widget = WidgetChooseImage()
+        widget.setMaxSelectCount(API.CHAT_MESSAGE_MAX_IMAGES_COUNT)
                 .setCallbackInWorkerThread(true)
-                .setOnSelected { w, bytes,index ->
-                    parseAttachBytes(bytes, null)
-                }
-                .addFab(R.drawable.ic_mood_white_24dp){
-
-                }
+                .setOnSelected { w, bytes, index -> parseAttachBytes(bytes, null) }
+                .addFab(R.drawable.ic_mood_white_24dp) { onStickersClicked(widget) }
                 .asSheetShow()
+    }
+
+    private fun onStickersClicked(widget: WidgetChooseImage?) {
+        WidgetStickers()
+                .onSelected { onStickerSelected.invoke(it) }
+                .asSheetShow()
+        widget?.hide()
     }
 
     private fun parseAttachBytes(bytes: ByteArray?, dialog: Widget?) {

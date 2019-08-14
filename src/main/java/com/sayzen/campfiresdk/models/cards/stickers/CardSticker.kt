@@ -29,6 +29,7 @@ class CardSticker(
     private var flash = false
     private var animationFlash: AnimationPendulumColor? = null
     private var subscriptionFlash: Subscription? = null
+    var onClick: (UnitSticker) -> Unit = {}
 
     override fun getLayout() = R.layout.card_sticker
 
@@ -45,6 +46,8 @@ class CardSticker(
         ToolsView.setOnLongClickCoordinates(vRootContainer) { v, x, y ->
             ControllerUnits.showStickerPopup(vRootContainer, x, y, unit)
         }
+
+        view.setOnClickListener { onClick.invoke(unit) }
     }
 
     override fun notifyItem() {

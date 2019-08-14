@@ -60,6 +60,7 @@ abstract class CardComment protected constructor(
                 UnitComment.TYPE_TEXT -> return CardCommentText(unit, dividers, miniSize, onClick, onQuote, onGoTo)
                 UnitComment.TYPE_IMAGE, UnitComment.TYPE_GIF -> return CardCommentImage(unit, dividers, miniSize, onClick, onQuote, onGoTo)
                 UnitComment.TYPE_IMAGES -> return CardCommentImages(unit, dividers, miniSize, onClick, onQuote, onGoTo)
+                UnitComment.TYPE_STICKER -> return CardCommentSticker(unit, dividers, miniSize, onClick, onQuote, onGoTo)
                 else -> throw RuntimeException("Unknown type ${unit.type}")
             }
         }
@@ -77,6 +78,9 @@ abstract class CardComment protected constructor(
     private var subscriptionFlash: Subscription? = null
     protected var popup: Widget? = null
 
+    var changeEnabled = true
+    var quoteEnabled = true
+    var copyEnabled = true
     protected abstract fun bind(view: View)
 
     override fun bindView(view: View) {
@@ -87,7 +91,7 @@ abstract class CardComment protected constructor(
         val vLabelName: TextView? = view.findViewById(R.id.vLabelName)
         val vLabelDate: TextView? = view.findViewById(R.id.vLabelDate)
         val vDivider: View? = view.findViewById(R.id.vDivider)
-        val vText: ViewTextLinkable = view.findViewById(R.id.vCommentText)
+        val vText: ViewTextLinkable? = view.findViewById(R.id.vCommentText)
         val vReports: TextView? = view.findViewById(R.id.vReports)
         val vQuoteContainer: View? = view.findViewById(R.id.vQuoteContainer)
         val vQuoteText: ViewTextLinkable? = view.findViewById(R.id.vQuoteText)
@@ -113,8 +117,12 @@ abstract class CardComment protected constructor(
                     onClick?.invoke(unit)
                 }
             }
+            vSwipe.swipeEnabled = quoteEnabled
         } else {
-            if (vSwipe != null) popup = createPopup(vSwipe)
+            if (vSwipe != null) {
+                popup = createPopup(vSwipe)
+                vSwipe.swipeEnabled = quoteEnabled
+            }
         }
 
         if (vQuoteContainer != null) {
@@ -144,10 +152,12 @@ abstract class CardComment protected constructor(
             vReports.visibility = if (unit.reportsCount > 0 && ControllerApi.can(unit.fandomId, unit.languageId, API.LVL_MODERATOR_BLOCK)) View.VISIBLE else View.GONE
         }
 
-        vText.text = unit.text
-        ControllerApi.makeLinkable(vText) {
-            val myName = ControllerApi.account.name + ","
-            if (unit.text.startsWith(myName)) vText.text = Html.fromHtml(ToolsHTML.font_color(myName, "#FF6D00") + unit.text.substring(myName.length))
+        if(vText != null) {
+            vText.text = unit.text
+            ControllerApi.makeLinkable(vText) {
+                val myName = ControllerApi.account.name + ","
+                if (unit.text.startsWith(myName)) vText.text = Html.fromHtml(ToolsHTML.font_color(myName, "#FF6D00") + unit.text.substring(myName.length))
+            }
         }
 
         if (!showFandom) xAccount.setView(vAvatar)
@@ -230,13 +240,13 @@ abstract class CardComment protected constructor(
                 }
                 .groupCondition(ControllerApi.isCurrentAccount(unit.creatorId))
                 .add(R.string.app_remove) { w, c -> ControllerApi.removeUnit(unit.id, R.string.comment_remove_confirm, R.string.comment_error_gone) { EventBus.post(EventCommentRemove(unit.id, unit.parentUnitId)) } }
-                .add(R.string.app_change) { w, c -> WidgetComment(unit).asSheetShow() }
+                .add(R.string.app_change) { w, c -> WidgetComment(unit).asSheetShow() }.condition(changeEnabled)
                 .clearGroupCondition()
                 .add(R.string.app_copy) { w, c ->
                     ToolsAndroid.setToClipboard(unit.text)
                     ToolsToast.show(R.string.app_copied)
-                }
-                .add(R.string.app_quote) { w, c -> onQuote?.invoke(unit) }.condition(onQuote != null && (unit.type == UnitComment.TYPE_TEXT || unit.type == UnitComment.TYPE_IMAGE || unit.type == UnitComment.TYPE_GIF || unit.type == UnitComment.TYPE_IMAGES))
+                }.condition(copyEnabled)
+                .add(R.string.app_quote) { w, c -> onQuote?.invoke(unit) }.condition(quoteEnabled && onQuote != null && (unit.type == UnitComment.TYPE_TEXT || unit.type == UnitComment.TYPE_IMAGE || unit.type == UnitComment.TYPE_GIF || unit.type == UnitComment.TYPE_IMAGES))
                 .groupCondition(!ControllerApi.isCurrentAccount(unit.creatorId))
                 .add(R.string.app_report) { w, c -> ControllerApi.reportUnit(unit.id, R.string.comment_report_confirm, R.string.comment_error_gone) }
                 .add(R.string.app_clear_reports) { w, c -> ControllerApi.clearReportsUnit(unit.id, unit.unitType) }.backgroundRes(R.color.blue_700).condition(ControllerApi.can(unit.fandomId, unit.languageId, API.LVL_MODERATOR_BLOCK) && unit.reportsCount > 0)

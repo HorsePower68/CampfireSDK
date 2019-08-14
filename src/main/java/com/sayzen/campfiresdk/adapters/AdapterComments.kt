@@ -41,7 +41,9 @@ class AdapterComments(
     init {
         setBottomLoader { onLoad, cards ->
             RCommentsGetAll(unitId, if (cards.isEmpty()) 0 else cards.get(cards.size - 1).unit.dateCreate, false, startFromBottom)
-                    .onComplete { r -> onLoad.invoke(r.units) }
+                    .onComplete { r ->
+                        onLoad.invoke(r.units)
+                    }
                     .onError {
                         remove(cardSpace)
                         onLoad.invoke(null)
@@ -59,11 +61,11 @@ class AdapterComments(
         ToolsThreads.main(true) { this.loadBottom() }
     }
 
-    fun setCommentButton(view: View){
+    fun setCommentButton(view: View) {
         view.setOnClickListener { v -> showCommentDialog() }
     }
 
-    fun showCommentDialog(comment:UnitComment?=null, changeComment:UnitComment?=null, quoteId: Long=0,  quoteText: String=""){
+    fun showCommentDialog(comment: UnitComment? = null, changeComment: UnitComment? = null, quoteId: Long = 0, quoteText: String = "") {
         WidgetComment(unitId, comment, changeComment, quoteId, quoteText) { comment ->
             val card = addComment(comment)
             vRecycler.scrollToPosition(indexOf(card) + 1)
@@ -87,7 +89,7 @@ class AdapterComments(
         if (scrollToCommentId == -1L) {
             scrollToCommentId = 0
             val v = get(CardComment::class)
-            val index = if(v.isNotEmpty()) indexOf(v.get(0))+1 else size()
+            val index = if (v.isNotEmpty()) indexOf(v.get(0)) + 1 else size()
             ToolsThreads.main(600) { vRecycler.scrollToPosition(index) }
         } else if (scrollToCommentId != 0L) {
             for (c in get(CardComment::class)) {
@@ -111,10 +113,10 @@ class AdapterComments(
 
     }
 
-    fun addComment(unitComment:UnitComment):CardComment{
+    fun addComment(unitComment: UnitComment): CardComment {
         remove(cardSpace)
         val card = instanceCard(unitComment)
-        add(card)
+        addWithHash(card)
         card.flash()
         add(cardSpace)
         return card
@@ -125,7 +127,7 @@ class AdapterComments(
         loadBottom()
     }
 
-    private fun instanceCard(unit:UnitComment):CardComment{
+    private fun instanceCard(unit: UnitComment): CardComment {
         return CardComment.instance(unit, true, false,
                 { comment ->
                     if (ControllerApi.isCurrentAccount(comment.creatorId)) return@instance false

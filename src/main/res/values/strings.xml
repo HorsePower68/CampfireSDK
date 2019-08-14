@@ -97,6 +97,7 @@
     <string name="app_unfollow">Unfollow</string>
     <string name="app_online">Online</string>
     <string name="app_stickers">Stickers</string>
+    <string name="app_sticker">Sticker</string>
     <string name="app_was_online">%s online %s</string>
     <string name="app_crop">Crop</string>
     <string name="app_tag">Tag</string>

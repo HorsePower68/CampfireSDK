@@ -25,8 +25,14 @@ class CardChatMessageSticker(
         onBlocked: ((UnitChatMessage) -> Unit)? = null
 ) : CardChatMessage(unit, onClick, onChange, onQuote, onGoTo, onBlocked) {
 
-    override fun getLayout() = R.layout.card_chat_message_sticker
+    init {
+        useMessageContainerBackground = false
+        changeEnabled = false
+        quoteEnabled = false
+        copyEnabled = false
+    }
 
+    override fun getLayout() = R.layout.card_chat_message_sticker
 
     override fun bindView(view: View) {
         super.bindView(view)
@@ -35,12 +41,10 @@ class CardChatMessageSticker(
         val vGifProgressBar: View = view.findViewById(R.id.vGifProgressBar)
         val vLabelImage: TextView = view.findViewById(R.id.vLabelImage)
         val vLabel: TextView = view.findViewById(R.id.vLabel)
-        val vCommentText: TextView = view.findViewById(R.id.vCommentText)
 
         vLabelImage.text = vLabel.text
 
         vLabel.visibility = if (unit.text.isEmpty()) GONE else VISIBLE
-        vCommentText.visibility = if (unit.text.isEmpty()) GONE else VISIBLE
         vLabelImage.visibility = if (unit.text.isEmpty()) VISIBLE else GONE
 
         ToolsView.setOnLongClickCoordinates(vImage) { view1, x, y -> popup?.asSheetShow() }

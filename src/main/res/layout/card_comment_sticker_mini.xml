@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/vTouch"
+    style="@style/TouchableForeground"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/blue_700">
+
+    <ImageView
+        style="@style/Icon"
+        android:layout_gravity="center|right"
+        android:src="?ic_reply_24dp"/>
+
+    <FrameLayout
+        android:id="@+id/vRoot"
+        android:background="?content_background"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:id="@+id/vRootContainer"
+            android:paddingTop="8dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:orientation="horizontal">
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="8dp"
+                    android:layout_marginTop="12dp"
+                    android:orientation="vertical">
+
+                    <com.sup.dev.android.views.views.ViewAvatar
+                        android:id="@+id/vAvatar"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"/>
+
+                    <TextView
+                        android:id="@+id/vReports"
+                        style="@style/TextAppearance.AppCompat.Caption"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginTop="4dp"
+                        android:drawableLeft="?ic_security_18dp"
+                        android:drawablePadding="4dp"
+                        android:gravity="center"
+                        android:text="10"/>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="2dp"
+                    android:layout_marginBottom="4dp"
+                    android:orientation="vertical"
+                    android:padding="12dp">
+
+                    <TextView
+                        android:id="@+id/vLabel"
+                        style="@style/Base.TextAppearance.AppCompat.Caption"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Zeon 15:40"/>
+
+                    <com.sup.dev.android.views.views.layouts.LayoutCorned
+                        android:layout_width="200dp"
+                        android:layout_height="200dp">
+
+                        <ImageView
+                            android:id="@+id/vImage"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:adjustViewBounds="true"/>
+
+                        <ProgressBar
+                            android:id="@+id/vGifProgressBar"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"/>
+
+                        <TextView
+                            android:id="@+id/vLabelImage"
+                            style="@style/Base.TextAppearance.AppCompat.Caption"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textColor="?revers_color"
+                            android:layout_gravity="right|bottom"
+                            android:layout_margin="8dp"
+                            android:background="@color/focus_dark"
+                            android:padding="2dp"/>
+
+                    </com.sup.dev.android.views.views.layouts.LayoutCorned>
+
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <com.sayzen.campfiresdk.views.ViewKarmaVertical
+                android:id="@+id/vKarma"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="right|bottom"
+                android:layout_marginRight="4dp"
+                android:layout_marginBottom="4dp"/>
+        </LinearLayout>
+
+    </FrameLayout>
+
+    <View style="@style/Divider"/>
+
+</FrameLayout>

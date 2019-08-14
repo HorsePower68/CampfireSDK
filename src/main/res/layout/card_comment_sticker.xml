@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.sup.dev.android.views.views.ViewSwipe xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/vSwipe"
+    style="@style/TouchableForeground"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="?content_background"
+    android:src="@drawable/ic_reply_white_24dp"
+    app:ViewSwipe_background="@color/blue_700">
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:id="@+id/vRootContainer"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingTop="8dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:orientation="horizontal">
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="16dp"
+                    android:layout_marginTop="12dp"
+                    android:orientation="vertical">
+
+                    <com.sup.dev.android.views.views.ViewAvatar
+                        android:id="@+id/vAvatar"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp" />
+
+                    <TextView
+                        android:id="@+id/vReports"
+                        style="@style/TextAppearance.AppCompat.Caption"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginTop="4dp"
+                        android:drawableLeft="?ic_security_18dp"
+                        android:drawablePadding="4dp"
+                        android:gravity="center"
+                        android:text="10" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginLeft="14dp"
+                    android:layout_marginTop="4dp"
+                    android:orientation="vertical">
+
+                    <com.sup.dev.android.views.views.ViewTextLinkable
+                        android:id="@+id/vLabelName"
+                        style="@style/Base.TextAppearance.AppCompat.Body1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
+
+                    <com.sup.dev.android.views.views.ViewTextLinkable
+                        android:id="@+id/vLabelDate"
+                        style="@style/Base.TextAppearance.AppCompat.Caption"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <com.sup.dev.android.views.views.layouts.LayoutCorned
+                android:layout_width="200dp"
+                android:layout_height="200dp"
+                android:layout_marginLeft="16dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginRight="16dp">
+
+                <ImageView
+                    android:id="@+id/vImage"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:adjustViewBounds="true" />
+
+                <ProgressBar
+                    android:id="@+id/vGifProgressBar"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center" />
+
+            </com.sup.dev.android.views.views.layouts.LayoutCorned>
+
+            <com.sayzen.campfiresdk.views.ViewKarmaHorizontal
+                android:id="@+id/vKarma"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="right|bottom"
+                android:layout_marginRight="4dp"
+                android:layout_marginBottom="4dp" />
+        </LinearLayout>
+
+    </FrameLayout>
+
+    <View style="@style/Divider" />
+
+</com.sup.dev.android.views.views.ViewSwipe>

@@ -21,7 +21,6 @@ import com.sayzen.campfiresdk.adapters.XFandom
 import com.sayzen.campfiresdk.controllers.*
 import com.sayzen.campfiresdk.models.cards.chat.CardChatMessage
 import com.sayzen.campfiresdk.models.events.fandom.EventFandomBackgroundImageChanged
-import com.sayzen.campfiresdk.models.support.Attach
 import com.sayzen.campfiresdk.models.ScreenShare
 import com.sayzen.campfiresdk.models.events.chat.*
 import com.sayzen.campfiresdk.models.events.notifications.EventNotification

@@ -53,8 +53,6 @@ abstract class CardChatMessage constructor(
         var onBlocked: ((UnitChatMessage) -> Unit)? = null
 ) : CardUnit(unit) {
 
-    var changeEnabled = true
-
     companion object {
 
         fun instance(unit: UnitChatMessage,
@@ -84,6 +82,11 @@ abstract class CardChatMessage constructor(
             .subscribe(EventStyleChanged::class) { update() }
             .subscribe(EventUnitBlocked::class) { onEventUnitBlocked(it) }
 
+    var changeEnabled = true
+    var useMessageContainerBackground = true
+    var quoteEnabled = true
+    var copyEnabled = true
+
     val xAccount = XAccount(unit) { updateAccount() }
     val xFandom = XFandom(unit, unit.dateCreate) { updateAccount() }
     protected var popup: Widget? = null
@@ -106,7 +109,7 @@ abstract class CardChatMessage constructor(
         if (SupAndroid.activityIsVisible) {
             ControllerNotifications.removeNotificationFromNew(NotificationMention::class, unit.id)
         }
-        if (vSwipe != null){
+        if (vSwipe != null) {
             vSwipe.swipeEnabled = this !is CardChatMessageVoice
         }
 
@@ -127,8 +130,12 @@ abstract class CardChatMessage constructor(
                 else
                     onClick?.invoke(unit)
             }
+            vSwipe.swipeEnabled = quoteEnabled
         } else {
-            if (vSwipe != null) popup = createPopup(vSwipe)
+            if (vSwipe != null) {
+                popup = createPopup(vSwipe)
+                vSwipe.swipeEnabled = quoteEnabled
+            }
         }
 
 
@@ -224,10 +231,14 @@ abstract class CardChatMessage constructor(
             if (vMessageContainer != null) {
                 (vMessageContainer.layoutParams as ViewGroup.MarginLayoutParams).rightMargin = ToolsView.dpToPx(0).toInt()
                 (vMessageContainer.layoutParams as ViewGroup.MarginLayoutParams).leftMargin = ToolsView.dpToPx(0).toInt()
-                if (ToolsColor.red(ToolsResources.getColorAttr(R.attr.widget_background)) < 0x60)
-                    vMessageContainer.setCardBackgroundColor(ToolsColor.add(ToolsResources.getColorAttr(R.attr.widget_background), 0xFF202020.toInt()))
-                else
-                    vMessageContainer.setCardBackgroundColor(ToolsColor.remove(ToolsResources.getColorAttr(R.attr.widget_background), 0xFF202020.toInt()))
+                if (useMessageContainerBackground) {
+                    if (ToolsColor.red(ToolsResources.getColorAttr(R.attr.widget_background)) < 0x60)
+                        vMessageContainer.setCardBackgroundColor(ToolsColor.add(ToolsResources.getColorAttr(R.attr.widget_background), 0xFF202020.toInt()))
+                    else
+                        vMessageContainer.setCardBackgroundColor(ToolsColor.remove(ToolsResources.getColorAttr(R.attr.widget_background), 0xFF202020.toInt()))
+                }else{
+                    vMessageContainer.setCardBackgroundColor(0x00000000)
+                }
             }
             if (vRootContainer != null) {
                 (vRootContainer.layoutParams as ViewGroup.MarginLayoutParams).rightMargin = ToolsView.dpToPx(12).toInt()
@@ -237,7 +248,8 @@ abstract class CardChatMessage constructor(
             if (vMessageContainer != null) {
                 (vMessageContainer.layoutParams as ViewGroup.MarginLayoutParams).rightMargin = ToolsView.dpToPx(48).toInt()
                 (vMessageContainer.layoutParams as ViewGroup.MarginLayoutParams).leftMargin = ToolsView.dpToPx(12).toInt()
-                vMessageContainer.setCardBackgroundColor(ToolsResources.getColorAttr(R.attr.widget_background))
+                if (useMessageContainerBackground) vMessageContainer.setCardBackgroundColor(ToolsResources.getColorAttr(R.attr.widget_background))
+                else vMessageContainer.setCardBackgroundColor(0x00000000)
             }
             if (vRootContainer != null) {
                 (vRootContainer.layoutParams as ViewGroup.MarginLayoutParams).rightMargin = ToolsView.dpToPx(0).toInt()
@@ -312,8 +324,8 @@ abstract class CardChatMessage constructor(
                 .add(R.string.app_copy) { w, c ->
                     ToolsAndroid.setToClipboard(unit.text)
                     ToolsToast.show(R.string.app_copied)
-                }
-                .add(R.string.app_quote) { w, c -> onQuote!!.invoke(unit) }.condition(onQuote != null && (unit.type == UnitChatMessage.TYPE_TEXT || unit.type == UnitChatMessage.TYPE_IMAGE || unit.type == UnitChatMessage.TYPE_GIF || unit.type == UnitChatMessage.TYPE_IMAGES))
+                }.condition(copyEnabled)
+                .add(R.string.app_quote) { w, c -> onQuote!!.invoke(unit) }.condition(quoteEnabled && onQuote != null && (unit.type == UnitChatMessage.TYPE_TEXT || unit.type == UnitChatMessage.TYPE_IMAGE || unit.type == UnitChatMessage.TYPE_GIF || unit.type == UnitChatMessage.TYPE_IMAGES))
                 .groupCondition(!ControllerApi.isCurrentAccount(unit.creatorId))
                 .add(R.string.app_report) { w, c -> ControllerApi.reportUnit(unit.id, R.string.chat_report_confirm, R.string.chat_error_gone) }.condition(unit.chatType == API.CHAT_TYPE_FANDOM)
                 .add(R.string.app_clear_reports) { w, c -> ControllerApi.clearReportsUnit(unit.id, unit.unitType) }.backgroundRes(R.color.blue_700).condition(unit.chatType == API.CHAT_TYPE_FANDOM && ControllerApi.can(unit.fandomId, unit.languageId, API.LVL_MODERATOR_BLOCK) && unit.reportsCount > 0)
@@ -367,7 +379,7 @@ abstract class CardChatMessage constructor(
     }
 
     override fun equals(other: Any?): Boolean {
-        return if(other is CardChatMessage) unit.id == other.unit.id
+        return if (other is CardChatMessage) unit.id == other.unit.id
         else super.equals(other)
     }
 

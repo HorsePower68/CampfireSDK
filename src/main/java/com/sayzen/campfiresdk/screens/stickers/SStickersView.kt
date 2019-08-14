@@ -97,7 +97,7 @@ class SStickersView(
                                 } else {
                                     loaded = true
                                     onLoad.invoke(r.stickers)
-                                    if (r.stickers.size < API.STICKERS_MAX_COUNT) (vFab as View).visibility = View.VISIBLE
+                                    if (r.stickers.size < API.STICKERS_MAX_COUNT_IN_PACK) (vFab as View).visibility = View.VISIBLE
                                 }
                             }
                             .onNetworkError { onLoad.invoke(null) }
@@ -175,6 +175,7 @@ class SStickersView(
             val card = CardSticker(e.sticker)
             adapter?.add(card)
             card.flash()
+            setState(State.NONE)
         }
     }
 

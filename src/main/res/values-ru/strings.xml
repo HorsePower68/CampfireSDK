@@ -97,6 +97,7 @@
     <string name="app_unfollow">Отписаться</string>
     <string name="app_online">Онлайн</string>
     <string name="app_stickers">Стикеры</string>
+    <string name="app_sticker">Стикер</string>
     <string name="app_was_online">%s онлайн %s</string>
     <string name="app_crop">Обрезать</string>
     <string name="app_tag">Тег</string>

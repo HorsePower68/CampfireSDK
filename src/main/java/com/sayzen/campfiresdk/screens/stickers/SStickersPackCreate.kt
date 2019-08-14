@@ -8,6 +8,7 @@ import com.dzen.campfire.api.models.units.stickers.UnitStickersPack
 import com.dzen.campfire.api.requests.stickers.RStickersPackChange
 import com.dzen.campfire.api.requests.stickers.RStickersPackCreate
 import com.sayzen.campfiresdk.R
+import com.sayzen.campfiresdk.controllers.ControllerSettings
 import com.sayzen.campfiresdk.models.events.stickers.EventStickersPackChanged
 import com.sayzen.campfiresdk.models.events.stickers.EventStickersPackCreate
 import com.sup.dev.android.libs.api_simple.ApiRequestsSupporter
@@ -20,6 +21,7 @@ import com.sup.dev.android.views.screens.SCrop
 import com.sup.dev.android.views.settings.SettingsField
 import com.sup.dev.android.views.widgets.WidgetChooseImage
 import com.sup.dev.java.libs.eventBus.EventBus
+import com.sup.dev.java.tools.ToolsCollections
 import com.sup.dev.java.tools.ToolsText
 
 class SStickersPackCreate(
@@ -80,11 +82,13 @@ class SStickersPackCreate(
                 Navigator.to(SStickersView(r.stickersPack, 0))
                 Navigator.remove(this)
                 EventBus.post(EventStickersPackCreate(r.stickersPack))
+                ControllerSettings.accountSettings.stickersPacks = ToolsCollections.add(r.stickersPack.id, ControllerSettings.accountSettings.stickersPacks)
             }
         }else{
             ApiRequestsSupporter.executeProgressDialog(RStickersPackChange(unit.id, name, image)) { r ->
                 Navigator.remove(this)
                 EventBus.post(EventStickersPackChanged(r.stickersPack))
+                ControllerSettings.accountSettings.stickersPacks = ToolsCollections.add(r.stickersPack.id, ControllerSettings.accountSettings.stickersPacks)
             }
         }
     }

@@ -27,6 +27,7 @@ class CardChatMessageVoice(
 
     init {
         changeEnabled = false
+        quoteEnabled = false
     }
 
     override fun getLayout() = R.layout.card_chat_message_voice

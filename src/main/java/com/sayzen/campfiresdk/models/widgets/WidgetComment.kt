@@ -4,6 +4,7 @@ import androidx.recyclerview.widget.RecyclerView
 import android.view.View
 import com.dzen.campfire.api.API
 import com.dzen.campfire.api.models.UnitComment
+import com.dzen.campfire.api.models.units.stickers.UnitSticker
 import com.dzen.campfire.api.requests.units.RUnitsCommentChange
 import com.dzen.campfire.api.requests.units.RUnitsCommentCreate
 import com.sayzen.campfiresdk.R
@@ -41,11 +42,14 @@ class WidgetComment constructor(
 
     private val vSend: ViewIcon = findViewById(R.id.vSend)
     private val vAttach: ViewIcon = findViewById(R.id.vAttach)
-    private val vAttachRecycler: androidx.recyclerview.widget.RecyclerView = findViewById(R.id.vAttachRecycler)
+    private val vAttachRecycler: RecyclerView = findViewById(R.id.vAttachRecycler)
     private val vText: ViewEditTextMedia = findViewById(R.id.vText)
     private val vQuoteText: ViewTextLinkable = findViewById(R.id.vQuoteText)
 
-    private var attach = Attach(vAttach, vAttachRecycler, { updateSendEnabled() }) { ToolsThreads.main(100) { asSheetShow() } } // Нужна задержка, иначе откроется и сразу закроется из-за смены экранов
+    private var attach = Attach(vAttach, vAttachRecycler,
+            { updateSendEnabled() },
+            { ToolsThreads.main(100) { asSheetShow() } }, // Нужна задержка, иначе откроется и сразу закроется из-за смены экранов
+            { sendSticker(it) })
 
     constructor(changeComment: UnitComment) : this(0, null, changeComment, 0, "", null)
 
@@ -157,7 +161,7 @@ class WidgetComment constructor(
 
 
     private fun sendText(text: String, parentId: Long) {
-        ApiRequestsSupporter.executeEnabled(this, RUnitsCommentCreate(unitId, text, null, null, parentId, ControllerSettings.watchPost, quoteId)) { r ->
+        ApiRequestsSupporter.executeEnabled(this, RUnitsCommentCreate(unitId, text, null, null, parentId, ControllerSettings.watchPost, quoteId, 0)) { r ->
             afterSend(r.comment)
         }
     }
@@ -190,11 +194,6 @@ class WidgetComment constructor(
         }
     }
 
-
-    //
-    //  Image
-    //
-
     private fun sendImage(text: String, parentId: Long) {
         setEnabled(false)
 
@@ -216,12 +215,20 @@ class WidgetComment constructor(
                 }
                 bytes[0] = byt
             }
-            ApiRequestsSupporter.executeProgressDialog(RUnitsCommentCreate(unitId, text, bytes, gif, parentId, ControllerSettings.watchPost, quoteId)) { r -> afterSend(r.comment) }
+            ApiRequestsSupporter.executeProgressDialog(RUnitsCommentCreate(unitId, text, bytes, gif, parentId, ControllerSettings.watchPost, quoteId, 0)) { r -> afterSend(r.comment) }
                     .onApiError(RUnitsCommentCreate.E_BAD_UNIT_STATUS) { ToolsToast.show(R.string.error_gone) }
                     .onFinish { setEnabled(true) }
         }
 
 
+    }
+
+    private fun sendSticker(sticker: UnitSticker) {
+        setEnabled(false)
+
+        ApiRequestsSupporter.executeProgressDialog(RUnitsCommentCreate(unitId, "", null, null, 0, ControllerSettings.watchPost, 0, sticker.id)) { r -> afterSend(r.comment) }
+                .onApiError(RUnitsCommentCreate.E_BAD_UNIT_STATUS) { ToolsToast.show(R.string.error_gone) }
+                .onFinish { setEnabled(true) }
     }
 
 }
