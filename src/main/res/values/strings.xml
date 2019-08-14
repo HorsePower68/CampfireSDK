@@ -501,6 +501,8 @@
     <string name="stickers_report_confirm">Report this sticker?</string>
     <string name="stickers_packs_error_gone">Looks like someone deleted this stickers pack</string>
     <string name="sticker_error_gone">Looks like someone deleted this sticker</string>
+    <string name="sticker_add">Add to collection</string>
+    <string name="sticker_remove">Remove from collection</string>
 
     <string name="achi_click">(click)</string>
     <string name="achi_you_are_here">You are here</string>

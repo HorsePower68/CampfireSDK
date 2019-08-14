@@ -10,6 +10,8 @@ import com.dzen.campfire.api.models.units.stickers.UnitStickersPack
 import com.dzen.campfire.api.models.units.tags.UnitTag
 import com.dzen.campfire.api.requests.fandoms.*
 import com.dzen.campfire.api.requests.post.RPostToDrafts
+import com.dzen.campfire.api.requests.stickers.RStickerCollectionChange
+import com.dzen.campfire.api.requests.stickers.RStickersPackCollectionChange
 import com.dzen.campfire.api.requests.tags.RTagsMove
 import com.dzen.campfire.api.requests.tags.RTagsMoveCategory
 import com.dzen.campfire.api.requests.tags.RTagsMoveTag
@@ -20,6 +22,8 @@ import com.dzen.campfire.screens.fandoms.tags.WidgetTagCreate
 import com.dzen.campfire.screens.fandoms.tags.WidgetTagRemove
 import com.sayzen.campfiresdk.R
 import com.sayzen.campfiresdk.models.events.fandom.EventFandomTagMove
+import com.sayzen.campfiresdk.models.events.stickers.EventStickerCollectionChanged
+import com.sayzen.campfiresdk.models.events.stickers.EventStickersPackCollectionChanged
 import com.sayzen.campfiresdk.models.events.units.*
 import com.sayzen.campfiresdk.models.widgets.WidgetModerationBlock
 import com.sayzen.campfiresdk.models.objects.TagParent
@@ -54,14 +58,15 @@ object ControllerUnits {
         WidgetModerationBlock.show(unit, onBlock)
     }
 
-    fun report(unit: Unit){
+    fun report(unit: Unit) {
         ControllerApi.reportUnit(
                 unit.id,
                 R.string.post_report_confirm,
                 R.string.post_error_gone
         )
     }
-    fun clearReports(unit: Unit){
+
+    fun clearReports(unit: Unit) {
         ControllerApi.clearReportsUnit(unit.id, unit.unitType)
     }
 
@@ -228,7 +233,7 @@ object ControllerUnits {
     }
 
     fun changeForum(unit: UnitForum) {
-       ControllerCampfireSDK.ON_CHANGE_FORUM_CLICKED.invoke(unit)
+        ControllerCampfireSDK.ON_CHANGE_FORUM_CLICKED.invoke(unit)
     }
 
     //
@@ -241,31 +246,63 @@ object ControllerUnits {
                 .add(R.string.app_change) { w, card -> Navigator.to(SStickersPackCreate(unit)) }.condition(unit.creatorId == ControllerApi.account.id)
                 .add(R.string.app_remove) { w, card -> removeStickersPack(unit.id) }.condition(unit.creatorId == ControllerApi.account.id)
                 .add(R.string.app_report) { w, card -> ControllerApi.reportUnit(unit.id, R.string.stickers_packs_report_confirm, R.string.stickers_packs_error_gone) }
+                .add(if (ControllerSettings.accountSettings.stickersPacks.contains(unit.id)) R.string.sticker_remove else R.string.sticker_add) { w, card -> addStickerPackToCollection(unit) }.condition(unit.status == API.STATUS_PUBLIC)
                 .add(R.string.app_clear_reports) { w, card -> clearReports(unit) }.backgroundRes(R.color.red_700).condition(ControllerPost.ENABLED_CLEAR_REPORTS && ControllerApi.can(API.LVL_ADMIN_MODER) && unit.reportsCount > 0)
-                .add(R.string.app_remove) { w, card ->  }.condition(ControllerApi.can(API.LVL_ADMIN_MODER)).backgroundRes(R.color.red_700).condition(unit.creatorId != ControllerApi.account.id)
+                .add(R.string.app_remove) { w, card -> }.condition(ControllerApi.can(API.LVL_ADMIN_MODER)).backgroundRes(R.color.red_700).condition(unit.creatorId != ControllerApi.account.id)
                 .asSheetShow()
     }
 
+    fun addStickerPackToCollection(unit: UnitStickersPack) {
+        val inCollection = !ControllerSettings.accountSettings.stickersPacks.contains(unit.id)
+
+        ApiRequestsSupporter.executeProgressDialog(RStickersPackCollectionChange(unit.id, inCollection)) { r ->
+
+            if (inCollection)
+                ControllerSettings.accountSettings.stickersPacks = ToolsCollections.add(unit.id, ControllerSettings.accountSettings.stickersPacks)
+            else
+                ControllerSettings.accountSettings.stickersPacks = ToolsCollections.removeItem(unit.id, ControllerSettings.accountSettings.stickersPacks)
+
+            EventBus.post(EventStickersPackCollectionChanged(unit))
+        }
+    }
+
     fun removeStickersPack(unitId: Long) {
-        ApiRequestsSupporter.executeEnabledConfirm(R.string.stickers_packs_remove_confirm, R.string.app_remove, RUnitsRemove(unitId)){ r->
+        ApiRequestsSupporter.executeEnabledConfirm(R.string.stickers_packs_remove_confirm, R.string.app_remove, RUnitsRemove(unitId)) { r ->
             EventBus.post(EventUnitRemove(unitId))
             ControllerSettings.accountSettings.stickersPacks = ToolsCollections.removeItem(unitId, ControllerSettings.accountSettings.stickersPacks)
             ToolsToast.show(R.string.app_done)
         }
     }
 
-    fun showStickerPopup(view: View, x:Int, y:Int, unit: UnitSticker) {
+    fun showStickerPopup(view: View, x: Int, y: Int, unit: UnitSticker) {
         WidgetMenu()
                 .add(R.string.app_copy_link) { w, card -> ToolsAndroid.setToClipboard(ControllerApi.linkToSticker(unit.id)); ToolsToast.show(R.string.app_copied) }
                 .add(R.string.app_remove) { w, card -> removeSticker(unit.id) }.condition(unit.creatorId == ControllerApi.account.id)
                 .add(R.string.app_report) { w, card -> ControllerApi.reportUnit(unit.id, R.string.stickers_report_confirm, R.string.sticker_error_gone) }
+                .add(if (ControllerSettings.accountSettings.stickersPacks.contains(unit.id)) R.string.sticker_remove else R.string.sticker_add) { w, card -> addStickerToCollection(unit) }.condition(unit.status == API.STATUS_PUBLIC)
                 .add(R.string.app_clear_reports) { w, card -> clearReports(unit) }.backgroundRes(R.color.red_700).condition(ControllerPost.ENABLED_CLEAR_REPORTS && ControllerApi.can(API.LVL_ADMIN_MODER) && unit.reportsCount > 0)
-                .add(R.string.app_remove) { w, card ->  }.condition(ControllerApi.can(API.LVL_ADMIN_MODER)).backgroundRes(R.color.red_700).condition(unit.creatorId != ControllerApi.account.id)
+                .add(R.string.app_remove) { w, card -> }.condition(ControllerApi.can(API.LVL_ADMIN_MODER)).backgroundRes(R.color.red_700).condition(unit.creatorId != ControllerApi.account.id)
                 .asPopupShow(view, x, y)
     }
 
+
+    fun addStickerToCollection(unit: UnitSticker) {
+        val inCollection = !ControllerSettings.accountSettings.stickers.contains(unit.id)
+
+        ApiRequestsSupporter.executeProgressDialog(RStickerCollectionChange(unit.id, inCollection)) { r ->
+
+            if (inCollection)
+                ControllerSettings.accountSettings.stickers = ToolsCollections.add(unit.id, ControllerSettings.accountSettings.stickers)
+            else
+                ControllerSettings.accountSettings.stickers = ToolsCollections.removeItem(unit.id, ControllerSettings.accountSettings.stickers)
+
+            EventBus.post(EventStickerCollectionChanged(unit))
+        }
+    }
+
+
     fun removeSticker(unitId: Long) {
-        ApiRequestsSupporter.executeEnabledConfirm(R.string.stickers_remove_confirm, R.string.app_remove, RUnitsRemove(unitId)){ r->
+        ApiRequestsSupporter.executeEnabledConfirm(R.string.stickers_remove_confirm, R.string.app_remove, RUnitsRemove(unitId)) { r ->
             EventBus.post(EventUnitRemove(unitId))
             ToolsToast.show(R.string.app_done)
         }

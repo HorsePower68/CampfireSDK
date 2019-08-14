@@ -496,6 +496,8 @@
     <string name="stickers_report_confirm">Пожаловаться на стикер?</string>
     <string name="stickers_packs_error_gone">Похоже кто-то удалил этот набор стикеров</string>
     <string name="sticker_error_gone">Похоже кто-то удалил этот стикер</string>
+    <string name="sticker_add">Добавить в коллекцию</string>
+    <string name="sticker_remove">Убрать из коллекции</string>
 
     <string name="achi_click">(нажмите)</string>
     <string name="achi_you_are_here">Вы здесь</string>
