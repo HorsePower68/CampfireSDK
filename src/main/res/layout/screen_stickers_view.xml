@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.coordinatorlayout.widget.CoordinatorLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     style="@style/Root"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
@@ -9,27 +8,40 @@
 
         <androidx.appcompat.widget.Toolbar style="@style/Toolbar.NoScroll">
 
-            <LinearLayout
+            <FrameLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="-16dp"
-                android:orientation="horizontal">
+                android:layout_height="wrap_content">
 
-                <com.sup.dev.android.views.views.ViewAvatarTitle
-                    android:id="@+id/vAvatarTitle"
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1" />
+                    android:orientation="horizontal">
+
+                    <com.sup.dev.android.views.views.ViewAvatarTitle
+                        android:id="@+id/vAvatarTitle"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1" />
 
 
-            </LinearLayout>
+                </LinearLayout>
+
+
+                <LinearLayout
+                    android:id="@+id/vToolbarIconsContainer"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center|end"
+                    android:orientation="horizontal" />
+
+
+            </FrameLayout>
 
 
         </androidx.appcompat.widget.Toolbar>
 
     </com.google.android.material.appbar.AppBarLayout>
 
-    <androidx.recyclerview.widget.RecyclerView
-        style="@style/Recycler" />
+    <androidx.recyclerview.widget.RecyclerView style="@style/Recycler" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

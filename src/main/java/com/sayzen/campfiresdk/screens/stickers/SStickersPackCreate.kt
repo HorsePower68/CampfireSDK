@@ -81,14 +81,14 @@ class SStickersPackCreate(
             ApiRequestsSupporter.executeProgressDialog(RStickersPackCreate(name, image)) { r ->
                 Navigator.to(SStickersView(r.stickersPack, 0))
                 Navigator.remove(this)
-                EventBus.post(EventStickersPackCreate(r.stickersPack))
                 ControllerSettings.accountSettings.stickersPacks = ToolsCollections.add(r.stickersPack.id, ControllerSettings.accountSettings.stickersPacks)
+                EventBus.post(EventStickersPackCreate(r.stickersPack))
             }
         }else{
             ApiRequestsSupporter.executeProgressDialog(RStickersPackChange(unit.id, name, image)) { r ->
                 Navigator.remove(this)
-                EventBus.post(EventStickersPackChanged(r.stickersPack))
                 ControllerSettings.accountSettings.stickersPacks = ToolsCollections.add(r.stickersPack.id, ControllerSettings.accountSettings.stickersPacks)
+                EventBus.post(EventStickersPackChanged(r.stickersPack))
             }
         }
     }

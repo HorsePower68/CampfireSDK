@@ -10,6 +10,7 @@ import com.dzen.campfire.api.requests.stickers.RStickersGetAll
 import com.dzen.campfire.api.requests.stickers.RStickersPacksGetInfo
 import com.sayzen.campfiresdk.R
 import com.sayzen.campfiresdk.controllers.ControllerApi
+import com.sayzen.campfiresdk.controllers.ControllerUnits
 import com.sayzen.campfiresdk.controllers.api
 import com.sayzen.campfiresdk.models.cards.stickers.CardSticker
 import com.sayzen.campfiresdk.models.events.stickers.EventStickerCreate
@@ -67,6 +68,9 @@ class SStickersView(
         val spanCount = if (ToolsAndroid.isScreenPortrait()) 3 else 6
         vRecycler.layoutManager = GridLayoutManager(context, spanCount)
         ToolsView.setRecyclerAnimation(vRecycler)
+        addToolbarIcon(ToolsResources.getDrawableAttr(R.attr.ic_more_vert_24dp)!!){
+            ControllerUnits.showStickerPackPopup(it, stickersPack)
+        }
 
         vFab.setImageResource(R.drawable.ic_add_white_24dp)
         vFab.setOnClickListener {
@@ -97,7 +101,7 @@ class SStickersView(
                                 } else {
                                     loaded = true
                                     onLoad.invoke(r.stickers)
-                                    if (r.stickers.size < API.STICKERS_MAX_COUNT_IN_PACK) (vFab as View).visibility = View.VISIBLE
+                                    if (r.stickers.size < API.STICKERS_MAX_COUNT_IN_PACK && stickersPack.creatorId == ControllerApi.account.id) (vFab as View).visibility = View.VISIBLE
                                 }
                             }
                             .onNetworkError { onLoad.invoke(null) }
