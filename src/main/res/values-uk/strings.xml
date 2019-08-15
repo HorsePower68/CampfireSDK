@@ -168,6 +168,7 @@
     <string name="app_title">Заголовок</string>
     <string name="app_confirm">Подтвердить</string>
     <string name="app_file">Файл</string>
+    <string name="app_favorites">Избранные</string>
 
     <string name="he">он</string>
     <string name="she">она</string>
@@ -261,6 +262,8 @@
     <string name="notification_post_comment">%s %s ваш пост</string>
     <string name="notification_punishment_remove">%s %s вашe наказание</string>
     <string name="notification_post_comment_watch">%s %s пост, за которым вы следите</string>
+    <string name="notification_stickers_pack_comment">%s %s ваш набор стикеров</string>
+    <string name="notification_stickers_pack_comment_watch">%s %s набор стикеров, за которым вы следите</string>
     <string name="notification_post_karma">%s %s ваш пост на %s</string>
     <string name="notification_moderation_comment">%s %s ваше модераторское действие</string>
     <string name="notification_moderation_comment_watch">%s %s модерацию, за которой вы следите</string>
@@ -268,6 +271,7 @@
     <string name="notification_moderation_karma">%s %s вашу модерацию на %s</string>
     <string name="notification_karma_review">%s %s ваш отзыв на %s</string>
     <string name="notification_karma_forum">%s %s ваш форум на %s</string>
+    <string name="notification_karma_stickers_pack">%s %s ваш набор стикеров на %s</string>
     <string name="notification_profile_follows_add">%s %s на вас</string>
     <string name="notification_comments_answer">%s %s на ваш комментарий</string>
     <string name="notification_chat_many">%s %s %s в чате</string>
@@ -498,6 +502,8 @@
     <string name="sticker_error_gone">Похоже кто-то удалил этот стикер</string>
     <string name="sticker_add">Добавить в коллекцию</string>
     <string name="sticker_remove">Убрать из коллекции</string>
+    <string name="sticker_event_create_sticker">%s новый стикер в набор</string>
+    <string name="sticker_event_create_stickers_pack">%s набор стикеров</string>
 
     <string name="achi_click">(нажмите)</string>
     <string name="achi_you_are_here">Вы здесь</string>

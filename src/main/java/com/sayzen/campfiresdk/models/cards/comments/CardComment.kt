@@ -160,6 +160,7 @@ abstract class CardComment protected constructor(
             }
         }
 
+        if(showFandom && xFandom.imageId == 0L) xFandom.imageId = xAccount.imageId
         if (!showFandom) xAccount.setView(vAvatar)
         else xFandom.setView(vAvatar)
 

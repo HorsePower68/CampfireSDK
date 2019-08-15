@@ -4,11 +4,16 @@ import android.graphics.drawable.ColorDrawable
 import android.os.Build
 import android.view.View
 import android.widget.ImageView
+import android.widget.TextView
+import com.dzen.campfire.api.API
 import com.dzen.campfire.api.models.units.stickers.UnitSticker
 import com.sayzen.campfiresdk.R
 import com.sayzen.campfiresdk.adapters.XKarma
+import com.sayzen.campfiresdk.controllers.ControllerApi
 import com.sayzen.campfiresdk.controllers.ControllerUnits
 import com.sayzen.campfiresdk.models.cards.CardUnit
+import com.sayzen.campfiresdk.screens.stickers.SStickersView
+import com.sup.dev.android.libs.screens.navigator.Navigator
 import com.sup.dev.android.tools.ToolsImagesLoader
 import com.sup.dev.android.tools.ToolsResources
 import com.sup.dev.android.tools.ToolsView
@@ -20,7 +25,9 @@ import com.sup.dev.java.tools.ToolsColor
 import com.sup.dev.java.tools.ToolsThreads
 
 class CardSticker(
-        override val unit: UnitSticker
+        override val unit: UnitSticker,
+        val isShowFullInfo: Boolean = false,
+        val isShowReports: Boolean = true
 ) : CardUnit(unit) {
 
     private val eventBus = EventBus
@@ -38,14 +45,36 @@ class CardSticker(
 
         val vImage: ImageView = view.findViewById(R.id.vImage)
         val vProgress: View = view.findViewById(R.id.vProgress)
+        val vReports: TextView = view.findViewById(R.id.vReports)
         val vRootContainer: View = view.findViewById(R.id.vRootContainer)
+        val vTitle: TextView = view.findViewById(R.id.vTitle)
+        val vMenu: View = view.findViewById(R.id.vMenu)
+
+        vTitle.visibility = if (isShowFullInfo) View.VISIBLE else View.GONE
+        vMenu.visibility = if (isShowFullInfo || isShowReports) View.VISIBLE else View.GONE
+        vReports.text = unit.reportsCount.toString() + ""
+        vReports.visibility = if (unit.reportsCount > 0 && ControllerApi.can(API.LVL_ADMIN_MODER) && isShowReports) View.VISIBLE else View.GONE
+        vTitle.text = ToolsResources.sCap(R.string.sticker_event_create_sticker, ToolsResources.sex(unit.creatorSex, R.string.he_add, R.string.she_add))
+
+        vMenu.setOnClickListener { ControllerUnits.showStickerPopup(vMenu, 0, 0, unit)}
+
+        if (isShowFullInfo){
+            ToolsView.setOnLongClickCoordinates(vRootContainer) { v, x, y ->
+
+            }
+            vImage.setOnClickListener { SStickersView.instanceBySticker(unit.id, Navigator.TO) }
+        } else {
+            ToolsView.setOnLongClickCoordinates(vRootContainer) { v, x, y ->
+                ControllerUnits.showStickerPopup(vRootContainer, x, y, unit)
+            }
+            vImage.setOnClickListener {  }
+            vRootContainer.setBackgroundColor(0x00000000)
+        }
 
         ToolsImagesLoader.loadGif(unit.imageId, unit.gifId, 0, 0, vImage, vProgress)
         updateFlash()
 
-        ToolsView.setOnLongClickCoordinates(vRootContainer) { v, x, y ->
-            ControllerUnits.showStickerPopup(vRootContainer, x, y, unit)
-        }
+
 
         view.setOnClickListener { onClick.invoke(unit) }
     }

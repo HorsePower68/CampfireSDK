@@ -18,23 +18,21 @@ import com.sup.dev.java.libs.eventBus.EventBus
 import com.sup.dev.java.libs.eventBus.EventBusSubscriber
 
 class SComments constructor(
-    val unit: Unit,
-    commentId: Long
+        val unitId: Long,
+        commentId: Long
 ) : Screen(R.layout.screen_comments) {
 
-    companion object{
+    companion object {
 
-        fun instance(unitId:Long,  commentId: Long, action:NavigationAction){
-            ApiRequestsSupporter.executeInterstitial(action, RPostGet(unitId)){ r->
-                SComments(r.unit, commentId)
-            }
+        fun instance(unitId: Long, commentId: Long, action: NavigationAction) {
+            Navigator.action(action, SComments(unitId, commentId))
         }
 
     }
 
-    private val eventBus: EventBusSubscriber= EventBus
-        .subscribe(EventUnitRemove::class) { this.onEventUnitRemove(it) }
-        .subscribe(EventCommentAdd::class) {this.onCommentAdd(it) }
+    private val eventBus: EventBusSubscriber = EventBus
+            .subscribe(EventUnitRemove::class) { this.onEventUnitRemove(it) }
+            .subscribe(EventCommentAdd::class) { this.onCommentAdd(it) }
 
     private val vRecycler: RecyclerView = findViewById(R.id.vRecycler)
     private val vFab: FloatingActionButton = findViewById(R.id.vFab)
@@ -45,9 +43,9 @@ class SComments constructor(
 
         vRecycler.layoutManager = LinearLayoutManager(context)
 
-        adapter = AdapterComments(unit.id, commentId, vRecycler)
+        adapter = AdapterComments(unitId, commentId, vRecycler)
 
-        vFab.setOnClickListener { v -> WidgetComment(unit.id) { comment -> adapter.addComment(comment) }.asSheetShow() }
+        vFab.setOnClickListener { v -> WidgetComment(unitId) { comment -> adapter.addComment(comment) }.asSheetShow() }
         vRecycler.adapter = adapter
     }
 
@@ -57,11 +55,11 @@ class SComments constructor(
     //
 
     private fun onCommentAdd(e: EventCommentAdd) {
-        if (e.parentUnitId == unit.id) adapter.loadBottom()
+        if (e.parentUnitId == unitId) adapter.loadBottom()
     }
 
     private fun onEventUnitRemove(e: EventUnitRemove) {
-        if (e.unitId == unit.id) Navigator.remove(this)
+        if (e.unitId == unitId) Navigator.remove(this)
     }
 
 }

@@ -377,6 +377,10 @@ object ControllerNotifications {
                 title = if (ControllerApi.getLastAccount().id == n.unitCreatorId) ToolsResources.sCap(R.string.notification_post_comment, n.accountName, ToolsResources.sex(n.accountSex, R.string.he_comment, R.string.she_comment))
                 else ToolsResources.sCap(R.string.notification_post_comment_watch, n.accountName, ToolsResources.sex(n.accountSex, R.string.he_comment, R.string.she_comment))
             }
+            if (n.parentUnitType == API.UNIT_TYPE_STICKERS_PACK) {
+                title = if (ControllerApi.getLastAccount().id == n.unitCreatorId) ToolsResources.sCap(R.string.notification_stickers_pack_comment, n.accountName, ToolsResources.sex(n.accountSex, R.string.he_comment, R.string.she_comment))
+                else ToolsResources.sCap(R.string.notification_stickers_pack_comment_watch, n.accountName, ToolsResources.sex(n.accountSex, R.string.he_comment, R.string.she_comment))
+            }
             if (n.parentUnitType == API.UNIT_TYPE_MODERATION) {
                 title = if (ControllerApi.getLastAccount().id == n.unitCreatorId) ToolsResources.sCap(
                         R.string.notification_moderation_comment, n.accountName, ToolsResources.sex(
@@ -653,36 +657,37 @@ object ControllerNotifications {
                     n.accountSex,
                     R.string.he_rate,
                     R.string.she_rate
-            ), karmsS
-            )
+            ), karmsS)
             if (n.unitType == API.UNIT_TYPE_COMMENT) return ToolsResources.sCap(
                     R.string.notification_comments_karma, n.accountName, ToolsResources.sex(
                     n.accountSex,
                     R.string.he_rate,
                     R.string.she_rate
-            ), karmsS
-            )
+            ), karmsS)
             if (n.unitType == API.UNIT_TYPE_MODERATION) return ToolsResources.sCap(
                     R.string.notification_moderation_karma, n.accountName, ToolsResources.sex(
                     n.accountSex,
                     R.string.he_rate,
                     R.string.she_rate
-            ), karmsS
-            )
+            ), karmsS)
             if (n.unitType == API.UNIT_TYPE_REVIEW) return ToolsResources.sCap(
                     R.string.notification_karma_review, n.accountName, ToolsResources.sex(
                     n.accountSex,
                     R.string.he_rate,
                     R.string.she_rate
-            ), karmsS
-            )
+            ), karmsS)
             if (n.unitType == API.UNIT_TYPE_FORUM) return ToolsResources.sCap(
                     R.string.notification_karma_forum, n.accountName, ToolsResources.sex(
                     n.accountSex,
                     R.string.he_rate,
                     R.string.she_rate
-            ), karmsS
-            )
+            ), karmsS)
+            if (n.unitType == API.UNIT_TYPE_STICKERS_PACK) return ToolsResources.sCap(
+                    R.string.notification_karma_stickers_pack, n.accountName, ToolsResources.sex(
+                    n.accountSex,
+                    R.string.he_rate,
+                    R.string.she_rate
+            ), karmsS)
             return ""
         }
 

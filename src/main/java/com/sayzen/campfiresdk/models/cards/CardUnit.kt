@@ -28,7 +28,9 @@ abstract class CardUnit(open val unit: Unit) : Card(), NotifyItem {
                 vRecycler: RecyclerView? = null,
                 showFandom: Boolean = false,
                 dividers: Boolean = false,
-                isFeedInFandom: Boolean = false
+                isFeedInFandom: Boolean = false,
+                isShowFullInfo: Boolean = false,
+                isShowReports: Boolean = true
         ): CardUnit {
 
             val cardUnit = when (unit) {
@@ -39,8 +41,8 @@ abstract class CardUnit(open val unit: Unit) : Card(), NotifyItem {
                 is UnitEvent -> CardEvent(unit, isFeedInFandom)
                 is UnitReview -> CardReview(unit)
                 is UnitForum -> CardForum(unit)
-                is UnitSticker -> CardSticker(unit)
-                is UnitStickersPack -> CardStickersPack(unit)
+                is UnitSticker -> CardSticker(unit, isShowFullInfo, isShowReports)
+                is UnitStickersPack -> CardStickersPack(unit, isShowFullInfo, isShowReports)
                 else -> throw RuntimeException("Unknown unit type [" + unit.unitType + "]")
             }
 

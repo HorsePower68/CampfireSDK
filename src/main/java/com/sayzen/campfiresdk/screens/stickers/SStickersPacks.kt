@@ -11,7 +11,9 @@ import com.sayzen.campfiresdk.models.cards.stickers.CardStickersPack
 import com.sayzen.campfiresdk.models.events.stickers.EventStickersPackCollectionChanged
 import com.sayzen.campfiresdk.models.events.stickers.EventStickersPackCreate
 import com.sup.dev.android.libs.screens.navigator.Navigator
+import com.sup.dev.android.tools.ToolsBitmap
 import com.sup.dev.android.tools.ToolsResources
+import com.sup.dev.android.views.cards.CardAvatar
 import com.sup.dev.android.views.screens.SLoadingRecycler
 import com.sup.dev.android.views.support.adapters.recycler_view.RecyclerCardAdapterLoading
 import com.sup.dev.java.libs.eventBus.EventBus
@@ -46,7 +48,7 @@ class SStickersPacks(
     }
 
     override fun instanceAdapter(): RecyclerCardAdapterLoading<CardStickersPack, UnitStickersPack> {
-        return RecyclerCardAdapterLoading<CardStickersPack, UnitStickersPack>(CardStickersPack::class) { CardStickersPack(it) }
+        val adapter =  RecyclerCardAdapterLoading<CardStickersPack, UnitStickersPack>(CardStickersPack::class) { CardStickersPack(it) }
                 .setBottomLoader { onLoad, cards ->
 
                     if(ControllerSettings.accountSettings.stickersPacks.isEmpty()){
@@ -65,6 +67,10 @@ class SStickersPacks(
                                 .send(api)
                     }
                 }
+
+        adapter.add(CardFavorites())
+
+        return adapter
     }
 
 }

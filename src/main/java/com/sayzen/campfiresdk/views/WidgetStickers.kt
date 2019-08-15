@@ -6,6 +6,7 @@ import android.widget.TextView
 import androidx.recyclerview.widget.GridLayoutManager
 import com.dzen.campfire.api.models.units.stickers.UnitSticker
 import com.dzen.campfire.api.requests.stickers.RStickersGetAll
+import com.dzen.campfire.api.requests.stickers.RStickersGetAllById
 import com.sayzen.campfiresdk.R
 import com.sayzen.campfiresdk.controllers.ControllerSettings
 import com.sayzen.campfiresdk.controllers.api
@@ -17,6 +18,7 @@ import com.sup.dev.android.views.dialogs.DialogSheetWidget
 import com.sup.dev.android.views.dialogs.DialogWidget
 import com.sup.dev.android.views.support.adapters.recycler_view.RecyclerCardAdapterLoading
 import com.sup.dev.android.views.widgets.WidgetRecycler
+import com.sup.dev.java.tools.ToolsThreads
 
 open class WidgetStickers : WidgetRecycler(R.layout.widget_stickers) {
 
@@ -28,6 +30,7 @@ open class WidgetStickers : WidgetRecycler(R.layout.widget_stickers) {
     private var onSelected: (UnitSticker) -> Unit = { }
     private var spanCount = 4
     private var hided = false
+    private var stickerLoaded = false
 
     init {
         vEmptyText.text = SupAndroid.TEXT_ERROR_CANT_FIND_IMAGES
@@ -50,22 +53,46 @@ open class WidgetStickers : WidgetRecycler(R.layout.widget_stickers) {
         setAdapter<WidgetRecycler>(myAdapter)
 
         myAdapter.setBottomLoader{ onLoad, cards->
-            if(stickersPackIndex >= stickersPacks.size) {
-                onLoad.invoke(emptyArray())
+
+            if(!stickerLoaded){
+                RStickersGetAllById(ControllerSettings.accountSettings.stickers)
+                        .onComplete {
+                            stickerLoaded = true
+                            onLoad.invoke(it.stickers)
+                            if(it.stickers.isEmpty()){
+                                ToolsThreads.main(true) {
+                                    myAdapter.loadBottom()    //  Блокируется из-за пустых паков стикеров
+                                }
+                            }
+                        }
+                        .onError {
+                            onLoad.invoke(null)
+                        }
+                        .send(api)
                 return@setBottomLoader
             }
+
+            if(stickersPackIndex >= stickersPacks.size) {
+                onLoad.invoke(emptyArray())
+                if(myAdapter.isEmpty) vEmptyText.visibility = View.VISIBLE
+                return@setBottomLoader
+            }
+            vEmptyText.visibility = View.GONE
             RStickersGetAll(stickersPacks[stickersPackIndex])
                     .onComplete {
                         stickersPackIndex++
                         onLoad.invoke(it.stickers)
+                        if(it.stickers.isEmpty()){
+                            ToolsThreads.main(true) {
+                                myAdapter.loadBottom()    //  Блокируется из-за пустых паков стикеров
+                            }
+                        }
                     }
                     .onError {
                         onLoad.invoke(null)
                     }
                     .send(api)
         }
-                .addOnEmpty { vEmptyText.visibility = View.VISIBLE }
-                .addOnLoadedNotEmpty {vEmptyText.visibility = View.GONE  }
 
     }
 

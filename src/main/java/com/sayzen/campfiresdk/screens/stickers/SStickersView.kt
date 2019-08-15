@@ -93,6 +93,7 @@ class SStickersView(
             if (it.id == stickerId) card.flash()
             card
         }
+                .setShowLoadingCardBottom(false)
                 .setBottomLoader { onLoad, cards ->
                     subscription = RStickersGetAll(stickersPack.id)
                             .onComplete { r ->

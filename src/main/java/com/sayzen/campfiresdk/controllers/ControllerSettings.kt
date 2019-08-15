@@ -422,6 +422,13 @@ object ControllerSettings {
             accountSettings.profileFilterForums = b
             onSettingsUpdated()
         }
+    var profileFilterStickers: Boolean
+        get() = accountSettings.profileFilterStickers
+        set(b) {
+            accountSettings.profileFilterStickers = b
+            onSettingsUpdated()
+        }
+
     var lvlDialogLvl: Long
         get() = accountSettings.lvlDialogLvl
         set(b) {
@@ -440,6 +447,10 @@ object ControllerSettings {
         if (profileFilterChatMessages) list.add(API.UNIT_TYPE_CHAT_MESSAGE)
         if (profileFilterReviews) list.add(API.UNIT_TYPE_REVIEW)
         if (profileFilterForums) list.add(API.UNIT_TYPE_FORUM)
+        if (profileFilterStickers) {
+            list.add(API.UNIT_TYPE_STICKER)
+            list.add(API.UNIT_TYPE_STICKERS_PACK)
+        }
 
         return list.toTypedArray()
     }

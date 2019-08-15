@@ -168,6 +168,7 @@ Campfire has anime fandoms and gaming fandoms.</string>
     <string name="app_title">Title</string>
     <string name="app_confirm">Confirm</string>
     <string name="app_file">File</string>
+    <string name="app_favorites">Favorites</string>
 
     <string name="he">he</string>
     <string name="she">she</string>
@@ -261,6 +262,8 @@ Campfire has anime fandoms and gaming fandoms.</string>
     <string name="notification_post_comment">%s %s your post</string>
     <string name="notification_punishment_remove">%s %s your punishment</string>
     <string name="notification_post_comment_watch">%s %s on the post you follow</string>
+    <string name="notification_stickers_pack_comment">%s %s your stickers pack</string>
+    <string name="notification_stickers_pack_comment_watch">%s %s on the stickers pack you follow</string>
     <string name="notification_post_karma">%s %s your post for %s</string>
     <string name="notification_moderation_comment">%s %s your moderation action</string>
     <string name="notification_moderation_comment_watch">%s %s on moderation you follow</string>
@@ -268,6 +271,7 @@ Campfire has anime fandoms and gaming fandoms.</string>
     <string name="notification_moderation_karma">%s %s your moderation for %s</string>
     <string name="notification_karma_review">%s %s your review for %s</string>
     <string name="notification_karma_forum">%s %s your forum for %s</string>
+    <string name="notification_karma_stickers_pack">%s %s your stickers pack %s</string>
     <string name="notification_profile_follows_add">%s %s to you</string>
     <string name="notification_comments_answer">%s %s to your comment</string>
     <string name="notification_chat_many">%s %s %s in chat</string>
@@ -496,6 +500,8 @@ Campfire has anime fandoms and gaming fandoms.</string>
     <string name="sticker_error_gone">Looks like someone deleted this sticker</string>
     <string name="sticker_add">Add to collection</string>
     <string name="sticker_remove">Remove from collection</string>
+    <string name="sticker_event_create_sticker">%s new sticker in stickers pack</string>
+    <string name="sticker_event_create_stickers_pack">%s stickers pack</string>
 
     <string name="achi_click">(click)</string>
     <string name="achi_you_are_here">You are here</string>
