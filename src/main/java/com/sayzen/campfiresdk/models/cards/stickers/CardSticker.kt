@@ -27,7 +27,7 @@ import com.sup.dev.java.tools.ToolsThreads
 class CardSticker(
         override val unit: UnitSticker,
         val isShowFullInfo: Boolean = false,
-        val isShowReports: Boolean = true
+        val isShowReports: Boolean = false
 ) : CardUnit(unit) {
 
     private val eventBus = EventBus
@@ -62,21 +62,17 @@ class CardSticker(
             ToolsView.setOnLongClickCoordinates(vRootContainer) { v, x, y ->
 
             }
-            vImage.setOnClickListener { SStickersView.instanceBySticker(unit.id, Navigator.TO) }
+            view.setOnClickListener {  SStickersView.instanceBySticker(unit.id, Navigator.TO) }
         } else {
             ToolsView.setOnLongClickCoordinates(vRootContainer) { v, x, y ->
                 ControllerUnits.showStickerPopup(vRootContainer, x, y, unit)
             }
-            vImage.setOnClickListener {  }
+            view.setOnClickListener { onClick.invoke(unit) }
             vRootContainer.setBackgroundColor(0x00000000)
         }
 
         ToolsImagesLoader.loadGif(unit.imageId, unit.gifId, 0, 0, vImage, vProgress)
         updateFlash()
-
-
-
-        view.setOnClickListener { onClick.invoke(unit) }
     }
 
     override fun notifyItem() {
