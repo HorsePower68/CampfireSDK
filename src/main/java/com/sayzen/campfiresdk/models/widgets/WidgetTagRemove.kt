@@ -1,4 +1,4 @@
-package com.dzen.campfire.screens.fandoms.tags
+package com.sayzen.campfiresdk.screens.fandoms.tags
 
 import android.widget.Button
 
@@ -6,7 +6,6 @@ import com.dzen.campfire.api.requests.tags.RTagsRemove
 import com.sup.dev.android.libs.api_simple.ApiRequestsSupporter
 import com.dzen.campfire.api.models.units.tags.UnitTag
 import com.sayzen.campfiresdk.R
-import com.sayzen.campfiresdk.controllers.ControllerCampfireSDK
 import com.sayzen.campfiresdk.screens.fandoms.STags
 import com.sup.dev.android.libs.screens.navigator.Navigator
 import com.sup.dev.android.tools.ToolsToast

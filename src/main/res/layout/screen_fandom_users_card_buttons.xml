@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+             android:layout_width="match_parent"
+             android:layout_height="0dp"
+             xmlns:app="http://schemas.android.com/apk/res-auto"
+             android:orientation="vertical"
+             android:padding="8dp">
+
+    <com.google.android.material.card.MaterialCardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <com.sup.dev.android.views.settings.SettingsArrow
+                android:id="@+id/vSearch"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:Settings_title="@string/app_search"/>
+
+            <com.sup.dev.android.views.settings.SettingsArrow
+                android:id="@+id/vRating"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:Settings_title="@string/app_ratings"/>
+
+            <com.sup.dev.android.views.settings.SettingsArrow
+                android:id="@+id/vOnline"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:Settings_lineVisible="false"
+                app:Settings_title="@string/app_online"/>
+
+        </LinearLayout>
+
+    </com.google.android.material.card.MaterialCardView>
+
+</FrameLayout>

@@ -18,8 +18,8 @@ import com.dzen.campfire.api.requests.tags.RTagsMoveTag
 import com.dzen.campfire.api.requests.units.RUnitsBookmarksChange
 import com.dzen.campfire.api.requests.units.RUnitsCommentsWatchChange
 import com.dzen.campfire.api.requests.units.RUnitsRemove
-import com.dzen.campfire.screens.fandoms.tags.WidgetTagCreate
-import com.dzen.campfire.screens.fandoms.tags.WidgetTagRemove
+import com.sayzen.campfiresdk.screens.fandoms.tags.WidgetTagCreate
+import com.sayzen.campfiresdk.screens.fandoms.tags.WidgetTagRemove
 import com.sayzen.campfiresdk.R
 import com.sayzen.campfiresdk.controllers.ControllerPost.ENABLED_BLOCK
 import com.sayzen.campfiresdk.models.events.fandom.EventFandomTagMove
@@ -249,8 +249,8 @@ object ControllerUnits {
                 .add(R.string.app_remove) { w, card -> removeStickersPack(unit.id) }.condition(unit.creatorId == ControllerApi.account.id)
                 .add(R.string.app_report) { w, card -> ControllerApi.reportUnit(unit.id, R.string.stickers_packs_report_confirm, R.string.stickers_packs_error_gone) }
                 .add(if (ControllerSettings.accountSettings.stickersPacks.contains(unit.id)) R.string.sticker_remove else R.string.sticker_add) { w, card -> addStickerPackToCollection(unit) }.condition(unit.status == API.STATUS_PUBLIC)
-                .add(R.string.app_clear_reports) { w, card -> clearReports(unit) }.backgroundRes(R.color.red_700).condition(ControllerPost.ENABLED_CLEAR_REPORTS && ControllerApi.can(API.LVL_ADMIN_MODER) && unit.reportsCount > 0)
-                .add(R.string.app_block) { w, card -> block(unit) }.backgroundRes(R.color.red_700).condition(ENABLED_BLOCK && ControllerApi.can(API.LVL_ADMIN_MODER))
+                .add(R.string.app_clear_reports) { w, card -> clearReports(unit) }.backgroundRes(R.color.red_700).condition(ControllerPost.ENABLED_CLEAR_REPORTS && ControllerApi.can(API.LVL_ADMIN_MODER) && unit.reportsCount > 0  && unit.creatorId != ControllerApi.account.id)
+                .add(R.string.app_block) { w, card -> block(unit) }.backgroundRes(R.color.red_700).condition(ENABLED_BLOCK && ControllerApi.can(API.LVL_ADMIN_MODER) && unit.creatorId != ControllerApi.account.id)
                 .asSheetShow()
     }
 
@@ -282,8 +282,8 @@ object ControllerUnits {
                 .add(R.string.app_remove) { w, card -> removeSticker(unit.id) }.condition(unit.creatorId == ControllerApi.account.id)
                 .add(R.string.app_report) { w, card -> ControllerApi.reportUnit(unit.id, R.string.stickers_report_confirm, R.string.sticker_error_gone) }
                 .add(if (ControllerSettings.accountSettings.stickers.contains(unit.id)) R.string.sticker_remove else R.string.sticker_add) { w, card -> addStickerToCollection(unit) }.condition(unit.status == API.STATUS_PUBLIC)
-                .add(R.string.app_clear_reports) { w, card -> clearReports(unit) }.backgroundRes(R.color.red_700).condition(ControllerPost.ENABLED_CLEAR_REPORTS && ControllerApi.can(API.LVL_ADMIN_MODER) && unit.reportsCount > 0)
-                .add(R.string.app_block) { w, card -> block(unit) }.backgroundRes(R.color.red_700).condition(ENABLED_BLOCK && ControllerApi.can(API.LVL_ADMIN_MODER))
+                .add(R.string.app_clear_reports) { w, card -> clearReports(unit) }.backgroundRes(R.color.red_700).condition(ControllerPost.ENABLED_CLEAR_REPORTS && ControllerApi.can(API.LVL_ADMIN_MODER) && unit.reportsCount > 0 && unit.creatorId != ControllerApi.account.id)
+                .add(R.string.app_block) { w, card -> block(unit) }.backgroundRes(R.color.red_700).condition(ENABLED_BLOCK && ControllerApi.can(API.LVL_ADMIN_MODER) && unit.creatorId != ControllerApi.account.id)
                 .asPopupShow(view, x, y)
     }
 

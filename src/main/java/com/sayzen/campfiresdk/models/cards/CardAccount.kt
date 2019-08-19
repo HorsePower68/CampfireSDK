@@ -10,8 +10,9 @@ import com.sup.dev.android.views.cards.CardAvatar
 import com.sup.dev.android.views.views.ViewAvatarTitle
 
 open class CardAccount(
-        val account: Account
-) : CardAvatar(), NotifyItem {
+        val account: Account,
+        layout: Int = 0
+) : CardAvatar(layout), NotifyItem {
 
     val xAccount = XAccount(account, 0L, 0L, 0L) {
         update()

@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="0dp"
+              android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center">
+
+        <ImageView
+            android:id="@+id/vIcon"
+            android:layout_gravity="center"
+            android:layout_marginRight="4dp"
+            android:layout_width="24dp"
+            android:layout_height="24dp"/>
+
+        <com.sup.dev.android.views.views.ViewTextRounded
+            android:id="@+id/vName"
+            android:layout_gravity="center"
+            style="@style/TextAppearance.AppCompat.Title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/vButtonsContainer"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="12dp"
+        android:layout_marginBottom="16dp"
+        android:orientation="horizontal">
+
+        <com.sup.dev.android.views.views.ViewButton
+            android:id="@+id/vSubscription"
+            style="@style/Button.Outlined"
+            android:text="@string/app_subscription"/>
+
+        <com.sup.dev.android.views.views.ViewButton
+            android:id="@+id/vLanguage"
+            android:layout_marginLeft="16dp"
+            style="@style/Button.Outlined"/>
+
+
+    </LinearLayout>
+
+    <View style="@style/Divider"/>
+
+</LinearLayout>

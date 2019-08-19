@@ -1,11 +1,44 @@
 package com.sayzen.campfiresdk.controllers
 
 import android.app.Activity
+import android.view.Gravity
+import com.dzen.campfire.api.API
 import com.dzen.campfire.api.models.Fandom
 import com.dzen.campfire.api.models.units.UnitForum
+import com.dzen.campfire.api.requests.accounts.RAccountsBlackListAdd
+import com.dzen.campfire.api.requests.accounts.RAccountsBlackListRemove
+import com.dzen.campfire.api.requests.accounts.RAccountsChangeName
+import com.dzen.campfire.api.requests.achievements.RAchievementsOnFinish
+import com.sayzen.campfiresdk.R
+import com.sayzen.campfiresdk.models.events.account.EventAccountAddToBlackList
+import com.sayzen.campfiresdk.models.events.account.EventAccountChanged
+import com.sayzen.campfiresdk.models.events.account.EventAccountRemoveFromBlackList
+import com.sayzen.campfiresdk.models.events.fandom.EventFandomBlackListChange
+import com.sayzen.campfiresdk.screens.account.profile.SAccount
+import com.sayzen.campfiresdk.screens.chat.SChat
+import com.sayzen.campfiresdk.screens.fandoms.forums.view.SForumView
+import com.sayzen.campfiresdk.screens.fandoms.moderation.view.SModerationView
+import com.sayzen.campfiresdk.screens.fandoms.reviews.SReviews
+import com.sayzen.campfiresdk.screens.fandoms.view.SFandom
+import com.sayzen.campfiresdk.screens.post.search.SPostsSearch
+import com.sayzen.campfiresdk.screens.post.view.SPost
+import com.sayzen.campfiresdk.screens.stickers.SStickersView
 import com.sayzen.devsupandroidgoogle.ControllerGoogleToken
+import com.sup.dev.android.libs.api_simple.ApiRequestsSupporter
 import com.sup.dev.android.libs.screens.navigator.NavigationAction
+import com.sup.dev.android.libs.screens.navigator.Navigator
+import com.sup.dev.android.tools.ToolsAndroid
+import com.sup.dev.android.tools.ToolsIntent
+import com.sup.dev.android.tools.ToolsToast
 import com.sup.dev.android.views.screens.SAlert
+import com.sup.dev.android.views.widgets.WidgetAlert
+import com.sup.dev.android.views.widgets.WidgetField
+import com.sup.dev.android.views.widgets.WidgetMenu
+import com.sup.dev.java.libs.debug.err
+import com.sup.dev.java.libs.eventBus.EventBus
+import com.sup.dev.java.tools.ToolsCollections
+import com.sup.dev.java.tools.ToolsText
+import com.sup.dev.java.tools.ToolsThreads
 
 object ControllerCampfireSDK {
 
@@ -22,8 +55,12 @@ object ControllerCampfireSDK {
     var ON_TO_POST_TAGS_CLICKED: (postId: Long, isMyUnit: Boolean, action: NavigationAction) -> Unit = { postId, isMyUnit, action -> }
     var ON_TO_FORUM_CLICKED: (forumId: Long, commentId: Long, action: NavigationAction) -> Unit = { forumId, commentId, action -> }
     var ON_TO_ACHIEVEMENT_CLICKED: (accountId: Long, accountName: String, accountLvl: Long, achievementIndex: Long, toPrev: Boolean, action: NavigationAction) -> Unit = { accountId, accountName, accountLvl, achievementIndex, toPrev, action -> }
+    var ON_TO_ABOUT: () -> Unit = { }
     var ON_CHANGE_FORUM_CLICKED: (unit: UnitForum) -> Unit = { unit -> }
     var ON_SCREEN_CHAT_START: () -> Unit = {  }
+    var ON_TO_RULES_USER: () -> Unit = {  }
+    var ON_TO_RULES_MODER: () -> Unit = {  }
+    var ON_TO_ABOUT_CREATORS: () -> Unit = {  }
 
     var SEARCH_FANDOM: (callback: (Fandom) -> Unit) -> Unit = { }
 
@@ -77,5 +114,183 @@ object ControllerCampfireSDK {
     fun onToAchievementClicked(accountId: Long, accountName: String, accountLvl: Long, achievementIndex: Long, toPrev: Boolean, action: NavigationAction) {
         ON_TO_ACHIEVEMENT_CLICKED.invoke(accountId, accountName, accountLvl, achievementIndex, toPrev, action)
     }
+
+    //
+    //  Links
+    //
+
+
+    fun startCampForAccount(accountId: Long) {
+        openLink(API.LINK_PROFILE_ID + accountId)
+    }
+
+    fun parseLink(link: String): Boolean {
+        try {
+
+            val t = link.substring(API.DOMEN.length)
+            val s1 = t.split("-")
+            val params: List<String> = if (s1.size > 1) s1[1].split("_") else emptyList()
+
+            when (s1[0]) {
+                API.LINK_TAG_ABOUT -> ON_TO_ABOUT.invoke()
+                API.LINK_TAG_RULES_USER -> ON_TO_RULES_USER.invoke()
+                API.LINK_TAG_RULES_MODER -> ON_TO_RULES_MODER.invoke()
+                API.LINK_TAG_CREATORS -> ON_TO_ABOUT_CREATORS.invoke()
+                API.LINK_TAG_POST -> {
+                    if (params.size == 1) SPost.instance(params[0].toLong(), 0, Navigator.TO)
+                    if (params.size == 2) SPost.instance(params[0].toLong(), params[1].toLong(), Navigator.TO)
+                }
+                API.LINK_TAG_REVIEW -> {
+                    SReviews.instance(params[0].toLong(), Navigator.TO)
+                }
+                API.LINK_TAG_FANDOM -> {
+                    if (params.size == 1) SFandom.instance(params[0].toLong(), 0, Navigator.TO)
+                    if (params.size == 2) SFandom.instance(params[0].toLong(), params[1].toLong(), Navigator.TO)
+                }
+                API.LINK_TAG_PROFILE_ID -> SAccount.instance(params[0].toLong(), Navigator.TO)
+                API.LINK_TAG_PROFILE_NAME -> SAccount.instance(params[0], Navigator.TO)
+                API.LINK_TAG_TAG -> SPostsSearch.instance(params[0].toLong(), Navigator.TO)
+                API.LINK_TAG_MODERATION -> {
+                    if (params.size == 1) SModerationView.instance(params[0].toLong(), 0, Navigator.TO)
+                    if (params.size == 2) SModerationView.instance(params[0].toLong(), params[1].toLong(), Navigator.TO)
+                }
+                API.LINK_TAG_FORUM -> {
+                    if (params.size == 1) SForumView.instance(params[0].toLong(), 0, Navigator.TO)
+                    if (params.size == 2) SForumView.instance(params[0].toLong(), params[1].toLong(), Navigator.TO)
+                }
+                API.LINK_TAG_CHAT -> {
+                    if (params.size == 1) SChat.instance(API.CHAT_TYPE_FANDOM, params[0].toLong(), 0, true, Navigator.TO)
+                    if (params.size == 2) SChat.instance(API.CHAT_TYPE_FANDOM, params[0].toLong(), params[1].toLong(), true, Navigator.TO)
+                }
+                API.LINK_TAG_BOX_WITH_FIREWIRKS -> {
+                    ControllerScreenAnimations.fireworks()
+                    ToolsThreads.main(10000) { RAchievementsOnFinish(API.ACHI_FIREWORKS.index).send(api) }
+                }
+                API.LINK_TAG_BOX_WITH_SUMMER -> {
+                    ControllerScreenAnimations.summer()
+                }
+                API.LINK_TAG_STICKER -> {
+                    SStickersView.instanceBySticker(params[0].toLong(), Navigator.TO)
+                }
+                API.LINK_TAG_STICKERS_PACK -> {
+                    SStickersView.instance(params[0].toLong(), Navigator.TO)
+                }
+                else -> return false
+            }
+            return true
+        } catch (e: Throwable) {
+            err(e)
+            return false
+        }
+    }
+
+    fun openLink(link: String) {
+        if (parseLink(link)) return
+        WidgetAlert()
+                .setOnCancel(R.string.app_cancel)
+                .setOnEnter(R.string.app_open) { ToolsIntent.openLink(link) }
+                .setText(R.string.message_link)
+                .setTextGravity(Gravity.CENTER)
+                .setTitleImage(R.drawable.ic_security_white_48dp)
+                .setTitleImageBackgroundRes(R.color.blue_700)
+                .asSheetShow()
+    }
+
+    //
+    //  Actions
+    //
+
+    fun changeLogin() {
+        WidgetField()
+                .setTitle(R.string.profile_change_name)
+                .addChecker(R.string.profile_change_name_error) { s -> ToolsText.checkStringChars(s, API.ACCOUNT_LOGIN_CHARS) }
+                .setMin(API.ACCOUNT_NAME_L_MIN)
+                .setMax(API.ACCOUNT_NAME_L_MAX)
+                .setOnCancel(R.string.app_cancel)
+                .setOnEnter(R.string.app_change) { dialog, name ->
+                    ApiRequestsSupporter.executeEnabled(dialog, RAccountsChangeName(name)) { r ->
+                        ControllerApi.account.name = name
+                        EventBus.post(EventAccountChanged(ControllerApi.account.id, ControllerApi.account.name))
+                        dialog.hide()
+                    }.onApiError(API.ERROR_ACCOUNT_IS_BANED) {
+                        ToolsToast.show(R.string.error_login_taken)
+                    }
+                }
+                .asSheetShow()
+    }
+
+
+    fun addToBlackListFandom(fandomId: Long) {
+        WidgetAlert()
+                .setText(R.string.fandoms_menu_black_list_add_confirm)
+                .setOnEnter(R.string.app_add) {
+                    ControllerSettings.feedIgnoreFandoms = ToolsCollections.add(fandomId, ControllerSettings.feedIgnoreFandoms)
+                    EventBus.post(EventFandomBlackListChange(fandomId, true))
+                    ToolsToast.show(R.string.app_done)
+                }
+                .setOnCancel(R.string.app_cancel)
+                .asSheetShow()
+    }
+
+
+    fun removeFromBlackListUser(accountId: Long) {
+        ApiRequestsSupporter.executeEnabledConfirm(R.string.profile_black_list_remove_confirm, R.string.app_remove, RAccountsBlackListRemove(accountId)) {
+            EventBus.post(EventAccountRemoveFromBlackList(accountId))
+            ToolsToast.show(R.string.app_done)
+        }
+    }
+
+    fun addToBlackListUser(accountId: Long) {
+        ApiRequestsSupporter.executeEnabledConfirm(R.string.profile_black_list_add_confirm, R.string.app_add, RAccountsBlackListAdd(accountId)) {
+            EventBus.post(EventAccountAddToBlackList(accountId))
+            ToolsToast.show(R.string.app_done)
+        }
+    }
+
+    fun removeFromBlackListFandom(fandomId: Long) {
+        WidgetAlert()
+                .setText(R.string.fandoms_menu_black_list_remove_confirm)
+                .setOnEnter(R.string.app_remove) {
+                    ControllerSettings.feedIgnoreFandoms = ToolsCollections.removeItem(fandomId, ControllerSettings.feedIgnoreFandoms)
+                    EventBus.post(EventFandomBlackListChange(fandomId, false))
+                    ToolsToast.show(R.string.app_done)
+                }
+                .setOnCancel(R.string.app_cancel)
+                .asSheetShow()
+    }
+
+    fun shareCampfireApp() {
+        WidgetField()
+                .setHint(R.string.app_message)
+                .setOnCancel(R.string.app_cancel)
+                .setOnEnter(R.string.app_share) { w, text ->
+                    ToolsIntent.shareText(text + "\n\r" + "https://play.google.com/store/apps/details?id=com.dzen.campfire")
+                    ToolsThreads.main(10000) { RAchievementsOnFinish(API.ACHI_APP_SHARE.index).send(api) }
+                }
+                .asSheetShow()
+    }
+
+    fun createLanguageMenu(selectedId: Long, onClick: (Long) -> kotlin.Unit): WidgetMenu {
+        val w = WidgetMenu()
+        val code = ToolsAndroid.getLanguageCode().toLowerCase()
+
+        for (i in API.LANGUAGES)
+            if (i.code == code || i.code == "en")
+                w.add(i.name) { wii, c ->
+                    onClick.invoke(i.id)
+                }.backgroundRes(R.color.focus) { i.id == selectedId }
+
+        w.group(" ")
+
+        for (i in API.LANGUAGES)
+            if (i.code != code && i.code != "en")
+                w.add(i.name) { wii, c ->
+                    onClick.invoke(i.id)
+                }.backgroundRes(R.color.focus) { i.id == selectedId }
+
+        return w
+    }
+
+
 
 }

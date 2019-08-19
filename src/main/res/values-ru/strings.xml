@@ -286,7 +286,7 @@
     <string name="notification_admin_post_fandom_change">Администартор %s %s ваш пост из фэндома %s в %s</string>
     <string name="notification_mention">%s %s вас</string>
 
-    <string name="message_publication_rules">Контент, который вы публикуете в приложении, должен иметь прямое отношение к тематике приложения и соответствовать всем [правилам Google]</string>
+    <string name="message_publication_rules">Используя данное приложение, вы подтверждаете что вам уже исполнилось 13 лет. Любые публикации должны соответстовать [правилам Google]</string>
     <string name="message_link">Перейдя по этой ссылке вы покинете приложение. Мы не несем ответственности за материалы и возможные угрозы, вызванные ресурсом находящемся по этой ссылке.</string>
     <string name="message_removed_by_server">Удалено сервером для экономии памяти</string>
     <string name="message_do_ban_user">%s пользователя</string>

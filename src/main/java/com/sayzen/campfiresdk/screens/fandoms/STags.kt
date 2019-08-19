@@ -7,7 +7,7 @@ import android.widget.TextView
 import com.dzen.campfire.api.API
 import com.dzen.campfire.api.models.units.tags.UnitTag
 import com.dzen.campfire.api.requests.tags.RTagsGetAll
-import com.dzen.campfire.screens.fandoms.tags.WidgetTagCreate
+import com.sayzen.campfiresdk.screens.fandoms.tags.WidgetTagCreate
 import com.sayzen.campfiresdk.R
 import com.sayzen.campfiresdk.models.events.fandom.EventFandomTagMove
 import com.sayzen.campfiresdk.controllers.ControllerApi

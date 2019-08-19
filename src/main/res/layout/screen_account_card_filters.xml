@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <TextView
+        android:id="@+id/vText"
+        style="@style/TextAppearance.AppCompat.Body2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="16dp"
+        android:text="@string/app_publications"/>
+
+    <com.sup.dev.android.views.views.ViewIcon
+        android:id="@+id/vFilters"
+        style="@style/Icon"
+        android:layout_gravity="end"
+        android:src="?ic_tune_24dp"/>
+
+</FrameLayout>

@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    style="@style/Touchable"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/vEmptyText"
+        style="@style/Base.TextAppearance.AppCompat.Caption"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp"
+        android:text="@string/fandom_info_links_empty" />
+
+    <LinearLayout
+        android:id="@+id/vLinksContainer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical" />
+
+
+    <View style="@style/Divider" />
+
+    <View
+        android:layout_width="0dp"
+        android:layout_height="8dp" />
+
+    <com.sup.dev.android.views.views.ViewIcon
+        android:id="@+id/vAdd"
+        style="@style/Icon.18"
+        android:layout_gravity="bottom|right"
+        android:layout_marginRight="16dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp"
+        android:src="@drawable/ic_add_white_18dp"
+        app:ViewIcon_background="@color/focus_dark" />
+
+</FrameLayout>

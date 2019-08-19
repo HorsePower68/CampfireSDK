@@ -16,6 +16,7 @@ import com.dzen.campfire.api.models.lvl.LvlInfoUser
 import com.dzen.campfire.api.requests.accounts.RAccountsClearReports
 import com.dzen.campfire.api.requests.accounts.RAccountsLoginSimple
 import com.dzen.campfire.api.requests.accounts.RAccountsRegistration
+import com.dzen.campfire.api.requests.achievements.RAchievementsOnFinish
 import com.dzen.campfire.api.requests.units.RUnitsAdminClearReports
 import com.dzen.campfire.api.requests.units.RUnitsOnShare
 import com.dzen.campfire.api.requests.units.RUnitsRemove
@@ -28,9 +29,19 @@ import com.sayzen.campfiresdk.models.support.TextParser
 import com.sayzen.campfiresdk.models.events.units.EventUnitRemove
 import com.sayzen.campfiresdk.models.events.units.EventUnitReportsAdd
 import com.sayzen.campfiresdk.models.events.units.EventUnitReportsClear
+import com.sayzen.campfiresdk.screens.account.profile.SAccount
+import com.sayzen.campfiresdk.screens.chat.SChat
+import com.sayzen.campfiresdk.screens.fandoms.forums.view.SForumView
+import com.sayzen.campfiresdk.screens.fandoms.moderation.view.SModerationView
+import com.sayzen.campfiresdk.screens.fandoms.reviews.SReviews
+import com.sayzen.campfiresdk.screens.fandoms.view.SFandom
+import com.sayzen.campfiresdk.screens.post.search.SPostsSearch
+import com.sayzen.campfiresdk.screens.post.view.SPost
+import com.sayzen.campfiresdk.screens.stickers.SStickersView
 import com.sayzen.devsupandroidgoogle.ControllerGoogleToken
 import com.sup.dev.android.libs.api_simple.ApiRequestsSupporter
 import com.sup.dev.android.libs.image_loader.ImageLoaderId
+import com.sup.dev.android.libs.screens.navigator.Navigator
 import com.sup.dev.android.tools.*
 import com.sup.dev.android.views.views.ViewTextLinkable
 import com.sup.dev.android.views.widgets.WidgetAlert
@@ -38,6 +49,7 @@ import com.sup.dev.android.views.widgets.WidgetField
 import com.sup.dev.java.classes.items.Item3
 import com.sup.dev.java.classes.items.ItemNullable
 import com.sup.dev.java.libs.api_simple.client.TokenProvider
+import com.sup.dev.java.libs.debug.err
 import com.sup.dev.java.libs.eventBus.EventBus
 import com.sup.dev.java.libs.json.Json
 import com.sup.dev.java.tools.ToolsThreads
@@ -310,21 +322,6 @@ object ControllerApi {
     //
     //  Links
     //
-
-    fun startCampForAccount(accountId: Long) {
-        openLink(API.LINK_PROFILE_ID + accountId)
-    }
-
-    fun openLink(link: String) {
-        WidgetAlert()
-                .setOnCancel(R.string.app_cancel)
-                .setOnEnter(R.string.app_open) { ToolsIntent.openLink(link) }
-                .setText(R.string.message_link)
-                .setTextGravity(Gravity.CENTER)
-                .setTitleImage(R.drawable.ic_security_white_48dp)
-                .setTitleImageBackgroundRes(R.color.blue_700)
-                .asSheetShow()
-    }
 
     fun linkToUser(name: String) = API.LINK_PROFILE_NAME + name
     fun linkToFandom(fandomId: Long) = API.LINK_FANDOM + fandomId

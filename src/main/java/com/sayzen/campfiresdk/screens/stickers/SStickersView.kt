@@ -16,6 +16,7 @@ import com.sayzen.campfiresdk.models.cards.stickers.CardSticker
 import com.sayzen.campfiresdk.models.events.stickers.EventStickerCreate
 import com.sayzen.campfiresdk.models.events.stickers.EventStickersPackChanged
 import com.sayzen.campfiresdk.models.events.units.EventUnitRemove
+import com.sayzen.campfiresdk.screens.account.profile.SAccount
 import com.sup.dev.android.libs.api_simple.ApiRequestsSupporter
 import com.sup.dev.android.libs.screens.navigator.NavigationAction
 import com.sup.dev.android.libs.screens.navigator.Navigator
@@ -75,6 +76,10 @@ class SStickersView(
         vFab.setImageResource(R.drawable.ic_add_white_24dp)
         vFab.setOnClickListener {
             chooseImage()
+        }
+
+        vAvatarTitle.setOnClickListener {
+            SAccount.instance(stickersPack.creatorId, Navigator.TO)
         }
 
         updateTitle()
