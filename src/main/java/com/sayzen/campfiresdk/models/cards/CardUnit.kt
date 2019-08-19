@@ -20,7 +20,10 @@ import com.sup.dev.android.views.cards.Card
 import com.sup.dev.android.views.support.adapters.NotifyItem
 import com.sup.dev.java.libs.eventBus.EventBus
 
-abstract class CardUnit(open val unit: Unit) : Card(), NotifyItem {
+abstract class CardUnit(
+    layout :Int,
+    open val unit: Unit
+) : Card(layout), NotifyItem {
 
     companion object {
         fun instance(

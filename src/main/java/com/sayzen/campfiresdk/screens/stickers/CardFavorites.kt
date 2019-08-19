@@ -5,9 +5,7 @@ import com.sayzen.campfiresdk.R
 import com.sup.dev.android.libs.screens.navigator.Navigator
 import com.sup.dev.android.views.cards.Card
 
-class CardFavorites : Card(){
-
-    override fun getLayout() = R.layout.screen_stickers_favorites
+class CardFavorites : Card(R.layout.screen_stickers_favorites){
 
     override fun bindView(view: View) {
         super.bindView(view)

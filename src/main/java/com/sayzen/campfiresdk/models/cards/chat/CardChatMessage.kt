@@ -45,13 +45,14 @@ import com.sup.dev.java.tools.ToolsDate
 import com.sup.dev.java.tools.ToolsThreads
 
 abstract class CardChatMessage constructor(
+        layout:Int,
         override var unit: UnitChatMessage,
         var onClick: ((UnitChatMessage) -> Boolean)? = null,
         var onChange: ((UnitChatMessage) -> Unit)? = null,
         var onQuote: ((UnitChatMessage) -> Unit)? = null,
         var onGoTo: ((Long) -> Unit)? = null,
         var onBlocked: ((UnitChatMessage) -> Unit)? = null
-) : CardUnit(unit) {
+) : CardUnit(layout, unit) {
 
     companion object {
 

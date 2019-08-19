@@ -28,7 +28,7 @@ class CardSticker(
         override val unit: UnitSticker,
         val isShowFullInfo: Boolean = false,
         val isShowReports: Boolean = false
-) : CardUnit(unit) {
+) : CardUnit(R.layout.card_sticker, unit) {
 
     private val eventBus = EventBus
 
@@ -37,8 +37,6 @@ class CardSticker(
     private var animationFlash: AnimationPendulumColor? = null
     private var subscriptionFlash: Subscription? = null
     var onClick: (UnitSticker) -> Unit = {}
-
-    override fun getLayout() = R.layout.card_sticker
 
     override fun bindView(view: View) {
         super.bindView(view)

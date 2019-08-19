@@ -12,11 +12,9 @@ import com.sup.dev.android.views.screens.SImageView
 class CardPageImage(
         unit: UnitPost?,
         page: PageImage
-) : CardPage(unit, page) {
+) : CardPage(R.layout.card_page_image, unit, page) {
 
     override fun getChangeMenuItemText() = R.string.app_crop
-
-    override fun getLayout() = R.layout.card_page_image
 
     override fun bindView(view: View) {
         super.bindView(view)

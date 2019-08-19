@@ -11,9 +11,7 @@ import com.sup.dev.android.views.views.ViewTextLinkable
 class CardPageQuote(
         unit: UnitPost?,
         page: PageQuote
-) : CardPage(unit, page) {
-
-    override fun getLayout() = R.layout.card_page_quote
+) : CardPage(R.layout.card_page_quote, unit, page) {
 
     override fun bindView(view: View) {
         super.bindView(view)

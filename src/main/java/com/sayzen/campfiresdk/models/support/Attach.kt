@@ -173,9 +173,7 @@ class Attach(
 
     private inner class ItemCard(
             var bytes: ByteArray
-    ) : Card() {
-
-        override fun getLayout() = R.layout.view_attach_image
+    ) : Card(R.layout.view_attach_image) {
 
         override fun bindView(view: View) {
             super.bindView(view)

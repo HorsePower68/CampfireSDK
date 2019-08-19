@@ -22,9 +22,7 @@ import com.sup.dev.java.tools.ToolsThreads
 class CardPageDownload(
         unit: UnitPost?,
         page: PageDownload
-) : CardPage(unit, page) {
-
-    override fun getLayout() = R.layout.card_page_download
+) : CardPage(R.layout.card_page_download, unit, page) {
 
     override fun bindView(view: View) {
         super.bindView(view)

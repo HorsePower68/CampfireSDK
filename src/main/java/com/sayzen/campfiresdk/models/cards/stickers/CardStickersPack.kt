@@ -24,7 +24,7 @@ class CardStickersPack(
         override val unit: UnitStickersPack,
         val isShowFullInfo: Boolean = false,
         val isShowReports: Boolean = true
-) : CardUnit(unit) {
+) : CardUnit(R.layout.card_stickers_pack, unit) {
 
     private val eventBus = EventBus
             .subscribe(EventStickersPackChanged::class) {
@@ -36,8 +36,6 @@ class CardStickersPack(
             }
 
     private val xKarma = XKarma(unit)  { updateKarma() }
-
-    override fun getLayout() = R.layout.card_stickers_pack
 
     override fun bindView(view: View) {
         super.bindView(view)

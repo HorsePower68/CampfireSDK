@@ -31,7 +31,9 @@ import com.sup.dev.java.libs.eventBus.EventBus
 import com.sup.dev.java.tools.ToolsColor
 import com.sup.dev.java.tools.ToolsThreads
 
-class CardReview(override val unit: UnitReview) : CardUnit(unit) {
+class CardReview(
+    override val unit: UnitReview
+) : CardUnit(R.layout.card_review, unit) {
 
     private val eventBus = EventBus
             .subscribe(EventFandomReviewChanged::class) { this.onEventFandomReviewChanged(it) }
@@ -43,8 +45,6 @@ class CardReview(override val unit: UnitReview) : CardUnit(unit) {
     private var flash: Boolean = false
     private var animationFlash: AnimationPendulumColor? = null
     private var subscriptionFlash: Subscription? = null
-
-    override fun getLayout() = R.layout.card_review
 
     override fun bindView(view: View) {
         super.bindView(view)

@@ -12,9 +12,7 @@ import com.sup.dev.android.views.views.ViewIcon
 class CardPageVideo(
         unit: UnitPost?,
         page: PageVideo
-) : CardPage(unit, page) {
-
-    override fun getLayout() = R.layout.card_page_video
+) : CardPage(R.layout.card_page_video, unit, page) {
 
     override fun bindView(view: View) {
         super.bindView(view)

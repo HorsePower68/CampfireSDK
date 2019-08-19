@@ -17,15 +17,15 @@ import com.sup.dev.android.tools.ToolsResources
 import com.sup.dev.android.views.views.ViewAvatarTitle
 import com.sup.dev.android.views.views.ViewTextLinkable
 
-class CardModeration(override val unit: UnitModeration) : CardUnit(unit) {
+class CardModeration(
+    override val unit: UnitModeration
+) : CardUnit(R.layout.card_moderation, unit) {
 
     private val xKarma: XKarma = XKarma(unit) { update() }
     private val xAccount: XAccount = XAccount(unit, unit.dateCreate) { update() }
     private val xFandom: XFandom = XFandom(unit, unit.dateCreate) { update() }
 
     private var clickDisabled: Boolean = false
-
-    override fun getLayout() = R.layout.card_moderation
 
     override fun bindView(view: View) {
         super.bindView(view)

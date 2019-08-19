@@ -17,9 +17,7 @@ class CardCommentImage(
         onClick: ((UnitComment) -> Boolean)? = null,
         onQuote: ((UnitComment) -> Unit)? = null,
         onGoTo: ((Long) -> Unit)?
-) : CardComment(unit, dividers, miniSize, onClick, onQuote, onGoTo) {
-
-    override fun getLayout() = if (miniSize) R.layout.card_comment_image_mini else R.layout.card_comment_image
+) : CardComment(if (miniSize) R.layout.card_comment_image_mini else R.layout.card_comment_image, unit, dividers, miniSize, onClick, onQuote, onGoTo) {
 
     override fun bind(view: View) {
 

@@ -17,14 +17,10 @@ import java.util.ArrayList
 class CardPageSpoiler(
         unit: UnitPost?,
         page: PageSpoiler
-) : CardPage(unit, page) {
+) : CardPage(R.layout.card_page_spoiler, unit, page) {
 
     var pages:ArrayList<CardPage>? = null
     var onClick:()->Unit = {}
-
-    override fun getLayout(): Int {
-        return R.layout.card_page_spoiler
-    }
 
     override fun bindView(view: View) {
         super.bindView(view)

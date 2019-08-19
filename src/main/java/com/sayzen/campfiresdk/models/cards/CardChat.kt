@@ -29,7 +29,7 @@ class CardChat(
         var unit: UnitChat,
         messagesCount: Int,
         var subscribed: Boolean
-) : Card() {
+) : Card(R.layout.card_chat) {
 
     private val xFandom: XFandom
     private val xAccount: XAccount
@@ -54,8 +54,6 @@ class CardChat(
 
         ControllerChats.setMessagesCount(unit.tag, messagesCount, subscribed)
     }
-
-    override fun getLayout() = R.layout.card_chat
 
     override fun bindView(view: View) {
         super.bindView(view)

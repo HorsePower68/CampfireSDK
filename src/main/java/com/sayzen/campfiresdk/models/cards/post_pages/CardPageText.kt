@@ -11,11 +11,9 @@ import com.sup.dev.android.views.views.ViewTextLinkable
 class CardPageText(
         unit: UnitPost?,
         page: PageText
-) : CardPage(unit, page) {
+) : CardPage(R.layout.card_page_text, unit, page) {
 
     var maxLines = Integer.MAX_VALUE
-
-    override fun getLayout() = R.layout.card_page_text
 
     override fun bindView(view: View) {
         super.bindView(view)

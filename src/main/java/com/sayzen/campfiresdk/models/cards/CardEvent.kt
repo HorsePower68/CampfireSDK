@@ -18,7 +18,7 @@ import com.sup.dev.java.tools.ToolsDate
 class CardEvent(
         override val unit: UnitEvent,
         val isFeedInFandom: Boolean
-) : CardUnit(unit) {
+) : CardUnit(R.layout.card_event, unit) {
 
     private val xFandom = XFandom(unit, unit.dateCreate) { update() }
     private val xAccount = XAccount(unit, unit.dateCreate) { update() }
@@ -30,8 +30,6 @@ class CardEvent(
         xAccountOwner = XAccount(e.ownerAccountId, e.ownerAccountName, e.ownerAccountImageId, 0, 0) { update() }
         xAccountTarget = XAccount(e.targetAccountId, e.targetAccountName, e.targetAccountImageId, 0, 0) { update() }
     }
-
-    override fun getLayout() = R.layout.card_event
 
     override fun bindView(view: View) {
         super.bindView(view)

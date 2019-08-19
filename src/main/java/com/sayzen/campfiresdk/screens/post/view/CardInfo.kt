@@ -32,7 +32,7 @@ import com.sup.dev.java.libs.eventBus.EventBusSubscriber
 class CardInfo(
         private val unit: UnitPost,
         private val tags: Array<UnitTag>
-) : Card() {
+) : Card(R.layout.screen_post_card_info) {
 
     private val eventBus: EventBusSubscriber = EventBus
             .subscribe(EventCommentAdd::class) { this.onCommentAdd(it) }
@@ -46,8 +46,6 @@ class CardInfo(
     init {
         xFandom.showLanguage = false
     }
-
-    override fun getLayout() = R.layout.screen_post_card_info
 
     override fun bindView(view: View) {
         super.bindView(view)

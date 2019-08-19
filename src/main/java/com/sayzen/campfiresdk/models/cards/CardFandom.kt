@@ -17,7 +17,7 @@ import com.sup.dev.java.libs.eventBus.EventBus
 class CardFandom constructor(
         val fandom: Fandom,
         private val onClick: (() -> Unit)? = null)
-    : Card() {
+    : Card(R.layout.card_fandom) {
 
     private val eventBus = EventBus
             .subscribe(EventFandomRemove::class) { e -> if(adapter != null) adapter!!.remove(this) }
@@ -27,8 +27,6 @@ class CardFandom constructor(
     var subscribed = false
     var showLanguage = true
     var showSubscribes = true
-
-    override fun getLayout() = R.layout.card_fandom
 
     override fun bindView(view: View) {
         super.bindView(view)

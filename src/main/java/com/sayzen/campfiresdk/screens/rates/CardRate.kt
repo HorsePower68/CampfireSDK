@@ -13,13 +13,11 @@ import com.sup.dev.android.views.views.ViewAvatarTitle
 
 class CardRate(
         val rate: Rate
-) : CardAvatar(), NotifyItem {
+) : CardAvatar(R.layout.card_rate), NotifyItem {
 
     private val xAccount = XAccount(rate.accountId, rate.accountName, rate.accountImageId, rate.accountLvl, rate.accountKarma30, rate.accountLastOnlineTime){
         update()
     }
-
-    override fun getLayout() = R.layout.card_rate
 
     override fun bindView(view: View) {
         super.bindView(view)

@@ -17,15 +17,15 @@ import com.sup.dev.android.tools.ToolsImagesLoader
 import com.sup.dev.android.views.views.ViewAvatarTitle
 import com.sup.dev.java.libs.eventBus.EventBus
 
-class CardForum(override val unit: UnitForum) : CardUnit(unit) {
+class CardForum(
+    override val unit: UnitForum
+) : CardUnit(R.layout.card_forum, unit) {
 
     private val eventBus = EventBus
             .subscribe(EventForumChanged::class) { this.onEventForumChanged(it) }
 
     private val xFandom = XFandom(unit, unit.dateCreate) { update() }
     private val xKarma = XKarma(unit) { update() }
-
-    override fun getLayout() = R.layout.card_forum
 
     override fun bindView(view: View) {
         super.bindView(view)

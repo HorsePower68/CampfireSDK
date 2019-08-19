@@ -14,9 +14,7 @@ import com.sup.dev.android.views.views.ViewTextLinkable
 class CardPageImages(
         unit: UnitPost?,
         page: PageImages
-) : CardPage(unit, page) {
-
-    override fun getLayout() = R.layout.card_page_images
+) : CardPage(R.layout.card_page_images, unit, page) {
 
     override fun bindView(view: View) {
         super.bindView(view)

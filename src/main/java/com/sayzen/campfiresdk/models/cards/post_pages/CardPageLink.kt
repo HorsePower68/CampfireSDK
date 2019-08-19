@@ -13,9 +13,7 @@ import com.sup.dev.android.views.views.ViewTextLinkable
 class CardPageLink(
         unit: UnitPost?,
         page: PageLink
-) : CardPage(unit, page) {
-
-    override fun getLayout() = R.layout.card_page_link
+) : CardPage(R.layout.card_page_link, unit, page) {
 
     override fun bindView(view: View) {
         super.bindView(view)

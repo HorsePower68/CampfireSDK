@@ -17,10 +17,7 @@ class CardChatMessageModeration(
         onQuote: ((UnitChatMessage) -> Unit)? = null,
         onGoTo: ((Long) -> Unit)?,
         onBlocked: ((UnitChatMessage) -> Unit)? = null
-) : CardChatMessage(unit, onClick, onChange, onQuote, onGoTo, onBlocked) {
-
-
-    override fun getLayout() = R.layout.card_chat_message_moderation
+) : CardChatMessage(R.layout.card_chat_message_moderation, unit, onClick, onChange, onQuote, onGoTo, onBlocked) {
 
     override fun bindView(view: View) {
         super.bindView(view)

@@ -10,9 +10,10 @@ import com.sup.dev.android.views.views.ViewIcon
 import com.sup.dev.android.views.widgets.WidgetMenu
 
 abstract class CardPage(
-        val unit: UnitPost?,
-        page: Page
-) : Card(), NotifyItem {
+    layout: Int,
+    val unit: UnitPost?,
+    page: Page
+) : Card(layout), NotifyItem {
 
     companion object {
 
@@ -48,9 +49,9 @@ abstract class CardPage(
 
     init {
         widgetMenu = WidgetMenu()
-                .add(getChangeMenuItemText()) { w, c -> if (onChangeClicked != null) onChangeClicked!!.invoke(this) }
-                .add(R.string.app_remove) { w, c -> if (onRemoveClicked != null) onRemoveClicked!!.invoke(this) }
-                .add(R.string.app_move) { w, c -> if (onMoveClicked != null) onMoveClicked!!.invoke(this) }
+            .add(getChangeMenuItemText()) { w, c -> if (onChangeClicked != null) onChangeClicked!!.invoke(this) }
+            .add(R.string.app_remove) { w, c -> if (onRemoveClicked != null) onRemoveClicked!!.invoke(this) }
+            .add(R.string.app_move) { w, c -> if (onMoveClicked != null) onMoveClicked!!.invoke(this) }
     }
 
     @CallSuper
@@ -64,10 +65,12 @@ abstract class CardPage(
 
     }
 
-    fun setEditMod(editMode: Boolean,
-                   onMoveClicked: (CardPage) -> Unit,
-                   onChangeClicked: (CardPage) -> Unit,
-                   onRemoveClicked: (CardPage) -> Unit): CardPage {
+    fun setEditMod(
+        editMode: Boolean,
+        onMoveClicked: (CardPage) -> Unit,
+        onChangeClicked: (CardPage) -> Unit,
+        onRemoveClicked: (CardPage) -> Unit
+    ): CardPage {
         this.editMode = editMode
         this.postIsDraft = this.postIsDraft || editMode
         this.onMoveClicked = onMoveClicked

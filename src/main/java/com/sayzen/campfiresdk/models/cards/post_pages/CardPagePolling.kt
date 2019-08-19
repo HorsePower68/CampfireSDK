@@ -19,13 +19,11 @@ import com.sup.dev.java.libs.eventBus.EventBus
 class CardPagePolling(
         unit: UnitPost?,
         page: PagePolling
-) : CardPage(unit, page) {
+) : CardPage(R.layout.card_page_polling, unit, page) {
 
     val eventBud = EventBus.subscribe(EventPollingChanged::class) {
         if (it.pollingId == page.pollingId) update()
     }
-
-    override fun getLayout() = R.layout.card_page_polling
 
     override fun bindView(view: View) {
         super.bindView(view)

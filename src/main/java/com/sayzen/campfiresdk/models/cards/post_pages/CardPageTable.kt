@@ -9,9 +9,7 @@ import com.sup.dev.android.views.views.table.ViewTable
 class CardPageTable(
         unit: UnitPost?,
         page: PageTable
-) : CardPage(unit, page) {
-
-    override fun getLayout() = R.layout.card_page_table
+) : CardPage(R.layout.card_page_table, unit, page) {
 
     override fun bindView(view: View) {
         super.bindView(view)

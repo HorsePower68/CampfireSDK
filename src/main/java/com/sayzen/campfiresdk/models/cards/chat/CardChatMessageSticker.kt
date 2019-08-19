@@ -23,7 +23,7 @@ class CardChatMessageSticker(
         onQuote: ((UnitChatMessage) -> Unit)? = null,
         onGoTo: ((Long) -> Unit)?,
         onBlocked: ((UnitChatMessage) -> Unit)? = null
-) : CardChatMessage(unit, onClick, onChange, onQuote, onGoTo, onBlocked) {
+) : CardChatMessage(R.layout.card_chat_message_sticker, unit, onClick, onChange, onQuote, onGoTo, onBlocked) {
 
     init {
         useMessageContainerBackground = false
@@ -31,8 +31,6 @@ class CardChatMessageSticker(
         quoteEnabled = false
         copyEnabled = false
     }
-
-    override fun getLayout() = R.layout.card_chat_message_sticker
 
     override fun bindView(view: View) {
         super.bindView(view)

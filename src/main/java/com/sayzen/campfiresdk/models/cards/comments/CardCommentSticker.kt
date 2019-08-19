@@ -20,15 +20,13 @@ class CardCommentSticker(
         onClick: ((UnitComment) -> Boolean)? = null,
         onQuote: ((UnitComment) -> Unit)? = null,
         onGoTo: ((Long) -> Unit)?
-) : CardComment(unit, dividers, miniSize, onClick, onQuote, onGoTo) {
+) : CardComment( if (miniSize) R.layout.card_comment_sticker_mini else R.layout.card_comment_sticker, unit, dividers, miniSize, onClick, onQuote, onGoTo) {
 
     init {
         changeEnabled = false
         quoteEnabled = false
         copyEnabled = false
     }
-
-    override fun getLayout() = if (miniSize) R.layout.card_comment_sticker_mini else R.layout.card_comment_sticker
 
     override fun bind(view: View) {
 

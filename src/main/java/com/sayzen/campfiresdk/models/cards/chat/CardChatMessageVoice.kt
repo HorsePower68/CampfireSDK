@@ -19,7 +19,7 @@ class CardChatMessageVoice(
         onQuote: ((UnitChatMessage) -> Unit)? = null,
         onGoTo: ((Long) -> Unit)?,
         onBlocked: ((UnitChatMessage) -> Unit)? = null
-) : CardChatMessage(unit, onClick, onChange, onQuote, onGoTo, onBlocked) {
+) : CardChatMessage(R.layout.card_chat_message_voice, unit, onClick, onChange, onQuote, onGoTo, onBlocked) {
 
     val eventBus = EventBus
             .subscribe(EventVoiceMessageStateChanged::class) { update() }
@@ -29,8 +29,6 @@ class CardChatMessageVoice(
         changeEnabled = false
         quoteEnabled = false
     }
-
-    override fun getLayout() = R.layout.card_chat_message_voice
 
     override fun bindView(view: View) {
         super.bindView(view)

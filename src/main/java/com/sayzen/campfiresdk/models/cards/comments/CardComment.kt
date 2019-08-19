@@ -44,14 +44,14 @@ import com.sup.dev.java.tools.ToolsHTML
 import com.sup.dev.java.tools.ToolsThreads
 
 abstract class CardComment protected constructor(
+    layout:Int,
         override val unit: UnitComment,
         private val dividers: Boolean,
         protected val miniSize: Boolean,
         private val onClick: ((UnitComment) -> Boolean)? = null,
         private val onQuote: ((UnitComment) -> Unit)? = null,
         private var onGoTo: ((Long) -> Unit)? = null
-) : CardUnit(unit) {
-
+) : CardUnit(layout, unit) {
 
     companion object {
 

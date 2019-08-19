@@ -23,10 +23,7 @@ class CardChatMessageImage(
         onQuote: ((UnitChatMessage) -> Unit)? = null,
         onGoTo: ((Long) -> Unit)?,
         onBlocked: ((UnitChatMessage) -> Unit)? = null
-) : CardChatMessage(unit, onClick, onChange, onQuote, onGoTo, onBlocked) {
-
-
-    override fun getLayout() = R.layout.card_chat_message_image
+) : CardChatMessage(R.layout.card_chat_message_image, unit, onClick, onChange, onQuote, onGoTo, onBlocked) {
 
     override fun bindView(view: View) {
         super.bindView(view)

@@ -12,7 +12,12 @@ import com.sup.dev.android.views.views.ViewAvatar
 import com.sup.dev.android.views.views.ViewChip
 import com.sup.dev.android.views.views.ViewIcon
 
-class CardCategory private constructor(private val title: String, @param:DrawableRes private val imageResId: Int, @param:DrawableRes private val iconId: Int, private val iconBackground: Int?, private val onClick:  ()->Unit) : Card() {
+class CardCategory private constructor(
+    private val title: String,
+    @param:DrawableRes private val imageResId: Int,
+    @param:DrawableRes private val iconId: Int,
+    private val iconBackground: Int?,
+    private val onClick:  ()->Unit) : Card(R.layout.card_category) {
 
     private var chipText: String? = null
 
@@ -23,8 +28,6 @@ class CardCategory private constructor(private val title: String, @param:Drawabl
         update()
         return this
     }
-
-    override fun getLayout() = R.layout.card_category
 
     override fun bindView(view: View) {
         super.bindView(view)
