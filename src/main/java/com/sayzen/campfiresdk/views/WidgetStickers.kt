@@ -56,10 +56,11 @@ open class WidgetStickers : WidgetRecycler(R.layout.widget_stickers) {
 
             if(!stickerLoaded){
                 RStickersGetAllById(ControllerSettings.accountSettings.stickers)
-                        .onComplete {
+                        .onComplete { r->
                             stickerLoaded = true
-                            onLoad.invoke(it.stickers)
-                            if(it.stickers.isEmpty()){
+                            if (r.stickersIds != null) ControllerSettings.accountSettings.stickers = r.stickersIds!!
+                            onLoad.invoke(r.stickers)
+                            if(r.stickers.isEmpty()){
                                 ToolsThreads.main(true) {
                                     myAdapter.loadBottom()    //  Блокируется из-за пустых паков стикеров
                                 }
@@ -79,10 +80,11 @@ open class WidgetStickers : WidgetRecycler(R.layout.widget_stickers) {
             }
             vEmptyText.visibility = View.GONE
             RStickersGetAll(stickersPacks[stickersPackIndex])
-                    .onComplete {
+                    .onComplete { r->
                         stickersPackIndex++
-                        onLoad.invoke(it.stickers)
-                        if(it.stickers.isEmpty()){
+                        if (r.stickersPacks != null) ControllerSettings.accountSettings.stickersPacks = r.stickersPacks!!
+                        onLoad.invoke(r.stickers)
+                        if(r.stickers.isEmpty()){
                             ToolsThreads.main(true) {
                                 myAdapter.loadBottom()    //  Блокируется из-за пустых паков стикеров
                             }

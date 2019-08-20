@@ -629,6 +629,7 @@
     <string name="error_rate_self_unit">Вы не можете оценить свою публикацию</string>
     <string name="error_already_blocked">Кто-то уже заблокировал это</string>
     <string name="error_already_returned_to_drafts">Кто-то уже вернул это в черновики</string>
+    <string name="error_unsupported_link">Не потдерживаемая ссылка</string>
 
     <string name="profile_report_confirm">Пожаловаться на пользователя?</string>
     <string name="profile_story">История</string>
@@ -800,6 +801,7 @@
     <string name="post_page_polling">Голосование</string>
     <string name="post_page_polling_options">Варианты:</string>
     <string name="post_page_table">Таблица</string>
+    <string name="post_page_campfire_object">Объект Campfire</string>
     <string name="post_page_polling_change_alert">При изменении опроса все ответы будут потеряны.</string>
     <string name="post_change_alert">Любые изменения в опубликованном посте сразу видны пользователям. Для серьезных изменений верните пост в черновики через меню.</string>
     <string name="post_drafts_empty_text">У вас пока нет черновиков</string>
@@ -828,6 +830,7 @@
     <string name="post_create_polling_hint">Текст варианта</string>
     <string name="post_create_images_empty">Добавьте несколько картинок</string>
     <string name="post_create_notify_followers">Уведомить своих подписчиков</string>
+    <string name="post_create_objects_label">Поддерживаются ссылки на пользователя, пост, чат, форум, фэндом, набор стикеров.</string>
 
     <string name="quests_next">Следующее задание будет доступно завтра.</string>
     <string name="quests_text_rates">Поставьте оценки публикациям других пользователей.</string>

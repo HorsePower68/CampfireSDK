@@ -2,16 +2,13 @@ package com.sayzen.campfiresdk.models.cards.comments
 
 import android.view.View
 import android.widget.ImageView
-import android.widget.TextView
 import com.dzen.campfire.api.models.UnitComment
 import com.sayzen.campfiresdk.R
 import com.sayzen.campfiresdk.screens.stickers.SStickersView
 import com.sup.dev.android.libs.screens.navigator.Navigator
 import com.sup.dev.android.tools.ToolsImagesLoader
 import com.sup.dev.android.tools.ToolsView
-import com.sup.dev.android.views.screens.SImageView
 import com.sup.dev.java.libs.debug.Debug
-import com.sup.dev.java.libs.debug.log
 
 class CardCommentSticker(
         unit: UnitComment,

@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     style="@style/Root"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
@@ -43,5 +44,59 @@
     </com.google.android.material.appbar.AppBarLayout>
 
     <androidx.recyclerview.widget.RecyclerView style="@style/Recycler" />
+
+    <com.sup.dev.android.views.views.layouts.LayoutCorned
+        android:id="@+id/vKarmaContainer"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|left"
+        android:layout_marginLeft="16dp"
+        android:background="@color/focus"
+        android:layout_marginBottom="16dp"
+        app:LayoutCorned_chipMode="true">
+
+
+        <com.sayzen.campfiresdk.views.ViewKarmaHorizontal
+            android:id="@+id/vKarma"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+
+    </com.sup.dev.android.views.views.layouts.LayoutCorned>
+
+    <com.sup.dev.android.views.views.layouts.LayoutCorned
+        android:id="@+id/vCommentsContainer"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|left"
+        android:layout_marginBottom="72dp"
+        android:layout_marginLeft="16dp"
+        android:background="@color/focus"
+        app:LayoutCorned_chipMode="true">
+
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/vCommentsCount"
+                android:layout_gravity="center"
+                android:layout_marginLeft="16dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                style="@style/TextAppearance.AppCompat.Body1"/>
+
+            <com.sup.dev.android.views.views.ViewIcon
+                android:id="@+id/vComments"
+                style="@style/Icon.18"
+                android:layout_gravity="center"
+                android:src="?ic_mode_comment_18dp"/>
+
+
+        </LinearLayout>
+    </com.sup.dev.android.views.views.layouts.LayoutCorned>
+
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

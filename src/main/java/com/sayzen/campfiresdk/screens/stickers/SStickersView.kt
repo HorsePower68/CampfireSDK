@@ -1,6 +1,7 @@
 package com.sayzen.campfiresdk.screens.stickers
 
 import android.view.View
+import android.widget.TextView
 import androidx.recyclerview.widget.GridLayoutManager
 import com.dzen.campfire.api.API
 import com.dzen.campfire.api.models.units.stickers.UnitSticker
@@ -9,14 +10,19 @@ import com.dzen.campfire.api.requests.stickers.RStickersAdd
 import com.dzen.campfire.api.requests.stickers.RStickersGetAll
 import com.dzen.campfire.api.requests.stickers.RStickersPacksGetInfo
 import com.sayzen.campfiresdk.R
+import com.sayzen.campfiresdk.adapters.XKarma
 import com.sayzen.campfiresdk.controllers.ControllerApi
+import com.sayzen.campfiresdk.controllers.ControllerSettings
 import com.sayzen.campfiresdk.controllers.ControllerUnits
 import com.sayzen.campfiresdk.controllers.api
 import com.sayzen.campfiresdk.models.cards.stickers.CardSticker
 import com.sayzen.campfiresdk.models.events.stickers.EventStickerCreate
 import com.sayzen.campfiresdk.models.events.stickers.EventStickersPackChanged
+import com.sayzen.campfiresdk.models.events.units.EventCommentAdd
 import com.sayzen.campfiresdk.models.events.units.EventUnitRemove
 import com.sayzen.campfiresdk.screens.account.profile.SAccount
+import com.sayzen.campfiresdk.screens.comments.SComments
+import com.sayzen.campfiresdk.views.ViewKarma
 import com.sup.dev.android.libs.api_simple.ApiRequestsSupporter
 import com.sup.dev.android.libs.screens.navigator.NavigationAction
 import com.sup.dev.android.libs.screens.navigator.Navigator
@@ -58,9 +64,14 @@ class SStickersView(
             .subscribe(EventStickerCreate::class) { onEventStickerCreate(it) }
             .subscribe(EventStickersPackChanged::class) { onEventStickersPackChanged(it) }
             .subscribe(EventUnitRemove::class) { if (it.unitId == stickersPack.id) Navigator.remove(this) }
+            .subscribe(EventCommentAdd::class) { onEventCommentAdd(it) }
 
     private val vAvatarTitle: ViewAvatarTitle = findViewById(R.id.vAvatarTitle)
+    private val vCommentsCount: TextView = findViewById(R.id.vCommentsCount)
+    private val vKarma: ViewKarma = findViewById(R.id.vKarma)
+    private val vCommentsContainer: View = findViewById(R.id.vCommentsContainer)
     private var loaded = false
+    private val xKarma = XKarma(stickersPack) { updateKarma() }
 
     init {
         setTextEmpty(R.string.stickers_pack_view_empty)
@@ -69,7 +80,7 @@ class SStickersView(
         val spanCount = if (ToolsAndroid.isScreenPortrait()) 3 else 6
         vRecycler.layoutManager = GridLayoutManager(context, spanCount)
         ToolsView.setRecyclerAnimation(vRecycler)
-        addToolbarIcon(ToolsResources.getDrawableAttr(R.attr.ic_more_vert_24dp)!!){
+        addToolbarIcon(ToolsResources.getDrawableAttr(R.attr.ic_more_vert_24dp)!!) {
             ControllerUnits.showStickerPackPopup(it, stickersPack)
         }
 
@@ -82,7 +93,21 @@ class SStickersView(
             SAccount.instance(stickersPack.creatorId, Navigator.TO)
         }
 
+        vCommentsContainer.setOnClickListener {
+            Navigator.to(SComments(stickersPack.id, 0))
+        }
+
         updateTitle()
+        updateKarma()
+        updateComments()
+    }
+
+    private fun updateComments() {
+        vCommentsCount.text = "" + stickersPack.subUnitsCount
+    }
+
+    private fun updateKarma() {
+        xKarma.setView(vKarma)
     }
 
     private fun updateTitle() {
@@ -106,6 +131,7 @@ class SStickersView(
                                     onLoad.invoke(emptyArray())
                                 } else {
                                     loaded = true
+                                    if (r.stickersPacks != null) ControllerSettings.accountSettings.stickersPacks = r.stickersPacks!!
                                     onLoad.invoke(r.stickers)
                                     if (r.stickers.size < API.STICKERS_MAX_COUNT_IN_PACK && stickersPack.creatorId == ControllerApi.account.id) (vFab as View).visibility = View.VISIBLE
                                 }
@@ -180,8 +206,8 @@ class SStickersView(
         }
     }
 
-    private fun onEventStickerCreate(e:EventStickerCreate){
-        if(e.sticker.tag_1 == stickersPack.id) {
+    private fun onEventStickerCreate(e: EventStickerCreate) {
+        if (e.sticker.tag_1 == stickersPack.id) {
             val card = CardSticker(e.sticker)
             adapter?.add(card)
             card.flash()
@@ -194,6 +220,18 @@ class SStickersView(
             stickersPack.name = e.stickersPack.name
             stickersPack.imageId = e.stickersPack.imageId
             updateTitle()
+        }
+    }
+
+    private fun onEventCommentAdd(e: EventCommentAdd) {
+        if (e.parentUnitId == stickerId) {
+            val commentsCount = stickersPack.subUnitsCount
+            ToolsThreads.main(true) {
+                if (stickersPack.subUnitsCount == commentsCount) {
+                    stickersPack.subUnitsCount++
+                    updateComments()
+                }
+            }
         }
     }
 

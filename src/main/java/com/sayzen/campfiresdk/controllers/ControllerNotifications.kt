@@ -22,7 +22,6 @@ import com.sup.dev.android.tools.ToolsStorage
 import com.sup.dev.java.libs.debug.info
 import com.sup.dev.java.libs.eventBus.EventBus
 import com.sup.dev.java.libs.json.Json
-import com.sup.dev.java.libs.json.JsonArray
 import com.sup.dev.java.tools.*
 
 object ControllerNotifications {
@@ -49,7 +48,7 @@ object ControllerNotifications {
 
     var token: String = ""
     var activityClass: Class<out Activity>? = null
-    var notificationExecutor: NotificationExecutor? = null
+    var executorNotification: ExecutorNotification? = null
     var logoColored = R.drawable.logo_alpha_no_margins
     var logoWhite = R.drawable.logo_alpha_black_and_white_no_margins
 
@@ -57,12 +56,12 @@ object ControllerNotifications {
             activityClass: Class<out Activity>,
             logoColored: Int,
             logoWhite: Int,
-            notificationExecutor: NotificationExecutor
+            notificationExecutor: ExecutorNotification
     ) {
         this.logoColored = logoColored
         this.logoWhite = logoWhite
         this.activityClass = activityClass
-        this.notificationExecutor = notificationExecutor
+        this.executorNotification = notificationExecutor
         ToolsNotifications.defChanelId = chanelOther.getId()
         GoogleNotifications.init({ token: String? ->
             onToken(token)
@@ -97,7 +96,7 @@ object ControllerNotifications {
             )
         }
 
-        val b1 = notificationExecutor!!.canShowBySettings(notification)
+        val b1 = executorNotification!!.canShowBySettings(notification)
         val parser = parser(notification)
         val b2 = parser.canShow()
 
@@ -189,7 +188,7 @@ object ControllerNotifications {
         for (i in removeList) removeBuffer.remove(i)
 
         var count = 0
-        for (i in newNotifications) if (notificationExecutor!!.notificationsFilterEnabled(i.getType())) count++
+        for (i in newNotifications) if (executorNotification!!.notificationsFilterEnabled(i.getType())) count++
         ToolsStorage.put("ControllerNotification_count", count)
         EventBus.post(EventNotificationsCountChanged())
     }
@@ -347,10 +346,10 @@ object ControllerNotifications {
 
         open fun getTitle() = ""
 
-        fun canShow() = notificationExecutor!!.canShow(n)
+        fun canShow() = executorNotification!!.canShow(n)
 
         fun doAction() {
-            notificationExecutor!!.doAction(n)
+            executorNotification!!.doAction(n)
         }
 
         abstract fun getIcon(): Int
@@ -1088,7 +1087,7 @@ object ControllerNotifications {
 
     }
 
-    interface NotificationExecutor {
+    interface ExecutorNotification {
 
         fun canShowBySettings(notification: Notification): Boolean
 

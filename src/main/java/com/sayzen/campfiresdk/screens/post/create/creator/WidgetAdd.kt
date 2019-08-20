@@ -18,7 +18,6 @@ class WidgetAdd(
     var wasClicked: Boolean = false
 
     init {
-
         add(R.string.post_page_text) { w, c ->
             wasClicked = true
             Navigator.to(SCreatePageText(screen, null, null))
@@ -55,6 +54,10 @@ class WidgetAdd(
             wasClicked = true
             Navigator.to(SCreatePageTable(screen, null, null, screen.adapter.size(CardPage::class)))
         }.icon(ToolsResources.getDrawableAttrId(R.attr.ic_border_all_24dp))
+        add(R.string.post_page_campfire_object) { w, c ->
+            wasClicked = true
+            WidgetPageCampfireObject(screen, null, null).asSheetShow()
+        }.icon(ToolsResources.getDrawableAttrId(R.attr.ic_whatshot_24dp))
     }
 
     fun changePage(c: CardPage) {
@@ -67,6 +70,7 @@ class WidgetAdd(
         if (c is CardPagePolling) Navigator.to(SCreatePagePolling(screen, c, c.page as PagePolling))
         if (c is CardPageImages) WidgetPageImages(screen, c, c.page as PageImages, screen.adapter.indexOf(c)).asSheetShow()
         if (c is CardPageTable) Navigator.to(SCreatePageTable(screen, c,  c.page as PageTable, screen.adapter.indexOf(c)))
+        if (c is CardPageCampfireObject) WidgetPageCampfireObject(screen, c, c.page as PageCampfireObject).asSheetShow()
     }
 
     override fun onHide() {

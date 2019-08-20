@@ -1,7 +1,11 @@
 package com.sayzen.campfiresdk.controllers
 
 import android.app.Activity
+import android.text.Spannable
+import android.text.Spanned
+import android.text.style.ClickableSpan
 import android.view.Gravity
+import android.view.View
 import com.dzen.campfire.api.API
 import com.dzen.campfire.api.models.Fandom
 import com.dzen.campfire.api.models.units.UnitForum
@@ -10,6 +14,7 @@ import com.dzen.campfire.api.requests.accounts.RAccountsBlackListRemove
 import com.dzen.campfire.api.requests.accounts.RAccountsChangeName
 import com.dzen.campfire.api.requests.achievements.RAchievementsOnFinish
 import com.sayzen.campfiresdk.R
+import com.sayzen.campfiresdk.app.CampfreConstants
 import com.sayzen.campfiresdk.models.events.account.EventAccountAddToBlackList
 import com.sayzen.campfiresdk.models.events.account.EventAccountChanged
 import com.sayzen.campfiresdk.models.events.account.EventAccountRemoveFromBlackList
@@ -20,6 +25,7 @@ import com.sayzen.campfiresdk.screens.fandoms.forums.view.SForumView
 import com.sayzen.campfiresdk.screens.fandoms.moderation.view.SModerationView
 import com.sayzen.campfiresdk.screens.fandoms.reviews.SReviews
 import com.sayzen.campfiresdk.screens.fandoms.view.SFandom
+import com.sayzen.campfiresdk.screens.other.SAboutCreators
 import com.sayzen.campfiresdk.screens.post.search.SPostsSearch
 import com.sayzen.campfiresdk.screens.post.view.SPost
 import com.sayzen.campfiresdk.screens.stickers.SStickersView
@@ -29,9 +35,11 @@ import com.sup.dev.android.libs.screens.navigator.NavigationAction
 import com.sup.dev.android.libs.screens.navigator.Navigator
 import com.sup.dev.android.tools.ToolsAndroid
 import com.sup.dev.android.tools.ToolsIntent
+import com.sup.dev.android.tools.ToolsResources
 import com.sup.dev.android.tools.ToolsToast
 import com.sup.dev.android.views.screens.SAlert
 import com.sup.dev.android.views.widgets.WidgetAlert
+import com.sup.dev.android.views.widgets.WidgetCheckBoxes
 import com.sup.dev.android.views.widgets.WidgetField
 import com.sup.dev.android.views.widgets.WidgetMenu
 import com.sup.dev.java.libs.debug.err
@@ -55,20 +63,18 @@ object ControllerCampfireSDK {
     var ON_TO_POST_TAGS_CLICKED: (postId: Long, isMyUnit: Boolean, action: NavigationAction) -> Unit = { postId, isMyUnit, action -> }
     var ON_TO_FORUM_CLICKED: (forumId: Long, commentId: Long, action: NavigationAction) -> Unit = { forumId, commentId, action -> }
     var ON_TO_ACHIEVEMENT_CLICKED: (accountId: Long, accountName: String, accountLvl: Long, achievementIndex: Long, toPrev: Boolean, action: NavigationAction) -> Unit = { accountId, accountName, accountLvl, achievementIndex, toPrev, action -> }
-    var ON_TO_ABOUT: () -> Unit = { }
     var ON_CHANGE_FORUM_CLICKED: (unit: UnitForum) -> Unit = { unit -> }
     var ON_SCREEN_CHAT_START: () -> Unit = {  }
-    var ON_TO_RULES_USER: () -> Unit = {  }
-    var ON_TO_RULES_MODER: () -> Unit = {  }
-    var ON_TO_ABOUT_CREATORS: () -> Unit = {  }
 
     var SEARCH_FANDOM: (callback: (Fandom) -> Unit) -> Unit = { }
+
+    var executorLinks: ExecutorLinks? = null
 
     fun init(
             activityClass: Class<out Activity>,
             logoColored: Int,
             logoWhite: Int,
-            notificationExecutor: ControllerNotifications.NotificationExecutor,
+            notificationExecutor: ControllerNotifications.ExecutorNotification,
             onLoginFailed: () -> Unit
     ) {
         ControllerApi.init()
@@ -129,55 +135,27 @@ object ControllerCampfireSDK {
 
             val t = link.substring(API.DOMEN.length)
             val s1 = t.split("-")
+            val link = s1[0]
             val params: List<String> = if (s1.size > 1) s1[1].split("_") else emptyList()
 
-            when (s1[0]) {
-                API.LINK_TAG_ABOUT -> ON_TO_ABOUT.invoke()
-                API.LINK_TAG_RULES_USER -> ON_TO_RULES_USER.invoke()
-                API.LINK_TAG_RULES_MODER -> ON_TO_RULES_MODER.invoke()
-                API.LINK_TAG_CREATORS -> ON_TO_ABOUT_CREATORS.invoke()
-                API.LINK_TAG_POST -> {
-                    if (params.size == 1) SPost.instance(params[0].toLong(), 0, Navigator.TO)
-                    if (params.size == 2) SPost.instance(params[0].toLong(), params[1].toLong(), Navigator.TO)
-                }
-                API.LINK_TAG_REVIEW -> {
-                    SReviews.instance(params[0].toLong(), Navigator.TO)
-                }
-                API.LINK_TAG_FANDOM -> {
-                    if (params.size == 1) SFandom.instance(params[0].toLong(), 0, Navigator.TO)
-                    if (params.size == 2) SFandom.instance(params[0].toLong(), params[1].toLong(), Navigator.TO)
-                }
-                API.LINK_TAG_PROFILE_ID -> SAccount.instance(params[0].toLong(), Navigator.TO)
-                API.LINK_TAG_PROFILE_NAME -> SAccount.instance(params[0], Navigator.TO)
-                API.LINK_TAG_TAG -> SPostsSearch.instance(params[0].toLong(), Navigator.TO)
-                API.LINK_TAG_MODERATION -> {
-                    if (params.size == 1) SModerationView.instance(params[0].toLong(), 0, Navigator.TO)
-                    if (params.size == 2) SModerationView.instance(params[0].toLong(), params[1].toLong(), Navigator.TO)
-                }
-                API.LINK_TAG_FORUM -> {
-                    if (params.size == 1) SForumView.instance(params[0].toLong(), 0, Navigator.TO)
-                    if (params.size == 2) SForumView.instance(params[0].toLong(), params[1].toLong(), Navigator.TO)
-                }
-                API.LINK_TAG_CHAT -> {
-                    if (params.size == 1) SChat.instance(API.CHAT_TYPE_FANDOM, params[0].toLong(), 0, true, Navigator.TO)
-                    if (params.size == 2) SChat.instance(API.CHAT_TYPE_FANDOM, params[0].toLong(), params[1].toLong(), true, Navigator.TO)
-                }
+            when (link) {
+                API.LINK_TAG_ABOUT -> showAbout()
+                API.LINK_TAG_RULES_USER -> showRulesUser()
+                API.LINK_TAG_RULES_MODER -> showRulesModer()
+                API.LINK_TAG_CREATORS -> Navigator.to(SAboutCreators())
                 API.LINK_TAG_BOX_WITH_FIREWIRKS -> {
                     ControllerScreenAnimations.fireworks()
                     ToolsThreads.main(10000) { RAchievementsOnFinish(API.ACHI_FIREWORKS.index).send(api) }
                 }
-                API.LINK_TAG_BOX_WITH_SUMMER -> {
-                    ControllerScreenAnimations.summer()
-                }
-                API.LINK_TAG_STICKER -> {
-                    SStickersView.instanceBySticker(params[0].toLong(), Navigator.TO)
-                }
-                API.LINK_TAG_STICKERS_PACK -> {
-                    SStickersView.instance(params[0].toLong(), Navigator.TO)
-                }
-                else -> return false
+                API.LINK_TAG_BOX_WITH_SUMMER -> ControllerScreenAnimations.summer()
+                API.LINK_TAG_STICKER -> SStickersView.instanceBySticker(params[0].toLong(), Navigator.TO)
+                API.LINK_TAG_STICKERS_PACK -> SStickersView.instance(params[0].toLong(), Navigator.TO)
+
+                else -> return executorLinks?.parseLink(link, params)?:false
+
             }
             return true
+
         } catch (e: Throwable) {
             err(e)
             return false
@@ -194,6 +172,50 @@ object ControllerCampfireSDK {
                 .setTitleImage(R.drawable.ic_security_white_48dp)
                 .setTitleImageBackgroundRes(R.color.blue_700)
                 .asSheetShow()
+    }
+
+    fun showAbout() {
+        val screen = WidgetAlert()
+                .setTitle(R.string.about_about)
+                .setText(R.string.about_info)
+                .asScreen()
+        screen.addToolbarIcon(ToolsResources.getDrawableAttrId(R.attr.ic_insert_link_24dp)) {
+            ToolsAndroid.setToClipboard(API.LINK_ABOUT)
+            ToolsToast.show(R.string.app_copied)
+        }
+        Navigator.to(screen)
+    }
+
+    fun showRulesUser() {
+        val w = WidgetAlert().setTitle(R.string.about_rules_user)
+        w.addLine(R.string.rules_users_info)
+        w.addLine("\n")
+        for (i in CampfreConstants.RULES_USER) {
+            w.addLine(ToolsResources.s(i.text))
+            w.addLine("\n")
+        }
+        val screen = w.asScreen()
+        screen.addToolbarIcon(ToolsResources.getDrawableAttrId(R.attr.ic_insert_link_24dp)) {
+            ToolsAndroid.setToClipboard(API.LINK_RULES_USER)
+            ToolsToast.show(R.string.app_copied)
+        }
+        Navigator.to(screen)
+    }
+
+    fun showRulesModer() {
+        val w = WidgetAlert().setTitle(R.string.about_rules_moderator)
+        w.addLine(R.string.rules_moderators_info)
+        w.addLine("\n")
+        for (i in CampfreConstants.RULES_MODER) {
+            w.addLine(ToolsResources.s(i))
+            w.addLine("\n")
+        }
+        val screen = w.asScreen()
+        screen.addToolbarIcon(ToolsResources.getDrawableAttrId(R.attr.ic_insert_link_24dp)) {
+            ToolsAndroid.setToClipboard(API.LINK_RULES_MODER)
+            ToolsToast.show(R.string.app_copied)
+        }
+        Navigator.to(screen)
     }
 
     //
@@ -291,6 +313,66 @@ object ControllerCampfireSDK {
         return w
     }
 
+
+    fun createLanguageCheckMenu(languages: ArrayList<Long>): WidgetCheckBoxes {
+        val w = WidgetCheckBoxes()
+        val code = ToolsAndroid.getLanguageCode().toLowerCase()
+        for (i in API.LANGUAGES) {
+            if (i.code == code || i.code == "en")
+                w.add(i.name).checked(languages.contains(i.id)).onChange { ww, item, b ->
+                    if (b) {
+                        if (!languages.contains(i.id)) languages.add(i.id)
+                    } else {
+                        languages.remove(i.id)
+                    }
+                }
+        }
+        w.group(" ")
+        for (i in API.LANGUAGES) {
+            if (i.code != code && i.code != "en")
+                w.add(i.name).checked(languages.contains(i.id)).onChange { ww, item, b ->
+                    if (b) {
+                        if (!languages.contains(i.id)) languages.add(i.id)
+                    } else {
+                        languages.remove(i.id)
+                    }
+                }
+        }
+        return w
+    }
+
+    fun acceptRules(onAccept: () -> com.dzen.campfire.api.models.units.Unit) {
+        if (WidgetAlert.check(CampfreConstants.CHECK_RULES_ACCEPTED)) {
+            onAccept.invoke()
+            return
+        }
+
+        val t = ToolsResources.s(R.string.message_publication_rules)
+
+        val span = Spannable.Factory.getInstance().newSpannable(t)
+        span.setSpan(object : ClickableSpan() {
+            override fun onClick(v: View) {
+                ToolsIntent.openLink("https://play.google.com/intl/ru_ALL/about/restricted-content/inappropriate-content/")
+            }
+        }, t.indexOf("["), t.length, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
+
+        WidgetAlert()
+                .setText(span)
+                .setTitleImageBackgroundRes(R.color.blue_700)
+                .setTitleImage(R.drawable.ic_security_white_48dp)
+                .setChecker(CampfreConstants.CHECK_RULES_ACCEPTED, R.string.app_i_agree)
+                .setLockUntilAccept(true)
+                .setOnCancel(R.string.app_cancel)
+                .setOnEnter(R.string.app_accept) { dialog -> onAccept.invoke() }
+                .asSheetShow()
+    }
+
+
+    interface ExecutorLinks {
+
+        fun parseLink(link: String, params: List<String>): Boolean
+
+    }
 
 
 }

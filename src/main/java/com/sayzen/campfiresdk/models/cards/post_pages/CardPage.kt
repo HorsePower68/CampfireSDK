@@ -32,6 +32,7 @@ abstract class CardPage(
             if (page is PageVideo) return CardPageVideo(unit, page)
             if (page is PageTable) return CardPageTable(unit, page)
             if (page is PageDownload) return CardPageDownload(unit, page)
+            if (page is PageCampfireObject) return CardPageCampfireObject(unit, page)
 
             throw RuntimeException("Unknown page $page")
         }
