@@ -19,6 +19,7 @@ import com.sup.dev.android.tools.ToolsResources
 import com.sup.dev.android.views.cards.CardAvatar
 import com.sup.dev.android.views.support.adapters.NotifyItem
 import com.sup.dev.android.views.views.ViewAvatarTitle
+import com.sup.dev.android.views.views.ViewIcon
 import com.sup.dev.java.tools.ToolsDate
 import java.lang.RuntimeException
 
@@ -79,10 +80,10 @@ class CardRate(
     override fun bindView(view: View) {
         super.bindView(view)
 
-        val vRate: TextView = view.findViewById(R.id.vRate)
+        val vRate: ViewIcon = view.findViewById(R.id.vRate)
 
-        vRate.text = (rate.karmaCount / 100).toString()
-        vRate.setTextColor(ToolsResources.getColor(if (rate.karmaCount > 0L) R.color.green_700 else R.color.red_700))
+        vRate.setImageResource(if (rate.karmaCount > 0) R.drawable.ic_keyboard_arrow_up_white_24dp else R.drawable.ic_keyboard_arrow_down_white_24dp)
+        vRate.setFilter(ToolsResources.getColor(if (rate.karmaCount > 0) R.color.green_700 else R.color.red_700))
     }
 
     override fun onBind(vAvatar: ViewAvatarTitle) {

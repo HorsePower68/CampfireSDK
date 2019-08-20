@@ -43,7 +43,7 @@ class SForums constructor(
                     val r = RUnitsGetAll()
                             .setOffset(cards.size)
                             .setUnitTypes(API.UNIT_TYPE_FORUM)
-                            .setOrder(RUnitsGetAll.ORDER_NEW)
+                            .setOrder(RUnitsGetAll.ORDER_KARMA)
                             .setFandomId(fandomId)
                             .setLanguageId(languageId)
                             .onComplete { rr -> onLoad.invoke(rr.units) }

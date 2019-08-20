@@ -3,6 +3,7 @@ package com.sayzen.campfiresdk.screens.post.create.creator
 import android.view.inputmethod.EditorInfo
 import android.widget.Button
 import com.dzen.campfire.api.API
+import com.dzen.campfire.api.models.CampfireLink
 import com.dzen.campfire.api.models.units.post.PageCampfireObject
 import com.sayzen.campfiresdk.R
 import com.sayzen.campfiresdk.screens.post.create.SPostCreate
@@ -13,7 +14,6 @@ import com.sup.dev.android.tools.ToolsView
 import com.sup.dev.android.views.settings.SettingsField
 import com.sup.dev.android.views.support.watchers.TextWatcherChanged
 import com.sup.dev.android.views.widgets.Widget
-import com.sup.dev.java.libs.debug.log
 import com.sup.dev.java.tools.ToolsText
 import com.sup.dev.java.tools.ToolsThreads
 
@@ -56,8 +56,9 @@ class WidgetPageCampfireObject(
     private fun onEnter() {
         val page = PageCampfireObject()
         page.link = vLink.getText().trim { it <= ' ' }
-        page.type = parseLink(page.link)
-        if (page.type < 1) {
+
+        val campfireLink = CampfireLink(page.link)
+        if(!campfireLink.isValid()) {
             ToolsToast.show(R.string.error_unsupported_link)
             return
         }
@@ -69,54 +70,6 @@ class WidgetPageCampfireObject(
         else
             screen.changePage(page, card, null, w)
 
-    }
-
-    private fun parseLink(link: String): Int {
-
-        val params: List<String>
-        val linkX:String
-
-        if(link.startsWith("@")){
-            val s1 = link.split("_")
-            linkX = s1[0] + "_"
-            params = if (s1.size > 1) s1.subList(1, s1.size) else emptyList()
-        }else{
-            if(link.length <= API.DOMEN.length) return 0
-            val t = link.substring(API.DOMEN.length)
-            val s1 = t.split("-")
-            linkX = s1[0]
-            params = if (s1.size > 1) s1[1].split("_") else emptyList()
-        }
-
-
-        log(linkX, params.size)
-
-        when (linkX) {
-            API.LINK_TAG_PROFILE_ID -> if (params.size == 1) return PageCampfireObject.TYPE_ACCOUNT
-            API.LINK_TAG_PROFILE_NAME -> if (params.size == 1) return PageCampfireObject.TYPE_ACCOUNT
-
-            API.LINK_TAG_POST -> if (params.size == 1) return PageCampfireObject.TYPE_POST
-            API.LINK_SHORT_POST_ID -> if (params.size == 1) return PageCampfireObject.TYPE_POST
-
-            API.LINK_TAG_CHAT -> if (params.size in 1..2) return PageCampfireObject.TYPE_CHAT
-            API.LINK_SHORT_CHAT_ID -> if (params.size in 1..2) return PageCampfireObject.TYPE_CHAT
-
-            API.LINK_TAG_FORUM -> if (params.size == 1) return PageCampfireObject.TYPE_FORUM
-            API.LINK_SHORT_FORUM_ID -> if (params.size == 1) return PageCampfireObject.TYPE_FORUM
-
-            API.LINK_TAG_FANDOM -> if (params.size == 1) return PageCampfireObject.TYPE_FANDOM
-            API.LINK_SHORT_FANDOM_ID -> if (params.size == 1) return PageCampfireObject.TYPE_FANDOM
-
-            API.LINK_TAG_STICKERS_PACK -> if (params.size == 1) return PageCampfireObject.TYPE_STICKER_PACK
-            API.LINK_SHORT_STICKERS_PACK -> if (params.size == 1) return PageCampfireObject.TYPE_STICKER_PACK
-
-        }
-
-        if(linkX.startsWith("@") && params.isEmpty() &&  ToolsText.isOnly(linkX.substring(1), ToolsText.LATIS_S + ToolsText.NUMBERS_S)){
-            return PageCampfireObject.TYPE_ACCOUNT
-        }
-
-        return 0
     }
 
     private fun onCancel() {

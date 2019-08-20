@@ -2,7 +2,6 @@ package com.sayzen.campfiresdk.views
 
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import androidx.recyclerview.widget.GridLayoutManager
 import com.dzen.campfire.api.models.units.stickers.UnitSticker
 import com.dzen.campfire.api.requests.stickers.RStickersGetAll
@@ -11,7 +10,8 @@ import com.sayzen.campfiresdk.R
 import com.sayzen.campfiresdk.controllers.ControllerSettings
 import com.sayzen.campfiresdk.controllers.api
 import com.sayzen.campfiresdk.models.cards.stickers.CardSticker
-import com.sup.dev.android.app.SupAndroid
+import com.sayzen.campfiresdk.screens.stickers.SStickersPacksSearch
+import com.sup.dev.android.libs.screens.navigator.Navigator
 import com.sup.dev.android.tools.ToolsAndroid
 import com.sup.dev.android.tools.ToolsView
 import com.sup.dev.android.views.dialogs.DialogSheetWidget
@@ -23,7 +23,8 @@ import com.sup.dev.java.tools.ToolsThreads
 open class WidgetStickers : WidgetRecycler(R.layout.widget_stickers) {
 
     private val myAdapter: RecyclerCardAdapterLoading<CardSticker, UnitSticker>
-    private val vEmptyText: TextView = findViewById(R.id.vEmptyText)
+    private val vEmptyContainer: View = findViewById(R.id.vEmptyContainer)
+    private val vSearchStickers: View = findViewById(R.id.vSearchStickers)
     private val stickersPacks = ControllerSettings.accountSettings.stickersPacks
     private var stickersPackIndex = 0
 
@@ -33,8 +34,9 @@ open class WidgetStickers : WidgetRecycler(R.layout.widget_stickers) {
     private var stickerLoaded = false
 
     init {
-        vEmptyText.text = SupAndroid.TEXT_ERROR_CANT_FIND_IMAGES
-        vEmptyText.visibility = View.GONE
+        vEmptyContainer.visibility = View.GONE
+
+        vSearchStickers.setOnClickListener { Navigator.to(SStickersPacksSearch()) }
 
         spanCount = if (ToolsAndroid.isScreenPortrait()) 4 else 8
         vRecycler.layoutManager = GridLayoutManager(view.context, spanCount)
@@ -54,7 +56,7 @@ open class WidgetStickers : WidgetRecycler(R.layout.widget_stickers) {
 
         myAdapter.setBottomLoader{ onLoad, cards->
 
-            if(!stickerLoaded){
+            if(!stickerLoaded && ControllerSettings.accountSettings.stickers.isNotEmpty()){
                 RStickersGetAllById(ControllerSettings.accountSettings.stickers)
                         .onComplete { r->
                             stickerLoaded = true
@@ -75,10 +77,10 @@ open class WidgetStickers : WidgetRecycler(R.layout.widget_stickers) {
 
             if(stickersPackIndex >= stickersPacks.size) {
                 onLoad.invoke(emptyArray())
-                if(myAdapter.isEmpty) vEmptyText.visibility = View.VISIBLE
+                if(myAdapter.isEmpty) vEmptyContainer.visibility = View.VISIBLE
                 return@setBottomLoader
             }
-            vEmptyText.visibility = View.GONE
+            vEmptyContainer.visibility = View.GONE
             RStickersGetAll(stickersPacks[stickersPackIndex])
                     .onComplete { r->
                         stickersPackIndex++

@@ -85,6 +85,7 @@
     <string name="app_moderation">Модерация</string>
     <string name="app_do_cancel">Отменить</string>
     <string name="app_fandoms">Фэндомы</string>
+    <string name="app_fandom">Фэндом</string>
     <string name="app_users">Пользователи</string>
     <string name="app_chat">Чат</string>
     <string name="app_chats">Чаты</string>
@@ -123,7 +124,7 @@
     <string name="app_open">Открыть</string>
     <string name="app_share">Поделиться</string>
     <string name="app_copy_link">Копировать ссылку</string>
-    <string name="app_copy_link_with_language">Копировать ссылку с языком</string>
+    <string name="app_copy_link_with_language">Копировать ссылку (+язык)</string>
     <string name="app_choose_template">Выбрать шаблон</string>
     <string name="app_moderator">Модератор</string>
     <string name="app_admin">Админ</string>
@@ -169,6 +170,8 @@
     <string name="app_confirm">Подтвердить</string>
     <string name="app_file">Файл</string>
     <string name="app_favorites">Избранные</string>
+    <string name="app_error">Ошибка</string>
+    <string name="app_post">Пост</string>
 
     <string name="he">он</string>
     <string name="she">она</string>
@@ -499,6 +502,7 @@
     <string name="stickers_packs_report_confirm">Пожаловаться на набор стикеров?</string>
     <string name="stickers_report_confirm">Пожаловаться на стикер?</string>
     <string name="stickers_packs_error_gone">Похоже кто-то удалил этот набор стикеров</string>
+    <string name="stickers_empty">Похоже у вас нет стикеров</string>
     <string name="sticker_error_gone">Похоже кто-то удалил этот стикер</string>
     <string name="sticker_add">Добавить в коллекцию</string>
     <string name="sticker_remove">Убрать из коллекции</string>
@@ -816,6 +820,7 @@
     <string name="post_rates_empty">Здесь еще нет оценок</string>
     <string name="post_page_download_alert">Будьте осторожны при загрузке файлов из приложения, они могут навредить вашему устройству.</string>
     <string name="post_page_download_unzip">Файл будет автоматически разархивирован.</string>
+    <string name="post_page_campfire_object_error">Невозможно загрузить объект</string>
 
     <string name="post_create_cancel_alert">Вы уверены, что хотите отменить создание?</string>
     <string name="post_create_tags_empty">Здесь вы могли выбрать теги, но у фэндома их еще нет :(</string>

@@ -30,13 +30,10 @@
             app:ViewAvatarTitle_title="Campfire"
             app:ViewAvatar_chipText="EN"/>
 
-        <TextView
+        <com.sup.dev.android.views.views.ViewIcon
             android:id="@+id/vRate"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_margin="24dp"
-            style="@style/TextAppearance.MaterialComponents.Subtitle1"/>
+            style="@style/Icon"
+            android:layout_gravity="center" />
 
     </LinearLayout>
 

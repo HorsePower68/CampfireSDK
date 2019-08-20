@@ -85,6 +85,7 @@
     <string name="app_moderation">Moderation</string>
     <string name="app_do_cancel">Cancel</string>
     <string name="app_fandoms">Fandoms</string>
+    <string name="app_fandom">Fandom</string>
     <string name="app_users">Users</string>
     <string name="app_chat">Chat</string>
     <string name="app_chats">Chats</string>
@@ -123,7 +124,7 @@
     <string name="app_open">Open</string>
     <string name="app_share">Share</string>
     <string name="app_copy_link">Copy link</string>
-    <string name="app_copy_link_with_language">Copy link with language</string>
+    <string name="app_copy_link_with_language">Copy link (+language)</string>
     <string name="app_choose_template">Choose a template</string>
     <string name="app_moderator">Moderator</string>
     <string name="app_admin">Admin</string>
@@ -169,6 +170,8 @@
     <string name="app_confirm">Confirm</string>
     <string name="app_file">File</string>
     <string name="app_favorites">Favorites</string>
+    <string name="app_error">Error</string>
+    <string name="app_post">Post</string>
 
     <string name="he">he</string>
     <string name="she">she</string>
@@ -504,6 +507,7 @@
     <string name="stickers_packs_report_confirm">Report stickers pack?</string>
     <string name="stickers_report_confirm">Report this sticker?</string>
     <string name="stickers_packs_error_gone">Looks like someone deleted this stickers pack</string>
+    <string name="stickers_empty">Looks like you have no stickers</string>
     <string name="sticker_error_gone">Looks like someone deleted this sticker</string>
     <string name="sticker_add">Add to collection</string>
     <string name="sticker_remove">Remove from collection</string>
@@ -823,6 +827,7 @@
     <string name="post_rates_empty">There is no any rating yet</string>
     <string name="post_page_download_alert">Be careful when downloading files from the application, they can harm your device.</string>
     <string name="post_page_download_unzip">The file will automatically unzip.</string>
+    <string name="post_page_campfire_object_error">Unable to load object</string>
 
     <string name="post_create_cancel_alert">Are you sure you want to cancel creation?</string>
     <string name="post_create_tags_empty">This fandom doesn\'t have any tags yet :(</string>
