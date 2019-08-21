@@ -66,7 +66,7 @@ class SForumView(
         }
 
         (vFab as View).visibility = View.VISIBLE
-        vFab.setImageResource(R.drawable.ic_mode_comment_white_24dp)
+        vFab.setImageDrawable(ToolsResources.getDrawableAttr(R.attr.ic_mode_comment_24dp))
         vFab.setOnClickListener { WidgetComment(unit.id) { comment -> (adapter as AdapterComments).addComment(comment) }.asSheetShow() }
         setTextEmpty(R.string.forum_empty_messages)
         setTextProgress(R.string.forum_loading_messages)

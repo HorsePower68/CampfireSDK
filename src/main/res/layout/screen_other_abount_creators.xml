@@ -1,0 +1,262 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    style="@style/Root.Content">
+
+
+    <com.google.android.material.appbar.AppBarLayout
+        style="@style/AppBar">
+
+        <androidx.appcompat.widget.Toolbar
+            style="@style/Toolbar"
+            app:title="@string/about_creators">
+
+            <com.sup.dev.android.views.views.ViewIcon
+                android:id="@+id/vCopyLink"
+                style="@style/Icon.Toolbar"
+                android:src="?ic_insert_link_24dp"/>
+
+
+        </androidx.appcompat.widget.Toolbar>
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <androidx.core.widget.NestedScrollView
+        style="@style/Scroll">
+
+        <LinearLayout
+            android:id="@+id/vSettingsContainer"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:orientation="vertical"
+            android:padding="16dp">
+
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:cardCornerRadius="12dp"
+                app:contentPaddingLeft="16dp"
+                app:contentPaddingRight="16dp"
+                app:contentPaddingTop="16dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <com.sup.dev.android.views.views.ViewAvatarTitle
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/photo_zeon"
+                        app:ViewAvatarTitle_subtitle="@string/about_creators_zeon_subtitle"
+                        app:ViewAvatarTitle_title="@string/about_creators_zeon"/>
+
+                    <View
+                        style="@style/Divider"
+                        android:layout_marginTop="8dp"/>
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="end">
+
+                        <com.sup.dev.android.views.views.ViewIcon
+                            android:id="@+id/vCampfireZeon"
+                            style="@style/Icon"
+                            android:padding="16dp"
+                            android:src="@drawable/icon_campfire"/>
+
+                        <com.sup.dev.android.views.views.ViewIcon
+                            android:id="@+id/vEmailZeon"
+                            style="@style/Icon"
+                            android:padding="16dp"
+                            android:src="?ic_email_24dp"/>
+
+                        <com.sup.dev.android.views.views.ViewIcon
+                            android:id="@+id/vVkZeon"
+                            style="@style/Icon"
+                            android:padding="16dp"
+                            android:src="?icon_vk"/>
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
+
+            </com.google.android.material.card.MaterialCardView>
+
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:cardCornerRadius="12dp"
+                android:layout_marginTop="24dp"
+                app:contentPaddingLeft="16dp"
+                app:contentPaddingRight="16dp"
+                app:contentPaddingTop="16dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <com.sup.dev.android.views.views.ViewAvatarTitle
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/photo_saynok"
+                        app:ViewAvatarTitle_subtitle="@string/about_creators_saynok_subtitle"
+                        app:ViewAvatarTitle_title="@string/about_creators_saynok"/>
+
+                    <View
+                        style="@style/Divider"
+                        android:layout_marginTop="8dp"/>
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="end">
+
+                        <com.sup.dev.android.views.views.ViewIcon
+                            android:id="@+id/vCampfireSaynok"
+                            style="@style/Icon"
+                            android:padding="16dp"
+                            android:src="@drawable/icon_campfire"/>
+
+                        <com.sup.dev.android.views.views.ViewIcon
+                            android:id="@+id/vEmailSaynok"
+                            style="@style/Icon"
+                            android:padding="16dp"
+                            android:src="?ic_email_24dp"/>
+
+                        <com.sup.dev.android.views.views.ViewIcon
+                            android:id="@+id/vVkSaynok"
+                            style="@style/Icon"
+                            android:padding="16dp"
+                            android:src="?icon_vk"/>
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
+
+            </com.google.android.material.card.MaterialCardView>
+
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:cardCornerRadius="12dp"
+                android:layout_marginTop="24dp"
+                app:contentPaddingLeft="16dp"
+                app:contentPaddingRight="16dp"
+                app:contentPaddingTop="16dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <com.sup.dev.android.views.views.ViewAvatarTitle
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/photo_egor"
+                        app:ViewAvatarTitle_subtitle="@string/about_creators_egor_subtitle"
+                        app:ViewAvatarTitle_title="@string/about_creators_egor"/>
+
+                    <View
+                        style="@style/Divider"
+                        android:layout_marginTop="8dp"/>
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="end">
+
+                        <com.sup.dev.android.views.views.ViewIcon
+                            android:id="@+id/vCampfireEgor"
+                            style="@style/Icon"
+                            android:padding="16dp"
+                            android:src="@drawable/icon_campfire"/>
+
+                        <com.sup.dev.android.views.views.ViewIcon
+                            android:id="@+id/vEmailEgor"
+                            style="@style/Icon"
+                            android:padding="16dp"
+                            android:src="?ic_email_24dp"/>
+
+                        <com.sup.dev.android.views.views.ViewIcon
+                            android:id="@+id/vVkEgor"
+                            style="@style/Icon"
+                            android:padding="16dp"
+                            android:src="?icon_vk"/>
+
+                    </LinearLayout>
+
+
+                </LinearLayout>
+
+
+            </com.google.android.material.card.MaterialCardView>
+
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:cardCornerRadius="12dp"
+                android:layout_marginTop="24dp"
+                app:contentPaddingLeft="16dp"
+                app:contentPaddingRight="16dp"
+                app:contentPaddingTop="16dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <com.sup.dev.android.views.views.ViewAvatarTitle
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/photo_turbo"
+                        app:ViewAvatarTitle_subtitle="@string/about_creators_turbo_subtitle"
+                        app:ViewAvatarTitle_title="@string/about_creators_turbo"/>
+
+                    <View
+                        style="@style/Divider"
+                        android:layout_marginTop="8dp"/>
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="end">
+
+                        <com.sup.dev.android.views.views.ViewIcon
+                            android:id="@+id/vCampfireTurbo"
+                            style="@style/Icon"
+                            android:padding="16dp"
+                            android:src="@drawable/icon_campfire"/>
+
+                        <com.sup.dev.android.views.views.ViewIcon
+                            android:id="@+id/vEmailTurbo"
+                            style="@style/Icon"
+                            android:padding="16dp"
+                            android:src="?ic_email_24dp"/>
+
+                        <com.sup.dev.android.views.views.ViewIcon
+                            android:id="@+id/vVkTurbo"
+                            style="@style/Icon"
+                            android:padding="16dp"
+                            android:src="?icon_vk"/>
+
+                    </LinearLayout>
+
+
+                </LinearLayout>
+
+
+            </com.google.android.material.card.MaterialCardView>
+
+
+
+        </LinearLayout>
+
+    </androidx.core.widget.NestedScrollView>
+
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

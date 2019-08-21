@@ -25,7 +25,10 @@ import com.sayzen.campfiresdk.screens.fandoms.forums.view.SForumView
 import com.sayzen.campfiresdk.screens.fandoms.moderation.view.SModerationView
 import com.sayzen.campfiresdk.screens.fandoms.reviews.SReviews
 import com.sayzen.campfiresdk.screens.fandoms.view.SFandom
+import com.sayzen.campfiresdk.screens.other.SAboutApp
 import com.sayzen.campfiresdk.screens.other.SAboutCreators
+import com.sayzen.campfiresdk.screens.other.SRulesModerators
+import com.sayzen.campfiresdk.screens.other.SRulesUser
 import com.sayzen.campfiresdk.screens.post.search.SPostsSearch
 import com.sayzen.campfiresdk.screens.post.view.SPost
 import com.sayzen.campfiresdk.screens.stickers.SStickersView
@@ -139,9 +142,9 @@ object ControllerCampfireSDK {
             val params: List<String> = if (s1.size > 1) s1[1].split("_") else emptyList()
 
             when (link) {
-                API.LINK_TAG_ABOUT -> showAbout()
-                API.LINK_TAG_RULES_USER -> showRulesUser()
-                API.LINK_TAG_RULES_MODER -> showRulesModer()
+                API.LINK_TAG_ABOUT -> Navigator.to(SAboutApp())
+                API.LINK_TAG_RULES_USER -> Navigator.to(SRulesUser())
+                API.LINK_TAG_RULES_MODER -> Navigator.to(SRulesModerators())
                 API.LINK_TAG_CREATORS -> Navigator.to(SAboutCreators())
                 API.LINK_TAG_BOX_WITH_FIREWIRKS -> {
                     ControllerScreenAnimations.fireworks()
@@ -174,49 +177,6 @@ object ControllerCampfireSDK {
                 .asSheetShow()
     }
 
-    fun showAbout() {
-        val screen = WidgetAlert()
-                .setTitle(R.string.about_about)
-                .setText(R.string.about_info)
-                .asScreen()
-        screen.addToolbarIcon(ToolsResources.getDrawableAttrId(R.attr.ic_insert_link_24dp)) {
-            ToolsAndroid.setToClipboard(API.LINK_ABOUT)
-            ToolsToast.show(R.string.app_copied)
-        }
-        Navigator.to(screen)
-    }
-
-    fun showRulesUser() {
-        val w = WidgetAlert().setTitle(R.string.about_rules_user)
-        w.addLine(R.string.rules_users_info)
-        w.addLine("\n")
-        for (i in CampfreConstants.RULES_USER) {
-            w.addLine(ToolsResources.s(i.text))
-            w.addLine("\n")
-        }
-        val screen = w.asScreen()
-        screen.addToolbarIcon(ToolsResources.getDrawableAttrId(R.attr.ic_insert_link_24dp)) {
-            ToolsAndroid.setToClipboard(API.LINK_RULES_USER)
-            ToolsToast.show(R.string.app_copied)
-        }
-        Navigator.to(screen)
-    }
-
-    fun showRulesModer() {
-        val w = WidgetAlert().setTitle(R.string.about_rules_moderator)
-        w.addLine(R.string.rules_moderators_info)
-        w.addLine("\n")
-        for (i in CampfreConstants.RULES_MODER) {
-            w.addLine(ToolsResources.s(i))
-            w.addLine("\n")
-        }
-        val screen = w.asScreen()
-        screen.addToolbarIcon(ToolsResources.getDrawableAttrId(R.attr.ic_insert_link_24dp)) {
-            ToolsAndroid.setToClipboard(API.LINK_RULES_MODER)
-            ToolsToast.show(R.string.app_copied)
-        }
-        Navigator.to(screen)
-    }
 
     //
     //  Actions

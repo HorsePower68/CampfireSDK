@@ -172,6 +172,7 @@ Campfire has anime fandoms and gaming fandoms.</string>
     <string name="app_favorites">Favorites</string>
     <string name="app_error">Error</string>
     <string name="app_post">Post</string>
+    <string name="app_not_now">Not now</string>
 
     <string name="he">he</string>
     <string name="she">she</string>
@@ -769,7 +770,7 @@ Campfire has anime fandoms and gaming fandoms.</string>
     <string name="settings_style_rounding">Rounding</string>
     <string name="settings_style_rounding_chat">Rounding chat messages</string>
     <string name="settings_style_default">Drop to default</string>
-    <string name="settings_style_theme">Theme (after restart)</string>
+    <string name="settings_style_theme">Theme</string>
     <string name="settings_style_theme_1">Black</string>
     <string name="settings_style_theme_2">Dark Grey</string>
     <string name="settings_style_theme_3">White (alpha version)</string>
@@ -1248,7 +1249,7 @@ Campfire has anime fandoms and gaming fandoms.</string>
     <string name="statistic_enters">Enters</string>
     <string name="statistic_rates">Rates</string>
 
-    <string name="about_about">What is Campfire?</string>
+    <string name="about_about">About App</string>
     <string name="about_rules_user">Rules of app</string>
     <string name="about_rules_moderator">Rules of moderation</string>
     <string name="about_statistic">Statistic</string>
@@ -1261,45 +1262,48 @@ Campfire has anime fandoms and gaming fandoms.</string>
     <string name="about_creators_egor_subtitle">The main artist. Drew all the images for Campfire. Continues to design graphics for Campfire to this date.</string>
     <string name="about_creators_turbo">Arthur Adamovich(TurboA99)</string>
     <string name="about_creators_turbo_subtitle">The first user of Campfire who helped in the creation of the project from the technical side. Created a redirect page that opens in the browser when clicking on a link from the application.</string>
-    <string name="about_info">A very brief description of the main elements and systems of the application. It will allow you to better understand how our community works.
-        \n
-        \nFandom:
-        \n - Only one fandom can be created per topic. For example, there can not be two fandoms about Minecraft.
-        \n - Fandom exists in several languages ​​at once. The community for each language has its own feed, chat and moderators.
-        \n - To be a moderator in a fandom you need to reach a certain level in Campfire to unlock moderator functions and score certain amount of karma for 30 days.
-        \n - Karma for 30 days in a fandom is taken into account for the language in which the publication was made.
-        \n - Any actions performed by moderators are published in the \"moderation\" section of the fandom, where they can be assessed and commented.
-        \n - If there are very few people in the fandom and it is impossible to get the karma necessary for moderation, you can post an \"application\" for the moderator in this fandom and ask the administrator to make you a moderator for the fandom.
-        \n
-        \nChat:
-        \n - There is 1 global chat for each language for each fandom.
-        \n - Images in the chat are deleted every other day to save server memory.
-        \n
-        \n
-        \nLevel:
-        \n - It is displayed on the user\'s avatar.
-        \n - User\'s level affects that user\'s rating to a post.
-        \n - The level can be increased only by achieving achievements.
-        \n - The higher the level, the more privileges in the application is unlocked (up to administrative functions).
-        \n
-        \nKarma:
-        \n - Karma is earned by getting ratings on the post, comments and moderation actions.
-        \n - Karma can be subtracted if the scores are negative.
-        \n - Karma is required to use moderator and admin functions.
-        \n - One user can change the karma of another user only once in 24 hours, all other ratings will only affect the publication.
-        \n
-        \nDaily quests:
-        \n  - Displayed at the top of Achievements screen.
-        \n  - Updated at 00:00 server time (UTC+3).
-    	\n
-        \nText formatting:
-        \n - *Bold*
-        \n - ^Italic^
-        \n - ~Strikethrough~
-        \n - _Underlined_
-        \n - [Link name]link
-        \n - {red Red}{blue Blue}{AA5480 #AA5480}
-        \n - \\ - Makes a character ordinary \\* = *
+    <string name="about_info_1">A very brief description of the main elements and systems of the application. It will allow you to better understand how our community works.</string>
+    <string name="about_info_2t">Fandom</string>
+    <string name="about_info_2">
+        Only one fandom can be created per topic. For example, there can not be two fandoms about Minecraft.
+        \n\nFandom exists in several languages ​​at once. The community for each language has its own feed, chat and moderators.
+        \n\nTo be a moderator in a fandom you need to reach a certain level in Campfire to unlock moderator functions and score certain amount of karma for 30 days.
+        \n\nKarma for 30 days in a fandom is taken into account for the language in which the publication was made.
+        \n\nAny actions performed by moderators are published in the \"moderation\" section of the fandom, where they can be assessed and commented.
+        \n\nIf there are very few people in the fandom and it is impossible to get the karma necessary for moderation, you can post an \"application\" for the moderator in this fandom and ask the administrator to make you a moderator for the fandom.
+    </string>
+    <string name="about_info_3t">Chat</string>
+    <string name="about_info_3">
+        There is 1 global chat for each language for each fandom.
+        \n\nImages in the chat are deleted every other day to save server memory.</string>
+    <string name="about_info_4t">Level</string>
+    <string name="about_info_4">
+        It is displayed on the user\'s avatar.
+        \n\nUser\'s level affects that user\'s rating to a post.
+        \n\nThe level can be increased only by achieving achievements.
+        \n\nThe higher the level, the more privileges in the application is unlocked (up to administrative functions).
+    </string>
+    <string name="about_info_5t">Karma</string>
+    <string name="about_info_5">
+        Karma is earned by getting ratings on the post, comments and moderation actions.
+        \n\nKarma can be subtracted if the scores are negative.
+        \n\nKarma is required to use moderator and admin functions.
+        \n\nOne user can change the karma of another user only once in 24 hours, all other ratings will only affect the publication.
+    </string>
+    <string name="about_info_6t">Daily quests</string>
+    <string name="about_info_6">
+        Displayed at the top of Achievements screen.
+        \n\nUpdated at 00:00 server time (UTC+3).
+    </string>
+    <string name="about_info_7t">Text formatting</string>
+    <string name="about_info_7">
+        *Bold*
+        \n\n^Italic^
+        \n\n~Strikethrough~
+        \n\n_Underlined_
+        \n\n[Link name]link
+        \n\n{red Red}{blue Blue}{AA5480 #AA5480}
+        \n\n\\ - Makes a character ordinary \\* = *
     </string>
 
     <plurals name="pages_count">

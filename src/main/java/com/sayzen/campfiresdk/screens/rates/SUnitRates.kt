@@ -9,15 +9,15 @@ import com.sup.dev.android.views.support.adapters.recycler_view.RecyclerCardAdap
 
 class SUnitRates(
         val unitId: Long
-) : SLoadingRecycler<CardRate, Rate>() {
+) : SLoadingRecycler<CardRateText, Rate>() {
 
     init {
         setTitle(R.string.app_rates)
         setTextEmpty(R.string.post_rates_empty)
     }
 
-    override fun instanceAdapter(): RecyclerCardAdapterLoading<CardRate, Rate> {
-        return RecyclerCardAdapterLoading<CardRate, Rate>(CardRate::class) { ac -> CardRate(ac) }
+    override fun instanceAdapter(): RecyclerCardAdapterLoading<CardRateText, Rate> {
+        return RecyclerCardAdapterLoading<CardRateText, Rate>(CardRateText::class) { ac -> CardRateText(ac) }
                 .setBottomLoader { onLoad, cards ->
                     subscription = RPostRatesGetAll(unitId, cards.size.toLong())
                             .onComplete { r -> onLoad.invoke(r.rates) }

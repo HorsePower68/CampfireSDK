@@ -34,6 +34,7 @@ class SPostsSearch(val tag: UnitTag) : SLoadingRecycler<CardUnit, Unit>() {
     }
 
     init {
+        vScreenRoot!!.setBackgroundColor(ToolsResources.getBackgroundColor(context))
         setTitle(tag.name)
         setTextEmpty(R.string.post_search_empty)
         setAction(R.string.post_search_action) {

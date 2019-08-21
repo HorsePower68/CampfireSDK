@@ -6,6 +6,7 @@ import com.sayzen.campfiresdk.R
 import com.sayzen.campfiresdk.adapters.XAccount
 import com.sayzen.campfiresdk.controllers.ControllerApi
 import com.sayzen.campfiresdk.controllers.api
+import com.sayzen.campfiresdk.screens.rates.CardRate
 import com.sup.dev.android.tools.ToolsResources
 import com.sup.dev.android.views.support.adapters.recycler_view.RecyclerCardAdapterLoading
 import com.sup.dev.android.views.screens.SLoadingRecycler

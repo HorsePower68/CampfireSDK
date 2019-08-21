@@ -11,7 +11,7 @@ import com.sup.dev.android.tools.ToolsAndroid
 import com.sup.dev.android.tools.ToolsIntent
 import com.sup.dev.android.tools.ToolsToast
 
-class SAboutCreators : Screen(R.layout.screen_abount_creators){
+class SAboutCreators : Screen(R.layout.screen_other_abount_creators){
 
     private val vCopyLink:View = findViewById(R.id.vCopyLink)
 
