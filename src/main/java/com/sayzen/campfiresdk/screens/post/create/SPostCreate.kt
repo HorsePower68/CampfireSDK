@@ -121,7 +121,7 @@ class SPostCreate constructor(
             else Navigator.back()
         }
         vFinish.setOnLongClickListener { v ->
-            SCreationTags.create(unitId, tags, false) { SPost.instance(unitId, 0, NavigationAction.replace()) }
+            SCreationTags.create(unitId, tags, false, 0) { SPost.instance(unitId, 0, NavigationAction.replace()) }
             true
         }
         if (changePost != null && !changePost.isDraft) vFinish.setImageResource(ToolsResources.getDrawableAttrId(R.attr.ic_done_24dp))
@@ -305,7 +305,7 @@ class SPostCreate constructor(
         page.text = text
         page.size = PageText.SIZE_0
         putPage(page, null, null, {CardPageText(null, it)},  {
-            if(postAfterAdd) SCreationTags.create(unitId, tags, false) { SPost.instance(unitId, 0, NavigationAction.replace()) }
+            if(postAfterAdd) SCreationTags.create(unitId, tags, false, 0) { SPost.instance(unitId, 0, NavigationAction.replace()) }
         }, true)
     }
 
@@ -325,7 +325,7 @@ class SPostCreate constructor(
                 }
                 page.insertBytes = ToolsBitmap.toBytes(ToolsBitmap.keepMaxSides(it, API.PAGE_IMAGE_SIDE), API.PAGE_IMAGE_WEIGHT)
                 ToolsThreads.main { putPage(page, null, w, { CardPageImage(null, it) }, {
-                    if(postAfterAdd) SCreationTags.create(unitId, tags, false) { SPost.instance(unitId, 0, NavigationAction.replace()) }
+                    if(postAfterAdd) SCreationTags.create(unitId, tags, false, 0) { SPost.instance(unitId, 0, NavigationAction.replace()) }
                 }, true) }
             },{
                 w.hide()
@@ -344,7 +344,7 @@ class SPostCreate constructor(
             val page = PageImage()
             page.insertBytes = ToolsBitmap.toBytes(ToolsBitmap.keepMaxSides(image, API.PAGE_IMAGE_SIDE), API.PAGE_IMAGE_WEIGHT)
             ToolsThreads.main { putPage(page, null, w, { CardPageImage(null, it) }, {
-                if(postAfterAdd) SCreationTags.create(unitId, tags, false) { SPost.instance(unitId, 0, NavigationAction.replace()) }
+                if(postAfterAdd) SCreationTags.create(unitId, tags, false, 0) { SPost.instance(unitId, 0, NavigationAction.replace()) }
             }, true) }
         }
     }

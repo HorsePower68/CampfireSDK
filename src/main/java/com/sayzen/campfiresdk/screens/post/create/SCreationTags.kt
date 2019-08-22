@@ -13,19 +13,22 @@ import com.dzen.campfire.api.requests.tags.RTagsGetAll
 import com.sayzen.campfiresdk.R
 import com.sayzen.campfiresdk.models.events.units.EventPostPublishedChange
 import com.sayzen.campfiresdk.controllers.ControllerUnits
+import com.sayzen.campfiresdk.screens.post.pending.SPending
 import com.sayzen.campfiresdk.screens.post.view.SPost
 import com.sup.dev.android.libs.api_simple.ApiRequestsSupporter
 import com.sup.dev.android.libs.screens.Screen
 import com.sup.dev.android.libs.screens.activity.SActivityBottomNavigation
 import com.sup.dev.android.libs.screens.navigator.NavigationAction
 import com.sup.dev.android.libs.screens.navigator.Navigator
-import com.sup.dev.android.tools.ToolsBitmap
-import com.sup.dev.android.tools.ToolsImagesLoader
-import com.sup.dev.android.tools.ToolsView
+import com.sup.dev.android.tools.*
 import com.sup.dev.android.views.views.ViewChip
 import com.sup.dev.android.views.views.layouts.LayoutFlow
+import com.sup.dev.android.views.widgets.WidgetChooseDate
+import com.sup.dev.android.views.widgets.WidgetChooseTime
 import com.sup.dev.android.views.widgets.WidgetField
+import com.sup.dev.java.libs.debug.log
 import com.sup.dev.java.libs.eventBus.EventBus
+import com.sup.dev.java.tools.ToolsDate
 import java.util.*
 
 class SCreationTags private constructor(
@@ -48,8 +51,8 @@ class SCreationTags private constructor(
             ApiRequestsSupporter.executeInterstitial(action, RTagsGetAll(fandomId, languageId)) { r -> SCreationTags(unitId, unitTag3, isMyUnit, presetTags, r.tags) }
         }
 
-        fun create(unitId: Long, tags: Array<Long>, notifyFollowers:Boolean, onCreate:()->Unit){
-            ApiRequestsSupporter.executeProgressDialog(RPostPublication(unitId, tags, "", notifyFollowers)) { r ->
+        fun create(unitId: Long, tags: Array<Long>, notifyFollowers: Boolean, pendingTime: Long, onCreate: () -> Unit) {
+            ApiRequestsSupporter.executeProgressDialog(RPostPublication(unitId, tags, "", notifyFollowers, pendingTime)) { r ->
                 EventBus.post(EventPostPublishedChange(unitId, true))
                 onCreate.invoke()
             }
@@ -60,12 +63,14 @@ class SCreationTags private constructor(
 
     private val vFab: FloatingActionButton = findViewById(R.id.vFab)
     private val vNotifyFollowers: CheckBox = findViewById(R.id.vNotifyFollowers)
+    private val vPending: CheckBox = findViewById(R.id.vPending)
     private val vLine: View = findViewById(R.id.vLine)
     private val vMessageContainer: View = findViewById(R.id.vMessageContainer)
     private val vContainer: ViewGroup = findViewById(R.id.vTagsContainer)
     private val vMenuContainer: ViewGroup = findViewById(R.id.vMenuContainer)
 
     private val chips = ArrayList<ViewChip>()
+    private var pendingDate = 0L
 
     init {
         isBottomNavigationShadowAvailable = false
@@ -73,7 +78,8 @@ class SCreationTags private constructor(
 
         vNotifyFollowers.isEnabled = unitTag3 == 0L
         vNotifyFollowers.isChecked = false
-        vMenuContainer.visibility = if(vNotifyFollowers.isEnabled) View.VISIBLE else View.GONE
+        vPending.isChecked = false
+        vMenuContainer.visibility = if (vNotifyFollowers.isEnabled) View.VISIBLE else View.GONE
 
         isSingleInstanceInBackStack = true
 
@@ -82,7 +88,41 @@ class SCreationTags private constructor(
 
         vFab.setOnClickListener { v -> sendPublication() }
 
+        vPending.setOnClickListener {
+            if (!vPending.isChecked/*После нажатия положение меняется*/) setPendingDate(0)
+            else {
+                WidgetChooseDate()
+                        .setOnEnter(R.string.app_choose) { w, date ->
+                            WidgetChooseTime()
+                                    .setOnEnter(R.string.app_choose) { w, h, m ->
+                                        setPendingDate(ToolsDate.getStartOfDay(date) + (h * 60L * 60 * 1000) + (m * 60L * 1000))
+                                    }
+                                    .asSheetShow()
+
+                        }
+                        .asSheetShow()
+            }
+        }
+
         setTags(tags)
+    }
+
+    private fun setPendingDate(date: Long) {
+        var date = date
+        if (date != 0L && date < System.currentTimeMillis()) {
+            ToolsToast.show(R.string.post_create_pending_error)
+            date = 0L
+        }
+
+        pendingDate = date
+        if (date > 0) {
+            vPending.setText(ToolsResources.s(R.string.post_create_pending) + " (${ToolsDate.dateToString(date)})")
+            vPending.isChecked = true
+        } else {
+            vPending.setText(R.string.post_create_pending)
+            vPending.isChecked = false
+        }
+
     }
 
     private fun sendPublication() {
@@ -94,9 +134,10 @@ class SCreationTags private constructor(
         val tags = Array(selectedTags.size) { selectedTags[it].id }
 
         if (isMyUnit) {
-            create(unitId, tags, vNotifyFollowers.isChecked){
+            create(unitId, tags, vNotifyFollowers.isChecked, pendingDate) {
                 Navigator.removeAll(SPostCreate::class.java)
-                SPost.instance(unitId, 0, NavigationAction.replace())
+                if (pendingDate > 0) Navigator.replace(SPending())
+                else SPost.instance(unitId, 0, NavigationAction.replace())
             }
         } else {
             WidgetField()
@@ -105,7 +146,7 @@ class SCreationTags private constructor(
                     .setMin(API.MODERATION_COMMENT_MIN_L)
                     .setMax(API.MODERATION_COMMENT_MAX_L)
                     .setOnEnter(R.string.app_change) { w, comment ->
-                        ApiRequestsSupporter.executeEnabled(w, RPostPublication(unitId, tags, comment, false)) { r ->
+                        ApiRequestsSupporter.executeEnabled(w, RPostPublication(unitId, tags, comment, false, 0)) { r ->
                             Navigator.removeAll(SPostCreate::class.java)
                             EventBus.post(EventPostPublishedChange(unitId, true))
                             SPost.instance(unitId, 0, NavigationAction.replace())
@@ -141,7 +182,7 @@ class SCreationTags private constructor(
                 if (t.imageId != 0L) {
                     v.setIcon(R.color.focus)
                     ToolsImagesLoader.load(t.imageId).into { bytes -> v.setIcon(ToolsBitmap.resize(ToolsBitmap.decode(bytes)!!, 32, 32)) }
-                }else{
+                } else {
                     v.setIcon(null)
                 }
             }

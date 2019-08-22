@@ -173,6 +173,7 @@
     <string name="app_error">Error</string>
     <string name="app_post">Post</string>
     <string name="app_not_now">Not now</string>
+    <string name="app_pending">Pending</string>
 
     <string name="he">he</string>
     <string name="she">she</string>
@@ -843,6 +844,8 @@
     <string name="post_create_images_empty">Add some pictures</string>
     <string name="post_create_notify_followers">Notify your followers</string>
     <string name="post_create_objects_label">Supported links to the user, post, chat, forum, femdom, a stickers pack.</string>
+    <string name="post_create_pending">Pending publication</string>
+    <string name="post_create_pending_error">Cannot be published in the past.</string>
 
     <string name="quests_next">The next quest will be available tomorrow.</string>
     <string name="quests_text_rates">Rate the publication of other users.</string>

@@ -173,6 +173,7 @@
     <string name="app_error">Ошибка</string>
     <string name="app_post">Пост</string>
     <string name="app_not_now">Не сейчас</string>
+    <string name="app_pending">Отложенные</string>
 
     <string name="he">он</string>
     <string name="she">она</string>
@@ -836,6 +837,8 @@
     <string name="post_create_images_empty">Добавьте несколько картинок</string>
     <string name="post_create_notify_followers">Уведомить своих подписчиков</string>
     <string name="post_create_objects_label">Поддерживаются ссылки на пользователя, пост, чат, форум, фэндом, набор стикеров.</string>
+    <string name="post_create_pending">Отложенная публикация</string>
+    <string name="post_create_pending_error">Нельзя публиковать в прошлое</string>
 
     <string name="quests_next">Следующее задание будет доступно завтра.</string>
     <string name="quests_text_rates">Поставьте оценки публикациям других пользователей.</string>
