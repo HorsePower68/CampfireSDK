@@ -58,7 +58,7 @@ class CardPunishment(
         if (ControllerApi.isCurrentAccount(punishment.fromAccountId) || ControllerApi.can(API.LVL_ADMIN_USER_PUNISHMENTS_REMOVE))
             setOnLongClick { c, v, x, y ->
                 WidgetMenu()
-                        .add(R.string.app_remove) { w, i -> removePunishment() }.backgroundRes(R.color.red_700)
+                        .add(R.string.app_remove) { w, i -> removePunishment() }.backgroundRes(R.color.red_700).textColorRes(R.color.white)
                         .asSheetShow()
             }
 

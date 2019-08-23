@@ -148,12 +148,12 @@ class SFandom private constructor(
                     }
                     .add(R.string.fandoms_menu_black_list_add) { w, card -> ControllerCampfireSDK.addToBlackListFandom(xFandom.fandomId) }.condition(!ControllerSettings.feedIgnoreFandoms.contains(xFandom.fandomId))
                     .add(R.string.fandoms_menu_black_list_remove) { w, card -> ControllerCampfireSDK.removeFromBlackListFandom(xFandom.fandomId) }.condition(ControllerSettings.feedIgnoreFandoms.contains(xFandom.fandomId))
-                    .add(R.string.fandoms_menu_background_change) { wi, c -> changeBackgroundImage() }.condition(ControllerApi.can(xFandom.fandomId, xFandom.languageId, API.LVL_MODERATOR_BACKGROUND_IMAGE)).backgroundRes(R.color.blue_700)
-                    .add(R.string.fandoms_menu_background_remove) { wi, c -> removeBackgroundImage() }.condition(ControllerApi.can(xFandom.fandomId, xFandom.languageId, API.LVL_MODERATOR_BACKGROUND_IMAGE)).backgroundRes(R.color.blue_700)
-                    .add(R.string.fandoms_menu_change_category) { wi, c -> changeCategory() }.condition(ControllerApi.can(API.LVL_ADMIN_FANDOM_CATEGORY)).backgroundRes(R.color.red_700)
-                    .add(R.string.fandoms_menu_rename) { wi, c -> rename() }.condition(ControllerApi.can(API.LVL_ADMIN_FANDOM_NAME)).backgroundRes(R.color.red_700)
-                    .add(if (r.fandom.closed) R.string.app_open else R.string.app_close) { wi, c -> close() }.condition(ControllerApi.can(API.LVL_ADMIN_FANDOM_CLOSE)).backgroundRes(R.color.red_700)
-                    .add(R.string.app_remove) { wi, c -> remove() }.condition(ControllerApi.can(API.LVL_ADMIN_FANDOM_REMOVE)).backgroundRes(R.color.red_700)
+                    .add(R.string.fandoms_menu_background_change) { wi, c -> changeBackgroundImage() }.condition(ControllerApi.can(xFandom.fandomId, xFandom.languageId, API.LVL_MODERATOR_BACKGROUND_IMAGE)).backgroundRes(R.color.blue_700).textColorRes(R.color.white)
+                    .add(R.string.fandoms_menu_background_remove) { wi, c -> removeBackgroundImage() }.condition(ControllerApi.can(xFandom.fandomId, xFandom.languageId, API.LVL_MODERATOR_BACKGROUND_IMAGE)).backgroundRes(R.color.blue_700).textColorRes(R.color.white)
+                    .add(R.string.fandoms_menu_change_category) { wi, c -> changeCategory() }.condition(ControllerApi.can(API.LVL_ADMIN_FANDOM_CATEGORY)).backgroundRes(R.color.red_700).textColorRes(R.color.white)
+                    .add(R.string.fandoms_menu_rename) { wi, c -> rename() }.condition(ControllerApi.can(API.LVL_ADMIN_FANDOM_NAME)).backgroundRes(R.color.red_700).textColorRes(R.color.white)
+                    .add(if (r.fandom.closed) R.string.app_open else R.string.app_close) { wi, c -> close() }.condition(ControllerApi.can(API.LVL_ADMIN_FANDOM_CLOSE)).backgroundRes(R.color.red_700).textColorRes(R.color.white)
+                    .add(R.string.app_remove) { wi, c -> remove() }.condition(ControllerApi.can(API.LVL_ADMIN_FANDOM_REMOVE)).backgroundRes(R.color.red_700).textColorRes(R.color.white)
                     .asSheetShow()
         }
 

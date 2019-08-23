@@ -213,9 +213,9 @@ object ControllerUnits {
                 .add(R.string.app_copy_link) { w, card -> ToolsAndroid.setToClipboard(ControllerApi.linkToForum(unit.id));ToolsToast.show(R.string.app_copied) }.condition(unit.isPublic)
                 .add(R.string.unit_menu_comments_watch) { w, card -> changeWatchComments(unit.id) }.condition(unit.isPublic)
                 .add(R.string.app_report) { w, card -> ControllerApi.reportUnit(unit.id, R.string.forum_report_confirm, R.string.forum_error_gone) }.condition(unit.isPublic)
-                .add(R.string.app_clear_reports) { w, card -> clearReports(unit) }.backgroundRes(R.color.blue_700).condition(ControllerPost.ENABLED_CLEAR_REPORTS && ControllerApi.can(unit.fandomId, unit.languageId, API.LVL_MODERATOR_BLOCK) && unit.reportsCount > 0)
-                .add(R.string.app_change) { w, card -> changeForum(unit) }.condition(unit.isPublic && ControllerApi.can(unit.fandomId, unit.languageId, API.LVL_MODERATOR_FORUMS)).backgroundRes(R.color.blue_700)
-                .add(R.string.app_remove) { w, card -> removeForum(unit.id) }.condition(unit.isPublic && ControllerApi.can(unit.fandomId, unit.languageId, API.LVL_MODERATOR_FORUMS)).backgroundRes(R.color.blue_700)
+                .add(R.string.app_clear_reports) { w, card -> clearReports(unit) }.backgroundRes(R.color.blue_700).textColorRes(R.color.white).condition(ControllerPost.ENABLED_CLEAR_REPORTS && ControllerApi.can(unit.fandomId, unit.languageId, API.LVL_MODERATOR_BLOCK) && unit.reportsCount > 0)
+                .add(R.string.app_change) { w, card -> changeForum(unit) }.condition(unit.isPublic && ControllerApi.can(unit.fandomId, unit.languageId, API.LVL_MODERATOR_FORUMS)).backgroundRes(R.color.blue_700).textColorRes(R.color.white)
+                .add(R.string.app_remove) { w, card -> removeForum(unit.id) }.condition(unit.isPublic && ControllerApi.can(unit.fandomId, unit.languageId, API.LVL_MODERATOR_FORUMS)).backgroundRes(R.color.blue_700).textColorRes(R.color.white)
                 .asSheetShow()
     }
 
@@ -250,8 +250,8 @@ object ControllerUnits {
                 .add(R.string.app_remove) { w, card -> removeStickersPack(unit.id) }.condition(unit.creatorId == ControllerApi.account.id)
                 .add(R.string.app_report) { w, card -> ControllerApi.reportUnit(unit.id, R.string.stickers_packs_report_confirm, R.string.stickers_packs_error_gone) }
                 .add(if (ControllerSettings.accountSettings.stickersPacks.contains(unit.id)) R.string.sticker_remove else R.string.sticker_add) { w, card -> addStickerPackToCollection(unit) }.condition(unit.status == API.STATUS_PUBLIC)
-                .add(R.string.app_clear_reports) { w, card -> clearReports(unit) }.backgroundRes(R.color.red_700).condition(ControllerPost.ENABLED_CLEAR_REPORTS && ControllerApi.can(API.LVL_ADMIN_MODER) && unit.reportsCount > 0 && unit.creatorId != ControllerApi.account.id)
-                .add(R.string.app_block) { w, card -> block(unit) }.backgroundRes(R.color.red_700).condition(ENABLED_BLOCK && ControllerApi.can(API.LVL_ADMIN_MODER) && unit.creatorId != ControllerApi.account.id)
+                .add(R.string.app_clear_reports) { w, card -> clearReports(unit) }.backgroundRes(R.color.red_700).textColorRes(R.color.white).condition(ControllerPost.ENABLED_CLEAR_REPORTS && ControllerApi.can(API.LVL_ADMIN_MODER) && unit.reportsCount > 0 && unit.creatorId != ControllerApi.account.id)
+                .add(R.string.app_block) { w, card -> block(unit) }.backgroundRes(R.color.red_700).textColorRes(R.color.white).condition(ENABLED_BLOCK && ControllerApi.can(API.LVL_ADMIN_MODER) && unit.creatorId != ControllerApi.account.id)
                 .asSheetShow()
     }
 
@@ -283,8 +283,8 @@ object ControllerUnits {
                 .add(R.string.app_remove) { w, card -> removeSticker(unit.id) }.condition(unit.creatorId == ControllerApi.account.id)
                 .add(R.string.app_report) { w, card -> ControllerApi.reportUnit(unit.id, R.string.stickers_report_confirm, R.string.sticker_error_gone) }
                 .add(if (ControllerSettings.accountSettings.stickers.contains(unit.id)) R.string.sticker_remove else R.string.sticker_add) { w, card -> addStickerToCollection(unit) }.condition(unit.status == API.STATUS_PUBLIC)
-                .add(R.string.app_clear_reports) { w, card -> clearReports(unit) }.backgroundRes(R.color.red_700).condition(ControllerPost.ENABLED_CLEAR_REPORTS && ControllerApi.can(API.LVL_ADMIN_MODER) && unit.reportsCount > 0 && unit.creatorId != ControllerApi.account.id)
-                .add(R.string.app_block) { w, card -> block(unit) }.backgroundRes(R.color.red_700).condition(ENABLED_BLOCK && ControllerApi.can(API.LVL_ADMIN_MODER) && unit.creatorId != ControllerApi.account.id)
+                .add(R.string.app_clear_reports) { w, card -> clearReports(unit) }.backgroundRes(R.color.red_700).textColorRes(R.color.white).condition(ControllerPost.ENABLED_CLEAR_REPORTS && ControllerApi.can(API.LVL_ADMIN_MODER) && unit.reportsCount > 0 && unit.creatorId != ControllerApi.account.id)
+                .add(R.string.app_block) { w, card -> block(unit) }.backgroundRes(R.color.red_700).textColorRes(R.color.white).condition(ENABLED_BLOCK && ControllerApi.can(API.LVL_ADMIN_MODER) && unit.creatorId != ControllerApi.account.id)
                 .asPopupShow(view, x, y)
     }
 

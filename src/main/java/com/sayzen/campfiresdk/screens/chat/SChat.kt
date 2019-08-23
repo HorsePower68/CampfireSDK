@@ -145,7 +145,7 @@ class SChat private constructor(
         if (chatBackgroundImageId > 0 && ControllerSettings.fandomBackground) {
             vFandomBackground.visibility = View.VISIBLE
             ToolsImagesLoader.load(chatBackgroundImageId).holder(0x00000000).into(vFandomBackground)
-            vFandomBackground.setColorFilter(ToolsColor.setAlpha(210, ToolsResources.getColorAttr(R.attr.background)))
+            vFandomBackground.setColorFilter(ToolsColor.setAlpha(210, ToolsResources.getColorAttr(R.attr.window_background)))
         } else {
             vFandomBackground.setImageBitmap(null)
             vFandomBackground.visibility = View.GONE

@@ -10,6 +10,7 @@ import com.sayzen.campfiresdk.models.cards.CardPost
 import com.sayzen.campfiresdk.screens.fandoms.search.SFandomsSearch
 import com.sayzen.campfiresdk.screens.post.create.SPostCreate
 import com.sayzen.campfiresdk.controllers.api
+import com.sayzen.campfiresdk.models.events.units.EventPostDraftCreated
 import com.sayzen.campfiresdk.models.events.units.EventPostStatusChange
 import com.sayzen.campfiresdk.screens.post.pending.SPending
 import com.sup.dev.android.libs.screens.navigator.Navigator
@@ -26,6 +27,7 @@ class SDrafts constructor(
 
     private val eventBus = EventBus
             .subscribe(EventPostStatusChange::class) {this.onEventPostStatusChange(it) }
+            .subscribe(EventPostDraftCreated::class) {this.onEventPostDraftCreated(it) }
 
     init {
         setScreenColorBackground()
@@ -79,6 +81,13 @@ class SDrafts constructor(
 
     private fun onEventPostStatusChange(e: EventPostStatusChange) {
         if (e.status != API.STATUS_PUBLIC) adapter!!.reloadBottom()
+    }
+
+    private fun onEventPostDraftCreated(e: EventPostDraftCreated) {
+        if(adapter != null) {
+            for (c in adapter!!.get(CardPost::class)) if (c.unit.id == e.unitId) return
+            adapter!!.reloadBottom()
+        }
     }
 
 }

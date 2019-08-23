@@ -60,7 +60,7 @@ class CardLinks(
                         ToolsAndroid.setToClipboard(link.url)
                         ToolsToast.show(R.string.app_copied)
                     }
-                    .add(R.string.app_remove) { w, i -> removeLink(link) }.condition(ControllerApi.can(xFandom.fandomId, xFandom.languageId, API.LVL_MODERATOR_LINKS)).backgroundRes(R.color.blue_700)
+                    .add(R.string.app_remove) { w, i -> removeLink(link) }.condition(ControllerApi.can(xFandom.fandomId, xFandom.languageId, API.LVL_MODERATOR_LINKS)).backgroundRes(R.color.blue_700).textColorRes(R.color.white)
 
             vLink.setOnLongClickListener {
                 w.asSheetShow()

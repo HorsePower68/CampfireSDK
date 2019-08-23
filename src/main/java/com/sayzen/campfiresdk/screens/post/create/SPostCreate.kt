@@ -20,6 +20,7 @@ import com.sayzen.campfiresdk.R
 import com.sayzen.campfiresdk.adapters.XFandom
 import com.sayzen.campfiresdk.controllers.ControllerApi
 import com.sayzen.campfiresdk.controllers.ControllerPost
+import com.sayzen.campfiresdk.models.events.units.EventPostDraftCreated
 import com.sayzen.campfiresdk.screens.post.create.creator.WidgetAdd
 import com.sayzen.campfiresdk.screens.post.view.SPost
 import com.sup.dev.android.libs.api_simple.ApiRequestsSupporter
@@ -152,6 +153,7 @@ class SPostCreate constructor(
 
     fun setUnitId(unitId:Long){
         this.unitId = unitId
+        EventBus.post(EventPostDraftCreated(unitId))
     }
 
     private fun updateTitle(){
@@ -201,7 +203,10 @@ class SPostCreate constructor(
 
     private fun <K : Page, N : CardPage> onPageAdd(screen: Screen?, r: RPostPutPage.Response, mapper: (K) -> N) {
         if (screen != null) Navigator.remove(screen)
-        if (unitId == 0L) unitId = r.unitId
+        if (unitId == 0L) {
+            unitId = r.unitId
+            EventBus.post(EventPostDraftCreated(unitId))
+        }
         val card = mapper.invoke(r.pages[0] as K)
         addPage(card)
         EventBus.post(EventPostChanged(unitId, pages))

@@ -93,7 +93,7 @@ class CardBio(
                     }
                     .add(R.string.app_change) { w, item -> onChangeLinkClicked(i, R.string.app_change, link.a1, link.a2) }.condition(ControllerApi.isCurrentAccount(accountId))
                     .add(R.string.app_remove) { w, item -> onRemoveLinkClicked(i) }.condition(ControllerApi.isCurrentAccount(accountId))
-                    .add(R.string.app_remove) { w, item -> onAdminRemoveLinkClicked(i) }.backgroundRes(R.color.red_700).condition(!ControllerApi.isCurrentAccount(accountId) && ControllerApi.can(API.LVL_ADMIN_USER_REMOVE_LINK))
+                    .add(R.string.app_remove) { w, item -> onAdminRemoveLinkClicked(i) }.backgroundRes(R.color.red_700).textColorRes(R.color.white).condition(!ControllerApi.isCurrentAccount(accountId) && ControllerApi.can(API.LVL_ADMIN_USER_REMOVE_LINK))
 
             v.setOnLongClickListener {
                 w.asSheetShow()

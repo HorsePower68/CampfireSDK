@@ -165,22 +165,22 @@ class SAccount private constructor(
                 .add(R.string.app_report) { w, c -> onReportClicked() }
                 .add(R.string.app_note) { w, c -> onNoteClicked() }
                 .add(if (r.inBlackList) R.string.profile_black_list_remove else R.string.profile_black_list_add) { w, c -> if (r.inBlackList) ControllerCampfireSDK.removeFromBlackListUser(xAccount.accountId) else ControllerCampfireSDK.addToBlackListUser(xAccount.accountId) }
-                .add(R.string.profile_remove_avatar) { w, c -> onAdminRemoveAvatarClicked() }.backgroundRes(R.color.red_700).condition(ControllerApi.can(API.LVL_ADMIN_USER_REMOVE_IMAGE))
-                .add(R.string.profile_remove_name) { w, c -> onAdminRemoveNameClicked() }.backgroundRes(R.color.red_700).condition(ControllerApi.can(API.LVL_ADMIN_USER_REMOVE_NAME))
-                .add(R.string.app_clear_reports) { w, c -> ControllerApi.clearUserReports(xAccount.accountId) }.backgroundRes(R.color.red_700).condition(ControllerApi.can(API.LVL_ADMIN_BAN))
-                .add(R.string.app_punish) { w, c -> onAdminPunishClicked() }.backgroundRes(R.color.red_700).condition(ControllerApi.can(API.LVL_ADMIN_BAN))
-                .add(R.string.admin_change_name) { w, c -> adminChangeName() }.backgroundRes(R.color.red_700).condition(ControllerApi.can(API.LVL_ADMIN_USER_CHANGE_NAME))
-                .add(R.string.profile_remove_title_image) { w, c -> onAdminRemoveTitleImageClicked() }.backgroundRes(R.color.red_700).condition(ControllerApi.can(API.LVL_ADMIN_USER_REMOVE_IMAGE))
-                .add(R.string.profile_remove_status) { w, c -> removeStatus() }.backgroundRes(R.color.red_700).condition(ControllerApi.can(API.LVL_ADMIN_USER_REMOVE_STATUS))
+                .add(R.string.profile_remove_avatar) { w, c -> onAdminRemoveAvatarClicked() }.backgroundRes(R.color.red_700).textColorRes(R.color.white).condition(ControllerApi.can(API.LVL_ADMIN_USER_REMOVE_IMAGE))
+                .add(R.string.profile_remove_name) { w, c -> onAdminRemoveNameClicked() }.backgroundRes(R.color.red_700).textColorRes(R.color.white).condition(ControllerApi.can(API.LVL_ADMIN_USER_REMOVE_NAME))
+                .add(R.string.app_clear_reports) { w, c -> ControllerApi.clearUserReports(xAccount.accountId) }.backgroundRes(R.color.red_700).textColorRes(R.color.white).condition(ControllerApi.can(API.LVL_ADMIN_BAN))
+                .add(R.string.app_punish) { w, c -> onAdminPunishClicked() }.backgroundRes(R.color.red_700).textColorRes(R.color.white).condition(ControllerApi.can(API.LVL_ADMIN_BAN))
+                .add(R.string.admin_change_name) { w, c -> adminChangeName() }.backgroundRes(R.color.red_700).textColorRes(R.color.white).condition(ControllerApi.can(API.LVL_ADMIN_USER_CHANGE_NAME))
+                .add(R.string.profile_remove_title_image) { w, c -> onAdminRemoveTitleImageClicked() }.backgroundRes(R.color.red_700).textColorRes(R.color.white).condition(ControllerApi.can(API.LVL_ADMIN_USER_REMOVE_IMAGE))
+                .add(R.string.profile_remove_status) { w, c -> removeStatus() }.backgroundRes(R.color.red_700).textColorRes(R.color.white).condition(ControllerApi.can(API.LVL_ADMIN_USER_REMOVE_STATUS))
                 .reverseGroupCondition()
                 .add(R.string.profile_change_avatar) { w, c -> onChangeAvatarClicked() }
                 .add(R.string.profile_change_name) { w, c -> ControllerCampfireSDK.changeLogin() }.condition(ControllerApi.account.name.contains("#"))
                 .add(R.string.profile_change_title_image) { w, c -> onChangeTitleImageClicked() }.condition(ControllerApi.can(API.LVL_CAN_CHANGE_PROFILE_IMAGE))
                 .clearGroupCondition()
-                .add("Протоадминская авторизация") { w, c -> protoadminAutorization() }.condition(ControllerApi.can(API.LVL_PROTOADMIN)).backgroundRes(R.color.orange_700)
-                .add("Поменять местами с другим аккаунтом") { w, c -> protoadminTranslateAccount() }.condition(ControllerApi.can(API.LVL_PROTOADMIN)).backgroundRes(R.color.orange_700)
-                .add("Пересчитать достижения") { w, c -> protoadminAchievementsRecount() }.condition(ControllerApi.can(API.LVL_PROTOADMIN)).backgroundRes(R.color.orange_700)
-                .add("Пересчитать карму") { w, c -> protoadminKarmaRecount() }.condition(ControllerApi.can(API.LVL_PROTOADMIN)).backgroundRes(R.color.orange_700)
+                .add("Протоадминская авторизация") { w, c -> protoadminAutorization() }.condition(ControllerApi.can(API.LVL_PROTOADMIN)).backgroundRes(R.color.orange_700).textColorRes(R.color.white)
+                .add("Поменять местами с другим аккаунтом") { w, c -> protoadminTranslateAccount() }.condition(ControllerApi.can(API.LVL_PROTOADMIN)).backgroundRes(R.color.orange_700).textColorRes(R.color.white)
+                .add("Пересчитать достижения") { w, c -> protoadminAchievementsRecount() }.condition(ControllerApi.can(API.LVL_PROTOADMIN)).backgroundRes(R.color.orange_700).textColorRes(R.color.white)
+                .add("Пересчитать карму") { w, c -> protoadminKarmaRecount() }.condition(ControllerApi.can(API.LVL_PROTOADMIN)).backgroundRes(R.color.orange_700).textColorRes(R.color.white)
 
         w.asSheetShow()
     }

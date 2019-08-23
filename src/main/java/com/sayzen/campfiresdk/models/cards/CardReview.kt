@@ -80,8 +80,8 @@ class CardReview(
                         ToolsAndroid.setToClipboard(ControllerApi.linkToReview(unit.id))
                         ToolsToast.show(R.string.app_copied)
                     }
-                    .add(R.string.app_clear_reports) { w, card -> ControllerApi.clearReportsUnit(unit.id, unit.unitType) }.backgroundRes(R.color.blue_700).condition(ControllerApi.can(unit.fandomId, unit.languageId, API.LVL_MODERATOR_BLOCK) && unit.reportsCount > 0)
-                    .add(R.string.app_remove_text) { w, card -> WidgetModerationBlock.show(unit, {}){it.setActionText(R.string.app_remove).setAlertText(R.string.review_remove_text_confirm, R.string.app_remove).setToastText(R.string.app_removed)} }.backgroundRes(R.color.blue_700).condition(ControllerApi.can(unit.fandomId, unit.languageId, API.LVL_MODERATOR_REVIEW_REMOVE_TEXT) && !ControllerApi.isCurrentAccount(unit.creatorId))
+                    .add(R.string.app_clear_reports) { w, card -> ControllerApi.clearReportsUnit(unit.id, unit.unitType) }.backgroundRes(R.color.blue_700).textColorRes(R.color.white).condition(ControllerApi.can(unit.fandomId, unit.languageId, API.LVL_MODERATOR_BLOCK) && unit.reportsCount > 0)
+                    .add(R.string.app_remove_text) { w, card -> WidgetModerationBlock.show(unit, {}){it.setActionText(R.string.app_remove).setAlertText(R.string.review_remove_text_confirm, R.string.app_remove).setToastText(R.string.app_removed)} }.backgroundRes(R.color.blue_700).textColorRes(R.color.white).condition(ControllerApi.can(unit.fandomId, unit.languageId, API.LVL_MODERATOR_REVIEW_REMOVE_TEXT) && !ControllerApi.isCurrentAccount(unit.creatorId))
                     .asSheetShow()
         }
 
