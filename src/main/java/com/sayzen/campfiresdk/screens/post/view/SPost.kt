@@ -4,6 +4,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton
 import android.view.View
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.dzen.campfire.api.API
 import com.dzen.campfire.api.models.notifications.NotificationFollowsPublication
 import com.dzen.campfire.api.models.notifications.NotificationUnitImportant
 import com.dzen.campfire.api.models.units.post.UnitPost
@@ -47,7 +48,7 @@ class SPost constructor(
             .subscribe(EventUnitRemove::class) { this.onEventUnitRemove(it) }
             .subscribe(EventCommentAdd::class) {this.onCommentAdd(it) }
             .subscribe(EventPostChanged::class) {this.onPostChanged(it) }
-            .subscribe(EventPostPublishedChange::class) { this.onPostPublicationChange(it) }
+            .subscribe(EventPostStatusChange::class) { this.onEventPostStatusChange(it) }
             .subscribe(EventPostNotifyFollowers::class) { this.onEventPostNotifyFollowers(it) }
 
     private val vRecycler: RecyclerView = findViewById(R.id.vRecycler)
@@ -107,8 +108,8 @@ class SPost constructor(
         }
     }
 
-    private fun onPostPublicationChange(e: EventPostPublishedChange) {
-        if (!e.published) Navigator.remove(this)
+    private fun onEventPostStatusChange(e: EventPostStatusChange) {
+        if (e.unitId == unit.id && e.status != API.STATUS_PUBLIC) Navigator.remove(this)
     }
 
 }

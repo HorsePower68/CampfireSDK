@@ -18,7 +18,7 @@ class SPending : SLoadingRecycler<CardPost, UnitPost>() {
     init {
         setScreenColorBackground()
         vRecycler.addItemDecoration(DecoratorVerticalSpace())
-        setTitle(R.string.app_drafts)
+        setTitle(R.string.app_pending)
         setTextEmpty(R.string.post_drafts_empty_text)
         setTextProgress(R.string.post_drafts_loading)
         setBackgroundImage(R.drawable.bg_2)

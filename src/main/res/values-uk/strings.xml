@@ -15,6 +15,7 @@
     <string name="app_downloading">Скачивание</string>
     <string name="app_downloaded">Скачивание завершено</string>
     <string name="app_loading">Загрузка</string>
+    <string name="app_loading_dots">Загрузка…</string>
     <string name="app_done">Готово</string>
     <string name="app_choose">Выбрать</string>
     <string name="app_link">Ссылка</string>
@@ -636,6 +637,7 @@
     <string name="error_already_blocked">Кто-то уже заблокировал это</string>
     <string name="error_already_returned_to_drafts">Кто-то уже вернул это в черновики</string>
     <string name="error_unsupported_link">Не потдерживаемая ссылка</string>
+    <string name="error_of_loading">Ошибка загрузки</string>
 
     <string name="profile_report_confirm">Пожаловаться на пользователя?</string>
     <string name="profile_story">История</string>
@@ -840,6 +842,7 @@
     <string name="post_create_objects_label">Поддерживаются ссылки на пользователя, пост, чат, форум, фэндом, набор стикеров.</string>
     <string name="post_create_pending">Отложенная публикация</string>
     <string name="post_create_pending_error">Нельзя публиковать в прошлое</string>
+    <string name="post_pending_publish">Опубликовать пост сейчас?</string>
 
     <string name="quests_next">Следующее задание будет доступно завтра.</string>
     <string name="quests_text_rates">Поставьте оценки публикациям других пользователей.</string>

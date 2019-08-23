@@ -7,12 +7,11 @@ import com.dzen.campfire.api.models.units.post.UnitPost
 import com.dzen.campfire.api.requests.units.RUnitsGetAll
 import com.sayzen.campfiresdk.R
 import com.sayzen.campfiresdk.models.cards.CardPost
-import com.sayzen.campfiresdk.models.events.units.EventPostPublishedChange
 import com.sayzen.campfiresdk.screens.fandoms.search.SFandomsSearch
 import com.sayzen.campfiresdk.screens.post.create.SPostCreate
 import com.sayzen.campfiresdk.controllers.api
+import com.sayzen.campfiresdk.models.events.units.EventPostStatusChange
 import com.sayzen.campfiresdk.screens.post.pending.SPending
-import com.sup.dev.android.libs.screens.navigator.NavigationAction
 import com.sup.dev.android.libs.screens.navigator.Navigator
 import com.sup.dev.android.tools.ToolsResources
 import com.sup.dev.android.views.screens.SLoadingRecycler
@@ -26,7 +25,7 @@ class SDrafts constructor(
 ) : SLoadingRecycler<CardPost, Unit>() {
 
     private val eventBus = EventBus
-            .subscribe(EventPostPublishedChange::class) { e: EventPostPublishedChange -> this.onPostPublicationChange(e) }
+            .subscribe(EventPostStatusChange::class) {this.onEventPostStatusChange(it) }
 
     init {
         setScreenColorBackground()
@@ -78,8 +77,8 @@ class SDrafts constructor(
     //  EventBus
     //
 
-    private fun onPostPublicationChange(e: EventPostPublishedChange) {
-        if (!e.published) adapter!!.reloadBottom()
+    private fun onEventPostStatusChange(e: EventPostStatusChange) {
+        if (e.status != API.STATUS_PUBLIC) adapter!!.reloadBottom()
     }
 
 }

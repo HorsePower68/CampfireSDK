@@ -28,6 +28,7 @@ import com.sup.dev.android.views.support.watchers.TextWatcherChanged
 import com.sup.dev.android.views.views.ViewEditTextMedia
 import com.sup.dev.android.views.views.ViewIcon
 import com.sup.dev.android.views.views.ViewTextLinkable
+import com.sup.dev.java.libs.debug.log
 import com.sup.dev.java.libs.eventBus.EventBus
 import com.sup.dev.java.tools.ToolsBytes
 import com.sup.dev.java.tools.ToolsNetwork
@@ -98,6 +99,14 @@ class FieldLogic(
         onTextChanged()
     }
 
+
+    fun setQuote(unit: UnitChatMessage) {
+        var text = unit.creatorName + ": "
+        if(unit.text.isNotEmpty()) text+= unit.text
+        else if(unit.resourceId != 0L || unit.imageIdArray.isNotEmpty()) text += ToolsResources.s(R.string.app_image)
+        else if(unit.stickerId != 0L) text += ToolsResources.s(R.string.app_sticker)
+        setQuote(text, unit.id)
+    }
 
     fun setQuote(quoteText: String, quoteId: Long = 0) {
         this.quoteText = quoteText

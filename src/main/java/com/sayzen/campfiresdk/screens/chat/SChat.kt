@@ -213,7 +213,7 @@ class SChat private constructor(
                 onChange = { unit -> fieldLogic.setChange(unit) },
                 onQuote = { unit ->
                     if (!ControllerApi.isCurrentAccount(unit.creatorId)) fieldLogic.setAnswer(unit)
-                    fieldLogic.setQuote(unit.creatorName + ": " + unit.text, unit.id)
+                    fieldLogic.setQuote(unit)
                     ToolsView.showKeyboard(fieldLogic.vText)
                 },
                 onGoTo = { id ->

@@ -23,7 +23,9 @@ import com.sayzen.campfiresdk.views.ViewKarma
 import com.sayzen.campfiresdk.controllers.ControllerNotifications
 import com.sayzen.campfiresdk.controllers.ControllerUnits
 import com.sayzen.campfiresdk.models.widgets.WidgetComment
+import com.sayzen.campfiresdk.screens.stickers.SStickersView
 import com.sup.dev.android.app.SupAndroid
+import com.sup.dev.android.libs.screens.navigator.Navigator
 import com.sup.dev.android.tools.ToolsAndroid
 import com.sup.dev.android.tools.ToolsImagesLoader
 import com.sup.dev.android.tools.ToolsResources
@@ -44,7 +46,7 @@ import com.sup.dev.java.tools.ToolsHTML
 import com.sup.dev.java.tools.ToolsThreads
 
 abstract class CardComment protected constructor(
-    layout:Int,
+        layout: Int,
         override val unit: UnitComment,
         private val dividers: Boolean,
         protected val miniSize: Boolean,
@@ -97,7 +99,7 @@ abstract class CardComment protected constructor(
         val vQuoteText: ViewTextLinkable? = view.findViewById(R.id.vQuoteText)
         val vQuoteImage: ViewImagesSwipe? = view.findViewById(R.id.vQuoteImage)
 
-        if(SupAndroid.activityIsVisible) {
+        if (SupAndroid.activityIsVisible) {
             ControllerNotifications.removeNotificationFromNew(NotificationComment::class, unit.id)
             ControllerNotifications.removeNotificationFromNew(NotificationCommentAnswer::class, unit.id)
             ControllerNotifications.removeNotificationFromNew(NotificationMention::class, unit.id)
@@ -110,13 +112,7 @@ abstract class CardComment protected constructor(
                 else onClick()
             }
             vSwipe.onLongClick = { x, y -> popup?.asSheetShow() }
-            vSwipe.onSwipe = {
-                if (unit.type == UnitComment.TYPE_TEXT || unit.type == UnitComment.TYPE_IMAGE || unit.type == UnitComment.TYPE_GIF || unit.type == UnitComment.TYPE_IMAGES) {
-                    onQuote.invoke(unit)
-                } else {
-                    onClick?.invoke(unit)
-                }
-            }
+            vSwipe.onSwipe = { onQuote.invoke(unit) }
             vSwipe.swipeEnabled = quoteEnabled
         } else {
             if (vSwipe != null) {
@@ -139,11 +135,13 @@ abstract class CardComment protected constructor(
 
         if (vQuoteImage != null) {
             vQuoteImage.clear()
-            if (unit.quoteImages.isEmpty()) {
-                vQuoteImage.visibility = View.GONE
-            } else {
-                vQuoteImage.visibility = View.VISIBLE
+            vQuoteImage.visibility = View.VISIBLE
+            if (unit.quoteStickerId != 0L) {
+                vQuoteImage.add(unit.quoteStickerImageId, onClick = { SStickersView.instanceBySticker(unit.quoteStickerId, Navigator.TO)})
+            } else if (unit.quoteImages.isNotEmpty()) {
                 for (i in unit.quoteImages) vQuoteImage.add(i)
+            } else {
+                vQuoteImage.visibility = View.GONE
             }
         }
 
@@ -152,7 +150,7 @@ abstract class CardComment protected constructor(
             vReports.visibility = if (unit.reportsCount > 0 && ControllerApi.can(unit.fandomId, unit.languageId, API.LVL_MODERATOR_BLOCK)) View.VISIBLE else View.GONE
         }
 
-        if(vText != null) {
+        if (vText != null) {
             vText.text = unit.text
             ControllerApi.makeLinkable(vText) {
                 val myName = ControllerApi.account.name + ","
@@ -160,7 +158,7 @@ abstract class CardComment protected constructor(
             }
         }
 
-        if(showFandom && xFandom.imageId == 0L) xFandom.imageId = xAccount.imageId
+        if (showFandom && xFandom.imageId == 0L) xFandom.imageId = xAccount.imageId
         if (!showFandom) xAccount.setView(vAvatar)
         else xFandom.setView(vAvatar)
 

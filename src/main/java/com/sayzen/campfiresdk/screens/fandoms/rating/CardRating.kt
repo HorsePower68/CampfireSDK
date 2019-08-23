@@ -9,6 +9,8 @@ import com.dzen.campfire.api.models.account.Account
 import com.sayzen.campfiresdk.R
 import com.sayzen.campfiresdk.adapters.XAccount
 import com.sayzen.campfiresdk.controllers.ControllerApi
+import com.sayzen.campfiresdk.screens.account.profile.SAccount
+import com.sup.dev.android.libs.screens.navigator.Navigator
 import com.sup.dev.android.tools.ToolsResources
 import com.sup.dev.android.views.cards.Card
 import com.sup.dev.android.views.views.ViewAvatar
@@ -21,17 +23,9 @@ class CardRating(
     private var index = 0
     private var textColor = 0
     private var textColorDef: Int = 0
-    private var background = 0
     private var defSeted: Boolean = false
 
     private val xAccount = XAccount(account){update()}
-
-    init {
-        if (ControllerApi.isCurrentAccount(xAccount.accountId)) background = ToolsResources.getColor(R.color.focus)
-        if (index == 1) background = ToolsResources.getColor(R.color.yellow_a_200)
-        if (index == 2) background = ToolsResources.getColor(R.color.grey_300)
-        if (index == 3) background = ToolsResources.getColor(R.color.brown_600)
-    }
 
     override fun bindView(view: View) {
         super.bindView(view)
@@ -40,6 +34,12 @@ class CardRating(
         val vIndex:TextView = view.findViewById(R.id.vIndex)
         val vName:TextView = view.findViewById(R.id.vName)
         val vImageBackground:ImageView = view.findViewById(R.id.vImageBackground)
+
+        var background = 0
+        if (ControllerApi.isCurrentAccount(xAccount.accountId)) background = ToolsResources.getColor(R.color.focus)
+        if (index == 1) background = ToolsResources.getColor(R.color.yellow_a_200)
+        if (index == 2) background = ToolsResources.getColor(R.color.grey_300)
+        if (index == 3) background = ToolsResources.getColor(R.color.brown_600)
 
         xAccount.setView(vAvatar)
         vName.text = account.name
@@ -55,6 +55,10 @@ class CardRating(
         vText.setTextColor(if (textColor != 0) textColor else textColorDef)
 
         vText.text = text
+
+        view.setOnClickListener {
+            SAccount.instance(account.id, Navigator.TO)
+        }
 
     }
 
@@ -76,12 +80,6 @@ class CardRating(
 
     fun setTextColor(color: Int): CardRating {
         textColor = color
-        update()
-        return this
-    }
-
-    fun setBackground(color: Int): CardRating {
-        background = color
         update()
         return this
     }

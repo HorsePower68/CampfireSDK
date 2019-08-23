@@ -16,12 +16,12 @@ import com.sayzen.campfiresdk.adapters.XFandom
 import com.sayzen.campfiresdk.models.cards.CardPost
 import com.sayzen.campfiresdk.models.cards.CardUnit
 import com.sayzen.campfiresdk.models.events.fandom.*
-import com.sayzen.campfiresdk.models.events.units.EventPostPublishedChange
 import com.sayzen.campfiresdk.models.PostList
 import com.sayzen.campfiresdk.screens.post.create.SPostCreate
 import com.sayzen.campfiresdk.app.CampfreConstants
 import com.sayzen.campfiresdk.controllers.*
 import com.sayzen.campfiresdk.models.events.units.EventPostPinedFandom
+import com.sayzen.campfiresdk.models.events.units.EventPostStatusChange
 import com.sup.dev.android.libs.api_simple.ApiRequestsSupporter
 import com.sup.dev.android.libs.image_loader.ImageLoaderId
 import com.sup.dev.android.libs.screens.Screen
@@ -58,7 +58,7 @@ class SFandom private constructor(
     }
 
     private val eventBus = EventBus
-            .subscribe(EventPostPublishedChange::class) { onPostPublicationChange(it) }
+            .subscribe(EventPostStatusChange::class) { onEventPostStatusChange(it) }
             .subscribe(EventFandomRemove::class) { Navigator.remove(this) }
             .subscribe(EventFandomCategoryChanged::class) { onEventFandomCategoryChanged(it) }
             .subscribe(EventFandomClose::class) { onEventFandomClose(it) }
@@ -426,8 +426,8 @@ class SFandom private constructor(
     //  EventBus
     //
 
-    private fun onPostPublicationChange(e: EventPostPublishedChange) {
-        if (e.published) adapter.reloadBottom()
+    private fun onEventPostStatusChange(e: EventPostStatusChange) {
+        if (e.status == API.STATUS_PUBLIC) adapter.reloadBottom()
     }
 
     private fun onEventFandomCategoryChanged(e: EventFandomCategoryChanged) {

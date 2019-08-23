@@ -21,7 +21,6 @@ class CardCommentSticker(
 
     init {
         changeEnabled = false
-        quoteEnabled = false
         copyEnabled = false
     }
 

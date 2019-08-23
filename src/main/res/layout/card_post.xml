@@ -7,7 +7,8 @@
     android:layout_height="match_parent"
     android:paddingLeft="8dp"
     android:paddingRight="8dp"
-    android:paddingBottom="8dp">
+    android:paddingTop="4dp"
+    android:paddingBottom="4dp">
 
     <com.google.android.material.card.MaterialCardView
         android:layout_width="match_parent"
@@ -57,7 +58,7 @@
                     app:LayoutMaxSizes_childAlwaysMaxW="true"
                     app:LayoutMaxSizes_fadeColor="?content_background"
                     app:LayoutMaxSizes_fadeHSize="8dp"
-                    app:LayoutMaxSizes_maxHeight="480dp"
+                    app:LayoutMaxSizes_maxHeight="300dp"
                     app:LayoutMaxSizes_reserveHeight="120dp">
 
                     <LinearLayout

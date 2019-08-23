@@ -24,6 +24,7 @@ import com.sayzen.campfiresdk.models.events.chat.EventUpdateChats
 import com.sayzen.campfiresdk.models.events.notifications.EventNotification
 import com.sayzen.campfiresdk.models.events.units.EventUnitBlocked
 import com.sayzen.campfiresdk.screens.chat.SChat
+import com.sayzen.campfiresdk.screens.stickers.SStickersView
 import com.sup.dev.android.app.SupAndroid
 import com.sup.dev.android.libs.screens.navigator.Navigator
 import com.sup.dev.android.models.EventStyleChanged
@@ -39,6 +40,7 @@ import com.sup.dev.java.classes.Subscription
 import com.sup.dev.java.classes.animation.AnimationPendulum
 import com.sup.dev.java.classes.animation.AnimationPendulumColor
 import com.sup.dev.java.libs.debug.Debug
+import com.sup.dev.java.libs.debug.log
 import com.sup.dev.java.libs.eventBus.EventBus
 import com.sup.dev.java.tools.ToolsColor
 import com.sup.dev.java.tools.ToolsDate
@@ -125,12 +127,7 @@ abstract class CardChatMessage constructor(
                 Debug.printStack()
                 popup?.asSheetShow()
             }
-            vSwipe.onSwipe = {
-                if (onQuote != null && (unit.type == UnitChatMessage.TYPE_TEXT || unit.type == UnitChatMessage.TYPE_IMAGE || unit.type == UnitChatMessage.TYPE_GIF || unit.type == UnitChatMessage.TYPE_IMAGES))
-                    onQuote?.invoke(unit)
-                else
-                    onClick?.invoke(unit)
-            }
+            vSwipe.onSwipe = { onQuote?.invoke(unit) }
             vSwipe.swipeEnabled = quoteEnabled
         } else {
             if (vSwipe != null) {
@@ -142,7 +139,7 @@ abstract class CardChatMessage constructor(
 
 
         if (vQuoteContainer != null) {
-            vQuoteContainer.visibility = if (unit.quoteText.isEmpty() && unit.quoteImages.isEmpty()) View.GONE else View.VISIBLE
+            vQuoteContainer.visibility = if (unit.quoteText.isEmpty() && unit.quoteImages.isEmpty() && unit.quoteStickerId < 1L) View.GONE else View.VISIBLE
             vQuoteContainer.setOnClickListener {
                 if (onGoTo != null) onGoTo!!.invoke(unit.quoteId)
             }
@@ -155,11 +152,13 @@ abstract class CardChatMessage constructor(
 
         if (vQuoteImage != null) {
             vQuoteImage.clear()
-            if (unit.quoteImages.isEmpty()) {
-                vQuoteImage.visibility = View.GONE
-            } else {
-                vQuoteImage.visibility = View.VISIBLE
+            vQuoteImage.visibility = View.VISIBLE
+            if(unit.quoteStickerId > 0){
+                vQuoteImage.add(unit.quoteStickerImageId, onClick = {SStickersView.instanceBySticker(unit.quoteStickerId, Navigator.TO)})
+            } else if (unit.quoteImages.isNotEmpty()) {
                 for (i in unit.quoteImages) vQuoteImage.add(i)
+            } else  {
+                vQuoteImage.visibility = View.GONE
             }
         }
 

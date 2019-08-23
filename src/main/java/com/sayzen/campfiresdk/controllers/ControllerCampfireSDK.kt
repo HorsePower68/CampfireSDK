@@ -21,6 +21,7 @@ import com.sayzen.campfiresdk.models.events.account.EventAccountRemoveFromBlackL
 import com.sayzen.campfiresdk.models.events.fandom.EventFandomBlackListChange
 import com.sayzen.campfiresdk.screens.account.profile.SAccount
 import com.sayzen.campfiresdk.screens.chat.SChat
+import com.sayzen.campfiresdk.screens.comments.SComments
 import com.sayzen.campfiresdk.screens.fandoms.forums.view.SForumView
 import com.sayzen.campfiresdk.screens.fandoms.moderation.view.SModerationView
 import com.sayzen.campfiresdk.screens.fandoms.reviews.SReviews
@@ -67,7 +68,7 @@ object ControllerCampfireSDK {
     var ON_TO_FORUM_CLICKED: (forumId: Long, commentId: Long, action: NavigationAction) -> Unit = { forumId, commentId, action -> }
     var ON_TO_ACHIEVEMENT_CLICKED: (accountId: Long, accountName: String, accountLvl: Long, achievementIndex: Long, toPrev: Boolean, action: NavigationAction) -> Unit = { accountId, accountName, accountLvl, achievementIndex, toPrev, action -> }
     var ON_CHANGE_FORUM_CLICKED: (unit: UnitForum) -> Unit = { unit -> }
-    var ON_SCREEN_CHAT_START: () -> Unit = {  }
+    var ON_SCREEN_CHAT_START: () -> Unit = { }
 
     var SEARCH_FANDOM: (callback: (Fandom) -> Unit) -> Unit = { }
 
@@ -152,9 +153,12 @@ object ControllerCampfireSDK {
                 }
                 API.LINK_TAG_BOX_WITH_SUMMER -> ControllerScreenAnimations.summer()
                 API.LINK_TAG_STICKER -> SStickersView.instanceBySticker(params[0].toLong(), Navigator.TO)
-                API.LINK_TAG_STICKERS_PACK -> SStickersView.instance(params[0].toLong(), Navigator.TO)
+                API.LINK_TAG_STICKERS_PACK -> {
+                    if (params.size == 1) SStickersView.instance(params[0].toLong(), Navigator.TO)
+                    if (params.size == 2) Navigator.to(SComments(params[0].toLong(), params[1].toLong()))
+                }
 
-                else -> return executorLinks?.parseLink(link, params)?:false
+                else -> return executorLinks?.parseLink(link, params) ?: false
 
             }
             return true

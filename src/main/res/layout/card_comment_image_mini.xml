@@ -53,8 +53,7 @@
                         android:layout_marginTop="4dp"
                         android:drawableLeft="?ic_security_18dp"
                         android:drawablePadding="4dp"
-                        android:gravity="center"
-                        android:text="10"/>
+                        android:gravity="center"/>
 
                 </LinearLayout>
 
@@ -70,8 +69,7 @@
                         android:id="@+id/vLabel"
                         style="@style/Base.TextAppearance.AppCompat.Caption"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Zeon 15:40"/>
+                        android:layout_height="wrap_content"/>
 
 
                     <LinearLayout
@@ -118,17 +116,17 @@
                         style="@style/Base.TextAppearance.AppCompat.Body1"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginBottom="8dp"
-                        android:text="asdasdasd asd asdsadas asd asdas asdasdas asdasdasdasd"/>
+                        android:layout_marginBottom="8dp"/>
 
                     <com.sup.dev.android.views.views.layouts.LayoutCorned
                         android:layout_width="wrap_content"
+                        android:layout_marginTop="4dp"
                         android:layout_height="wrap_content">
 
                         <ImageView
                             android:id="@+id/vImage"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
+                            android:layout_width="124dp"
+                            android:layout_height="124dp"
                             android:layout_gravity="center"
                             android:adjustViewBounds="true"/>
 

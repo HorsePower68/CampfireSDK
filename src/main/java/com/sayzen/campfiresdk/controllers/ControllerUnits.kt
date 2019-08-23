@@ -29,6 +29,7 @@ import com.sayzen.campfiresdk.models.events.units.*
 import com.sayzen.campfiresdk.models.widgets.WidgetModerationBlock
 import com.sayzen.campfiresdk.models.objects.TagParent
 import com.sayzen.campfiresdk.models.widgets.WidgetCategoryCreate
+import com.sayzen.campfiresdk.screens.comments.SComments
 import com.sayzen.campfiresdk.screens.stickers.SStickersPackCreate
 import com.sayzen.campfiresdk.screens.stickers.SStickersView
 import com.sup.dev.android.libs.api_simple.ApiRequestsSupporter
@@ -52,7 +53,7 @@ object ControllerUnits {
         if (unitType == API.UNIT_TYPE_MODERATION) ControllerCampfireSDK.onToModerationClicked(unitId, commentId, Navigator.TO)
         if (unitType == API.UNIT_TYPE_FORUM) ControllerCampfireSDK.onToForumClicked(unitId, commentId, Navigator.TO)
         if (unitType == API.UNIT_TYPE_STICKER) SStickersView.instanceBySticker(unitId, Navigator.TO)
-        if (unitType == API.UNIT_TYPE_STICKERS_PACK) SStickersView.instance(unitId, Navigator.TO)
+        if (unitType == API.UNIT_TYPE_STICKERS_PACK) Navigator.to(SComments(unitId, commentId))
     }
 
     fun block(unit: Unit, onBlock: () -> kotlin.Unit = {}) {
@@ -249,7 +250,7 @@ object ControllerUnits {
                 .add(R.string.app_remove) { w, card -> removeStickersPack(unit.id) }.condition(unit.creatorId == ControllerApi.account.id)
                 .add(R.string.app_report) { w, card -> ControllerApi.reportUnit(unit.id, R.string.stickers_packs_report_confirm, R.string.stickers_packs_error_gone) }
                 .add(if (ControllerSettings.accountSettings.stickersPacks.contains(unit.id)) R.string.sticker_remove else R.string.sticker_add) { w, card -> addStickerPackToCollection(unit) }.condition(unit.status == API.STATUS_PUBLIC)
-                .add(R.string.app_clear_reports) { w, card -> clearReports(unit) }.backgroundRes(R.color.red_700).condition(ControllerPost.ENABLED_CLEAR_REPORTS && ControllerApi.can(API.LVL_ADMIN_MODER) && unit.reportsCount > 0  && unit.creatorId != ControllerApi.account.id)
+                .add(R.string.app_clear_reports) { w, card -> clearReports(unit) }.backgroundRes(R.color.red_700).condition(ControllerPost.ENABLED_CLEAR_REPORTS && ControllerApi.can(API.LVL_ADMIN_MODER) && unit.reportsCount > 0 && unit.creatorId != ControllerApi.account.id)
                 .add(R.string.app_block) { w, card -> block(unit) }.backgroundRes(R.color.red_700).condition(ENABLED_BLOCK && ControllerApi.can(API.LVL_ADMIN_MODER) && unit.creatorId != ControllerApi.account.id)
                 .asSheetShow()
     }
@@ -332,7 +333,7 @@ object ControllerUnits {
 
     fun toDrafts(unitId: Long, onComplete: () -> kotlin.Unit) {
         ApiRequestsSupporter.executeEnabledConfirm(R.string.post_confirm_to_draft, R.string.post_confirm_to_draft_enter, RPostToDrafts(unitId)) { response ->
-            EventBus.post(EventPostPublishedChange(unitId, false))
+            EventBus.post(EventPostStatusChange(unitId, API.STATUS_DRAFT))
             onComplete.invoke()
         }
     }

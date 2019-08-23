@@ -3,6 +3,7 @@ package com.sayzen.campfiresdk.controllers
 
 import android.app.Activity
 import android.content.Intent
+import android.util.LongSparseArray
 import com.dzen.campfire.api.API
 import com.dzen.campfire.api.models.notifications.*
 import com.dzen.campfire.api.requests.accounts.RAccountsNotificationsRemoveToken
@@ -45,6 +46,7 @@ object ControllerNotifications {
 
     val TYPE_NOTIFICATIONS = 1
     val TYPE_CHAT = 2
+    val lastNotificationsCodes = LongSparseArray<Boolean>()
 
     var token: String = ""
     var activityClass: Class<out Activity>? = null
@@ -88,6 +90,10 @@ object ControllerNotifications {
         if (!message.data.containsKey("my_data")) return
 
         val notification = Notification.instance(Json(message.data["my_data"]!!))
+
+        if(lastNotificationsCodes.get(notification.randomCode, false)) return
+        lastNotificationsCodes.put(notification.randomCode, true)
+
         ToolsThreads.main {
             EventBus.post(
                     EventNotification(
@@ -365,6 +371,7 @@ object ControllerNotifications {
         override fun asString(html: Boolean): String {
             return if (n.commentText.isNotEmpty()) n.commentText
             else if (n.commentImageId != 0L || n.commentImagesIds.isNotEmpty()) ToolsResources.s(R.string.app_image)
+            else if (n.stickerId != 0L) ToolsResources.s(R.string.app_sticker)
             else ""
         }
 
@@ -431,6 +438,7 @@ object ControllerNotifications {
 
         override fun asString(html: Boolean) = if (n.commentText.isNotEmpty()) n.commentText
         else if (n.commentImageId != 0L || n.commentImagesIds.isNotEmpty()) ToolsResources.s(R.string.app_image)
+        else if (n.stickerId != 0L) ToolsResources.s(R.string.app_sticker)
         else ""
 
         override fun getIcon() = R.drawable.ic_mode_comment_white_18dp
@@ -478,12 +486,12 @@ object ControllerNotifications {
 
         override fun asString(html: Boolean): String {
             if (n.tag.chatType == API.CHAT_TYPE_FANDOM) {
-                return if (n.unitChatMessage.resourceId != 0L && n.unitChatMessage.text.isEmpty()) n.unitChatMessage.creatorName + ": " + ToolsResources.s(
-                        R.string.app_image
-                )
+                return if (n.unitChatMessage.resourceId != 0L && n.unitChatMessage.text.isEmpty()) n.unitChatMessage.creatorName + ": " + ToolsResources.s(R.string.app_image)
+                else if (n.unitChatMessage.stickerId != 0L && n.unitChatMessage.text.isEmpty()) n.unitChatMessage.creatorName + ": " + ToolsResources.s(R.string.app_sticker)
                 else n.unitChatMessage.creatorName + ": " + n.unitChatMessage.text
             } else {
                 return if (n.unitChatMessage.resourceId != 0L && n.unitChatMessage.text.isEmpty()) ToolsResources.s(R.string.app_image)
+                else if (n.unitChatMessage.stickerId != 0L && n.unitChatMessage.text.isEmpty()) ToolsResources.s(R.string.app_sticker)
                 else n.unitChatMessage.text
             }
         }

@@ -28,7 +28,6 @@ class CardChatMessageSticker(
     init {
         useMessageContainerBackground = false
         changeEnabled = false
-        quoteEnabled = false
         copyEnabled = false
     }
 

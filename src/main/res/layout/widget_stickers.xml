@@ -34,7 +34,7 @@
                 android:id="@+id/vSearchStickers"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                style="@style/Widget.AppCompat.Button.Borderless.Colored"
+                style="@style/Button.Text"
                 android:layout_gravity="center"
                 android:layout_marginTop="8dp"
                 android:text="@string/app_search"/>

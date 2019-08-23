@@ -63,10 +63,11 @@ object ControllerPost {
                 .add(R.string.post_menu_change_tags) { w, card -> changeTags(unit) }.condition(ENABLED_CHANGE_TAGS && unit.isPublic && unit.languageId != -1L)
                 .add(R.string.app_remove) { w, card -> remove(unit) }.condition(ENABLED_REMOVE)
                 .add(R.string.app_to_drafts) { w, card -> toDrafts(unit) }.condition(ENABLED_TO_DRAFTS && unit.isPublic && unit.languageId != -1L)
-                .add(R.string.unit_menu_change_fandom) { w, card -> changeFandom(unit.id) }.condition(ENABLED_CHANGE_FANDOM && unit.languageId != -1L)
+                .add(R.string.unit_menu_change_fandom) { w, card -> changeFandom(unit.id) }.condition(ENABLED_CHANGE_FANDOM && unit.languageId != -1L && (unit.status == API.STATUS_PUBLIC || unit.status == API.STATUS_DRAFT))
                 .add(R.string.unit_menu_pin_in_profile) { w, card -> pinInProfile(unit) }.condition(ENABLED_PIN_PROFILE && ControllerApi.can(API.LVL_CAN_PIN_POST) && unit.isPublic && !unit.isPined)
                 .add(R.string.unit_menu_unpin_in_profile) { w, card -> unpinInProfile(unit) }.condition(ENABLED_PIN_PROFILE && unit.isPined)
-                .add(R.string.unit_menu_multi_languages) { w, card -> multilanguage(unit) }.condition(ENABLED_MAKE_MULTI_LANGUAGES && unit.languageId != -1L)
+                .add(R.string.unit_menu_multi_languages) { w, card -> multilanguage(unit) }.condition(ENABLED_MAKE_MULTI_LANGUAGES && unit.languageId != -1L && unit.status == API.STATUS_PUBLIC)
+                .add(R.string.app_publish) { w, card -> publishPending(unit) }.condition(unit.status == API.STATUS_PENDING)
                 .groupCondition(!ControllerApi.isCurrentAccount(unit.creatorId) && unit.isPublic)
                 .add(R.string.app_report) { w, card -> ControllerUnits.report(unit) }.condition(ENABLED_REPORT)
                 .add(R.string.app_clear_reports) { w, card -> ControllerUnits.clearReports(unit) }.backgroundRes(R.color.blue_700).condition(ENABLED_CLEAR_REPORTS && ControllerApi.can(unit.fandomId, unit.languageId, API.LVL_MODERATOR_BLOCK) && unit.reportsCount > 0)
@@ -83,6 +84,17 @@ object ControllerPost {
                 .clearGroupCondition()
         ON_PRE_SHOW_MENU.invoke(unit, w)
         w.asSheetShow()
+    }
+
+    fun publishPending(unit: UnitPost){
+        ApiRequestsSupporter.executeEnabledConfirm(
+                R.string.post_pending_publish,
+                R.string.app_publish,
+                RPostPendingPublish(unit.id)
+        ) {
+            EventBus.post(EventPostStatusChange(unit.id, API.STATUS_PUBLIC))
+            ToolsToast.show(R.string.app_done)
+        }
     }
 
     fun multilanguage(unit: UnitPost) {

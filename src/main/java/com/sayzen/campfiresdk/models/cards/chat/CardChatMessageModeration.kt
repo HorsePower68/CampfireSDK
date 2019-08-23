@@ -19,6 +19,10 @@ class CardChatMessageModeration(
         onBlocked: ((UnitChatMessage) -> Unit)? = null
 ) : CardChatMessage(R.layout.card_chat_message_moderation, unit, onClick, onChange, onQuote, onGoTo, onBlocked) {
 
+    init {
+        quoteEnabled = false
+    }
+
     override fun bindView(view: View) {
         super.bindView(view)
 

@@ -4,7 +4,6 @@ package com.sayzen.campfiresdk.controllers
 import android.graphics.Bitmap
 import android.text.Html
 import android.text.util.Linkify
-import android.view.Gravity
 import android.widget.TextView
 import com.dzen.campfire.api.API
 import com.dzen.campfire.api.models.Language
@@ -16,7 +15,6 @@ import com.dzen.campfire.api.models.lvl.LvlInfoUser
 import com.dzen.campfire.api.requests.accounts.RAccountsClearReports
 import com.dzen.campfire.api.requests.accounts.RAccountsLoginSimple
 import com.dzen.campfire.api.requests.accounts.RAccountsRegistration
-import com.dzen.campfire.api.requests.achievements.RAchievementsOnFinish
 import com.dzen.campfire.api.requests.units.RUnitsAdminClearReports
 import com.dzen.campfire.api.requests.units.RUnitsOnShare
 import com.dzen.campfire.api.requests.units.RUnitsRemove
@@ -25,31 +23,19 @@ import com.dzen.campfire.api_media.APIMedia
 import com.dzen.campfire.api_media.requests.RResourcesGet
 import com.sayzen.campfiresdk.R
 import com.sayzen.campfiresdk.models.events.account.EventAccountReportsCleared
-import com.sayzen.campfiresdk.models.support.TextParser
 import com.sayzen.campfiresdk.models.events.units.EventUnitRemove
 import com.sayzen.campfiresdk.models.events.units.EventUnitReportsAdd
 import com.sayzen.campfiresdk.models.events.units.EventUnitReportsClear
-import com.sayzen.campfiresdk.screens.account.profile.SAccount
-import com.sayzen.campfiresdk.screens.chat.SChat
-import com.sayzen.campfiresdk.screens.fandoms.forums.view.SForumView
-import com.sayzen.campfiresdk.screens.fandoms.moderation.view.SModerationView
-import com.sayzen.campfiresdk.screens.fandoms.reviews.SReviews
-import com.sayzen.campfiresdk.screens.fandoms.view.SFandom
-import com.sayzen.campfiresdk.screens.post.search.SPostsSearch
-import com.sayzen.campfiresdk.screens.post.view.SPost
-import com.sayzen.campfiresdk.screens.stickers.SStickersView
+import com.sayzen.campfiresdk.models.support.TextParser
 import com.sayzen.devsupandroidgoogle.ControllerGoogleToken
 import com.sup.dev.android.libs.api_simple.ApiRequestsSupporter
 import com.sup.dev.android.libs.image_loader.ImageLoaderId
-import com.sup.dev.android.libs.screens.navigator.Navigator
 import com.sup.dev.android.tools.*
 import com.sup.dev.android.views.views.ViewTextLinkable
-import com.sup.dev.android.views.widgets.WidgetAlert
 import com.sup.dev.android.views.widgets.WidgetField
 import com.sup.dev.java.classes.items.Item3
 import com.sup.dev.java.classes.items.ItemNullable
 import com.sup.dev.java.libs.api_simple.client.TokenProvider
-import com.sup.dev.java.libs.debug.err
 import com.sup.dev.java.libs.eventBus.EventBus
 import com.sup.dev.java.libs.json.Json
 import com.sup.dev.java.tools.ToolsThreads
@@ -335,6 +321,7 @@ object ControllerApi {
     fun linkToPostComment(parentUnitId: Long, commentId: Long) = API.LINK_POST + parentUnitId + "_" + commentId
     fun linkToModerationComment(parentUnitId: Long, commentId: Long) = API.LINK_MODERATION + parentUnitId + "_" + commentId
     fun linkToForumComment(parentUnitId: Long, commentId: Long) = API.LINK_FORUM + parentUnitId + "_" + commentId
+    fun linkToStickersComment(parentUnitId: Long, commentId: Long) = API.LINK_STICKERS_PACK + parentUnitId + "_" + commentId
     fun linkToChat(fandomId: Long) = API.LINK_CHAT + fandomId
     fun linkToChat(fandomId: Long, languageId: Long) = API.LINK_CHAT + fandomId + "_" + languageId
     fun linkToChatMessage(messageId: Long, fandomId: Long, languageId: Long) = API.LINK_CHAT + fandomId + "_" + languageId + "_" + messageId
@@ -346,6 +333,7 @@ object ControllerApi {
             API.UNIT_TYPE_POST -> linkToPostComment(unitId, commentId)
             API.UNIT_TYPE_MODERATION -> linkToModerationComment(unitId, commentId)
             API.UNIT_TYPE_FORUM -> linkToForumComment(unitId, commentId)
+            API.UNIT_TYPE_STICKERS_PACK -> linkToStickersComment(unitId, commentId)
             else -> ""
         }
     }

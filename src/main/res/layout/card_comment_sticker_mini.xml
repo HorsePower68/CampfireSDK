@@ -76,12 +76,12 @@
                     <com.sup.dev.android.views.views.layouts.LayoutCorned
                         android:layout_marginTop="8dp"
                         android:layout_width="100dp"
-                        android:layout_height="100dp">
+                        android:layout_height="64dp">
 
                         <ImageView
                             android:id="@+id/vImage"
-                            android:layout_width="100dp"
-                            android:layout_height="100dp"
+                            android:layout_width="64dp"
+                            android:layout_height="64dp"
                             android:layout_gravity="center"
                             android:adjustViewBounds="true"/>
 

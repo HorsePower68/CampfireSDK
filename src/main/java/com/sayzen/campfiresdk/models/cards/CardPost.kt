@@ -28,6 +28,7 @@ import com.sup.dev.android.tools.ToolsView
 import com.sup.dev.android.views.views.ViewAvatarTitle
 import com.sup.dev.android.views.views.layouts.LayoutMaxSizes
 import com.sup.dev.java.libs.eventBus.EventBus
+import com.sup.dev.java.tools.ToolsDate
 import com.sup.dev.java.tools.ToolsThreads
 import java.util.*
 
@@ -39,7 +40,7 @@ class CardPost constructor(
 
     private val eventBus = EventBus
             .subscribe(EventPostChanged::class) { onPostChange(it) }
-            .subscribe(EventPostPublishedChange::class) { onPostPublicationChange(it) }
+            .subscribe(EventPostStatusChange::class) { onEventPostStatusChange(it) }
             .subscribe(EventPollingChanged::class) { onEventPollingChanged(it) }
             .subscribe(EventCommentRemove::class) { onEventCommentRemove2(it) }
             .subscribe(EventPostNotifyFollowers::class) { onEventPostNotifyFollowers(it) }
@@ -151,7 +152,7 @@ class CardPost constructor(
                 onClick!!.invoke(unit)
             else if (unit.status == API.STATUS_DRAFT)
                 ControllerCampfireSDK.onToDraftClicked(unit.id, Navigator.TO)
-            else
+            else if (unit.status == API.STATUS_PUBLIC)
                 ControllerCampfireSDK.onToPostClicked(unit.id, 0, Navigator.TO)
         }
 
@@ -198,6 +199,7 @@ class CardPost constructor(
         val vAvatar: ViewAvatarTitle = getView()!!.findViewById(R.id.vAvatar)
         if (!showFandom) xAccount.setView(vAvatar)
         else xFandom.setView(vAvatar)
+        if(unit.status == API.STATUS_PENDING) vAvatar.setSubtitle(ToolsDate.dateToString(unit.tag_4))
     }
 
     private fun updateKarma() {
@@ -230,7 +232,7 @@ class CardPost constructor(
         if (isShowFull) vPagesCount.text = "${ToolsResources.s(R.string.app_hide)}"
         else vPagesCount.text = "${ToolsResources.s(R.string.app_show_all)} (${unit.pages.size})"
 
-        vMaxSizes.setMaxHeight(if (isShowFull) 50000 else 480)
+        vMaxSizes.setMaxHeight(if (isShowFull) 50000 else 300)
 
         vPagesCount.tag = this
         updateShowAll(vPagesCount, vMaxSizes, vPagesContainer)
@@ -250,7 +252,7 @@ class CardPost constructor(
     }
 
     private fun updateShowAll(vPagesCount: TextView, vMaxSizes: LayoutMaxSizes, vPagesContainer: ViewGroup) {
-        vPagesCount.visibility = if (unit.pages.size > 2 || vMaxSizes.isCroppedH() || vPagesContainer.measuredHeight > ToolsView.dpToPx(480)) View.VISIBLE else View.INVISIBLE
+        vPagesCount.visibility = if (unit.pages.size > 2 || vMaxSizes.isCroppedH() || vPagesContainer.measuredHeight > ToolsView.dpToPx(300)) View.VISIBLE else View.INVISIBLE
     }
 
     override fun notifyItem() {
@@ -293,10 +295,11 @@ class CardPost constructor(
         }
     }
 
-    private fun onPostPublicationChange(e: EventPostPublishedChange) {
+    private fun onEventPostStatusChange(e: EventPostStatusChange) {
         if (e.unitId == unit.id) {
-            if (e.published && unit.status == API.STATUS_DRAFT && adapter != null) adapter!!.remove(this)
-            if (!e.published && unit.status == API.STATUS_PUBLIC && adapter != null) adapter!!.remove(this)
+            if (e.status != API.STATUS_DRAFT && unit.status == API.STATUS_DRAFT && adapter != null) adapter!!.remove(this)
+            if (e.status != API.STATUS_PUBLIC && unit.status == API.STATUS_PUBLIC && adapter != null) adapter!!.remove(this)
+            if (e.status != API.STATUS_PENDING && unit.status == API.STATUS_PENDING && adapter != null) adapter!!.remove(this)
         }
     }
 

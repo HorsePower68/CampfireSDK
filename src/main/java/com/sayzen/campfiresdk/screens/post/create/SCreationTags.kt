@@ -11,8 +11,8 @@ import com.dzen.campfire.api.requests.post.RPostGet
 import com.dzen.campfire.api.requests.post.RPostPublication
 import com.dzen.campfire.api.requests.tags.RTagsGetAll
 import com.sayzen.campfiresdk.R
-import com.sayzen.campfiresdk.models.events.units.EventPostPublishedChange
 import com.sayzen.campfiresdk.controllers.ControllerUnits
+import com.sayzen.campfiresdk.models.events.units.EventPostStatusChange
 import com.sayzen.campfiresdk.screens.post.pending.SPending
 import com.sayzen.campfiresdk.screens.post.view.SPost
 import com.sup.dev.android.libs.api_simple.ApiRequestsSupporter
@@ -26,7 +26,6 @@ import com.sup.dev.android.views.views.layouts.LayoutFlow
 import com.sup.dev.android.views.widgets.WidgetChooseDate
 import com.sup.dev.android.views.widgets.WidgetChooseTime
 import com.sup.dev.android.views.widgets.WidgetField
-import com.sup.dev.java.libs.debug.log
 import com.sup.dev.java.libs.eventBus.EventBus
 import com.sup.dev.java.tools.ToolsDate
 import java.util.*
@@ -53,7 +52,7 @@ class SCreationTags private constructor(
 
         fun create(unitId: Long, tags: Array<Long>, notifyFollowers: Boolean, pendingTime: Long, onCreate: () -> Unit) {
             ApiRequestsSupporter.executeProgressDialog(RPostPublication(unitId, tags, "", notifyFollowers, pendingTime)) { r ->
-                EventBus.post(EventPostPublishedChange(unitId, true))
+                EventBus.post(EventPostStatusChange(unitId, API.STATUS_PUBLIC))
                 onCreate.invoke()
             }
         }
@@ -148,7 +147,7 @@ class SCreationTags private constructor(
                     .setOnEnter(R.string.app_change) { w, comment ->
                         ApiRequestsSupporter.executeEnabled(w, RPostPublication(unitId, tags, comment, false, 0)) { r ->
                             Navigator.removeAll(SPostCreate::class.java)
-                            EventBus.post(EventPostPublishedChange(unitId, true))
+                            EventBus.post(EventPostStatusChange(unitId, API.STATUS_PUBLIC))
                             SPost.instance(unitId, 0, NavigationAction.replace())
                         }
                     }.asSheetShow()

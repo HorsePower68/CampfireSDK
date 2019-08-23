@@ -14,6 +14,7 @@ import com.sayzen.campfiresdk.controllers.api
 import com.sayzen.campfiresdk.models.cards.comments.CardComment
 import com.sayzen.campfiresdk.models.events.notifications.EventNotification
 import com.sayzen.campfiresdk.models.widgets.WidgetComment
+import com.sup.dev.android.tools.ToolsResources
 import com.sup.dev.android.tools.ToolsToast
 import com.sup.dev.android.views.cards.CardSpace
 import com.sup.dev.android.views.support.adapters.recycler_view.RecyclerCardAdapterLoading
@@ -36,7 +37,7 @@ class AdapterComments(
             .subscribe(EventCommentRemove::class) { this.onEventCommentRemove(it) }
 
     private var needScrollToBottom = false
-    private val cardSpace = CardSpace(64)
+    private val cardSpace = CardSpace(124)
 
     init {
         setBottomLoader { onLoad, cards ->
@@ -135,7 +136,12 @@ class AdapterComments(
                     true
                 },
                 { comment ->
-                    showCommentDialog(if (ControllerApi.isCurrentAccount(comment.creatorId)) null else comment, null, comment.id, comment.creatorName + ": " + comment.text)
+                    var quoteText = comment.creatorName + ": "
+                    if(comment.text.isNotEmpty()) quoteText+= comment.text
+                    else if(comment.imageId != 0L || comment.imageIdArray.isNotEmpty()) quoteText += ToolsResources.s(R.string.app_image)
+                    else if(comment.stickerId != 0L) quoteText += ToolsResources.s(R.string.app_sticker)
+
+                    showCommentDialog(if (ControllerApi.isCurrentAccount(comment.creatorId)) null else comment, null, comment.id, quoteText)
                 },
                 { id ->
                     for (i in get(CardComment::class)) {
