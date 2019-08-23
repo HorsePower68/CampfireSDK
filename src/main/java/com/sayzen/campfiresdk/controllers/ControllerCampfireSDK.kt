@@ -305,7 +305,7 @@ object ControllerCampfireSDK {
         return w
     }
 
-    fun acceptRules(onAccept: () -> com.dzen.campfire.api.models.units.Unit) {
+    fun acceptRules(onAccept: () -> Unit) {
         if (WidgetAlert.check(CampfreConstants.CHECK_RULES_ACCEPTED)) {
             onAccept.invoke()
             return
