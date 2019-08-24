@@ -79,8 +79,10 @@ object ControllerCampfireSDK {
             logoColored: Int,
             logoWhite: Int,
             notificationExecutor: ControllerNotifications.ExecutorNotification,
+            linksExecutor: ExecutorLinks,
             onLoginFailed: () -> Unit
     ) {
+        executorLinks = linksExecutor
         ControllerApi.init()
         ControllerChats.init()
         ControllerNotifications.init(activityClass, logoColored, logoWhite, notificationExecutor)
