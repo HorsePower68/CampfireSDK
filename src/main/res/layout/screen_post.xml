@@ -39,7 +39,7 @@
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         style="@style/Fab"
-        android:src="?ic_mode_comment_24dp"/>
+        android:src="@drawable/ic_mode_comment_white_24dp"/>
 
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
