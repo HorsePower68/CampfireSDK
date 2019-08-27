@@ -31,6 +31,7 @@ import com.sup.dev.android.libs.screens.navigator.Navigator
 import com.sup.dev.android.tools.*
 import com.sup.dev.android.views.cards.CardSpace
 import com.sup.dev.android.views.screens.SCrop
+import com.sup.dev.android.views.screens.SImageView
 import com.sup.dev.android.views.support.adapters.recycler_view.RecyclerCardAdapterLoading
 import com.sup.dev.android.views.support.adapters.recycler_view.decorators.DecoratorVerticalSpace
 import com.sup.dev.android.views.widgets.*
@@ -80,8 +81,18 @@ class SAccount private constructor(
         vMore.setOnClickListener { v -> showDialog() }
         vRecycler.layoutManager = LinearLayoutManager(context)
         vRecycler.addItemDecoration(DecoratorVerticalSpace(8))
-        if (ControllerApi.isCurrentAccount(r.account.id)) vAvatar.setOnClickListener { v -> onChangeAvatarClicked() }
-        if (ControllerApi.isCurrentAccount(r.account.id)) vImage.setOnClickListener { v -> onChangeTitleImageClicked() }
+
+        vAvatar.setOnClickListener {
+            if (ControllerApi.isCurrentAccount(r.account.id)) onChangeAvatarClicked()
+            Navigator.to(SImageView(xAccount.imageId))
+        }
+
+        vImage.setOnClickListener {
+            if (ControllerApi.isCurrentAccount(r.account.id)) onChangeTitleImageClicked()
+            else if (xAccount.titleImageGifId > 0) Navigator.to(SImageView(xAccount.titleImageGifId))
+            else Navigator.to(SImageView(xAccount.titleImageId))
+        }
+
 
         vTitle.text = r.account.name
 
@@ -127,10 +138,10 @@ class SAccount private constructor(
         update()
     }
 
-    private fun afterPackLoaded(){
-        if(cardPinnedPost != null && ControllerSettings.getProfileFilters().contains(API.UNIT_TYPE_POST))
+    private fun afterPackLoaded() {
+        if (cardPinnedPost != null && ControllerSettings.getProfileFilters().contains(API.UNIT_TYPE_POST))
             for (c in adapter.get(CardPost::class))
-                if(c.unit.id == cardPinnedPost!!.unit.id && !c.unit.isPined)
+                if (c.unit.id == cardPinnedPost!!.unit.id && !c.unit.isPined)
                     adapter.remove(c)
     }
 

@@ -76,13 +76,14 @@
                     <com.sup.dev.android.views.views.layouts.LayoutCorned
                         android:layout_marginTop="8dp"
                         android:layout_width="100dp"
-                        android:layout_height="64dp">
+                        android:layout_height="100dp">
 
                         <ImageView
                             android:id="@+id/vImage"
-                            android:layout_width="64dp"
-                            android:layout_height="64dp"
+                            android:layout_width="100dp"
+                            android:layout_height="100dp"
                             android:layout_gravity="center"
+                            android:scaleType="centerCrop"
                             android:adjustViewBounds="true"/>
 
                         <ProgressBar
@@ -90,17 +91,6 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"/>
-
-                        <TextView
-                            android:id="@+id/vLabelImage"
-                            style="@style/Base.TextAppearance.AppCompat.Caption"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:textColor="@color/white"
-                            android:layout_gravity="right|bottom"
-                            android:layout_margin="8dp"
-                            android:background="@color/focus_dark"
-                            android:padding="2dp"/>
 
                     </com.sup.dev.android.views.views.layouts.LayoutCorned>
 

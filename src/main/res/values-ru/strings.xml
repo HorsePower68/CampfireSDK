@@ -292,7 +292,9 @@
     <string name="notification_admin_post_fandom_change">Администартор %s %s ваш пост из фэндома %s в %s</string>
     <string name="notification_mention">%s %s вас</string>
 
-    <string name="message_publication_rules">Используя данное приложение, вы подтверждаете что вам уже исполнилось 13 лет. Любые публикации должны соответстовать [правилам Google]</string>
+    <string name="message_publication_rules">Используя данное приложение, вы подтверждаете что вам уже исполнилось 13 лет. Любые публикации должны соответстовать %s и %s</string>
+    <string name="message_publication_rules_1">правилам Campfire</string>
+    <string name="message_publication_rules_2">правилам Google</string>
     <string name="message_link">Перейдя по этой ссылке вы покинете приложение. Мы не несем ответственности за материалы и возможные угрозы, вызванные ресурсом находящемся по этой ссылке.</string>
     <string name="message_removed_by_server">Удалено сервером для экономии памяти</string>
     <string name="message_do_ban_user">%s пользователя</string>
@@ -782,6 +784,7 @@
     <string name="settings_style_default">Вернуть по умолчанию</string>
     <string name="settings_style_theme">Тема</string>
     <string name="settings_style_interface">Интерфейс</string>
+    <string name="settings_style_fullscreen">Полный экран</string>
     <string name="settings_style_theme_1">Черный</string>
     <string name="settings_style_theme_2">Темно-серый</string>
     <string name="settings_style_theme_3">Белый (альфа-версия)</string>
@@ -1307,7 +1310,7 @@
     </string>
     <string name="about_info_6t">Ежедневные задания</string>
     <string name="about_info_6">
-        Отображаются в верхней части экрана достижений.
+        Отображаются в верхней части ленты.
         \n\nОбновляются в 00:00 по серверному времени (UTC+3).
     </string>
     <string name="about_info_7t">Форматирование текста</string>

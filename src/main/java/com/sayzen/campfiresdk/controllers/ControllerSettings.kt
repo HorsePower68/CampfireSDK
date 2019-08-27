@@ -105,6 +105,13 @@ object ControllerSettings {
             onSettingsUpdated()
         }
 
+    var fullscreen: Boolean
+        get() = accountSettings.fullscreen
+        set(b) {
+            accountSettings.fullscreen = b
+            onSettingsUpdated()
+        }
+
     //
     //  App
     //
@@ -191,6 +198,13 @@ object ControllerSettings {
         set(b) {
             accountSettings.helloIsShowed = b
             onSettingsUpdated()
+        }
+
+    var rulesIsShowed: Boolean
+        get() = accountSettings.rulesIsShowed
+        set(b) {
+            if(b != accountSettings.rulesIsShowed) onSettingsUpdated()
+            accountSettings.rulesIsShowed = b
         }
 
     var viewedForums: Array<Long>

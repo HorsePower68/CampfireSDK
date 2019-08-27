@@ -12,6 +12,7 @@ import com.dzen.campfire.api.requests.stickers.RStickersPacksGetInfo
 import com.sayzen.campfiresdk.R
 import com.sup.dev.android.tools.ToolsResources
 import com.sup.dev.java.classes.items.Item3
+import com.sup.dev.java.libs.debug.log
 
 object ControllerCampfireObjects {
 

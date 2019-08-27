@@ -292,7 +292,9 @@ Campfire has anime fandoms and gaming fandoms.</string>
     <string name="notification_admin_post_fandom_change">Administrator %s %s your post from fandom %s to %s</string>
     <string name="notification_mention">%s %s you</string>
 
-    <string name="message_publication_rules">The content that you publish in the application should be directly relevant to the subject matter of the app and meet all of the [Google rules]</string>
+    <string name="message_publication_rules">The content that you publish in the application should be directly relevant to the subject matter of the app and meet all of the %s and the %s</string>
+    <string name="message_publication_rules_1">App rules</string>
+    <string name="message_publication_rules_2">Google rules</string>
     <string name="message_link">By clicking on this link you will leave the application. We are not responsible for the materials and possible threats caused by the resources located at this link.</string>
     <string name="message_removed_by_server">Removed by server to save memory</string>
     <string name="message_do_ban_user">%s user</string>
@@ -782,6 +784,7 @@ Campfire has anime fandoms and gaming fandoms.</string>
     <string name="settings_style_default">Drop to default</string>
     <string name="settings_style_theme">Theme</string>
     <string name="settings_style_interface">Interface</string>
+    <string name="settings_style_fullscreen">Fullscreen</string>
     <string name="settings_style_theme_1">Black</string>
     <string name="settings_style_theme_2">Dark Grey</string>
     <string name="settings_style_theme_3">White (alpha version)</string>
@@ -1308,7 +1311,7 @@ Campfire has anime fandoms and gaming fandoms.</string>
     </string>
     <string name="about_info_6t">Daily quests</string>
     <string name="about_info_6">
-        Displayed at the top of Achievements screen.
+        Displayed at the top of main screen.
         \n\nUpdated at 00:00 server time (UTC+3).
     </string>
     <string name="about_info_7t">Text formatting</string>

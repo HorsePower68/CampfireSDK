@@ -307,31 +307,6 @@ object ControllerCampfireSDK {
         return w
     }
 
-    fun acceptRules(onAccept: () -> Unit) {
-        if (WidgetAlert.check(CampfreConstants.CHECK_RULES_ACCEPTED)) {
-            onAccept.invoke()
-            return
-        }
-
-        val t = ToolsResources.s(R.string.message_publication_rules)
-
-        val span = Spannable.Factory.getInstance().newSpannable(t)
-        span.setSpan(object : ClickableSpan() {
-            override fun onClick(v: View) {
-                ToolsIntent.openLink("https://play.google.com/intl/ru_ALL/about/restricted-content/inappropriate-content/")
-            }
-        }, t.indexOf("["), t.length, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
-
-        WidgetAlert()
-                .setText(span)
-                .setTitleImageBackgroundRes(R.color.blue_700)
-                .setTitleImage(R.drawable.ic_security_white_48dp)
-                .setChecker(CampfreConstants.CHECK_RULES_ACCEPTED, R.string.app_i_agree)
-                .setLockUntilAccept(true)
-                .setOnCancel(R.string.app_cancel)
-                .setOnEnter(R.string.app_accept) { dialog -> onAccept.invoke() }
-                .asSheetShow()
-    }
 
 
     interface ExecutorLinks {

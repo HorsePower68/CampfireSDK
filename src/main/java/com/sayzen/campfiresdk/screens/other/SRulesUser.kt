@@ -11,12 +11,21 @@ import com.sup.dev.android.tools.ToolsAndroid
 import com.sup.dev.android.tools.ToolsToast
 import com.sup.dev.android.tools.ToolsView
 
-class SRulesUser : Screen(R.layout.screen_other_rules_user) {
+class SRulesUser(
+        noNavigationMode:Boolean = false
+) : Screen(R.layout.screen_other_rules_user) {
 
     private val vCopyLink: View = findViewById(R.id.vCopyLink)
     private val vContainer: ViewGroup = findViewById(R.id.vContainer)
 
     init {
+        if(noNavigationMode){
+            isBottomNavigationVisible = false
+            isBottomNavigationAllowed = false
+            isBottomNavigationAnimation = false
+            vCopyLink.visibility = View.GONE
+        }
+
         vCopyLink.setOnClickListener {
             ToolsAndroid.setToClipboard(API.LINK_RULES_USER)
             ToolsToast.show(R.string.app_copied)
@@ -31,7 +40,7 @@ class SRulesUser : Screen(R.layout.screen_other_rules_user) {
         val vText: TextView = view.findViewById(R.id.vText)
         vText.setText(text)
         vContainer.addView(view)
-        if(vContainer.childCount > 1) (view.layoutParams as ViewGroup.MarginLayoutParams).topMargin = ToolsView.dpToPx(24).toInt()
+        if(vContainer.childCount > 1) (view.layoutParams as MarginLayoutParams).topMargin = ToolsView.dpToPx(24).toInt()
     }
 
 }

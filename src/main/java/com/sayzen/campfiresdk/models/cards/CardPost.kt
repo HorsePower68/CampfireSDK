@@ -49,8 +49,8 @@ class CardPost constructor(
 
     private val pages = ArrayList<CardPage>()
     private val xKarma = XKarma(unit) { updateKarma() }
-    private val xAccount = XAccount(unit, unit.dateCreate) { update() }
-    private var xFandom = XFandom(unit, unit.dateCreate) { update() }
+    private val xAccount = XAccount(unit, unit.dateCreate) { updateAvatar() }
+    private var xFandom = XFandom(unit, unit.dateCreate) { updateAvatar() }
     private var isShowFull = false
     private var onBack: () -> Boolean = { false }
 

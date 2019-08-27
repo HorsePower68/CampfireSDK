@@ -62,7 +62,7 @@ object ControllerPost {
                 .add(R.string.app_change) { w, card -> ControllerCampfireSDK.onToDraftClicked(unit.id, Navigator.TO) }.condition(ENABLED_CHANGE && unit.isPublic)
                 .add(R.string.post_menu_change_tags) { w, card -> changeTags(unit) }.condition(ENABLED_CHANGE_TAGS && unit.isPublic && unit.languageId != -1L)
                 .add(R.string.app_remove) { w, card -> remove(unit) }.condition(ENABLED_REMOVE)
-                .add(R.string.app_to_drafts) { w, card -> toDrafts(unit) }.condition(ENABLED_TO_DRAFTS && unit.isPublic && unit.languageId != -1L)
+                .add(R.string.app_to_drafts) { w, card -> toDrafts(unit) }.condition(ENABLED_TO_DRAFTS && (unit.isPublic || unit.status == API.STATUS_PENDING) && unit.languageId != -1L)
                 .add(R.string.unit_menu_change_fandom) { w, card -> changeFandom(unit.id) }.condition(ENABLED_CHANGE_FANDOM && unit.languageId != -1L && (unit.status == API.STATUS_PUBLIC || unit.status == API.STATUS_DRAFT))
                 .add(R.string.unit_menu_pin_in_profile) { w, card -> pinInProfile(unit) }.condition(ENABLED_PIN_PROFILE && ControllerApi.can(API.LVL_CAN_PIN_POST) && unit.isPublic && !unit.isPined)
                 .add(R.string.unit_menu_unpin_in_profile) { w, card -> unpinInProfile(unit) }.condition(ENABLED_PIN_PROFILE && unit.isPined)
