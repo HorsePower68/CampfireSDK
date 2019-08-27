@@ -300,7 +300,7 @@
 
     </style>
 
-    <style name="CampfireThemeBrown" parent="CampfireRootThemeWhite">
+    <style name="CampfireRootThemeWhiteColored" parent="CampfireRootThemeWhite">
         <item name="ic_arrow_back_24dp">@drawable/ic_arrow_back_white_24dp</item>
         <item name="ic_menu_24dp">@drawable/ic_menu_white_24dp</item>
         <item name="ic_keyboard_arrow_right_24dp">@drawable/ic_keyboard_arrow_right_white_24dp</item>
@@ -308,10 +308,13 @@
         <item name="ic_file_download_24dp">@drawable/ic_file_download_white_24dp</item>
         <item name="ic_folder_24dp">@drawable/ic_folder_white_24dp</item>
         <item name="ic_insert_drive_file_24dp">@drawable/ic_insert_drive_file_white_24dp</item>
-        <item name="colorPrimaryDark">@color/brown_700</item>
-        <item name="colorPrimary">@color/brown_700</item>
         <item name="revers_color">@color/white</item>
         <item name="revers_color_lighted">@color/grey_200</item>
+    </style>
+
+    <style name="CampfireThemeBrown" parent="CampfireRootThemeWhite">
+        <item name="colorPrimaryDark">@color/brown_700</item>
+        <item name="colorPrimary">@color/brown_700</item>
     </style>
 
 

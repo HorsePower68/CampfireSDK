@@ -58,14 +58,14 @@ object ControllerCampfireSDK {
     var IS_USE_SECOND_IP = false
     var IS_DEBUG = false
 
-    var ON_TO_FANDOM_CLICKED: (fandomId: Long, languageId: Long, action: NavigationAction) -> Unit = { fandomId, languageId, action -> }
-    var ON_TO_ACCOUNT_CLICKED: (accountId: Long, action: NavigationAction) -> Unit = { accountId, action -> }
-    var ON_TO_MODERATION_CLICKED: (moderationId: Long, commentId: Long, action: NavigationAction) -> Unit = { moderationId, commentId, action -> }
-    var ON_TO_POST_CLICKED: (postId: Long, commentId: Long, action: NavigationAction) -> Unit = { postId, commentId, action -> }
+    var ON_TO_FANDOM_CLICKED: (fandomId: Long, languageId: Long, action: NavigationAction) -> Unit = { fandomId, languageId, action -> openLink(ControllerApi.linkToFandom(fandomId, languageId))}
+    var ON_TO_ACCOUNT_CLICKED: (accountId: Long, action: NavigationAction) -> Unit = {accountId, action -> openLink(ControllerApi.linkToUser(accountId))}
+    var ON_TO_MODERATION_CLICKED: (moderationId: Long, commentId: Long, action: NavigationAction) -> Unit = { moderationId, commentId, action -> openLink(ControllerApi.linkToModerationComment(moderationId, commentId))}
+    var ON_TO_POST_CLICKED: (postId: Long, commentId: Long, action: NavigationAction) -> Unit = { postId, commentId, action -> openLink(ControllerApi.linkToPostComment(postId, commentId))}
     var ON_TO_DRAFTS_CLICKED: (action: NavigationAction) -> Unit = { action -> }
     var ON_TO_DRAFT_CLICKED: (postId: Long, action: NavigationAction) -> Unit = { postId, action -> }
     var ON_TO_POST_TAGS_CLICKED: (postId: Long, isMyUnit: Boolean, action: NavigationAction) -> Unit = { postId, isMyUnit, action -> }
-    var ON_TO_FORUM_CLICKED: (forumId: Long, commentId: Long, action: NavigationAction) -> Unit = { forumId, commentId, action -> }
+    var ON_TO_FORUM_CLICKED: (forumId: Long, commentId: Long, action: NavigationAction) -> Unit = { forumId, commentId, action -> openLink(ControllerApi.linkToForumComment(forumId, commentId))}
     var ON_TO_ACHIEVEMENT_CLICKED: (accountId: Long, accountName: String, accountLvl: Long, achievementIndex: Long, toPrev: Boolean, action: NavigationAction) -> Unit = { accountId, accountName, accountLvl, achievementIndex, toPrev, action -> }
     var ON_CHANGE_FORUM_CLICKED: (unit: UnitForum) -> Unit = { unit -> }
     var ON_SCREEN_CHAT_START: () -> Unit = { }
@@ -130,11 +130,6 @@ object ControllerCampfireSDK {
     //
     //  Links
     //
-
-
-    fun startCampForAccount(accountId: Long) {
-        openLink(API.LINK_PROFILE_ID + accountId)
-    }
 
     fun parseLink(link: String): Boolean {
         try {
