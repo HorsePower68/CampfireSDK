@@ -33,7 +33,6 @@ class CardCommentSticker(
 
         vImage.setOnClickListener { SStickersView.instanceBySticker(unit.stickerId, Navigator.TO) }
 
-        Debug.printStack()
         ToolsImagesLoader.loadGif(unit.stickerImageId, unit.stickerGifId, unit.imageW, unit.imageH, vImage, vGifProgressBar, 1.7f)
     }
 }

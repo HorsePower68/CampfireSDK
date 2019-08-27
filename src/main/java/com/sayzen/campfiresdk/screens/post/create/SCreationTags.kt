@@ -1,6 +1,5 @@
 package com.sayzen.campfiresdk.screens.post.create
 
-import com.google.android.material.floatingactionbutton.FloatingActionButton
 import android.view.View
 import android.view.ViewGroup
 import android.widget.CheckBox
@@ -10,9 +9,11 @@ import com.dzen.campfire.api.models.units.tags.UnitTag
 import com.dzen.campfire.api.requests.post.RPostGet
 import com.dzen.campfire.api.requests.post.RPostPublication
 import com.dzen.campfire.api.requests.tags.RTagsGetAll
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.sayzen.campfiresdk.R
 import com.sayzen.campfiresdk.controllers.ControllerUnits
 import com.sayzen.campfiresdk.models.events.units.EventPostStatusChange
+import com.sayzen.campfiresdk.screens.other.SGoogleRules
 import com.sayzen.campfiresdk.screens.post.pending.SPending
 import com.sayzen.campfiresdk.screens.post.view.SPost
 import com.sup.dev.android.libs.api_simple.ApiRequestsSupporter
@@ -31,11 +32,11 @@ import com.sup.dev.java.tools.ToolsDate
 import java.util.*
 
 class SCreationTags private constructor(
-        private val unitId: Long,
-        private val unitTag3: Long,
-        private val isMyUnit: Boolean,
-        private val presetTags: Array<Long>,
-        tags: Array<UnitTag>
+    private val unitId: Long,
+    private val unitTag3: Long,
+    private val isMyUnit: Boolean,
+    private val presetTags: Array<Long>,
+    tags: Array<UnitTag>
 ) : Screen(R.layout.screen_post_create_tags) {
 
     companion object {
@@ -51,9 +52,11 @@ class SCreationTags private constructor(
         }
 
         fun create(unitId: Long, tags: Array<Long>, notifyFollowers: Boolean, pendingTime: Long, onCreate: () -> Unit) {
-            ApiRequestsSupporter.executeProgressDialog(RPostPublication(unitId, tags, "", notifyFollowers, pendingTime)) { r ->
-                EventBus.post(EventPostStatusChange(unitId, API.STATUS_PUBLIC))
-                onCreate.invoke()
+            SGoogleRules.acceptRulesDialog {
+                ApiRequestsSupporter.executeProgressDialog(RPostPublication(unitId, tags, "", notifyFollowers, pendingTime)) { r ->
+                    EventBus.post(EventPostStatusChange(unitId, API.STATUS_PUBLIC))
+                    onCreate.invoke()
+                }
             }
         }
 
@@ -91,15 +94,15 @@ class SCreationTags private constructor(
             if (!vPending.isChecked/*После нажатия положение меняется*/) setPendingDate(0)
             else {
                 WidgetChooseDate()
-                        .setOnEnter(R.string.app_choose) { w, date ->
-                            WidgetChooseTime()
-                                    .setOnEnter(R.string.app_choose) { w, h, m ->
-                                        setPendingDate(ToolsDate.getStartOfDay(date) + (h * 60L * 60 * 1000) + (m * 60L * 1000))
-                                    }
-                                    .asSheetShow()
+                    .setOnEnter(R.string.app_choose) { w, date ->
+                        WidgetChooseTime()
+                            .setOnEnter(R.string.app_choose) { w, h, m ->
+                                setPendingDate(ToolsDate.getStartOfDay(date) + (h * 60L * 60 * 1000) + (m * 60L * 1000))
+                            }
+                            .asSheetShow()
 
-                        }
-                        .asSheetShow()
+                    }
+                    .asSheetShow()
             }
         }
 
@@ -140,17 +143,17 @@ class SCreationTags private constructor(
             }
         } else {
             WidgetField()
-                    .setHint(R.string.moderation_widget_comment)
-                    .setOnCancel(R.string.app_cancel)
-                    .setMin(API.MODERATION_COMMENT_MIN_L)
-                    .setMax(API.MODERATION_COMMENT_MAX_L)
-                    .setOnEnter(R.string.app_change) { w, comment ->
-                        ApiRequestsSupporter.executeEnabled(w, RPostPublication(unitId, tags, comment, false, 0)) { r ->
-                            Navigator.removeAll(SPostCreate::class.java)
-                            EventBus.post(EventPostStatusChange(unitId, API.STATUS_PUBLIC))
-                            SPost.instance(unitId, 0, NavigationAction.replace())
-                        }
-                    }.asSheetShow()
+                .setHint(R.string.moderation_widget_comment)
+                .setOnCancel(R.string.app_cancel)
+                .setMin(API.MODERATION_COMMENT_MIN_L)
+                .setMax(API.MODERATION_COMMENT_MAX_L)
+                .setOnEnter(R.string.app_change) { w, comment ->
+                    ApiRequestsSupporter.executeEnabled(w, RPostPublication(unitId, tags, comment, false, 0)) { r ->
+                        Navigator.removeAll(SPostCreate::class.java)
+                        EventBus.post(EventPostStatusChange(unitId, API.STATUS_PUBLIC))
+                        SPost.instance(unitId, 0, NavigationAction.replace())
+                    }
+                }.asSheetShow()
         }
 
     }

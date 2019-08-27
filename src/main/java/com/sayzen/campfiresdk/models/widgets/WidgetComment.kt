@@ -14,6 +14,7 @@ import com.sayzen.campfiresdk.models.events.units.EventCommentAdd
 import com.sayzen.campfiresdk.models.events.units.EventCommentChange
 import com.sayzen.campfiresdk.models.events.units.EventUnitCommentWatchChange
 import com.sayzen.campfiresdk.models.support.Attach
+import com.sayzen.campfiresdk.screens.other.SGoogleRules
 import com.sup.dev.android.libs.api_simple.ApiRequestsSupporter
 import com.sup.dev.android.tools.ToolsBitmap
 import com.sup.dev.android.tools.ToolsResources
@@ -161,15 +162,23 @@ class WidgetComment constructor(
 
 
     private fun sendText(text: String, parentId: Long) {
-        ApiRequestsSupporter.executeEnabled(this, RUnitsCommentCreate(unitId, text, null, null, parentId, ControllerSettings.watchPost, quoteId, 0)) { r ->
-            afterSend(r.comment)
+        SGoogleRules.acceptRulesDialog() {
+            ApiRequestsSupporter.executeEnabled(this, RUnitsCommentCreate(unitId, text, null, null, parentId, ControllerSettings.watchPost, quoteId, 0)) { r ->
+                afterSend(r.comment)
+            }
         }
+
     }
 
     private fun sendChange(text: String) {
-        ApiRequestsSupporter.executeEnabled(this, RUnitsCommentChange(changeComment!!.id, text, quoteId)) { r ->
-            ToolsToast.show(R.string.app_changed)
-            EventBus.post(EventCommentChange(changeComment.id, text, quoteId, quoteText))
+        SGoogleRules.acceptRulesDialog() {
+            ApiRequestsSupporter.executeEnabled(
+                this,
+                RUnitsCommentChange(changeComment!!.id, text, quoteId)
+            ) { r ->
+                ToolsToast.show(R.string.app_changed)
+                EventBus.post(EventCommentChange(changeComment.id, text, quoteId, quoteText))
+            }
         }
     }
 
@@ -178,57 +187,84 @@ class WidgetComment constructor(
     //
 
     private fun sendLink(text: String, parentId: Long, send: Boolean) {
-        val dialog = ToolsView.showProgressDialog()
-        ToolsNetwork.getBytesFromURL(text, 10) { bytes ->
-            if (bytes == null || !ToolsBytes.isImage(bytes)) {
-                dialog.hide()
-                if (send) sendText(text, parentId)
-                else vText.setText(text)
-            } else {
-                attach.attachUrl(text, dialog) {
+        SGoogleRules.acceptRulesDialog() {
+            val dialog = ToolsView.showProgressDialog()
+            ToolsNetwork.getBytesFromURL(text, 10) { bytes ->
+                if (bytes == null || !ToolsBytes.isImage(bytes)) {
+                    dialog.hide()
                     if (send) sendText(text, parentId)
                     else vText.setText(text)
+                } else {
+                    attach.attachUrl(text, dialog) {
+                        if (send) sendText(text, parentId)
+                        else vText.setText(text)
+                    }
                 }
-            }
 
+            }
         }
     }
 
     private fun sendImage(text: String, parentId: Long) {
-        setEnabled(false)
+        SGoogleRules.acceptRulesDialog() {
+            setEnabled(false)
 
-        ToolsThreads.thread {
-            val bytes = attach.getBytes()
-            val gif = if (bytes.size == 1 && ToolsBytes.isGif(bytes[0])) bytes[0] else null
-            if (gif != null) {
-                val bt = ToolsBitmap.decode(bytes[0])
-                if (bt == null) {
-                    setEnabled(true)
-                    ToolsToast.show(R.string.error_cant_load_image)
-                    return@thread
+            ToolsThreads.thread {
+                val bytes = attach.getBytes()
+                val gif = if (bytes.size == 1 && ToolsBytes.isGif(bytes[0])) bytes[0] else null
+                if (gif != null) {
+                    val bt = ToolsBitmap.decode(bytes[0])
+                    if (bt == null) {
+                        setEnabled(true)
+                        ToolsToast.show(R.string.error_cant_load_image)
+                        return@thread
+                    }
+                    val byt = ToolsBitmap.toBytes(bt, API.CHAT_MESSAGE_IMAGE_WEIGHT)
+                    if (byt == null) {
+                        setEnabled(true)
+                        ToolsToast.show(R.string.error_cant_load_image)
+                        return@thread
+                    }
+                    bytes[0] = byt
                 }
-                val byt = ToolsBitmap.toBytes(bt, API.CHAT_MESSAGE_IMAGE_WEIGHT)
-                if (byt == null) {
-                    setEnabled(true)
-                    ToolsToast.show(R.string.error_cant_load_image)
-                    return@thread
-                }
-                bytes[0] = byt
-            }
-            ApiRequestsSupporter.executeProgressDialog(RUnitsCommentCreate(unitId, text, bytes, gif, parentId, ControllerSettings.watchPost, quoteId, 0)) { r -> afterSend(r.comment) }
+                ApiRequestsSupporter.executeProgressDialog(
+                    RUnitsCommentCreate(
+                        unitId,
+                        text,
+                        bytes,
+                        gif,
+                        parentId,
+                        ControllerSettings.watchPost,
+                        quoteId,
+                        0
+                    )
+                ) { r -> afterSend(r.comment) }
                     .onApiError(RUnitsCommentCreate.E_BAD_UNIT_STATUS) { ToolsToast.show(R.string.error_gone) }
                     .onFinish { setEnabled(true) }
+            }
+
         }
-
-
     }
 
     private fun sendSticker(sticker: UnitSticker) {
-        setEnabled(false)
+        SGoogleRules.acceptRulesDialog() {
+            setEnabled(false)
 
-        ApiRequestsSupporter.executeProgressDialog(RUnitsCommentCreate(unitId, "", null, null, 0, ControllerSettings.watchPost, 0, sticker.id)) { r -> afterSend(r.comment) }
+            ApiRequestsSupporter.executeProgressDialog(
+                RUnitsCommentCreate(
+                    unitId,
+                    "",
+                    null,
+                    null,
+                    0,
+                    ControllerSettings.watchPost,
+                    0,
+                    sticker.id
+                )
+            ) { r -> afterSend(r.comment) }
                 .onApiError(RUnitsCommentCreate.E_BAD_UNIT_STATUS) { ToolsToast.show(R.string.error_gone) }
                 .onFinish { setEnabled(true) }
+        }
     }
 
 }

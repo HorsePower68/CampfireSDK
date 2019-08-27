@@ -12,7 +12,6 @@ import com.dzen.campfire.api.requests.stickers.RStickersPacksGetInfo
 import com.sayzen.campfiresdk.R
 import com.sup.dev.android.tools.ToolsResources
 import com.sup.dev.java.classes.items.Item3
-import com.sup.dev.java.libs.debug.log
 
 object ControllerCampfireObjects {
 
@@ -21,20 +20,20 @@ object ControllerCampfireObjects {
 
     fun load(link: CampfireLink, onComplete: (String, String, Long) -> Unit) {
 
-        if(cash.containsKey(link.link)){
-            val get = cash.get(link.link)!!
+        if(cash.containsKey(link.linkRaw)){
+            val get = cash.get(link.linkRaw)!!
             onComplete.invoke(get.a1, get.a2, get.a3)
             return
         }
 
-        if(inProgress.containsKey(link.link)){
-            val get = inProgress.get(link.link)
+        if(inProgress.containsKey(link.linkRaw)){
+            val get = inProgress.get(link.linkRaw)
             get!!.add(onComplete)
             return
         }
 
         val list = ArrayList<(String, String, Long) -> Unit>()
-        inProgress[link.link] = list
+        inProgress[link.linkRaw] = list
         list.add(onComplete)
 
         when {
@@ -51,11 +50,8 @@ object ControllerCampfireObjects {
     private fun loadAccount(link: CampfireLink) {
 
         val id = link.getLongParamOrZero(0)
-        val name = if(link.link.startsWith("@")) {
-            if (link.link.length < 3) "" else link.link.removePrefix("@").replace("_", "")
-        }else{
-            link.params[0]
-        }
+        val name = link.params[0]
+
 
         RAccountsGet(id, name)
                 .onComplete { onComplete(link, it.account.name, ToolsResources.s(R.string.app_user), it.account.imageId) }
@@ -111,19 +107,19 @@ object ControllerCampfireObjects {
     }
 
     private fun onComplete(link: CampfireLink, title:String, subtitle:String, image:Long){
-        cash.put(link.link, Item3(title, subtitle, image))
-        val callbacks = inProgress.get(link.link)
+        cash.put(link.linkRaw, Item3(title, subtitle, image))
+        val callbacks = inProgress.get(link.linkRaw)
         if(callbacks != null){
             for(i in callbacks) i.invoke(title, subtitle, image)
-            inProgress.remove(link.link)
+            inProgress.remove(link.linkRaw)
         }
     }
 
     private fun onError(link: CampfireLink) {
-        val callbacks = inProgress.get(link.link)
+        val callbacks = inProgress.get(link.linkRaw)
         if(callbacks != null){
             for(i in callbacks) i.invoke(ToolsResources.s(R.string.post_page_campfire_object_error), ToolsResources.s(R.string.app_error), 0)
-            inProgress.remove(link.link)
+            inProgress.remove(link.linkRaw)
         }
     }
 
