@@ -17,7 +17,7 @@ import com.sayzen.campfiresdk.screens.post.pending.SPending
 import com.sayzen.campfiresdk.screens.post.view.SPost
 import com.sup.dev.android.libs.api_simple.ApiRequestsSupporter
 import com.sup.dev.android.libs.screens.Screen
-import com.sup.dev.android.libs.screens.activity.SActivityBottomNavigation
+import com.sup.dev.android.libs.screens.activity.SActivityTypeBottomNavigation
 import com.sup.dev.android.libs.screens.navigator.NavigationAction
 import com.sup.dev.android.libs.screens.navigator.Navigator
 import com.sup.dev.android.tools.*
@@ -73,7 +73,7 @@ class SCreationTags private constructor(
 
     init {
         isBottomNavigationShadowAvailable = false
-        SActivityBottomNavigation.setShadow(vLine)
+        SActivityTypeBottomNavigation.setShadow(vLine)
 
         vNotifyFollowers.isEnabled = unitTag3 == 0L
         vNotifyFollowers.isChecked = false

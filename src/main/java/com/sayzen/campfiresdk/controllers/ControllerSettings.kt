@@ -98,6 +98,13 @@ object ControllerSettings {
             onSettingsUpdated()
         }
 
+    var interfaceType: Int
+        get() = accountSettings.interfaceType
+        set(b) {
+            accountSettings.interfaceType = b
+            onSettingsUpdated()
+        }
+
     //
     //  App
     //

@@ -617,4 +617,19 @@ object CampfreConstants {
         }
     }
 
+    val FEED_TEXTS = arrayOf(R.string.feed_loading,
+            R.string.feed_loading_1, R.string.feed_loading_2, R.string.feed_loading_3, R.string.feed_loading_4, R.string.feed_loading_5,
+            R.string.feed_loading_6, R.string.feed_loading_7, R.string.feed_loading_8, R.string.feed_loading_9, R.string.feed_loading_10,
+            R.string.feed_loading_11, R.string.feed_loading_12, R.string.feed_loading_13, R.string.feed_loading_14, R.string.feed_loading_15,
+            R.string.feed_loading_16, R.string.feed_loading_17, R.string.feed_loading_18, R.string.feed_loading_19, R.string.feed_loading_20, R.string.feed_loading_21,
+            R.string.feed_loading_22, R.string.feed_loading_23, R.string.feed_loading_24, R.string.feed_loading_25, R.string.feed_loading_26, R.string.feed_loading_27, R.string.feed_loading_28, R.string.feed_loading_29, R.string.feed_loading_30,
+            R.string.feed_loading_31
+    )
+
+    val ACCOUNT_TEXT = arrayOf(
+            R.string.profile_subtitle_text_1, R.string.profile_subtitle_text_2, R.string.profile_subtitle_text_3, R.string.profile_subtitle_text_4,
+            R.string.profile_subtitle_text_5, R.string.profile_subtitle_text_6,
+            R.string.profile_subtitle_text_7
+    )
+
 }

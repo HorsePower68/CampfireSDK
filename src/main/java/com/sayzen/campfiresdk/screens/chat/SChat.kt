@@ -26,7 +26,7 @@ import com.sayzen.campfiresdk.models.events.chat.*
 import com.sayzen.campfiresdk.models.events.notifications.EventNotification
 import com.sup.dev.android.app.SupAndroid
 import com.sup.dev.android.libs.api_simple.ApiRequestsSupporter
-import com.sup.dev.android.libs.screens.activity.SActivityBottomNavigation
+import com.sup.dev.android.libs.screens.activity.SActivityTypeBottomNavigation
 import com.sup.dev.android.libs.screens.navigator.NavigationAction
 import com.sup.dev.android.libs.screens.navigator.Navigator
 import com.sup.dev.android.tools.*
@@ -93,7 +93,7 @@ class SChat private constructor(
 
     init {
         isBottomNavigationShadowAvailable = false
-        SActivityBottomNavigation.setShadow(vLine)
+        SActivityTypeBottomNavigation.setShadow(vLine)
 
         vNotifications = addToolbarIcon(ToolsResources.getDrawableAttrId(R.attr.ic_notifications_24dp)) { sendSubscribe(!subscribed) }
         if (tag.chatType != API.CHAT_TYPE_FANDOM) vNotifications.visibility = View.GONE

@@ -712,6 +712,13 @@
     <string name="profile_rate_forum">%s forum %s</string>
     <string name="profile_rate_stikers_pack">%s stickers pack %s</string>
     <string name="profile_rate_sticker">%s sticker %s</string>
+    <string name="profile_subtitle_text_1">Campfire user</string>
+    <string name="profile_subtitle_text_2">Best campfire user</string>
+    <string name="profile_subtitle_text_3">Good boy</string>
+    <string name="profile_subtitle_text_4">In search of happiness</string>
+    <string name="profile_subtitle_text_5">Opened the menu</string>
+    <string name="profile_subtitle_text_6">Incredible</string>
+    <string name="profile_subtitle_text_7">Awesome</string>
 
 
     <string name="about_privacy_policy">Privacy policy</string>
@@ -781,9 +788,12 @@
     <string name="settings_style_rounding_chat">Rounding chat messages</string>
     <string name="settings_style_default">Drop to default</string>
     <string name="settings_style_theme">Theme</string>
+    <string name="settings_style_interface">Interface</string>
     <string name="settings_style_theme_1">Black</string>
     <string name="settings_style_theme_2">Dark Grey</string>
     <string name="settings_style_theme_3">White (alpha version)</string>
+    <string name="settings_style_interface_1">Navigation panel</string>
+    <string name="settings_style_interface_2">Hided menu</string>
     <string name="settings_style_default_alert">All your changes will be lost.</string>
     <string name="settings_black_list_empty">Blacklist is empty for now</string>
     <string name="settings_style_theme_restatr">Restart the application to apply the new style?</string>

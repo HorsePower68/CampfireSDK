@@ -706,6 +706,13 @@
     <string name="profile_rate_forum">%s форум %s</string>
     <string name="profile_rate_stikers_pack">%s набор стикеров %s</string>
     <string name="profile_rate_sticker">%s стикер %s</string>
+    <string name="profile_subtitle_text_1">Пользователь Campfire</string>
+    <string name="profile_subtitle_text_2">Лучший пользователь Campfire</string>
+    <string name="profile_subtitle_text_3">Хороший мальчик</string>
+    <string name="profile_subtitle_text_4">В поисках счастья</string>
+    <string name="profile_subtitle_text_5">Открыл меню</string>
+    <string name="profile_subtitle_text_6">Невероятный</string>
+    <string name="profile_subtitle_text_7">Потрясающий</string>
 
     <string name="about_privacy_policy">Политика конфиденциальности</string>
 
@@ -774,9 +781,12 @@
     <string name="settings_style_rounding_chat">Скругление сообщений в чате</string>
     <string name="settings_style_default">Вернуть по умолчанию</string>
     <string name="settings_style_theme">Тема</string>
+    <string name="settings_style_interface">Интерфейс</string>
     <string name="settings_style_theme_1">Черный</string>
     <string name="settings_style_theme_2">Темно-серый</string>
     <string name="settings_style_theme_3">Белый (альфа-версия)</string>
+    <string name="settings_style_interface_1">Панель навигации</string>
+    <string name="settings_style_interface_2">Скрытое меню</string>
     <string name="settings_style_default_alert">Все ваши изменения будут потеряны.</string>
     <string name="settings_black_list_empty">Черный список пока пуст</string>
     <string name="settings_style_theme_restatr">Перезапустить приложение для применения нового стиля?</string>
