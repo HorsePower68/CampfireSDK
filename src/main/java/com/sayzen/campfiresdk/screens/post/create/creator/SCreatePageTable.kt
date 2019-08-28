@@ -42,7 +42,7 @@ class SCreatePageTable(
     private var removeMode = false
 
     init {
-        isBottomNavigationShadowAvailable = false
+        isNavigationShadowAvailable = false
 
         vTable.textProcessor = { vCell, text, vText -> ControllerApi.makeLinkable(vText) }
 

@@ -50,8 +50,11 @@ object ControllerCampfireObjects {
     private fun loadAccount(link: CampfireLink) {
 
         val id = link.getLongParamOrZero(0)
-        val name = link.params[0]
-
+        val name = if(link.link.startsWith("@")) {
+            if (link.link.length < 3) "" else link.link.removePrefix("@").replace("_", "")
+        }else{
+            link.params[0]
+        }
 
         RAccountsGet(id, name)
                 .onComplete { onComplete(link, it.account.name, ToolsResources.s(R.string.app_user), it.account.imageId) }

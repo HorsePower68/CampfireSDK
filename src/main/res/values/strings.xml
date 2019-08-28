@@ -405,6 +405,7 @@
     <string name="feed_loading_29">Appreciate these last moments of silence.</string>
     <string name="feed_loading_30">If you\'re reading this, the feed isn\'t loaded yet.</string>
     <string name="feed_loading_31">Faster read, soon this message will disappear!</string>
+    <string name="feed_loading_32">No colorants or preservatives</string>
     <string name="feed_loading">Loading you\'r feed</string>
     <string name="feed_all">All publications</string>
     <string name="feed_subscribed">Subscribed only</string>
@@ -721,6 +722,9 @@
     <string name="profile_subtitle_text_5">Opened the menu</string>
     <string name="profile_subtitle_text_6">Incredible</string>
     <string name="profile_subtitle_text_7">Awesome</string>
+    <string name="profile_subtitle_text_8">Found a diamond</string>
+    <string name="profile_subtitle_text_9">In the tank</string>
+    <string name="profile_subtitle_text_10">Wants a vacation</string>
 
 
     <string name="about_privacy_policy">Privacy policy</string>

@@ -75,7 +75,7 @@ class SCreationTags private constructor(
     private var pendingDate = 0L
 
     init {
-        isBottomNavigationShadowAvailable = false
+        isNavigationShadowAvailable = false
         SActivityTypeBottomNavigation.setShadow(vLine)
 
         vNotifyFollowers.isEnabled = unitTag3 == 0L

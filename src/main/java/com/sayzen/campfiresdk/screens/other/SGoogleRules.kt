@@ -90,8 +90,8 @@ class SGoogleRules(
     private val vCheck: CheckBox = findViewById(R.id.vCheck)
 
     init {
-        isBottomNavigationVisible = false
-        isBottomNavigationAnimation = false
+        isNavigationVisible = false
+        isNavigationAnimation = false
 
         vText.setText(instanceSpan())
         vButton.setOnClickListener {

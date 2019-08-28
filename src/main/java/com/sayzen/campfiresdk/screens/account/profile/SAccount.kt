@@ -41,7 +41,7 @@ import com.sup.dev.java.tools.ToolsText
 import com.sup.dev.java.tools.ToolsThreads
 
 class SAccount private constructor(
-        private val r: RAccountsGetProfile.Response
+        val r: RAccountsGetProfile.Response
 ) : Screen(R.layout.screen_account), PostList {
 
     companion object {

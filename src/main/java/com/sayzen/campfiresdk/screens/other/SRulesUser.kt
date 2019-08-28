@@ -20,9 +20,9 @@ class SRulesUser(
 
     init {
         if(noNavigationMode){
-            isBottomNavigationVisible = false
-            isBottomNavigationAllowed = false
-            isBottomNavigationAnimation = false
+            isNavigationVisible = false
+            isNavigationAllowed = false
+            isNavigationAnimation = false
             vCopyLink.visibility = View.GONE
         }
 

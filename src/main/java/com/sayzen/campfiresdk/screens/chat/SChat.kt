@@ -5,10 +5,8 @@ import android.graphics.Bitmap
 import android.net.Uri
 import androidx.recyclerview.widget.LinearLayoutManager
 import android.view.View
-import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
-import androidx.recyclerview.widget.RecyclerView
 import com.dzen.campfire.api.API
 import com.dzen.campfire.api.models.ChatTag
 import com.dzen.campfire.api.models.notifications.NotificationChatAnswer
@@ -92,7 +90,7 @@ class SChat private constructor(
     private val addAfterLoadList = ArrayList<UnitChatMessage>()
 
     init {
-        isBottomNavigationShadowAvailable = false
+        isNavigationShadowAvailable = false
         SActivityTypeBottomNavigation.setShadow(vLine)
 
         vNotifications = addToolbarIcon(ToolsResources.getDrawableAttrId(R.attr.ic_notifications_24dp)) { sendSubscribe(!subscribed) }

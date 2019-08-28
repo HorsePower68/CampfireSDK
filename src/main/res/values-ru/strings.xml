@@ -407,6 +407,7 @@
     <string name="feed_loading_29">Цените эти последние мгновения тишины.</string>
     <string name="feed_loading_30">Если вы это читаете, значит лента еще не загружена.</string>
     <string name="feed_loading_31">Быстрее читай, скоро эта надпись пропадёт!</string>
+    <string name="feed_loading_32">Без красителей и консервантов</string>
     <string name="feed_loading">Загружаем вашу ленту</string>
     <string name="feed_all">Все побликации</string>
     <string name="feed_subscribed">Только подписки</string>
@@ -715,6 +716,9 @@
     <string name="profile_subtitle_text_5">Открыл меню</string>
     <string name="profile_subtitle_text_6">Невероятный</string>
     <string name="profile_subtitle_text_7">Потрясающий</string>
+    <string name="profile_subtitle_text_8">Нашел алмаз</string>
+    <string name="profile_subtitle_text_9">В танке</string>
+    <string name="profile_subtitle_text_10">Хочет в отпуск</string>
 
     <string name="about_privacy_policy">Политика конфиденциальности</string>
 
