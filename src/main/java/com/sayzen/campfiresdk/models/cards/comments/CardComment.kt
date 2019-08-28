@@ -250,7 +250,7 @@ abstract class CardComment protected constructor(
                 .add(R.string.app_report) { w, c -> ControllerApi.reportUnit(unit.id, R.string.comment_report_confirm, R.string.comment_error_gone) }
                 .add(R.string.app_clear_reports) { w, c -> ControllerApi.clearReportsUnit(unit.id, unit.unitType) }.backgroundRes(R.color.blue_700).textColorRes(R.color.white).condition(ControllerApi.can(unit.fandomId, unit.languageId, API.LVL_MODERATOR_BLOCK) && unit.reportsCount > 0)
                 .add(R.string.app_block) { w, c -> ControllerUnits.block(unit) }.backgroundRes(R.color.blue_700).textColorRes(R.color.white).condition(ControllerApi.can(unit.fandomId, unit.languageId, API.LVL_MODERATOR_BLOCK))
-                .showPopupWhenClickAndLongClick(vTouch) { onClick() }
+                .showSheetWhenClickAndLongClick(vTouch) { onClick() }
 
         vTouch.setOnLongClickListener {
             w.asSheetShow()

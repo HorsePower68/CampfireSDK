@@ -44,7 +44,7 @@ class CardAchievement(
     private var subscriptionFlash: Subscription? = null
 
     init {
-        progress = screen.achiProgress(achievement)
+        progress = screen.achiProgress(achievement.index)
         lvl = achievement.getLvl(progress)
     }
 

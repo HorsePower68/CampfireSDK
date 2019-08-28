@@ -39,7 +39,6 @@ import com.sup.dev.android.views.widgets.WidgetMenu
 import com.sup.dev.java.classes.Subscription
 import com.sup.dev.java.classes.animation.AnimationPendulum
 import com.sup.dev.java.classes.animation.AnimationPendulumColor
-import com.sup.dev.java.libs.debug.Debug
 import com.sup.dev.java.libs.eventBus.EventBus
 import com.sup.dev.java.tools.ToolsColor
 import com.sup.dev.java.tools.ToolsDate
@@ -117,15 +116,11 @@ abstract class CardChatMessage constructor(
 
         if (vSwipe != null && onQuote != null) {
             popup = createPopup(vSwipe)
-
             vSwipe.onClick = { x, y ->
                 if (ControllerApi.isCurrentAccount(unit.creatorId)) popup?.asSheetShow()
                 else onClick()
             }
-            vSwipe.onLongClick = { x, y ->
-                Debug.printStack()
-                popup?.asSheetShow()
-            }
+            vSwipe.onLongClick = { x, y -> popup?.asSheetShow() }
             vSwipe.onSwipe = { onQuote?.invoke(unit) }
             vSwipe.swipeEnabled = quoteEnabled
         } else {
@@ -329,10 +324,7 @@ abstract class CardChatMessage constructor(
                 .add(R.string.app_report) { w, c -> ControllerApi.reportUnit(unit.id, R.string.chat_report_confirm, R.string.chat_error_gone) }.condition(unit.chatType == API.CHAT_TYPE_FANDOM)
                 .add(R.string.app_clear_reports) { w, c -> ControllerApi.clearReportsUnit(unit.id, unit.unitType) }.backgroundRes(R.color.blue_700).textColorRes(R.color.white).condition(unit.chatType == API.CHAT_TYPE_FANDOM && ControllerApi.can(unit.fandomId, unit.languageId, API.LVL_MODERATOR_BLOCK) && unit.reportsCount > 0)
                 .add(R.string.app_block) { w, c -> ControllerUnits.block(unit) { if (adapter != null && adapter!! is RecyclerCardAdapterLoadingInterface) (adapter!! as RecyclerCardAdapterLoadingInterface).loadBottom() } }.backgroundRes(R.color.blue_700).textColorRes(R.color.white).condition(unit.chatType == API.CHAT_TYPE_FANDOM && ControllerApi.can(unit.fandomId, unit.languageId, API.LVL_MODERATOR_BLOCK))
-                .showPopupWhenClickAndLongClick(vTouch,
-                        { onClick() },
-                        { unit.type != UnitChatMessage.TYPE_BLOCK }
-                )
+                .showSheetWhenClickAndLongClick(vTouch) { onClick() }
     }
 
     //

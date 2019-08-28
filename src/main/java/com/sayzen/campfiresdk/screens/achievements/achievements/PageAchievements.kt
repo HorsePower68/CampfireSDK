@@ -3,17 +3,19 @@ package com.sayzen.campfiresdk.screens.achievements.achievements
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import android.view.View
-import com.dzen.campfire.api.API
 import com.dzen.campfire.api.models.AchievementInfo
 import com.dzen.campfire.api.models.notifications.NotificationAchievement
 import com.dzen.campfire.api.requests.achievements.RAchievementsInfo
+import com.dzen.campfire.api.requests.achievements.RAchievementsPack
 import com.sayzen.campfiresdk.R
 import com.sayzen.campfiresdk.screens.achievements.CardInfo
 import com.sayzen.campfiresdk.app.CampfreConstants
+import com.sayzen.campfiresdk.controllers.api
 import com.sayzen.campfiresdk.models.events.notifications.EventNotification
 import com.sup.dev.android.app.SupAndroid
 import com.sup.dev.android.tools.ToolsView
 import com.sup.dev.android.views.cards.Card
+import com.sup.dev.android.views.cards.CardLoading
 import com.sup.dev.android.views.support.adapters.recycler_view.RecyclerCardAdapter
 import com.sup.dev.java.libs.eventBus.EventBus
 
@@ -30,66 +32,18 @@ class PageAchievements(
     private val cardInfo: CardInfo = CardInfo(R.string.achi_karma_hint, R.string.app_level, r.karmaForce, true, CampfreConstants.getLvlImage(r.karmaForce))
     private var scrollToIndex: Int = 0
 
+    private val indexes = ArrayList<Long>()
+    private val progress = ArrayList<Long>()
+
     init {
 
         adapterSub.add(cardInfo)
 
-        val spoiler1 = CardSpoilerAchi()
-                .setTitle(R.string.achi_spoiler_instruction)
-                .addAchi(CardAchievement(this, API.ACHI_RULES_USER))
-                .addAchi(CardAchievement(this, API.ACHI_LOGIN))
-                .addAchi(CardAchievement(this, API.ACHI_CHAT))
-                .addAchi(CardAchievement(this, API.ACHI_CHAT_SUBSCRIBE))
-                .addAchi(CardAchievement(this, API.ACHI_COMMENT))
-                .addAchi(CardAchievement(this, API.ACHI_ANSWER))
-                .addAchi(CardAchievement(this, API.ACHI_RATE))
-                .addAchi(CardAchievement(this, API.ACHI_CHANGE_PUBLICATION))
-                .addAchi(CardAchievement(this, API.ACHI_CHANGE_COMMENT))
-                .addAchi(CardAchievement(this, API.ACHI_REVIEW))
-                .addAchi(CardAchievement(this, API.ACHI_FIRST_POST))
-                .addAchi(CardAchievement(this, API.ACHI_SUBSCRIBE))
-                .addAchi(CardAchievement(this, API.ACHI_TAGS_SEARCH))
-                .addAchi(CardAchievement(this, API.ACHI_LANGUAGE))
-                .addAchi(CardAchievement(this, API.ACHI_TITLE_IMAGE))
-
-        val spoiler2 = CardSpoilerAchi()
-                .setTitle(R.string.achi_spoiler_sharing)
-                .addAchi(CardAchievement(this, API.ACHI_APP_SHARE))
-                .addAchi(CardAchievement(this, API.ACHI_CONTENT_SHARE))
-                .addAchi(CardAchievement(this, API.ACHI_ADD_RECRUITER))
-                .addAchi(CardAchievement(this, API.ACHI_REFERRALS_COUNT))
-                .addAchi(CardAchievement(this, API.ACHI_FOLLOWERS))
-
-        val spoiler3 = CardSpoilerAchi()
-                .setTitle(R.string.achi_spoiler_publications)
-                .addAchi(CardAchievement(this, API.ACHI_POSTS_COUNT))
-                .addAchi(CardAchievement(this, API.ACHI_COMMENTS_COUNT))
-                .addAchi(CardAchievement(this, API.ACHI_POST_KARMA).setValueMultiplier(0.01))
-                .addAchi(CardAchievement(this, API.ACHI_COMMENTS_KARMA).setValueMultiplier(0.01))
-                .addAchi(CardAchievement(this, API.ACHI_KARMA_COUNT).setValueMultiplier(0.01))
-                .addAchi(CardAchievement(this, API.ACHI_KARMA_30).setValueMultiplier(0.01))
-                .addAchi(CardAchievement(this, API.ACHI_UP_RATES))
-                .addAchi(CardAchievement(this, API.ACHI_UP_RATES_OVER_DOWN))
-
-        val spoiler6 = CardSpoilerAchi()
-                .setTitle(R.string.app_moderation)
-                .addAchi(CardAchievement(this, API.ACHI_CREATE_TAG))
-                .addAchi(CardAchievement(this, API.ACHI_RULES_MODERATOR))
-                .addAchi(CardAchievement(this, API.ACHI_MODER_CHANGE_POST_TAGS))
-                .addAchi(CardAchievement(this, API.ACHI_MAKE_MODER))
-                .addAchi(CardAchievement(this, API.ACHI_CREATE_FORUM))
-                .addAchi(CardAchievement(this, API.ACHI_REVIEW_MODER_ACTION))
-                .addAchi(CardAchievement(this, API.ACHI_ACCEPT_FANDOM))
-                .addAchi(CardAchievement(this, API.ACHI_MODERATOR_COUNT))
-                .addAchi(CardAchievement(this, API.ACHI_MODERATOR_ACTION_KARMA).setValueMultiplier(0.01))
-
-        val spoiler5 = CardSpoilerAchi()
-                .setTitle(R.string.achi_spoiler_other)
-                .addAchi(CardAchievement(this, API.ACHI_RATES_COUNT))
-                .addAchi(CardAchievement(this, API.ACHI_ENTERS))
-                .addAchi(CardAchievement(this, API.ACHI_QUESTS))
-                .addAchi(CardAchievement(this, API.ACHI_FANDOMS))
-                .addAchi(CardAchievement(this, API.ACHI_FIREWORKS))
+        val spoiler1 = CardSpoilerAchi(this, 1).setTitle(R.string.achi_spoiler_instruction)
+        val spoiler2 = CardSpoilerAchi(this, 2).setTitle(R.string.achi_spoiler_sharing)
+        val spoiler3 = CardSpoilerAchi(this, 3).setTitle(R.string.achi_spoiler_publications)
+        val spoiler6 = CardSpoilerAchi(this, 4).setTitle(R.string.app_moderation)
+        val spoiler5 = CardSpoilerAchi(this, 5).setTitle(R.string.achi_spoiler_other)
 
         adapterSub.add(spoiler1)
         adapterSub.add(spoiler2)
@@ -97,11 +51,6 @@ class PageAchievements(
         adapterSub.add(spoiler6)
         adapterSub.add(spoiler5)
 
-        spoiler1.updateAchi()
-        spoiler2.updateAchi()
-        spoiler3.updateAchi()
-        spoiler6.updateAchi()
-        spoiler5.updateAchi()
 
         if (scrollToId != 0L) {
             for (card in adapterSub.get(CardSpoilerAchi::class))
@@ -116,8 +65,25 @@ class PageAchievements(
         }
     }
 
-    fun achiProgress(achi: AchievementInfo): Long {
-        for (i in 0 until r.indexes.size) if (r.indexes[i] == achi.index) return r.progress[i]
+    fun loadPack(index:Int, cardSpoiler:CardSpoilerAchi){
+        cardSpoiler.cardLoading.setState(CardLoading.State.LOADING)
+        cardSpoiler.cardLoading.setOnRetry { loadPack(index, cardSpoiler) }
+        RAchievementsPack(accountId, index)
+                .onComplete { r->
+                    for(i in r.indexes) indexes.add(i)
+                    for(i in r.progress) progress.add(i)
+                    cardSpoiler.onLoaded()
+                }
+                .onError { cardSpoiler.cardLoading.setState(CardLoading.State.RETRY) }
+                .send(api)
+    }
+
+    fun achiProgress(index:Long): Long {
+        for (i in 0 until indexes.size) if (indexes[i] == index) return progress[i]
+        return 0
+    }
+    fun achiLvl(index:Long): Long {
+        for (i in 0 until r.indexes.size) if (r.indexes[i] == index) return r.lvls[i]
         return 0
     }
 
