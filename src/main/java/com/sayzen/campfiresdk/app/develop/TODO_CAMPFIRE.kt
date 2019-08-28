@@ -2,8 +2,6 @@ package com.sayzen.campfiresdk.app.develop
 
 /*
 
-    !!! Неправильно чилсо на спойлере
-
 
     $ Повысить планку уровней
 

@@ -30,7 +30,10 @@ class CardSpoilerAchi(
         else API.ACHI_PACK_5
 
 
-        for (i in pack) karmaCount += (CampfreConstants.getAchievement(i.index)).info.getForce() * pageAchievements.achiLvl(i.index)
+        for (i in pack) {
+            karmaCount += (CampfreConstants.getAchievement(i.index)).info.getForce() * pageAchievements.achiLvl(i.index)
+            if (pageAchievements.achiLvl(i.index) == (CampfreConstants.getAchievement(i.index)).info.maxLvl.toLong()) finCount++
+        }
 
         if (karmaCount > 0)
             setRightText(finCount.toString() + " / " + pack.size + " (${ToolsText.numToStringRoundAndTrim(karmaCount, 2)})")
@@ -47,7 +50,6 @@ class CardSpoilerAchi(
     }
 
     fun addAchi(card: CardAchievement): CardSpoilerAchi {
-        if (card.lvl == card.achievement.maxLvl) finCount++
         return super.add(card) as CardSpoilerAchi
     }
 
