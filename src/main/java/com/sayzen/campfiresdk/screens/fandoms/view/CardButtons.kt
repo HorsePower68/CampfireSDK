@@ -15,6 +15,7 @@ import com.sayzen.campfiresdk.screens.fandoms.subscribers.SSubscribers
 import com.sayzen.campfiresdk.controllers.ControllerApi
 import com.sayzen.campfiresdk.models.events.chat.EventChatRead
 import com.sayzen.campfiresdk.screens.fandoms.STags
+import com.sayzen.campfiresdk.screens.wiki.SWikiList
 import com.sup.dev.android.libs.screens.navigator.Navigator
 import com.sup.dev.android.tools.ToolsResources
 import com.sup.dev.android.views.cards.Card
@@ -50,6 +51,8 @@ class CardButtons(
         val vForumsText: TextView = view.findViewById(R.id.vForumsText)
         val vSubscribersButton: View = view.findViewById(R.id.vSubscribersButton)
         val vSubscribersText: TextView = view.findViewById(R.id.vSubscribersText)
+        val vWikiButton: View = view.findViewById(R.id.vWikiButton)
+        val vWikiText: TextView = view.findViewById(R.id.vWikiText)
 
         vChatsButton.setOnClickListener { SChat.instance(API.CHAT_TYPE_FANDOM, xFandom.fandomId, xFandom.languageId, false, Navigator.REORDER) }
         vChatsCount.text = "$chatOnlineCount"
@@ -70,6 +73,8 @@ class CardButtons(
 
         vSubscribersButton.setOnClickListener { SSubscribers.instance(xFandom.fandomId, xFandom.languageId, Navigator.TO) }
         vSubscribersText.text = "$subscribersCount"
+
+        vWikiButton.setOnClickListener { Navigator.to(SWikiList(xFandom.fandomId, xFandom.languageId, 0)) }
     }
 
     //

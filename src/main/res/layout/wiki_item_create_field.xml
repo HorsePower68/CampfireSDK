@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.textfield.TextInputLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    style="@style/TextInputLayout.Outlined"
+    android:layout_gravity="center"
+    android:layout_width="300dp">
+
+    <EditText
+        android:id="@+id/vNameEnglish"
+        style="@style/Field"
+        android:inputType="textCapSentences|textAutoComplete|textAutoCorrect" />
+
+</com.google.android.material.textfield.TextInputLayout>

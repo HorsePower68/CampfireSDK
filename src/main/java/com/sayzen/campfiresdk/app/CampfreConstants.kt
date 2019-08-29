@@ -54,6 +54,7 @@ object CampfreConstants {
         Achievement(API.ACHI_POSTS_COUNT, R.string.achi_posts_count, R.color.cyan_900, false, R.drawable.achi_2_2),
         Achievement(API.ACHI_POST_KARMA, R.string.achi_posts_karma_count, R.color.teal_500, false, R.drawable.achi_5_2),
         Achievement(API.ACHI_COMMENTS_KARMA, R.string.achi_comments_karma_count, R.color.light_green_900, false, R.drawable.achi_4_1),
+        Achievement(API.ACHI_STICKERS_KARMA, R.string.achi_stickers_karma_count, R.color.lime_a_400, false, R.drawable.achi_4_2),
         Achievement(API.ACHI_COMMENTS_COUNT, R.string.achi_comments_count, R.color.orange_500, false, R.drawable.achi_4_4),
         Achievement(API.ACHI_LOGIN, R.string.achi_login, R.color.red_500, true, R.drawable.achi_17),
         Achievement(API.ACHI_CHAT, R.string.achi_chat, R.color.blue_500, false, R.drawable.achi_3_1),
@@ -132,6 +133,7 @@ object CampfreConstants {
 
     val QUESTS = arrayOf(
         Quest(API.QUEST_RATES, R.string.quests_text_rates),
+        Quest(API.QUEST_KARMA, R.string.quests_text_karma),
         Quest(API.QUEST_POSTS, R.string.quests_text_posts),
         Quest(API.QUEST_COMMENTS, R.string.quests_text_comments),
         Quest(API.QUEST_CHAT, R.string.quests_text_chat),
@@ -150,6 +152,7 @@ object CampfreConstants {
         FandomParam(API.CATEGORY_ANIMALS, R.string.category_animals),
         FandomParam(API.CATEGORY_HOBBIES, R.string.category_hobbies),
         FandomParam(API.CATEGORY_PEOPLE, R.string.category_people),
+        FandomParam(API.CATEGORY_EVENT, R.string.category_event),
         FandomParam(API.CATEGORY_OTHER, R.string.category_other)
     )
 
@@ -406,6 +409,14 @@ object CampfreConstants {
         FandomParam(9, R.string.people_1_9)
     )
 
+    val EVENT_1 = arrayOf(FandomParam(1, R.string.event_1_1),
+        FandomParam(2, R.string.event_1_2),
+        FandomParam(3, R.string.event_1_3),
+        FandomParam(4, R.string.event_1_4),
+        FandomParam(5, R.string.event_1_5),
+        FandomParam(6, R.string.event_1_6)
+    )
+
 
     fun getAchievement(info: AchievementInfo): Achievement {
         return getAchievement(info.index)
@@ -451,6 +462,7 @@ object CampfreConstants {
                 API.CATEGORY_ANIMALS -> R.attr.ic_pets_24dp
                 API.CATEGORY_HOBBIES -> R.attr.ic_directions_bike_24dp
                 API.CATEGORY_PEOPLE -> R.attr.ic_person_24dp
+                API.CATEGORY_EVENT -> R.attr.ic_access_time_24dp
                 else -> throw RuntimeException("Unknown category $categoryId")
             }
         )
@@ -516,6 +528,11 @@ object CampfreConstants {
                     else -> null
                 }
             API.CATEGORY_PEOPLE ->
+                when (paramsPosition) {
+                    1 -> ToolsResources.s(R.string.app_type)
+                    else -> null
+                }
+            API.CATEGORY_EVENT ->
                 when (paramsPosition) {
                     1 -> ToolsResources.s(R.string.app_type)
                     else -> null
@@ -587,6 +604,11 @@ object CampfreConstants {
             API.CATEGORY_PEOPLE ->
                 when (paramsPosition) {
                     1 -> PEOPLE_1
+                    else -> null
+                }
+            API.CATEGORY_EVENT ->
+                when (paramsPosition) {
+                    1 -> EVENT_1
                     else -> null
                 }
             API.CATEGORY_OTHER -> null

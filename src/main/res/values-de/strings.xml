@@ -136,6 +136,7 @@ Campfire has anime fandoms and gaming fandoms.</string>
     <string name="app_status">Status</string>
     <string name="app_subscription">Subscription</string>
     <string name="app_subscribers">Subscribers</string>
+    <string name="app_wiki">Wiki</string>
     <string name="app_do_mark">Mark</string>
     <string name="app_do_unmark">Unmark</string>
     <string name="app_remove_image">Remove image</string>
@@ -533,6 +534,7 @@ Campfire has anime fandoms and gaming fandoms.</string>
     <string name="achi_posts_karma_count">Create a post that will receive lots of karma.</string>
     <string name="achi_comments_count">Publish comments to increase the level.</string>
     <string name="achi_comments_karma_count">Publish a comment that will receive lots of karma.</string>
+    <string name="achi_stickers_karma_count">Publish a sticker pack that will receive lots of karma.</string>
     <string name="achi_login">Change your default login.</string>
     <string name="achi_chat">Say hi in chat :D</string>
     <string name="achi_comment">Leave first comment to any publication</string>
@@ -594,6 +596,7 @@ Campfire has anime fandoms and gaming fandoms.</string>
     <string name="lvl_ads_ban">Banhammer. Ability to ban other users</string>
     <string name="lvl_post_fandom_change">Access to move any posts between fandoms</string>
     <string name="lvl_community_admin">Ability to undo the actions of moderators in fandom</string>
+    <string name="lvl_fandoms_marge">Ability to marge fandoms</string>
     <string name="lvl_fandoms">Ability to accept and reject fandoms</string>
     <string name="lvl_remove_image">Ability to remove user avatar and title image</string>
     <string name="lvl_remove_name">Ability to remove user name</string>
@@ -863,11 +866,16 @@ Campfire has anime fandoms and gaming fandoms.</string>
 
     <string name="quests_next">The next quest will be available tomorrow.</string>
     <string name="quests_text_rates">Rate the publication of other users.</string>
+    <string name="quests_text_karma">Get karma on any publication.</string>
     <string name="quests_text_posts">Publish several posts.</string>
     <string name="quests_text_comments">Write a few comments.</string>
     <string name="quests_text_chat">Write several messages in the chat.</string>
     <string name="quests_text_posts_karma">Publish an post that will get large amount of karma.</string>
     <string name="quests_text_comments_karma">Post a comment that will get a lot of karma.</string>
+
+    <string name="wiki_list_empty">There are no items in this wiki yet.</string>
+    <string name="wiki_item_create_name">Name (%s)</string>
+    <string name="wiki_item_create_add_translate">Add translate</string>
 
     <string name="category_games">Games</string>
     <string name="category_anime">Anime</string>
@@ -880,6 +888,7 @@ Campfire has anime fandoms and gaming fandoms.</string>
     <string name="category_animals">Animals</string>
     <string name="category_hobbies">Hobbies</string>
     <string name="category_people">People</string>
+    <string name="category_event">Event</string>
     <string name="category_other">Other</string>
 
     <string name="games_genres_1">Action</string>
@@ -1129,6 +1138,13 @@ Campfire has anime fandoms and gaming fandoms.</string>
     <string name="people_1_8">Engineer</string>
     <string name="people_1_9">Painter</string>
 
+    <string name="event_1_1">One-off</string>
+    <string name="event_1_2">Long</string>
+    <string name="event_1_3">Constant</string>
+    <string name="event_1_4">Regular</string>
+    <string name="event_1_5">Natural</string>
+    <string name="event_1_6">Man-made</string>
+
     <string name="unit_event_blocked">%s in fandom %s until %s by moderator %s</string>
     <string name="unit_event_blocked_admin">%s user %s in fandom %s until %s</string>
     <string name="unit_event_blocked_app">%s in application until %s by administrator %s</string>
@@ -1266,6 +1282,8 @@ Campfire has anime fandoms and gaming fandoms.</string>
 
     <string name="statistic_7_day">7 days</string>
     <string name="statistic_30_day">30 days</string>
+    <string name="statistic_90_day">90 days</string>
+    <string name="statistic_180_day">180 days</string>
     <string name="statistic_accounts">Accounts</string>
     <string name="statistic_posts">Posts</string>
     <string name="statistic_comments">Comments</string>

@@ -319,7 +319,7 @@ abstract class CardChatMessage constructor(
                     ToolsAndroid.setToClipboard(unit.text)
                     ToolsToast.show(R.string.app_copied)
                 }.condition(copyEnabled)
-                .add(R.string.app_quote) { w, c -> onQuote!!.invoke(unit) }.condition(quoteEnabled && onQuote != null && (unit.type == UnitChatMessage.TYPE_TEXT || unit.type == UnitChatMessage.TYPE_IMAGE || unit.type == UnitChatMessage.TYPE_GIF || unit.type == UnitChatMessage.TYPE_IMAGES))
+                .add(R.string.app_quote) { w, c -> onQuote!!.invoke(unit) }.condition(quoteEnabled && onQuote != null)
                 .groupCondition(!ControllerApi.isCurrentAccount(unit.creatorId))
                 .add(R.string.app_report) { w, c -> ControllerApi.reportUnit(unit.id, R.string.chat_report_confirm, R.string.chat_error_gone) }.condition(unit.chatType == API.CHAT_TYPE_FANDOM)
                 .add(R.string.app_clear_reports) { w, c -> ControllerApi.clearReportsUnit(unit.id, unit.unitType) }.backgroundRes(R.color.blue_700).textColorRes(R.color.white).condition(unit.chatType == API.CHAT_TYPE_FANDOM && ControllerApi.can(unit.fandomId, unit.languageId, API.LVL_MODERATOR_BLOCK) && unit.reportsCount > 0)

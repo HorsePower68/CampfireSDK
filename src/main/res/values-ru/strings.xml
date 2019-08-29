@@ -98,7 +98,7 @@
     <string name="app_follow">Подписаться</string>
     <string name="app_unfollow">Отписаться</string>
     <string name="app_online">Онлайн</string>
-    <string name="app_stickers">Стикеры</string>
+    <string name="app_stickers">Стикеры</string>\
     <string name="app_sticker">Стикер</string>
     <string name="app_was_online">%s онлайн %s</string>
     <string name="app_crop">Обрезать</string>
@@ -136,6 +136,7 @@
     <string name="app_status">Статус</string>
     <string name="app_subscription">Подписка</string>
     <string name="app_subscribers">Подписчики</string>
+    <string name="app_wiki">Вики</string>
     <string name="app_do_mark">Пометить</string>
     <string name="app_do_unmark">Убрать метку</string>
     <string name="app_remove_image">Удалить изображение</string>
@@ -535,6 +536,7 @@
     <string name="achi_posts_karma_count">Опубликуйте пост, который наберет максимальное количество кармы.</string>
     <string name="achi_comments_count">Пишите комментарии, чтобы повысить уровень.</string>
     <string name="achi_comments_karma_count">Опубликуйте комментарий, который наберет максимальное количество кармы.</string>
+    <string name="achi_stickers_karma_count">Опубликуйте набор стикеров, который наберет максимальное количество кармы.</string>
     <string name="achi_login">Измените логин по умолчанию.</string>
     <string name="achi_chat">Скажите привет в чате :D</string>
     <string name="achi_comment">Оставьте первый комментарий к любой публикации.</string>
@@ -596,6 +598,7 @@
     <string name="lvl_ads_ban">Банхаммер. Возможность банить других пользователей</string>
     <string name="lvl_post_fandom_change">Доступ к перемещению любых постов между фэндомами</string>
     <string name="lvl_community_admin">Возможность отменить модераторские действия</string>
+    <string name="lvl_fandoms_marge">Возможность объединять фэндомы</string>
     <string name="lvl_fandoms">Возможность принимать и отклонять фэндомы</string>
     <string name="lvl_remove_image">Возможность удалять аватар и фоновую картинку пользователей</string>
     <string name="lvl_remove_name">Возможность удалять логин пользователей</string>
@@ -863,11 +866,16 @@
 
     <string name="quests_next">Следующее задание будет доступно завтра.</string>
     <string name="quests_text_rates">Поставьте оценки публикациям других пользователей.</string>
+    <string name="quests_text_karma">Наберите карму на любой публикации.</string>
     <string name="quests_text_posts">Опубликуйте несколько постов.</string>
     <string name="quests_text_comments">Напишите несколько комментариев.</string>
     <string name="quests_text_chat">Напишите несколько сообщений в чате.</string>
     <string name="quests_text_posts_karma">Опубликуйте пост, который наберет большое количество кармы.</string>
     <string name="quests_text_comments_karma">Опубликуйте комментарий, который наберет большое количество кармы.</string>
+
+    <string name="wiki_list_empty">В этой вики еще нет элементов</string>
+    <string name="wiki_item_create_name">Название (%s)</string>
+    <string name="wiki_item_create_add_translate">Добавить перевод</string>
 
     <string name="category_games">Игры</string>
     <string name="category_anime">Аниме</string>
@@ -880,6 +888,7 @@
     <string name="category_animals">Животные</string>
     <string name="category_hobbies">Хобби</string>
     <string name="category_people">Люди</string>
+    <string name="category_event">Событие</string>
     <string name="category_other">Другое</string>
 
     <string name="games_genres_1">Экшен</string>
@@ -1129,6 +1138,13 @@
     <string name="people_1_8">Инженер</string>
     <string name="people_1_9">Художник</string>
 
+    <string name="event_1_1">Разовое</string>
+    <string name="event_1_2">Продолжительное</string>
+    <string name="event_1_3">Постоянное</string>
+    <string name="event_1_4">Регулярное</string>
+    <string name="event_1_5">Природное</string>
+    <string name="event_1_6">Рукотворное</string>
+
     <string name="unit_event_blocked">%s в фэндоме %s до %s модератором %s</string>
     <string name="unit_event_blocked_admin">%s пользователя %s в фандоме %s до %s</string>
     <string name="unit_event_blocked_app">%s в приложении до %s администратором %s</string>
@@ -1264,6 +1280,8 @@
 
     <string name="statistic_7_day">7 дней</string>
     <string name="statistic_30_day">30 дней</string>
+    <string name="statistic_90_day">90 дней</string>
+    <string name="statistic_180_day">180 дней</string>
     <string name="statistic_accounts">Аккаунты</string>
     <string name="statistic_posts">Посты</string>
     <string name="statistic_comments">Комментарии</string>

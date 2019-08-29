@@ -245,7 +245,7 @@ abstract class CardComment protected constructor(
                     ToolsAndroid.setToClipboard(unit.text)
                     ToolsToast.show(R.string.app_copied)
                 }.condition(copyEnabled)
-                .add(R.string.app_quote) { w, c -> onQuote?.invoke(unit) }.condition(quoteEnabled && onQuote != null && (unit.type == UnitComment.TYPE_TEXT || unit.type == UnitComment.TYPE_IMAGE || unit.type == UnitComment.TYPE_GIF || unit.type == UnitComment.TYPE_IMAGES))
+                .add(R.string.app_quote) { w, c -> onQuote?.invoke(unit) }.condition(quoteEnabled && onQuote != null)
                 .groupCondition(!ControllerApi.isCurrentAccount(unit.creatorId))
                 .add(R.string.app_report) { w, c -> ControllerApi.reportUnit(unit.id, R.string.comment_report_confirm, R.string.comment_error_gone) }
                 .add(R.string.app_clear_reports) { w, c -> ControllerApi.clearReportsUnit(unit.id, unit.unitType) }.backgroundRes(R.color.blue_700).textColorRes(R.color.white).condition(ControllerApi.can(unit.fandomId, unit.languageId, API.LVL_MODERATOR_BLOCK) && unit.reportsCount > 0)

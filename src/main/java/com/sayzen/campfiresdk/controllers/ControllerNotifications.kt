@@ -71,9 +71,10 @@ object ControllerNotifications {
 
         ToolsNotifications.notificationsListener = { intent, type, tag ->
             if (intent.hasExtra(EXTRA_NOTIFICATION)) {
-                val notificationJson = intent.getStringExtra(EXTRA_NOTIFICATION)
+                val n = Notification.instance(Json(intent.getStringExtra(EXTRA_NOTIFICATION)))
                 intent.removeExtra(EXTRA_NOTIFICATION)
-                doAction(notificationJson)
+                removeNotificationFromNew(n.id)
+                if(type == ToolsNotifications.IntentType.CLICK) parser(n).doAction()
             }
         }
     }
@@ -128,17 +129,8 @@ object ControllerNotifications {
 
     fun tag(notificationId: Long) = "id_$notificationId"
 
-    fun doAction(notificationJson: String) {
-        val n = Notification.instance(Json(notificationJson))
-        removeNotificationFromNew(n.id)
-        parser(n).doAction()
-    }
-
     fun hideAll(tag: String = "") {
-        hide(
-                TYPE_CHAT,
-                tag
-        )
+        hide(TYPE_CHAT, tag)
         hide(-1, tag)
     }
 

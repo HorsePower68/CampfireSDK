@@ -2,7 +2,7 @@ package com.sayzen.campfiresdk.screens.fandoms.moderation.moderators.prison
 
 import com.dzen.campfire.api.API
 import com.dzen.campfire.api.models.account.AccountPrison
-import com.dzen.campfire.api.requests.fandoms.RFandomPrisonGetAll
+import com.dzen.campfire.api.requests.fandoms.RFandomsPrisonGetAll
 import com.dzen.campfire.api.requests.fandoms.RFandomsModerationForgive
 import com.sayzen.campfiresdk.R
 import com.sayzen.campfiresdk.controllers.ControllerApi
@@ -58,7 +58,7 @@ class SPrision(
             card
         }
                 .setBottomLoader { onLoad, cards ->
-                    RFandomPrisonGetAll(fandomId, languageId, cards.size.toLong())
+                    RFandomsPrisonGetAll(fandomId, languageId, cards.size.toLong())
                             .onComplete { r -> onLoad.invoke(r.accounts) }
                             .onNetworkError { onLoad.invoke(null) }
                             .send(api)
