@@ -27,6 +27,7 @@ class CardPageCampfireObject(
         val page = this.page as PageCampfireObject
 
         val vAvatar: ViewAvatarTitle = view.findViewById(R.id.vAvatarTitle)
+        val vTouch: View = view.findViewById(R.id.vTouch)
 
         vAvatar.tag = this
         vAvatar.vAvatar.vImageView.setImageResource(R.color.focus)
@@ -42,21 +43,23 @@ class CardPageCampfireObject(
             }
         }
 
-        vAvatar.setOnClickListener {
-            when {
-                link.isLinkToAccount() -> {
-                    val id = link.getLongParamOrZero(0)
-                    val name = if (link.link.length < 3) "" else link.link.removePrefix("@").replace("_", "")
-                    if (id > 0) SAccount.instance(id, Navigator.TO)
-                    else SAccount.instance(name, Navigator.TO)
-                }
-                link.isLinkToPost() -> SPost.instance(link.getLongParamOrZero(0), Navigator.TO)
-                link.isLinkToChat() -> SChat.instance(API.CHAT_TYPE_FANDOM, link.getLongParamOrZero(0), link.getLongParamOrZero(1), false, Navigator.TO)
-                link.isLinkToForum() -> SForumView.instance(link.getLongParamOrZero(0), Navigator.TO)
-                link.isLinkToFandom() -> SFandom.instance(link.getLongParamOrZero(0), link.getLongParamOrZero(1), Navigator.TO)
-                link.isLinkToStickersPack() -> SStickersView.instance(link.getLongParamOrZero(0), Navigator.TO)
+        vTouch.isClickable = true
+        vTouch.isEnabled = true
+        vTouch.isFocusable = true
+        vTouch.setOnClickListener { when {
+            link.isLinkToAccount() -> {
+                val id = link.getLongParamOrZero(0)
+                val name = if (link.link.length < 3) "" else link.link.removePrefix("@").replace("_", "")
+                if (id > 0) SAccount.instance(id, Navigator.TO)
+                else SAccount.instance(name, Navigator.TO)
             }
-        }
+            link.isLinkToPost() -> SPost.instance(link.getLongParamOrZero(0), Navigator.TO)
+            link.isLinkToChat() -> SChat.instance(API.CHAT_TYPE_FANDOM, link.getLongParamOrZero(0), link.getLongParamOrZero(1), false, Navigator.TO)
+            link.isLinkToForum() -> SForumView.instance(link.getLongParamOrZero(0), Navigator.TO)
+            link.isLinkToFandom() -> SFandom.instance(link.getLongParamOrZero(0), link.getLongParamOrZero(1), Navigator.TO)
+            link.isLinkToStickersPack() -> SStickersView.instance(link.getLongParamOrZero(0), Navigator.TO)
+        }}
+
 
     }
 

@@ -176,6 +176,11 @@ Campfire has anime fandoms and gaming fandoms.</string>
     <string name="app_not_now">Not now</string>
     <string name="app_pending">Pending</string>
     <string name="app_ad">Ad</string>
+    <string name="app_campfire">Campfire</string>
+    <string name="app_vkontakte">VKontakte</string>
+    <string name="app_email">EMail</string>
+    <string name="app_article">Article</string>
+    <string name="app_section">Section</string>
 
     <string name="he">he</string>
     <string name="she">she</string>
@@ -585,6 +590,7 @@ Campfire has anime fandoms and gaming fandoms.</string>
     <string name="lvl_moderate_review_remove_text">Remove text from reviews on fandom.</string>
     <string name="lvl_avatar_gif">Ability to change avatar with GIF</string>
     <string name="lvl_pin_post">Ability to pin a post in your profile</string>
+    <string name="lvl_wiki_edit">Ability to edit wiki</string>
     <string name="lvl_app_profile_image_gif">Ability to change profile title image with GIF</string>
     <string name="lvl_ads_remove">Disabling ads in the app</string>
     <string name="lvl_admin_moder">Administrator. Ability to use moderator functions in all fandoms, regardless of their karma</string>
@@ -800,6 +806,7 @@ Campfire has anime fandoms and gaming fandoms.</string>
     <string name="settings_style_default_alert">All your changes will be lost.</string>
     <string name="settings_black_list_empty">Blacklist is empty for now</string>
     <string name="settings_style_theme_restatr">Restart the application to apply the new style?</string>
+    <string name="settings_restatr_alert">Restart the application to apply the new settings?</string>
 
     <string name="review_remove_confirm">Remove this review?</string>
     <string name="review_error_gone">Looks like someone deleted this review</string>
@@ -875,6 +882,7 @@ Campfire has anime fandoms and gaming fandoms.</string>
     <string name="wiki_list_empty">There are no items in this wiki yet.</string>
     <string name="wiki_item_create_name">Name (%s)</string>
     <string name="wiki_item_create_add_translate">Add translate</string>
+    <string name="wiki_item_create_title">Wiki creation</string>
 
     <string name="category_games">Games</string>
     <string name="category_anime">Anime</string>
@@ -1296,13 +1304,13 @@ Campfire has anime fandoms and gaming fandoms.</string>
     <string name="about_statistic">Statistic</string>
     <string name="about_creators">Creators</string>
     <string name="about_creators_zeon">Dmitry Kholin (Zeon)</string>
-    <string name="about_creators_zeon_subtitle">Creator of Campfire. Android application and server developer. Currently continues to development Campfire.</string>
+    <string name="about_creators_zeon_subtitle">Android app and server developer.</string>
     <string name="about_creators_saynok">Igor Chernobyl (Saynok)</string>
-    <string name="about_creators_saynok_subtitle">Co-Creator of Campfire. Android application developer. He made a huge contribution to the development of the idea. Created a project logo. He left the development team in 2017.</string>
+    <string name="about_creators_saynok_subtitle">Android app developer (until 2018)</string>
     <string name="about_creators_egor">Yegor Korolev (GeorgePro)</string>
-    <string name="about_creators_egor_subtitle">The main artist. Drew all the images for Campfire. Continues to design graphics for Campfire to this date.</string>
+    <string name="about_creators_egor_subtitle">Artist / Animator</string>
     <string name="about_creators_turbo">Arthur Adamovich(TurboA99)</string>
-    <string name="about_creators_turbo_subtitle">The first user of Campfire who helped in the creation of the project from the technical side. Created a redirect page that opens in the browser when clicking on a link from the application.</string>
+    <string name="about_creators_turbo_subtitle">Redirect page developer.</string>
     <string name="about_info_1">A very brief description of the main elements and systems of the application. It will allow you to better understand how our community works.</string>
     <string name="about_info_2t">Fandom</string>
     <string name="about_info_2">

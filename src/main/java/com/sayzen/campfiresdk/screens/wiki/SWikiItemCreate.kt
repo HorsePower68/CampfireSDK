@@ -1,25 +1,309 @@
 package com.sayzen.campfiresdk.screens.wiki
 
+import android.graphics.Bitmap
 import android.view.View
 import android.view.ViewGroup
 import android.widget.EditText
+import android.widget.ImageView
+import android.widget.TextView
 import com.dzen.campfire.api.API
+import com.dzen.campfire.api.models.Language
+import com.dzen.campfire.api.models.wiki.WikiItem
+import com.dzen.campfire.api.requests.wiki.RWikiItemChange
+import com.dzen.campfire.api.requests.wiki.RWikiItemCreate
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.sayzen.campfiresdk.R
+import com.sayzen.campfiresdk.controllers.ControllerApi
+import com.sup.dev.android.libs.api_simple.ApiRequestsSupporter
 import com.sup.dev.android.libs.screens.Screen
-import com.sup.dev.android.tools.ToolsResources
+import com.sup.dev.android.libs.screens.navigator.Navigator
+import com.sup.dev.android.tools.*
+import com.sup.dev.android.views.screens.SCrop
+import com.sup.dev.android.views.support.watchers.TextWatcherChanged
+import com.sup.dev.android.views.views.ViewChip
+import com.sup.dev.android.views.widgets.WidgetChooseImage
+import com.sup.dev.android.views.widgets.WidgetMenu
+import com.sup.dev.java.tools.ToolsBytes
+import com.sup.dev.java.tools.ToolsCollections
+import com.sup.dev.java.tools.ToolsText
+import com.sup.dev.java.tools.ToolsThreads
+import java.lang.ref.WeakReference
 
 class SWikiItemCreate(
-        val fandomId:Long,
-        val languageId:Long,
-        val parentItemId:Long
-) : Screen(R.layout.wiki_item_create){
+        val fandomId: Long,
+        val languageId: Long,
+        val parentItemId: Long,
+        val item: WikiItem = WikiItem()
+) : Screen(R.layout.wiki_item_create) {
 
-    private val vNameEnglish:EditText = findViewById(R.id.vNameEnglish)
-    private val vNamesContainer:ViewGroup = findViewById(R.id.vNamesContainer)
+    private val vNameEnglish: EditText = findViewById(R.id.vNameEnglish)
+    private val vNameMyLanguage: EditText = findViewById(R.id.vNameMyLanguage)
+    private val vNamesContainer: ViewGroup = findViewById(R.id.vNamesContainer)
     private val vAddTranslate: View = findViewById(R.id.vAddTranslate)
+    private val vFinish: FloatingActionButton = findViewById(R.id.vFinish)
+    private val vShowLanguages: TextView = findViewById(R.id.vShowLanguages)
+    private val vImageBig: ImageView = findViewById(R.id.vImageBig)
+    private val vImageBigPlus: View = findViewById(R.id.vImageBigPlus)
+    private val vImageMini: ImageView = findViewById(R.id.vImage)
+    private val vImageMiniPlus: View = findViewById(R.id.vImagePlus)
+    private val vTypeArticle: ViewChip = findViewById(R.id.vTypeArticle)
+    private val vTypeSection: ViewChip = findViewById(R.id.vTypeSection)
+
+    private var image: ByteArray? = null
+    private var imageMini: ByteArray? = null
 
     init {
-        vNameEnglish.setHint(ToolsResources.s(R.string.wiki_item_create_name, API.LANGUAGES[0]))
+
+
+        vTypeArticle.setOnClickListener {
+            vTypeSection.isChecked = !vTypeArticle.isChecked
+            updateFinishEnabled()
+        }
+        vTypeSection.setOnClickListener {
+            vTypeArticle.isChecked = !vTypeSection.isChecked
+            updateFinishEnabled()
+        }
+
+        vFinish.setOnClickListener { create() }
+
+        vNameEnglish.hint = ToolsResources.s(R.string.wiki_item_create_name, "English")
+        vNameEnglish.setText(item.name)
+
+        vNameEnglish.addTextChangedListener(TextWatcherChanged { updateFinishEnabled() })
+        vNameMyLanguage.addTextChangedListener(TextWatcherChanged { updateFinishEnabled() })
+
+        vNamesContainer.visibility = View.GONE
+
+        vImageBig.setOnClickListener { v -> selectImageBig() }
+        vImageMini.setOnClickListener { v -> selectImageMini() }
+
+        vAddTranslate.setOnClickListener { addTranslate() }
+        vShowLanguages.setOnClickListener {
+            vNamesContainer.visibility = if (vNamesContainer.visibility == View.VISIBLE) View.GONE else View.VISIBLE
+            vShowLanguages.setText(if (vNamesContainer.visibility == View.VISIBLE) R.string.app_hide else R.string.app_show_all)
+        }
+
+        val code = ToolsAndroid.getLanguageCode().toLowerCase()
+        if (code == "en") {
+            vNameMyLanguage.visibility = View.GONE
+        } else {
+            vNameMyLanguage.hint = ToolsResources.s(R.string.wiki_item_create_name, ControllerApi.getLanguage(code).name)
+            val name = item.getName(code)
+            if (name.isEmpty()) addLanguageToItem(code)
+            vNameMyLanguage.setText(name)
+        }
+
+        updateFinishEnabled()
+
+    }
+
+    private fun updateFinishEnabled() {
+        var textCheck = vNameEnglish.text.isNotBlank()
+        if (textCheck) {
+            textCheck =ToolsText.isOnly(vNameEnglish.text.toString(), API.ENGLISH)
+            vNameEnglish.error = if (textCheck) null else ToolsResources.s(R.string.error_use_english)
+        }
+        if (textCheck) {
+            textCheck = vNameEnglish.text.length <= API.WIKI_NAME_MAX
+            vNameEnglish.error = if (textCheck) null else ToolsResources.s(R.string.error_too_long_text)
+        }
+
+        var textCheckMy = true
+        if (vNameMyLanguage.visibility == View.VISIBLE) {
+            textCheckMy = vNameMyLanguage.text.length <= API.WIKI_NAME_MAX
+            vNameMyLanguage.error = if (textCheckMy) null else ToolsResources.s(R.string.error_too_long_text)
+        }
+
+        var textCheOther = true
+        for (i in 0 until vNamesContainer.childCount) {
+            val v = vNamesContainer.getChildAt(i)
+            val vFiled: EditText? = v.findViewById(R.id.vField)
+            if (vFiled != null) {
+                textCheOther = vFiled.text.length <= API.WIKI_NAME_MAX
+                vFiled.error = if (textCheckMy) null else ToolsResources.s(R.string.error_too_long_text)
+            }
+        }
+
+        val check = textCheck && textCheckMy && textCheOther && (vTypeArticle.isChecked || vTypeSection.isChecked)
+
+        if (item.id != 0L)
+            ToolsView.setFabEnabledR(vFinish, check && image != null && imageMini != null, R.color.green_700)
+        else
+            ToolsView.setFabEnabledR(vFinish, check, R.color.green_700)
+    }
+
+
+    private fun addTranslate() {
+        val w = WidgetMenu()
+
+        val existed = ArrayList<String>()
+        existed.add("en")
+        for (i in item.translates) existed.add(i.languageCode)
+
+        for (i in API.LANGUAGES) if (!existed.contains(i.code)) w.add(i.name) { wii, c -> addTranslate(i) }
+
+        w.asSheetShow()
+    }
+
+    private fun addTranslate(language: Language) {
+        addLanguageToItem(language.code)
+        val v: View = ToolsView.inflate(R.layout.wiki_item_create_field)
+        val vField: EditText = v.findViewById(R.id.vField)
+        vField.hint = ToolsResources.s(R.string.wiki_item_create_name, language.name)
+        vNamesContainer.addView(v, vNamesContainer.childCount - 1)
+    }
+
+    private fun addLanguageToItem(code: String) {
+        val wikiTranslation = WikiItem.Translate()
+        wikiTranslation.languageCode = code
+        item.translates = ToolsCollections.add(wikiTranslation, item.translates)
+    }
+
+    private fun setImageBig(bitmap:Bitmap, bytes:ByteArray){
+        image = bytes
+        updateFinishEnabled()
+        vImageBigPlus.visibility =View.GONE
+        if (ToolsBytes.isGif(bytes)) {
+            ToolsGif.iterator(bytes, WeakReference(vImageBig), 1f)
+        } else {
+            vImageBig.setImageBitmap(bitmap)
+        }
+    }
+    private fun setImageMini(bitmap:Bitmap, bytes:ByteArray){
+        imageMini = bytes
+        updateFinishEnabled()
+        vImageMiniPlus.visibility =View.GONE
+        if (ToolsBytes.isGif(bytes)) {
+            ToolsGif.iterator(bytes, WeakReference(vImageMini), 1f)
+        } else {
+            vImageMini.setImageBitmap(bitmap)
+        }
+    }
+
+    private fun selectImageBig() {
+        ToolsView.hideKeyboard()
+        WidgetChooseImage()
+                .setOnSelected { w, bytes, index ->
+
+                    ToolsThreads.thread {
+
+                        val bitmap = ToolsBitmap.decode(bytes)
+                        if (bitmap == null) {
+                            ToolsToast.show(R.string.error_cant_load_image)
+                            return@thread
+                        }
+
+                        ToolsThreads.main {
+
+
+                            val isGif = ToolsBytes.isGif(bytes)
+                            val cropSizeW = if (isGif) API.WIKI_TITLE_IMG_GIF_W else API.WIKI_TITLE_IMG_W
+                            val cropSizeH = if (isGif) API.WIKI_TITLE_IMG_GIF_H else API.WIKI_TITLE_IMG_H
+
+                            Navigator.to(SCrop(bitmap, cropSizeW, cropSizeH) { sCrop, b2, x, y, w, h ->
+                                if (isGif) {
+
+                                    val d = ToolsView.showProgressDialog()
+                                    ToolsThreads.thread {
+                                        val bytesSized = ToolsGif.resize(bytes, API.WIKI_TITLE_IMG_GIF_W, API.WIKI_TITLE_IMG_GIF_H, x, y, w, h, true)
+                                        ToolsThreads.main {
+                                            d.hide()
+                                            if (bytesSized.size > API.WIKI_TITLE_IMG_GIF_WEIGHT) {
+                                                ToolsToast.show(R.string.error_too_long_file)
+                                            } else {
+                                                setImageBig(b2, bytesSized)
+                                            }
+                                        }
+                                    }
+
+                                } else {
+                                    val d = ToolsView.showProgressDialog()
+                                    ControllerApi.toBytes(b2, API.WIKI_TITLE_IMG_WEIGHT, API.WIKI_TITLE_IMG_W, API.WIKI_TITLE_IMG_H, true) {
+                                        ToolsThreads.main {
+                                            d.hide()
+                                            if (it == null) {
+                                                ToolsToast.show(R.string.error_cant_load_image)
+                                            } else {
+                                                setImageBig(b2, it)
+                                            }
+                                        }
+                                    }
+                                }
+                            })
+                        }
+                    }
+                }
+                .asSheetShow()
+
+    }
+
+    private fun selectImageMini() {
+        ToolsView.hideKeyboard()
+        WidgetChooseImage()
+                .setOnSelected { w, bytes, index ->
+
+                    ToolsThreads.thread {
+
+                        val bitmap = ToolsBitmap.decode(bytes)
+                        if (bitmap == null) {
+                            ToolsToast.show(R.string.error_cant_load_image)
+                            return@thread
+                        }
+
+                        ToolsThreads.main {
+
+                            val isGif = ToolsBytes.isGif(bytes)
+                            val cropSize = if (isGif) API.WIKI_IMG_SIDE_GIF else API.WIKI_IMG_SIDE
+
+                            Navigator.to(SCrop(bitmap, cropSize, cropSize) { sCrop, b2, x, y, w, h ->
+                                if (isGif) {
+
+                                    val d = ToolsView.showProgressDialog()
+                                    ToolsThreads.thread {
+                                        val bytesSized = ToolsGif.resize(bytes, API.WIKI_IMG_SIDE_GIF, API.WIKI_IMG_SIDE_GIF, x, y, w, h, true)
+                                        ToolsThreads.main {
+                                            d.hide()
+                                            if (bytesSized.size > API.WIKI_IMG_WEIGHT_GIF) {
+                                                ToolsToast.show(R.string.error_too_long_file)
+                                            } else {
+                                                setImageMini(bitmap, bytesSized)
+                                            }
+                                        }
+                                    }
+
+                                } else {
+                                    val d = ToolsView.showProgressDialog()
+                                    ControllerApi.toBytes(b2, API.WIKI_IMG_WEIGHT, API.WIKI_IMG_SIDE, API.WIKI_IMG_SIDE, true) {
+                                        ToolsThreads.main {
+                                            d.hide()
+                                            if (it == null) ToolsToast.show(R.string.error_cant_load_image)
+                                            else setImageMini(b2, it)
+                                        }
+                                    }
+                                }
+                            })
+
+                        }
+
+
+                    }
+
+
+                }
+                .asSheetShow()
+
+    }
+
+    private fun create(){
+        if(item.id == 0L) {
+            ApiRequestsSupporter.executeProgressDialog(RWikiItemCreate(fandomId, languageId, parentItemId, item, imageMini, image)){r ->
+
+            }
+        }else {
+            ApiRequestsSupporter.executeProgressDialog(RWikiItemChange(item, imageMini, image)){ r ->
+
+            }
+        }
     }
 
 }

@@ -6,22 +6,18 @@ import com.sup.dev.android.tools.ToolsResources
 
 class Achievement(
         val info: AchievementInfo,
-        private val text: String,
+        val text: Int,
         val colorRes: Int,
         val clickable: Boolean,
-        val image: Int
+        val image: Int,
+        val textFormat: Array<String> = emptyArray()
 ) {
-
-    constructor(info: AchievementInfo, text: Int, colorRes: Int, clickable: Boolean, image: Int) : this(info, ToolsResources.s(text), colorRes, clickable, image)
-
-    init {
-    }
 
     fun getText(includePress: Boolean): String {
         return if (clickable && includePress)
-            text + " " + ToolsResources.s(R.string.achi_click)
+            ToolsResources.s(text, *textFormat) + " " + ToolsResources.s(R.string.achi_click)
         else
-            text
+            ToolsResources.s(text, *textFormat)
     }
 
 }

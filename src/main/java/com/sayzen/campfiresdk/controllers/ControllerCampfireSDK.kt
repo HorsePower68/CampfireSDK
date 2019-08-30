@@ -149,6 +149,7 @@ object ControllerCampfireSDK {
                     ToolsThreads.main(10000) { RAchievementsOnFinish(API.ACHI_FIREWORKS.index).send(api) }
                 }
                 API.LINK_TAG_BOX_WITH_SUMMER -> ControllerScreenAnimations.summer()
+                API.LINK_TAG_BOX_WITH_SPRING -> ControllerScreenAnimations.spring()
                 API.LINK_TAG_STICKER -> SStickersView.instanceBySticker(params[0].toLong(), Navigator.TO)
                 API.LINK_TAG_STICKERS_PACK -> {
                     if (params.size == 1) SStickersView.instance(params[0].toLong(), Navigator.TO)

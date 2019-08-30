@@ -1,5 +1,6 @@
 package com.sayzen.campfiresdk.controllers
 
+import com.sayzen.campfiresdk.models.animations.DrawAnimationSpring
 import com.sayzen.campfiresdk.models.animations.DrawAnimationSummer
 import com.sup.dev.android.app.SupAndroid
 import com.sup.dev.android.tools.ToolsAndroid
@@ -52,6 +53,14 @@ object ControllerScreenAnimations {
         key = myKey
 
         addAnimation(DrawAnimationSummer())
+    }
+
+    fun spring(){
+        clearAnimation()
+        val myKey = System.currentTimeMillis()
+        key = myKey
+
+        addAnimation(DrawAnimationSpring())
     }
 
     private fun clearAnimation() {

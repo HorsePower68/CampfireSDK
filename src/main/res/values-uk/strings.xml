@@ -177,6 +177,11 @@
     <string name="app_not_now">Не сейчас</string>
     <string name="app_pending">Отложенные</string>
     <string name="app_ad">Реклама</string>
+    <string name="app_campfire">Campfire</string>
+    <string name="app_vkontakte">ВКонтакте</string>
+    <string name="app_email">Почта</string>
+    <string name="app_article">Статья</string>
+    <string name="app_section">Раздел</string>
 
     <string name="he">он</string>
     <string name="she">она</string>
@@ -311,7 +316,7 @@
     <string name="moderation_notification_warned">Вы были предупреждены.</string>
     <string name="moderation_notification_publication_is_blocked">Ваша публикация заблокирована.</string>
     <string name="moderation_notification_review_is_blocked">Текст вашего отзыва удалён.</string>
-    <string name="moderation_notification_publications_is_blocked">Ваши последнии публикации заблокированы.</string>
+    <string name="moderation_notification_publications_is_blocked">Ваши последние публикации заблокированы.</string>
     <string name="moderation_notification_publication_is_blocked_by_report">Публикация по вашей жалобе заблокирована.</string>
     <string name="moderation_notification_account_is_blocked">Аккаунт заблокирован до %s.</string>
     <string name="moderation_notification_moderator_comment">Комментарий:</string>
@@ -334,12 +339,12 @@
     <string name="moderation_screen_prison_text">%s до %s</string>
     <string name="moderation_screen_moderators">Модераторы</string>
     <string name="moderation_screen_moderators_empty">Анархия и саморегуляция! В этом фэндоме нет модераторов</string>
-    <string name="moderation_screen_info_text">Увеличевая свою карму в фэндоме, вы получаете дополнителные способности. Карма учитывается только за последнии 30 дней. Для доступа к этим способностям вам также нужно иметь определенный уровень</string>
+    <string name="moderation_screen_info_text">Увеличевая свою карму в фэндоме, вы получаете дополнителные способности. Карма учитывается только за последние 30 дней. Для доступа к этим способностям вам также нужно иметь определенный уровень</string>
     <string name="moderation_screen_events_empty">Пока нет событий</string>
     <string name="moderation_card_block_text_main">"%s %s пользователя %s.</string>
     <string name="moderation_card_block_text_main_review">"%s текст отзыва пользователя %s.</string>
     <string name="moderation_card_block_text_ban">"Пользователь заблокирован до %s.</string>
-    <string name="moderation_card_block_text_block_last">Последнии публикации пользователя заблокированы.</string>
+    <string name="moderation_card_block_text_block_last">Последние публикации пользователя заблокированы.</string>
     <string name="moderation_card_block_text_comment">"Комментарий: %s</string>
     <string name="moderation_text_tag_create_tag">%s новый тег %s.</string>
     <string name="moderation_text_tag_create_category">%s новую категорию %s.</string>
@@ -589,6 +594,7 @@
     <string name="lvl_moderate_tags">Возможность редактировать теги в фэндоме</string>
     <string name="lvl_avatar_gif">Возможность изменить аватарку на GIF</string>
     <string name="lvl_pin_post">Возможность закрепить пост в профиле</string>
+    <string name="lvl_wiki_edit">Возможность редактировать вики</string>
     <string name="lvl_ads_remove">Отключение рекламы в приложении</string>
     <string name="lvl_admin_moder">Администратор. Возможность использовать модераторские функции во всех фэндомах, независимо от кармы в них</string>
     <string name="lvl_admin_fandom_image">Возможность менять аватар фэндома</string>
@@ -802,6 +808,7 @@
     <string name="settings_style_default_alert">Все ваши изменения будут потеряны.</string>
     <string name="settings_black_list_empty">Черный список пока пуст</string>
     <string name="settings_style_theme_restatr">Перезапустить приложение для применения нового стиля?</string>
+    <string name="settings_restatr_alert">Перезапустить приложение для применения настроек?</string>
 
     <string name="review_remove_confirm">Удалить этот отзыв?</string>
     <string name="review_error_gone">Похоже кто-то удалил этот отзыв</string>
@@ -877,6 +884,7 @@
     <string name="wiki_list_empty">В этой вики еще нет элементов</string>
     <string name="wiki_item_create_name">Название (%s)</string>
     <string name="wiki_item_create_add_translate">Добавить перевод</string>
+    <string name="wiki_item_create_title">Создание вики</string>
 
     <string name="category_games">Игры</string>
     <string name="category_anime">Аниме</string>
@@ -1297,13 +1305,13 @@
     <string name="about_statistic">Статистика</string>
     <string name="about_creators">Создатели</string>
     <string name="about_creators_zeon">Дмитрий Холин (Zeon)</string>
-    <string name="about_creators_zeon_subtitle">Создатель Campfire. Разработчик Android приложения и сервера. Сейчас активно продолжает разработку приложения.</string>
+    <string name="about_creators_zeon_subtitle">Разработчик сервера и Android приложения.</string>
     <string name="about_creators_saynok">Игорь Чернобылов (Saynok)</string>
-    <string name="about_creators_saynok_subtitle">Создатель Campfire. Разработчик Android приложения. Внёс огромный вклад в развитие идеи. Создал логотип проекта. Ушел из команды в 2017 году.</string>
+    <string name="about_creators_saynok_subtitle">Разработчик Android приложения. (до 2018 года)</string>
     <string name="about_creators_egor">Егор Королёв (GeorgePro)</string>
-    <string name="about_creators_egor_subtitle">Основной художник. Нарисовал все избражения для Campfire. На данный момент продолжает создавать графику для приложения.</string>
+    <string name="about_creators_egor_subtitle">Художник / Аниматор</string>
     <string name="about_creators_turbo">Артур Адамович (TurboA99)</string>
-    <string name="about_creators_turbo_subtitle">Первый пользователь Campfire который помог в создании проекта с технической стороны. Создал редирект страницу, которая открывается в браузере при нажатии на ссылку из приложения.</string>
+    <string name="about_creators_turbo_subtitle">Разработчик редирект страницы.</string>
     <string name="about_info_1">Очень краткое описание основных элементов и систем приложения. Позволит лучше понимать, как работает наше сообщество.</string>
     <string name="about_info_2t">фэндом</string>
     <string name="about_info_2">
