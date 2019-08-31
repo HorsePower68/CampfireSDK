@@ -1,11 +1,7 @@
 package com.sayzen.campfiresdk.controllers
 
 import android.app.Activity
-import android.text.Spannable
-import android.text.Spanned
-import android.text.style.ClickableSpan
 import android.view.Gravity
-import android.view.View
 import com.dzen.campfire.api.API
 import com.dzen.campfire.api.models.Fandom
 import com.dzen.campfire.api.models.units.UnitForum
@@ -14,24 +10,15 @@ import com.dzen.campfire.api.requests.accounts.RAccountsBlackListRemove
 import com.dzen.campfire.api.requests.accounts.RAccountsChangeName
 import com.dzen.campfire.api.requests.achievements.RAchievementsOnFinish
 import com.sayzen.campfiresdk.R
-import com.sayzen.campfiresdk.app.CampfreConstants
 import com.sayzen.campfiresdk.models.events.account.EventAccountAddToBlackList
 import com.sayzen.campfiresdk.models.events.account.EventAccountChanged
 import com.sayzen.campfiresdk.models.events.account.EventAccountRemoveFromBlackList
 import com.sayzen.campfiresdk.models.events.fandom.EventFandomBlackListChange
-import com.sayzen.campfiresdk.screens.account.profile.SAccount
-import com.sayzen.campfiresdk.screens.chat.SChat
 import com.sayzen.campfiresdk.screens.comments.SComments
-import com.sayzen.campfiresdk.screens.fandoms.forums.view.SForumView
-import com.sayzen.campfiresdk.screens.fandoms.moderation.view.SModerationView
-import com.sayzen.campfiresdk.screens.fandoms.reviews.SReviews
-import com.sayzen.campfiresdk.screens.fandoms.view.SFandom
 import com.sayzen.campfiresdk.screens.other.SAboutApp
 import com.sayzen.campfiresdk.screens.other.SAboutCreators
 import com.sayzen.campfiresdk.screens.other.SRulesModerators
 import com.sayzen.campfiresdk.screens.other.SRulesUser
-import com.sayzen.campfiresdk.screens.post.search.SPostsSearch
-import com.sayzen.campfiresdk.screens.post.view.SPost
 import com.sayzen.campfiresdk.screens.stickers.SStickersView
 import com.sayzen.devsupandroidgoogle.ControllerGoogleToken
 import com.sup.dev.android.libs.api_simple.ApiRequestsSupporter
@@ -39,7 +26,6 @@ import com.sup.dev.android.libs.screens.navigator.NavigationAction
 import com.sup.dev.android.libs.screens.navigator.Navigator
 import com.sup.dev.android.tools.ToolsAndroid
 import com.sup.dev.android.tools.ToolsIntent
-import com.sup.dev.android.tools.ToolsResources
 import com.sup.dev.android.tools.ToolsToast
 import com.sup.dev.android.views.screens.SAlert
 import com.sup.dev.android.views.widgets.WidgetAlert
@@ -149,7 +135,7 @@ object ControllerCampfireSDK {
                     ToolsThreads.main(10000) { RAchievementsOnFinish(API.ACHI_FIREWORKS.index).send(api) }
                 }
                 API.LINK_TAG_BOX_WITH_SUMMER -> ControllerScreenAnimations.summer()
-                API.LINK_TAG_BOX_WITH_SPRING -> ControllerScreenAnimations.spring()
+                API.LINK_TAG_BOX_WITH_AUTUMN -> ControllerScreenAnimations.spring()
                 API.LINK_TAG_STICKER -> SStickersView.instanceBySticker(params[0].toLong(), Navigator.TO)
                 API.LINK_TAG_STICKERS_PACK -> {
                     if (params.size == 1) SStickersView.instance(params[0].toLong(), Navigator.TO)
