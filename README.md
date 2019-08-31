@@ -2,6 +2,7 @@
 
 Library for integrating Campfire in the Android app
 
+License
 --------
 
 Copyright 2098 Sayzen Studio
