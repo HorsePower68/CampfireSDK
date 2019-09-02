@@ -801,7 +801,7 @@ Campfire has anime fandoms and gaming fandoms.</string>
     <string name="settings_style_fullscreen">Fullscreen</string>
     <string name="settings_style_theme_1">Black</string>
     <string name="settings_style_theme_2">Dark Grey</string>
-    <string name="settings_style_theme_3">White (alpha version)</string>
+    <string name="settings_style_theme_3">White</string>
     <string name="settings_style_interface_1">Navigation panel</string>
     <string name="settings_style_interface_2">Hided menu</string>
     <string name="settings_style_default_alert">All your changes will be lost.</string>

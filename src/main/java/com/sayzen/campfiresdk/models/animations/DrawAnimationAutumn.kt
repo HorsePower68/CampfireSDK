@@ -9,7 +9,7 @@ import com.sup.dev.java.tools.ToolsColor
 import com.sup.dev.java.tools.ToolsMath
 import kotlin.collections.ArrayList
 
-class DrawAnimationSpring : DrawAnimation() {
+class DrawAnimationAutumn : DrawAnimation() {
 
     private val blue = ToolsColor.setAlpha(7, ToolsResources.getColor(R.color.blue_700))
     private val particles = ArrayList<Particle>()
@@ -41,7 +41,7 @@ class DrawAnimationSpring : DrawAnimation() {
         var x = 0
         while (x < particles.size) {
             particles[x].update(delta)
-            if (particles[x].timeToLife <= 0) {
+            if (particles[x].timeToLife <= 0 || particles[x].y > h + particles[x].r) {
                 particles.removeAt(x)
                 x--
             }
@@ -64,8 +64,8 @@ class DrawAnimationSpring : DrawAnimation() {
 
         paint.color = blue
         var xx = x
-        for(i in 0 until 5){
-            canvas.drawRect(0f, canvas.height.toFloat()- xx, canvas.width.toFloat(), canvas.height.toFloat(), paint)
+        for (i in 0 until 5) {
+            canvas.drawRect(0f, canvas.height.toFloat() - xx, canvas.width.toFloat(), canvas.height.toFloat(), paint)
             xx /= 2f
         }
 
@@ -88,7 +88,7 @@ class DrawAnimationSpring : DrawAnimation() {
 
         init {
             r = ToolsView.dpToPx(2)
-            x = ToolsMath.randomFloat(-(w/3), w)
+            x = ToolsMath.randomFloat(-(w / 3), w)
             y = 0f
             xs = ToolsMath.randomFloat(ToolsView.dpToPx(2), ToolsView.dpToPx(3))
             ys = ToolsMath.randomFloat(ToolsView.dpToPx(7), ToolsView.dpToPx(9))

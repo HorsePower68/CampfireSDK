@@ -50,6 +50,13 @@ class CardSpoilerAchi(
     }
 
     fun addAchi(card: CardAchievement): CardSpoilerAchi {
+        if (card.achievement == API.ACHI_POST_KARMA
+                || card.achievement == API.ACHI_COMMENTS_KARMA
+                || card.achievement == API.ACHI_KARMA_COUNT
+                || card.achievement == API.ACHI_KARMA_30
+                || card.achievement == API.ACHI_MODERATOR_ACTION_KARMA
+                || card.achievement == API.ACHI_STICKERS_KARMA
+        ) card.setValueMultiplier(0.01)
         return super.add(card) as CardSpoilerAchi
     }
 
@@ -60,21 +67,12 @@ class CardSpoilerAchi(
     fun onLoaded() {
         remove(cardLoading)
 
-        if (packIndex == 1) {
-            for (i in API.ACHI_PACK_1) addAchi(CardAchievement(pageAchievements, i))
-        }
-        if (packIndex == 2) {
-            for (i in API.ACHI_PACK_2) addAchi(CardAchievement(pageAchievements, i))
-        }
-        if (packIndex == 3) {
-            for (i in API.ACHI_PACK_3) addAchi(CardAchievement(pageAchievements, i))
-        }
-        if (packIndex == 4) {
-            for (i in API.ACHI_PACK_4) addAchi(CardAchievement(pageAchievements, i))
-        }
-        if (packIndex == 5) {
-            for (i in API.ACHI_PACK_5) addAchi(CardAchievement(pageAchievements, i))
-        }
+        if (packIndex == 1) for (i in API.ACHI_PACK_1) addAchi(CardAchievement(pageAchievements, i))
+        if (packIndex == 2) for (i in API.ACHI_PACK_2) addAchi(CardAchievement(pageAchievements, i))
+        if (packIndex == 3) for (i in API.ACHI_PACK_3) addAchi(CardAchievement(pageAchievements, i))
+        if (packIndex == 4) for (i in API.ACHI_PACK_4) addAchi(CardAchievement(pageAchievements, i))
+        if (packIndex == 5) for (i in API.ACHI_PACK_5) addAchi(CardAchievement(pageAchievements, i))
+
 
     }
 

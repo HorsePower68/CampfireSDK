@@ -54,7 +54,7 @@ object CampfreConstants {
         Achievement(API.ACHI_POSTS_COUNT, R.string.achi_posts_count, R.color.cyan_900, false, R.drawable.achi_2_2),
         Achievement(API.ACHI_POST_KARMA, R.string.achi_posts_karma_count, R.color.teal_500, false, R.drawable.achi_5_2),
         Achievement(API.ACHI_COMMENTS_KARMA, R.string.achi_comments_karma_count, R.color.light_green_900, false, R.drawable.achi_4_1),
-        Achievement(API.ACHI_STICKERS_KARMA, R.string.achi_stickers_karma_count, R.color.lime_a_400, false, R.drawable.achi_4_2),
+        Achievement(API.ACHI_STICKERS_KARMA, R.string.achi_stickers_karma_count, R.color.lime_900, false, R.drawable.achi_4_2),
         Achievement(API.ACHI_COMMENTS_COUNT, R.string.achi_comments_count, R.color.orange_500, false, R.drawable.achi_4_4),
         Achievement(API.ACHI_LOGIN, R.string.achi_login, R.color.red_500, true, R.drawable.achi_17),
         Achievement(API.ACHI_CHAT, R.string.achi_chat, R.color.blue_500, false, R.drawable.achi_3_1),
@@ -427,7 +427,7 @@ object CampfreConstants {
         for (a in ACHIEVEMENTS)
             if (a.info.index == index)
                 return a
-        throw RuntimeException("Unknown achievement $index")
+        return Achievement(API.ACHI_UNKNOWN, R.string.error_unknown, R.color.red_500, true, R.drawable.ic_clear_black_24dp)
     }
 
     fun getQuest(info: QuestInfo): Quest {
@@ -438,13 +438,13 @@ object CampfreConstants {
         for (a in QUESTS)
             if (a.quest.index == index)
                 return a
-        throw RuntimeException("Unknown quest $index")
+        return Quest(API.QUEST_UNKNOWN, R.string.error_unknown)
     }
 
     fun getCategory(index: Long): FandomParam {
         for (a in CATEGORIES)
             if (a.index == index) return a
-        throw RuntimeException("Unknown Category $index")
+        return FandomParam(API.CATEGORY_UNKNOWN, R.string.error_unknown)
     }
 
     @DrawableRes
@@ -464,7 +464,7 @@ object CampfreConstants {
                 API.CATEGORY_HOBBIES -> R.attr.ic_directions_bike_24dp
                 API.CATEGORY_PEOPLE -> R.attr.ic_person_24dp
                 API.CATEGORY_EVENT -> R.attr.ic_access_time_24dp
-                else -> throw RuntimeException("Unknown category $categoryId")
+                else -> R.attr.ic_clear_24dp
             }
         )
     }
@@ -539,7 +539,7 @@ object CampfreConstants {
                     else -> null
                 }
             API.CATEGORY_OTHER -> null
-            else -> throw RuntimeException("Unknown category $categoryId")
+            else -> ToolsResources.s(R.string.error_unknown)
         }
     }
 
@@ -620,7 +620,7 @@ object CampfreConstants {
     fun getParam(categoryId: Long, paramsPosition: Int, index: Long): FandomParam {
         val params = getParams(categoryId, paramsPosition)!!
         for (i in params) if (i.index == index) return i
-        throw RuntimeException("Unknown Genre $index in categoryId $categoryId paramsPosition $paramsPosition")
+        return FandomParam(0, R.string.error_unknown)
     }
 
     fun getLvlImage(lvl: Long):Int {

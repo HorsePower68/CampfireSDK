@@ -19,6 +19,7 @@
                 <com.sup.dev.android.views.views.ViewIcon
                     android:id="@+id/vTextTitle"
                     style="@style/Icon.Toolbar"
+                    android:layout_marginRight="8dp"
                     android:src="?ic_text_fields_24dp"/>
 
             </androidx.appcompat.widget.Toolbar>

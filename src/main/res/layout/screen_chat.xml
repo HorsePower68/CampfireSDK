@@ -134,7 +134,8 @@
                         android:id="@+id/vFieldContainer"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1">
+                        android:layout_weight="1"
+                        android:orientation="horizontal">
 
                         <com.sup.dev.android.views.views.ViewIcon
                             android:id="@+id/vAttach"
@@ -152,24 +153,26 @@
                             android:background="@null"
                             android:hint="@string/app_message"
                             android:inputType="textCapSentences|textMultiLine|textAutoCorrect|textAutoComplete"
-                            android:maxLines="9" />
+                            android:maxLines="9"
+                            android:paddingTop="8dp"
+                            android:paddingBottom="8dp" />
 
                     </LinearLayout>
 
                     <LinearLayout
                         android:id="@+id/vVoiceContainer"
                         android:layout_width="match_parent"
-                        android:layout_weight="1"
-                        android:layout_height="wrap_content">
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1">
 
                         <TextView
                             android:id="@+id/vVoiceLabel"
+                            style="@style/TextAppearance.AppCompat.Body1"
                             android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
                             android:layout_gravity="center"
                             android:layout_marginLeft="16dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            style="@style/TextAppearance.AppCompat.Body1"/>
+                            android:layout_weight="1" />
 
                         <com.sup.dev.android.views.views.ViewIcon
                             android:id="@+id/vVoicePlay"
@@ -208,8 +211,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|right"
+        android:layout_margin="4dp"
         android:clickable="true"
-        android:focusable="true"
-        android:layout_margin="4dp" />
+        android:focusable="true" />
 
 </FrameLayout>

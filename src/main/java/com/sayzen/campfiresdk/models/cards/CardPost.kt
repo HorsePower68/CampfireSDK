@@ -36,7 +36,7 @@ class CardPost constructor(
         private val vRecycler: RecyclerView?,
         override val unit: UnitPost,
         var onClick: ((UnitPost) -> Unit)? = null
-) : CardUnit(R.layout.card_post, unit) {
+) : CardUnit(R.layout.card_unit_post, unit) {
 
     private val eventBus = EventBus
             .subscribe(EventPostChanged::class) { onPostChange(it) }

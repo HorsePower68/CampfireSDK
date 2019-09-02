@@ -63,7 +63,7 @@ abstract class CardComment protected constructor(
                 UnitComment.TYPE_IMAGE, UnitComment.TYPE_GIF -> return CardCommentImage(unit, dividers, miniSize, onClick, onQuote, onGoTo)
                 UnitComment.TYPE_IMAGES -> return CardCommentImages(unit, dividers, miniSize, onClick, onQuote, onGoTo)
                 UnitComment.TYPE_STICKER -> return CardCommentSticker(unit, dividers, miniSize, onClick, onQuote, onGoTo)
-                else -> throw RuntimeException("Unknown type ${unit.type}")
+                else -> return CardCommentUnknown(unit, dividers, miniSize, onClick, onQuote, onGoTo)
             }
         }
 
@@ -137,7 +137,7 @@ abstract class CardComment protected constructor(
             vQuoteImage.clear()
             vQuoteImage.visibility = View.VISIBLE
             if (unit.quoteStickerId != 0L) {
-                vQuoteImage.add(unit.quoteStickerImageId, onClick = { SStickersView.instanceBySticker(unit.quoteStickerId, Navigator.TO)})
+                vQuoteImage.add(unit.quoteStickerImageId, onClick = { SStickersView.instanceBySticker(unit.quoteStickerId, Navigator.TO) })
             } else if (unit.quoteImages.isNotEmpty()) {
                 for (i in unit.quoteImages) vQuoteImage.add(i)
             } else {

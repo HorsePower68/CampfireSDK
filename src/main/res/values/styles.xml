@@ -283,8 +283,8 @@
         <item name="ic_whatshot_24dp">@drawable/ic_whatshot_grey_700_24dp</item>
     </style>
 
-    <style name="CampfireTheme" parent="CampfireRootThemeBlack">
-
+    <style name="CampfireRootThemeWhiteColored" parent="CampfireRootThemeWhite">
+        <item name="toolbar_content_color">@color/white</item>
     </style>
 
     <style name="CampfireThemeDarkGrey" parent="CampfireRootThemeBlack">
@@ -296,26 +296,156 @@
         <item name="colorPrimary">@color/grey_825</item>
     </style>
 
-    <style name="CampfireThemeWhite" parent="CampfireRootThemeWhite">
-
+    <style name="CampfireThemeWhite_Red" parent="CampfireRootThemeWhiteColored">
+        <item name="colorPrimaryDark">@color/red_700</item>
+        <item name="colorPrimary">@color/red_700</item>
     </style>
 
-    <style name="CampfireRootThemeWhiteColored" parent="CampfireRootThemeWhite">
-        <item name="ic_arrow_back_24dp">@drawable/ic_arrow_back_white_24dp</item>
-        <item name="ic_menu_24dp">@drawable/ic_menu_white_24dp</item>
-        <item name="ic_keyboard_arrow_right_24dp">@drawable/ic_keyboard_arrow_right_white_24dp</item>
-        <item name="ic_keyboard_arrow_left_24dp">@drawable/ic_keyboard_arrow_left_white_24dp</item>
-        <item name="ic_file_download_24dp">@drawable/ic_file_download_white_24dp</item>
-        <item name="ic_folder_24dp">@drawable/ic_folder_white_24dp</item>
-        <item name="ic_insert_drive_file_24dp">@drawable/ic_insert_drive_file_white_24dp</item>
-        <item name="revers_color">@color/white</item>
-        <item name="revers_color_lighted">@color/grey_200</item>
+    <style name="CampfireThemeWhite_Pink" parent="CampfireRootThemeWhiteColored">
+        <item name="colorPrimaryDark">@color/pink_700</item>
+        <item name="colorPrimary">@color/pink_700</item>
     </style>
 
-    <style name="CampfireThemeBrown" parent="CampfireRootThemeWhite">
+    <style name="CampfireThemeWhite_Purple" parent="CampfireRootThemeWhiteColored">
+        <item name="colorPrimaryDark">@color/purple_700</item>
+        <item name="colorPrimary">@color/purple_700</item>
+    </style>
+
+    <style name="CampfireThemeWhite_DeepPurple" parent="CampfireRootThemeWhiteColored">
+        <item name="colorPrimaryDark">@color/deep_purple_700</item>
+        <item name="colorPrimary">@color/deep_purple_700</item>
+    </style>
+
+    <style name="CampfireThemeWhite_Indigo" parent="CampfireRootThemeWhiteColored">
+        <item name="colorPrimaryDark">@color/indigo_700</item>
+        <item name="colorPrimary">@color/indigo_700</item>
+    </style>
+
+    <style name="CampfireThemeWhite_Blue" parent="CampfireRootThemeWhiteColored">
+        <item name="colorPrimaryDark">@color/blue_700</item>
+        <item name="colorPrimary">@color/blue_700</item>
+    </style>
+
+    <style name="CampfireThemeWhite_LightBlue" parent="CampfireRootThemeWhiteColored">
+        <item name="colorPrimaryDark">@color/light_blue_700</item>
+        <item name="colorPrimary">@color/light_blue_700</item>
+    </style>
+
+    <style name="CampfireThemeWhite_Cyan" parent="CampfireRootThemeWhiteColored">
+        <item name="colorPrimaryDark">@color/cyan_700</item>
+        <item name="colorPrimary">@color/cyan_700</item>
+    </style>
+
+    <style name="CampfireThemeWhite_Teal" parent="CampfireRootThemeWhiteColored">
+        <item name="colorPrimaryDark">@color/teal_700</item>
+        <item name="colorPrimary">@color/teal_700</item>
+    </style>
+
+    <style name="CampfireThemeWhite_Green" parent="CampfireRootThemeWhiteColored">
+        <item name="colorPrimaryDark">@color/green_700</item>
+        <item name="colorPrimary">@color/green_700</item>
+    </style>
+
+    <style name="CampfireThemeWhite_LightGreen" parent="CampfireRootThemeWhiteColored">
+        <item name="colorPrimaryDark">@color/light_green_700</item>
+        <item name="colorPrimary">@color/light_green_700</item>
+    </style>
+
+    <style name="CampfireThemeWhite_Lime" parent="CampfireRootThemeWhiteColored">
+        <item name="colorPrimaryDark">@color/lime_700</item>
+        <item name="colorPrimary">@color/lime_700</item>
+    </style>
+
+    <style name="CampfireThemeWhite_DeepOrange" parent="CampfireRootThemeWhiteColored">
+        <item name="colorPrimaryDark">@color/deep_orange_700</item>
+        <item name="colorPrimary">@color/deep_orange_700</item>
+    </style>
+
+    <style name="CampfireThemeWhite_Brown" parent="CampfireRootThemeWhiteColored">
         <item name="colorPrimaryDark">@color/brown_700</item>
         <item name="colorPrimary">@color/brown_700</item>
     </style>
 
+    <style name="CampfireThemeWhite_BlueGrey" parent="CampfireRootThemeWhiteColored">
+        <item name="colorPrimaryDark">@color/blue_grey_700</item>
+        <item name="colorPrimary">@color/blue_grey_700</item>
+    </style>
+
+
+
+    <style name="CampfireThemeBlack_Red" parent="CampfireRootThemeBlack">
+        <item name="colorPrimaryDark">@color/red_900</item>
+        <item name="colorPrimary">@color/red_900</item>
+    </style>
+
+    <style name="CampfireThemeBlack_Pink" parent="CampfireRootThemeBlack">
+        <item name="colorPrimaryDark">@color/pink_900</item>
+        <item name="colorPrimary">@color/pink_900</item>
+    </style>
+
+    <style name="CampfireThemeBlack_Purple" parent="CampfireRootThemeBlack">
+        <item name="colorPrimaryDark">@color/purple_900</item>
+        <item name="colorPrimary">@color/purple_900</item>
+    </style>
+
+    <style name="CampfireThemeBlack_DeepPurple" parent="CampfireRootThemeBlack">
+        <item name="colorPrimaryDark">@color/deep_purple_900</item>
+        <item name="colorPrimary">@color/deep_purple_900</item>
+    </style>
+
+    <style name="CampfireThemeBlack_Indigo" parent="CampfireRootThemeBlack">
+        <item name="colorPrimaryDark">@color/indigo_900</item>
+        <item name="colorPrimary">@color/indigo_900</item>
+    </style>
+
+    <style name="CampfireThemeBlack_Blue" parent="CampfireRootThemeBlack">
+        <item name="colorPrimaryDark">@color/blue_900</item>
+        <item name="colorPrimary">@color/blue_900</item>
+    </style>
+
+    <style name="CampfireThemeBlack_LightBlue" parent="CampfireRootThemeBlack">
+        <item name="colorPrimaryDark">@color/light_blue_900</item>
+        <item name="colorPrimary">@color/light_blue_900</item>
+    </style>
+
+    <style name="CampfireThemeBlack_Cyan" parent="CampfireRootThemeBlack">
+        <item name="colorPrimaryDark">@color/cyan_900</item>
+        <item name="colorPrimary">@color/cyan_900</item>
+    </style>
+
+    <style name="CampfireThemeBlack_Teal" parent="CampfireRootThemeBlack">
+        <item name="colorPrimaryDark">@color/teal_900</item>
+        <item name="colorPrimary">@color/teal_900</item>
+    </style>
+
+    <style name="CampfireThemeBlack_Green" parent="CampfireRootThemeBlack">
+        <item name="colorPrimaryDark">@color/green_900</item>
+        <item name="colorPrimary">@color/green_900</item>
+    </style>
+
+    <style name="CampfireThemeBlack_LightGreen" parent="CampfireRootThemeBlack">
+        <item name="colorPrimaryDark">@color/light_green_900</item>
+        <item name="colorPrimary">@color/light_green_900</item>
+    </style>
+
+    <style name="CampfireThemeBlack_Lime" parent="CampfireRootThemeBlack">
+        <item name="colorPrimaryDark">@color/lime_900</item>
+        <item name="colorPrimary">@color/lime_900</item>
+    </style>
+
+    <style name="CampfireThemeBlack_DeepOrange" parent="CampfireRootThemeBlack">
+        <item name="colorPrimaryDark">@color/deep_orange_900</item>
+        <item name="colorPrimary">@color/deep_orange_900</item>
+    </style>
+
+    <style name="CampfireThemeBlack_Brown" parent="CampfireRootThemeBlack">
+        <item name="colorPrimaryDark">@color/brown_900</item>
+        <item name="colorPrimary">@color/brown_900</item>
+    </style>
+
+    <style name="CampfireThemeBlack_BlueGrey" parent="CampfireRootThemeBlack">
+        <item name="colorPrimaryDark">@color/blue_grey_900</item>
+        <item name="colorPrimary">@color/blue_grey_900</item>
+    </style>
 
 </resources>

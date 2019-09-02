@@ -802,7 +802,7 @@
     <string name="settings_style_fullscreen">Полный экран</string>
     <string name="settings_style_theme_1">Черный</string>
     <string name="settings_style_theme_2">Темно-серый</string>
-    <string name="settings_style_theme_3">Белый (альфа-версия)</string>
+    <string name="settings_style_theme_3">Белый</string>
     <string name="settings_style_interface_1">Панель навигации</string>
     <string name="settings_style_interface_2">Скрытое меню</string>
     <string name="settings_style_default_alert">Все ваши изменения будут потеряны.</string>

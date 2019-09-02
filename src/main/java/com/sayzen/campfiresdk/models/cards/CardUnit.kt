@@ -5,6 +5,7 @@ import com.dzen.campfire.api.models.UnitComment
 import com.dzen.campfire.api.models.UnitReview
 import com.dzen.campfire.api.models.units.Unit
 import com.dzen.campfire.api.models.units.UnitForum
+import com.dzen.campfire.api.models.units.UnitUnknown
 import com.dzen.campfire.api.models.units.post.UnitPost
 import com.dzen.campfire.api.models.units.chat.UnitChatMessage
 import com.dzen.campfire.api.models.units.events.UnitEvent
@@ -46,7 +47,7 @@ abstract class CardUnit(
                 is UnitForum -> CardForum(unit)
                 is UnitSticker -> CardSticker(unit, isShowFullInfo, isShowReports)
                 is UnitStickersPack -> CardStickersPack(unit, isShowFullInfo, isShowReports)
-                else -> throw RuntimeException("Unknown unit type [" + unit.unitType + "]")
+                else -> CardUnitUnknown(unit)
             }
 
             cardUnit.showFandom = showFandom

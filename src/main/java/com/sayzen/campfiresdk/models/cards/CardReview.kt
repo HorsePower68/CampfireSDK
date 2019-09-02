@@ -33,7 +33,7 @@ import com.sup.dev.java.tools.ToolsThreads
 
 class CardReview(
     override val unit: UnitReview
-) : CardUnit(R.layout.card_review, unit) {
+) : CardUnit(R.layout.card_unit_review, unit) {
 
     private val eventBus = EventBus
             .subscribe(EventFandomReviewChanged::class) { this.onEventFandomReviewChanged(it) }

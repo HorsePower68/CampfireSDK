@@ -67,7 +67,11 @@ class CardRate(
                 link = ControllerApi.linkToStickersPack(rate.unitId)
                 setOnClick { SStickersView.instance(rate.unitId, Navigator.TO) }
             }
-            else -> throw RuntimeException("Unknown unit type ${rate.unitType}")
+            else -> {
+                textR = R.string.error_unknown
+                link = ""
+                setOnClick {  }
+            }
         }
 
         setTitle(ToolsResources.sCap(textR, ToolsResources.sex(rate.accountSex, R.string.he_rate, R.string.she_rate), link))
