@@ -8,6 +8,7 @@ import com.sayzen.campfiresdk.R
 import com.sayzen.campfiresdk.app.CampfreConstants
 import com.sup.dev.android.libs.screens.Screen
 import com.sup.dev.android.tools.ToolsAndroid
+import com.sup.dev.android.tools.ToolsResources
 import com.sup.dev.android.tools.ToolsToast
 import com.sup.dev.android.tools.ToolsView
 
@@ -20,6 +21,7 @@ class SRulesUser(
 
     init {
         if(noNavigationMode){
+            activityRootBackground = ToolsResources.getColorAttr(R.attr.colorPrimary)
             isNavigationVisible = false
             isNavigationAllowed = false
             isNavigationAnimation = false

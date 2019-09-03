@@ -49,20 +49,17 @@ object ControllerNotifications {
     val lastNotificationsCodes = LongSparseArray<Boolean>()
 
     var token: String = ""
-    var activityClass: Class<out Activity>? = null
     var executorNotification: ExecutorNotification? = null
     var logoColored = R.drawable.logo_alpha_no_margins
     var logoWhite = R.drawable.logo_alpha_black_and_white_no_margins
 
     internal fun init(
-            activityClass: Class<out Activity>,
             logoColored: Int,
             logoWhite: Int,
             notificationExecutor: ExecutorNotification
     ) {
         this.logoColored = logoColored
         this.logoWhite = logoWhite
-        this.activityClass = activityClass
         this.executorNotification = notificationExecutor
         ToolsNotifications.defChanelId = chanelOther.getId()
         GoogleNotifications.init({ token: String? ->
@@ -116,7 +113,7 @@ object ControllerNotifications {
             if (text.isNotEmpty()) {
 
                 val icon = if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) logoWhite else logoColored
-                val intent = Intent(SupAndroid.appContext, activityClass)
+                val intent = Intent(SupAndroid.appContext, SupAndroid.activityClass)
                 val title = SupAndroid.TEXT_APP_NAME ?: ""
                 val tag = tag(notification.id)
 

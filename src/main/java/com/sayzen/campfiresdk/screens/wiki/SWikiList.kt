@@ -13,22 +13,21 @@ import com.sup.dev.android.views.support.adapters.recycler_view.RecyclerCardAdap
 
 class SWikiList(
         val fandomId: Long,
-        val languageId: Long,
         val itemId: Long
 ) : SLoadingRecycler<CardWikiItem, WikiItem>() {
 
     init {
         setTitle(R.string.app_wiki)
         setTextEmpty(R.string.wiki_list_empty)
-        (vFab as View).visibility = if (ControllerApi.can(fandomId, languageId, API.LVL_WIKI_EDIT)) View.VISIBLE else View.GONE
+        (vFab as View).visibility = if (ControllerApi.can(fandomId, ControllerApi.getLanguage("en").id, API.LVL_MODERATOR_WIKI_EDIT)) View.VISIBLE else View.GONE
         vFab.setImageResource(R.drawable.ic_add_white_24dp)
-        vFab.setOnClickListener { Navigator.to(SWikiItemCreate(fandomId, languageId, itemId)) }
+        vFab.setOnClickListener { Navigator.to(SWikiItemCreate(fandomId, itemId)) }
     }
 
     override fun instanceAdapter(): RecyclerCardAdapterLoading<CardWikiItem, WikiItem> {
         return RecyclerCardAdapterLoading<CardWikiItem, WikiItem>(CardWikiItem::class) { CardWikiItem(it) }
                 .setBottomLoader { onLoad, cards ->
-                    subscription = RWikiListGet(fandomId, languageId, itemId, cards.size.toLong())
+                    subscription = RWikiListGet(fandomId, itemId, cards.size.toLong())
                             .onComplete { r -> onLoad.invoke(r.items) }
                             .onNetworkError { onLoad.invoke(null) }
                             .send(api)

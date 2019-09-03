@@ -61,7 +61,7 @@ object ControllerCampfireSDK {
     var executorLinks: ExecutorLinks? = null
 
     fun init(
-            activityClass: Class<out Activity>,
+            appId:String,
             logoColored: Int,
             logoWhite: Int,
             notificationExecutor: ControllerNotifications.ExecutorNotification,
@@ -69,9 +69,9 @@ object ControllerCampfireSDK {
             onLoginFailed: () -> Unit
     ) {
         executorLinks = linksExecutor
-        ControllerApi.init()
+        ControllerApi.init(appId)
         ControllerChats.init()
-        ControllerNotifications.init(activityClass, logoColored, logoWhite, notificationExecutor)
+        ControllerNotifications.init(logoColored, logoWhite, notificationExecutor)
         ControllerGoogleToken.init("276237287601-6e9aoah4uivbjh6lnn1l9hna6taljd9u.apps.googleusercontent.com", onLoginFailed)
 
         SAlert.GLOBAL_SHOW_WHOOPS = false
@@ -242,7 +242,7 @@ object ControllerCampfireSDK {
 
     fun createLanguageMenu(selectedId: Long, onClick: (Long) -> kotlin.Unit): WidgetMenu {
         val w = WidgetMenu()
-        val code = ToolsAndroid.getLanguageCode().toLowerCase()
+        val code =  ControllerApi.getLanguageCode()
 
         for (i in API.LANGUAGES)
             if (i.code == code || i.code == "en")
@@ -264,7 +264,7 @@ object ControllerCampfireSDK {
 
     fun createLanguageCheckMenu(languages: ArrayList<Long>): WidgetCheckBoxes {
         val w = WidgetCheckBoxes()
-        val code = ToolsAndroid.getLanguageCode().toLowerCase()
+        val code = ControllerApi.getLanguageCode()
         for (i in API.LANGUAGES) {
             if (i.code == code || i.code == "en")
                 w.add(i.name).checked(languages.contains(i.id)).onChange { ww, item, b ->

@@ -3,12 +3,14 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    style="@style/TouchableForeground">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:padding="16dp">
 
         <com.sup.dev.android.views.views.ViewCircleImage
             android:id="@+id/vImage"
@@ -17,9 +19,20 @@
 
         <TextView
             android:id="@+id/vName"
+            android:layout_marginLeft="16dp"
+            android:layout_gravity="center"
+            android:layout_weight="1"
+            style="@style/TextAppearance.AppCompat.Body1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
 
+        <ImageView
+            android:id="@+id/vSectionIcon"
+            style="@style/Icon"
+            android:src="?ic_keyboard_arrow_right_24dp"/>
+
     </LinearLayout>
+
+    <View style="@style/Divider"/>
 
 </FrameLayout>

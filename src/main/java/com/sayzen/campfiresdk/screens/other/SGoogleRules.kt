@@ -90,6 +90,7 @@ class SGoogleRules(
     private val vCheck: CheckBox = findViewById(R.id.vCheck)
 
     init {
+        activityRootBackground = ToolsResources.getColorAttr(R.attr.colorPrimary)
         isNavigationVisible = false
         isNavigationAnimation = false
 

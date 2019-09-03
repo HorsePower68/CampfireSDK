@@ -54,8 +54,6 @@ class CardButtons(
         val vWikiButton: View = view.findViewById(R.id.vWikiButton)
         val vWikiText: TextView = view.findViewById(R.id.vWikiText)
 
-        vWikiButton.visibility = View.GONE
-
         vChatsButton.setOnClickListener { SChat.instance(API.CHAT_TYPE_FANDOM, xFandom.fandomId, xFandom.languageId, false, Navigator.REORDER) }
         vChatsCount.text = "$chatOnlineCount"
 
@@ -76,7 +74,7 @@ class CardButtons(
         vSubscribersButton.setOnClickListener { SSubscribers.instance(xFandom.fandomId, xFandom.languageId, Navigator.TO) }
         vSubscribersText.text = "$subscribersCount"
 
-        vWikiButton.setOnClickListener { Navigator.to(SWikiList(xFandom.fandomId, xFandom.languageId, 0)) }
+        vWikiButton.setOnClickListener { Navigator.to(SWikiList(xFandom.fandomId, 0)) }
     }
 
     //

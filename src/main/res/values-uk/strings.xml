@@ -594,7 +594,7 @@
     <string name="lvl_moderate_tags">Возможность редактировать теги в фэндоме</string>
     <string name="lvl_avatar_gif">Возможность изменить аватарку на GIF</string>
     <string name="lvl_pin_post">Возможность закрепить пост в профиле</string>
-    <string name="lvl_wiki_edit">Возможность редактировать вики</string>
+    <string name="lvl_wiki_edit">Возможность редактировать вики. (Нужно иметь возможность модерировать фэндом на английском языке для создания статей и разделов)</string>
     <string name="lvl_ads_remove">Отключение рекламы в приложении</string>
     <string name="lvl_admin_moder">Администратор. Возможность использовать модераторские функции во всех фэндомах, независимо от кармы в них</string>
     <string name="lvl_admin_fandom_image">Возможность менять аватар фэндома</string>

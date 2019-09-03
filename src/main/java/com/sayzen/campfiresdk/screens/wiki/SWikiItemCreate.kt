@@ -14,6 +14,8 @@ import com.dzen.campfire.api.requests.wiki.RWikiItemCreate
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.sayzen.campfiresdk.R
 import com.sayzen.campfiresdk.controllers.ControllerApi
+import com.sayzen.campfiresdk.models.events.wiki.EventWikiItemChanged
+import com.sayzen.campfiresdk.models.events.wiki.EventWikiItemCreated
 import com.sup.dev.android.libs.api_simple.ApiRequestsSupporter
 import com.sup.dev.android.libs.screens.Screen
 import com.sup.dev.android.libs.screens.navigator.Navigator
@@ -23,6 +25,7 @@ import com.sup.dev.android.views.support.watchers.TextWatcherChanged
 import com.sup.dev.android.views.views.ViewChip
 import com.sup.dev.android.views.widgets.WidgetChooseImage
 import com.sup.dev.android.views.widgets.WidgetMenu
+import com.sup.dev.java.libs.eventBus.EventBus
 import com.sup.dev.java.tools.ToolsBytes
 import com.sup.dev.java.tools.ToolsCollections
 import com.sup.dev.java.tools.ToolsText
@@ -31,7 +34,6 @@ import java.lang.ref.WeakReference
 
 class SWikiItemCreate(
         val fandomId: Long,
-        val languageId: Long,
         val parentItemId: Long,
         val item: WikiItem = WikiItem()
 ) : Screen(R.layout.wiki_item_create) {
@@ -53,7 +55,6 @@ class SWikiItemCreate(
     private var imageMini: ByteArray? = null
 
     init {
-
 
         vTypeArticle.setOnClickListener {
             vTypeSection.isChecked = !vTypeArticle.isChecked
@@ -83,14 +84,28 @@ class SWikiItemCreate(
             vShowLanguages.setText(if (vNamesContainer.visibility == View.VISIBLE) R.string.app_hide else R.string.app_show_all)
         }
 
-        val code = ToolsAndroid.getLanguageCode().toLowerCase()
+        val code = ControllerApi.getLanguageCode()
         if (code == "en") {
             vNameMyLanguage.visibility = View.GONE
         } else {
+            vNameMyLanguage.tag = code
             vNameMyLanguage.hint = ToolsResources.s(R.string.wiki_item_create_name, ControllerApi.getLanguage(code).name)
-            val name = item.getName(code)
-            if (name.isEmpty()) addLanguageToItem(code)
-            vNameMyLanguage.setText(name)
+            addLanguageToItemIfNeed(code)
+            vNameMyLanguage.setText(item.getName(code))
+        }
+
+        if (item.imageId > 0) {
+            vImageMiniPlus.visibility = View.GONE
+            ToolsImagesLoader.loadGif(item.imageId, 0, 0, 0, vImageMini)
+        }
+        if (item.imageBigId > 0) {
+            vImageBigPlus.visibility = View.GONE
+            ToolsImagesLoader.loadGif(item.imageBigId, 0, 0, 0, vImageBig)
+        }
+
+        if (item.itemId > 0) {
+            vTypeSection.visibility = View.GONE
+            vTypeArticle.visibility = View.GONE
         }
 
         updateFinishEnabled()
@@ -100,7 +115,7 @@ class SWikiItemCreate(
     private fun updateFinishEnabled() {
         var textCheck = vNameEnglish.text.isNotBlank()
         if (textCheck) {
-            textCheck =ToolsText.isOnly(vNameEnglish.text.toString(), API.ENGLISH)
+            textCheck = ToolsText.isOnly(vNameEnglish.text.toString(), API.ENGLISH)
             vNameEnglish.error = if (textCheck) null else ToolsResources.s(R.string.error_use_english)
         }
         if (textCheck) {
@@ -124,14 +139,15 @@ class SWikiItemCreate(
             }
         }
 
-        val check = textCheck && textCheckMy && textCheOther && (vTypeArticle.isChecked || vTypeSection.isChecked)
+        var check = textCheck && textCheckMy && textCheOther
+        if (vTypeSection.visibility == View.VISIBLE) check = check && (vTypeArticle.isChecked || vTypeSection.isChecked)
 
-        if (item.id != 0L)
+        if (item.itemId == 0L) {
             ToolsView.setFabEnabledR(vFinish, check && image != null && imageMini != null, R.color.green_700)
-        else
+        } else {
             ToolsView.setFabEnabledR(vFinish, check, R.color.green_700)
+        }
     }
-
 
     private fun addTranslate() {
         val w = WidgetMenu()
@@ -146,33 +162,69 @@ class SWikiItemCreate(
     }
 
     private fun addTranslate(language: Language) {
-        addLanguageToItem(language.code)
+        addLanguageToItemIfNeed(language.code)
         val v: View = ToolsView.inflate(R.layout.wiki_item_create_field)
         val vField: EditText = v.findViewById(R.id.vField)
+        vField.tag = language.code
         vField.hint = ToolsResources.s(R.string.wiki_item_create_name, language.name)
         vNamesContainer.addView(v, vNamesContainer.childCount - 1)
     }
 
-    private fun addLanguageToItem(code: String) {
+    private fun addLanguageToItemIfNeed(code: String) {
+        for (i in item.translates) if (i.languageCode == code) return
         val wikiTranslation = WikiItem.Translate()
         wikiTranslation.languageCode = code
         item.translates = ToolsCollections.add(wikiTranslation, item.translates)
     }
 
-    private fun setImageBig(bitmap:Bitmap, bytes:ByteArray){
+    private fun create() {
+        item.name = vNameEnglish.text.toString()
+
+        if (vNameMyLanguage.visibility == View.VISIBLE) {
+            val code = vNameMyLanguage.tag.toString()
+            for (n in item.translates) if (n.languageCode == code) n.name = vNameMyLanguage.text.toString()
+        }
+
+        for (i in 0 until vNamesContainer.childCount) {
+            val v = vNamesContainer.getChildAt(i)
+            val vFiled: EditText? = v.findViewById(R.id.vField)
+            if (vFiled != null) {
+                val code = vFiled.tag.toString()
+                for (n in item.translates) if (n.languageCode == code) n.name = vFiled.text.toString()
+            }
+        }
+
+        if (item.itemId == 0L) {
+            item.type = if (vTypeArticle.isChecked) API.WIKI_TYPE_ARTICLE else API.WIKI_TYPE_SECION
+            ApiRequestsSupporter.executeProgressDialog(RWikiItemCreate(fandomId, parentItemId, item, imageMini, image)) { w,r ->
+                ToolsToast.show(R.string.app_done)
+                Navigator.remove(this)
+                EventBus.post(EventWikiItemCreated(r.item))
+            }
+        } else {
+            ApiRequestsSupporter.executeProgressDialog(RWikiItemChange(item, parentItemId, imageMini, image)) { w,r ->
+                ToolsToast.show(R.string.app_done)
+                Navigator.remove(this)
+                EventBus.post(EventWikiItemChanged(r.item))
+            }
+        }
+    }
+
+    private fun setImageBig(bitmap: Bitmap, bytes: ByteArray) {
         image = bytes
         updateFinishEnabled()
-        vImageBigPlus.visibility =View.GONE
+        vImageBigPlus.visibility = View.GONE
         if (ToolsBytes.isGif(bytes)) {
             ToolsGif.iterator(bytes, WeakReference(vImageBig), 1f)
         } else {
             vImageBig.setImageBitmap(bitmap)
         }
     }
-    private fun setImageMini(bitmap:Bitmap, bytes:ByteArray){
+
+    private fun setImageMini(bitmap: Bitmap, bytes: ByteArray) {
         imageMini = bytes
         updateFinishEnabled()
-        vImageMiniPlus.visibility =View.GONE
+        vImageMiniPlus.visibility = View.GONE
         if (ToolsBytes.isGif(bytes)) {
             ToolsGif.iterator(bytes, WeakReference(vImageMini), 1f)
         } else {
@@ -292,18 +344,6 @@ class SWikiItemCreate(
                 }
                 .asSheetShow()
 
-    }
-
-    private fun create(){
-        if(item.id == 0L) {
-            ApiRequestsSupporter.executeProgressDialog(RWikiItemCreate(fandomId, languageId, parentItemId, item, imageMini, image)){r ->
-
-            }
-        }else {
-            ApiRequestsSupporter.executeProgressDialog(RWikiItemChange(item, imageMini, image)){ r ->
-
-            }
-        }
     }
 
 }

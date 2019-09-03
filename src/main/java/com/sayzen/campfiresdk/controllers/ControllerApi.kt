@@ -23,6 +23,7 @@ import com.dzen.campfire.api_media.APIMedia
 import com.dzen.campfire.api_media.requests.RResourcesGet
 import com.sayzen.campfiresdk.R
 import com.sayzen.campfiresdk.models.events.account.EventAccountReportsCleared
+import com.sayzen.campfiresdk.models.events.project.EventApiVersionChanged
 import com.sayzen.campfiresdk.models.events.units.EventUnitRemove
 import com.sayzen.campfiresdk.models.events.units.EventUnitReportsAdd
 import com.sayzen.campfiresdk.models.events.units.EventUnitReportsClear
@@ -78,10 +79,14 @@ fun instanceTokenProvider(): TokenProvider {
 object ControllerApi {
 
     var account = Account()
+    var appId = ""
     private var serverTimeDelta = 0L
     private var fandomsKarmaCounts: Array<Item3<Long, Long, Long>?>? = null
+    private var version = ""
+    private var supportedVersion = emptyArray<String>()
 
-    internal fun init() {
+    internal fun init(appId: String) {
+        this.appId = appId
         ApiRequestsSupporter.init(api)
 
         ImageLoaderId.loader = { imageId ->
@@ -104,34 +109,30 @@ object ControllerApi {
         return englishId
     }
 
+    fun isOldVersion() = version.isNotEmpty() && version != API.VERSION
+
+    fun isUnsupportedVersion() = isOldVersion() && !supportedVersion.contains(API.VERSION)
+
+    fun setVersion(version: String, supportedVersion: Array<String>) {
+        this.version = version
+        this.supportedVersion = supportedVersion
+        EventBus.post(EventApiVersionChanged())
+    }
+
     fun getLanguage() = getLanguage(getLanguageCode())
 
-    fun getLanguageCode() = getLanguage(ToolsAndroid.getLanguageCode()).code
+    fun getLanguageCode() = getLanguage(ToolsAndroid.getLanguageCode().toLowerCase()).code
 
-    fun getLanguage(code: String): Language {
-        for (i in API.LANGUAGES) if (i.code == code.toLowerCase()) return i
-        return API.LANGUAGES[0]
-    }
+    fun getLanguage(code: String) = API.getLanguage(code)
 
-    fun getLanguage(languageId: Long): Language {
-        for (l in API.LANGUAGES) if (l.id == languageId) return l
-        return API.LANGUAGES[0]
-    }
-
+    fun getLanguage(languageId: Long) = API.getLanguage(languageId)
 
     fun makeTextHtml(vText: TextView) {
         val text = vText.text.toString().replace("<", "&#60;")
         vText.text = Html.fromHtml(TextParser(text).parse().replace("\n", "<br />"))
     }
 
-    fun toBytes(
-            bitmap: Bitmap?,
-            size: Int,
-            w: Int = 0,
-            h: Int = 0,
-            weakSizesMode: Boolean = false,
-            callback: (ByteArray?) -> Unit
-    ) {
+    fun toBytes(bitmap: Bitmap?, size: Int, w: Int = 0, h: Int = 0, weakSizesMode: Boolean = false, callback: (ByteArray?) -> Unit) {
         if (ToolsAndroid.isMainThread()) {
             ToolsThreads.thread { callback.invoke(toBytesNow(bitmap, size, w, h, weakSizesMode)) }
         } else {
@@ -165,8 +166,8 @@ object ControllerApi {
         ControllerPolling.clear()
     }
 
-    fun getLastAccount():Account{
-        val json = ToolsStorage.getJson("account json")?:Json()
+    fun getLastAccount(): Account {
+        val json = ToolsStorage.getJson("account json") ?: Json()
         val account = Account()
         account.json(false, json)
         return account
@@ -196,7 +197,7 @@ object ControllerApi {
         }
         login(loginToken) {
             if (account.id == 0L) {
-                val r = RAccountsRegistration(getLanguage(getLanguageCode()).id, null)
+                val r = RAccountsRegistration(getLanguage(getLanguageCode()).id, null, appId)
                         .onFinish {
                             login(loginToken) {
                                 onFinish.invoke()
@@ -452,11 +453,11 @@ object ControllerApi {
     }
 
     fun clearReportsUnit(unitId: Long, unitType: Long) {
-        when(unitType){
-            API.UNIT_TYPE_CHAT_MESSAGE -> clearReportsUnit(unitId,  R.string.chat_clear_reports_confirm, R.string.chat_error_gone)
-            API.UNIT_TYPE_POST -> clearReportsUnit(unitId,  R.string.post_clear_reports_confirm, R.string.post_error_gone)
-            API.UNIT_TYPE_COMMENT -> clearReportsUnit(unitId,  R.string.comment_clear_reports_confirm, R.string.comment_error_gone)
-            API.UNIT_TYPE_REVIEW -> clearReportsUnit(unitId,  R.string.review_clear_reports_confirm, R.string.review_error_gone)
+        when (unitType) {
+            API.UNIT_TYPE_CHAT_MESSAGE -> clearReportsUnit(unitId, R.string.chat_clear_reports_confirm, R.string.chat_error_gone)
+            API.UNIT_TYPE_POST -> clearReportsUnit(unitId, R.string.post_clear_reports_confirm, R.string.post_error_gone)
+            API.UNIT_TYPE_COMMENT -> clearReportsUnit(unitId, R.string.comment_clear_reports_confirm, R.string.comment_error_gone)
+            API.UNIT_TYPE_REVIEW -> clearReportsUnit(unitId, R.string.review_clear_reports_confirm, R.string.review_error_gone)
         }
     }
 
