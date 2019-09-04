@@ -1,29 +1,37 @@
 package com.sayzen.campfiresdk.models.cards
 
+import android.graphics.drawable.ColorDrawable
+import android.os.Build
+import android.view.View
 import androidx.recyclerview.widget.RecyclerView
 import com.dzen.campfire.api.models.UnitComment
 import com.dzen.campfire.api.models.UnitReview
 import com.dzen.campfire.api.models.units.Unit
 import com.dzen.campfire.api.models.units.UnitForum
-import com.dzen.campfire.api.models.units.UnitUnknown
 import com.dzen.campfire.api.models.units.post.UnitPost
 import com.dzen.campfire.api.models.units.chat.UnitChatMessage
 import com.dzen.campfire.api.models.units.events.UnitEvent
 import com.dzen.campfire.api.models.units.moderations.UnitModeration
 import com.dzen.campfire.api.models.units.stickers.UnitSticker
 import com.dzen.campfire.api.models.units.stickers.UnitStickersPack
+import com.sayzen.campfiresdk.R
+import com.sayzen.campfiresdk.adapters.*
 import com.sayzen.campfiresdk.models.cards.chat.CardChatMessage
 import com.sayzen.campfiresdk.models.cards.comments.CardComment
 import com.sayzen.campfiresdk.models.cards.stickers.CardSticker
 import com.sayzen.campfiresdk.models.cards.stickers.CardStickersPack
-import com.sayzen.campfiresdk.models.events.units.*
+import com.sup.dev.android.tools.ToolsResources
 import com.sup.dev.android.views.cards.Card
 import com.sup.dev.android.views.support.adapters.NotifyItem
-import com.sup.dev.java.libs.eventBus.EventBus
+import com.sup.dev.java.classes.Subscription
+import com.sup.dev.java.classes.animation.AnimationPendulum
+import com.sup.dev.java.classes.animation.AnimationPendulumColor
+import com.sup.dev.java.tools.ToolsColor
+import com.sup.dev.java.tools.ToolsThreads
 
 abstract class CardUnit(
-    layout :Int,
-    open val unit: Unit
+        layout: Int,
+        unit: Unit
 ) : Card(layout), NotifyItem {
 
     companion object {
@@ -57,73 +65,85 @@ abstract class CardUnit(
         }
     }
 
-    private val eventBus = EventBus
-            .subscribe(EventUnitRemove::class) { this.onUnitRemoved(it) }
-            .subscribe(EventCommentAdd::class) { this.onCommentAdd(it) }
-            .subscribe(EventCommentRemove::class) { this.onEventCommentRemove(it) }
-            .subscribe(EventUnitFandomChanged::class) { this.onEventUnitFandomChanged(it) }
-            .subscribe(EventUnitImportantChange::class) { this.onEventUnitImportantChange(it) }
-            .subscribe(EventUnitReportsClear::class) { this.onEventUnitReportsClear(it) }
-            .subscribe(EventUnitReportsAdd::class) { this.onEventUnitReportsAdd(it) }
+    val xUnit = XUnit(unit,
+            onChangedAccount = { updateAccount() },
+            onChangedFandom = { updateFandom() },
+            onChangedKarma = { updateKarma() },
+            onChangedComments = { updateComments() },
+            onChangedReports = { updateReports() },
+            onChangedImportance = { update() },
+            onRemove = { adapter?.remove(this) }
+    )
+    private var flash = false
+    private var animationFlash: AnimationPendulumColor? = null
+    private var subscriptionFlash: Subscription? = null
+    var showFandom = false
+    var flashViewId = 0
+    var useBackgroundToFlash = false
+    var updateFandomOnBind = true
 
-    var showFandom: Boolean = false
+    override fun bindView(view: View) {
+        super.bindView(view)
 
-    open fun onFandomChanged(){
-
+        updateKarma()
+        updateAccount()
+        updateComments()
+        updateReports()
+        if (updateFandomOnBind) updateFandom()
+        updateFlash()
     }
 
-    //
-    //  EventBus
-    //
+    abstract fun updateAccount()
 
-    private fun onUnitRemoved(e: EventUnitRemove) {
-        if (e.unitId == unit.id && adapter != null) adapter!!.remove(this)
-    }
+    abstract fun updateFandom()
 
-    private fun onCommentAdd(e: EventCommentAdd) {
-        if (e.parentUnitId == unit.id) {
-            unit.subUnitsCount++
-            update()
+    abstract fun updateKarma()
+
+    abstract fun updateComments()
+
+    abstract fun updateReports()
+
+    fun updateFlash() {
+        if (getView() == null) return
+        val view: View = if (flashViewId > 0) getView()!!.findViewById(flashViewId) else getView()!!
+
+        if (useBackgroundToFlash) {
+            if (animationFlash != null) view.background = ColorDrawable(animationFlash!!.color)
+            else view.background = ColorDrawable(0x00000000)
+        } else {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                if (animationFlash != null) view.foreground = ColorDrawable(animationFlash!!.color)
+                else view.foreground = ColorDrawable(0x00000000)
+            }
+        }
+
+        if (flash) {
+            flash = false
+            if (subscriptionFlash != null) subscriptionFlash!!.unsubscribe()
+
+            if (animationFlash == null)
+                animationFlash = AnimationPendulumColor(ToolsColor.setAlpha(0, ToolsResources.getColor(R.color.focus_dark)), ToolsResources.getColor(R.color.focus_dark), 500, AnimationPendulum.AnimationType.TO_2_AND_BACK)
+            animationFlash?.to_2()
+
+            subscriptionFlash = ToolsThreads.timerThread((1000 / 30).toLong(), 1000,
+                    { subscription ->
+                        animationFlash?.update()
+                        ToolsThreads.main { updateFlash() }
+                    },
+                    {
+                        ToolsThreads.main {
+                            animationFlash = null
+                            updateFlash()
+                        }
+                    })
         }
     }
 
-    private fun onEventCommentRemove(e: EventCommentRemove) {
-        if (e.parentUnitId == unit.id){
-            unit.subUnitsCount--
-            update()
-        }
+    fun flash() {
+        flash = true
+        updateFlash()
     }
 
-    private fun onEventUnitFandomChanged(e: EventUnitFandomChanged) {
-        if (e.unitId == unit.id) {
-            unit.fandomId = e.fandomId
-            unit.languageId = e.languageId
-            unit.fandomName = e.fandomName
-            unit.fandomImageId = e.fandomImageId
-            onFandomChanged()
-            update()
-        }
-    }
 
-    private fun onEventUnitImportantChange(e: EventUnitImportantChange) {
-        if (e.unitId == unit.id) {
-            unit.important = e.important
-            update()
-        }
-    }
-
-    private fun onEventUnitReportsClear(e: EventUnitReportsClear) {
-        if (e.unitId == unit.id) {
-            unit.reportsCount = 0
-            update()
-        }
-    }
-
-    private fun onEventUnitReportsAdd(e: EventUnitReportsAdd) {
-        if (e.unitId == unit.id) {
-            unit.reportsCount++
-            update()
-        }
-    }
 }
 

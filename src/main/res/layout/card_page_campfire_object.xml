@@ -4,31 +4,48 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
-    <FrameLayout
-        android:id="@+id/vTouch"
-        style="@style/Touchable"
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/vMessageContainer"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        app:cardBackgroundColor="@color/focus"
+        app:cardCornerRadius="8dp"
+        android:layout_marginTop="12dp"
+        android:layout_marginBottom="12dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        app:cardElevation="0dp">
 
-        <com.sup.dev.android.views.views.ViewAvatarTitle
-            android:id="@+id/vAvatarTitle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="16dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginRight="16dp"
-            android:layout_marginBottom="8dp">
+        <FrameLayout
+            android:id="@+id/vTouch"
+            style="@style/Touchable"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <com.sup.dev.android.views.views.ViewAvatarTitle
+                android:id="@+id/vAvatarTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="16dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginRight="16dp"
+                android:layout_marginBottom="8dp">
 
 
-        </com.sup.dev.android.views.views.ViewAvatarTitle>
+            </com.sup.dev.android.views.views.ViewAvatarTitle>
 
-        <com.sup.dev.android.views.views.ViewIcon
-            android:id="@+id/vMore"
-            style="@style/Icon.18"
-            android:layout_gravity="right"
-            android:layout_margin="8dp"
-            android:background="@drawable/shape_circle_focus_dark"
-            android:src="?ic_more_vert_18dp" />
+            <com.sup.dev.android.views.views.ViewIcon
+                android:id="@+id/vMore"
+                style="@style/Icon.18"
+                android:layout_gravity="right"
+                android:layout_margin="8dp"
+                android:background="@drawable/shape_circle_focus_dark"
+                android:src="?ic_more_vert_18dp" />
 
-    </FrameLayout>
+        </FrameLayout>
+
+    </com.google.android.material.card.MaterialCardView>
+
+
+
 </FrameLayout>

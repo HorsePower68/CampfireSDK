@@ -4,7 +4,7 @@ import androidx.annotation.StringRes
 import com.dzen.campfire.api.API
 import com.sayzen.campfiresdk.R
 
-import com.sayzen.campfiresdk.app.CampfreConstants
+import com.sayzen.campfiresdk.app.CampfireConstants
 import com.sup.dev.android.tools.ToolsResources
 import com.sup.dev.android.views.cards.CardLoading
 import com.sup.dev.android.views.cards.CardSpoiler
@@ -31,8 +31,8 @@ class CardSpoilerAchi(
 
 
         for (i in pack) {
-            karmaCount += (CampfreConstants.getAchievement(i.index)).info.getForce() * pageAchievements.achiLvl(i.index)
-            if (pageAchievements.achiLvl(i.index) == (CampfreConstants.getAchievement(i.index)).info.maxLvl.toLong()) finCount++
+            karmaCount += (CampfireConstants.getAchievement(i.index)).info.getForce() * pageAchievements.achiLvl(i.index)
+            if (pageAchievements.achiLvl(i.index) == (CampfireConstants.getAchievement(i.index)).info.maxLvl.toLong()) finCount++
         }
 
         if (karmaCount > 0)

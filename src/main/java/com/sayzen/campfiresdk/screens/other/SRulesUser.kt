@@ -5,7 +5,7 @@ import android.view.ViewGroup
 import android.widget.TextView
 import com.dzen.campfire.api.API
 import com.sayzen.campfiresdk.R
-import com.sayzen.campfiresdk.app.CampfreConstants
+import com.sayzen.campfiresdk.app.CampfireConstants
 import com.sup.dev.android.libs.screens.Screen
 import com.sup.dev.android.tools.ToolsAndroid
 import com.sup.dev.android.tools.ToolsResources
@@ -34,7 +34,7 @@ class SRulesUser(
         }
 
         addCard(R.string.rules_users_info)
-        for (i in CampfreConstants.RULES_USER) addCard(i.text)
+        for (i in CampfireConstants.RULES_USER) addCard(i.text)
     }
 
     private fun addCard(text: Int) {

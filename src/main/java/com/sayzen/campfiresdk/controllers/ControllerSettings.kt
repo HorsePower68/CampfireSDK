@@ -4,7 +4,7 @@ package com.sayzen.campfiresdk.controllers
 import com.dzen.campfire.api.API
 import com.dzen.campfire.api.models.account.AccountSettings
 import com.dzen.campfire.api.requests.accounts.RAccountSetSettings
-import com.sayzen.campfiresdk.app.CampfreConstants
+import com.sayzen.campfiresdk.app.CampfireConstants
 import com.sup.dev.android.libs.api_simple.ApiRequestsSupporter
 import com.sup.dev.android.models.EventStyleChanged
 import com.sup.dev.android.tools.ToolsAndroid
@@ -377,7 +377,7 @@ object ControllerSettings {
         }
 
     var feedCategories: Array<Long>
-        get() = if(accountSettings.feedCategories.isEmpty()) Array(CampfreConstants.CATEGORIES.size) { CampfreConstants.CATEGORIES[it].index } else accountSettings.feedCategories
+        get() = if(accountSettings.feedCategories.isEmpty()) Array(CampfireConstants.CATEGORIES.size) { CampfireConstants.CATEGORIES[it].index } else accountSettings.feedCategories
         set(b) {
             accountSettings.feedCategories = b
             onSettingsUpdated()

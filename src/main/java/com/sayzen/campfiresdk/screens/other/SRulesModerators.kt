@@ -5,7 +5,7 @@ import android.view.ViewGroup
 import android.widget.TextView
 import com.dzen.campfire.api.API
 import com.sayzen.campfiresdk.R
-import com.sayzen.campfiresdk.app.CampfreConstants
+import com.sayzen.campfiresdk.app.CampfireConstants
 import com.sup.dev.android.libs.screens.Screen
 import com.sup.dev.android.tools.ToolsAndroid
 import com.sup.dev.android.tools.ToolsToast
@@ -23,7 +23,7 @@ class SRulesModerators : Screen(R.layout.screen_other_rules_moderators) {
         }
 
         addCard(R.string.rules_moderators_info)
-        for (i in CampfreConstants.RULES_MODER) addCard(i)
+        for (i in CampfireConstants.RULES_MODER) addCard(i)
     }
 
     private fun addCard(text: Int) {

@@ -228,9 +228,7 @@ object ControllerChats {
             removeTyping(e.notification.tag, e.notification.unitChatMessage.creatorName)
         }
         if (e.notification is NotificationChatTyping) {
-            val n = e.notification
-            ControllerAccounts.updateOnline(n.accountId, System.currentTimeMillis())
-            addTyping(n.chatTag, n.accountName)
+            addTyping( e.notification.chatTag,  e.notification.accountName)
         }
         if (e.notification is NotificationChatAnswer) {
             val n = e.notification

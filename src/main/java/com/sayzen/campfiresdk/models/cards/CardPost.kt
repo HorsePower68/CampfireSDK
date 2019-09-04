@@ -10,9 +10,6 @@ import com.dzen.campfire.api.models.units.post.PagePolling
 import com.dzen.campfire.api.models.units.post.PageSpoiler
 import com.dzen.campfire.api.models.units.post.UnitPost
 import com.sayzen.campfiresdk.R
-import com.sayzen.campfiresdk.adapters.XAccount
-import com.sayzen.campfiresdk.adapters.XFandom
-import com.sayzen.campfiresdk.adapters.XKarma
 import com.sayzen.campfiresdk.controllers.ControllerApi
 import com.sayzen.campfiresdk.controllers.ControllerCampfireSDK
 import com.sayzen.campfiresdk.controllers.ControllerPost
@@ -34,7 +31,7 @@ import java.util.*
 
 class CardPost constructor(
         private val vRecycler: RecyclerView?,
-        override val unit: UnitPost,
+        unit: UnitPost,
         var onClick: ((UnitPost) -> Unit)? = null
 ) : CardUnit(R.layout.card_unit_post, unit) {
 
@@ -43,18 +40,14 @@ class CardPost constructor(
             .subscribe(EventPostStatusChange::class) { onEventPostStatusChange(it) }
             .subscribe(EventPollingChanged::class) { onEventPollingChanged(it) }
             .subscribe(EventCommentRemove::class) { onEventCommentRemove2(it) }
-            .subscribe(EventPostNotifyFollowers::class) { onEventPostNotifyFollowers(it) }
             .subscribe(EventUnitBlockedRemove::class) { onEventUnitBlockedRemove(it) }
-            .subscribe(EventPostMMultilanguage::class) { onEventPostMMultilanguage(it) }
 
     private val pages = ArrayList<CardPage>()
-    private val xKarma = XKarma(unit) { updateKarma() }
-    private val xAccount = XAccount(unit, unit.dateCreate) { updateAvatar() }
-    private var xFandom = XFandom(unit, unit.dateCreate) { updateAvatar() }
     private var isShowFull = false
     private var onBack: () -> Boolean = { false }
 
     init {
+        updateFandomOnBind = false
         updatePages()
         onBack = {
             if (Navigator.getCurrent() is PostList && (Navigator.getCurrent() as PostList).contains(this)) {
@@ -72,6 +65,8 @@ class CardPost constructor(
     }
 
     private fun updatePages() {
+        val unit = xUnit.unit as UnitPost
+
         pages.clear()
 
         if (unit.pages.isNotEmpty()) {
@@ -113,6 +108,8 @@ class CardPost constructor(
     }
 
     private fun addPage(page: Page) {
+        val unit = xUnit.unit as UnitPost
+
         val card = CardPage.instance(unit, page)
         if (card is CardPageSpoiler && !isShowFull) {
             card.onClick = {
@@ -125,21 +122,17 @@ class CardPost constructor(
 
     override fun bindView(view: View) {
         super.bindView(view)
+        val unit = xUnit.unit as UnitPost
+
         val vPagesContainer: ViewGroup = view.findViewById(R.id.vPagesContainer)
         val vTitleContainer: ViewGroup = view.findViewById(R.id.vTitleContainer)
         val vComments: TextView = view.findViewById(R.id.vComments)
-        val vReports: TextView = view.findViewById(R.id.vReports)
         val vContainerInfo: View = view.findViewById(R.id.vInfoContainer)
         val vMenu: View = view.findViewById(R.id.vMenu)
         val vPagesCount: TextView = view.findViewById(R.id.vPagesCount)
         val vMaxSizes: LayoutMaxSizes = view.findViewById(R.id.vMaxSizes)
         val vBestCommentRootContainer: ViewGroup = view.findViewById(R.id.vBestCommentRootContainer)
         val vBestCommentContainer: ViewGroup = view.findViewById(R.id.vBestCommentContainer)
-
-        vComments.text = unit.subUnitsCount.toString() + ""
-        vReports.text = unit.reportsCount.toString() + ""
-
-        vReports.visibility = if (unit.reportsCount > 0 && ControllerApi.can(unit.fandomId, unit.languageId, API.LVL_MODERATOR_BLOCK)) View.VISIBLE else View.GONE
 
         vPagesContainer.removeAllViews()
 
@@ -160,7 +153,7 @@ class CardPost constructor(
             page.clickable = isShowFull || (page is CardPageSpoiler) || (page is CardPageImage) || (page is CardPageImages)
             page.postIsDraft = unit.isDraft
             val v = page.instanceView(view.context)
-            page.bindView(v)
+            page.bindCardView(v)
             vPagesContainer.addView(v)
         }
 
@@ -176,7 +169,7 @@ class CardPost constructor(
         if (unit.bestComment != null) {
             val cardComment = CardComment.instance(unit.bestComment!!, false, true)
             val cardCommentView = cardComment.instanceView(view.context)
-            cardComment.bindView(cardCommentView)
+            cardComment.bindCardView(cardCommentView)
             vBestCommentContainer.addView(cardCommentView)
         }
 
@@ -189,23 +182,36 @@ class CardPost constructor(
             true
         }
 
-        updateAvatar()
         updateShowAll()
-        updateKarma()
     }
 
-    private fun updateAvatar() {
+    override fun updateFandom() {
+        updateAccount()
+    }
+
+    override fun updateAccount() {
         if (getView() == null) return
+        val unit = xUnit.unit as UnitPost
         val vAvatar: ViewAvatarTitle = getView()!!.findViewById(R.id.vAvatar)
-        if (!showFandom) xAccount.setView(vAvatar)
-        else xFandom.setView(vAvatar)
-        if(unit.status == API.STATUS_PENDING) vAvatar.setSubtitle(ToolsDate.dateToString(unit.tag_4))
+        if (!showFandom) xUnit.xAccount.setView(vAvatar)
+        else xUnit.xFandom.setView(vAvatar)
+        if (unit.status == API.STATUS_PENDING) vAvatar.setSubtitle(ToolsDate.dateToString(unit.tag_4))
     }
 
-    private fun updateKarma() {
+    override fun updateComments() {
+        if (getView() == null) return
+        xUnit.xComments.setView(getView()!!.findViewById(R.id.vComments))
+    }
+
+    override fun updateKarma() {
         if (getView() == null) return
         val viewKarma: ViewKarma = getView()!!.findViewById(R.id.vKarma)
-        xKarma.setView(viewKarma)
+        xUnit.xKarma.setView(viewKarma)
+    }
+
+    override fun updateReports() {
+        if (getView() == null) return
+        xUnit.xReports.setView(getView()!!.findViewById(R.id.vReports))
     }
 
     private fun toggleShowFull() {
@@ -225,6 +231,8 @@ class CardPost constructor(
 
     private fun updateShowAll() {
         if (getView() == null) return
+        val unit = xUnit.unit as UnitPost
+
         val vPagesCount: TextView = getView()!!.findViewById(R.id.vPagesCount)
         val vMaxSizes: LayoutMaxSizes = getView()!!.findViewById(R.id.vMaxSizes)
         val vPagesContainer: ViewGroup = getView()!!.findViewById(R.id.vPagesContainer)
@@ -251,7 +259,9 @@ class CardPost constructor(
 
     }
 
+
     private fun updateShowAll(vPagesCount: TextView, vMaxSizes: LayoutMaxSizes, vPagesContainer: ViewGroup) {
+        val unit = xUnit.unit as UnitPost
         vPagesCount.visibility = if (unit.pages.size > 2 || vMaxSizes.isCroppedH() || vPagesContainer.measuredHeight > ToolsView.dpToPx(300)) View.VISIBLE else View.INVISIBLE
     }
 
@@ -260,28 +270,20 @@ class CardPost constructor(
             page.notifyItem()
     }
 
-    override fun onFandomChanged() {
-        xFandom = XFandom(unit, unit.dateCreate) { update() }
-    }
-
     //
     //  Event Bus
     //
 
     private fun onPostChange(e: EventPostChanged) {
+        val unit = xUnit.unit as UnitPost
         if (e.unitId == unit.id) {
             unit.pages = e.pages
             updatePages()
         }
     }
 
-    private fun onEventPostNotifyFollowers(e: EventPostNotifyFollowers) {
-        if (e.unitId == unit.id) {
-            unit.tag_3 = 1
-        }
-    }
-
     private fun onEventUnitBlockedRemove(e: EventUnitBlockedRemove) {
+        val unit = xUnit.unit as UnitPost
         if (unit.bestComment != null && e.unitId == unit.bestComment!!.id) {
             unit.bestComment = null
             update()
@@ -289,6 +291,7 @@ class CardPost constructor(
     }
 
     private fun onEventCommentRemove2(e: EventCommentRemove) {
+        val unit = xUnit.unit as UnitPost
         if (e.parentUnitId == unit.id && unit.bestComment != null && unit.bestComment!!.id == e.commentId) {
             unit.bestComment = null
             update()
@@ -296,17 +299,11 @@ class CardPost constructor(
     }
 
     private fun onEventPostStatusChange(e: EventPostStatusChange) {
+        val unit = xUnit.unit as UnitPost
         if (e.unitId == unit.id) {
             if (e.status != API.STATUS_DRAFT && unit.status == API.STATUS_DRAFT && adapter != null) adapter!!.remove(this)
             if (e.status != API.STATUS_PUBLIC && unit.status == API.STATUS_PUBLIC && adapter != null) adapter!!.remove(this)
             if (e.status != API.STATUS_PENDING && unit.status == API.STATUS_PENDING && adapter != null) adapter!!.remove(this)
-        }
-    }
-
-    private fun onEventPostMMultilanguage(e: EventPostMMultilanguage) {
-        if (e.unitId == unit.id) {
-            xFandom.languageId = -1L
-            updateAvatar()
         }
     }
 

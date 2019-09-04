@@ -4,12 +4,13 @@ import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
 import com.dzen.campfire.api.API
+import com.dzen.campfire.api.models.EventUnitInstance
 import com.dzen.campfire.api.models.account.Account
 import com.dzen.campfire.api.models.lvl.LvlInfoAdmin
 import com.dzen.campfire.api.models.lvl.LvlInfoUser
+import com.dzen.campfire.api.models.notifications.NotificationChatTyping
 import com.dzen.campfire.api.models.notifications.NotificationProjectABParamsChanged
 import com.sayzen.campfiresdk.R
-import com.sayzen.campfiresdk.controllers.ControllerAccounts
 import com.sayzen.campfiresdk.controllers.ControllerApi
 import com.sayzen.campfiresdk.controllers.ControllerCampfireSDK
 import com.sayzen.campfiresdk.models.events.account.EventAccountChanged
@@ -35,6 +36,32 @@ class XAccount(
         var onChanged: () -> Unit
 ) {
 
+    companion object{
+        var online = HashMap<Long, Long>()
+
+        private val eventBus = EventBus
+                .subscribe(EventUnitInstance::class) { this.set(it.unit.creatorId, it.unit.creatorLastOnlineTime) }
+                .subscribe(EventNotification::class) {
+                    if (it.notification is NotificationChatTyping) set(it.notification.accountId, System.currentTimeMillis())
+                }
+
+        fun get(accountId: Long): Long {
+            return if (online.containsKey(accountId)) online[accountId]!! else 0
+        }
+
+        fun set(accountId: Long, time: Long) {
+            if (!online.containsKey(accountId) || online[accountId]!! < time) {
+                online[accountId] = time
+                EventBus.post(EventAccountOnlineChanged(accountId, online[accountId]!!))
+            }
+        }
+
+        fun isOnline(accountId: Long): Boolean {
+            return online.containsKey(accountId) && online[accountId]!! > ControllerApi.currentTime() - 1000L * 60L * 5L
+        }
+
+    }
+
     private var inited = false
     var sex = 0L
 
@@ -47,26 +74,26 @@ class XAccount(
 
     constructor(account: Account, date: Long = 0, titleImageId: Long = 0, titleImageGifId: Long = 0, onNameChanged: () -> Unit)
             : this(account.id, account.imageId, account.lvl, account.karma30, account.name, date, titleImageId, titleImageGifId, onNameChanged) {
-        ControllerAccounts.updateOnline(account.id, account.lastOnlineDate)
+        set(account.id, account.lastOnlineDate)
         sex = account.sex
         inited = true
     }
 
     constructor(unit: com.dzen.campfire.api.models.units.Unit, date: Long = 0, onNameChanged: () -> Unit)
             : this(unit.creatorId, unit.creatorImageId, unit.creatorLvl, unit.creatorKarma30, unit.creatorName, date, 0L, 0L, onNameChanged) {
-        ControllerAccounts.updateOnline(unit.creatorId, unit.creatorLastOnlineTime)
+        set(unit.creatorId, unit.creatorLastOnlineTime)
         inited = true
     }
 
     constructor(accountId: Long, imageId: Long, lvl: Long, karma30: Long, lastOnlineTime: Long, onNameChanged: () -> Unit = {})
             : this(accountId, imageId, lvl, karma30, "", 0, 0L, 0L, onNameChanged) {
-        ControllerAccounts.updateOnline(accountId, lastOnlineTime)
+        set(accountId, lastOnlineTime)
         inited = true
     }
 
     constructor(accountId: Long, name: String, imageId: Long = 0L, lvl: Long = 0L, karma30: Long = 0L, lastOnlineTime: Long = 0L, onChanged: () -> Unit = {})
             : this(accountId, imageId, lvl, karma30, name, 0, 0L, 0L, onChanged) {
-        ControllerAccounts.updateOnline(accountId, lastOnlineTime)
+        set(accountId, lastOnlineTime)
         inited = true
     }
 
@@ -150,9 +177,9 @@ class XAccount(
 
     fun isCurrentAccount() = ControllerApi.isCurrentAccount(accountId)
 
-    fun isOnline() = ControllerAccounts.isOnline(accountId)
+    fun isOnline() = isOnline(accountId)
 
-    fun getLastOnlineTime() = ControllerAccounts.getLastOnlineTime(accountId)
+    fun getLastOnlineTime() = get(accountId)
 
     fun isModerator() = ControllerApi.isModerator(accountId, lvl) && karma30 >= API.LVL_MODERATOR_BLOCK.karmaCount
 

@@ -32,6 +32,7 @@ class CardChatMessageVoice(
 
     override fun bindView(view: View) {
         super.bindView(view)
+        val unit = xUnit.unit as UnitChatMessage
 
         val vPlay: ViewIcon = view.findViewById(R.id.vPlay)
         val vSoundLine: ViewSoundLine = view.findViewById(R.id.vSoundLine)
@@ -64,6 +65,7 @@ class CardChatMessageVoice(
     private fun updatePlayTime() {
         val view = getView()
         if (view == null) return
+        val unit = xUnit.unit as UnitChatMessage
 
         val vTimeLabel: TextView = view.findViewById(R.id.vTimeLabel)
         val vSoundLine: ViewSoundLine = view.findViewById(R.id.vSoundLine)

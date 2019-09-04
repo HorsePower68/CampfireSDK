@@ -21,7 +21,7 @@ import com.sup.dev.android.views.views.ViewAvatarTitle
 import com.sup.dev.java.libs.eventBus.EventBus
 
 class CardStickersPack(
-        override val unit: UnitStickersPack,
+        unit: UnitStickersPack,
         val isShowFullInfo: Boolean = false,
         val isShowReports: Boolean = true
 ) : CardUnit(R.layout.card_stickers_pack, unit) {
@@ -35,20 +35,16 @@ class CardStickersPack(
                 }
             }
 
-    private val xKarma = XKarma(unit)  { updateKarma() }
-
     override fun bindView(view: View) {
         super.bindView(view)
+        val unit = xUnit.unit as UnitStickersPack
 
         val vAvatar: ViewAvatarTitle = view.findViewById(R.id.vAvatar)
         val vMenu: View = view.findViewById(R.id.vMenu)
         val vTitle: TextView = view.findViewById(R.id.vTitle)
-        val vReports: TextView = view.findViewById(R.id.vReports)
         val vComments: TextView = view.findViewById(R.id.vComments)
 
         vComments.text = unit.subUnitsCount.toString() + ""
-        vReports.text = unit.reportsCount.toString() + ""
-        vReports.visibility = if (unit.reportsCount > 0 && ControllerApi.can(API.LVL_ADMIN_MODER) && isShowReports) View.VISIBLE else View.GONE
 
         vTitle.visibility = if(isShowFullInfo) View.VISIBLE else View.GONE
         vTitle.text = ToolsResources.sCap(R.string.sticker_event_create_stickers_pack, ToolsResources.sex(unit.creatorSex, R.string.he_created, R.string.she_created))
@@ -68,17 +64,33 @@ class CardStickersPack(
         vMenu.setOnClickListener { ControllerUnits.showStickerPackPopup(vMenu, unit) }
 
         view.setOnClickListener { Navigator.to(SStickersView(unit, 0)) }
-        updateKarma()
     }
 
+    override fun updateAccount() {
+        update()
+    }
 
-    private fun updateKarma() {
+    override fun updateComments() {
+        update()
+    }
+
+    override fun updateFandom() {
+        update()
+    }
+
+    override fun updateReports() {
+        if(getView() == null) return
+        xUnit.xReports.setView(getView()!!.findViewById(R.id.vReports))
+    }
+
+    override fun updateKarma() {
         if (getView() == null) return
         val viewKarma: ViewKarma = getView()!!.findViewById(R.id.vKarma)
-        xKarma.setView(viewKarma)
+        xUnit.xKarma.setView(viewKarma)
     }
 
     override fun notifyItem() {
+        val unit = xUnit.unit as UnitStickersPack
         ToolsImagesLoader.load(unit.imageId).intoCash()
     }
 

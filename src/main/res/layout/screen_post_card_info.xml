@@ -44,15 +44,29 @@
                 android:layout_gravity="right|center"
                 android:orientation="horizontal">
 
-                <TextView
-                    android:id="@+id/vComments"
+                <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center|left"
-                    android:drawableLeft="?ic_mode_comment_18dp"
-                    android:drawablePadding="8dp"
-                    android:gravity="center"
-                    android:text="10"/>
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/vReports"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:drawableLeft="?ic_security_18dp"
+                        android:drawablePadding="4dp"
+                        android:gravity="center"/>
+
+                    <TextView
+                        android:id="@+id/vComments"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:drawableLeft="?ic_mode_comment_18dp"
+                        android:drawablePadding="4dp"
+                        android:gravity="center"/>
+
+                </LinearLayout>
 
                 <com.sayzen.campfiresdk.views.ViewKarmaHorizontal
                     android:id="@+id/vKarma"

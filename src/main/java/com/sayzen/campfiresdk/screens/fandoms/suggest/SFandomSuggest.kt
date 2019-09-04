@@ -12,7 +12,7 @@ import com.sayzen.campfiresdk.R
 import com.sayzen.campfiresdk.adapters.XAccount
 import com.sayzen.campfiresdk.models.events.fandom.EventFandomAccepted
 import com.sayzen.campfiresdk.screens.fandoms.view.SFandom
-import com.sayzen.campfiresdk.app.CampfreConstants
+import com.sayzen.campfiresdk.app.CampfireConstants
 import com.sayzen.campfiresdk.controllers.ControllerApi
 import com.sayzen.campfiresdk.controllers.api
 import com.sayzen.campfiresdk.models.objects.FandomParam
@@ -108,7 +108,7 @@ class SFandomSuggest(
             reject()
         }
 
-        for (g in CampfreConstants.CATEGORIES) {
+        for (g in CampfireConstants.CATEGORIES) {
             if (!ControllerApi.can(API.LVL_PROTOADMIN) && g.index == API.CATEGORY_OTHER) continue
             val v = ViewChip.instanceChoose(context, g.name, g)
             v.setOnClickListener {
@@ -183,10 +183,10 @@ class SFandomSuggest(
         }
         val cateryId = getSelectedCategory()
         var check = textCheck && vName.getText().isNotEmpty()
-                && (cateryId == 0L || CampfreConstants.getParamTitle(cateryId, 1) == null || paramGet(1).isNotEmpty())
-                && (cateryId == 0L || CampfreConstants.getParamTitle(cateryId, 2) == null || paramGet(3).isNotEmpty())
-                && (cateryId == 0L || CampfreConstants.getParamTitle(cateryId, 3) == null || paramGet(5).isNotEmpty())
-                && (cateryId == 0L || CampfreConstants.getParamTitle(cateryId, 4) == null || paramGet(7).isNotEmpty())
+                && (cateryId == 0L || CampfireConstants.getParamTitle(cateryId, 1) == null || paramGet(1).isNotEmpty())
+                && (cateryId == 0L || CampfireConstants.getParamTitle(cateryId, 2) == null || paramGet(3).isNotEmpty())
+                && (cateryId == 0L || CampfireConstants.getParamTitle(cateryId, 3) == null || paramGet(5).isNotEmpty())
+                && (cateryId == 0L || CampfireConstants.getParamTitle(cateryId, 4) == null || paramGet(7).isNotEmpty())
 
         if (changeFandom == null)
             ToolsView.setFabEnabledR(vFab, check && image != null && imageMini != null, R.color.green_700)
@@ -342,14 +342,14 @@ class SFandomSuggest(
 
 
     private fun addParams(categoryId: Long, paramsPosition: Int, selected: Array<Long>) {
-        if (CampfreConstants.getParamTitle(categoryId, paramsPosition) == null) return
+        if (CampfireConstants.getParamTitle(categoryId, paramsPosition) == null) return
 
         val vTitle: TextView = ToolsView.inflate(R.layout.screen_fandoms_search_params_title)
         val vFlow: LayoutFlow = ToolsView.inflate(R.layout.screen_fandoms_search_params_flow)
 
-        vTitle.text = CampfreConstants.getParamTitle(categoryId, paramsPosition)
+        vTitle.text = CampfireConstants.getParamTitle(categoryId, paramsPosition)
 
-        for (i in CampfreConstants.getParams(categoryId, paramsPosition)!!) {
+        for (i in CampfireConstants.getParams(categoryId, paramsPosition)!!) {
             val v = ViewChip.instanceChoose(context, i.name, i)
             for (genre in selected) if (genre == i.index) v.isChecked = true
             v.setOnCheckedChangeListener { compoundButton, b ->

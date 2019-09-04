@@ -11,7 +11,7 @@ import com.sayzen.campfiresdk.controllers.ControllerSettings
 import com.sayzen.campfiresdk.controllers.ControllerUnits
 import com.sayzen.campfiresdk.models.cards.comments.CardComment
 import com.sayzen.campfiresdk.models.events.fandom.EventForumChanged
-import com.sayzen.campfiresdk.models.events.units.EventCommentAdd
+import com.sayzen.campfiresdk.models.events.units.EventCommentsCountChanged
 import com.sayzen.campfiresdk.models.events.units.EventUnitRemove
 import com.sayzen.campfiresdk.models.widgets.WidgetComment
 import com.sup.dev.android.libs.api_simple.ApiRequestsSupporter
@@ -47,7 +47,7 @@ class SForumView(
     }
 
     private val eventBus = EventBus
-            .subscribe(EventCommentAdd::class) { if (it.parentUnitId == unit.id && adapter != null) (adapter as AdapterComments).loadTop() }
+            .subscribe(EventCommentsCountChanged::class) { if (it.unitId == unit.id && adapter != null) (adapter as AdapterComments).loadTop() }
             .subscribe(EventUnitRemove::class) { if (it.unitId == unit.id) Navigator.remove(this) }
             .subscribe(EventForumChanged::class) { onEventForumChanged(it) }
 

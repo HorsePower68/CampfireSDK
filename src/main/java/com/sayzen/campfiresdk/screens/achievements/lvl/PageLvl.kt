@@ -9,7 +9,7 @@ import com.dzen.campfire.api.models.notifications.NotificationAchievement
 import com.sayzen.campfiresdk.R
 import com.sayzen.campfiresdk.screens.achievements.CardInfo
 import com.sayzen.campfiresdk.screens.achievements.achievements.CardAchievement
-import com.sayzen.campfiresdk.app.CampfreConstants
+import com.sayzen.campfiresdk.app.CampfireConstants
 import com.sayzen.campfiresdk.controllers.ControllerApi
 import com.sayzen.campfiresdk.models.events.notifications.EventNotification
 import com.sayzen.campfiresdk.models.objects.AppLevel
@@ -31,7 +31,7 @@ class PageLvl(var accountId:Long, accountLvl: Long, karma30:Long) : Card(0) {
     init {
         adapterSub.add(cardInfo)
 
-        for(l in CampfreConstants.LVLS)  addLvl(CardLvl(accountLvl, karma30, l))
+        for(l in CampfireConstants.LVLS)  addLvl(CardLvl(accountLvl, karma30, l))
 
         addLvl(CardLvl(accountLvl, karma30, AppLevel(API.LVL_PROTOADMIN, R.string.lvl_protoadmin, R.color.orange_700)))
     }

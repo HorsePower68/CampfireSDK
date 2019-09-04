@@ -162,7 +162,7 @@ class SChat private constructor(
     override fun instanceAdapter(): RecyclerCardAdapterLoading<CardChatMessage, UnitChatMessage> {
         val adapter = RecyclerCardAdapterLoading<CardChatMessage, UnitChatMessage>(CardChatMessage::class) { u -> instanceCard(u) }
                 .setBottomLoader { onLoad, cards ->
-                    subscription = RChatMessageGetAll(tag, if (cards.isEmpty()) 0 else cards[cards.size - 1].unit.dateCreate, false)
+                    subscription = RChatMessageGetAll(tag, if (cards.isEmpty()) 0 else cards[cards.size - 1].xUnit.unit.dateCreate, false)
                             .onComplete { r ->
                                 if(loaded){
                                     onLoad.invoke(emptyArray())
@@ -188,7 +188,7 @@ class SChat private constructor(
                             .send(api)
                 }
                 .setTopLoader { onLoad, cards ->
-                    subscription = RChatMessageGetAll(tag, if (cards.isEmpty()) 0 else cards[0].unit.dateCreate, true)
+                    subscription = RChatMessageGetAll(tag, if (cards.isEmpty()) 0 else cards[0].xUnit.unit.dateCreate, true)
                             .onComplete { r -> onLoad.invoke(r.units) }
                             .onNetworkError { onLoad.invoke(null) }
                             .send(api)
@@ -218,7 +218,7 @@ class SChat private constructor(
                 onGoTo = { id ->
                     if (adapter == null) return@instance
                     for (i in adapter!!.get(CardChatMessage::class)) {
-                        if (i.unit.id == id) {
+                        if (i.xUnit.unit.id == id) {
                             i.flash()
                             vRecycler.scrollToPosition(adapter!!.indexOf(i))
                             break

@@ -9,10 +9,11 @@ import com.dzen.campfire.api.models.notifications.NotificationCommentAnswer
 import com.dzen.campfire.api.requests.units.RCommentsGetAll
 import com.sayzen.campfiresdk.R
 import com.sayzen.campfiresdk.controllers.ControllerApi
-import com.sayzen.campfiresdk.models.events.units.EventCommentRemove
 import com.sayzen.campfiresdk.controllers.api
 import com.sayzen.campfiresdk.models.cards.comments.CardComment
 import com.sayzen.campfiresdk.models.events.notifications.EventNotification
+import com.sayzen.campfiresdk.models.events.notifications.EventNotificationsCountChanged
+import com.sayzen.campfiresdk.models.events.units.EventCommentsCountChanged
 import com.sayzen.campfiresdk.models.widgets.WidgetComment
 import com.sup.dev.android.tools.ToolsResources
 import com.sup.dev.android.tools.ToolsToast
@@ -34,14 +35,14 @@ class AdapterComments(
 
     private val eventBus = EventBus
             .subscribe(EventNotification::class) { this.onNotification(it) }
-            .subscribe(EventCommentRemove::class) { this.onEventCommentRemove(it) }
+            .subscribe(EventCommentsCountChanged::class) { this.onEventCommentsCountChanged(it) }
 
     private var needScrollToBottom = false
     private val cardSpace = CardSpace(124)
 
     init {
         setBottomLoader { onLoad, cards ->
-            RCommentsGetAll(unitId, if (cards.isEmpty()) 0 else cards.get(cards.size - 1).unit.dateCreate, false, startFromBottom)
+            RCommentsGetAll(unitId, if (cards.isEmpty()) 0 else cards.get(cards.size - 1).xUnit.unit.dateCreate, false, startFromBottom)
                     .onComplete { r ->
                         onLoad.invoke(r.units)
                     }
@@ -76,7 +77,7 @@ class AdapterComments(
 
     fun enableTopLoader() {
         setTopLoader { onLoad, cards ->
-            RCommentsGetAll(unitId, if (cards.isEmpty()) 0 else cards.get(0).unit.dateCreate, true, startFromBottom)
+            RCommentsGetAll(unitId, if (cards.isEmpty()) 0 else cards.get(0).xUnit.unit.dateCreate, true, startFromBottom)
                     .onComplete { r -> onLoad.invoke(r.units) }
                     .onNetworkError { onLoad.invoke(null) }
                     .send(api)
@@ -94,7 +95,7 @@ class AdapterComments(
             ToolsThreads.main(600) { vRecycler.scrollToPosition(index) }
         } else if (scrollToCommentId != 0L) {
             for (c in get(CardComment::class)) {
-                if (c.unit.id == scrollToCommentId) {
+                if (c.xUnit.unit.id == scrollToCommentId) {
                     scrollToCommentId = 0
                     ToolsThreads.main(600) {
                         vRecycler.scrollToPosition(indexOf(c) + 1)
@@ -145,7 +146,7 @@ class AdapterComments(
                 },
                 { id ->
                     for (i in get(CardComment::class)) {
-                        if (i.unit.id == id) {
+                        if (i.xUnit.unit.id == id) {
                             i.flash()
                             vRecycler.scrollToPosition(indexOf(i))
                             break
@@ -159,8 +160,8 @@ class AdapterComments(
     //  EventBus
     //
 
-    private fun onEventCommentRemove(e: EventCommentRemove) {
-        if (e.parentUnitId == unitId) {
+    private fun onEventCommentsCountChanged(e: EventCommentsCountChanged) {
+        if (e.unitId == unitId && e.change < 0) {
             if (get(CardComment::class).size == 0) {
                 remove(cardSpace)
                 reloadBottom()

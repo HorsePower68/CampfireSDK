@@ -5,8 +5,7 @@ import android.widget.TextView
 import com.dzen.campfire.api.models.units.events.*
 import com.sayzen.campfiresdk.R
 import com.sayzen.campfiresdk.adapters.XAccount
-import com.sayzen.campfiresdk.adapters.XFandom
-import com.sayzen.campfiresdk.app.CampfreConstants
+import com.sayzen.campfiresdk.app.CampfireConstants
 import com.sayzen.campfiresdk.controllers.ControllerApi
 import com.sayzen.campfiresdk.controllers.ControllerCampfireSDK
 import com.sup.dev.android.libs.screens.navigator.Navigator
@@ -16,12 +15,10 @@ import com.sup.dev.android.views.views.ViewTextLinkable
 import com.sup.dev.java.tools.ToolsDate
 
 class CardEvent(
-        override val unit: UnitEvent,
+        unit: UnitEvent,
         val isFeedInFandom: Boolean
 ) : CardUnit(R.layout.card_event, unit) {
 
-    private val xFandom = XFandom(unit, unit.dateCreate) { update() }
-    private val xAccount = XAccount(unit, unit.dateCreate) { update() }
     private val xAccountOwner: XAccount
     private val xAccountTarget: XAccount
 
@@ -33,6 +30,9 @@ class CardEvent(
 
     override fun bindView(view: View) {
         super.bindView(view)
+
+        val unit = xUnit.unit as UnitEvent
+
         val vAvatarTitle: ViewAvatar = view.findViewById(R.id.vAvatar)
         val vText: ViewTextLinkable = view.findViewById(R.id.vText)
         val vDate: TextView = view.findViewById(R.id.vDate)
@@ -47,7 +47,7 @@ class CardEvent(
         var text = ""
         var imageRedId = 0
 
-        xAccount.lvl = 0    //  Чтоб везде небыло уровней а не на 90% крточек
+        xUnit.xAccount.lvl = 0    //  Чтоб везде небыло уровней а не на 90% крточек
 
         when (e) {
             is ApiEventUnitBlocked -> {
@@ -86,10 +86,10 @@ class CardEvent(
                 }
             }
             is ApiEventAchievement -> {
-                text = ToolsResources.sCap(R.string.unit_event_achievement, ToolsResources.sex(e.ownerAccountSex, R.string.he_gained, R.string.she_gained), CampfreConstants.getAchievement(e.achievementIndex).getText(false))
-                imageRedId = CampfreConstants.getAchievement(e.achievementIndex).image
+                text = ToolsResources.sCap(R.string.unit_event_achievement, ToolsResources.sex(e.ownerAccountSex, R.string.he_gained, R.string.she_gained), CampfireConstants.getAchievement(e.achievementIndex).getText(false))
+                imageRedId = CampfireConstants.getAchievement(e.achievementIndex).image
                 vAvatarTitle.vImageView.tag = null
-                vAvatarTitle.vImageView.setBackgroundColor(ToolsResources.getColor(CampfreConstants.getAchievement(e.achievementIndex).colorRes))
+                vAvatarTitle.vImageView.setBackgroundColor(ToolsResources.getColor(CampfireConstants.getAchievement(e.achievementIndex).colorRes))
                 vAvatarTitle.setOnClickListener { ControllerCampfireSDK.onToAchievementClicked(unit.creatorId, unit.creatorName, unit.creatorLvl, e.achievementIndex, false, Navigator.TO) }
                 view.setOnClickListener { ControllerCampfireSDK.onToAchievementClicked(unit.creatorId, unit.creatorName, unit.creatorLvl, e.achievementIndex, false, Navigator.TO) }
             }
@@ -163,13 +163,13 @@ class CardEvent(
                 text = ToolsResources.sCap(R.string.unit_event_fandom_parameters, ToolsResources.sex(e.ownerAccountSex, R.string.he_changed, R.string.she_changed), "" + e.fandomName + " (" + ControllerApi.linkToFandom(e.fandomId) + ")")
 
                 if (e.newParams.isNotEmpty()) {
-                    text += "\n" + ToolsResources.s(R.string.unit_event_fandom_genres_new) + " " + CampfreConstants.getParam(e.categoryId, e.paramsPosition, e.newParams[0]).name
-                    for (i in 1 until e.newParams.size) text += ", " + CampfreConstants.getParam(e.categoryId, e.paramsPosition, e.newParams[i]).name
+                    text += "\n" + ToolsResources.s(R.string.unit_event_fandom_genres_new) + " " + CampfireConstants.getParam(e.categoryId, e.paramsPosition, e.newParams[0]).name
+                    for (i in 1 until e.newParams.size) text += ", " + CampfireConstants.getParam(e.categoryId, e.paramsPosition, e.newParams[i]).name
                 }
 
                 if (e.removedParams.isNotEmpty()) {
-                    text += "\n" + ToolsResources.s(R.string.unit_event_fandom_genres_remove) + " " + CampfreConstants.getParam(e.categoryId, e.paramsPosition, e.newParams[0]).name
-                    for (i in 1 until e.removedParams.size) text += ", " + CampfreConstants.getParam(e.categoryId, e.paramsPosition, e.newParams[i]).name
+                    text += "\n" + ToolsResources.s(R.string.unit_event_fandom_genres_remove) + " " + CampfireConstants.getParam(e.categoryId, e.paramsPosition, e.newParams[0]).name
+                    for (i in 1 until e.removedParams.size) text += ", " + CampfireConstants.getParam(e.categoryId, e.paramsPosition, e.newParams[i]).name
                 }
 
                 view.setOnClickListener { v -> ControllerCampfireSDK.onToFandomClicked(e.fandomId, 0, Navigator.TO) }
@@ -259,8 +259,8 @@ class CardEvent(
                 text = ToolsResources.sCap(R.string.unit_event_category_fandom_change_admin,
                         ToolsResources.sex(e.ownerAccountSex, R.string.he_changed, R.string.she_changed),
                         e.fandomName,
-                        CampfreConstants.getCategory(e.oldCategory).name,
-                        CampfreConstants.getCategory(e.newCategory).name)
+                        CampfireConstants.getCategory(e.oldCategory).name,
+                        CampfireConstants.getCategory(e.newCategory).name)
                 view.setOnClickListener { v -> ControllerCampfireSDK.onToFandomClicked(e.fandomId, 0, Navigator.TO) }
             }
         }
@@ -274,11 +274,11 @@ class CardEvent(
             vAvatarTitle.vImageView.tag = null
             vAvatarTitle.vImageView.setImageResource(imageRedId)
         } else if (showFandom && unit.fandomId > 0) {
-            xFandom.setView(vAvatarTitle)
-            vName.text = xFandom.name
+            xUnit.xFandom.setView(vAvatarTitle)
+            vName.text = xUnit.xFandom.name
         } else if (xAccountTarget.accountId == 0L) {
-            xAccount.setView(vAvatarTitle)
-            vName.text = xAccount.name
+            xUnit.xAccount.setView(vAvatarTitle)
+            vName.text = xUnit.xAccount.name
         } else if (e.targetAccountId == unit.creatorId) {
             xAccountOwner.setView(vAvatarTitle)
             vName.text = xAccountOwner.name
@@ -288,6 +288,25 @@ class CardEvent(
         }
     }
 
+    override fun updateComments() {
+        update()
+    }
+
+    override fun updateFandom() {
+        update()
+    }
+
+    override fun updateAccount() {
+       update()
+    }
+
+    override fun updateKarma() {
+        update()
+    }
+
+    override fun updateReports() {
+        update()
+    }
 
     override fun notifyItem() {
 

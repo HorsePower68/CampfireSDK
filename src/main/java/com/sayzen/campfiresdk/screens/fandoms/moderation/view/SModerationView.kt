@@ -8,10 +8,10 @@ import android.view.View
 import com.dzen.campfire.api.requests.fandoms.RFandomsModerationGet
 import com.sup.dev.android.libs.api_simple.ApiRequestsSupporter
 import com.sayzen.campfiresdk.adapters.AdapterComments
-import com.sayzen.campfiresdk.models.events.units.EventCommentAdd
 import com.dzen.campfire.api.models.units.moderations.UnitModeration
 import com.sayzen.campfiresdk.R
 import com.sayzen.campfiresdk.controllers.ControllerUnits
+import com.sayzen.campfiresdk.models.events.units.EventCommentsCountChanged
 import com.sayzen.campfiresdk.models.widgets.WidgetComment
 import com.sup.dev.android.libs.screens.navigator.NavigationAction
 import com.sup.dev.android.libs.screens.Screen
@@ -37,7 +37,7 @@ class SModerationView private constructor(
     }
 
     private val eventBus = EventBus
-            .subscribe(EventCommentAdd::class) { e: EventCommentAdd -> this.onCommentAdd(e) }
+            .subscribe(EventCommentsCountChanged::class) { e: EventCommentsCountChanged -> this.onEventCommentsCountChanged(e) }
 
     private val vRecycler: RecyclerView = findViewById(R.id.vRecycler)
     private val vFab: FloatingActionButton = findViewById(R.id.vFab)
@@ -62,8 +62,8 @@ class SModerationView private constructor(
     //  EventBus
     //
 
-    private fun onCommentAdd(e: EventCommentAdd) {
-        if (e.parentUnitId == unit.id) adapter.loadBottom()
+    private fun onEventCommentsCountChanged(e: EventCommentsCountChanged) {
+        if (e.unitId == unit.id) adapter.loadBottom()
     }
 
 

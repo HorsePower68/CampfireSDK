@@ -12,10 +12,9 @@ import com.sayzen.campfiresdk.adapters.XFandom
 import com.sayzen.campfiresdk.adapters.XKarma
 import com.sayzen.campfiresdk.controllers.ControllerApi
 import com.sayzen.campfiresdk.controllers.ControllerUnits
-import com.sayzen.campfiresdk.models.events.units.EventCommentAdd
-import com.sayzen.campfiresdk.models.events.units.EventCommentRemove
 import com.sayzen.campfiresdk.views.ViewKarma
 import com.sayzen.campfiresdk.models.events.notifications.EventNotification
+import com.sayzen.campfiresdk.models.events.units.EventCommentsCountChanged
 import com.sup.dev.android.tools.ToolsResources
 import com.sup.dev.android.views.cards.Card
 import com.sup.dev.android.views.views.ViewAvatar
@@ -29,8 +28,7 @@ class CardInfo(
 ) : Card(R.layout.screen_moderation_card_info) {
 
     private val eventBus: EventBusSubscriber = EventBus
-            .subscribe(EventCommentAdd::class) { this.onCommentAdd(it) }
-            .subscribe(EventCommentRemove::class) { this.onEventCommentRemove(it) }
+            .subscribe(EventCommentsCountChanged::class) { this.onEventCommentsCountChanged(it) }
             .subscribe(EventNotification::class) { this.onNotification(it) }
 
     private val xFandom = XFandom(unit, unit.dateCreate) { update() }
@@ -81,16 +79,9 @@ class CardInfo(
     //  EventBus
     //
 
-    private fun onCommentAdd(e: EventCommentAdd) {
-        if (e.parentUnitId == unit.id) {
-            unit.subUnitsCount++
-            update()
-        }
-    }
-
-    private fun onEventCommentRemove(e: EventCommentRemove) {
-        if (e.parentUnitId == unit.id) {
-            unit.subUnitsCount--
+    private fun onEventCommentsCountChanged(e: EventCommentsCountChanged) {
+        if (e.unitId == unit.id) {
+            unit.subUnitsCount = e.commentsCount
             update()
         }
     }

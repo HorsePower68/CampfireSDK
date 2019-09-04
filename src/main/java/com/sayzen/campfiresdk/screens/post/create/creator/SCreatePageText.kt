@@ -7,14 +7,18 @@ import android.widget.EditText
 import com.dzen.campfire.api.API
 import com.dzen.campfire.api.models.units.post.PageText
 import com.sayzen.campfiresdk.R
+import com.sayzen.campfiresdk.app.CampfireConstants
 import com.sayzen.campfiresdk.screens.post.create.SPostCreate
 import com.sayzen.campfiresdk.models.cards.post_pages.CardPage
 import com.sayzen.campfiresdk.models.cards.post_pages.CardPageText
 import com.sup.dev.android.libs.screens.Screen
 import com.sup.dev.android.libs.screens.ScreenProtected
+import com.sup.dev.android.tools.ToolsResources
 import com.sup.dev.android.tools.ToolsView
 import com.sup.dev.android.views.support.watchers.TextWatcherChanged
 import com.sup.dev.android.views.views.ViewIcon
+import com.sup.dev.android.views.widgets.WidgetGreed
+import com.sup.dev.android.views.widgets.WidgetRecycler
 import com.sup.dev.java.tools.ToolsText
 
 class SCreatePageText(
@@ -26,8 +30,10 @@ class SCreatePageText(
     private val vField: EditText = findViewById(R.id.vField)
     private val vFab: FloatingActionButton = findViewById(R.id.vFab)
     private val vTextTitle: ViewIcon = findViewById(R.id.vTextTitle)
+    private val vIconAttach: ViewIcon = findViewById(R.id.vIconAttach)
 
     private var size = PageText.SIZE_0
+    private var icon = 0
 
     private val maxL: Int
         get() = if (size == PageText.SIZE_0) API.PAGE_TEXT_MAX_L else API.PAGE_TEXT_TITLE_MAX_L
@@ -56,6 +62,17 @@ class SCreatePageText(
         }
 
         vFab.setOnClickListener { v -> onEnter() }
+
+        vIconAttach.setOnClickListener {
+            val w = WidgetGreed()
+            for(i in CampfireConstants.TEXT_ICONS.indices) w.addAttr(CampfireConstants.TEXT_ICONS[i]){ w, index ->
+                this.icon = i
+                vIconAttach.setImageDrawable(ToolsResources.getDrawableAttr(CampfireConstants.TEXT_ICONS[i]))
+            }
+            w.asSheetShow()
+        }
+
+
         update()
     }
 
@@ -82,6 +99,7 @@ class SCreatePageText(
         val page = PageText()
         page.text = vField.getText().toString().trim { it <= ' ' }
         page.size = size
+        page.icon = icon
         if(oldPage == null)
             screen.putPage(page, this, null, { page1 -> CardPageText(null, page1) }, null, true)
         else

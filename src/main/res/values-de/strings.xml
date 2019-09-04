@@ -514,6 +514,7 @@ Campfire has anime fandoms and gaming fandoms.</string>
     <string name="stickers_report_confirm">Report this sticker?</string>
     <string name="stickers_packs_error_gone">Looks like someone deleted this stickers pack</string>
     <string name="stickers_empty">Looks like you have no stickers</string>
+    <string name="stickers_packs_clear_reports_confirm">Clear this stickers pack reports?</string>
     <string name="sticker_error_gone">Looks like someone deleted this sticker</string>
     <string name="sticker_add">Add to collection</string>
     <string name="sticker_remove">Remove from collection</string>

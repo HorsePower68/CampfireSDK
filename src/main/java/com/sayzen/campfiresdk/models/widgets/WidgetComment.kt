@@ -8,6 +8,7 @@ import com.dzen.campfire.api.models.units.stickers.UnitSticker
 import com.dzen.campfire.api.requests.units.RUnitsCommentChange
 import com.dzen.campfire.api.requests.units.RUnitsCommentCreate
 import com.sayzen.campfiresdk.R
+import com.sayzen.campfiresdk.adapters.XComments
 import com.sayzen.campfiresdk.controllers.ControllerApi
 import com.sayzen.campfiresdk.controllers.ControllerSettings
 import com.sayzen.campfiresdk.models.events.units.EventCommentAdd

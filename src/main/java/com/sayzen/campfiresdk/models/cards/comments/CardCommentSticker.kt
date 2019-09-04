@@ -8,7 +8,6 @@ import com.sayzen.campfiresdk.screens.stickers.SStickersView
 import com.sup.dev.android.libs.screens.navigator.Navigator
 import com.sup.dev.android.tools.ToolsImagesLoader
 import com.sup.dev.android.tools.ToolsView
-import com.sup.dev.java.libs.debug.Debug
 
 class CardCommentSticker(
         unit: UnitComment,
@@ -25,11 +24,12 @@ class CardCommentSticker(
     }
 
     override fun bind(view: View) {
+        val unit = xUnit.unit as UnitComment
 
         val vImage: ImageView = view.findViewById(R.id.vImage)
         val vGifProgressBar: View = view.findViewById(R.id.vGifProgressBar)
 
-        ToolsView.setOnLongClickCoordinates(vImage) { view1, x, y -> popup?.asSheetShow() }
+        ToolsView.setOnLongClickCoordinates(vImage) { view1, x, y -> showMenu() }
 
         vImage.setOnClickListener { SStickersView.instanceBySticker(unit.stickerId, Navigator.TO) }
 

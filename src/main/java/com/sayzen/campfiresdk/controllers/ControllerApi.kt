@@ -444,7 +444,7 @@ object ControllerApi {
                 .onApiError(API.ERROR_GONE) { ToolsToast.show(stringResGone) }
     }
 
-    fun removeUnit(unitId: Long, stringRes: Int, stringResGone: Int, onRemove: () -> kotlin.Unit = {}) {
+    fun removeUnit(unitId: Long, stringRes: Int, stringResGone: Int, onRemove: () -> Unit = {}) {
         ApiRequestsSupporter.executeEnabledConfirm(stringRes, R.string.app_remove, RUnitsRemove(unitId)) { r ->
             EventBus.post(EventUnitRemove(unitId))
             ToolsToast.show(R.string.app_removed)
@@ -458,6 +458,8 @@ object ControllerApi {
             API.UNIT_TYPE_POST -> clearReportsUnit(unitId, R.string.post_clear_reports_confirm, R.string.post_error_gone)
             API.UNIT_TYPE_COMMENT -> clearReportsUnit(unitId, R.string.comment_clear_reports_confirm, R.string.comment_error_gone)
             API.UNIT_TYPE_REVIEW -> clearReportsUnit(unitId, R.string.review_clear_reports_confirm, R.string.review_error_gone)
+            API.UNIT_TYPE_FORUM -> clearReportsUnit(unitId, R.string.forum_clear_reports_confirm, R.string.forum_error_gone)
+            API.UNIT_TYPE_STICKERS_PACK -> clearReportsUnit(unitId, R.string.stickers_packs_clear_reports_confirm, R.string.stickers_packs_error_gone)
         }
     }
 

@@ -1,7 +1,5 @@
 package com.sayzen.campfiresdk.models.cards.chat
 
-import android.graphics.drawable.ColorDrawable
-import com.google.android.material.card.MaterialCardView
 import android.view.Gravity
 import android.view.View
 import android.view.ViewGroup
@@ -13,9 +11,8 @@ import com.dzen.campfire.api.models.notifications.NotificationChatMessageChange
 import com.dzen.campfire.api.models.notifications.NotificationChatMessageRemove
 import com.dzen.campfire.api.models.notifications.NotificationMention
 import com.dzen.campfire.api.models.units.chat.UnitChatMessage
+import com.google.android.material.card.MaterialCardView
 import com.sayzen.campfiresdk.R
-import com.sayzen.campfiresdk.adapters.XAccount
-import com.sayzen.campfiresdk.adapters.XFandom
 import com.sayzen.campfiresdk.controllers.*
 import com.sayzen.campfiresdk.models.cards.CardUnit
 import com.sayzen.campfiresdk.models.events.chat.EventChatMessageChanged
@@ -34,19 +31,14 @@ import com.sup.dev.android.views.views.ViewAvatar
 import com.sup.dev.android.views.views.ViewImagesSwipe
 import com.sup.dev.android.views.views.ViewSwipe
 import com.sup.dev.android.views.views.ViewTextLinkable
-import com.sup.dev.android.views.widgets.Widget
 import com.sup.dev.android.views.widgets.WidgetMenu
-import com.sup.dev.java.classes.Subscription
-import com.sup.dev.java.classes.animation.AnimationPendulum
-import com.sup.dev.java.classes.animation.AnimationPendulumColor
 import com.sup.dev.java.libs.eventBus.EventBus
 import com.sup.dev.java.tools.ToolsColor
 import com.sup.dev.java.tools.ToolsDate
-import com.sup.dev.java.tools.ToolsThreads
 
 abstract class CardChatMessage constructor(
-        layout:Int,
-        override var unit: UnitChatMessage,
+        layout: Int,
+        unit: UnitChatMessage,
         var onClick: ((UnitChatMessage) -> Boolean)? = null,
         var onChange: ((UnitChatMessage) -> Unit)? = null,
         var onQuote: ((UnitChatMessage) -> Unit)? = null,
@@ -88,21 +80,20 @@ abstract class CardChatMessage constructor(
     var quoteEnabled = true
     var copyEnabled = true
 
-    val xAccount = XAccount(unit) { updateAccount() }
-    val xFandom = XFandom(unit, unit.dateCreate) { updateAccount() }
-    protected var popup: Widget? = null
-    private var flash: Boolean = false
-    private var animationFlash: AnimationPendulumColor? = null
-    private var subscriptionFlash: Subscription? = null
+    init {
+        updateFandomOnBind = false
+        useBackgroundToFlash = true
+    }
 
     override fun bindView(view: View) {
         super.bindView(view)
+        val unit = xUnit.unit as UnitChatMessage
+
         val vNotRead: View? = view.findViewById(R.id.vNotRead)
         val vSwipe: ViewSwipe? = view.findViewById(R.id.vSwipe)
         val vText: ViewTextLinkable? = view.findViewById(R.id.vCommentText)
         val vRootContainer: ViewGroup? = view.findViewById(R.id.vRootContainer)
         val vMessageContainer: MaterialCardView? = view.findViewById(R.id.vMessageContainer)
-        val vReports: TextView? = view.findViewById(R.id.vReports)
         val vQuoteContainer: View? = view.findViewById(R.id.vQuoteContainer)
         val vQuoteText: ViewTextLinkable? = view.findViewById(R.id.vQuoteText)
         val vQuoteImage: ViewImagesSwipe? = view.findViewById(R.id.vQuoteImage)
@@ -115,22 +106,19 @@ abstract class CardChatMessage constructor(
         }
 
         if (vSwipe != null && onQuote != null) {
-            popup = createPopup(vSwipe)
             vSwipe.onClick = { x, y ->
-                if (ControllerApi.isCurrentAccount(unit.creatorId)) popup?.asSheetShow()
+                if (ControllerApi.isCurrentAccount(unit.creatorId)) showMenu()
                 else onClick()
             }
-            vSwipe.onLongClick = { x, y -> popup?.asSheetShow() }
+            vSwipe.onLongClick = { x, y -> showMenu() }
+            vSwipe.onClick = { x, y -> if (onClick()) showMenu() }
             vSwipe.onSwipe = { onQuote?.invoke(unit) }
             vSwipe.swipeEnabled = quoteEnabled
         } else {
             if (vSwipe != null) {
-                popup = createPopup(vSwipe)
                 vSwipe.swipeEnabled = quoteEnabled
             }
         }
-
-
 
         if (vQuoteContainer != null) {
             vQuoteContainer.visibility = if (unit.quoteText.isEmpty() && unit.quoteImages.isEmpty() && unit.quoteStickerId < 1L) View.GONE else View.VISIBLE
@@ -147,18 +135,13 @@ abstract class CardChatMessage constructor(
         if (vQuoteImage != null) {
             vQuoteImage.clear()
             vQuoteImage.visibility = View.VISIBLE
-            if(unit.quoteStickerId > 0){
-                vQuoteImage.add(unit.quoteStickerImageId, onClick = {SStickersView.instanceBySticker(unit.quoteStickerId, Navigator.TO)})
+            if (unit.quoteStickerId > 0) {
+                vQuoteImage.add(unit.quoteStickerImageId, onClick = { SStickersView.instanceBySticker(unit.quoteStickerId, Navigator.TO) })
             } else if (unit.quoteImages.isNotEmpty()) {
                 for (i in unit.quoteImages) vQuoteImage.add(i)
-            } else  {
+            } else {
                 vQuoteImage.visibility = View.GONE
             }
-        }
-
-        if (vReports != null) {
-            vReports.text = unit.reportsCount.toString() + ""
-            vReports.visibility = if (unit.reportsCount > 0 && ControllerApi.can(unit.fandomId, unit.languageId, API.LVL_MODERATOR_BLOCK)) View.VISIBLE else View.GONE
         }
 
         if (vText != null) {
@@ -182,36 +165,6 @@ abstract class CardChatMessage constructor(
 
         }
 
-
-
-        if (flash) {
-            if (subscriptionFlash != null) subscriptionFlash!!.unsubscribe()
-
-            if (animationFlash == null)
-                animationFlash = AnimationPendulumColor(ToolsColor.setAlpha(0, ToolsResources.getColor(R.color.focus)), ToolsResources.getColor(R.color.focus), 500, AnimationPendulum.AnimationType.TO_2_AND_BACK)
-            animationFlash?.to_2()
-
-            subscriptionFlash = ToolsThreads.timerThread((1000 / 30).toLong(), 1000,
-                    { subscription ->
-                        animationFlash?.update()
-                        ToolsThreads.main { update() }
-                    },
-                    {
-                        ToolsThreads.main {
-                            flash = false
-                            animationFlash = null
-                            update()
-                        }
-                    })
-        } else {
-            animationFlash = null
-        }
-
-        if (animationFlash != null) {
-            view.background = ColorDrawable(animationFlash!!.color)
-        } else
-            view.background = ColorDrawable(0x00000000)
-
         if (vRootContainer != null) {
             vRootContainer.visibility = View.VISIBLE
             (vRootContainer.layoutParams as FrameLayout.LayoutParams).gravity = if (ControllerApi.isCurrentAccount(unit.creatorId)) Gravity.RIGHT else Gravity.LEFT
@@ -230,7 +183,7 @@ abstract class CardChatMessage constructor(
                         vMessageContainer.setCardBackgroundColor(ToolsColor.add(ToolsResources.getColorAttr(R.attr.widget_background), 0xFF202020.toInt()))
                     else
                         vMessageContainer.setCardBackgroundColor(ToolsColor.remove(ToolsResources.getColorAttr(R.attr.widget_background), 0xFF202020.toInt()))
-                }else{
+                } else {
                     vMessageContainer.setCardBackgroundColor(0x00000000)
                 }
             }
@@ -250,63 +203,11 @@ abstract class CardChatMessage constructor(
                 (vRootContainer.layoutParams as ViewGroup.MarginLayoutParams).leftMargin = ToolsView.dpToPx(0).toInt()
             }
         }
-
-        updateAccount()
-
     }
 
-    private fun updateAccount() {
-        if (getView() == null) return
-
-        val vAvatar: ViewAvatar? = getView()!!.findViewById(R.id.vAvatar)
-        val vLabel: TextView? = getView()!!.findViewById(R.id.vLabel)
-
-        if (vAvatar != null) {
-            vAvatar.visibility = if (ControllerApi.isCurrentAccount(unit.creatorId)) View.GONE else View.VISIBLE
-            if (unit.chatTag().chatType == API.CHAT_TYPE_PRIVATE) vAvatar.visibility = View.GONE
-            if (!showFandom) xAccount.setView(vAvatar)
-            else xFandom.setView(vAvatar)
-        }
-
-        if (vLabel != null) {
-            if (ControllerApi.isCurrentAccount(unit.creatorId)) {
-                (vLabel.layoutParams as LinearLayout.LayoutParams).gravity = Gravity.RIGHT
-                vLabel.text = ToolsDate.dateToString(unit.dateCreate) + (if (unit.changed) " " + ToolsResources.s(R.string.app_edited) else "")
-            } else {
-                (vLabel.layoutParams as LinearLayout.LayoutParams).gravity = Gravity.LEFT
-                if (unit.chatTag().chatType == API.CHAT_TYPE_PRIVATE)
-                    vLabel.text = ToolsDate.dateToString(unit.dateCreate) + (if (unit.changed) " " + ToolsResources.s(R.string.app_edited) else "")
-                else
-                    vLabel.text = xAccount.name + "  " + ToolsDate.dateToString(unit.dateCreate) + (if (unit.changed) " " + ToolsResources.s(R.string.app_edited) else "")
-            }
-        }
-    }
-
-    fun flash() {
-        flash = true
-        update()
-    }
-
-    fun onClick(): Boolean {
-        if (unit.type == UnitChatMessage.TYPE_BLOCK) {
-            ControllerCampfireSDK.onToModerationClicked(unit.blockModerationEventId, 0, Navigator.TO)
-            return false
-        }
-
-        if (onClick == null) {
-            SChat.instance(unit.chatType, unit.fandomId, unit.languageId, true, Navigator.TO)
-            return false
-        } else {
-            return onClick!!.invoke(unit)
-        }
-    }
-
-    override fun notifyItem() {
-        ToolsImagesLoader.load(unit.creatorImageId).intoCash()
-    }
-
-    fun createPopup(vTouch: View): Widget {
-        return WidgetMenu()
+    fun showMenu() {
+        val unit = xUnit.unit as UnitChatMessage
+        WidgetMenu()
                 .groupCondition(ControllerApi.isCurrentAccount(unit.creatorId))
                 .add(R.string.app_remove) { w, c ->
                     ControllerApi.removeUnit(unit.id, R.string.chat_remove_confirm, R.string.chat_error_gone) {
@@ -324,7 +225,75 @@ abstract class CardChatMessage constructor(
                 .add(R.string.app_report) { w, c -> ControllerApi.reportUnit(unit.id, R.string.chat_report_confirm, R.string.chat_error_gone) }.condition(unit.chatType == API.CHAT_TYPE_FANDOM)
                 .add(R.string.app_clear_reports) { w, c -> ControllerApi.clearReportsUnit(unit.id, unit.unitType) }.backgroundRes(R.color.blue_700).textColorRes(R.color.white).condition(unit.chatType == API.CHAT_TYPE_FANDOM && ControllerApi.can(unit.fandomId, unit.languageId, API.LVL_MODERATOR_BLOCK) && unit.reportsCount > 0)
                 .add(R.string.app_block) { w, c -> ControllerUnits.block(unit) { if (adapter != null && adapter!! is RecyclerCardAdapterLoadingInterface) (adapter!! as RecyclerCardAdapterLoadingInterface).loadBottom() } }.backgroundRes(R.color.blue_700).textColorRes(R.color.white).condition(unit.chatType == API.CHAT_TYPE_FANDOM && ControllerApi.can(unit.fandomId, unit.languageId, API.LVL_MODERATOR_BLOCK))
-                .showSheetWhenClickAndLongClick(vTouch) { onClick() }
+                .asSheetShow()
+    }
+
+
+    override fun updateAccount() {
+        if (getView() == null) return
+        val unit = xUnit.unit as UnitChatMessage
+
+        val vAvatar: ViewAvatar? = getView()!!.findViewById(R.id.vAvatar)
+        val vLabel: TextView? = getView()!!.findViewById(R.id.vLabel)
+
+        if (vAvatar != null) {
+            vAvatar.visibility = if (ControllerApi.isCurrentAccount(unit.creatorId)) View.GONE else View.VISIBLE
+            if (unit.chatTag().chatType == API.CHAT_TYPE_PRIVATE) vAvatar.visibility = View.GONE
+            if (!showFandom) xUnit.xAccount.setView(vAvatar)
+            else xUnit.xFandom.setView(vAvatar)
+        }
+
+        if (vLabel != null) {
+            if (ControllerApi.isCurrentAccount(unit.creatorId)) {
+                (vLabel.layoutParams as LinearLayout.LayoutParams).gravity = Gravity.RIGHT
+                vLabel.text = ToolsDate.dateToString(unit.dateCreate) + (if (unit.changed) " " + ToolsResources.s(R.string.app_edited) else "")
+            } else {
+                (vLabel.layoutParams as LinearLayout.LayoutParams).gravity = Gravity.LEFT
+                if (unit.chatTag().chatType == API.CHAT_TYPE_PRIVATE)
+                    vLabel.text = ToolsDate.dateToString(unit.dateCreate) + (if (unit.changed) " " + ToolsResources.s(R.string.app_edited) else "")
+                else
+                    vLabel.text = xUnit.xAccount.name + "  " + ToolsDate.dateToString(unit.dateCreate) + (if (unit.changed) " " + ToolsResources.s(R.string.app_edited) else "")
+            }
+        }
+    }
+
+    override fun updateComments() {
+        update()
+    }
+
+    override fun updateFandom() {
+        updateAccount()
+    }
+
+    override fun updateKarma() {
+        update()
+    }
+
+    override fun updateReports() {
+        if (getView() == null) return
+        val vReports: TextView? = getView()!!.findViewById(R.id.vReports)
+        if (vReports != null) xUnit.xReports.setView(vReports)
+
+    }
+
+    fun onClick(): Boolean {
+        val unit = xUnit.unit as UnitChatMessage
+        if (unit.type == UnitChatMessage.TYPE_BLOCK) {
+            ControllerCampfireSDK.onToModerationClicked(unit.blockModerationEventId, 0, Navigator.TO)
+            return false
+        }
+
+        if (onClick == null) {
+            SChat.instance(unit.chatType, unit.fandomId, unit.languageId, true, Navigator.TO)
+            return false
+        } else {
+            return onClick!!.invoke(unit)
+        }
+    }
+
+    override fun notifyItem() {
+        val unit = xUnit.unit as UnitChatMessage
+        ToolsImagesLoader.load(unit.creatorImageId).intoCash()
     }
 
     //
@@ -332,20 +301,22 @@ abstract class CardChatMessage constructor(
     //
 
     private fun onNotification(e: EventNotification) {
+        val unit = xUnit.unit as UnitChatMessage
         if (e.notification is NotificationChatMessageChange) {
             val n = e.notification
-            if ((n as NotificationChatMessageChange).unitId == unit.id) {
+            if (n.unitId == unit.id) {
                 unit.text = n.text
                 unit.changed = true
                 update()
             }
         } else if (e.notification is NotificationChatMessageRemove) {
-            if ((e.notification as NotificationChatMessageRemove).unitId == unit.id && adapter != null) adapter!!.remove(this)
+            if (e.notification.unitId == unit.id && adapter != null) adapter!!.remove(this)
 
         }
     }
 
     private fun onEventChanged(e: EventChatMessageChanged) {
+        val unit = xUnit.unit as UnitChatMessage
         if (e.unitId == unit.id) {
             unit.text = e.text
             unit.quoteId = e.quoteId
@@ -359,10 +330,12 @@ abstract class CardChatMessage constructor(
     }
 
     private fun onEventChatReadDateChanged(e: EventChatReadDateChanged) {
+        val unit = xUnit.unit as UnitChatMessage
         if (e.tag == unit.chatTag()) update()
     }
 
     private fun onEventUnitBlocked(e: EventUnitBlocked) {
+        val unit = xUnit.unit as UnitChatMessage
         if (e.unitId == unit.id) {
             if (onBlocked != null && e.unitChatMessage != null) onBlocked!!.invoke(e.unitChatMessage)
 
@@ -370,7 +343,8 @@ abstract class CardChatMessage constructor(
     }
 
     override fun equals(other: Any?): Boolean {
-        return if (other is CardChatMessage) unit.id == other.unit.id
+        val unit = xUnit.unit as UnitChatMessage
+        return if (other is CardChatMessage) unit.id == other.xUnit.unit.id
         else super.equals(other)
     }
 

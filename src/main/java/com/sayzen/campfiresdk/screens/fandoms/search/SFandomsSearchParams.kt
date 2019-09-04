@@ -5,7 +5,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton
 import android.view.ViewGroup
 import android.widget.TextView
 import com.sayzen.campfiresdk.R
-import com.sayzen.campfiresdk.app.CampfreConstants
+import com.sayzen.campfiresdk.app.CampfireConstants
 import com.sayzen.campfiresdk.models.objects.FandomParam
 import com.sup.dev.android.libs.screens.Screen
 import com.sup.dev.android.libs.screens.navigator.Navigator
@@ -40,7 +40,7 @@ class SFandomsSearchParams(
 
 
         addCategory(0, ToolsResources.s(R.string.app_all))
-        for (g in CampfreConstants.CATEGORIES) addCategory(g.index, g.name)
+        for (g in CampfireConstants.CATEGORIES) addCategory(g.index, g.name)
 
         if (getSelectedCategory() == 0L) (vCategoriesContainer.getChildAt(0) as ViewChip).isChecked = true
         switchParams()
@@ -94,10 +94,10 @@ class SFandomsSearchParams(
         }
 
         if(category != 0L) {
-            if (CampfreConstants.getParamTitle(category, 1) != null) addParams(CampfreConstants.getParamTitle(category, 1)!!, CampfreConstants.getParams(category, 1)!!, params1)
-            if (CampfreConstants.getParamTitle(category, 2) != null) addParams(CampfreConstants.getParamTitle(category, 2)!!, CampfreConstants.getParams(category, 2)!!, params2)
-            if (CampfreConstants.getParamTitle(category, 3) != null) addParams(CampfreConstants.getParamTitle(category, 3)!!, CampfreConstants.getParams(category, 3)!!, params3)
-            if (CampfreConstants.getParamTitle(category, 4) != null) addParams(CampfreConstants.getParamTitle(category, 4)!!, CampfreConstants.getParams(category, 4)!!, params4)
+            if (CampfireConstants.getParamTitle(category, 1) != null) addParams(CampfireConstants.getParamTitle(category, 1)!!, CampfireConstants.getParams(category, 1)!!, params1)
+            if (CampfireConstants.getParamTitle(category, 2) != null) addParams(CampfireConstants.getParamTitle(category, 2)!!, CampfireConstants.getParams(category, 2)!!, params2)
+            if (CampfireConstants.getParamTitle(category, 3) != null) addParams(CampfireConstants.getParamTitle(category, 3)!!, CampfireConstants.getParams(category, 3)!!, params3)
+            if (CampfireConstants.getParamTitle(category, 4) != null) addParams(CampfireConstants.getParamTitle(category, 4)!!, CampfireConstants.getParams(category, 4)!!, params4)
         }
     }
 

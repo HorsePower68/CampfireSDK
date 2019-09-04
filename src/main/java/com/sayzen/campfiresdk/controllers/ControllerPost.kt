@@ -103,7 +103,7 @@ object ControllerPost {
                 R.string.app_continue,
                 RPostMakeMultiLanguages(unit.id)
         ) {
-            EventBus.post(EventPostMMultilanguage(unit.id))
+            EventBus.post(EventPostMultiLanguage(unit.id))
             ToolsToast.show(R.string.app_done)
         }
     }

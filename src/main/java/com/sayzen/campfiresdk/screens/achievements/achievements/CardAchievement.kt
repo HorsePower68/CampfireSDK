@@ -12,7 +12,7 @@ import com.sayzen.campfiresdk.R
 import com.sayzen.campfiresdk.models.widgets.WidgetRules
 import com.sayzen.campfiresdk.screens.account.search.SAccountSearch
 import com.sayzen.campfiresdk.screens.fandoms.suggest.SFandomSuggest
-import com.sayzen.campfiresdk.app.CampfreConstants
+import com.sayzen.campfiresdk.app.CampfireConstants
 import com.sayzen.campfiresdk.controllers.ControllerApi
 import com.sayzen.campfiresdk.controllers.ControllerCampfireSDK
 import com.sayzen.campfiresdk.controllers.api
@@ -64,7 +64,7 @@ class CardAchievement(
         val vLine:ViewProgressLine = view.findViewById(R.id.vLine)
 
         val accountId = screen.accountId
-        val ach = CampfreConstants.getAchievement(achievement)
+        val ach = CampfireConstants.getAchievement(achievement)
 
         if (ControllerApi.isCurrentAccount(accountId) && ach.clickable && lvl != ach.info.maxLvl) view.setOnClickListener { v -> onClick() }
         else view.setOnClickListener(null)
@@ -153,18 +153,18 @@ class CardAchievement(
     //
 
     private fun onClick() {
-        val ach = CampfreConstants.getAchievement(achievement)
+        val ach = CampfireConstants.getAchievement(achievement)
         when {
             ach.info.index == API.ACHI_APP_SHARE.index -> ControllerCampfireSDK.shareCampfireApp()
             ach.info.index == API.ACHI_ADD_RECRUITER.index -> onRecruiterClicked()
             ach.info.index == API.ACHI_LOGIN.index -> ControllerCampfireSDK.changeLogin()
             ach.info.index == API.ACHI_FANDOMS.index -> SFandomSuggest.instance(Navigator.TO)
             ach.info.index == API.ACHI_RULES_USER.index ->
-                WidgetRules(R.string.rules_users_info, Array(CampfreConstants.RULES_USER.size) { CampfreConstants.RULES_USER[it].text })
+                WidgetRules(R.string.rules_users_info, Array(CampfireConstants.RULES_USER.size) { CampfireConstants.RULES_USER[it].text })
                         .onFinish { ApiRequestsSupporter.executeProgressDialog(RAchievementsOnFinish(API.ACHI_RULES_USER.index)) { r -> } }
                         .asSheetShow()
             ach.info.index == API.ACHI_RULES_MODERATOR.index ->
-                WidgetRules(R.string.rules_moderators_info, CampfreConstants.RULES_MODER)
+                WidgetRules(R.string.rules_moderators_info, CampfireConstants.RULES_MODER)
                         .onFinish { ApiRequestsSupporter.executeProgressDialog(RAchievementsOnFinish(API.ACHI_RULES_MODERATOR.index)) { r -> } }
                         .asSheetShow()
         }

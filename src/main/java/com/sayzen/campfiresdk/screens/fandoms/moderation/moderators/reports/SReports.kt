@@ -17,7 +17,7 @@ class SReports(
 ) : SLoadingRecycler<CardUnit, Unit>() {
 
     private val eventBus = EventBus.subscribe(EventUnitReportsClear::class) {
-        if (adapter != null) for (c in adapter!!.get(CardUnit::class)) if (c.unit.id == it.unitId) adapter?.remove(c)
+        if (adapter != null) for (c in adapter!!.get(CardUnit::class)) if (c.xUnit.unit.id == it.unitId) adapter?.remove(c)
     }
 
     init {

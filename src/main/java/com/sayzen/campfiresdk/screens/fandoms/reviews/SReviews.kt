@@ -119,7 +119,7 @@ class SReviews private constructor(
 
         if (scrollToId != 0L) {
             for (c in adapter!!.get(CardReview::class)) {
-                if (c.unit.id == scrollToId) {
+                if (c.xUnit.unit.id == scrollToId) {
                     scrollToId = 0
                     ToolsThreads.main(600) {
                         vRecycler.scrollToPosition(adapter!!.indexOf(c) + 1)

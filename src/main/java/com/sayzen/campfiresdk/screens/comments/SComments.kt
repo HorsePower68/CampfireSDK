@@ -3,14 +3,11 @@ package com.sayzen.campfiresdk.screens.comments
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.dzen.campfire.api.models.units.Unit
-import com.dzen.campfire.api.requests.post.RPostGet
 import com.sayzen.campfiresdk.R
 import com.sayzen.campfiresdk.adapters.AdapterComments
-import com.sayzen.campfiresdk.models.events.units.EventCommentAdd
+import com.sayzen.campfiresdk.models.events.units.EventCommentsCountChanged
 import com.sayzen.campfiresdk.models.events.units.EventUnitRemove
 import com.sayzen.campfiresdk.models.widgets.WidgetComment
-import com.sup.dev.android.libs.api_simple.ApiRequestsSupporter
 import com.sup.dev.android.libs.screens.Screen
 import com.sup.dev.android.libs.screens.navigator.NavigationAction
 import com.sup.dev.android.libs.screens.navigator.Navigator
@@ -32,7 +29,7 @@ class SComments constructor(
 
     private val eventBus: EventBusSubscriber = EventBus
             .subscribe(EventUnitRemove::class) { this.onEventUnitRemove(it) }
-            .subscribe(EventCommentAdd::class) { this.onCommentAdd(it) }
+            .subscribe(EventCommentsCountChanged::class) { this.onEventCommentsCountChanged(it) }
 
     private val vRecycler: RecyclerView = findViewById(R.id.vRecycler)
     private val vFab: FloatingActionButton = findViewById(R.id.vFab)
@@ -54,8 +51,8 @@ class SComments constructor(
     //  EventBus
     //
 
-    private fun onCommentAdd(e: EventCommentAdd) {
-        if (e.parentUnitId == unitId) adapter.loadBottom()
+    private fun onEventCommentsCountChanged(e: EventCommentsCountChanged) {
+        if (e.unitId == unitId) adapter.loadBottom()
     }
 
     private fun onEventUnitRemove(e: EventUnitRemove) {

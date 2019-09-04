@@ -10,6 +10,7 @@ import com.dzen.campfire.api.requests.stickers.RStickersAdd
 import com.dzen.campfire.api.requests.stickers.RStickersGetAll
 import com.dzen.campfire.api.requests.stickers.RStickersPacksGetInfo
 import com.sayzen.campfiresdk.R
+import com.sayzen.campfiresdk.adapters.XComments
 import com.sayzen.campfiresdk.adapters.XKarma
 import com.sayzen.campfiresdk.controllers.ControllerApi
 import com.sayzen.campfiresdk.controllers.ControllerSettings
@@ -18,7 +19,7 @@ import com.sayzen.campfiresdk.controllers.api
 import com.sayzen.campfiresdk.models.cards.stickers.CardSticker
 import com.sayzen.campfiresdk.models.events.stickers.EventStickerCreate
 import com.sayzen.campfiresdk.models.events.stickers.EventStickersPackChanged
-import com.sayzen.campfiresdk.models.events.units.EventCommentAdd
+import com.sayzen.campfiresdk.models.events.units.EventCommentsCountChanged
 import com.sayzen.campfiresdk.models.events.units.EventUnitRemove
 import com.sayzen.campfiresdk.screens.account.profile.SAccount
 import com.sayzen.campfiresdk.screens.comments.SComments
@@ -64,7 +65,6 @@ class SStickersView(
             .subscribe(EventStickerCreate::class) { onEventStickerCreate(it) }
             .subscribe(EventStickersPackChanged::class) { onEventStickersPackChanged(it) }
             .subscribe(EventUnitRemove::class) { if (it.unitId == stickersPack.id) Navigator.remove(this) }
-            .subscribe(EventCommentAdd::class) { onEventCommentAdd(it) }
 
     private val vAvatarTitle: ViewAvatarTitle = findViewById(R.id.vAvatarTitle)
     private val vCommentsCount: TextView = findViewById(R.id.vCommentsCount)
@@ -72,6 +72,7 @@ class SStickersView(
     private val vCommentsContainer: View = findViewById(R.id.vCommentsContainer)
     private var loaded = false
     private val xKarma = XKarma(stickersPack) { updateKarma() }
+    private val xComments = XComments(stickersPack) { updateComments() }
 
     init {
         setTextEmpty(R.string.stickers_pack_view_empty)
@@ -103,7 +104,7 @@ class SStickersView(
     }
 
     private fun updateComments() {
-        vCommentsCount.text = "" + stickersPack.subUnitsCount
+        xComments.setView(vCommentsCount)
     }
 
     private fun updateKarma() {
@@ -223,16 +224,5 @@ class SStickersView(
         }
     }
 
-    private fun onEventCommentAdd(e: EventCommentAdd) {
-        if (e.parentUnitId == stickerId) {
-            val commentsCount = stickersPack.subUnitsCount
-            ToolsThreads.main(true) {
-                if (stickersPack.subUnitsCount == commentsCount) {
-                    stickersPack.subUnitsCount++
-                    updateComments()
-                }
-            }
-        }
-    }
 
 }

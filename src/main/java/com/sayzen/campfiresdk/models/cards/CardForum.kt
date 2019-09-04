@@ -4,6 +4,7 @@ import android.view.View
 import android.widget.TextView
 import com.dzen.campfire.api.API
 import com.dzen.campfire.api.models.units.UnitForum
+import com.dzen.campfire.api.models.units.events.UnitEvent
 import com.sayzen.campfiresdk.R
 import com.sayzen.campfiresdk.adapters.XFandom
 import com.sayzen.campfiresdk.adapters.XKarma
@@ -18,33 +19,23 @@ import com.sup.dev.android.views.views.ViewAvatarTitle
 import com.sup.dev.java.libs.eventBus.EventBus
 
 class CardForum(
-    override val unit: UnitForum
+    unit: UnitForum
 ) : CardUnit(R.layout.card_forum, unit) {
 
     private val eventBus = EventBus
             .subscribe(EventForumChanged::class) { this.onEventForumChanged(it) }
 
-    private val xFandom = XFandom(unit, unit.dateCreate) { update() }
-    private val xKarma = XKarma(unit) { update() }
-
     override fun bindView(view: View) {
         super.bindView(view)
+        val unit = xUnit.unit as UnitForum
+
         val vAvatar: ViewAvatarTitle = view.findViewById(R.id.vAvatar)
-        val vReports: TextView = view.findViewById(R.id.vReports)
-        val vKarma: ViewKarma = view.findViewById(R.id.vKarma)
         val vTouch: View = view.findViewById(R.id.vTouch)
         val vComments:TextView = view.findViewById(R.id.vComments)
         val vMenu:View = view.findViewById(R.id.vMenu)
 
         vMenu.setOnClickListener {  ControllerUnits.showForumPopup(it, unit) }
         vComments.text = unit.subUnitsCount.toString() + ""
-        vReports.text = unit.reportsCount.toString() + ""
-        vReports.visibility = if (unit.reportsCount > 0 && ControllerApi.can(unit.fandomId, unit.languageId, API.LVL_MODERATOR_BLOCK)) View.VISIBLE else View.GONE
-
-        if (showFandom) xFandom.setView(vAvatar)
-        else ToolsImagesLoader.load(unit.imageId).into(vAvatar.vAvatar.vImageView)
-
-
 
         vAvatar.setTitle(unit.name)
         if (unit.text.length > 500)
@@ -52,12 +43,36 @@ class CardForum(
         else
             vAvatar.setSubtitle(unit.text)
 
-        xKarma.setView(vKarma)
 
         vAvatar.setOnClickListener { vTouch.performClick() }
         vTouch.setOnClickListener { ControllerCampfireSDK.onToForumClicked(unit.id, 0, Navigator.TO) }
-
     }
+
+    override fun updateComments() {
+        update()
+    }
+
+    override fun updateFandom() {
+        if(getView() == null) return
+        val vAvatar: ViewAvatarTitle = getView()!!.findViewById(R.id.vAvatar)
+        if (showFandom) xUnit.xFandom.setView(vAvatar)
+        else ToolsImagesLoader.load((xUnit.unit as UnitForum).imageId).into(vAvatar.vAvatar.vImageView)
+    }
+
+    override fun updateAccount() {
+        update()
+    }
+
+    override fun updateKarma() {
+        if(getView() == null) return
+        xUnit.xKarma.setView(getView()!!.findViewById(R.id.vKarma))
+    }
+
+    override fun updateReports() {
+        if(getView() == null) return
+        xUnit.xReports.setView(getView()!!.findViewById(R.id.vReports))
+    }
+
 
     override fun notifyItem() {
 
@@ -68,6 +83,7 @@ class CardForum(
     //
 
     private fun onEventForumChanged(e: EventForumChanged) {
+        val unit = xUnit.unit as UnitForum
         if (e.unitId == unit.id) {
             unit.name = e.name
             unit.text = e.text

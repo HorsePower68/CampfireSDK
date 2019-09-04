@@ -18,7 +18,7 @@ import com.sayzen.campfiresdk.models.cards.CardUnit
 import com.sayzen.campfiresdk.models.events.fandom.*
 import com.sayzen.campfiresdk.models.PostList
 import com.sayzen.campfiresdk.screens.post.create.SPostCreate
-import com.sayzen.campfiresdk.app.CampfreConstants
+import com.sayzen.campfiresdk.app.CampfireConstants
 import com.sayzen.campfiresdk.controllers.*
 import com.sayzen.campfiresdk.models.events.units.EventPostPinedFandom
 import com.sayzen.campfiresdk.models.events.units.EventPostStatusChange
@@ -105,7 +105,7 @@ class SFandom private constructor(
 
 
         cardFilters = CardFilters {
-            if (cardPinnedPost != null) setPinnedPost(cardPinnedPost!!.unit)
+            if (cardPinnedPost != null) setPinnedPost(cardPinnedPost!!.xUnit.unit as UnitPost)
             adapter.reloadBottom()
         }
 
@@ -150,6 +150,7 @@ class SFandom private constructor(
                     .add(R.string.fandoms_menu_black_list_remove) { w, card -> ControllerCampfireSDK.removeFromBlackListFandom(xFandom.fandomId) }.condition(ControllerSettings.feedIgnoreFandoms.contains(xFandom.fandomId))
                     .add(R.string.fandoms_menu_background_change) { wi, c -> changeBackgroundImage() }.condition(ControllerApi.can(xFandom.fandomId, xFandom.languageId, API.LVL_MODERATOR_BACKGROUND_IMAGE)).backgroundRes(R.color.blue_700).textColorRes(R.color.white)
                     .add(R.string.fandoms_menu_background_remove) { wi, c -> removeBackgroundImage() }.condition(ControllerApi.can(xFandom.fandomId, xFandom.languageId, API.LVL_MODERATOR_BACKGROUND_IMAGE)).backgroundRes(R.color.blue_700).textColorRes(R.color.white)
+                    .add(R.string.profile_change_avatar) { wi, c -> changeImage() }.condition(ControllerApi.can(API.LVL_ADMIN_FANDOM_AVATAR)).backgroundRes(R.color.red_700).textColorRes(R.color.white)
                     .add(R.string.fandoms_menu_change_category) { wi, c -> changeCategory() }.condition(ControllerApi.can(API.LVL_ADMIN_FANDOM_CATEGORY)).backgroundRes(R.color.red_700).textColorRes(R.color.white)
                     .add(R.string.fandoms_menu_rename) { wi, c -> rename() }.condition(ControllerApi.can(API.LVL_ADMIN_FANDOM_NAME)).backgroundRes(R.color.red_700).textColorRes(R.color.white)
                     .add(if (r.fandom.closed) R.string.app_open else R.string.app_close) { wi, c -> close() }.condition(ControllerApi.can(API.LVL_ADMIN_FANDOM_CLOSE)).backgroundRes(R.color.red_700).textColorRes(R.color.white)
@@ -168,7 +169,7 @@ class SFandom private constructor(
     private fun afterPackLoaded(){
         if(cardPinnedPost != null && ControllerSettings.getFandomFilters().contains(API.UNIT_TYPE_POST))
             for (c in adapter.get(CardPost::class))
-                if(c.unit.id == cardPinnedPost!!.unit.id && !c.unit.isPined)
+                if(c.xUnit.unit.id == cardPinnedPost!!.xUnit.unit.id && !(c.xUnit.unit as UnitPost).isPined)
                     adapter.remove(c)
     }
 
@@ -177,7 +178,7 @@ class SFandom private constructor(
         if (post == null) {
             cardPinnedPost = null
         } else {
-            for (c in adapter.get(CardPost::class)) if (c.unit.id == post.id) adapter.remove(c)
+            for (c in adapter.get(CardPost::class)) if (c.xUnit.unit.id == post.id) adapter.remove(c)
             post.isPined = true
             cardPinnedPost = CardPost(vRecycler, post)
             if (ControllerSettings.getFandomFilters().contains(API.UNIT_TYPE_POST)) {
@@ -188,10 +189,10 @@ class SFandom private constructor(
 
     private fun updateCategory() {
         adapter.remove(CardParams::class)
-        if (CampfreConstants.getParamTitle(r.fandom.category, 1) != null) spoiler.add(CardParams(xFandom, r.params1, r.fandom.category, 1))
-        if (CampfreConstants.getParamTitle(r.fandom.category, 2) != null) spoiler.add(CardParams(xFandom, r.params2, r.fandom.category, 2))
-        if (CampfreConstants.getParamTitle(r.fandom.category, 3) != null) spoiler.add(CardParams(xFandom, r.params3, r.fandom.category, 3))
-        if (CampfreConstants.getParamTitle(r.fandom.category, 4) != null) spoiler.add(CardParams(xFandom, r.params4, r.fandom.category, 4))
+        if (CampfireConstants.getParamTitle(r.fandom.category, 1) != null) spoiler.add(CardParams(xFandom, r.params1, r.fandom.category, 1))
+        if (CampfireConstants.getParamTitle(r.fandom.category, 2) != null) spoiler.add(CardParams(xFandom, r.params2, r.fandom.category, 2))
+        if (CampfireConstants.getParamTitle(r.fandom.category, 3) != null) spoiler.add(CardParams(xFandom, r.params3, r.fandom.category, 3))
+        if (CampfireConstants.getParamTitle(r.fandom.category, 4) != null) spoiler.add(CardParams(xFandom, r.params4, r.fandom.category, 4))
     }
 
     override fun contains(card: CardPost) = adapter.contains(card)
@@ -342,7 +343,7 @@ class SFandom private constructor(
 
     private fun changeCategory() {
         val wMenu = WidgetMenu()
-        for (c in CampfreConstants.CATEGORIES) {
+        for (c in CampfireConstants.CATEGORIES) {
             if (c.index != r.fandom.category) {
                 wMenu.add(c.name).onClick { w, i ->
                     WidgetField().setHint(R.string.moderation_widget_comment)

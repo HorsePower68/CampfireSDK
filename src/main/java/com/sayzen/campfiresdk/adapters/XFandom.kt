@@ -6,6 +6,7 @@ import com.dzen.campfire.api.models.Fandom
 import com.sayzen.campfiresdk.controllers.ControllerApi
 import com.sayzen.campfiresdk.controllers.ControllerCampfireSDK
 import com.sayzen.campfiresdk.models.events.fandom.EventFandomChanged
+import com.sayzen.campfiresdk.models.events.units.EventUnitFandomChanged
 import com.sup.dev.android.libs.screens.navigator.Navigator
 import com.sup.dev.android.tools.ToolsImagesLoader
 import com.sup.dev.android.tools.ToolsResources
@@ -15,6 +16,7 @@ import com.sup.dev.java.libs.eventBus.EventBus
 import com.sup.dev.java.tools.ToolsDate
 
 class XFandom(
+        var unitId: Long,
         var fandomId: Long,
         var languageId: Long,
         var name: String,
@@ -22,22 +24,23 @@ class XFandom(
         var imageTitleId: Long,
         var imageTitleGifId: Long,
         var date: Long,
-        var onChanged: () -> kotlin.Unit
+        var onChanged: () -> Unit
 ) {
 
     var showLanguage = true
 
     private val eventBus = EventBus
+            .subscribe(EventUnitFandomChanged::class) { onEventUnitFandomChanged(it) }
             .subscribe(EventFandomChanged::class) { onEventFandomChanged(it) }
 
     constructor(fandom: Fandom, date: Long = 0, onChanged: () -> Unit)
-            : this(fandom.id, fandom.languageId, fandom.name, fandom.imageId, fandom.imageTitleId, fandom.imageTitleGifId, date, onChanged)
+            : this(0, fandom.id, fandom.languageId, fandom.name, fandom.imageId, fandom.imageTitleId, fandom.imageTitleGifId, date, onChanged)
 
     constructor(unit: com.dzen.campfire.api.models.units.Unit, date: Long = 0, onChanged: () -> Unit)
-            : this(unit.fandomId, unit.languageId, unit.fandomName, unit.fandomImageId, 0, 0, date, onChanged)
+            : this(unit.id, unit.fandomId, unit.languageId, unit.fandomName, unit.fandomImageId, 0, 0, date, onChanged)
 
     constructor(fandomId: Long, languageId: Long, name: String = "", imageId: Long = 0L, onChanged: () -> Unit)
-            : this(fandomId, languageId, name, imageId, 0, 0, 0, onChanged)
+            : this(0, fandomId, languageId, name, imageId, 0, 0, 0, onChanged)
 
     init {
         ToolsImagesLoader.load(imageId).intoCash()
@@ -94,6 +97,17 @@ class XFandom(
             onChanged.invoke()
         }
     }
+
+    private fun onEventUnitFandomChanged(e: EventUnitFandomChanged) {
+        if (e.unitId == unitId) {
+            fandomId = e.fandomId
+            languageId = e.languageId
+            name = e.fandomName
+            imageId = e.fandomImageId
+            onChanged.invoke()
+        }
+    }
+
 
     //
     //  Getters

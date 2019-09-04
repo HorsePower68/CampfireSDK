@@ -7,7 +7,7 @@ import android.view.View
 import android.widget.CheckBox
 import android.widget.TextView
 import com.sayzen.campfiresdk.R
-import com.sayzen.campfiresdk.app.CampfreConstants
+import com.sayzen.campfiresdk.app.CampfireConstants
 import com.sayzen.campfiresdk.controllers.ControllerCampfireSDK
 import com.sayzen.campfiresdk.controllers.ControllerSettings
 import com.sup.dev.android.libs.screens.Screen
@@ -45,7 +45,7 @@ class SGoogleRules(
                 .setText(instanceSpan())
                 .setTitleImageBackgroundRes(R.color.blue_700)
                 .setTitleImage(R.drawable.ic_security_white_48dp)
-                .setChecker(CampfreConstants.CHECK_RULES_ACCEPTED, R.string.app_i_agree)
+                .setChecker(CampfireConstants.CHECK_RULES_ACCEPTED, R.string.app_i_agree)
                 .setLockUntilAccept(true)
                 .setOnCancel(R.string.app_cancel)
                 .setOnEnter(R.string.app_accept) { onAccept.invoke() }
@@ -53,7 +53,7 @@ class SGoogleRules(
         }
 
         fun check(): Boolean {
-            if (WidgetAlert.check(CampfreConstants.CHECK_RULES_ACCEPTED)) return true
+            if (WidgetAlert.check(CampfireConstants.CHECK_RULES_ACCEPTED)) return true
             if (CHECK_FLAG_IN_ACCOUNT_SETTINGS && ControllerSettings.rulesIsShowed) return true
             return false
         }

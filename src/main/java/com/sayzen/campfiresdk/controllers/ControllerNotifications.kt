@@ -1,7 +1,6 @@
 package com.sayzen.campfiresdk.controllers
 
 
-import android.app.Activity
 import android.content.Intent
 import android.util.LongSparseArray
 import com.dzen.campfire.api.API
@@ -10,7 +9,7 @@ import com.dzen.campfire.api.requests.accounts.RAccountsNotificationsRemoveToken
 import com.dzen.campfire.api.requests.accounts.RAccountsNotificationsView
 import com.google.firebase.messaging.RemoteMessage
 import com.sayzen.campfiresdk.R
-import com.sayzen.campfiresdk.app.CampfreConstants
+import com.sayzen.campfiresdk.app.CampfireConstants
 import com.sayzen.campfiresdk.models.events.notifications.EventNotification
 import com.sayzen.campfiresdk.models.events.notifications.EventNotificationReaded
 import com.sayzen.campfiresdk.models.events.notifications.EventNotificationsCountChanged
@@ -565,7 +564,7 @@ object ControllerNotifications {
         }
 
         override fun asString(html: Boolean): String {
-            var text = CampfreConstants.getAchievement(n.achiIndex).getText(false)
+            var text = CampfireConstants.getAchievement(n.achiIndex).getText(false)
             if (html) text = ToolsHTML.i(text)
             return text
         }

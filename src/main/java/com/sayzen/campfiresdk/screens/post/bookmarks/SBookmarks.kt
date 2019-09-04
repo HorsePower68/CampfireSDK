@@ -51,6 +51,6 @@ class SBookmarks private constructor() : SLoadingRecycler<CardUnit, Unit>() {
 
     private fun onEventUnitBookmarkChange(e: EventUnitBookmarkChange) {
         if(adapter == null) return
-        for(c in adapter!!.get(CardUnit::class)) if(c.unit.id == e.unitId) adapter!!.remove(c)
+        for(c in adapter!!.get(CardUnit::class)) if(c.xUnit.unit.id == e.unitId) adapter!!.remove(c)
     }
 }

@@ -9,7 +9,7 @@ import com.dzen.campfire.api.requests.fandoms.RFandomsModerationBlock
 import com.sayzen.campfiresdk.R
 import com.sayzen.campfiresdk.models.events.fandom.EventFandomReviewTextRemoved
 import com.sayzen.campfiresdk.models.events.units.EventUnitRemove
-import com.sayzen.campfiresdk.app.CampfreConstants
+import com.sayzen.campfiresdk.app.CampfireConstants
 import com.sayzen.campfiresdk.controllers.ControllerApi
 import com.sayzen.campfiresdk.models.events.units.EventUnitBlocked
 import com.sayzen.campfiresdk.screens.punishments.SPunishments
@@ -100,8 +100,8 @@ class WidgetModerationBlock(
 
         vTemplate.setOnClickListener {
             val w = WidgetMenu()
-            CampfreConstants.RULES_USER
-            for (i in CampfreConstants.RULES_USER)
+            CampfireConstants.RULES_USER
+            for (i in CampfireConstants.RULES_USER)
                 w.add(ToolsResources.sLang(ControllerApi.getLanguage(unit.languageId).code, i.title))
                 { w, c -> vComment.setText(ToolsResources.sLang(ControllerApi.getLanguage(unit.languageId).code, i.text)) }
             w.asSheetShow()

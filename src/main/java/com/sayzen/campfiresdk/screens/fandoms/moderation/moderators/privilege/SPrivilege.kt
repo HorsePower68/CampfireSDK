@@ -2,7 +2,7 @@ package com.sayzen.campfiresdk.screens.fandoms.moderation.moderators.privilege
 
 import com.dzen.campfire.api.models.lvl.LvlInfoModeration
 import com.sayzen.campfiresdk.R
-import com.sayzen.campfiresdk.app.CampfreConstants
+import com.sayzen.campfiresdk.app.CampfireConstants
 import com.sayzen.campfiresdk.controllers.ControllerApi
 import com.sup.dev.android.views.cards.CardDividerTitle
 import com.sup.dev.android.views.screens.SRecycler
@@ -19,7 +19,7 @@ class SPrivilege(
     init {
 
         adapterSub.add(CardInfo(fandomId, languageId))
-        for(i in CampfreConstants.LVLS)  if(i.lvl is LvlInfoModeration) addLvl(CardKarmaLvl(fandomId, languageId, i))
+        for(i in CampfireConstants.LVLS)  if(i.lvl is LvlInfoModeration) addLvl(CardKarmaLvl(fandomId, languageId, i))
 
         vRecycler.adapter = adapterSub
 

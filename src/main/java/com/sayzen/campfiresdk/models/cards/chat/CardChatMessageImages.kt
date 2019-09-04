@@ -27,6 +27,7 @@ class CardChatMessageImages(
 
     override fun bindView(view: View) {
         super.bindView(view)
+        val unit = xUnit.unit as UnitChatMessage
 
         val vImages: ViewImagesContainer = view.findViewById(R.id.vImages)
         val vLabelImage: TextView = view.findViewById(R.id.vLabelImage)
@@ -37,7 +38,7 @@ class CardChatMessageImages(
         vLabel.visibility = if (unit.text.isEmpty()) GONE else VISIBLE
         vLabelImage.visibility = if (unit.text.isEmpty()) VISIBLE else GONE
 
-        ToolsView.setOnLongClickCoordinates(vImages) { view1, x, y -> popup?.asSheetShow() }
+        ToolsView.setOnLongClickCoordinates(vImages) { view1, x, y -> showMenu() }
         vImages.setOnClickListener { Navigator.to(SImageView(unit.resourceId))  }
         vImages.clear()
 
@@ -47,13 +48,13 @@ class CardChatMessageImages(
             vLabelImage.text = ToolsDate.dateToString(unit.dateCreate)
         } else {
             (vLabelImage.layoutParams as FrameLayout.LayoutParams).gravity = Gravity.LEFT or Gravity.BOTTOM
-            vLabelImage.text = xAccount.name + "  " + ToolsDate.dateToString(unit.dateCreate)
+            vLabelImage.text = xUnit.xAccount.name + "  " + ToolsDate.dateToString(unit.dateCreate)
         }
 
         for (i in 0 until unit.imageIdArray.size) {
             vImages.add(unit.imageIdArray[i], unit.imageIdArray[i], unit.imageWArray[i], unit.imageHArray[i],
                     null,
-                    { id -> popup?.asSheetShow() }
+                    { id -> showMenu() }
             )
         }
     }

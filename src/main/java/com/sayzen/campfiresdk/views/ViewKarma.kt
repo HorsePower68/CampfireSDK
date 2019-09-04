@@ -12,7 +12,7 @@ import android.widget.TextView
 
 import com.dzen.campfire.api.API
 import com.sayzen.campfiresdk.R
-import com.sayzen.campfiresdk.app.CampfreConstants
+import com.sayzen.campfiresdk.app.CampfireConstants
 import com.sayzen.campfiresdk.controllers.ControllerApi
 import com.sayzen.campfiresdk.controllers.ControllerKarma
 import com.sup.dev.android.app.SupAndroid
@@ -138,7 +138,7 @@ abstract class ViewKarma(
                 h = vDown.height + y - ((vDown.height / 4) * 2)
             }
             val start = getStart(rateIsUp)
-            val r = 360f * ((System.currentTimeMillis() - rateStartTime).toFloat() / CampfreConstants.RATE_TIME) * getDuration(rateIsUp)
+            val r = 360f * ((System.currentTimeMillis() - rateStartTime).toFloat() / CampfireConstants.RATE_TIME) * getDuration(rateIsUp)
 
             canvas.drawArc(x, y, w, h, start, r, false, paint)
             invalidate()

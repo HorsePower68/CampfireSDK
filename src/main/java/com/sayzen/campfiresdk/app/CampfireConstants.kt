@@ -9,7 +9,7 @@ import com.sayzen.campfiresdk.models.objects.*
 import com.sup.dev.android.tools.ToolsResources
 import com.sup.dev.java.tools.ToolsText
 
-object CampfreConstants {
+object CampfireConstants {
 
     val RATE_TIME = 2000L
 
@@ -41,6 +41,16 @@ object CampfreConstants {
             R.string.rules_moderators_7,
             R.string.rules_moderators_8,
             R.string.rules_moderators_9
+    )
+
+    val TEXT_ICONS = arrayOf(0/*Stub item*/,
+            R.attr.ic_arrow_back_24dp, R.attr.ic_menu_24dp, R.attr.ic_keyboard_arrow_right_24dp, R.attr.ic_keyboard_arrow_left_24dp, R.attr.ic_file_download_24dp, R.attr.ic_share_24dp, R.attr.ic_keyboard_arrow_up_24dp, R.attr.ic_keyboard_arrow_down_24dp, R.attr.ic_content_copy_24dp, R.attr.ic_folder_24dp,
+            R.attr.ic_insert_drive_file_24dp, R.attr.ic_mic_24dp, R.attr.ic_clear_24dp, R.attr.ic_lock_24dp, R.attr.ic_access_time_24dp, R.attr.ic_account_balance_24dp, R.attr.ic_account_box_24dp,
+            R.attr.ic_account_circle_24dp, R.attr.ic_add_24dp, R.attr.ic_alarm_24dp, R.attr.ic_all_inclusive_24dp, R.attr.ic_attach_file_24dp, R.attr.ic_bookmark_24dp, R.attr.ic_brush_24dp, R.attr.ic_burst_mode_24dp, R.attr.ic_cached_24dp, R.attr.ic_check_box_24dp,
+            R.attr.ic_clear_24dp, R.attr.ic_code_24dp, R.attr.ic_done_all_24dp, R.attr.ic_done_24dp, R.attr.ic_email_24dp, R.attr.ic_exit_to_app_24dp, R.attr.ic_favorite_24dp, R.attr.ic_format_quote_24dp, R.attr.ic_gavel_24dp, R.attr.ic_group_24dp, R.attr.ic_help_24dp, R.attr.ic_info_outline_24dp, R.attr.ic_insert_link_24dp, R.attr.ic_insert_link_36dp,
+            R.attr.ic_insert_photo_24dp, R.attr.ic_keyboard_arrow_down_24dp, R.attr.ic_keyboard_arrow_up_24dp, R.attr.ic_landscape_24dp, R.attr.ic_language_24dp, R.attr.ic_mode_comment_24dp, R.attr.ic_mode_edit_24dp, R.attr.ic_more_vert_24dp, R.attr.ic_notifications_24dp, R.attr.ic_person_24dp, R.attr.ic_play_arrow_24dp, R.attr.ic_reply_24dp, R.attr.ic_rowing_24dp, R.attr.ic_search_24dp, R.attr.ic_security_24dp, R.attr.ic_send_24dp,
+            R.attr.ic_settings_24dp, R.attr.ic_share_24dp, R.attr.ic_star_border_24dp, R.attr.ic_star_24dp, R.attr.ic_text_fields_24dp, R.attr.ic_thumbs_up_down_24dp, R.attr.ic_translate_24dp, R.attr.ic_trending_flat_24dp, R.attr.ic_trending_up_24dp,
+            R.attr.ic_tune_24dp, R.attr.ic_widgets_24dp, R.attr.ic_book_24dp, R.attr.ic_pets_24dp, R.attr.ic_directions_bike_24dp, R.attr.ic_border_all_24dp, R.attr.ic_border_left_24dp, R.attr.ic_border_top_24dp, R.attr.ic_border_right_24dp, R.attr.ic_border_bottom_24dp, R.attr.ic_not_interested_24dp, R.attr.ic_wb_incandescent_24dp, R.attr.ic_whatshot_24dp
     )
 
     val ACHIEVEMENTS = arrayOf(

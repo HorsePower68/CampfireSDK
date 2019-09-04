@@ -1,5 +1,5 @@
 package com.sayzen.campfiresdk.models.events.units
 
-class EventPostMMultilanguage(
+class EventPostMultiLanguage(
         var unitId: Long
 )

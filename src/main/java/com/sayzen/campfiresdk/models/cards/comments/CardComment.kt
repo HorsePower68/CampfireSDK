@@ -1,7 +1,5 @@
 package com.sayzen.campfiresdk.models.cards.comments
 
-import android.graphics.drawable.ColorDrawable
-import android.os.Build
 import android.text.Html
 import android.view.View
 import android.widget.TextView
@@ -11,19 +9,15 @@ import com.dzen.campfire.api.models.notifications.NotificationComment
 import com.dzen.campfire.api.models.notifications.NotificationCommentAnswer
 import com.dzen.campfire.api.models.notifications.NotificationMention
 import com.sayzen.campfiresdk.R
-import com.sayzen.campfiresdk.adapters.XAccount
-import com.sayzen.campfiresdk.adapters.XFandom
-import com.sayzen.campfiresdk.adapters.XKarma
 import com.sayzen.campfiresdk.controllers.ControllerApi
+import com.sayzen.campfiresdk.controllers.ControllerNotifications
+import com.sayzen.campfiresdk.controllers.ControllerUnits
 import com.sayzen.campfiresdk.models.cards.CardUnit
 import com.sayzen.campfiresdk.models.events.units.EventCommentChange
 import com.sayzen.campfiresdk.models.events.units.EventCommentRemove
-import com.sayzen.campfiresdk.models.events.units.EventUnitReportsClear
-import com.sayzen.campfiresdk.views.ViewKarma
-import com.sayzen.campfiresdk.controllers.ControllerNotifications
-import com.sayzen.campfiresdk.controllers.ControllerUnits
 import com.sayzen.campfiresdk.models.widgets.WidgetComment
 import com.sayzen.campfiresdk.screens.stickers.SStickersView
+import com.sayzen.campfiresdk.views.ViewKarma
 import com.sup.dev.android.app.SupAndroid
 import com.sup.dev.android.libs.screens.navigator.Navigator
 import com.sup.dev.android.tools.ToolsAndroid
@@ -34,20 +28,14 @@ import com.sup.dev.android.views.views.ViewAvatar
 import com.sup.dev.android.views.views.ViewImagesSwipe
 import com.sup.dev.android.views.views.ViewSwipe
 import com.sup.dev.android.views.views.ViewTextLinkable
-import com.sup.dev.android.views.widgets.Widget
 import com.sup.dev.android.views.widgets.WidgetMenu
-import com.sup.dev.java.classes.Subscription
-import com.sup.dev.java.classes.animation.AnimationPendulum
-import com.sup.dev.java.classes.animation.AnimationPendulumColor
 import com.sup.dev.java.libs.eventBus.EventBus
-import com.sup.dev.java.tools.ToolsColor
 import com.sup.dev.java.tools.ToolsDate
 import com.sup.dev.java.tools.ToolsHTML
-import com.sup.dev.java.tools.ToolsThreads
 
 abstract class CardComment protected constructor(
         layout: Int,
-        override val unit: UnitComment,
+        unit: UnitComment,
         private val dividers: Boolean,
         protected val miniSize: Boolean,
         private val onClick: ((UnitComment) -> Boolean)? = null,
@@ -72,29 +60,26 @@ abstract class CardComment protected constructor(
     private val eventBus = EventBus
             .subscribe(EventCommentChange::class) { e: EventCommentChange -> this.onCommentChange(e) }
 
-    private val xKarma: XKarma = XKarma(unit) { updateKarma() }
-    protected val xFandom: XFandom = XFandom(unit, unit.dateCreate) { update() }
-    private val xAccount: XAccount = XAccount(unit, unit.dateCreate) { update() }
-    private var flash = false
-    private var animationFlash: AnimationPendulumColor? = null
-    private var subscriptionFlash: Subscription? = null
-    protected var popup: Widget? = null
-
     var changeEnabled = true
     var quoteEnabled = true
     var copyEnabled = true
+
+    init {
+        flashViewId = R.id.vRootContainer
+    }
+
     protected abstract fun bind(view: View)
 
     override fun bindView(view: View) {
         super.bindView(view)
+        val unit = xUnit.unit as UnitComment
+
         val vSwipe: ViewSwipe? = view.findViewById(R.id.vSwipe)
-        val vAvatar: ViewAvatar = view.findViewById(R.id.vAvatar)
         val vLabel: TextView? = view.findViewById(R.id.vLabel)
         val vLabelName: TextView? = view.findViewById(R.id.vLabelName)
         val vLabelDate: TextView? = view.findViewById(R.id.vLabelDate)
         val vDivider: View? = view.findViewById(R.id.vDivider)
         val vText: ViewTextLinkable? = view.findViewById(R.id.vCommentText)
-        val vReports: TextView? = view.findViewById(R.id.vReports)
         val vQuoteContainer: View? = view.findViewById(R.id.vQuoteContainer)
         val vQuoteText: ViewTextLinkable? = view.findViewById(R.id.vQuoteText)
         val vQuoteImage: ViewImagesSwipe? = view.findViewById(R.id.vQuoteImage)
@@ -105,20 +90,17 @@ abstract class CardComment protected constructor(
             ControllerNotifications.removeNotificationFromNew(NotificationMention::class, unit.id)
         }
 
+        if (vSwipe != null) {
+            vSwipe.onClick = { x, y -> if (onClick()) showMenu() }
+            vSwipe.onLongClick = { x, y -> showMenu() }
+            vSwipe.swipeEnabled = quoteEnabled
+        }
         if (vSwipe != null && onQuote != null) {
-            popup = createPopup(vSwipe)
             vSwipe.onClick = { x, y ->
-                if (ControllerApi.isCurrentAccount(unit.creatorId)) popup?.asSheetShow()
+                if (ControllerApi.isCurrentAccount(unit.creatorId)) showMenu()
                 else onClick()
             }
-            vSwipe.onLongClick = { x, y -> popup?.asSheetShow() }
             vSwipe.onSwipe = { onQuote.invoke(unit) }
-            vSwipe.swipeEnabled = quoteEnabled
-        } else {
-            if (vSwipe != null) {
-                popup = createPopup(vSwipe)
-                vSwipe.swipeEnabled = quoteEnabled
-            }
         }
 
         if (vQuoteContainer != null) {
@@ -145,11 +127,6 @@ abstract class CardComment protected constructor(
             }
         }
 
-        if (vReports != null) {
-            vReports.text = unit.reportsCount.toString() + ""
-            vReports.visibility = if (unit.reportsCount > 0 && ControllerApi.can(unit.fandomId, unit.languageId, API.LVL_MODERATOR_BLOCK)) View.VISIBLE else View.GONE
-        }
-
         if (vText != null) {
             vText.text = unit.text
             ControllerApi.makeLinkable(vText) {
@@ -158,9 +135,7 @@ abstract class CardComment protected constructor(
             }
         }
 
-        if (showFandom && xFandom.imageId == 0L) xFandom.imageId = xAccount.imageId
-        if (!showFandom) xAccount.setView(vAvatar)
-        else xFandom.setView(vAvatar)
+
 
         if (vLabelName != null) vLabelName.text = unit.creatorName
         if (vLabelDate != null) vLabelDate.text = ToolsDate.dateToString(unit.dateCreate) + (if (unit.changed) " " + ToolsResources.s(R.string.app_edited) else "")
@@ -168,71 +143,11 @@ abstract class CardComment protected constructor(
         if (vDivider != null) vDivider.visibility = if (dividers) View.VISIBLE else View.GONE
 
         bind(view)
-        updateKarma()
-        updateFlash()
     }
 
-    private fun updateFlash() {
-        if (getView() == null) return
-        val vRootContainer: View = getView()!!.findViewById(R.id.vRootContainer)
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            if (animationFlash != null) {
-                vRootContainer.foreground = ColorDrawable(animationFlash!!.color)
-            } else
-                vRootContainer.foreground = ColorDrawable(0x00000000)
-        } else {
-            if (animationFlash != null) {
-                vRootContainer.background = ColorDrawable(animationFlash!!.color)
-            } else
-                vRootContainer.background = ColorDrawable(0x00000000)
-        }
-
-
-        if (flash) {
-            flash = false
-            if (subscriptionFlash != null) subscriptionFlash!!.unsubscribe()
-
-            if (animationFlash == null)
-                animationFlash = AnimationPendulumColor(ToolsColor.setAlpha(0, ToolsResources.getColor(R.color.focus_dark)), ToolsResources.getColor(R.color.focus_dark), 500, AnimationPendulum.AnimationType.TO_2_AND_BACK)
-            animationFlash?.to_2()
-
-            subscriptionFlash = ToolsThreads.timerThread((1000 / 30).toLong(), 1000,
-                    { subscription ->
-                        animationFlash?.update()
-                        ToolsThreads.main { updateFlash() }
-                    },
-                    {
-                        ToolsThreads.main {
-                            animationFlash = null
-                            updateFlash()
-                        }
-                    })
-        }
-
-    }
-
-    private fun updateKarma() {
-        if (getView() == null) return
-        val vKarma: ViewKarma? = getView()!!.findViewById(R.id.vKarma)
-        if (vKarma != null) xKarma.setView(vKarma)
-    }
-
-    private fun onClick(): Boolean {
-        if (onClick == null) {
-            if (unit.parentUnitType == 0L) {
-                ToolsToast.show(R.string.post_error_gone)
-            } else {
-                ControllerUnits.toUnit(unit.parentUnitType, unit.parentUnitId, unit.id)
-            }
-            return false
-        } else {
-            return !onClick.invoke(unit)
-        }
-    }
-
-    fun createPopup(vTouch: View): Widget {
-        val w = WidgetMenu()
+    fun showMenu() {
+        val unit = xUnit.unit as UnitComment
+        WidgetMenu()
                 .add(R.string.app_copy_link) { w, card ->
                     ToolsAndroid.setToClipboard(ControllerApi.linkToComment(unit))
                     ToolsToast.show(R.string.app_copied)
@@ -250,17 +165,53 @@ abstract class CardComment protected constructor(
                 .add(R.string.app_report) { w, c -> ControllerApi.reportUnit(unit.id, R.string.comment_report_confirm, R.string.comment_error_gone) }
                 .add(R.string.app_clear_reports) { w, c -> ControllerApi.clearReportsUnit(unit.id, unit.unitType) }.backgroundRes(R.color.blue_700).textColorRes(R.color.white).condition(ControllerApi.can(unit.fandomId, unit.languageId, API.LVL_MODERATOR_BLOCK) && unit.reportsCount > 0)
                 .add(R.string.app_block) { w, c -> ControllerUnits.block(unit) }.backgroundRes(R.color.blue_700).textColorRes(R.color.white).condition(ControllerApi.can(unit.fandomId, unit.languageId, API.LVL_MODERATOR_BLOCK))
-                .showSheetWhenClickAndLongClick(vTouch) { onClick() }
+                .asSheetShow()
+    }
 
-        vTouch.setOnLongClickListener {
-            w.asSheetShow()
-            true
+    override fun updateKarma() {
+        if (getView() == null) return
+        val vKarma: ViewKarma? = getView()!!.findViewById(R.id.vKarma)
+        if (vKarma != null) xUnit.xKarma.setView(vKarma)
+    }
+
+    override fun updateAccount() {
+        if (getView() == null) return
+        if (showFandom && xUnit.xFandom.imageId == 0L) xUnit.xFandom.imageId = xUnit.xAccount.imageId
+        val vAvatar: ViewAvatar = getView()!!.findViewById(R.id.vAvatar)
+        if (!showFandom) xUnit.xAccount.setView(vAvatar)
+        else xUnit.xFandom.setView(vAvatar)
+    }
+
+    override fun updateComments() {
+        update()
+    }
+
+    override fun updateFandom() {
+        updateAccount()
+    }
+
+    override fun updateReports() {
+        if (getView() == null) return
+        val vReports: TextView? = getView()!!.findViewById(R.id.vReports)
+        if (vReports != null) xUnit.xReports.setView(vReports)
+    }
+
+    private fun onClick(): Boolean {
+        val unit = xUnit.unit as UnitComment
+        if (onClick == null) {
+            if (unit.parentUnitType == 0L) {
+                ToolsToast.show(R.string.post_error_gone)
+            } else {
+                ControllerUnits.toUnit(unit.parentUnitType, unit.parentUnitId, unit.id)
+            }
+            return false
+        } else {
+            return !onClick.invoke(unit)
         }
-
-        return w
     }
 
     override fun notifyItem() {
+        val unit = xUnit.unit as UnitComment
         ToolsImagesLoader.load(unit.creatorImageId).intoCash()
     }
 
@@ -268,13 +219,9 @@ abstract class CardComment protected constructor(
     //  Methods
     //
 
-    fun flash() {
-        flash = true
-        updateFlash()
-    }
-
     override fun equals(other: Any?): Boolean {
-        if (other is CardComment) return other.unit.id == unit.id
+        val unit = xUnit.unit as UnitComment
+        if (other is CardComment) return other.xUnit.unit.id == unit.id
         return super.equals(other)
     }
 
@@ -283,6 +230,7 @@ abstract class CardComment protected constructor(
     //
 
     private fun onCommentChange(e: EventCommentChange) {
+        val unit = xUnit.unit as UnitComment
         if (e.unitId == unit.id) {
             unit.text = e.text
             unit.quoteId = e.quoteId

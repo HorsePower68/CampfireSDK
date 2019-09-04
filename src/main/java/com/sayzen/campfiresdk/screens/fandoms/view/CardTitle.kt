@@ -8,7 +8,7 @@ import com.dzen.campfire.api.API
 import com.dzen.campfire.api.requests.fandoms.RFandomsSubscribeChange
 import com.sayzen.campfiresdk.R
 import com.sayzen.campfiresdk.adapters.XFandom
-import com.sayzen.campfiresdk.app.CampfreConstants
+import com.sayzen.campfiresdk.app.CampfireConstants
 import com.sayzen.campfiresdk.controllers.ControllerApi
 import com.sayzen.campfiresdk.controllers.ControllerCampfireSDK
 import com.sayzen.campfiresdk.models.events.fandom.EventFandomCategoryChanged
@@ -38,7 +38,7 @@ class CardTitle(
         val vLanguage: Button = view.findViewById(R.id.vLanguage)
         val vIcon: ImageView = view.findViewById(R.id.vIcon)
 
-        vIcon.setImageResource(CampfreConstants.getCategoryIcon(category))
+        vIcon.setImageResource(CampfireConstants.getCategoryIcon(category))
 
         vName.text = xFandom.name
         vLanguage.text = ControllerApi.getLanguage(xFandom.languageId).name

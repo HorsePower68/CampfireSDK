@@ -20,6 +20,7 @@ class CardCommentImage(
 ) : CardComment(if (miniSize) R.layout.card_comment_image_mini else R.layout.card_comment_image, unit, dividers, miniSize, onClick, onQuote, onGoTo) {
 
     override fun bind(view: View) {
+        val unit = xUnit.unit as UnitComment
 
         val vImage: ImageView = view.findViewById(R.id.vImage)
         val vGifProgressBar: View = view.findViewById(R.id.vGifProgressBar)
@@ -27,7 +28,7 @@ class CardCommentImage(
 
         vCommentText.visibility = if (unit.text.isEmpty()) View.GONE else View.VISIBLE
 
-        ToolsView.setOnLongClickCoordinates(vImage) { view1, x, y -> popup?.asSheetShow() }
+        ToolsView.setOnLongClickCoordinates(vImage) { view1, x, y -> showMenu() }
 
         vImage.setOnClickListener { Navigator.to(SImageView(if (unit.gifId == 0L) unit.imageId else unit.gifId)) }
 

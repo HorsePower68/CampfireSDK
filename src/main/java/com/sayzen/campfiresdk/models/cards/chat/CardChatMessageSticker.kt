@@ -33,6 +33,7 @@ class CardChatMessageSticker(
 
     override fun bindView(view: View) {
         super.bindView(view)
+        val unit = xUnit.unit as UnitChatMessage
 
         val vImage: ImageView = view.findViewById(R.id.vImage)
         val vGifProgressBar: View = view.findViewById(R.id.vGifProgressBar)
@@ -44,7 +45,7 @@ class CardChatMessageSticker(
         vLabel.visibility = if (unit.text.isEmpty()) GONE else VISIBLE
         vLabelImage.visibility = if (unit.text.isEmpty()) VISIBLE else GONE
 
-        ToolsView.setOnLongClickCoordinates(vImage) { view1, x, y -> popup?.asSheetShow() }
+        ToolsView.setOnLongClickCoordinates(vImage) { view1, x, y -> showMenu() }
 
         vImage.setOnClickListener(null)
 
@@ -56,7 +57,7 @@ class CardChatMessageSticker(
             vLabelImage.text = ToolsDate.dateToString(unit.dateCreate)
         } else {
             (vLabelImage.layoutParams as FrameLayout.LayoutParams).gravity = Gravity.LEFT or Gravity.BOTTOM
-            vLabelImage.text = xAccount.name + "  " + ToolsDate.dateToString(unit.dateCreate)
+            vLabelImage.text = xUnit.xAccount.name + "  " + ToolsDate.dateToString(unit.dateCreate)
         }
 
 

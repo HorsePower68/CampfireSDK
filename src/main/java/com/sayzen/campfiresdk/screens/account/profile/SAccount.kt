@@ -121,7 +121,7 @@ class SAccount private constructor(
                 r.banDate, r.isFollow, r.followsCount, r.followersCount, r.moderateFandomsCount, r.status,
                 r.ratesCount, r.bansCount, r.warnsCount, r.note)
         cardFilters = CardFilters {
-            if (cardPinnedPost != null) setPinnedPost(cardPinnedPost!!.unit)
+            if (cardPinnedPost != null) setPinnedPost(cardPinnedPost!!.xUnit.unit as UnitPost)
             adapter.reloadBottom()
         }
 
@@ -141,7 +141,7 @@ class SAccount private constructor(
     private fun afterPackLoaded() {
         if (cardPinnedPost != null && ControllerSettings.getProfileFilters().contains(API.UNIT_TYPE_POST))
             for (c in adapter.get(CardPost::class))
-                if (c.unit.id == cardPinnedPost!!.unit.id && !c.unit.isPined)
+                if (c.xUnit.unit.id == cardPinnedPost!!.xUnit.unit.id && !(c.xUnit.unit as UnitPost).isPined)
                     adapter.remove(c)
     }
 
@@ -150,7 +150,7 @@ class SAccount private constructor(
         if (post == null) {
             cardPinnedPost = null
         } else {
-            for (c in adapter.get(CardPost::class)) if (c.unit.id == post.id) adapter.remove(c)
+            for (c in adapter.get(CardPost::class)) if (c.xUnit.unit.id == post.id) adapter.remove(c)
             post.isPined = true
             cardPinnedPost = CardPost(vRecycler, post)
             if (ControllerSettings.getProfileFilters().contains(API.UNIT_TYPE_POST)) {

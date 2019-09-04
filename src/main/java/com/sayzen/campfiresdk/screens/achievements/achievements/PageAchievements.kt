@@ -3,13 +3,12 @@ package com.sayzen.campfiresdk.screens.achievements.achievements
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import android.view.View
-import com.dzen.campfire.api.models.AchievementInfo
 import com.dzen.campfire.api.models.notifications.NotificationAchievement
 import com.dzen.campfire.api.requests.achievements.RAchievementsInfo
 import com.dzen.campfire.api.requests.achievements.RAchievementsPack
 import com.sayzen.campfiresdk.R
 import com.sayzen.campfiresdk.screens.achievements.CardInfo
-import com.sayzen.campfiresdk.app.CampfreConstants
+import com.sayzen.campfiresdk.app.CampfireConstants
 import com.sayzen.campfiresdk.controllers.api
 import com.sayzen.campfiresdk.models.events.notifications.EventNotification
 import com.sup.dev.android.app.SupAndroid
@@ -29,7 +28,7 @@ class PageAchievements(
             .subscribe(EventNotification::class) { e: EventNotification -> this.onNotification(e) }
 
     private val adapterSub: RecyclerCardAdapter = RecyclerCardAdapter()
-    private val cardInfo: CardInfo = CardInfo(R.string.achi_karma_hint, R.string.app_level, r.karmaForce, true, CampfreConstants.getLvlImage(r.karmaForce))
+    private val cardInfo: CardInfo = CardInfo(R.string.achi_karma_hint, R.string.app_level, r.karmaForce, true, CampfireConstants.getLvlImage(r.karmaForce))
     private var scrollToIndex: Int = 0
 
     private val indexes = ArrayList<Long>()

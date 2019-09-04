@@ -6,7 +6,7 @@ import com.dzen.campfire.api.requests.accounts.RAccountsPunishmentsGetInfo
 import com.dzen.campfire.api.requests.accounts.RAccountsAdminBan
 import com.dzen.campfire.api.requests.fandoms.RFandomsModerationBlock
 import com.sayzen.campfiresdk.R
-import com.sayzen.campfiresdk.app.CampfreConstants
+import com.sayzen.campfiresdk.app.CampfireConstants
 import com.sayzen.campfiresdk.controllers.ControllerApi
 import com.sayzen.campfiresdk.models.events.account.EventAccountBaned
 import com.sayzen.campfiresdk.screens.punishments.SPunishments
@@ -85,7 +85,7 @@ class WidgetAdminBlock(
 
         vTemplate.setOnClickListener {
             val w = WidgetMenu()
-            for (i in CampfreConstants.RULES_USER) w.add(i.title) { w, c -> setText(i.text) }
+            for (i in CampfireConstants.RULES_USER) w.add(i.title) { w, c -> setText(i.text) }
             w.asSheetShow()
         }
 

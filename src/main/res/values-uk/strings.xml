@@ -516,6 +516,7 @@
     <string name="stickers_report_confirm">Пожаловаться на стикер?</string>
     <string name="stickers_packs_error_gone">Похоже кто-то удалил этот набор стикеров</string>
     <string name="stickers_empty">Похоже у вас нет стикеров</string>
+    <string name="stickers_packs_clear_reports_confirm">Удалить жалобы на этот набор стикеров?</string>
     <string name="sticker_error_gone">Похоже кто-то удалил этот стикер</string>
     <string name="sticker_add">Добавить в коллекцию</string>
     <string name="sticker_remove">Убрать из коллекции</string>
@@ -834,7 +835,7 @@
     <string name="post_page_quote">Цитата</string>
     <string name="post_page_link">Ссылка</string>
     <string name="post_page_spoiler">Спойлер</string>
-    <string name="post_page_polling">Голосование</string>
+    <string name="post_page_polling">Опрос</string>
     <string name="post_page_polling_options">Варианты:</string>
     <string name="post_page_table">Таблица</string>
     <string name="post_page_campfire_object">Объект Campfire</string>

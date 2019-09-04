@@ -2,7 +2,7 @@ package com.sayzen.campfiresdk.controllers
 
 import com.dzen.campfire.api.requests.units.RUnitsKarmaAdd
 import com.sayzen.campfiresdk.R
-import com.sayzen.campfiresdk.app.CampfreConstants
+import com.sayzen.campfiresdk.app.CampfireConstants
 import com.sayzen.campfiresdk.models.events.units.EventUnitKarmaAdd
 import com.sayzen.campfiresdk.models.events.units.EventUnitKarmaStateChanged
 import com.sup.dev.android.libs.api_simple.ApiRequestsSupporter
@@ -49,7 +49,7 @@ object ControllerKarma {
         private val subscription: Subscription
 
         init {
-            subscription = ToolsThreads.main(CampfreConstants.RATE_TIME) {
+            subscription = ToolsThreads.main(CampfireConstants.RATE_TIME) {
                 ApiRequestsSupporter.execute(RUnitsKarmaAdd(unitId, up, ControllerApi.getLanguageId())) { r ->
                     EventBus.post(EventUnitKarmaAdd(unitId, r.myKarmaCount))
                 }

@@ -10,7 +10,7 @@ import com.sayzen.campfiresdk.R
 import com.sayzen.campfiresdk.adapters.XFandom
 import com.sayzen.campfiresdk.models.events.fandom.EventFandomParamsChanged
 import com.sayzen.campfiresdk.screens.fandoms.search.SFandomsSearch
-import com.sayzen.campfiresdk.app.CampfreConstants
+import com.sayzen.campfiresdk.app.CampfireConstants
 import com.sayzen.campfiresdk.controllers.ControllerApi
 import com.sayzen.campfiresdk.models.objects.FandomParam
 import com.sup.dev.android.libs.api_simple.ApiRequestsSupporter
@@ -42,7 +42,7 @@ class CardParams(
         vAdd.visibility = if (ControllerApi.can(API.LVL_ADMIN_FANDOM_PARAMS)) View.VISIBLE else View.INVISIBLE
         vAdd.setOnClickListener { change() }
 
-        vEmptyText.text = if (params.isEmpty() && CampfreConstants.getParamTitle(categoryId, paramsPosition) != null) CampfreConstants.getParamTitle(categoryId, paramsPosition)!! else ""
+        vEmptyText.text = if (params.isEmpty() && CampfireConstants.getParamTitle(categoryId, paramsPosition) != null) CampfireConstants.getParamTitle(categoryId, paramsPosition)!! else ""
 
         for (i in params) {
             val v = ViewChip.instance(view.context)
@@ -53,7 +53,7 @@ class CardParams(
     }
 
     private fun change() {
-        WidgetParams(CampfreConstants.getParamTitle(categoryId, paramsPosition)!!, CampfreConstants.getParams(categoryId, paramsPosition)!!, params) { newParams, comment ->
+        WidgetParams(CampfireConstants.getParamTitle(categoryId, paramsPosition)!!, CampfireConstants.getParams(categoryId, paramsPosition)!!, params) { newParams, comment ->
             ApiRequestsSupporter.executeEnabledConfirm(R.string.fandoms_menu_change_params_confirms, R.string.app_change, RFandomsAdminChangeParams(xFandom.fandomId, categoryId, paramsPosition, newParams, comment)) { r ->
                 EventBus.post(EventFandomParamsChanged(xFandom.fandomId, xFandom.languageId, categoryId, paramsPosition, newParams))
                 ToolsToast.show(R.string.app_done)
@@ -67,7 +67,7 @@ class CardParams(
     }
 
     fun getParam(index: Long): FandomParam {
-        for (a in CampfreConstants.getParams(categoryId, paramsPosition)!!)
+        for (a in CampfireConstants.getParams(categoryId, paramsPosition)!!)
             if (a.index == index) return a
         throw java.lang.RuntimeException("Unknown index $index")
     }
