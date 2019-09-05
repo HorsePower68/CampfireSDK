@@ -59,17 +59,19 @@ object ControllerCampfireSDK {
     var SEARCH_FANDOM: (callback: (Fandom) -> Unit) -> Unit = { }
 
     var executorLinks: ExecutorLinks? = null
+    var projectKey = ""
 
     fun init(
-            appId:String,
+            projectKey:String,
             logoColored: Int,
             logoWhite: Int,
             notificationExecutor: ControllerNotifications.ExecutorNotification,
             linksExecutor: ExecutorLinks,
             onLoginFailed: () -> Unit
     ) {
+        this.projectKey = projectKey
         executorLinks = linksExecutor
-        ControllerApi.init(appId)
+        ControllerApi.init()
         ControllerChats.init()
         ControllerNotifications.init(logoColored, logoWhite, notificationExecutor)
         ControllerGoogleToken.init("276237287601-6e9aoah4uivbjh6lnn1l9hna6taljd9u.apps.googleusercontent.com", onLoginFailed)

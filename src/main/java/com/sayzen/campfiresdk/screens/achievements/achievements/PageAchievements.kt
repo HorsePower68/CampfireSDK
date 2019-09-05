@@ -54,7 +54,7 @@ class PageAchievements(
         if (scrollToId != 0L) {
             for (card in adapterSub.get(CardSpoilerAchi::class))
                 for (c in card.cards)
-                    if ((c as CardAchievement).achievement.index == scrollToId) {
+                    if (c is CardAchievement && c.achievement.index == scrollToId) {
                         card.setExpanded(true)
                         c.flash()
                         scrollToIndex = adapterSub.indexOf(c) + 3

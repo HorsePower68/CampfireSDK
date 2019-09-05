@@ -886,6 +886,7 @@
     <string name="wiki_item_create_name">Название (%s)</string>
     <string name="wiki_item_create_add_translate">Добавить перевод</string>
     <string name="wiki_item_create_title">Создание вики</string>
+    <string name="wiki_item_remove_confirm">Удалить этот элемент вики?</string>
 
     <string name="category_games">Игры</string>
     <string name="category_anime">Аниме</string>

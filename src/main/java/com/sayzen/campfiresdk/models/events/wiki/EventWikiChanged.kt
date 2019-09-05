@@ -2,4 +2,4 @@ package com.sayzen.campfiresdk.models.events.wiki
 
 import com.dzen.campfire.api.models.wiki.WikiItem
 
-class EventWikiItemChanged(item:WikiItem)
+class EventWikiChanged(val item:WikiItem)
