@@ -654,12 +654,12 @@ object CampfireConstants {
             R.string.feed_loading_11, R.string.feed_loading_12, R.string.feed_loading_13, R.string.feed_loading_14, R.string.feed_loading_15,
             R.string.feed_loading_16, R.string.feed_loading_17, R.string.feed_loading_18, R.string.feed_loading_19, R.string.feed_loading_20, R.string.feed_loading_21,
             R.string.feed_loading_22, R.string.feed_loading_23, R.string.feed_loading_24, R.string.feed_loading_25, R.string.feed_loading_26, R.string.feed_loading_27, R.string.feed_loading_28, R.string.feed_loading_29, R.string.feed_loading_30,
-            R.string.feed_loading_31, R.string.feed_loading_32
+            R.string.feed_loading_31, R.string.feed_loading_32, R.string.feed_loading_33, R.string.feed_loading_34
     )
 
     val ACCOUNT_TEXT = arrayOf(
             R.string.profile_subtitle_text_1, R.string.profile_subtitle_text_2, R.string.profile_subtitle_text_3, R.string.profile_subtitle_text_4, R.string.profile_subtitle_text_5, R.string.profile_subtitle_text_6, R.string.profile_subtitle_text_7, R.string.profile_subtitle_text_8, R.string.profile_subtitle_text_9,
-            R.string.profile_subtitle_text_10
+            R.string.profile_subtitle_text_10,R.string.profile_subtitle_text_11,R.string.profile_subtitle_text_12,R.string.profile_subtitle_text_13,R.string.profile_subtitle_text_14
     )
 
 }
