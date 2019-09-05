@@ -2,6 +2,7 @@ package com.sayzen.campfiresdk.models.cards.post_pages
 
 import android.view.View
 import android.widget.ImageView
+import com.dzen.campfire.api.models.PagesContainer
 import com.dzen.campfire.api.models.units.post.PageImage
 import com.dzen.campfire.api.models.units.post.UnitPost
 import com.sayzen.campfiresdk.R
@@ -10,9 +11,9 @@ import com.sup.dev.android.tools.ToolsImagesLoader
 import com.sup.dev.android.views.screens.SImageView
 
 class CardPageImage(
-        unit: UnitPost?,
+        pagesContainer: PagesContainer?,
         page: PageImage
-) : CardPage(R.layout.card_page_image, unit, page) {
+) : CardPage(R.layout.card_page_image, pagesContainer, page) {
 
     override fun getChangeMenuItemText() = R.string.app_crop
 
@@ -34,11 +35,11 @@ class CardPageImage(
 
     private fun onImageClicked() {
 
-        if(unit != null) {
+        if(pagesContainer != null) {
             val list = ArrayList<Long>()
             var index = 0
 
-            for (p in unit.pages)
+            for (p in pagesContainer.getPagesArray())
                 if (p is PageImage) {
                     if (p == page) index = list.size
                     list.add(p.getMainImageId())

@@ -3,6 +3,7 @@ package com.sayzen.campfiresdk.models.cards.post_pages
 import android.view.View
 import android.widget.ImageView
 import android.widget.LinearLayout
+import com.dzen.campfire.api.models.PagesContainer
 
 import com.dzen.campfire.api.models.units.post.PageText
 import com.dzen.campfire.api.models.units.post.UnitPost
@@ -14,9 +15,9 @@ import com.sup.dev.android.tools.ToolsView
 import com.sup.dev.android.views.views.ViewTextLinkable
 
 class CardPageText(
-        unit: UnitPost?,
+        pagesContainer: PagesContainer?,
         page: PageText
-) : CardPage(R.layout.card_page_text, unit, page) {
+) : CardPage(R.layout.card_page_text, pagesContainer, page) {
 
     var maxLines = Integer.MAX_VALUE
 

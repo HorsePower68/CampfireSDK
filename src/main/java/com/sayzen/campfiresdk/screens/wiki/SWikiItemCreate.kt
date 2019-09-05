@@ -8,7 +8,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import com.dzen.campfire.api.API
 import com.dzen.campfire.api.models.Language
-import com.dzen.campfire.api.models.wiki.WikiItem
+import com.dzen.campfire.api.models.wiki.WikiTitle
 import com.dzen.campfire.api.requests.wiki.RWikiItemChange
 import com.dzen.campfire.api.requests.wiki.RWikiItemCreate
 import com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -35,8 +35,8 @@ import java.lang.ref.WeakReference
 class SWikiItemCreate(
         val fandomId: Long,
         val parentItemId: Long,
-        val item: WikiItem = WikiItem()
-) : Screen(R.layout.wiki_item_create) {
+        val item: WikiTitle = WikiTitle()
+) : Screen(R.layout.screen_wiki_item_create) {
 
     private val vNameEnglish: EditText = findViewById(R.id.vNameEnglish)
     private val vNameMyLanguage: EditText = findViewById(R.id.vNameMyLanguage)
@@ -178,7 +178,7 @@ class SWikiItemCreate(
 
     private fun addLanguageToItemIfNeed(code: String) {
         for (i in item.translates) if (i.languageCode == code) return
-        val wikiTranslation = WikiItem.Translate()
+        val wikiTranslation = WikiTitle.Translate()
         wikiTranslation.languageCode = code
         item.translates = ToolsCollections.add(wikiTranslation, item.translates)
     }

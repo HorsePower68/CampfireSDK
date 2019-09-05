@@ -2,7 +2,7 @@ package com.sayzen.campfiresdk.screens.wiki
 
 import android.view.View
 import com.dzen.campfire.api.API
-import com.dzen.campfire.api.models.wiki.WikiItem
+import com.dzen.campfire.api.models.wiki.WikiTitle
 import com.dzen.campfire.api.requests.wiki.RWikiListGet
 import com.sayzen.campfiresdk.R
 import com.sayzen.campfiresdk.controllers.ControllerApi
@@ -17,7 +17,7 @@ class SWikiList(
         val fandomId: Long,
         val itemId: Long,
         val itemName: String
-) : SLoadingRecycler<CardWikiItem, WikiItem>() {
+) : SLoadingRecycler<CardWikiItem, WikiTitle>() {
 
     private val eventBus = EventBus.subscribe(EventWikiCreated::class) { if (it.item.fandomId == fandomId && it.item.parentItemId == itemId) adapter?.reloadBottom() }
 
@@ -29,8 +29,8 @@ class SWikiList(
         vFab.setOnClickListener { Navigator.to(SWikiItemCreate(fandomId, itemId)) }
     }
 
-    override fun instanceAdapter(): RecyclerCardAdapterLoading<CardWikiItem, WikiItem> {
-        return RecyclerCardAdapterLoading<CardWikiItem, WikiItem>(CardWikiItem::class) { CardWikiItem(it) }
+    override fun instanceAdapter(): RecyclerCardAdapterLoading<CardWikiItem, WikiTitle> {
+        return RecyclerCardAdapterLoading<CardWikiItem, WikiTitle>(CardWikiItem::class) { CardWikiItem(it) }
                 .setBottomLoader { onLoad, cards ->
                     subscription = RWikiListGet(fandomId, itemId, cards.size.toLong())
                             .onComplete { r -> onLoad.invoke(r.items) }

@@ -1,5 +1,5 @@
 package com.sayzen.campfiresdk.models.events.wiki
 
-import com.dzen.campfire.api.models.wiki.WikiItem
+import com.dzen.campfire.api.models.wiki.WikiTitle
 
-class EventWikiRemove(val item:WikiItem)
+class EventWikiRemove(val item:WikiTitle)

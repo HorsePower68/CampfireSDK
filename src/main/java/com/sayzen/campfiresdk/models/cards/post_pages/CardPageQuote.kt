@@ -1,6 +1,7 @@
 package com.sayzen.campfiresdk.models.cards.post_pages
 
 import android.view.View
+import com.dzen.campfire.api.models.PagesContainer
 
 import com.dzen.campfire.api.models.units.post.PageQuote
 import com.dzen.campfire.api.models.units.post.UnitPost
@@ -9,9 +10,9 @@ import com.sayzen.campfiresdk.controllers.ControllerApi
 import com.sup.dev.android.views.views.ViewTextLinkable
 
 class CardPageQuote(
-        unit: UnitPost?,
+        pagesContainer: PagesContainer?,
         page: PageQuote
-) : CardPage(R.layout.card_page_quote, unit, page) {
+) : CardPage(R.layout.card_page_quote, pagesContainer, page) {
 
     override fun bindView(view: View) {
         super.bindView(view)

@@ -2,6 +2,7 @@ package com.sayzen.campfiresdk.models.cards.post_pages
 
 import android.view.View
 import android.widget.ImageView
+import com.dzen.campfire.api.models.PagesContainer
 
 import com.dzen.campfire.api.models.units.post.PageSpoiler
 import com.dzen.campfire.api.models.units.post.UnitPost
@@ -15,9 +16,9 @@ import com.sup.dev.android.views.views.ViewTextLinkable
 import java.util.ArrayList
 
 class CardPageSpoiler(
-        unit: UnitPost?,
+        pagesContainer: PagesContainer?,
         page: PageSpoiler
-) : CardPage(R.layout.card_page_spoiler, unit, page) {
+) : CardPage(R.layout.card_page_spoiler, pagesContainer, page) {
 
     var pages:ArrayList<CardPage>? = null
     var onClick:()->Unit = {}

@@ -887,6 +887,9 @@
     <string name="wiki_item_create_add_translate">Добавить перевод</string>
     <string name="wiki_item_create_title">Создание вики</string>
     <string name="wiki_item_remove_confirm">Удалить этот элемент вики?</string>
+    <string name="wiki_article_loading">Загружаем статью...</string>
+    <string name="wiki_article_empty_no_english">Нет перевода для вашего языка. Открыта английская версия.</string>
+    <string name="wiki_article_empty">Эта статья еще не заполнена</string>
 
     <string name="category_games">Игры</string>
     <string name="category_anime">Аниме</string>

@@ -2,6 +2,7 @@ package com.sayzen.campfiresdk.models.cards.post_pages
 
 import android.view.View
 import android.widget.ImageView
+import com.dzen.campfire.api.models.PagesContainer
 import com.dzen.campfire.api.models.units.post.PageVideo
 import com.dzen.campfire.api.models.units.post.UnitPost
 import com.sayzen.campfiresdk.R
@@ -10,9 +11,9 @@ import com.sup.dev.android.tools.ToolsImagesLoader
 import com.sup.dev.android.views.views.ViewIcon
 
 class CardPageVideo(
-        unit: UnitPost?,
+        pagesContainer: PagesContainer?,
         page: PageVideo
-) : CardPage(R.layout.card_page_video, unit, page) {
+) : CardPage(R.layout.card_page_video, pagesContainer, page) {
 
     override fun bindView(view: View) {
         super.bindView(view)

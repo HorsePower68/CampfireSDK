@@ -3,6 +3,7 @@ package com.sayzen.campfiresdk.models.cards.post_pages
 import android.view.View
 import com.dzen.campfire.api.API
 import com.dzen.campfire.api.models.CampfireLink
+import com.dzen.campfire.api.models.PagesContainer
 import com.dzen.campfire.api.models.units.post.PageCampfireObject
 import com.dzen.campfire.api.models.units.post.UnitPost
 import com.sayzen.campfiresdk.R
@@ -18,9 +19,9 @@ import com.sup.dev.android.tools.ToolsImagesLoader
 import com.sup.dev.android.views.views.ViewAvatarTitle
 
 class CardPageCampfireObject(
-        unit: UnitPost?,
+        pagesContainer: PagesContainer?,
         page: PageCampfireObject
-) : CardPage(R.layout.card_page_campfire_object, unit, page) {
+) : CardPage(R.layout.card_page_campfire_object, pagesContainer, page) {
 
     override fun bindView(view: View) {
         super.bindView(view)

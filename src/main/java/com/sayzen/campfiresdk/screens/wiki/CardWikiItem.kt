@@ -4,8 +4,7 @@ import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
 import com.dzen.campfire.api.API
-import com.dzen.campfire.api.models.wiki.WikiItem
-import com.dzen.campfire.api.requests.wiki.RWikiListGet
+import com.dzen.campfire.api.models.wiki.WikiTitle
 import com.dzen.campfire.api.requests.wiki.RWikiRemove
 import com.sayzen.campfiresdk.R
 import com.sayzen.campfiresdk.controllers.ControllerApi
@@ -21,8 +20,8 @@ import com.sup.dev.android.views.widgets.WidgetMenu
 import com.sup.dev.java.libs.eventBus.EventBus
 
 class CardWikiItem(
-        var wikiItem: WikiItem
-) : Card(R.layout.wiki_card_item), NotifyItem {
+        var wikiItem: WikiTitle
+) : Card(R.layout.screen_wiki_card_item), NotifyItem {
 
     private val eventBus = EventBus
             .subscribe(EventWikiRemove::class) { if (it.item.itemId == wikiItem.itemId) adapter?.remove(this) }
@@ -35,12 +34,13 @@ class CardWikiItem(
         val vName: TextView = view.findViewById(R.id.vName)
         val vSectionIcon: ImageView = view.findViewById(R.id.vSectionIcon)
 
-        ToolsImagesLoader.load(wikiItem.imageId).into(vImage)
+        ToolsImagesLoader.loadGif(wikiItem.imageId, 0, 0, 0, vImage)
         vName.text = wikiItem.getName(ControllerApi.getLanguageCode())
         vSectionIcon.visibility = if (wikiItem.type == API.WIKI_TYPE_SECION) View.VISIBLE else View.GONE
 
         view.setOnClickListener {
             if (wikiItem.type == API.WIKI_TYPE_SECION) Navigator.to(SWikiList(wikiItem.fandomId, wikiItem.itemId, wikiItem.name))
+            else Navigator.to(SWikiArticlerView(wikiItem, ControllerApi.getLanguageId()))
         }
 
         view.setOnLongClickListener {
