@@ -2,6 +2,7 @@ package com.sayzen.campfiresdk.models.cards.post_pages
 
 import android.view.View
 import android.widget.TextView
+import com.dzen.campfire.api.models.PagesContainer
 
 import com.dzen.campfire.api.models.units.post.PageImages
 import com.dzen.campfire.api.models.units.post.UnitPost
@@ -12,9 +13,9 @@ import com.sup.dev.android.views.views.ViewImagesContainer
 import com.sup.dev.android.views.views.ViewTextLinkable
 
 class CardPageImages(
-        unit: UnitPost?,
+        pagesContainer: PagesContainer?,
         page: PageImages
-) : CardPage(R.layout.card_page_images, unit, page) {
+) : CardPage(R.layout.card_page_images, pagesContainer, page) {
 
     override fun bindView(view: View) {
         super.bindView(view)

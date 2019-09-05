@@ -4,6 +4,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
 import android.widget.TextView
+import com.dzen.campfire.api.models.PagesContainer
 import com.dzen.campfire.api.models.units.post.PagePolling
 import com.dzen.campfire.api.models.units.post.UnitPost
 import com.sayzen.campfiresdk.R
@@ -17,9 +18,9 @@ import com.sup.dev.android.views.views.ViewTextLinkable
 import com.sup.dev.java.libs.eventBus.EventBus
 
 class CardPagePolling(
-        unit: UnitPost?,
+        pagesContainer: PagesContainer?,
         page: PagePolling
-) : CardPage(R.layout.card_page_polling, unit, page) {
+) : CardPage(R.layout.card_page_polling, pagesContainer, page) {
 
     val eventBud = EventBus.subscribe(EventPollingChanged::class) {
         if (it.pollingId == page.pollingId) update()

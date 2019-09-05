@@ -74,7 +74,7 @@ class CardButtons(
         vSubscribersButton.setOnClickListener { SSubscribers.instance(xFandom.fandomId, xFandom.languageId, Navigator.TO) }
         vSubscribersText.text = "$subscribersCount"
 
-        vWikiButton.setOnClickListener { Navigator.to(SWikiList(xFandom.fandomId, 0)) }
+        vWikiButton.setOnClickListener { Navigator.to(SWikiList(xFandom.fandomId, 0, "")) }
     }
 
     //

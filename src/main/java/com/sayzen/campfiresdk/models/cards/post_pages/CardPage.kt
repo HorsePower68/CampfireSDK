@@ -2,6 +2,7 @@ package com.sayzen.campfiresdk.models.cards.post_pages
 
 import androidx.annotation.CallSuper
 import android.view.View
+import com.dzen.campfire.api.models.PagesContainer
 import com.dzen.campfire.api.models.units.post.*
 import com.sayzen.campfiresdk.R
 import com.sup.dev.android.views.cards.Card
@@ -10,9 +11,9 @@ import com.sup.dev.android.views.views.ViewIcon
 import com.sup.dev.android.views.widgets.WidgetMenu
 
 abstract class CardPage(
-    layout: Int,
-    val unit: UnitPost?,
-    page: Page
+        layout: Int,
+        val pagesContainer: PagesContainer?,
+        page: Page
 ) : Card(layout), NotifyItem {
 
     companion object {
@@ -21,19 +22,19 @@ abstract class CardPage(
         //  Static
         //
 
-        fun instance(unit: UnitPost?, page: Page): CardPage {
-            if (page is PageText) return CardPageText(unit, page)
-            if (page is PageImage) return CardPageImage(unit, page)
-            if (page is PageImages) return CardPageImages(unit, page)
-            if (page is PageLink) return CardPageLink(unit, page)
-            if (page is PageQuote) return CardPageQuote(unit, page)
-            if (page is PageSpoiler) return CardPageSpoiler(unit, page)
-            if (page is PagePolling) return CardPagePolling(unit, page)
-            if (page is PageVideo) return CardPageVideo(unit, page)
-            if (page is PageTable) return CardPageTable(unit, page)
-            if (page is PageDownload) return CardPageDownload(unit, page)
-            if (page is PageCampfireObject) return CardPageCampfireObject(unit, page)
-           return CardPageUnknown(unit, page)
+        fun instance(pagesContainer: PagesContainer?, page: Page): CardPage {
+            if (page is PageText) return CardPageText(pagesContainer, page)
+            if (page is PageImage) return CardPageImage(pagesContainer, page)
+            if (page is PageImages) return CardPageImages(pagesContainer, page)
+            if (page is PageLink) return CardPageLink(pagesContainer, page)
+            if (page is PageQuote) return CardPageQuote(pagesContainer, page)
+            if (page is PageSpoiler) return CardPageSpoiler(pagesContainer, page)
+            if (page is PagePolling) return CardPagePolling(pagesContainer, page)
+            if (page is PageVideo) return CardPageVideo(pagesContainer, page)
+            if (page is PageTable) return CardPageTable(pagesContainer, page)
+            if (page is PageDownload) return CardPageDownload(pagesContainer, page)
+            if (page is PageCampfireObject) return CardPageCampfireObject(pagesContainer, page)
+           return CardPageUnknown(pagesContainer, page)
         }
     }
 

@@ -6,7 +6,6 @@ import android.text.Html
 import android.text.util.Linkify
 import android.widget.TextView
 import com.dzen.campfire.api.API
-import com.dzen.campfire.api.models.Language
 import com.dzen.campfire.api.models.UnitComment
 import com.dzen.campfire.api.models.account.Account
 import com.dzen.campfire.api.models.lvl.LvlInfo
@@ -43,6 +42,7 @@ import com.sup.dev.java.tools.ToolsThreads
 import java.util.regex.Pattern
 
 val api: API = API(
+        ControllerCampfireSDK.projectKey,
         ControllerGoogleToken.instanceTokenProvider(),
         if (ControllerCampfireSDK.IS_DEBUG) (if (ControllerCampfireSDK.IS_USE_SECOND_IP) ControllerCampfireSDK.SECOND_IP else "192.168.0.64") else API.IP,
         API.PORT_HTTPS,
@@ -52,6 +52,7 @@ val api: API = API(
 )
 
 val apiMedia: APIMedia = APIMedia(
+        ControllerCampfireSDK.projectKey,
         instanceTokenProvider(),
         APIMedia.IP,
         APIMedia.PORT_HTTPS,
@@ -79,14 +80,12 @@ fun instanceTokenProvider(): TokenProvider {
 object ControllerApi {
 
     var account = Account()
-    var appId = ""
     private var serverTimeDelta = 0L
     private var fandomsKarmaCounts: Array<Item3<Long, Long, Long>?>? = null
     private var version = ""
     private var supportedVersion = emptyArray<String>()
 
-    internal fun init(appId: String) {
-        this.appId = appId
+    internal fun init() {
         ApiRequestsSupporter.init(api)
 
         ImageLoaderId.loader = { imageId ->
@@ -197,7 +196,7 @@ object ControllerApi {
         }
         login(loginToken) {
             if (account.id == 0L) {
-                val r = RAccountsRegistration(getLanguage(getLanguageCode()).id, null, appId)
+                val r = RAccountsRegistration(getLanguage(getLanguageCode()).id, null)
                         .onFinish {
                             login(loginToken) {
                                 onFinish.invoke()

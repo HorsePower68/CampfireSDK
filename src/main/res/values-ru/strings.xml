@@ -415,6 +415,8 @@
     <string name="feed_loading_30">Если вы это читаете, значит лента еще не загружена.</string>
     <string name="feed_loading_31">Быстрее читай, скоро эта надпись пропадёт!</string>
     <string name="feed_loading_32">Без красителей и консервантов</string>
+    <string name="feed_loading_33">Не играйте с огнём</string>
+    <string name="feed_loading_34">Добро пожаловать в мой мир</string>
     <string name="feed_loading">Загружаем вашу ленту</string>
     <string name="feed_all">Все побликации</string>
     <string name="feed_subscribed">Только подписки</string>
@@ -730,6 +732,10 @@
     <string name="profile_subtitle_text_8">Нашел алмаз</string>
     <string name="profile_subtitle_text_9">В танке</string>
     <string name="profile_subtitle_text_10">Хочет в отпуск</string>
+    <string name="profile_subtitle_text_11">Играет с огнём</string>
+    <string name="profile_subtitle_text_12">Не играет с огнём</string>
+    <string name="profile_subtitle_text_13">Протоадмин</string>
+    <string name="profile_subtitle_text_14">Мяу</string>
 
     <string name="about_privacy_policy">Политика конфиденциальности</string>
 
@@ -885,6 +891,10 @@
     <string name="wiki_item_create_name">Название (%s)</string>
     <string name="wiki_item_create_add_translate">Добавить перевод</string>
     <string name="wiki_item_create_title">Создание вики</string>
+    <string name="wiki_item_remove_confirm">Удалить этот элемент вики?</string>
+    <string name="wiki_article_loading">Загружаем статью...</string>
+    <string name="wiki_article_empty_no_english">Нет перевода для вашего языка. Открыта английская версия.</string>
+    <string name="wiki_article_empty">Эта статья еще не заполнена</string>
 
     <string name="category_games">Игры</string>
     <string name="category_anime">Аниме</string>

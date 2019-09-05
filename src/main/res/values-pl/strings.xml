@@ -413,6 +413,8 @@ Campfire has anime fandoms and gaming fandoms.</string>
     <string name="feed_loading_30">If you\'re reading this, the feed isn\'t loaded yet.</string>
     <string name="feed_loading_31">Faster read, soon this message will disappear!</string>
     <string name="feed_loading_32">No colorants or preservatives</string>
+    <string name="feed_loading_33">Do not play with fire</string>
+    <string name="feed_loading_34">welcome to my world</string>
     <string name="feed_loading">Loading you\'r feed</string>
     <string name="feed_all">All publications</string>
     <string name="feed_subscribed">Subscribed only</string>
@@ -729,6 +731,10 @@ Campfire has anime fandoms and gaming fandoms.</string>
     <string name="profile_subtitle_text_8">Found a diamond</string>
     <string name="profile_subtitle_text_9">In the tank</string>
     <string name="profile_subtitle_text_10">Wants a vacation</string>
+    <string name="profile_subtitle_text_11">Playing with fire</string>
+    <string name="profile_subtitle_text_12">Not playing with fire</string>
+    <string name="profile_subtitle_text_13">Protoadmin</string>
+    <string name="profile_subtitle_text_14">Meow</string>
 
 
     <string name="about_privacy_policy">Privacy policy</string>
@@ -885,6 +891,10 @@ Campfire has anime fandoms and gaming fandoms.</string>
     <string name="wiki_item_create_name">Name (%s)</string>
     <string name="wiki_item_create_add_translate">Add translate</string>
     <string name="wiki_item_create_title">Wiki creation</string>
+    <string name="wiki_item_remove_confirm">Remove this wiki item?</string>
+    <string name="wiki_article_loading">Article is loading...</string>
+    <string name="wiki_article_empty_no_english">There is no translation for your language. English version is open.</string>
+    <string name="wiki_article_empty">This article is empty yet.</string>
 
     <string name="category_games">Games</string>
     <string name="category_anime">Anime</string>

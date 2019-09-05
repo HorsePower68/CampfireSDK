@@ -5,6 +5,7 @@ import android.view.View
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
+import com.dzen.campfire.api.models.PagesContainer
 import com.dzen.campfire.api.models.units.post.PageDownload
 import com.dzen.campfire.api.models.units.post.PageImage
 import com.dzen.campfire.api.models.units.post.UnitPost
@@ -20,9 +21,9 @@ import com.sup.dev.java.tools.ToolsText
 import com.sup.dev.java.tools.ToolsThreads
 
 class CardPageDownload(
-        unit: UnitPost?,
+        pagesContainer: PagesContainer?,
         page: PageDownload
-) : CardPage(R.layout.card_page_download, unit, page) {
+) : CardPage(R.layout.card_page_download, pagesContainer, page) {
 
     override fun bindView(view: View) {
         super.bindView(view)

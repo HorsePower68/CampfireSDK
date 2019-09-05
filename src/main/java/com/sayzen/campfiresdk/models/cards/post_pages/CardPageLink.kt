@@ -1,6 +1,7 @@
 package com.sayzen.campfiresdk.models.cards.post_pages
 
 import android.view.View
+import com.dzen.campfire.api.models.PagesContainer
 
 import com.dzen.campfire.api.models.units.post.PageLink
 import com.dzen.campfire.api.models.units.post.UnitPost
@@ -12,9 +13,9 @@ import com.sup.dev.android.tools.ToolsToast
 import com.sup.dev.android.views.views.ViewTextLinkable
 
 class CardPageLink(
-        unit: UnitPost?,
+        pagesContainer: PagesContainer?,
         page: PageLink
-) : CardPage(R.layout.card_page_link, unit, page) {
+) : CardPage(R.layout.card_page_link, pagesContainer, page) {
 
     override fun bindView(view: View) {
         super.bindView(view)

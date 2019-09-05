@@ -8,14 +8,14 @@ import android.widget.ImageView
 import android.widget.TextView
 import com.dzen.campfire.api.API
 import com.dzen.campfire.api.models.Language
-import com.dzen.campfire.api.models.wiki.WikiItem
+import com.dzen.campfire.api.models.wiki.WikiTitle
 import com.dzen.campfire.api.requests.wiki.RWikiItemChange
 import com.dzen.campfire.api.requests.wiki.RWikiItemCreate
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.sayzen.campfiresdk.R
 import com.sayzen.campfiresdk.controllers.ControllerApi
-import com.sayzen.campfiresdk.models.events.wiki.EventWikiItemChanged
-import com.sayzen.campfiresdk.models.events.wiki.EventWikiItemCreated
+import com.sayzen.campfiresdk.models.events.wiki.EventWikiChanged
+import com.sayzen.campfiresdk.models.events.wiki.EventWikiCreated
 import com.sup.dev.android.libs.api_simple.ApiRequestsSupporter
 import com.sup.dev.android.libs.screens.Screen
 import com.sup.dev.android.libs.screens.navigator.Navigator
@@ -35,8 +35,8 @@ import java.lang.ref.WeakReference
 class SWikiItemCreate(
         val fandomId: Long,
         val parentItemId: Long,
-        val item: WikiItem = WikiItem()
-) : Screen(R.layout.wiki_item_create) {
+        val item: WikiTitle = WikiTitle()
+) : Screen(R.layout.screen_wiki_item_create) {
 
     private val vNameEnglish: EditText = findViewById(R.id.vNameEnglish)
     private val vNameMyLanguage: EditText = findViewById(R.id.vNameMyLanguage)
@@ -78,7 +78,7 @@ class SWikiItemCreate(
         vImageBig.setOnClickListener { v -> selectImageBig() }
         vImageMini.setOnClickListener { v -> selectImageMini() }
 
-        vAddTranslate.setOnClickListener { addTranslate() }
+        vAddTranslate.setOnClickListener { showTranslateDialog() }
         vShowLanguages.setOnClickListener {
             vNamesContainer.visibility = if (vNamesContainer.visibility == View.VISIBLE) View.GONE else View.VISIBLE
             vShowLanguages.setText(if (vNamesContainer.visibility == View.VISIBLE) R.string.app_hide else R.string.app_show_all)
@@ -92,6 +92,11 @@ class SWikiItemCreate(
             vNameMyLanguage.hint = ToolsResources.s(R.string.wiki_item_create_name, ControllerApi.getLanguage(code).name)
             addLanguageToItemIfNeed(code)
             vNameMyLanguage.setText(item.getName(code))
+        }
+
+        for(i in item.translates) {
+            if(i.languageCode == code) continue
+            addLanguage(ControllerApi.getLanguage(i.languageCode), i.name)
         }
 
         if (item.imageId > 0) {
@@ -149,30 +154,31 @@ class SWikiItemCreate(
         }
     }
 
-    private fun addTranslate() {
+    private fun showTranslateDialog() {
         val w = WidgetMenu()
 
         val existed = ArrayList<String>()
         existed.add("en")
         for (i in item.translates) existed.add(i.languageCode)
 
-        for (i in API.LANGUAGES) if (!existed.contains(i.code)) w.add(i.name) { wii, c -> addTranslate(i) }
+        for (i in API.LANGUAGES) if (!existed.contains(i.code)) w.add(i.name) { wii, c -> addLanguage(i, "") }
 
         w.asSheetShow()
     }
 
-    private fun addTranslate(language: Language) {
+    private fun addLanguage(language: Language, text:String) {
         addLanguageToItemIfNeed(language.code)
         val v: View = ToolsView.inflate(R.layout.wiki_item_create_field)
         val vField: EditText = v.findViewById(R.id.vField)
         vField.tag = language.code
+        vField.setText(text)
         vField.hint = ToolsResources.s(R.string.wiki_item_create_name, language.name)
         vNamesContainer.addView(v, vNamesContainer.childCount - 1)
     }
 
     private fun addLanguageToItemIfNeed(code: String) {
         for (i in item.translates) if (i.languageCode == code) return
-        val wikiTranslation = WikiItem.Translate()
+        val wikiTranslation = WikiTitle.Translate()
         wikiTranslation.languageCode = code
         item.translates = ToolsCollections.add(wikiTranslation, item.translates)
     }
@@ -199,13 +205,13 @@ class SWikiItemCreate(
             ApiRequestsSupporter.executeProgressDialog(RWikiItemCreate(fandomId, parentItemId, item, imageMini, image)) { w,r ->
                 ToolsToast.show(R.string.app_done)
                 Navigator.remove(this)
-                EventBus.post(EventWikiItemCreated(r.item))
+                EventBus.post(EventWikiCreated(r.item))
             }
         } else {
             ApiRequestsSupporter.executeProgressDialog(RWikiItemChange(item, parentItemId, imageMini, image)) { w,r ->
                 ToolsToast.show(R.string.app_done)
                 Navigator.remove(this)
-                EventBus.post(EventWikiItemChanged(r.item))
+                EventBus.post(EventWikiChanged(r.item))
             }
         }
     }
