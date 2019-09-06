@@ -39,10 +39,11 @@
                         android:layout_gravity="center"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
+                        android:textColor="?toolbar_content_color"
                         style="@style/TextAppearance.AppCompat.Title"/>
 
                     <com.sup.dev.android.views.views.ViewIcon
-                        style="@style/Icon"
+                        style="@style/Icon.Toolbar"
                         android:id="@+id/vMore"
                         android:src="?ic_more_vert_24dp"/>
 

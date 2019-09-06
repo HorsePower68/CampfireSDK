@@ -2,6 +2,7 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="?android:windowBackground">
 
     <LinearLayout
@@ -102,6 +103,7 @@
                     style="@style/TextAppearance.AppCompat.Caption"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:textColor="?toolbar_content_color"
                     android:layout_weight="1"
                     android:padding="16dp" />
 
@@ -109,6 +111,7 @@
                     android:id="@+id/vQuoteRemove"
                     style="@style/Icon.18"
                     android:layout_gravity="top"
+                    app:ViewIcon_filter="?toolbar_content_color"
                     android:src="?ic_clear_18dp" />
 
             </LinearLayout>
@@ -139,6 +142,7 @@
 
                         <com.sup.dev.android.views.views.ViewIcon
                             android:id="@+id/vAttach"
+                            app:ViewIcon_filter="?toolbar_content_color"
                             style="@style/Icon"
                             android:layout_gravity="top"
                             android:src="?ic_attach_file_24dp" />
@@ -151,6 +155,7 @@
                             android:layout_marginLeft="8dp"
                             android:layout_weight="1"
                             android:background="@null"
+                            android:textColor="?toolbar_content_color"
                             android:hint="@string/app_message"
                             android:inputType="textCapSentences|textMultiLine|textAutoCorrect|textAutoComplete"
                             android:maxLines="9"
@@ -172,6 +177,7 @@
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
                             android:layout_marginLeft="16dp"
+                            android:textColor="?toolbar_content_color"
                             android:layout_weight="1" />
 
                         <com.sup.dev.android.views.views.ViewIcon
@@ -179,13 +185,15 @@
                             style="@style/Icon"
                             android:layout_gravity="bottom"
                             android:layout_marginRight="8dp"
-                            android:src="?ic_play_arrow_24dp" />
+                            android:src="?ic_play_arrow_24dp"
+                            app:ViewIcon_filter="?toolbar_content_color"/>
 
                         <com.sup.dev.android.views.views.ViewIcon
                             android:id="@+id/vVoiceRemove"
                             style="@style/Icon"
                             android:layout_gravity="bottom"
                             android:layout_marginRight="8dp"
+                            app:ViewIcon_filter="?toolbar_content_color"
                             android:src="?ic_clear_24dp" />
 
 
@@ -195,6 +203,7 @@
                         android:id="@+id/vSend"
                         style="@style/Icon"
                         android:layout_gravity="bottom"
+                        app:ViewIcon_filter="?toolbar_content_color"
                         android:src="?ic_send_24dp" />
 
                 </LinearLayout>

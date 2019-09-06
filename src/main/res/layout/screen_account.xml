@@ -33,13 +33,13 @@
                     android:id="@+id/vToolbarTitle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:textColor="?toolbar_content_color"
                     style="@style/TextAppearance.AppCompat.Title"/>
 
                 <com.sup.dev.android.views.views.ViewIcon
                     android:id="@+id/vMore"
-                    style="@style/Icon"
-                    android:src="?ic_more_vert_24dp"
-                    android:layout_gravity="end"/>
+                    style="@style/Icon.Toolbar"
+                    android:src="?ic_more_vert_24dp"/>
 
             </androidx.appcompat.widget.Toolbar>
 
