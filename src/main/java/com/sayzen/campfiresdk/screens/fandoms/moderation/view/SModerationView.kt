@@ -50,8 +50,8 @@ class SModerationView private constructor(
 
         adapter.add(CardInfo(unit))
 
-        vMenu.setOnClickListener { v-> ControllerUnits.showModerationPopup(v, unit) }
-        vFab.setOnClickListener { v -> WidgetComment(unit.id) { comment -> adapter.addComment(comment) }.asSheetShow() }
+        vMenu.setOnClickListener { ControllerUnits.showModerationPopup(unit) }
+        vFab.setOnClickListener { WidgetComment(unit.id) { comment -> adapter.addComment(comment) }.asSheetShow() }
         vRecycler.adapter = adapter
 
         ToolsView.recyclerHideFabWhenScrollEnd(vRecycler, vFab)

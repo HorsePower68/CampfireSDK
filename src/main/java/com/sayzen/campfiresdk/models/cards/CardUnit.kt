@@ -126,7 +126,7 @@ abstract class CardUnit(
             animationFlash?.to_2()
 
             subscriptionFlash = ToolsThreads.timerThread((1000 / 30).toLong(), 1000,
-                    { subscription ->
+                    {
                         animationFlash?.update()
                         ToolsThreads.main { updateFlash() }
                     },

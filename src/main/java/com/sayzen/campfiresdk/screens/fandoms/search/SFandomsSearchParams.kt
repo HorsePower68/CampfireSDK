@@ -122,13 +122,13 @@ class SFandomsSearchParams(
         vTitle.text = title
 
         val vv = ViewChip.instanceChoose(context, ToolsResources.s(R.string.app_all))
-        vv.setOnCheckedChangeListener { compoundButton, b -> onChipSelected(vFlow, true) }
+        vv.setOnCheckedChangeListener { _, _ -> onChipSelected(vFlow, true) }
         vv.isChecked = selected.isEmpty()
         vFlow.addView(vv)
 
         for (i in params) {
             val v = ViewChip.instanceChoose(context, i.name, i)
-            v.setOnCheckedChangeListener { compoundButton, b -> onChipSelected(vFlow, false) }
+            v.setOnCheckedChangeListener { _, _ -> onChipSelected(vFlow, false) }
             for (genre in selected) if (genre == i.index) v.isChecked = true
             vFlow.addView(v)
         }

@@ -22,14 +22,14 @@ class CardCommentImages(
 
         val vImages: ViewImagesContainer = view.findViewById(R.id.vImages)
 
-        ToolsView.setOnLongClickCoordinates(vImages) { view1, x, y -> showMenu() }
+        ToolsView.setOnLongClickCoordinates(vImages) { _, _, _ -> showMenu() }
         vImages.setOnClickListener { Navigator.to(SImageView(unit.imageId)) }
         vImages.clear()
 
-        for (i in 0 until unit.imageIdArray.size) {
+        for (i in unit.imageIdArray.indices) {
             vImages.add(unit.imageIdArray[i], unit.imageIdArray[i], unit.imageWArray[i], unit.imageHArray[i],
                     null,
-                    { id -> showMenu() }
+                    { showMenu() }
             )
         }
     }

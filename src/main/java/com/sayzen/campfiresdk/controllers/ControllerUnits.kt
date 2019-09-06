@@ -83,26 +83,26 @@ object ControllerUnits {
         if (unit.parentUnitId > 0) for (t in tags) if (t.tag.id == unit.parentUnitId) parentTags = t.tags
 
         val w = WidgetMenu()
-                .add(R.string.app_copy_link) { w, card ->
+                .add(R.string.app_copy_link) { _, _ ->
                     ToolsAndroid.setToClipboard(ControllerApi.linkToTag(unit.id))
                     ToolsToast.show(R.string.app_copied)
                 }
                 .groupCondition(ControllerApi.can(unit.fandomId, unit.languageId, API.LVL_MODERATOR_TAGS))
-                .add(R.string.app_change) { w, c ->
+                .add(R.string.app_change) { _, _ ->
                     if (unit.parentUnitId == 0L) WidgetCategoryCreate(unit)
                     else WidgetTagCreate(unit)
                 }
-                .add(R.string.app_move) { w, c ->
+                .add(R.string.app_move) { _, _ ->
                     val menu = WidgetMenu()
                     for (tag in tags) {
-                        if (unit.parentUnitId != tag.tag.id) menu.add(tag.tag.name) { w, c ->
+                        if (unit.parentUnitId != tag.tag.id) menu.add(tag.tag.name) { _, _ ->
                             WidgetField()
                                     .setHint(R.string.moderation_widget_comment)
                                     .setOnCancel(R.string.app_cancel)
                                     .setMin(API.MODERATION_COMMENT_MIN_L)
                                     .setMax(API.MODERATION_COMMENT_MAX_L)
                                     .setOnEnter(R.string.app_move) { w, comment ->
-                                        ApiRequestsSupporter.executeEnabled(w, RTagsMove(unit.id, tag.tag.id, comment)) { r ->
+                                        ApiRequestsSupporter.executeEnabled(w, RTagsMove(unit.id, tag.tag.id, comment)) {
                                             EventBus.post(EventFandomTagMove(unit.fandomId, unit.languageId, unit.id, unit.parentUnitId, tag.tag.id))
                                             ToolsToast.show(R.string.app_done)
                                         }
@@ -112,18 +112,18 @@ object ControllerUnits {
                     }
                     menu.asSheetShow()
                 }.condition(tags.size > 1 && unit.parentUnitId > 0)
-                .add(R.string.app_display_before) { w, c ->
+                .add(R.string.app_display_before) { _, _ ->
                     val menu = WidgetMenu()
                     for (t in parentTags) {
                         if (t.id != unit.id)
-                            menu.add(t.name) { w, c ->
+                            menu.add(t.name) { _, _ ->
                                 WidgetField()
                                         .setHint(R.string.moderation_widget_comment)
                                         .setOnCancel(R.string.app_cancel)
                                         .setMin(API.MODERATION_COMMENT_MIN_L)
                                         .setMax(API.MODERATION_COMMENT_MAX_L)
                                         .setOnEnter(R.string.app_move) { w, comment ->
-                                            ApiRequestsSupporter.executeEnabled(w, RTagsMoveTag(unit.id, t.id, comment)) { r ->
+                                            ApiRequestsSupporter.executeEnabled(w, RTagsMoveTag(unit.id, t.id, comment)) {
                                                 EventBus.post(EventFandomTagMove(unit.fandomId, unit.languageId, unit.id, unit.parentUnitId, t.id))
                                                 ToolsToast.show(R.string.app_done)
                                             }
@@ -133,17 +133,17 @@ object ControllerUnits {
                     }
                     menu.asSheetShow()
                 }.condition(parentTags.size > 1 && unit.parentUnitId > 0)
-                .add(R.string.app_display_above) { w, c ->
+                .add(R.string.app_display_above) { _, _ ->
                     val menu = WidgetMenu()
                     for (tag in tags) {
-                        if (unit.id != tag.tag.id) menu.add(tag.tag.name) { w, c ->
+                        if (unit.id != tag.tag.id) menu.add(tag.tag.name) { _, _ ->
                             WidgetField()
                                     .setHint(R.string.moderation_widget_comment)
                                     .setOnCancel(R.string.app_cancel)
                                     .setMin(API.MODERATION_COMMENT_MIN_L)
                                     .setMax(API.MODERATION_COMMENT_MAX_L)
                                     .setOnEnter(R.string.app_move) { w, comment ->
-                                        ApiRequestsSupporter.executeEnabled(w, RTagsMoveCategory(unit.id, tag.tag.id, comment)) { r ->
+                                        ApiRequestsSupporter.executeEnabled(w, RTagsMoveCategory(unit.id, tag.tag.id, comment)) {
                                             EventBus.post(EventFandomTagMove(unit.fandomId, unit.languageId, unit.id, unit.parentUnitId, tag.tag.id))
                                             ToolsToast.show(R.string.app_done)
                                         }
@@ -153,7 +153,7 @@ object ControllerUnits {
                     }
                     menu.asSheetShow()
                 }.condition(tags.size > 1 && unit.parentUnitId == 0L)
-                .add(R.string.app_remove) { w, c -> WidgetTagRemove(unit) }
+                .add(R.string.app_remove) { _, _ -> WidgetTagRemove(unit) }
 
         view.setOnLongClickListener {
             w.asSheetShow()
@@ -182,7 +182,7 @@ object ControllerUnits {
         val resultTags = ArrayList(map.values).toTypedArray()
 
         resultTags.sortWith(Comparator { o1, o2 -> (o2.tag.tag_1 - o1.tag.tag_1).toInt() })
-        for (i in resultTags) i.tags.sortWith(Comparator { o1, o2 -> (o2.tag_1 - o1.tag_1).toInt() })
+        for (n in resultTags) n.tags.sortWith(Comparator { o1, o2 -> (o2.tag_1 - o1.tag_1).toInt() })
 
         return resultTags
     }
@@ -195,9 +195,9 @@ object ControllerUnits {
     //
 
 
-    fun showModerationPopup(view: View, unit: UnitModeration) {
+    fun showModerationPopup( unit: UnitModeration) {
         WidgetMenu()
-                .add(R.string.app_copy_link) { w, card ->
+                .add(R.string.app_copy_link) { _, _ ->
                     ToolsAndroid.setToClipboard(ControllerApi.linkToModeration(unit.id))
                     ToolsToast.show(R.string.app_copied)
                 }.condition(unit.isPublic)
@@ -208,14 +208,14 @@ object ControllerUnits {
     //  Forum
     //
 
-    fun showForumPopup(view: View, unit: UnitForum) {
+    fun showForumPopup(unit: UnitForum) {
         WidgetMenu()
-                .add(R.string.app_copy_link) { w, card -> ToolsAndroid.setToClipboard(ControllerApi.linkToForum(unit.id));ToolsToast.show(R.string.app_copied) }.condition(unit.isPublic)
-                .add(R.string.unit_menu_comments_watch) { w, card -> changeWatchComments(unit.id) }.condition(unit.isPublic)
-                .add(R.string.app_report) { w, card -> ControllerApi.reportUnit(unit.id, R.string.forum_report_confirm, R.string.forum_error_gone) }.condition(unit.isPublic)
-                .add(R.string.app_clear_reports) { w, card -> clearReports(unit) }.backgroundRes(R.color.blue_700).textColorRes(R.color.white).condition(ControllerPost.ENABLED_CLEAR_REPORTS && ControllerApi.can(unit.fandomId, unit.languageId, API.LVL_MODERATOR_BLOCK) && unit.reportsCount > 0)
-                .add(R.string.app_change) { w, card -> changeForum(unit) }.condition(unit.isPublic && ControllerApi.can(unit.fandomId, unit.languageId, API.LVL_MODERATOR_FORUMS)).backgroundRes(R.color.blue_700).textColorRes(R.color.white)
-                .add(R.string.app_remove) { w, card -> removeForum(unit.id) }.condition(unit.isPublic && ControllerApi.can(unit.fandomId, unit.languageId, API.LVL_MODERATOR_FORUMS)).backgroundRes(R.color.blue_700).textColorRes(R.color.white)
+                .add(R.string.app_copy_link) { _, _ -> ToolsAndroid.setToClipboard(ControllerApi.linkToForum(unit.id));ToolsToast.show(R.string.app_copied) }.condition(unit.isPublic)
+                .add(R.string.unit_menu_comments_watch) { _, _ -> changeWatchComments(unit.id) }.condition(unit.isPublic)
+                .add(R.string.app_report) { _, _ -> ControllerApi.reportUnit(unit.id, R.string.forum_report_confirm, R.string.forum_error_gone) }.condition(unit.isPublic)
+                .add(R.string.app_clear_reports) { _, _ -> clearReports(unit) }.backgroundRes(R.color.blue_700).textColorRes(R.color.white).condition(ControllerPost.ENABLED_CLEAR_REPORTS && ControllerApi.can(unit.fandomId, unit.languageId, API.LVL_MODERATOR_BLOCK) && unit.reportsCount > 0)
+                .add(R.string.app_change) { _, _ -> changeForum(unit) }.condition(unit.isPublic && ControllerApi.can(unit.fandomId, unit.languageId, API.LVL_MODERATOR_FORUMS)).backgroundRes(R.color.blue_700).textColorRes(R.color.white)
+                .add(R.string.app_remove) { _, _ -> removeForum(unit.id) }.condition(unit.isPublic && ControllerApi.can(unit.fandomId, unit.languageId, API.LVL_MODERATOR_FORUMS)).backgroundRes(R.color.blue_700).textColorRes(R.color.white)
                 .asSheetShow()
     }
 
@@ -225,8 +225,8 @@ object ControllerUnits {
                 .setOnCancel(R.string.app_cancel)
                 .setMin(API.MODERATION_COMMENT_MIN_L)
                 .setMax(API.MODERATION_COMMENT_MAX_L)
-                .setOnEnter(R.string.app_remove) { ww, comment ->
-                    ApiRequestsSupporter.executeProgressDialog(RFandomsModerationForumRemove(unitId, comment)) { r ->
+                .setOnEnter(R.string.app_remove) { _, comment ->
+                    ApiRequestsSupporter.executeProgressDialog(RFandomsModerationForumRemove(unitId, comment)) {_->
                         EventBus.post(EventUnitRemove(unitId))
                         ToolsToast.show(R.string.app_done)
                     }
@@ -242,23 +242,23 @@ object ControllerUnits {
     //  Stickers
     //
 
-    fun showStickerPackPopup(view: View, unit: UnitStickersPack) {
+    fun showStickerPackPopup(unit: UnitStickersPack) {
         WidgetMenu()
-                .add(R.string.app_copy_link) { w, card -> ToolsAndroid.setToClipboard(ControllerApi.linkToStickersPack(unit.id)); ToolsToast.show(R.string.app_copied) }
-                .add(R.string.unit_menu_comments_watch) { w, card -> changeWatchComments(unit.id) }.condition(unit.isPublic)
-                .add(R.string.app_change) { w, card -> Navigator.to(SStickersPackCreate(unit)) }.condition(unit.creatorId == ControllerApi.account.id)
-                .add(R.string.app_remove) { w, card -> removeStickersPack(unit.id) }.condition(unit.creatorId == ControllerApi.account.id)
-                .add(R.string.app_report) { w, card -> ControllerApi.reportUnit(unit.id, R.string.stickers_packs_report_confirm, R.string.stickers_packs_error_gone) }.condition(unit.creatorId != ControllerApi.account.id)
-                .add(if (ControllerSettings.accountSettings.stickersPacks.contains(unit.id)) R.string.sticker_remove else R.string.sticker_add) { w, card -> addStickerPackToCollection(unit) }.condition(unit.status == API.STATUS_PUBLIC)
-                .add(R.string.app_clear_reports) { w, card -> clearReports(unit) }.backgroundRes(R.color.red_700).textColorRes(R.color.white).condition(ControllerPost.ENABLED_CLEAR_REPORTS && ControllerApi.can(API.LVL_ADMIN_MODER) && unit.reportsCount > 0 && unit.creatorId != ControllerApi.account.id)
-                .add(R.string.app_block) { w, card -> block(unit) }.backgroundRes(R.color.red_700).textColorRes(R.color.white).condition(ENABLED_BLOCK && ControllerApi.can(API.LVL_ADMIN_MODER) && unit.creatorId != ControllerApi.account.id)
+                .add(R.string.app_copy_link) { _, _ -> ToolsAndroid.setToClipboard(ControllerApi.linkToStickersPack(unit.id)); ToolsToast.show(R.string.app_copied) }
+                .add(R.string.unit_menu_comments_watch) { _, _ -> changeWatchComments(unit.id) }.condition(unit.isPublic)
+                .add(R.string.app_change) { _, _ -> Navigator.to(SStickersPackCreate(unit)) }.condition(unit.creatorId == ControllerApi.account.id)
+                .add(R.string.app_remove) { _, _ -> removeStickersPack(unit.id) }.condition(unit.creatorId == ControllerApi.account.id)
+                .add(R.string.app_report) { _, _ -> ControllerApi.reportUnit(unit.id, R.string.stickers_packs_report_confirm, R.string.stickers_packs_error_gone) }.condition(unit.creatorId != ControllerApi.account.id)
+                .add(if (ControllerSettings.accountSettings.stickersPacks.contains(unit.id)) R.string.sticker_remove else R.string.sticker_add) { _, _ -> addStickerPackToCollection(unit) }.condition(unit.status == API.STATUS_PUBLIC)
+                .add(R.string.app_clear_reports) { _, _ -> clearReports(unit) }.backgroundRes(R.color.red_700).textColorRes(R.color.white).condition(ControllerPost.ENABLED_CLEAR_REPORTS && ControllerApi.can(API.LVL_ADMIN_MODER) && unit.reportsCount > 0 && unit.creatorId != ControllerApi.account.id)
+                .add(R.string.app_block) { _, _ -> block(unit) }.backgroundRes(R.color.red_700).textColorRes(R.color.white).condition(ENABLED_BLOCK && ControllerApi.can(API.LVL_ADMIN_MODER) && unit.creatorId != ControllerApi.account.id)
                 .asSheetShow()
     }
 
     fun addStickerPackToCollection(unit: UnitStickersPack) {
         val inCollection = !ControllerSettings.accountSettings.stickersPacks.contains(unit.id)
 
-        ApiRequestsSupporter.executeProgressDialog(RStickersPackCollectionChange(unit.id, inCollection)) { r ->
+        ApiRequestsSupporter.executeProgressDialog(RStickersPackCollectionChange(unit.id, inCollection)) {_->
 
             if (inCollection)
                 ControllerSettings.accountSettings.stickersPacks = ToolsCollections.add(unit.id, ControllerSettings.accountSettings.stickersPacks)
@@ -270,7 +270,7 @@ object ControllerUnits {
     }
 
     fun removeStickersPack(unitId: Long) {
-        ApiRequestsSupporter.executeEnabledConfirm(R.string.stickers_packs_remove_confirm, R.string.app_remove, RUnitsRemove(unitId)) { r ->
+        ApiRequestsSupporter.executeEnabledConfirm(R.string.stickers_packs_remove_confirm, R.string.app_remove, RUnitsRemove(unitId)) {
             EventBus.post(EventUnitRemove(unitId))
             ControllerSettings.accountSettings.stickersPacks = ToolsCollections.removeItem(unitId, ControllerSettings.accountSettings.stickersPacks)
             ToolsToast.show(R.string.app_done)
@@ -279,12 +279,12 @@ object ControllerUnits {
 
     fun showStickerPopup(view: View, x: Int, y: Int, unit: UnitSticker) {
         WidgetMenu()
-                .add(R.string.app_copy_link) { w, card -> ToolsAndroid.setToClipboard(ControllerApi.linkToSticker(unit.id)); ToolsToast.show(R.string.app_copied) }
-                .add(R.string.app_remove) { w, card -> removeSticker(unit.id) }.condition(unit.creatorId == ControllerApi.account.id)
-                .add(R.string.app_report) { w, card -> ControllerApi.reportUnit(unit.id, R.string.stickers_report_confirm, R.string.sticker_error_gone) }
-                .add(if (ControllerSettings.accountSettings.stickers.contains(unit.id)) R.string.sticker_remove else R.string.sticker_add) { w, card -> addStickerToCollection(unit) }.condition(unit.status == API.STATUS_PUBLIC)
-                .add(R.string.app_clear_reports) { w, card -> clearReports(unit) }.backgroundRes(R.color.red_700).textColorRes(R.color.white).condition(ControllerPost.ENABLED_CLEAR_REPORTS && ControllerApi.can(API.LVL_ADMIN_MODER) && unit.reportsCount > 0 && unit.creatorId != ControllerApi.account.id)
-                .add(R.string.app_block) { w, card -> block(unit) }.backgroundRes(R.color.red_700).textColorRes(R.color.white).condition(ENABLED_BLOCK && ControllerApi.can(API.LVL_ADMIN_MODER) && unit.creatorId != ControllerApi.account.id)
+                .add(R.string.app_copy_link) { _, _ -> ToolsAndroid.setToClipboard(ControllerApi.linkToSticker(unit.id)); ToolsToast.show(R.string.app_copied) }
+                .add(R.string.app_remove) { _, _ -> removeSticker(unit.id) }.condition(unit.creatorId == ControllerApi.account.id)
+                .add(R.string.app_report) { _, _ -> ControllerApi.reportUnit(unit.id, R.string.stickers_report_confirm, R.string.sticker_error_gone) }
+                .add(if (ControllerSettings.accountSettings.stickers.contains(unit.id)) R.string.sticker_remove else R.string.sticker_add) { _, _ -> addStickerToCollection(unit) }.condition(unit.status == API.STATUS_PUBLIC)
+                .add(R.string.app_clear_reports) { _, _ -> clearReports(unit) }.backgroundRes(R.color.red_700).textColorRes(R.color.white).condition(ControllerPost.ENABLED_CLEAR_REPORTS && ControllerApi.can(API.LVL_ADMIN_MODER) && unit.reportsCount > 0 && unit.creatorId != ControllerApi.account.id)
+                .add(R.string.app_block) { _, _ -> block(unit) }.backgroundRes(R.color.red_700).textColorRes(R.color.white).condition(ENABLED_BLOCK && ControllerApi.can(API.LVL_ADMIN_MODER) && unit.creatorId != ControllerApi.account.id)
                 .asPopupShow(view, x, y)
     }
 
@@ -292,7 +292,7 @@ object ControllerUnits {
     fun addStickerToCollection(unit: UnitSticker) {
         val inCollection = !ControllerSettings.accountSettings.stickers.contains(unit.id)
 
-        ApiRequestsSupporter.executeProgressDialog(RStickerCollectionChange(unit.id, inCollection)) { r ->
+        ApiRequestsSupporter.executeProgressDialog(RStickerCollectionChange(unit.id, inCollection)) {_->
 
             if (inCollection)
                 ControllerSettings.accountSettings.stickers = ToolsCollections.add(unit.id, ControllerSettings.accountSettings.stickers)
@@ -305,7 +305,7 @@ object ControllerUnits {
 
 
     fun removeSticker(unitId: Long) {
-        ApiRequestsSupporter.executeEnabledConfirm(R.string.stickers_remove_confirm, R.string.app_remove, RUnitsRemove(unitId)) { r ->
+        ApiRequestsSupporter.executeEnabledConfirm(R.string.stickers_remove_confirm, R.string.app_remove, RUnitsRemove(unitId)) {
             EventBus.post(EventUnitRemove(unitId))
             ToolsToast.show(R.string.app_done)
         }
@@ -332,7 +332,7 @@ object ControllerUnits {
     }
 
     fun toDrafts(unitId: Long, onComplete: () -> kotlin.Unit) {
-        ApiRequestsSupporter.executeEnabledConfirm(R.string.post_confirm_to_draft, R.string.post_confirm_to_draft_enter, RPostToDrafts(unitId)) { response ->
+        ApiRequestsSupporter.executeEnabledConfirm(R.string.post_confirm_to_draft, R.string.post_confirm_to_draft_enter, RPostToDrafts(unitId)) {
             EventBus.post(EventPostStatusChange(unitId, API.STATUS_DRAFT))
             onComplete.invoke()
         }
@@ -357,11 +357,11 @@ object ControllerUnits {
                 if (m.lastUnitsBlocked) text += "\n" + ToolsResources.sCap(R.string.moderation_card_block_text_block_last)
             }
             is ModerationTagCreate -> {
-                text = ToolsResources.sCap(if (m.tagParentId == 0L) R.string.moderation_text_tag_create_category else R.string.moderation_text_tag_create_tag, ToolsResources.sex(unit.creatorSex, R.string.he_created, R.string.she_created), m.tagName!!)
+                text = ToolsResources.sCap(if (m.tagParentId == 0L) R.string.moderation_text_tag_create_category else R.string.moderation_text_tag_create_tag, ToolsResources.sex(unit.creatorSex, R.string.he_created, R.string.she_created), m.tagName)
                 if (m.tagParentId != 0L) text += "\n" + ToolsResources.sCap(R.string.app_category) + ": " + m.tagParentName
             }
             is ModerationTagRemove -> {
-                text = ToolsResources.sCap(if (m.tagParentId == 0L) R.string.moderation_text_tag_remove_category else R.string.moderation_text_tag_remove_tag, ToolsResources.sex(unit.creatorSex, R.string.he_remove, R.string.she_remove), m.tagName!!)
+                text = ToolsResources.sCap(if (m.tagParentId == 0L) R.string.moderation_text_tag_remove_category else R.string.moderation_text_tag_remove_tag, ToolsResources.sex(unit.creatorSex, R.string.he_remove, R.string.she_remove), m.tagName)
                 if (m.tagParentId != 0L) text += "\n" + ToolsResources.sCap(R.string.app_category) + ": " + m.tagParentName
             }
             is ModerationTagChange -> {

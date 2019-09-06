@@ -49,7 +49,7 @@ class SStickersPacks(
 
     override fun instanceAdapter(): RecyclerCardAdapterLoading<CardStickersPack, UnitStickersPack> {
         val adapter =  RecyclerCardAdapterLoading<CardStickersPack, UnitStickersPack>(CardStickersPack::class) { CardStickersPack(it) }
-                .setBottomLoader { onLoad, cards ->
+                .setBottomLoader { onLoad, _ ->
 
                     if(ControllerSettings.accountSettings.stickersPacks.isEmpty()){
                         onLoad.invoke(emptyArray())

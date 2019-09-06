@@ -21,15 +21,15 @@ internal class WidgetDescription(
     init {
 
         vDescription.vFieldLayout.counterMaxLength = API.FANDOM_DESCRIPTION_MAX_L
-        vComment.vField.addTextChangedListener(TextWatcherChanged { t -> updateFinishEnabled() })
-        vDescription.vField.addTextChangedListener(TextWatcherChanged { t -> updateFinishEnabled() })
+        vComment.vField.addTextChangedListener(TextWatcherChanged { updateFinishEnabled() })
+        vDescription.vField.addTextChangedListener(TextWatcherChanged { updateFinishEnabled() })
         vDescription.setText(name)
 
-        vEnter.setOnClickListener { v ->
+        vEnter.setOnClickListener {
             callback.invoke(vDescription.getText(), vComment.getText())
             hide()
         }
-        vCancel.setOnClickListener { v -> hide() }
+        vCancel.setOnClickListener { hide() }
 
         updateFinishEnabled()
     }

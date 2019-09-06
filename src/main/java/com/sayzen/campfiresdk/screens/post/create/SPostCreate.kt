@@ -117,18 +117,18 @@ class SPostCreate constructor(
 
         if (changePost != null) for (p in changePost.pages) addPage(CardPage.instance(null, p))
 
-        vFinish.setOnClickListener { v ->
+        vFinish.setOnClickListener {
             if (changePost == null || changePost.isDraft) SCreationTags.instance(unitId, unitTag3, true, fandomId, languageId, tags, Navigator.TO)
             else Navigator.back()
         }
-        vFinish.setOnLongClickListener { v ->
+        vFinish.setOnLongClickListener {
             SCreationTags.create(unitId, tags, false, 0) { SPost.instance(unitId, 0, NavigationAction.replace()) }
             true
         }
         if (changePost != null && !changePost.isDraft) vFinish.setImageResource(ToolsResources.getDrawableAttrId(R.attr.ic_done_24dp))
 
 
-        vAdd.setOnClickListener { v -> onFabClicked() }
+        vAdd.setOnClickListener { onFabClicked() }
         vRecycler.layoutManager = LinearLayoutManager(vRecycler.context)
         vRecycler.adapter = adapter
         vRecycler.scrollToPosition(adapter.size()-1)
@@ -176,7 +176,7 @@ class SPostCreate constructor(
     }
 
     private fun addPage(c: CardPage) {
-        adapter.add(adapter.size() - 1, c.setEditMod(true, { c: CardPage -> this.startMove(c) }, { c: CardPage -> widgetAdd.changePage(c) }, { c: CardPage -> this.removePage(c) }))
+        adapter.add(adapter.size() - 1, c.setEditMod(true, { c1: CardPage -> this.startMove(c1) }, { c2: CardPage -> widgetAdd.changePage(c2) }, { c3: CardPage -> this.removePage(c3) }))
         ControllerPost.openAllSpoilers(adapter)
     }
 
@@ -201,6 +201,7 @@ class SPostCreate constructor(
         }
     }
 
+    @Suppress("UNCHECKED_CAST")
     private fun <K : Page, N : CardPage> onPageAdd(screen: Screen?, r: RPostPutPage.Response, mapper: (K) -> N) {
         if (screen != null) Navigator.remove(screen)
         if (unitId == 0L) {
@@ -239,7 +240,7 @@ class SPostCreate constructor(
     }
 
     private fun removePage(c: CardPage) {
-        ApiRequestsSupporter.executeEnabledConfirm(R.string.post_page_remove_confirm, R.string.app_remove, RPostRemovePage(unitId, arrayOf(adapter.indexOf(c)))) { r ->
+        ApiRequestsSupporter.executeEnabledConfirm(R.string.post_page_remove_confirm, R.string.app_remove, RPostRemovePage(unitId, arrayOf(adapter.indexOf(c)))) {
             adapter.remove(c)
             if (adapter.size(CardPage::class) == 0) {
                 EventBus.post(EventUnitRemove(unitId))
@@ -253,7 +254,7 @@ class SPostCreate constructor(
     private fun movePage(c: CardPage, index: Int) {
         val currentIndex = adapter.get(CardPage::class).indexOf(c)
         val targetIndex = if (currentIndex > index) index else index - 1
-        ApiRequestsSupporter.executeProgressDialog(RPostMovePage(unitId, currentIndex, targetIndex)) { r ->
+        ApiRequestsSupporter.executeProgressDialog(RPostMovePage(unitId, currentIndex, targetIndex)) { _ ->
             stopMove()
             adapter.remove(c)
             adapter.add(targetIndex, c)

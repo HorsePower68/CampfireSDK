@@ -54,7 +54,7 @@ class CardParams(
 
     private fun change() {
         WidgetParams(CampfireConstants.getParamTitle(categoryId, paramsPosition)!!, CampfireConstants.getParams(categoryId, paramsPosition)!!, params) { newParams, comment ->
-            ApiRequestsSupporter.executeEnabledConfirm(R.string.fandoms_menu_change_params_confirms, R.string.app_change, RFandomsAdminChangeParams(xFandom.fandomId, categoryId, paramsPosition, newParams, comment)) { r ->
+            ApiRequestsSupporter.executeEnabledConfirm(R.string.fandoms_menu_change_params_confirms, R.string.app_change, RFandomsAdminChangeParams(xFandom.fandomId, categoryId, paramsPosition, newParams, comment)) {
                 EventBus.post(EventFandomParamsChanged(xFandom.fandomId, xFandom.languageId, categoryId, paramsPosition, newParams))
                 ToolsToast.show(R.string.app_done)
             }

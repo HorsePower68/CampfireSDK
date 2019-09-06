@@ -30,11 +30,11 @@ class WidgetPageQuote(
     init {
 
         vAuthor.vField.imeOptions = EditorInfo.IME_FLAG_NO_ENTER_ACTION
-        vAuthor.vField.addTextChangedListener(TextWatcherChanged { s -> update() })
+        vAuthor.vField.addTextChangedListener(TextWatcherChanged { update() })
 
         vText.vField.setSingleLine(false)
         vText.vField.imeOptions = EditorInfo.IME_FLAG_NO_ENTER_ACTION
-        vText.vField.addTextChangedListener(TextWatcherChanged { s -> update() })
+        vText.vField.addTextChangedListener(TextWatcherChanged {  update() })
 
         vEnter.isEnabled = false
 
@@ -48,8 +48,8 @@ class WidgetPageQuote(
         }
 
         vEnter.setText(enterText)
-        vEnter.setOnClickListener { v -> onEnter() }
-        vCancel.setOnClickListener { v -> onCancel() }
+        vEnter.setOnClickListener { onEnter() }
+        vCancel.setOnClickListener { onCancel() }
     }
 
     private fun update() {
@@ -84,7 +84,7 @@ class WidgetPageQuote(
         return if (oldPage == null)
             author.isEmpty() && text.isEmpty()
         else
-            ToolsText.equals((oldPage as PageQuote).author, author) && ToolsText.equals(oldPage.text, text)
+            ToolsText.equals(oldPage.author, author) && ToolsText.equals(oldPage.text, text)
     }
 
     override fun onShow() {

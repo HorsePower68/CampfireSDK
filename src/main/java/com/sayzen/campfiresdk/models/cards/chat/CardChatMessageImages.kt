@@ -38,7 +38,7 @@ class CardChatMessageImages(
         vLabel.visibility = if (unit.text.isEmpty()) GONE else VISIBLE
         vLabelImage.visibility = if (unit.text.isEmpty()) VISIBLE else GONE
 
-        ToolsView.setOnLongClickCoordinates(vImages) { view1, x, y -> showMenu() }
+        ToolsView.setOnLongClickCoordinates(vImages) { _, _, _ -> showMenu() }
         vImages.setOnClickListener { Navigator.to(SImageView(unit.resourceId))  }
         vImages.clear()
 
@@ -54,7 +54,7 @@ class CardChatMessageImages(
         for (i in 0 until unit.imageIdArray.size) {
             vImages.add(unit.imageIdArray[i], unit.imageIdArray[i], unit.imageWArray[i], unit.imageHArray[i],
                     null,
-                    { id -> showMenu() }
+                    { showMenu() }
             )
         }
     }

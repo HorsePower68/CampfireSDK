@@ -66,7 +66,7 @@ class CardAchievement(
         val accountId = screen.accountId
         val ach = CampfireConstants.getAchievement(achievement)
 
-        if (ControllerApi.isCurrentAccount(accountId) && ach.clickable && lvl != ach.info.maxLvl) view.setOnClickListener { v -> onClick() }
+        if (ControllerApi.isCurrentAccount(accountId) && ach.clickable && lvl != ach.info.maxLvl) view.setOnClickListener { onClick() }
         else view.setOnClickListener(null)
         view.isClickable = ach.clickable && lvl != ach.info.maxLvl
 
@@ -129,7 +129,7 @@ class CardAchievement(
             animationFlash!!.to_2()
 
             subscriptionFlash = ToolsThreads.timerThread((1000 / 30).toLong(), 1000,
-                    { subscription ->
+                    {
                         animationFlash!!.update()
                         ToolsThreads.main { update() }
                     },
@@ -161,11 +161,11 @@ class CardAchievement(
             ach.info.index == API.ACHI_FANDOMS.index -> SFandomSuggest.instance(Navigator.TO)
             ach.info.index == API.ACHI_RULES_USER.index ->
                 WidgetRules(R.string.rules_users_info, Array(CampfireConstants.RULES_USER.size) { CampfireConstants.RULES_USER[it].text })
-                        .onFinish { ApiRequestsSupporter.executeProgressDialog(RAchievementsOnFinish(API.ACHI_RULES_USER.index)) { r -> } }
+                        .onFinish { ApiRequestsSupporter.executeProgressDialog(RAchievementsOnFinish(API.ACHI_RULES_USER.index)) { _ -> } }
                         .asSheetShow()
             ach.info.index == API.ACHI_RULES_MODERATOR.index ->
                 WidgetRules(R.string.rules_moderators_info, CampfireConstants.RULES_MODER)
-                        .onFinish { ApiRequestsSupporter.executeProgressDialog(RAchievementsOnFinish(API.ACHI_RULES_MODERATOR.index)) { r -> } }
+                        .onFinish { ApiRequestsSupporter.executeProgressDialog(RAchievementsOnFinish(API.ACHI_RULES_MODERATOR.index)) { _ -> } }
                         .asSheetShow()
         }
 
@@ -175,7 +175,7 @@ class CardAchievement(
 
         Navigator.to(SAccountSearch{ account ->
             RAccountsSetRecruiter(account.id)
-                    .onComplete { r -> ToolsToast.show(R.string.app_done) }
+                    .onComplete { ToolsToast.show(R.string.app_done) }
                     .onNetworkError { ToolsToast.show(R.string.error_network) }
                     .send(api)
         })

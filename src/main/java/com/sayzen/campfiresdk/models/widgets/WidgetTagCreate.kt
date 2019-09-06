@@ -45,11 +45,11 @@ class WidgetTagCreate private constructor(
     constructor(parentId: Long, fandomId: Long, languageId: Long) : this(null, parentId, fandomId, languageId) {}
 
     init {
-        vCancel.setOnClickListener { v -> hide() }
-        vEnter.setOnClickListener { v -> onActionClicked() }
-        vImage.setOnClickListener { v -> chooseImage() }
-        vName.vField.addTextChangedListener(TextWatcherChanged { t -> updateFinishEnabled() })
-        vComment.vField.addTextChangedListener(TextWatcherChanged { t -> updateFinishEnabled() })
+        vCancel.setOnClickListener { hide() }
+        vEnter.setOnClickListener { onActionClicked() }
+        vImage.setOnClickListener { chooseImage() }
+        vName.vField.addTextChangedListener(TextWatcherChanged { updateFinishEnabled() })
+        vComment.vField.addTextChangedListener(TextWatcherChanged { updateFinishEnabled() })
 
         if (tag != null) {
             vName.setText(tag.name)
@@ -89,8 +89,8 @@ class WidgetTagCreate private constructor(
             removeImage = false
             hide()
             WidgetChooseImage()
-                    .setOnSelectedBitmap { w, b ->
-                        Navigator.to(SCrop(b, API.TAG_IMAGE_SIDE, API.TAG_IMAGE_SIDE) { screen, b2, x, y, w, h ->
+                    .setOnSelectedBitmap { _, b ->
+                        Navigator.to(SCrop(b, API.TAG_IMAGE_SIDE, API.TAG_IMAGE_SIDE) { screen, b2, _, _, _, _ ->
                             this.image = ToolsBitmap.toBytes(ToolsBitmap.resize(b2, API.TAG_IMAGE_SIDE), API.TAG_IMAGE_WEIGHT)
                             vImage.setImageBitmap(b2)
                             vImageIcon.visibility = View.GONE
@@ -113,7 +113,7 @@ class WidgetTagCreate private constructor(
 
     private fun sendCreate() {
         ApiRequestsSupporter.executeEnabled(this, RTagsCreate(vName.getText(), vComment.getText(), fandomId, languageId, parentId, image)
-        ) { r ->
+        ) {
             ToolsToast.show(R.string.app_done)
             STags.instance(fandomId, languageId, Navigator.REPLACE)
         }
@@ -121,7 +121,7 @@ class WidgetTagCreate private constructor(
 
     private fun sendChange() {
         ApiRequestsSupporter.executeEnabled(this, RTagsChange(tag!!.id, vName.getText(), vComment.getText(), image, removeImage)
-        ) { r ->
+        ) {
             ToolsToast.show(R.string.app_done)
             STags.instance(fandomId, languageId, Navigator.REPLACE)
         }

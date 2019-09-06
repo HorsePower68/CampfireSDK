@@ -51,7 +51,7 @@ class CardCategory private constructor(
         }
 
 
-        vTouch.setOnClickListener { v -> onClick.invoke() }
+        vTouch.setOnClickListener { onClick.invoke() }
     }
 
     companion object {

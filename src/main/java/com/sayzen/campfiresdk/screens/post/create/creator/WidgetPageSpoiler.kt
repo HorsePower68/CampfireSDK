@@ -30,7 +30,7 @@ class WidgetPageSpoiler(
 
         vName.vField.setSingleLine(true)
         vName.vField.imeOptions = EditorInfo.IME_FLAG_NO_ENTER_ACTION
-        vName.vField.addTextChangedListener(TextWatcherChanged { s -> update() })
+        vName.vField.addTextChangedListener(TextWatcherChanged { update() })
 
         var enterText = R.string.app_create
 
@@ -46,8 +46,8 @@ class WidgetPageSpoiler(
         }
 
         vEnter.setText(enterText)
-        vEnter.setOnClickListener { v -> onEnter() }
-        vCancel.setOnClickListener { v -> onCancel() }
+        vEnter.setOnClickListener { onEnter() }
+        vCancel.setOnClickListener { onCancel() }
     }
 
     private fun update() {

@@ -30,11 +30,11 @@ class WidgetPageLink(
 
         vLink.vField.setSingleLine(true)
         vLink.vField.imeOptions = EditorInfo.IME_FLAG_NO_ENTER_ACTION
-        vLink.vField.addTextChangedListener(TextWatcherChanged { s -> update() })
+        vLink.vField.addTextChangedListener(TextWatcherChanged { update() })
 
         vName.vField.setSingleLine(true)
         vName.vField.imeOptions = EditorInfo.IME_FLAG_NO_ENTER_ACTION
-        vName.vField.addTextChangedListener(TextWatcherChanged { s -> update() })
+        vName.vField.addTextChangedListener(TextWatcherChanged { update() })
 
         var enterText = R.string.app_create
 
@@ -46,15 +46,15 @@ class WidgetPageLink(
         }
 
         vEnter.setText(enterText)
-        vEnter.setOnClickListener { v -> onEnter() }
-        vCancel.setOnClickListener { v -> onCancel() }
+        vEnter.setOnClickListener { onEnter() }
+        vCancel.setOnClickListener { onCancel() }
 
         update()
     }
 
     private fun update() {
-        vEnter.isEnabled = (!vLink.getText().isEmpty()
-                && !vName.getText().isEmpty()
+        vEnter.isEnabled = (vLink.getText().isNotEmpty()
+                && vName.getText().isNotEmpty()
                 && vName.getText().length <= API.PAGE_LINK_NAME_MAX_L
                 && vLink.getText().length <= API.PAGE_LINK_WEB_MAX_L
                 && ToolsText.isWebLink(vLink.getText()))
@@ -88,7 +88,7 @@ class WidgetPageLink(
         return if (oldPage == null) {
             link.isEmpty() && name.isEmpty()
         } else {
-            ToolsText.equals(oldPage.link!!, link) && ToolsText.equals(oldPage.name!!, name)
+            ToolsText.equals(oldPage.link, link) && ToolsText.equals(oldPage.name, name)
         }
     }
 

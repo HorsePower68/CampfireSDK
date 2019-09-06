@@ -39,13 +39,13 @@ class SDrafts constructor(
 
         addToolbarIcon(ToolsResources.getDrawableAttr(R.attr.ic_more_vert_24dp)!!) { view ->
             WidgetMenu()
-                    .add(R.string.app_pending) { w, i -> Navigator.to(SPending()) }
+                    .add(R.string.app_pending) { _, _ -> Navigator.to(SPending()) }
                     .asPopupShow(view)
         }
 
         (vFab as View).visibility = View.VISIBLE
         vFab.setImageResource(R.drawable.ic_add_white_24dp)
-        vFab.setOnClickListener { v ->
+        vFab.setOnClickListener {
             SFandomsSearch.instance(Navigator.TO, true) { fandom ->
                 SPostCreate.instance(fandom.id, fandom.languageId, fandom.name, fandom.imageId, emptyArray(), Navigator.TO)
             }

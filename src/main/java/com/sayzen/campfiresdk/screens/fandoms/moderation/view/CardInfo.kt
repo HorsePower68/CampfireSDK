@@ -88,13 +88,13 @@ class CardInfo(
 
     private fun onNotification(e: EventNotification) {
         if (e.notification is NotificationComment)
-            if ((e.notification as NotificationComment).unitId == unit.id) {
+            if (e.notification.unitId == unit.id) {
                 unit.subUnitsCount++
                 update()
             }
 
         if (e.notification is NotificationCommentAnswer)
-            if ((e.notification as NotificationCommentAnswer).unitId == unit.id) {
+            if (e.notification.unitId == unit.id) {
                 unit.subUnitsCount++
                 update()
             }

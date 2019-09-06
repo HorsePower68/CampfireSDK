@@ -36,11 +36,11 @@ internal class WidgetLink(
         vLink.addOnTextChanged { updateFinishEnabled() }
         vLinkTitle.addOnTextChanged { updateFinishEnabled() }
 
-        vEnter.setOnClickListener { v ->
+        vEnter.setOnClickListener {
             callback.invoke(vLink.getText(), vLinkTitle.getText(), vComment.getText(), selectedIcon)
             hide()
         }
-        vCancel.setOnClickListener { v -> hide() }
+        vCancel.setOnClickListener { hide() }
 
         vIcon_0.setOnClickListener { setSelectedIcon(0L) }
         vIcon_1.setOnClickListener { setSelectedIcon(1L) }

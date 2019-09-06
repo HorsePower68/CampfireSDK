@@ -51,9 +51,9 @@ class SFandom private constructor(
         }
 
         fun instance(fandomId: Long, languageId: Long, action: NavigationAction) {
-            var languageId = languageId
-            if (languageId < 1L) languageId = ControllerApi.getLanguageId()
-            ApiRequestsSupporter.executeInterstitial(action, RFandomsGet(fandomId, languageId, ControllerApi.getLanguageId())) { r -> SFandom(r) }
+            var languageIdV = languageId
+            if (languageIdV < 1L) languageIdV = ControllerApi.getLanguageId()
+            ApiRequestsSupporter.executeInterstitial(action, RFandomsGet(fandomId, languageIdV, ControllerApi.getLanguageId())) { r -> SFandom(r) }
         }
     }
 
@@ -131,30 +131,30 @@ class SFandom private constructor(
         vRecycler.layoutManager = LinearLayoutManager(context)
         vRecycler.adapter = adapter
 
-        vFab.setOnClickListener { v -> Navigator.to(SPostCreate(xFandom.fandomId, xFandom.languageId, xFandom.name, xFandom.imageId)) }
+        vFab.setOnClickListener { Navigator.to(SPostCreate(xFandom.fandomId, xFandom.languageId, xFandom.name, xFandom.imageId)) }
 
-        if (ControllerApi.can(xFandom.fandomId, xFandom.languageId, API.LVL_MODERATOR_FANDOM_IMAGE)) vImageTitle.setOnClickListener { v -> changeTitleImage() }
-        if (ControllerApi.can(API.LVL_ADMIN_FANDOM_AVATAR)) vAvatar.setOnClickListener { v -> changeImage() }
+        if (ControllerApi.can(xFandom.fandomId, xFandom.languageId, API.LVL_MODERATOR_FANDOM_IMAGE)) vImageTitle.setOnClickListener { changeTitleImage() }
+        if (ControllerApi.can(API.LVL_ADMIN_FANDOM_AVATAR)) vAvatar.setOnClickListener { changeImage() }
 
-        vMore.setOnClickListener { v ->
+        vMore.setOnClickListener {
             WidgetMenu()
-                    .add(R.string.app_copy_link) { w, card ->
+                    .add(R.string.app_copy_link) { _, _ ->
                         ToolsAndroid.setToClipboard(xFandom.linkTo())
                         ToolsToast.show(R.string.app_copied)
                     }
-                    .add(R.string.app_copy_link_with_language) { w, card ->
+                    .add(R.string.app_copy_link_with_language) { _, _ ->
                         ToolsAndroid.setToClipboard(xFandom.linkToWithLanguage())
                         ToolsToast.show(R.string.app_copied)
                     }
-                    .add(R.string.fandoms_menu_black_list_add) { w, card -> ControllerCampfireSDK.addToBlackListFandom(xFandom.fandomId) }.condition(!ControllerSettings.feedIgnoreFandoms.contains(xFandom.fandomId))
-                    .add(R.string.fandoms_menu_black_list_remove) { w, card -> ControllerCampfireSDK.removeFromBlackListFandom(xFandom.fandomId) }.condition(ControllerSettings.feedIgnoreFandoms.contains(xFandom.fandomId))
-                    .add(R.string.fandoms_menu_background_change) { wi, c -> changeBackgroundImage() }.condition(ControllerApi.can(xFandom.fandomId, xFandom.languageId, API.LVL_MODERATOR_BACKGROUND_IMAGE)).backgroundRes(R.color.blue_700).textColorRes(R.color.white)
-                    .add(R.string.fandoms_menu_background_remove) { wi, c -> removeBackgroundImage() }.condition(ControllerApi.can(xFandom.fandomId, xFandom.languageId, API.LVL_MODERATOR_BACKGROUND_IMAGE)).backgroundRes(R.color.blue_700).textColorRes(R.color.white)
-                    .add(R.string.profile_change_avatar) { wi, c -> changeImage() }.condition(ControllerApi.can(API.LVL_ADMIN_FANDOM_AVATAR)).backgroundRes(R.color.red_700).textColorRes(R.color.white)
-                    .add(R.string.fandoms_menu_change_category) { wi, c -> changeCategory() }.condition(ControllerApi.can(API.LVL_ADMIN_FANDOM_CATEGORY)).backgroundRes(R.color.red_700).textColorRes(R.color.white)
-                    .add(R.string.fandoms_menu_rename) { wi, c -> rename() }.condition(ControllerApi.can(API.LVL_ADMIN_FANDOM_NAME)).backgroundRes(R.color.red_700).textColorRes(R.color.white)
-                    .add(if (r.fandom.closed) R.string.app_open else R.string.app_close) { wi, c -> close() }.condition(ControllerApi.can(API.LVL_ADMIN_FANDOM_CLOSE)).backgroundRes(R.color.red_700).textColorRes(R.color.white)
-                    .add(R.string.app_remove) { wi, c -> remove() }.condition(ControllerApi.can(API.LVL_ADMIN_FANDOM_REMOVE)).backgroundRes(R.color.red_700).textColorRes(R.color.white)
+                    .add(R.string.fandoms_menu_black_list_add) { _, _ -> ControllerCampfireSDK.addToBlackListFandom(xFandom.fandomId) }.condition(!ControllerSettings.feedIgnoreFandoms.contains(xFandom.fandomId))
+                    .add(R.string.fandoms_menu_black_list_remove) { _, _ -> ControllerCampfireSDK.removeFromBlackListFandom(xFandom.fandomId) }.condition(ControllerSettings.feedIgnoreFandoms.contains(xFandom.fandomId))
+                    .add(R.string.fandoms_menu_background_change) { _, _ -> changeBackgroundImage() }.condition(ControllerApi.can(xFandom.fandomId, xFandom.languageId, API.LVL_MODERATOR_BACKGROUND_IMAGE)).backgroundRes(R.color.blue_700).textColorRes(R.color.white)
+                    .add(R.string.fandoms_menu_background_remove) { _, _ -> removeBackgroundImage() }.condition(ControllerApi.can(xFandom.fandomId, xFandom.languageId, API.LVL_MODERATOR_BACKGROUND_IMAGE)).backgroundRes(R.color.blue_700).textColorRes(R.color.white)
+                    .add(R.string.profile_change_avatar) { _, _ -> changeImage() }.condition(ControllerApi.can(API.LVL_ADMIN_FANDOM_AVATAR)).backgroundRes(R.color.red_700).textColorRes(R.color.white)
+                    .add(R.string.fandoms_menu_change_category) { _, _ -> changeCategory() }.condition(ControllerApi.can(API.LVL_ADMIN_FANDOM_CATEGORY)).backgroundRes(R.color.red_700).textColorRes(R.color.white)
+                    .add(R.string.fandoms_menu_rename) { _, _ -> rename() }.condition(ControllerApi.can(API.LVL_ADMIN_FANDOM_NAME)).backgroundRes(R.color.red_700).textColorRes(R.color.white)
+                    .add(if (r.fandom.closed) R.string.app_open else R.string.app_close) { _, _ -> close() }.condition(ControllerApi.can(API.LVL_ADMIN_FANDOM_CLOSE)).backgroundRes(R.color.red_700).textColorRes(R.color.white)
+                    .add(R.string.app_remove) { _, _ -> remove() }.condition(ControllerApi.can(API.LVL_ADMIN_FANDOM_REMOVE)).backgroundRes(R.color.red_700).textColorRes(R.color.white)
                     .asSheetShow()
         }
 
@@ -208,19 +208,19 @@ class SFandom private constructor(
 
     private fun changeImage() {
         WidgetChooseImage()
-                .setOnSelectedBitmap { ww, bitmap ->
-                    Navigator.to(SCrop(bitmap, API.FANDOM_IMG_SIDE, API.FANDOM_IMG_SIDE) { sCrop, b, x, y, w, h ->
+                .setOnSelectedBitmap { _, bitmap ->
+                    Navigator.to(SCrop(bitmap, API.FANDOM_IMG_SIDE, API.FANDOM_IMG_SIDE) { _, b, _, _, _, _ ->
                         WidgetField()
                                 .setHint(R.string.moderation_widget_comment)
                                 .setOnCancel(R.string.app_cancel)
                                 .setMin(API.MODERATION_COMMENT_MIN_L)
                                 .setMax(API.MODERATION_COMMENT_MAX_L)
-                                .setOnEnter(R.string.app_change) { ww, comment ->
+                                .setOnEnter(R.string.app_change) { _, comment ->
                                     val dialog = ToolsView.showProgressDialog()
                                     ToolsThreads.thread {
                                         val image = ToolsBitmap.toBytes(ToolsBitmap.resize(b, API.FANDOM_IMG_SIDE, API.FANDOM_IMG_SIDE), API.FANDOM_IMG_WEIGHT)
                                         ToolsThreads.main {
-                                            ApiRequestsSupporter.executeProgressDialog(dialog, RFandomsAdminChangeImage(xFandom.fandomId, image, comment)) { r ->
+                                            ApiRequestsSupporter.executeProgressDialog(dialog, RFandomsAdminChangeImage(xFandom.fandomId, image, comment)) { _->
                                                 ImageLoaderId(xFandom.imageId).clear()
                                                 EventBus.post(EventFandomChanged(xFandom.fandomId, xFandom.name))
                                                 ToolsToast.show(R.string.app_done)
@@ -236,7 +236,7 @@ class SFandom private constructor(
 
     private fun changeTitleImage() {
         WidgetChooseImage()
-                .setOnSelected { w, bytes, index ->
+                .setOnSelected { _, bytes, _ ->
 
                     ToolsThreads.thread {
 
@@ -253,7 +253,7 @@ class SFandom private constructor(
                             val cropSizeW = if (isGif) API.FANDOM_TITLE_IMG_GIF_W else API.FANDOM_TITLE_IMG_W
                             val cropSizeH = if (isGif) API.FANDOM_TITLE_IMG_GIF_H else API.FANDOM_TITLE_IMG_H
 
-                            Navigator.to(SCrop(bitmap, cropSizeW, cropSizeH) { sCrop, b2, x, y, w, h ->
+                            Navigator.to(SCrop(bitmap, cropSizeW, cropSizeH) { _, b2, x, y, w, h ->
                                 if (isGif) {
 
                                     val d = ToolsView.showProgressDialog()
@@ -307,11 +307,11 @@ class SFandom private constructor(
 
     private fun changeBackgroundImage() {
         WidgetChooseImage()
-                .setOnSelectedBitmap { ww, bitmap ->
-                    Navigator.to(SCrop(bitmap, API.FANDOM_IMG_BACKGROUND_W, API.FANDOM_IMG_BACKGROUND_H) { sCrop, b, x, y, w, h ->
+                .setOnSelectedBitmap { _, bitmap ->
+                    Navigator.to(SCrop(bitmap, API.FANDOM_IMG_BACKGROUND_W, API.FANDOM_IMG_BACKGROUND_H) { _, b, _, _, _, _ ->
                         WidgetField().setHint(R.string.moderation_widget_comment).setOnCancel(R.string.app_cancel)
                                 .setMin(1)
-                                .setOnEnter(R.string.app_change) { ww, comment ->
+                                .setOnEnter(R.string.app_change) { _, comment ->
                                     val dialog = ToolsView.showProgressDialog()
                                     ToolsThreads.thread {
                                         val image = ToolsBitmap.toBytes(ToolsBitmap.resize(b, API.FANDOM_IMG_BACKGROUND_W, API.FANDOM_IMG_BACKGROUND_H), API.FANDOM_IMG_BACKGROUND_WEIGHT)
@@ -328,7 +328,7 @@ class SFandom private constructor(
         WidgetField().setHint(R.string.moderation_widget_comment).setOnCancel(R.string.app_cancel)
                 .setMin(API.MODERATION_COMMENT_MIN_L)
                 .setMax(API.MODERATION_COMMENT_MAX_L)
-                .setOnEnter(R.string.app_change) { ww, comment ->
+                .setOnEnter(R.string.app_change) { _, comment ->
                     changeBackgroundImageNow(ToolsView.showProgressDialog(), null, comment)
                 }
                 .asSheetShow()
@@ -345,14 +345,14 @@ class SFandom private constructor(
         val wMenu = WidgetMenu()
         for (c in CampfireConstants.CATEGORIES) {
             if (c.index != r.fandom.category) {
-                wMenu.add(c.name).onClick { w, i ->
+                wMenu.add(c.name).onClick { _, _ ->
                     WidgetField().setHint(R.string.moderation_widget_comment)
                             .setOnCancel(R.string.app_cancel)
                             .setMin(API.MODERATION_COMMENT_MIN_L)
                             .setMax(API.MODERATION_COMMENT_MAX_L)
                             .addChecker(R.string.error_use_english) { ToolsText.isOnly(it, API.ENGLISH) }
                             .setOnEnter(R.string.app_change) { w, comment ->
-                                ApiRequestsSupporter.executeEnabled(w, RFandomsAdminChangeCategory(xFandom.fandomId, c.index, comment)) { rr ->
+                                ApiRequestsSupporter.executeEnabled(w, RFandomsAdminChangeCategory(xFandom.fandomId, c.index, comment)) {
                                     EventBus.post(EventFandomCategoryChanged(xFandom.fandomId, c.index))
                                     ToolsToast.show(R.string.app_done)
                                 }
@@ -378,8 +378,8 @@ class SFandom private constructor(
                 .setMax_2(API.MODERATION_COMMENT_MAX_L)
                 .setHint_2(R.string.comments_hint)
                 .addChecker_2(R.string.error_use_english) { ToolsText.isOnly(it, API.ENGLISH) }
-                .setOnEnter(R.string.app_rename) { dialog, name, comment ->
-                    ApiRequestsSupporter.executeEnabledConfirm(R.string.fandoms_menu_rename_confirm, R.string.fandoms_menu_rename, RFandomsAdminChangeName(xFandom.fandomId, name, comment)) { r ->
+                .setOnEnter(R.string.app_rename) { _, name, comment ->
+                    ApiRequestsSupporter.executeEnabledConfirm(R.string.fandoms_menu_rename_confirm, R.string.fandoms_menu_rename, RFandomsAdminChangeName(xFandom.fandomId, name, comment)) {
                         EventBus.post(EventFandomChanged(xFandom.fandomId, name))
                         ToolsToast.show(R.string.app_done)
                     }
@@ -395,11 +395,11 @@ class SFandom private constructor(
                 .setMin(API.MODERATION_COMMENT_MIN_L)
                 .setMax(API.MODERATION_COMMENT_MAX_L)
                 .addChecker(R.string.error_use_english) { ToolsText.isOnly(it, API.ENGLISH) }
-                .setOnEnter(if (closed) R.string.app_open else R.string.app_close) { w, comment ->
+                .setOnEnter(if (closed) R.string.app_open else R.string.app_close) { _, comment ->
                     ApiRequestsSupporter.executeEnabledConfirm(
                             if (closed) R.string.fandom_open_confirm else R.string.fandom_close_confirm,
                             if (closed) R.string.app_open else R.string.app_close,
-                            RFandomsAdminClose(xFandom.fandomId, !closed, comment)) { rr ->
+                            RFandomsAdminClose(xFandom.fandomId, !closed, comment)) {
                         EventBus.post(EventFandomClose(xFandom.fandomId, !closed))
                         ToolsToast.show(R.string.app_done)
                     }
@@ -414,8 +414,8 @@ class SFandom private constructor(
                 .setMin(API.MODERATION_COMMENT_MIN_L)
                 .setMax(API.MODERATION_COMMENT_MAX_L)
                 .addChecker(R.string.error_use_english) { ToolsText.isOnly(it, API.ENGLISH) }
-                .setOnEnter(R.string.app_remove) { w, comment ->
-                    ApiRequestsSupporter.executeEnabledConfirm(R.string.fandom_remove_confirm, R.string.app_remove, RFandomsAdminRemove(xFandom.fandomId, comment)) { rr ->
+                .setOnEnter(R.string.app_remove) { _, comment ->
+                    ApiRequestsSupporter.executeEnabledConfirm(R.string.fandom_remove_confirm, R.string.app_remove, RFandomsAdminRemove(xFandom.fandomId, comment)) {
                         EventBus.post(EventFandomRemove(xFandom.fandomId))
                         ToolsToast.show(R.string.app_done)
                     }

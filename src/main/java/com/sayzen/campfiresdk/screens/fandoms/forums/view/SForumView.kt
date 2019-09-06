@@ -40,7 +40,7 @@ class SForumView(
 
         fun instance(unitId: Long, commentId: Long, action: NavigationAction) {
             ApiRequestsSupporter.executeInterstitial(action, RFandomsForumGet(unitId)) { r ->
-                SForumView(r.unit!!, commentId)
+                SForumView(r.unit, commentId)
             }
         }
 
@@ -62,7 +62,7 @@ class SForumView(
             showDialog()
         }
         addToolbarIcon(ToolsResources.getDrawableAttrId(R.attr.ic_more_vert_24dp)) {
-            ControllerUnits.showForumPopup(it, unit)
+            ControllerUnits.showForumPopup(unit)
         }
 
         (vFab as View).visibility = View.VISIBLE

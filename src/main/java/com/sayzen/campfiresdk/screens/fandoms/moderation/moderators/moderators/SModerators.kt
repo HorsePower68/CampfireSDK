@@ -38,9 +38,9 @@ class SModerators(
     override fun instanceAdapter(): RecyclerCardAdapterLoading<CardAccount, Account> {
         return RecyclerCardAdapterLoading<CardAccount, Account>(CardAccount::class) {
             val card = CardAccount(it)
-            if (ControllerApi.can(API.LVL_ADMIN_REMOVE_MODERATOR)) card.setOnLongClick { card, v, x, y ->
+            if (ControllerApi.can(API.LVL_ADMIN_REMOVE_MODERATOR)) card.setOnLongClick { _, _, _, _ ->
                 WidgetMenu()
-                        .add(R.string.app_deprive_moderator) { w, c -> removeModerator(it.id) }
+                        .add(R.string.app_deprive_moderator) { _, _ -> removeModerator(it.id) }
                         .asSheetShow()
             }
             card

@@ -1,5 +1,6 @@
 package com.sayzen.campfiresdk.models.cards
 
+import android.annotation.SuppressLint
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
@@ -10,7 +11,6 @@ import com.dzen.campfire.api.models.units.post.PagePolling
 import com.dzen.campfire.api.models.units.post.PageSpoiler
 import com.dzen.campfire.api.models.units.post.UnitPost
 import com.sayzen.campfiresdk.R
-import com.sayzen.campfiresdk.controllers.ControllerApi
 import com.sayzen.campfiresdk.controllers.ControllerCampfireSDK
 import com.sayzen.campfiresdk.controllers.ControllerPost
 import com.sayzen.campfiresdk.models.PostList
@@ -130,7 +130,6 @@ class CardPost constructor(
         val vContainerInfo: View = view.findViewById(R.id.vInfoContainer)
         val vMenu: View = view.findViewById(R.id.vMenu)
         val vPagesCount: TextView = view.findViewById(R.id.vPagesCount)
-        val vMaxSizes: LayoutMaxSizes = view.findViewById(R.id.vMaxSizes)
         val vBestCommentRootContainer: ViewGroup = view.findViewById(R.id.vBestCommentRootContainer)
         val vBestCommentContainer: ViewGroup = view.findViewById(R.id.vBestCommentContainer)
 
@@ -138,9 +137,9 @@ class CardPost constructor(
 
         vContainerInfo.visibility = if (unit.status == API.STATUS_DRAFT) View.GONE else View.VISIBLE
 
-        vMenu.setOnClickListener { v -> ControllerPost.showPostPopup(vMenu, unit) }
+        vMenu.setOnClickListener { ControllerPost.showPostMenu(unit) }
 
-        view.setOnClickListener { v ->
+        view.setOnClickListener {
             if (onClick != null)
                 onClick!!.invoke(unit)
             else if (unit.status == API.STATUS_DRAFT)
@@ -229,6 +228,7 @@ class CardPost constructor(
         }
     }
 
+    @SuppressLint("SetTextI18n")
     private fun updateShowAll() {
         if (getView() == null) return
         val unit = xUnit.unit as UnitPost
@@ -237,7 +237,7 @@ class CardPost constructor(
         val vMaxSizes: LayoutMaxSizes = getView()!!.findViewById(R.id.vMaxSizes)
         val vPagesContainer: ViewGroup = getView()!!.findViewById(R.id.vPagesContainer)
 
-        if (isShowFull) vPagesCount.text = "${ToolsResources.s(R.string.app_hide)}"
+        if (isShowFull) vPagesCount.text = ToolsResources.s(R.string.app_hide)
         else vPagesCount.text = "${ToolsResources.s(R.string.app_show_all)} (${unit.pages.size})"
 
         vMaxSizes.setMaxHeight(if (isShowFull) 50000 else 300)
@@ -245,14 +245,17 @@ class CardPost constructor(
         vPagesCount.tag = this
         updateShowAll(vPagesCount, vMaxSizes, vPagesContainer)
         ToolsThreads.main(100) {
-            if (vPagesCount.tag != this) return@main
-            updateShowAll(vPagesCount, vMaxSizes, vPagesContainer)
-            ToolsThreads.main(100) {
-                if (vPagesCount.tag != this) return@main
+            if (vPagesCount.tag == this) {
                 updateShowAll(vPagesCount, vMaxSizes, vPagesContainer)
                 ToolsThreads.main(100) {
-                    if (vPagesCount.tag != this) return@main
-                    updateShowAll(vPagesCount, vMaxSizes, vPagesContainer)
+                    if (vPagesCount.tag == this) {
+                        updateShowAll(vPagesCount, vMaxSizes, vPagesContainer)
+                        ToolsThreads.main(100) {
+                            if (vPagesCount.tag == this) {
+                                updateShowAll(vPagesCount, vMaxSizes, vPagesContainer)
+                            }
+                        }
+                    }
                 }
             }
         }

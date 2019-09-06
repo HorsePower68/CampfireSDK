@@ -1286,6 +1286,7 @@ Campfire has anime fandoms and gaming fandoms.</string>
     <string name="administration_user_reports">User reports</string>
     <string name="administration_user_reports_empty">No user reports</string>
     <string name="administration_requests">Requests statistic</string>
+    <string name="administration_query">Data base statistic</string>
     <string name="administration_requests_f_middle">Middle</string>
     <string name="administration_requests_f_total">Total</string>
     <string name="administration_requests_f_count">Count</string>

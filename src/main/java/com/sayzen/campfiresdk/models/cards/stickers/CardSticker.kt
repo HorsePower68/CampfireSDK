@@ -40,12 +40,12 @@ class CardSticker(
         vMenu.setOnClickListener { ControllerUnits.showStickerPopup(vMenu, 0, 0, unit) }
 
         if (isShowFullInfo) {
-            ToolsView.setOnLongClickCoordinates(vRootContainer) { v, x, y ->
+            ToolsView.setOnLongClickCoordinates(vRootContainer) { _, _, _ ->
 
             }
             view.setOnClickListener { SStickersView.instanceBySticker(unit.id, Navigator.TO) }
         } else {
-            ToolsView.setOnLongClickCoordinates(vRootContainer) { v, x, y ->
+            ToolsView.setOnLongClickCoordinates(vRootContainer) { _, x, y ->
                 ControllerUnits.showStickerPopup(vRootContainer, x, y, unit)
             }
             view.setOnClickListener { onClick.invoke(unit) }

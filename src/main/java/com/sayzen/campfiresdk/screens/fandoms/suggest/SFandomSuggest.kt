@@ -86,24 +86,24 @@ class SFandomSuggest(
         vFandomsContainer.visibility = View.GONE
         vSuggestUser.visibility = if (changeFandom == null) View.GONE else View.VISIBLE
 
-        vImage.setOnClickListener { v ->
+        vImage.setOnClickListener {
             hideKeyboard()
             selectImage()
         }
-        vImageMini.setOnClickListener { v ->
+        vImageMini.setOnClickListener {
             hideKeyboard()
             selectImageMini()
         }
-        vName.vField.addTextChangedListener(TextWatcherChanged { t ->
+        vName.vField.addTextChangedListener(TextWatcherChanged {
             updateFinishEnabled()
             updateSearch()
         })
-        vFab.setOnClickListener { v ->
+        vFab.setOnClickListener {
             hideKeyboard()
             onFabClicked()
         }
         (vFab2 as View).visibility = if (changeFandom != null) View.VISIBLE else View.GONE
-        vFab2.setOnClickListener { v ->
+        vFab2.setOnClickListener {
             hideKeyboard()
             reject()
         }
@@ -196,8 +196,8 @@ class SFandomSuggest(
 
     private fun selectImage() {
         WidgetChooseImage()
-                .setOnSelectedBitmap { ww, bitmap ->
-                    Navigator.to(SCrop(bitmap, API.FANDOM_TITLE_IMG_W, API.FANDOM_TITLE_IMG_H) { sCrop, b, x, y, w, h ->
+                .setOnSelectedBitmap { _, bitmap ->
+                    Navigator.to(SCrop(bitmap, API.FANDOM_TITLE_IMG_W, API.FANDOM_TITLE_IMG_H) { _, b, _, _, _, _ ->
                         val w = ToolsView.showProgressDialog()
                         vImage.setImageBitmap(b)
                         vImagePlus.visibility = View.GONE
@@ -214,8 +214,8 @@ class SFandomSuggest(
 
     private fun selectImageMini() {
         WidgetChooseImage()
-                .setOnSelectedBitmap { ww, bitmap ->
-                    Navigator.to(SCrop(bitmap, API.FANDOM_IMG_SIDE, API.FANDOM_IMG_SIDE) { sCrop, b, x, y, w, h ->
+                .setOnSelectedBitmap { _, bitmap ->
+                    Navigator.to(SCrop(bitmap, API.FANDOM_IMG_SIDE, API.FANDOM_IMG_SIDE) { _, b, _, _, _, _ ->
                         val w = ToolsView.showProgressDialog()
                         vImageMini.setImageBitmap(b)
                         vImageMiniPlus.visibility = View.GONE
@@ -277,7 +277,7 @@ class SFandomSuggest(
                 paramGet(3),
                 paramGet(5),
                 paramGet(7)
-        )) { r ->
+        )) { _->
             ToolsToast.show(R.string.fandoms_suggest_suggested)
             Navigator.back()
         }
@@ -285,7 +285,7 @@ class SFandomSuggest(
 
     private fun accept() {
         sendChangeIfNeed {
-            ApiRequestsSupporter.executeEnabledConfirm(R.string.fandoms_suggest_accept_text, R.string.app_accept, RFandomsAccept(changeFandom!!.id, true, "")) { r ->
+            ApiRequestsSupporter.executeEnabledConfirm(R.string.fandoms_suggest_accept_text, R.string.app_accept, RFandomsAccept(changeFandom!!.id, true, "")) {
                 ToolsToast.show(R.string.app_done)
                 EventBus.post(EventFandomAccepted(changeFandom.id, true))
                 Navigator.back()
@@ -313,14 +313,14 @@ class SFandomSuggest(
                 paramGet(3),
                 paramGet(5),
                 paramGet(7)
-        )) { r ->
+        )) { _->
             onFinish.invoke()
         }
     }
 
     private fun reject() {
         WidgetReject { comment ->
-            ApiRequestsSupporter.executeEnabledConfirm(R.string.fandoms_suggest_reject_text, R.string.app_reject, RFandomsAccept(changeFandom!!.id, false, comment)) { r ->
+            ApiRequestsSupporter.executeEnabledConfirm(R.string.fandoms_suggest_reject_text, R.string.app_reject, RFandomsAccept(changeFandom!!.id, false, comment)) {
                 ToolsToast.show(R.string.app_done)
                 EventBus.post(EventFandomAccepted(changeFandom.id, false))
                 Navigator.back()
@@ -352,7 +352,7 @@ class SFandomSuggest(
         for (i in CampfireConstants.getParams(categoryId, paramsPosition)!!) {
             val v = ViewChip.instanceChoose(context, i.name, i)
             for (genre in selected) if (genre == i.index) v.isChecked = true
-            v.setOnCheckedChangeListener { compoundButton, b ->
+            v.setOnCheckedChangeListener { _, _ ->
                 hideKeyboard()
                 updateFinishEnabled()
             }

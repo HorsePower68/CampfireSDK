@@ -67,7 +67,7 @@ class WidgetModerationBlock(
 
         if (unit.unitType == API.UNIT_TYPE_REVIEW) vBlockLast.visibility = View.GONE
 
-        vComment.vField.addTextChangedListener(TextWatcherChanged { t -> updateFinishEnabled() })
+        vComment.vField.addTextChangedListener(TextWatcherChanged { updateFinishEnabled() })
 
         if (bansCount > 0 || warnsCount > 2) vPunishments.setBackgroundColor(ToolsColor.setAlpha(100, ToolsResources.getColor(R.color.red_700)))
         vPunishments.setTitle(ToolsResources.s(R.string.moderation_widget_block_user_punishments, bansCount, warnsCount))
@@ -84,8 +84,8 @@ class WidgetModerationBlock(
 
         vBlockInApp.visibility = if (ControllerApi.can(API.LVL_ADMIN_BAN)) View.VISIBLE else View.GONE
 
-        vEnter.setOnClickListener { v -> block() }
-        vCancel.setOnClickListener { v -> hide() }
+        vEnter.setOnClickListener { block() }
+        vCancel.setOnClickListener { hide() }
 
         vBlockUser.add(R.string.moderation_widget_ban_no) { setBanTime(0) }
         vBlockUser.add(R.string.moderation_widget_ban_warn) { setBanTime(-1) }
@@ -103,7 +103,7 @@ class WidgetModerationBlock(
             CampfireConstants.RULES_USER
             for (i in CampfireConstants.RULES_USER)
                 w.add(ToolsResources.sLang(ControllerApi.getLanguage(unit.languageId).code, i.title))
-                { w, c -> vComment.setText(ToolsResources.sLang(ControllerApi.getLanguage(unit.languageId).code, i.text)) }
+                { _, _ -> vComment.setText(ToolsResources.sLang(ControllerApi.getLanguage(unit.languageId).code, i.text)) }
             w.asSheetShow()
         }
 
@@ -150,16 +150,16 @@ class WidgetModerationBlock(
             ToolsToast.show(finishToast)
             hide()
         }
-                .onApiError(RFandomsModerationBlock.E_LOW_KARMA_FORCE) { r ->
+                .onApiError(RFandomsModerationBlock.E_LOW_KARMA_FORCE) {
                     ToolsToast.show(R.string.moderation_low_karma)
                     hide()
                 }
-                .onApiError(RFandomsModerationBlock.E_ALREADY) { r ->
+                .onApiError(RFandomsModerationBlock.E_ALREADY) {
                     ToolsToast.show(R.string.error_already_blocked)
                     afterBlock(emptyArray(), null)
                     hide()
                 }
-                .onApiError(RFandomsModerationBlock.E_DRAFT) { r ->
+                .onApiError(RFandomsModerationBlock.E_DRAFT) {
                     ToolsToast.show(R.string.error_already_returned_to_drafts)
                     afterBlock(emptyArray(), null)
                     hide()

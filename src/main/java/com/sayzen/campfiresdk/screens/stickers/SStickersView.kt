@@ -82,7 +82,7 @@ class SStickersView(
         vRecycler.layoutManager = GridLayoutManager(context, spanCount)
         ToolsView.setRecyclerAnimation(vRecycler)
         addToolbarIcon(ToolsResources.getDrawableAttr(R.attr.ic_more_vert_24dp)!!) {
-            ControllerUnits.showStickerPackPopup(it, stickersPack)
+            ControllerUnits.showStickerPackPopup(stickersPack)
         }
 
         vFab.setImageResource(R.drawable.ic_add_white_24dp)
@@ -125,7 +125,7 @@ class SStickersView(
             card
         }
                 .setShowLoadingCardBottom(false)
-                .setBottomLoader { onLoad, cards ->
+                .setBottomLoader { onLoad, _ ->
                     subscription = RStickersGetAll(stickersPack.id)
                             .onComplete { r ->
                                 if (loaded) {
@@ -144,7 +144,7 @@ class SStickersView(
 
     private fun chooseImage() {
         WidgetChooseImage()
-                .setOnSelected { w, bytes, index ->
+                .setOnSelected { _, bytes, _ ->
 
                     ToolsThreads.thread {
 
@@ -159,7 +159,7 @@ class SStickersView(
                             val isGif = ToolsBytes.isGif(bytes)
                             val cropSize = if (isGif) API.STICKERS_IMAGE_SIDE_GIF else API.STICKERS_IMAGE_SIDE
 
-                            Navigator.to(SCrop(bitmap, cropSize, cropSize) { sCrop, b2, x, y, w, h ->
+                            Navigator.to(SCrop(bitmap, cropSize, cropSize) { _, b2, x, y, w, h ->
                                 if (isGif) {
 
                                     val d = ToolsView.showProgressDialog()

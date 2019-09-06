@@ -59,15 +59,13 @@ internal class WidgetSubscription(
         }
 
 
-        vEnter.setOnClickListener { v ->
-            finish()
-        }
-        vCancel.setOnClickListener { v -> hide() }
+        vEnter.setOnClickListener { finish() }
+        vCancel.setOnClickListener { hide() }
     }
 
     private fun finish() {
         hide()
-        ApiRequestsSupporter.executeProgressDialog(RFandomsSubscribeChange(fandomId, languageId, type, vNotifications.isChecked())) { r ->
+        ApiRequestsSupporter.executeProgressDialog(RFandomsSubscribeChange(fandomId, languageId, type, vNotifications.isChecked())) { _->
             EventBus.post(EventFandomSubscribe(fandomId, languageId, type, vNotifications.isChecked()))
             ToolsToast.show(R.string.app_done)
         }

@@ -57,7 +57,7 @@ val apiMedia: APIMedia = APIMedia(
         APIMedia.IP,
         APIMedia.PORT_HTTPS,
         APIMedia.PORT_CERTIFICATE,
-        { key, token -> }, { "" }
+        { _, _ -> }, { "" }
 )
 
 fun instanceTokenProvider(): TokenProvider {
@@ -126,6 +126,7 @@ object ControllerApi {
 
     fun getLanguage(languageId: Long) = API.getLanguage(languageId)
 
+    @Suppress("DEPRECATION")
     fun makeTextHtml(vText: TextView) {
         val text = vText.text.toString().replace("<", "&#60;")
         vText.text = Html.fromHtml(TextParser(text).parse().replace("\n", "<br />"))
@@ -399,7 +400,7 @@ object ControllerApi {
     }
 
     private fun makeLinkable(vText: TextView, short: String, link: String, spec: String) {
-        Linkify.addLinks(vText, Pattern.compile("$short$spec"), link, null, { match, url ->
+        Linkify.addLinks(vText, Pattern.compile("$short$spec"), link, null, { _, url ->
             link + url.substring(short.length)
         })
     }
@@ -413,7 +414,7 @@ object ControllerApi {
         WidgetField()
                 .setHint(R.string.app_message)
                 .setOnCancel(R.string.app_cancel)
-                .setOnEnter(R.string.app_share) { w, text ->
+                .setOnEnter(R.string.app_share) { _, text ->
                     ToolsIntent.shareText(text + "\n\r" + linkToPost(unitId))
                     ToolsThreads.main(10000) { RUnitsOnShare(unitId).send(api) }
                 }
@@ -424,7 +425,7 @@ object ControllerApi {
         WidgetField()
                 .setHint(R.string.app_message)
                 .setOnCancel(R.string.app_cancel)
-                .setOnEnter(R.string.app_share) { w, text ->
+                .setOnEnter(R.string.app_share) { _, text ->
                     ToolsIntent.shareText(text + "\n\r" + linkToReview(unitId))
                 }
                 .asSheetShow()
@@ -435,7 +436,7 @@ object ControllerApi {
     //
 
     fun reportUnit(unitId: Long, stringRes: Int, stringResGone: Int) {
-        ApiRequestsSupporter.executeEnabledConfirm(stringRes, R.string.app_report, RUnitsReport(unitId)) { r ->
+        ApiRequestsSupporter.executeEnabledConfirm(stringRes, R.string.app_report, RUnitsReport(unitId)) {
             ToolsToast.show(R.string.app_reported)
             EventBus.post(EventUnitReportsAdd(unitId))
         }
@@ -444,7 +445,7 @@ object ControllerApi {
     }
 
     fun removeUnit(unitId: Long, stringRes: Int, stringResGone: Int, onRemove: () -> Unit = {}) {
-        ApiRequestsSupporter.executeEnabledConfirm(stringRes, R.string.app_remove, RUnitsRemove(unitId)) { r ->
+        ApiRequestsSupporter.executeEnabledConfirm(stringRes, R.string.app_remove, RUnitsRemove(unitId)) {
             EventBus.post(EventUnitRemove(unitId))
             ToolsToast.show(R.string.app_removed)
             onRemove.invoke()
@@ -467,27 +468,27 @@ object ControllerApi {
                 stringRes,
                 R.string.app_clear,
                 RUnitsAdminClearReports(unitId)
-        ) { r ->
+        ) {
             ToolsToast.show(R.string.app_done)
             EventBus.post(EventUnitReportsClear(unitId))
         }.onApiError(API.ERROR_GONE) { ToolsToast.show(stringResGone) }
     }
 
     fun clearReportsUnitNow(unitId: Long) {
-        ApiRequestsSupporter.execute(RUnitsAdminClearReports(unitId)) { r ->
+        ApiRequestsSupporter.execute(RUnitsAdminClearReports(unitId)) {
             EventBus.post(EventUnitReportsClear(unitId))
         }
     }
 
     fun clearUserReports(accountId: Long) {
-        ApiRequestsSupporter.executeEnabledConfirm(R.string.app_clear_reports_confirm, R.string.app_clear, RAccountsClearReports(accountId)) { r ->
+        ApiRequestsSupporter.executeEnabledConfirm(R.string.app_clear_reports_confirm, R.string.app_clear, RAccountsClearReports(accountId)) {
             EventBus.post(EventAccountReportsCleared(accountId))
             ToolsToast.show(R.string.app_done)
         }
     }
 
     fun clearUserReportsNow(accountId: Long) {
-        ApiRequestsSupporter.execute(RAccountsClearReports(accountId)) { r ->
+        ApiRequestsSupporter.execute(RAccountsClearReports(accountId)) {
             EventBus.post(EventAccountReportsCleared(accountId))
         }
     }

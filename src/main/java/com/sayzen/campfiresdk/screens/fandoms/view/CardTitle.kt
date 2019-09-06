@@ -47,7 +47,7 @@ class CardTitle(
         if (subscriptionType == API.UNIT_IMPORTANT_NONE) vSubscription.setText(R.string.app_follow) else vSubscription.setText(R.string.app_unfollow)
         vSubscription.setOnClickListener {
             val type = if (subscriptionType == API.UNIT_IMPORTANT_NONE) API.UNIT_IMPORTANT_DEFAULT else API.UNIT_IMPORTANT_NONE
-            ApiRequestsSupporter.executeProgressDialog(RFandomsSubscribeChange(xFandom.fandomId, xFandom.languageId, type, true)) { r ->
+            ApiRequestsSupporter.executeProgressDialog(RFandomsSubscribeChange(xFandom.fandomId, xFandom.languageId, type, true)) { _ ->
                 EventBus.post(EventFandomSubscribe(xFandom.fandomId, xFandom.languageId, type, true))
                 ToolsToast.show(R.string.app_done)
             }

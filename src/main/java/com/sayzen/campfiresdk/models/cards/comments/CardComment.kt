@@ -1,5 +1,6 @@
 package com.sayzen.campfiresdk.models.cards.comments
 
+import android.annotation.SuppressLint
 import android.text.Html
 import android.view.View
 import android.widget.TextView
@@ -70,6 +71,8 @@ abstract class CardComment protected constructor(
 
     protected abstract fun bind(view: View)
 
+    @Suppress("DEPRECATION")
+    @SuppressLint("SetTextI18n")
     override fun bindView(view: View) {
         super.bindView(view)
         val unit = xUnit.unit as UnitComment
@@ -91,12 +94,12 @@ abstract class CardComment protected constructor(
         }
 
         if (vSwipe != null) {
-            vSwipe.onClick = { x, y -> if (onClick()) showMenu() }
-            vSwipe.onLongClick = { x, y -> showMenu() }
+            vSwipe.onClick = { _, _ -> if (onClick()) showMenu() }
+            vSwipe.onLongClick = { _, _ -> showMenu() }
             vSwipe.swipeEnabled = quoteEnabled
         }
         if (vSwipe != null && onQuote != null) {
-            vSwipe.onClick = { x, y ->
+            vSwipe.onClick = { _, _ ->
                 if (ControllerApi.isCurrentAccount(unit.creatorId)) showMenu()
                 else onClick()
             }
@@ -138,7 +141,7 @@ abstract class CardComment protected constructor(
 
 
         if (vLabelName != null) vLabelName.text = unit.creatorName
-        if (vLabelDate != null) vLabelDate.text = ToolsDate.dateToString(unit.dateCreate) + (if (unit.changed) " " + ToolsResources.s(R.string.app_edited) else "")
+        if (vLabelDate != null) vLabelDate.text = "${ToolsDate.dateToString(unit.dateCreate)}${if (unit.changed) ToolsResources.s(R.string.app_edited) else ""}"
         if (vLabel != null) vLabel.text = unit.creatorName + "   " + ToolsDate.dateToString(unit.dateCreate) + (if (unit.changed) " " + ToolsResources.s(R.string.app_edited) else "")
         if (vDivider != null) vDivider.visibility = if (dividers) View.VISIBLE else View.GONE
 
@@ -148,23 +151,23 @@ abstract class CardComment protected constructor(
     fun showMenu() {
         val unit = xUnit.unit as UnitComment
         WidgetMenu()
-                .add(R.string.app_copy_link) { w, card ->
+                .add(R.string.app_copy_link) { _, _ ->
                     ToolsAndroid.setToClipboard(ControllerApi.linkToComment(unit))
                     ToolsToast.show(R.string.app_copied)
                 }
                 .groupCondition(ControllerApi.isCurrentAccount(unit.creatorId))
-                .add(R.string.app_remove) { w, c -> ControllerApi.removeUnit(unit.id, R.string.comment_remove_confirm, R.string.comment_error_gone) { EventBus.post(EventCommentRemove(unit.id, unit.parentUnitId)) } }
-                .add(R.string.app_change) { w, c -> WidgetComment(unit).asSheetShow() }.condition(changeEnabled)
+                .add(R.string.app_remove) { _, _ -> ControllerApi.removeUnit(unit.id, R.string.comment_remove_confirm, R.string.comment_error_gone) { EventBus.post(EventCommentRemove(unit.id, unit.parentUnitId)) } }
+                .add(R.string.app_change) { _, _ -> WidgetComment(unit).asSheetShow() }.condition(changeEnabled)
                 .clearGroupCondition()
-                .add(R.string.app_copy) { w, c ->
+                .add(R.string.app_copy) { _, _ ->
                     ToolsAndroid.setToClipboard(unit.text)
                     ToolsToast.show(R.string.app_copied)
                 }.condition(copyEnabled)
-                .add(R.string.app_quote) { w, c -> onQuote?.invoke(unit) }.condition(quoteEnabled && onQuote != null)
+                .add(R.string.app_quote) { _, _ -> onQuote?.invoke(unit) }.condition(quoteEnabled && onQuote != null)
                 .groupCondition(!ControllerApi.isCurrentAccount(unit.creatorId))
-                .add(R.string.app_report) { w, c -> ControllerApi.reportUnit(unit.id, R.string.comment_report_confirm, R.string.comment_error_gone) }
-                .add(R.string.app_clear_reports) { w, c -> ControllerApi.clearReportsUnit(unit.id, unit.unitType) }.backgroundRes(R.color.blue_700).textColorRes(R.color.white).condition(ControllerApi.can(unit.fandomId, unit.languageId, API.LVL_MODERATOR_BLOCK) && unit.reportsCount > 0)
-                .add(R.string.app_block) { w, c -> ControllerUnits.block(unit) }.backgroundRes(R.color.blue_700).textColorRes(R.color.white).condition(ControllerApi.can(unit.fandomId, unit.languageId, API.LVL_MODERATOR_BLOCK))
+                .add(R.string.app_report) { _, _ -> ControllerApi.reportUnit(unit.id, R.string.comment_report_confirm, R.string.comment_error_gone) }
+                .add(R.string.app_clear_reports) { _, _ -> ControllerApi.clearReportsUnit(unit.id, unit.unitType) }.backgroundRes(R.color.blue_700).textColorRes(R.color.white).condition(ControllerApi.can(unit.fandomId, unit.languageId, API.LVL_MODERATOR_BLOCK) && unit.reportsCount > 0)
+                .add(R.string.app_block) { _, _ -> ControllerUnits.block(unit) }.backgroundRes(R.color.blue_700).textColorRes(R.color.white).condition(ControllerApi.can(unit.fandomId, unit.languageId, API.LVL_MODERATOR_BLOCK))
                 .asSheetShow()
     }
 

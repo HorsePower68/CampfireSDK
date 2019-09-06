@@ -25,7 +25,7 @@ class SPending : SLoadingRecycler<CardPost, UnitPost>() {
 
         (vFab as View).visibility = View.VISIBLE
         vFab.setImageResource(R.drawable.ic_add_white_24dp)
-        vFab.setOnClickListener { v ->
+        vFab.setOnClickListener {
             SFandomsSearch.instance(Navigator.TO, true) { fandom ->
                 SPostCreate.instance(fandom.id, fandom.languageId, fandom.name, fandom.imageId, emptyArray(), Navigator.TO)
             }

@@ -43,9 +43,9 @@ class SCreatePageText(
         vField.setSingleLine(false)
         vField.imeOptions = EditorInfo.IME_FLAG_NO_ENTER_ACTION
         vField.gravity = Gravity.TOP
-        vField.addTextChangedListener(TextWatcherChanged { s -> update() })
+        vField.addTextChangedListener(TextWatcherChanged { update() })
 
-        vTextTitle.setOnClickListener { v ->
+        vTextTitle.setOnClickListener {
             if (vTextTitle.isIconSelected)
                 onTextSizeClicked(PageText.SIZE_0)
             else
@@ -61,11 +61,11 @@ class SCreatePageText(
             onTextSizeClicked(size)
         }
 
-        vFab.setOnClickListener { v -> onEnter() }
+        vFab.setOnClickListener { onEnter() }
 
         vIconAttach.setOnClickListener {
             val w = WidgetGreed()
-            for(i in CampfireConstants.TEXT_ICONS.indices) w.addAttr(CampfireConstants.TEXT_ICONS[i]){ w, index ->
+            for(i in CampfireConstants.TEXT_ICONS.indices) w.addAttr(CampfireConstants.TEXT_ICONS[i]){ _, _ ->
                 this.icon = i
                 vIconAttach.setImageDrawable(ToolsResources.getDrawableAttr(CampfireConstants.TEXT_ICONS[i]))
             }

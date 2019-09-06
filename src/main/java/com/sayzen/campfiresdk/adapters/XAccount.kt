@@ -107,12 +107,12 @@ class XAccount(
         else viewAvatar.vChip.setText("${lvl / 100}")
         setOnline(viewAvatar.vChip)
         viewAvatar.vChip.visibility = if (lvl < 1) View.GONE else View.VISIBLE
-        viewAvatar.setOnClickListener { v -> ControllerCampfireSDK.onToAccountClicked(accountId, Navigator.TO) }
+        viewAvatar.setOnClickListener { ControllerCampfireSDK.onToAccountClicked(accountId, Navigator.TO) }
     }
 
     fun setView(viewAvatar: ViewAvatarTitle) {
         setView(viewAvatar.vAvatar)
-        viewAvatar.setOnClickListener { v -> ControllerCampfireSDK.onToAccountClicked(accountId, Navigator.TO) }
+        viewAvatar.setOnClickListener { ControllerCampfireSDK.onToAccountClicked(accountId, Navigator.TO) }
         viewAvatar.setTitle(name)
         if (date != 0L) viewAvatar.setSubtitle(ToolsDate.dateToString(date))
     }

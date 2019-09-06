@@ -43,17 +43,17 @@ object ControllerChats {
 
     fun instanceChatPopup(tag: ChatTag, onRemove: () -> Unit = {}): WidgetMenu {
         return WidgetMenu()
-                .add(R.string.chat_read) { w, card -> readRequest(tag) }
-                .add(R.string.app_copy_link) { w, card ->
+                .add(R.string.chat_read) { _, _ -> readRequest(tag) }
+                .add(R.string.app_copy_link) { _, _ ->
                     ToolsAndroid.setToClipboard(ControllerApi.linkToChat(tag.targetId))
                     ToolsToast.show(R.string.app_copied)
                 }.condition(tag.chatType == API.CHAT_TYPE_FANDOM)
-                .add(R.string.app_copy_link_with_language) { w, card ->
+                .add(R.string.app_copy_link_with_language) { _, _ ->
                     ToolsAndroid.setToClipboard(ControllerApi.linkToChat(tag.targetId, tag.targetSubId))
                     ToolsToast.show(R.string.app_copied)
                 }.condition(tag.chatType == API.CHAT_TYPE_FANDOM)
-                .add(R.string.chat_remove) { w, card ->
-                    ApiRequestsSupporter.executeProgressDialog(RChatRemove(tag)) { r ->
+                .add(R.string.chat_remove) { _, _ ->
+                    ApiRequestsSupporter.executeProgressDialog(RChatRemove(tag)) { _ ->
                         EventBus.post(EventChatRemoved(tag))
                         onRemove.invoke()
                         ToolsToast.show(R.string.app_done)
@@ -100,10 +100,10 @@ object ControllerChats {
 
         saveMessagesCounts(list)
 
-        var count = 0
-        for (i in list) if (i.a3) count++
+        var countV = 0
+        for (i in list) if (i.a3) countV++
 
-        ToolsStorage.put("ControllerChats_count", count)
+        ToolsStorage.put("ControllerChats_count", countV)
 
         EventBus.post(EventChatMessagesCountChanged(tag))
     }

@@ -23,7 +23,7 @@ class WidgetPageImage(
     init {
         setMaxSelectCount(15)
         setCallbackInWorkerThread(true)
-        setOnSelected { sheet, bytes, index ->
+        setOnSelected { _, bytes, _ ->
             val sent = Item(false)
             createNow(bytes, null, screen, null) {
                 sent.a = true
@@ -61,7 +61,7 @@ class WidgetPageImage(
                     return@thread
                 }
                 ToolsThreads.main {
-                    Navigator.to(SCrop(bm) { pCrop, bitmap, x, y, w, h ->
+                    Navigator.to(SCrop(bm) { _, bitmap, x, y, w, h ->
                         ToolsThreads.thread {
                             val bytesScaled =
                                     if (ToolsBytes.isGif(bytes))

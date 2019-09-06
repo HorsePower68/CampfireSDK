@@ -91,18 +91,18 @@ class CardReview(
 
         WidgetMenu()
                 .groupCondition(ControllerApi.isCurrentAccount(unit.creatorId))
-                .add(R.string.app_change) { w, card -> WidgetReview(unit.fandomId, unit.languageId, unit.rate, unit.text) {}.asSheetShow() }.condition(unit.isPublic)
-                .add(R.string.app_remove) { w, card -> ControllerApi.removeUnit(unit.id, R.string.review_remove_confirm, R.string.review_error_gone) { EventBus.post(EventFandomReviewRemoved(unit.fandomId, unit.languageId, unit.id, unit.rate)) } }
+                .add(R.string.app_change) { _, _ -> WidgetReview(unit.fandomId, unit.languageId, unit.rate, unit.text) {}.asSheetShow() }.condition(unit.isPublic)
+                .add(R.string.app_remove) { _, _ -> ControllerApi.removeUnit(unit.id, R.string.review_remove_confirm, R.string.review_error_gone) { EventBus.post(EventFandomReviewRemoved(unit.fandomId, unit.languageId, unit.id, unit.rate)) } }
                 .groupCondition(!ControllerApi.isCurrentAccount(unit.creatorId) && unit.isPublic)
-                .add(R.string.app_report) { w, card -> ControllerApi.reportUnit(unit.id, R.string.review_report_confirm, R.string.review_error_gone) }
+                .add(R.string.app_report) { _, _ -> ControllerApi.reportUnit(unit.id, R.string.review_report_confirm, R.string.review_error_gone) }
                 .clearGroupCondition()
-                .add(R.string.app_share) { w, card -> ControllerApi.shareReview(unit.id) }.condition(unit.isPublic)
-                .add(R.string.app_copy_link) { w, card ->
+                .add(R.string.app_share) { _, _ -> ControllerApi.shareReview(unit.id) }.condition(unit.isPublic)
+                .add(R.string.app_copy_link) { _, _ ->
                     ToolsAndroid.setToClipboard(ControllerApi.linkToReview(unit.id))
                     ToolsToast.show(R.string.app_copied)
                 }
-                .add(R.string.app_clear_reports) { w, card -> ControllerApi.clearReportsUnit(unit.id, unit.unitType) }.backgroundRes(R.color.blue_700).textColorRes(R.color.white).condition(ControllerApi.can(unit.fandomId, unit.languageId, API.LVL_MODERATOR_BLOCK) && unit.reportsCount > 0)
-                .add(R.string.app_remove_text) { w, card -> WidgetModerationBlock.show(unit, {}) { it.setActionText(R.string.app_remove).setAlertText(R.string.review_remove_text_confirm, R.string.app_remove).setToastText(R.string.app_removed) } }.backgroundRes(R.color.blue_700).textColorRes(R.color.white).condition(ControllerApi.can(unit.fandomId, unit.languageId, API.LVL_MODERATOR_REVIEW_REMOVE_TEXT) && !ControllerApi.isCurrentAccount(unit.creatorId))
+                .add(R.string.app_clear_reports) { _, _ -> ControllerApi.clearReportsUnit(unit.id, unit.unitType) }.backgroundRes(R.color.blue_700).textColorRes(R.color.white).condition(ControllerApi.can(unit.fandomId, unit.languageId, API.LVL_MODERATOR_BLOCK) && unit.reportsCount > 0)
+                .add(R.string.app_remove_text) { _, _ -> WidgetModerationBlock.show(unit, {}) { it.setActionText(R.string.app_remove).setAlertText(R.string.review_remove_text_confirm, R.string.app_remove).setToastText(R.string.app_removed) } }.backgroundRes(R.color.blue_700).textColorRes(R.color.white).condition(ControllerApi.can(unit.fandomId, unit.languageId, API.LVL_MODERATOR_REVIEW_REMOVE_TEXT) && !ControllerApi.isCurrentAccount(unit.creatorId))
                 .asSheetShow()
     }
 

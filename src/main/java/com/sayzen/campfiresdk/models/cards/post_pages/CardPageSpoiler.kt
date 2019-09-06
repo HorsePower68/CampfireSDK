@@ -32,7 +32,7 @@ class CardPageSpoiler(
         ControllerApi.makeLinkable(vText)
 
         vTouch.visibility = if (clickable) View.VISIBLE else View.GONE
-        vTouch.setOnClickListener { v -> onClicked() }
+        vTouch.setOnClickListener { onClicked() }
 
         vIcon.setImageResource(ToolsResources.getDrawableAttrId(if ((page as PageSpoiler).isOpen) R.attr.ic_keyboard_arrow_up_24dp else R.attr.ic_keyboard_arrow_down_24dp))
         vText.text = (page as PageSpoiler).name + " (" + (page as PageSpoiler).count + " " + ToolsResources.getPlural(R.plurals.pages_count, (page as PageSpoiler).count) + ")"

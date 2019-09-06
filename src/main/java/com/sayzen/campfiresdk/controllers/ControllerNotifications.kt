@@ -65,7 +65,7 @@ object ControllerNotifications {
             onToken(token)
         }, { message: RemoteMessage -> onMessage(message) })
 
-        ToolsNotifications.notificationsListener = { intent, type, tag ->
+        ToolsNotifications.notificationsListener = { intent, type, _ ->
             if (intent.hasExtra(EXTRA_NOTIFICATION)) {
                 val n = Notification.instance(Json(intent.getStringExtra(EXTRA_NOTIFICATION)))
                 intent.removeExtra(EXTRA_NOTIFICATION)
@@ -198,7 +198,7 @@ object ControllerNotifications {
     fun removeNotificationFromNewAll() {
         newNotifications = emptyArray()
         actualizeNewNotifications()
-        ApiRequestsSupporter.execute(RAccountsNotificationsView(emptyArray(), emptyArray())) { r -> }
+        ApiRequestsSupporter.execute(RAccountsNotificationsView(emptyArray(), emptyArray())) {}
     }
 
     fun removeNotificationFromNew(types: Array<Long>) {
@@ -277,8 +277,8 @@ object ControllerNotifications {
         }
 
         RAccountsNotificationsRemoveToken(token)
-                .onComplete { r -> onClear?.invoke() }
-                .onError { ex -> onError?.invoke() }
+                .onComplete { onClear?.invoke() }
+                .onError { onError?.invoke() }
                 .send(api)
     }
 
@@ -443,23 +443,23 @@ object ControllerNotifications {
 
     private class NotificationChatMessageParser(override val n: NotificationChatMessage) : Parser(n) {
 
-        override fun post(icon: Int, intent: Intent, text: String, title: String, tagX: String) {
-            var title = title
-            var text = text
+        override fun post(icon: Int, intent: Intent, text: String, title: String, tag: String) {
+            val titleV: String
+            var textV = text
             val unit = n.unitChatMessage
-            val tag = n.tag.asTag()
+            val tagV = n.tag.asTag()
 
             val chatMessagesCount = ControllerChats.getMessagesCount(n.tag)
             if (n.tag.chatType == API.CHAT_TYPE_FANDOM) {
-                title = unit.fandomName
-                if (chatMessagesCount > 1) text = ToolsResources.s(
+                titleV = unit.fandomName
+                if (chatMessagesCount > 1) textV = ToolsResources.s(
                         R.string.notification_chat_many, chatMessagesCount, ToolsResources.getPlural(
                         R.plurals.new_fem, chatMessagesCount
                 ), ToolsResources.getPlural(R.plurals.messages, chatMessagesCount)
                 )
             } else {
-                title = unit.creatorName
-                if (chatMessagesCount > 1) text = ToolsResources.s(
+                titleV = unit.creatorName
+                if (chatMessagesCount > 1) textV = ToolsResources.s(
                         R.string.notification_chat_private_many, chatMessagesCount, ToolsResources.getPlural(
                         R.plurals.new_fem, chatMessagesCount
                 ), ToolsResources.getPlural(R.plurals.private_, chatMessagesCount), ToolsResources.getPlural(
@@ -469,7 +469,7 @@ object ControllerNotifications {
             }
 
 
-            chanelChatMessages.post(icon, title, text, intent, tag)
+            chanelChatMessages.post(icon, titleV, textV, intent, tagV)
         }
 
         override fun asString(html: Boolean): String {
@@ -490,11 +490,11 @@ object ControllerNotifications {
 
     private class NotificationChatAnswerParser(override val n: NotificationChatAnswer) : Parser(n) {
 
-        override fun post(icon: Int, intent: Intent, text: String, title: String, tagX: String) {
+        override fun post(icon: Int, intent: Intent, text: String, title: String, tag: String) {
             val unit = n.unitChatMessage
-            val tag = n.tag.asTag()
+            val tagV = n.tag.asTag()
 
-            chanelChatAnswers.post(icon, unit.fandomName, text, intent, tag)
+            chanelChatAnswers.post(icon, unit.fandomName, text, intent, tagV)
         }
 
         override fun asString(html: Boolean): String {

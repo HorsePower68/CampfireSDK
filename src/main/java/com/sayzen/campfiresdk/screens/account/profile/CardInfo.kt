@@ -79,19 +79,14 @@ class CardInfo(
         val vModeratorButton: View = view.findViewById(R.id.vModeratorButton)
         val vModeratorText: TextView = view.findViewById(R.id.vModeratorText)
         val vModeratorCount: TextView = view.findViewById(R.id.vModeratorCount)
-        val vTimeButton: View = view.findViewById(R.id.vTimeButton)
         val vTimeText: TextView = view.findViewById(R.id.vTimeText)
         val vStatus: ViewTextLinkable = view.findViewById(R.id.vStatus)
         val vStatusContainer: View = view.findViewById(R.id.vStatusContainer)
         val vRatesButton: View = view.findViewById(R.id.vRatesButton)
-        val vRatesText: TextView = view.findViewById(R.id.vRatesText)
         val vRatesCount: TextView = view.findViewById(R.id.vRatesCount)
         val vPunishmentsButton: View = view.findViewById(R.id.vPunishmentsButton)
-        val vPunishmentsText: TextView = view.findViewById(R.id.vPunishmentsText)
         val vPunishmentsCount: TextView = view.findViewById(R.id.vPunishmentsCount)
         val vStory: View = view.findViewById(R.id.vStory)
-        val vStoryText: TextView = view.findViewById(R.id.vStoryText)
-        val vStoryCount: TextView = view.findViewById(R.id.vStoryCount)
         val vNote: ViewTextLinkable = view.findViewById(R.id.vNote)
 
         if (xAccount.isBot()) {
@@ -249,7 +244,7 @@ class CardInfo(
                 .setText(status)
                 .setOnCancel(R.string.app_cancel)
                 .setOnEnter(R.string.app_change) { w, status ->
-                    ApiRequestsSupporter.executeEnabled(w, RAccountsStatusSet(status.trim())) { r ->
+                    ApiRequestsSupporter.executeEnabled(w, RAccountsStatusSet(status.trim())) {
                         ToolsToast.show(R.string.app_done)
                         EventBus.post(EventAccountStatusChanged(xAccount.accountId, status.trim()))
                     }
@@ -259,7 +254,7 @@ class CardInfo(
 
     private fun toggleFollows() {
         if (!isFollow)
-            ApiRequestsSupporter.executeProgressDialog(RAccountsFollowsChange(xAccount.accountId, !isFollow)) { r -> eventBus.post(EventAccountsFollowsChange(xAccount.accountId, !isFollow)) }
+            ApiRequestsSupporter.executeProgressDialog(RAccountsFollowsChange(xAccount.accountId, !isFollow)) { _->eventBus.post(EventAccountsFollowsChange(xAccount.accountId, !isFollow)) }
         else
             ApiRequestsSupporter.executeEnabledConfirm(R.string.profile_follows_remove_confirm, R.string.app_unfollow, RAccountsFollowsChange(xAccount.accountId, !isFollow)) { eventBus.post(EventAccountsFollowsChange(xAccount.accountId, !isFollow)) }
     }

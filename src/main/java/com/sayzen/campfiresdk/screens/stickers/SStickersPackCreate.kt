@@ -62,8 +62,8 @@ class SStickersPackCreate(
 
     private fun chooseImage() {
         WidgetChooseImage()
-                .setOnSelectedBitmap { w, b ->
-                    Navigator.to(SCrop(b, API.STICKERS_PACK_IMAGE_SIDE, API.STICKERS_PACK_IMAGE_SIDE) { screen, b2, x, y, w, h ->
+                .setOnSelectedBitmap { _, b ->
+                    Navigator.to(SCrop(b, API.STICKERS_PACK_IMAGE_SIDE, API.STICKERS_PACK_IMAGE_SIDE) { _, b2, _, _, _, _ ->
                         this.image = ToolsBitmap.toBytes(ToolsBitmap.resize(b2, API.STICKERS_PACK_IMAGE_SIDE), API.STICKERS_PACK_IMAGE_WEIGHT)
                         vImage.setImageBitmap(b2)
                         vImageIcon.visibility = View.GONE

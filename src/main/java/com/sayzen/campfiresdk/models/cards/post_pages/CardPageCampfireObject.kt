@@ -65,7 +65,7 @@ class CardPageCampfireObject(
     }
 
     override fun notifyItem() {
-        ControllerCampfireObjects.load(CampfireLink((page as PageCampfireObject).link)) { title, subtitle, imageId -> }
+        ControllerCampfireObjects.load(CampfireLink((page as PageCampfireObject).link)) { _, _, _ -> }
     }
 
 

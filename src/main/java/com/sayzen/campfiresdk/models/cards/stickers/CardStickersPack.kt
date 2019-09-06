@@ -61,7 +61,7 @@ class CardStickersPack(
             true
         }
 
-        vMenu.setOnClickListener { ControllerUnits.showStickerPackPopup(vMenu, unit) }
+        vMenu.setOnClickListener { ControllerUnits.showStickerPackPopup(unit) }
 
         view.setOnClickListener { Navigator.to(SStickersView(unit, 0)) }
     }

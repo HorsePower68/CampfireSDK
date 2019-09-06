@@ -53,7 +53,7 @@ class SCreationTags private constructor(
 
         fun create(unitId: Long, tags: Array<Long>, notifyFollowers: Boolean, pendingTime: Long, onCreate: () -> Unit) {
             SGoogleRules.acceptRulesDialog {
-                ApiRequestsSupporter.executeProgressDialog(RPostPublication(unitId, tags, "", notifyFollowers, pendingTime)) { r ->
+                ApiRequestsSupporter.executeProgressDialog(RPostPublication(unitId, tags, "", notifyFollowers, pendingTime)) { _ ->
                     EventBus.post(EventPostStatusChange(unitId, API.STATUS_PUBLIC))
                     onCreate.invoke()
                 }
@@ -88,15 +88,15 @@ class SCreationTags private constructor(
         if (tags.isNotEmpty()) vMessageContainer.visibility = View.GONE
         else vMessageContainer.visibility = View.VISIBLE
 
-        vFab.setOnClickListener { v -> sendPublication() }
+        vFab.setOnClickListener { sendPublication() }
 
         vPending.setOnClickListener {
             if (!vPending.isChecked/*После нажатия положение меняется*/) setPendingDate(0)
             else {
                 WidgetChooseDate()
-                    .setOnEnter(R.string.app_choose) { w, date ->
+                    .setOnEnter(R.string.app_choose) { _, date ->
                         WidgetChooseTime()
-                            .setOnEnter(R.string.app_choose) { w, h, m ->
+                            .setOnEnter(R.string.app_choose) { _, h, m ->
                                 setPendingDate(ToolsDate.getStartOfDay(date) + (h * 60L * 60 * 1000) + (m * 60L * 1000))
                             }
                             .asSheetShow()
@@ -110,15 +110,15 @@ class SCreationTags private constructor(
     }
 
     private fun setPendingDate(date: Long) {
-        var date = date
-        if (date != 0L && date < System.currentTimeMillis()) {
+        var dateV = date
+        if (dateV != 0L && dateV < System.currentTimeMillis()) {
             ToolsToast.show(R.string.post_create_pending_error)
-            date = 0L
+            dateV = 0L
         }
 
-        pendingDate = date
-        if (date > 0) {
-            vPending.setText(ToolsResources.s(R.string.post_create_pending) + " (${ToolsDate.dateToString(date)})")
+        pendingDate = dateV
+        if (dateV > 0) {
+            vPending.setText(ToolsResources.s(R.string.post_create_pending) + " (${ToolsDate.dateToString(dateV)})")
             vPending.isChecked = true
         } else {
             vPending.setText(R.string.post_create_pending)
@@ -148,7 +148,7 @@ class SCreationTags private constructor(
                 .setMin(API.MODERATION_COMMENT_MIN_L)
                 .setMax(API.MODERATION_COMMENT_MAX_L)
                 .setOnEnter(R.string.app_change) { w, comment ->
-                    ApiRequestsSupporter.executeEnabled(w, RPostPublication(unitId, tags, comment, false, 0)) { r ->
+                    ApiRequestsSupporter.executeEnabled(w, RPostPublication(unitId, tags, comment, false, 0)) {
                         Navigator.removeAll(SPostCreate::class.java)
                         EventBus.post(EventPostStatusChange(unitId, API.STATUS_PUBLIC))
                         SPost.instance(unitId, 0, NavigationAction.replace())

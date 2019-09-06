@@ -102,7 +102,7 @@ class Attach(
         val widget = WidgetChooseImage()
         widget.setMaxSelectCount(API.CHAT_MESSAGE_MAX_IMAGES_COUNT)
                 .setCallbackInWorkerThread(true)
-                .setOnSelected { w, bytes, index -> parseAttachBytes(bytes, null) }
+                .setOnSelected { _, bytes, _ -> parseAttachBytes(bytes, null) }
                 .addFab(R.drawable.ic_mood_white_24dp) { onStickersClicked(widget) }
                 .asSheetShow()
     }
@@ -131,13 +131,13 @@ class Attach(
                 addBytes(bytesScaled)
             }
         } else {
-            val bytes = ToolsBitmap.decode(bytes)
-            if (bytes == null) {
+            val bytes2 = ToolsBitmap.decode(bytes)
+            if (bytes2 == null) {
                 ToolsToast.show(R.string.error_cant_load_image)
                 return
             }
 
-            val bytesScaled = ToolsBitmap.toBytes(ToolsBitmap.keepSides(bytes, API.CHAT_MESSAGE_IMAGE_SIDE), API.CHAT_MESSAGE_IMAGE_WEIGHT)
+            val bytesScaled = ToolsBitmap.toBytes(ToolsBitmap.keepSides(bytes2, API.CHAT_MESSAGE_IMAGE_SIDE), API.CHAT_MESSAGE_IMAGE_WEIGHT)
 
             ToolsThreads.main {
                 dialog?.hide()
@@ -208,7 +208,7 @@ class Attach(
                     return@thread
                 }
                 ToolsThreads.main {
-                    Navigator.to(SCrop(decoded) { s, bitmap, x, y, w, h ->
+                    Navigator.to(SCrop(decoded) { _, bitmap, _, _, _, _ ->
                         val bytesScaled = ToolsBitmap.toBytes(ToolsBitmap.keepSides(bitmap, API.CHAT_MESSAGE_IMAGE_SIDE), API.CHAT_MESSAGE_IMAGE_WEIGHT)
                         if (bytesScaled == null) {
                             ToolsToast.show(R.string.error_cant_load_image)

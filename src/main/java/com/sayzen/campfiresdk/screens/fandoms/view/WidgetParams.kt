@@ -29,17 +29,17 @@ internal class WidgetParams(
     init {
 
         vParamsTitle.text = title
-        vComment.vField.addTextChangedListener(TextWatcherChanged { t -> updateFinishEnabled() })
+        vComment.vField.addTextChangedListener(TextWatcherChanged { updateFinishEnabled() })
 
-        vEnter.setOnClickListener { v ->
+        vEnter.setOnClickListener {
             callback.invoke(getSelected(), vComment.getText())
             hide()
         }
-        vCancel.setOnClickListener { v -> hide() }
+        vCancel.setOnClickListener {  hide() }
 
         for (p in allParams) {
             val v = ViewChip.instanceChoose(context, p.name, p)
-            v.setOnCheckedChangeListener { compoundButton, b ->  updateFinishEnabled()}
+            v.setOnCheckedChangeListener { _, _ ->  updateFinishEnabled()}
             vFlow.addView(v)
         }
 
@@ -58,10 +58,10 @@ internal class WidgetParams(
         val newArray = getSelected()
         var changes = selected.size != newArray.size
         if(!changes){
-            for(i in 0 until newArray.size) {
+            for(element in newArray) {
                 var b = false
-                for (n in 0 until selected.size){
-                    b = b || newArray[i] == selected[n]
+                for (element2 in selected){
+                    b = b || element == element2
                 }
                 if(!b){
                     changes = true

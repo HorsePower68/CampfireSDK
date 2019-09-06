@@ -57,7 +57,7 @@ class SCreatePagePolling(
         }
 
         vAdd.setOnClickListener { addItem("") }
-        vCreate.setOnClickListener { v -> onEnter() }
+        vCreate.setOnClickListener { onEnter() }
         update()
     }
 
@@ -82,7 +82,7 @@ class SCreatePagePolling(
             update()
         })
         vText.requestFocus()
-        vRemove.setOnClickListener { w ->
+        vRemove.setOnClickListener {
             if (vText.getText().isNotEmpty()) {
                 WidgetAlert()
                         .setText(R.string.post_page_polling_remove_confirm)

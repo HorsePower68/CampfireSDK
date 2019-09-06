@@ -34,7 +34,7 @@ class CardForum(
         val vComments:TextView = view.findViewById(R.id.vComments)
         val vMenu:View = view.findViewById(R.id.vMenu)
 
-        vMenu.setOnClickListener {  ControllerUnits.showForumPopup(it, unit) }
+        vMenu.setOnClickListener {  ControllerUnits.showForumPopup(unit) }
         vComments.text = unit.subUnitsCount.toString() + ""
 
         vAvatar.setTitle(unit.name)

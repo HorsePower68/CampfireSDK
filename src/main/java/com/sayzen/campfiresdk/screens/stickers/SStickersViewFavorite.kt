@@ -46,7 +46,7 @@ class SStickersViewFavorite() : SLoadingRecycler<CardSticker, UnitSticker>() {
     override fun instanceAdapter(): RecyclerCardAdapterLoading<CardSticker, UnitSticker> {
         return RecyclerCardAdapterLoading<CardSticker, UnitSticker>(CardSticker::class) { CardSticker(it) }
                 .setShowLoadingCardBottom(false)
-                .setBottomLoader { onLoad, cards ->
+                .setBottomLoader { onLoad, _ ->
                     if(ControllerSettings.accountSettings.stickers.isEmpty()){
                         onLoad.invoke(emptyArray())
                     }else {

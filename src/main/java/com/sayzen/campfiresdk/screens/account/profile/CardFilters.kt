@@ -27,14 +27,14 @@ class CardFilters(
             val stickersOld = ControllerSettings.profileFilterStickers
 
             WidgetCheckBoxes()
-                    .add(R.string.filter_events).checked(ControllerSettings.profileFilterEvents).onChange { w, ww, b -> ControllerSettings.profileFilterEvents = b }
-                    .add(R.string.filter_posts).checked(ControllerSettings.profileFilterPosts).onChange { w, ww, b -> ControllerSettings.profileFilterPosts = b }
-                    .add(R.string.filter_comment).checked(ControllerSettings.profileFilterComments).onChange { w, ww, b -> ControllerSettings.profileFilterComments = b }
-                    .add(R.string.filter_chat_messages).checked(ControllerSettings.profileFilterChatMessages).onChange { w, ww, b -> ControllerSettings.profileFilterChatMessages = b }
-                    .add(R.string.filter_moderations).checked(ControllerSettings.profileFilterModerations).onChange { w, ww, b -> ControllerSettings.profileFilterModerations = b }
-                    .add(R.string.app_reviews).checked(ControllerSettings.profileFilterReviews).onChange { w, ww, b -> ControllerSettings.profileFilterReviews = b }
-                    .add(R.string.app_forums).checked(ControllerSettings.profileFilterForums).onChange { w, ww, b -> ControllerSettings.profileFilterForums = b }
-                    .add(R.string.app_stickers).checked(ControllerSettings.profileFilterStickers).onChange { w, ww, b -> ControllerSettings.profileFilterStickers = b }
+                    .add(R.string.filter_events).checked(ControllerSettings.profileFilterEvents).onChange {_, _, b -> ControllerSettings.profileFilterEvents = b }
+                    .add(R.string.filter_posts).checked(ControllerSettings.profileFilterPosts).onChange {_, _, b -> ControllerSettings.profileFilterPosts = b }
+                    .add(R.string.filter_comment).checked(ControllerSettings.profileFilterComments).onChange {_, _, b -> ControllerSettings.profileFilterComments = b }
+                    .add(R.string.filter_chat_messages).checked(ControllerSettings.profileFilterChatMessages).onChange {_, _, b -> ControllerSettings.profileFilterChatMessages = b }
+                    .add(R.string.filter_moderations).checked(ControllerSettings.profileFilterModerations).onChange {_, _, b -> ControllerSettings.profileFilterModerations = b }
+                    .add(R.string.app_reviews).checked(ControllerSettings.profileFilterReviews).onChange {_, _, b -> ControllerSettings.profileFilterReviews = b }
+                    .add(R.string.app_forums).checked(ControllerSettings.profileFilterForums).onChange {_, _, b -> ControllerSettings.profileFilterForums = b }
+                    .add(R.string.app_stickers).checked(ControllerSettings.profileFilterStickers).onChange { _, _, b -> ControllerSettings.profileFilterStickers = b }
                     .setOnHide {
                         if (eventsOld != ControllerSettings.profileFilterEvents
                                 || postOld != ControllerSettings.profileFilterPosts

@@ -72,8 +72,8 @@ class CardChat(
 
         vNotRead.visibility = if (hasUnread) View.GONE else View.VISIBLE
 
-        vSwipe.onClick =  { x, y -> if (onSelected != null) onSelected!!.invoke(unit) else SChat.instance(unit.tag, true, Navigator.TO) }
-        vSwipe.onLongClick = { x, y -> ControllerChats.instanceChatPopup(unit.tag).asSheetShow() }
+        vSwipe.onClick =  { _, _ -> if (onSelected != null) onSelected!!.invoke(unit) else SChat.instance(unit.tag, true, Navigator.TO) }
+        vSwipe.onLongClick = { _, _ -> ControllerChats.instanceChatPopup(unit.tag).asSheetShow() }
         vSwipe.onSwipe = { if (hasUnread) ControllerChats.readRequest(unit.tag) }
 
         if (unit.tag.chatType == API.CHAT_TYPE_FANDOM) {
@@ -160,14 +160,14 @@ class CardChat(
     private fun onNotification(e: EventNotification) {
         if (e.notification is NotificationChatMessage) {
             val n = e.notification
-            if ((n as NotificationChatMessage).tag == unit.tag) {
+            if (n.tag == unit.tag) {
                 unit.unitChatMessage = n.unitChatMessage
                 update()
             }
         }
         if (e.notification is NotificationChatAnswer) {
             val n = e.notification
-            if ((n as NotificationChatAnswer).tag == unit.tag) {
+            if (n.tag == unit.tag) {
                 unit.unitChatMessage = n.unitChatMessage
                 update()
             }

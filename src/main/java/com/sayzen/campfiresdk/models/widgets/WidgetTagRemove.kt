@@ -23,9 +23,9 @@ class WidgetTagRemove(
 
     init {
 
-        vCancel.setOnClickListener { v -> hide() }
-        vEnter.setOnClickListener { v -> sendRemove() }
-        vComment.vField.addTextChangedListener(TextWatcherChanged { t -> updateFinishEnabled() })
+        vCancel.setOnClickListener { hide() }
+        vEnter.setOnClickListener { sendRemove() }
+        vComment.vField.addTextChangedListener(TextWatcherChanged { updateFinishEnabled() })
 
         asSheetShow()
         updateFinishEnabled()
@@ -45,7 +45,7 @@ class WidgetTagRemove(
 
     private fun sendRemove() {
 
-        ApiRequestsSupporter.executeEnabledConfirm(R.string.fandom_tags_remove_conf, R.string.app_remove, RTagsRemove(vComment.getText(), tag.id)) { r ->
+        ApiRequestsSupporter.executeEnabledConfirm(R.string.fandom_tags_remove_conf, R.string.app_remove, RTagsRemove(vComment.getText(), tag.id)) {
             ToolsToast.show(R.string.app_done)
             STags.instance(tag.fandomId, tag.languageId, Navigator.REPLACE)
             hide()

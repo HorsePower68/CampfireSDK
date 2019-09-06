@@ -75,8 +75,8 @@ class SWikiItemCreate(
 
         vNamesContainer.visibility = View.GONE
 
-        vImageBig.setOnClickListener { v -> selectImageBig() }
-        vImageMini.setOnClickListener { v -> selectImageMini() }
+        vImageBig.setOnClickListener { selectImageBig() }
+        vImageMini.setOnClickListener { selectImageMini() }
 
         vAddTranslate.setOnClickListener { showTranslateDialog() }
         vShowLanguages.setOnClickListener {
@@ -161,7 +161,7 @@ class SWikiItemCreate(
         existed.add("en")
         for (i in item.translates) existed.add(i.languageCode)
 
-        for (i in API.LANGUAGES) if (!existed.contains(i.code)) w.add(i.name) { wii, c -> addLanguage(i, "") }
+        for (i in API.LANGUAGES) if (!existed.contains(i.code)) w.add(i.name) { _, _ -> addLanguage(i, "") }
 
         w.asSheetShow()
     }
@@ -202,13 +202,13 @@ class SWikiItemCreate(
 
         if (item.itemId == 0L) {
             item.type = if (vTypeArticle.isChecked) API.WIKI_TYPE_ARTICLE else API.WIKI_TYPE_SECION
-            ApiRequestsSupporter.executeProgressDialog(RWikiItemCreate(fandomId, parentItemId, item, imageMini, image)) { w,r ->
+            ApiRequestsSupporter.executeProgressDialog(RWikiItemCreate(fandomId, parentItemId, item, imageMini, image)) { _,r ->
                 ToolsToast.show(R.string.app_done)
                 Navigator.remove(this)
                 EventBus.post(EventWikiCreated(r.item))
             }
         } else {
-            ApiRequestsSupporter.executeProgressDialog(RWikiItemChange(item, parentItemId, imageMini, image)) { w,r ->
+            ApiRequestsSupporter.executeProgressDialog(RWikiItemChange(item, parentItemId, imageMini, image)) { _,r ->
                 ToolsToast.show(R.string.app_done)
                 Navigator.remove(this)
                 EventBus.post(EventWikiChanged(r.item))
@@ -241,7 +241,7 @@ class SWikiItemCreate(
     private fun selectImageBig() {
         ToolsView.hideKeyboard()
         WidgetChooseImage()
-                .setOnSelected { w, bytes, index ->
+                .setOnSelected { _, bytes, _ ->
 
                     ToolsThreads.thread {
 
@@ -258,7 +258,7 @@ class SWikiItemCreate(
                             val cropSizeW = if (isGif) API.WIKI_TITLE_IMG_GIF_W else API.WIKI_TITLE_IMG_W
                             val cropSizeH = if (isGif) API.WIKI_TITLE_IMG_GIF_H else API.WIKI_TITLE_IMG_H
 
-                            Navigator.to(SCrop(bitmap, cropSizeW, cropSizeH) { sCrop, b2, x, y, w, h ->
+                            Navigator.to(SCrop(bitmap, cropSizeW, cropSizeH) { _, b2, x, y, w, h ->
                                 if (isGif) {
 
                                     val d = ToolsView.showProgressDialog()
@@ -298,7 +298,7 @@ class SWikiItemCreate(
     private fun selectImageMini() {
         ToolsView.hideKeyboard()
         WidgetChooseImage()
-                .setOnSelected { w, bytes, index ->
+                .setOnSelected { _, bytes, _ ->
 
                     ToolsThreads.thread {
 
@@ -313,7 +313,7 @@ class SWikiItemCreate(
                             val isGif = ToolsBytes.isGif(bytes)
                             val cropSize = if (isGif) API.WIKI_IMG_SIDE_GIF else API.WIKI_IMG_SIDE
 
-                            Navigator.to(SCrop(bitmap, cropSize, cropSize) { sCrop, b2, x, y, w, h ->
+                            Navigator.to(SCrop(bitmap, cropSize, cropSize) { _, b2, x, y, w, h ->
                                 if (isGif) {
 
                                     val d = ToolsView.showProgressDialog()

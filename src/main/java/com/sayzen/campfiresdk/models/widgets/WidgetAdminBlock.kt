@@ -54,7 +54,7 @@ class WidgetAdminBlock(
     init {
         isUseMoreScreenSpace = true
 
-        vComment.vField.addTextChangedListener(TextWatcherChanged { t -> updateFinishEnabled() })
+        vComment.vField.addTextChangedListener(TextWatcherChanged { updateFinishEnabled() })
 
         if (bansCount > 0 || warnsCount > 2) vPunishments.setBackgroundColor(ToolsColor.setAlpha(100, ToolsResources.getColor(R.color.red_700)))
         vPunishments.setTitle(ToolsResources.s(R.string.moderation_widget_block_user_punishments, bansCount, warnsCount))
@@ -69,8 +69,8 @@ class WidgetAdminBlock(
             hide()
         }
 
-        vEnter.setOnClickListener { v -> punish() }
-        vCancel.setOnClickListener { v -> hide() }
+        vEnter.setOnClickListener { punish() }
+        vCancel.setOnClickListener { hide() }
 
         vBlockUser.add(R.string.moderation_widget_ban_no) {  banTime = 0 }
         vBlockUser.add(R.string.moderation_widget_ban_warn) { banTime = -1 }
@@ -85,7 +85,7 @@ class WidgetAdminBlock(
 
         vTemplate.setOnClickListener {
             val w = WidgetMenu()
-            for (i in CampfireConstants.RULES_USER) w.add(i.title) { w, c -> setText(i.text) }
+            for (i in CampfireConstants.RULES_USER) w.add(i.title) { _, _ -> setText(i.text) }
             w.asSheetShow()
         }
 
@@ -118,11 +118,11 @@ class WidgetAdminBlock(
 
     private fun punish() {
 
-        ApiRequestsSupporter.executeEnabledConfirm(R.string.app_punish_confirm, R.string.app_punish, RAccountsAdminBan(accountId, banTime, vComment.getText().trim { it <= ' ' })) { r ->
+        ApiRequestsSupporter.executeEnabledConfirm(R.string.app_punish_confirm, R.string.app_punish, RAccountsAdminBan(accountId, banTime, vComment.getText().trim { it <= ' ' })) {
             ToolsToast.show(R.string.app_done)
             EventBus.post(EventAccountBaned(accountId, ControllerApi.currentTime() + banTime))
             hide()
-        }.onApiError(RFandomsModerationBlock.E_LOW_KARMA_FORCE) { r ->
+        }.onApiError(RFandomsModerationBlock.E_LOW_KARMA_FORCE) {
             ToolsToast.show(R.string.moderation_low_karma)
             hide()
         }

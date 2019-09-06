@@ -20,7 +20,7 @@ class CardFandom constructor(
     : Card(R.layout.card_fandom) {
 
     private val eventBus = EventBus
-            .subscribe(EventFandomRemove::class) { e -> if(adapter != null) adapter!!.remove(this) }
+            .subscribe(EventFandomRemove::class) { if(adapter != null) adapter!!.remove(this) }
 
     private val xFandom = XFandom(fandom){update()}
     private val subscribesCount = fandom.subscribesCount
@@ -40,7 +40,7 @@ class CardFandom constructor(
             vSubscribers.visibility = View.INVISIBLE
         }
 
-        view.setOnClickListener { v -> onClick() }
+        view.setOnClickListener { onClick() }
         xFandom.setView(vAvatar)
 
         if (showLanguage && xFandom.languageId > 0) vAvatar.vAvatar.setChipText(ControllerApi.getLanguage(xFandom.languageId).code)

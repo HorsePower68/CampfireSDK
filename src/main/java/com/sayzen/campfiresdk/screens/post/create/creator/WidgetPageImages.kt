@@ -17,7 +17,6 @@ import com.sayzen.campfiresdk.screens.post.create.SPostCreate
 import com.sayzen.campfiresdk.controllers.ControllerApi
 import com.sayzen.campfiresdk.models.cards.post_pages.CardPage
 import com.sayzen.campfiresdk.models.cards.post_pages.CardPageImages
-import com.sayzen.campfiresdk.models.events.units.EventPostDraftCreated
 import com.sup.dev.android.libs.api_simple.ApiRequestsSupporter
 import com.sup.dev.android.libs.screens.navigator.Navigator
 import com.sup.dev.android.tools.*
@@ -28,7 +27,6 @@ import com.sup.dev.android.views.settings.SettingsField
 import com.sup.dev.android.views.support.adapters.recycler_view.RecyclerCardAdapter
 import com.sup.dev.android.views.widgets.Widget
 import com.sup.dev.android.views.widgets.WidgetChooseImage
-import com.sup.dev.java.libs.eventBus.EventBus
 import com.sup.dev.java.tools.ToolsBytes
 import com.sup.dev.java.tools.ToolsThreads
 
@@ -114,7 +112,7 @@ class WidgetPageImages(
         WidgetChooseImage()
                 .setCallbackInWorkerThread(true)
                 .setMaxSelectCount(API.PAGE_IMAGES_MAX_COUNT)
-                .setOnSelected { w, bytes, index ->
+                .setOnSelected { _, bytes, _ ->
                     sendImage(ToolsBitmap.decode(bytes), bytes, null)
                 }
                 .asSheetShow()
@@ -250,15 +248,15 @@ class WidgetPageImages(
                     return@thread
                 }
                 ToolsThreads.main {
-                    Navigator.to(SCrop(decoded) { s, bitmap, x, y, w, h ->
+                    Navigator.to(SCrop(decoded) { _, bitmap, x, y, w, h ->
                         ToolsThreads.main(150) {
-                            val dialog = ToolsView.showProgressDialog()
+                            val dialogV = ToolsView.showProgressDialog()
                             ToolsThreads.thread {
                                 if (ToolsBytes.isGif(bytes)) {
                                     val resizedBytes = ToolsGif.resize(bytes, API.PAGE_IMAGES_SIDE_GIF, API.PAGE_IMAGES_SIDE_GIF, x, y, w, h, true)
-                                    sendImage(bitmap, resizedBytes, dialog, adapter!!.indexOf(this))
+                                    sendImage(bitmap, resizedBytes, dialogV, adapter!!.indexOf(this))
                                 } else {
-                                    sendImage(bitmap, ControllerApi.toBytesNow(bitmap, API.PAGE_IMAGES_WEIGHT), dialog, adapter!!.indexOf(this))
+                                    sendImage(bitmap, ControllerApi.toBytesNow(bitmap, API.PAGE_IMAGES_WEIGHT), dialogV, adapter!!.indexOf(this))
                                 }
                             }
                         }

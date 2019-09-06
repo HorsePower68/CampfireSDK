@@ -87,13 +87,13 @@ class CardBio(
             v.setOnClickListener { ControllerCampfireSDK.openLink(link.a2) }
 
             val w = WidgetMenu()
-                    .add(R.string.app_copy) { w, item ->
+                    .add(R.string.app_copy) { _, _ ->
                         ToolsAndroid.setToClipboard(link.a2)
                         ToolsToast.show(R.string.app_copied)
                     }
-                    .add(R.string.app_change) { w, item -> onChangeLinkClicked(i, R.string.app_change, link.a1, link.a2) }.condition(ControllerApi.isCurrentAccount(accountId))
-                    .add(R.string.app_remove) { w, item -> onRemoveLinkClicked(i) }.condition(ControllerApi.isCurrentAccount(accountId))
-                    .add(R.string.app_remove) { w, item -> onAdminRemoveLinkClicked(i) }.backgroundRes(R.color.red_700).textColorRes(R.color.white).condition(!ControllerApi.isCurrentAccount(accountId) && ControllerApi.can(API.LVL_ADMIN_USER_REMOVE_LINK))
+                    .add(R.string.app_change) { _, _ -> onChangeLinkClicked(i, R.string.app_change, link.a1, link.a2) }.condition(ControllerApi.isCurrentAccount(accountId))
+                    .add(R.string.app_remove) { _, _ -> onRemoveLinkClicked(i) }.condition(ControllerApi.isCurrentAccount(accountId))
+                    .add(R.string.app_remove) { _, _ -> onAdminRemoveLinkClicked(i) }.backgroundRes(R.color.red_700).textColorRes(R.color.white).condition(!ControllerApi.isCurrentAccount(accountId) && ControllerApi.can(API.LVL_ADMIN_USER_REMOVE_LINK))
 
             v.setOnLongClickListener {
                 w.asSheetShow()
@@ -110,8 +110,8 @@ class CardBio(
 
     private fun onSexClicked() {
         WidgetMenu()
-                .add(R.string.he) { w, i -> setSex(w, 0) }
-                .add(R.string.she) { w, i -> setSex(w, 1) }
+                .add(R.string.he) { w, _ -> setSex(w, 0) }
+                .add(R.string.she) { w, _ -> setSex(w, 1) }
                 .asSheetShow()
     }
 
@@ -145,7 +145,7 @@ class CardBio(
                 .setMax_2(API.ACCOUNT_LINK_URL_MAX_L)
                 .setLinesCount_2(1)
                 .setOnCancel(R.string.app_cancel)
-                .setOnEnter(enterText) { w, title, url -> setLink(w, index, title, url) }
+                .setOnEnter(enterText) { w, titleV, urlV -> setLink(w, index, titleV, urlV) }
                 .asSheetShow()
     }
 
@@ -180,28 +180,28 @@ class CardBio(
     //
 
     private fun setSex(widget: Widget, sex: Long) {
-        ApiRequestsSupporter.executeEnabled(widget, RAccountsBioSetSex(sex)) { r ->
+        ApiRequestsSupporter.executeEnabled(widget, RAccountsBioSetSex(sex)) {
             EventBus.post(EventAccountBioChangedSex(accountId, sex))
             ToolsToast.show(R.string.app_done)
         }
     }
 
     private fun setAge(widget: Widget, age: Long) {
-        ApiRequestsSupporter.executeEnabled(widget, RAccountsBioSetAge(age)) { r ->
+        ApiRequestsSupporter.executeEnabled(widget, RAccountsBioSetAge(age)) {
             EventBus.post(EventAccountBioChangedAge(accountId, age))
             ToolsToast.show(R.string.app_done)
         }
     }
 
     private fun setDescription(widget: Widget, description: String) {
-        ApiRequestsSupporter.executeEnabled(widget, RAccountsBioSetDescription(description)) { r ->
+        ApiRequestsSupporter.executeEnabled(widget, RAccountsBioSetDescription(description)) {
             EventBus.post(EventAccountBioChangedDescription(accountId, description))
             ToolsToast.show(R.string.app_done)
         }
     }
 
     private fun setLink(widget: Widget, index: Int, description: String, url: String) {
-        ApiRequestsSupporter.executeEnabled(widget, RAccountsBioSetLink(index, description, url)) { r ->
+        ApiRequestsSupporter.executeEnabled(widget, RAccountsBioSetLink(index, description, url)) {
             links.set(index, description, url)
             EventBus.post(EventAccountBioChangedLinks(accountId, links))
             ToolsToast.show(R.string.app_done)
@@ -209,14 +209,14 @@ class CardBio(
     }
 
     private fun adminRemoveDescription(widget: Widget, comment: String) {
-        ApiRequestsSupporter.executeEnabled(widget, RAccountsAdminRemoveDescription(accountId, comment)) { r ->
+        ApiRequestsSupporter.executeEnabled(widget, RAccountsAdminRemoveDescription(accountId, comment)) {
             EventBus.post(EventAccountBioChangedDescription(accountId, ""))
             ToolsToast.show(R.string.app_done)
         }
     }
 
     private fun adminRemoveLink(widget: Widget, index: Int, comment: String) {
-        ApiRequestsSupporter.executeEnabled(widget, RAccountsAdminRemoveLink(accountId, index, comment)) { r ->
+        ApiRequestsSupporter.executeEnabled(widget, RAccountsAdminRemoveLink(accountId, index, comment)) {
             links.set(index, "", "")
             EventBus.post(EventAccountBioChangedLinks(accountId, links))
             ToolsToast.show(R.string.app_done)

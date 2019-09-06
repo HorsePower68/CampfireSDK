@@ -50,9 +50,9 @@ class SPrision(
             card.tag = it
             card.setSubtitle(ToolsResources.s(R.string.moderation_screen_prison_text, ToolsResources.sex(it.account.sex, R.string.he_baned, R.string.she_baned), ToolsDate.dateToString(it.banDate)) + "\n" + ToolsResources.s(R.string.app_comment) + ": " + it.comment)
             if (ControllerApi.can(fandomId, languageId, API.LVL_MODERATOR_BLOCK))
-                card.setOnLongClick { card, view, x, y ->
+                card.setOnLongClick { _, _, _, _ ->
                     WidgetMenu()
-                            .add(R.string.app_forgive) { w, i -> forgive(it.account.id, card) }
+                            .add(R.string.app_forgive) { _, _ -> forgive(it.account.id) }
                             .asSheetShow()
                 }
             card
@@ -65,7 +65,7 @@ class SPrision(
                 }
     }
 
-    private fun forgive(accountId: Long, card: Card) {
+    private fun forgive(accountId: Long) {
         WidgetField()
                 .setTitle(R.string.app_forgive_confirm)
                 .setHint(R.string.moderation_widget_comment)

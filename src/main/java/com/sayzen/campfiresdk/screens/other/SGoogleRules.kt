@@ -99,7 +99,7 @@ class SGoogleRules(
             onAccept.invoke()
         }
         vButton.isEnabled = false
-        vCheck.setOnCheckedChangeListener { compoundButton, b -> vButton.isEnabled = b }
+        vCheck.setOnCheckedChangeListener { _, b -> vButton.isEnabled = b }
         ToolsView.makeLinksClickable(vText)
     }
 

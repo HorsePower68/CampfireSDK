@@ -37,7 +37,7 @@ object ControllerPolling {
 
     fun vote(pollingId: Long, itemId: Long) {
         get(pollingId) { result ->
-            ApiRequestsSupporter.executeProgressDialog(RPostPagePollingVote(pollingId, itemId)) { r ->
+            ApiRequestsSupporter.executeProgressDialog(RPostPagePollingVote(pollingId, itemId)) { _ ->
 
                 result.totalVotes++
                 result.myVoteItemId = itemId

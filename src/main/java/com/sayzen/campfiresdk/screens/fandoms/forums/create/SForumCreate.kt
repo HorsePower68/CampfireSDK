@@ -44,7 +44,7 @@ class SForumCreate(
         vField.setSingleLine(false)
         vField.imeOptions = EditorInfo.IME_FLAG_NO_ENTER_ACTION
         vField.gravity = Gravity.TOP
-        vField.addTextChangedListener(TextWatcherChanged { s -> update() })
+        vField.addTextChangedListener(TextWatcherChanged { update() })
 
         if (text != null) {
             vField.setText(text)
@@ -58,7 +58,7 @@ class SForumCreate(
 
         vAvatarTitle.setTitle(name)
 
-        vFab.setOnClickListener { v -> onEnter() }
+        vFab.setOnClickListener { onEnter() }
         update()
     }
 
@@ -81,7 +81,7 @@ class SForumCreate(
                 .setOnCancel(R.string.app_cancel)
                 .setMin(API.MODERATION_COMMENT_MIN_L)
                 .setMax(API.MODERATION_COMMENT_MAX_L)
-                .setOnEnter(if (forumId == 0L) R.string.app_create else R.string.app_change) { w, comment ->
+                .setOnEnter(if (forumId == 0L) R.string.app_create else R.string.app_change) { _, comment ->
                     if (forumId == 0L) {
                         ApiRequestsSupporter.executeProgressDialog(RFandomsModerationForumCreate(fandomId, languageId, name, vField.text.toString(), comment, image)) { r ->
                             ToolsToast.show(R.string.app_done)
@@ -90,7 +90,7 @@ class SForumCreate(
                             SForumView.instance(r.unitId, Navigator.TO)
                         }
                     } else {
-                        ApiRequestsSupporter.executeProgressDialog(RFandomsModerationForumChange(forumId, name, vField.text.toString(), comment, image)) { r ->
+                        ApiRequestsSupporter.executeProgressDialog(RFandomsModerationForumChange(forumId, name, vField.text.toString(), comment, image)) { _ ->
                             ToolsToast.show(R.string.app_done)
                             Navigator.remove(this)
                             EventBus.post(EventForumChanged(forumId, name, vField.text.toString()))
@@ -120,9 +120,7 @@ class SForumCreate(
     private fun showConfirmCancelDialog() {
         WidgetAlert()
                 .setText(R.string.post_create_cancel_alert)
-                .setOnEnter(R.string.app_yes) { w ->
-                    Navigator.remove(this)
-                }
+                .setOnEnter(R.string.app_yes) { Navigator.remove(this) }
                 .setOnCancel(R.string.app_no)
                 .asSheetShow()
     }

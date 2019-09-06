@@ -1,6 +1,5 @@
 package com.sayzen.campfiresdk.controllers
 
-import android.app.Activity
 import android.view.Gravity
 import com.dzen.campfire.api.API
 import com.dzen.campfire.api.models.Fandom
@@ -24,7 +23,6 @@ import com.sayzen.devsupandroidgoogle.ControllerGoogleToken
 import com.sup.dev.android.libs.api_simple.ApiRequestsSupporter
 import com.sup.dev.android.libs.screens.navigator.NavigationAction
 import com.sup.dev.android.libs.screens.navigator.Navigator
-import com.sup.dev.android.tools.ToolsAndroid
 import com.sup.dev.android.tools.ToolsIntent
 import com.sup.dev.android.tools.ToolsToast
 import com.sup.dev.android.views.screens.SAlert
@@ -44,16 +42,16 @@ object ControllerCampfireSDK {
     var IS_USE_SECOND_IP = false
     var IS_DEBUG = false
 
-    var ON_TO_FANDOM_CLICKED: (fandomId: Long, languageId: Long, action: NavigationAction) -> Unit = { fandomId, languageId, action -> openLink(ControllerApi.linkToFandom(fandomId, languageId))}
-    var ON_TO_ACCOUNT_CLICKED: (accountId: Long, action: NavigationAction) -> Unit = {accountId, action -> openLink(ControllerApi.linkToUser(accountId))}
-    var ON_TO_MODERATION_CLICKED: (moderationId: Long, commentId: Long, action: NavigationAction) -> Unit = { moderationId, commentId, action -> openLink(ControllerApi.linkToModerationComment(moderationId, commentId))}
-    var ON_TO_POST_CLICKED: (postId: Long, commentId: Long, action: NavigationAction) -> Unit = { postId, commentId, action -> openLink(ControllerApi.linkToPostComment(postId, commentId))}
-    var ON_TO_DRAFTS_CLICKED: (action: NavigationAction) -> Unit = { action -> }
-    var ON_TO_DRAFT_CLICKED: (postId: Long, action: NavigationAction) -> Unit = { postId, action -> }
-    var ON_TO_POST_TAGS_CLICKED: (postId: Long, isMyUnit: Boolean, action: NavigationAction) -> Unit = { postId, isMyUnit, action -> }
-    var ON_TO_FORUM_CLICKED: (forumId: Long, commentId: Long, action: NavigationAction) -> Unit = { forumId, commentId, action -> openLink(ControllerApi.linkToForumComment(forumId, commentId))}
-    var ON_TO_ACHIEVEMENT_CLICKED: (accountId: Long, accountName: String, accountLvl: Long, achievementIndex: Long, toPrev: Boolean, action: NavigationAction) -> Unit = { accountId, accountName, accountLvl, achievementIndex, toPrev, action -> }
-    var ON_CHANGE_FORUM_CLICKED: (unit: UnitForum) -> Unit = { unit -> }
+    var ON_TO_FANDOM_CLICKED: (fandomId: Long, languageId: Long, action: NavigationAction) -> Unit = { fandomId, languageId, _ -> openLink(ControllerApi.linkToFandom(fandomId, languageId))}
+    var ON_TO_ACCOUNT_CLICKED: (accountId: Long, action: NavigationAction) -> Unit = {accountId, _ -> openLink(ControllerApi.linkToUser(accountId))}
+    var ON_TO_MODERATION_CLICKED: (moderationId: Long, commentId: Long, action: NavigationAction) -> Unit = { moderationId, commentId, _ -> openLink(ControllerApi.linkToModerationComment(moderationId, commentId))}
+    var ON_TO_POST_CLICKED: (postId: Long, commentId: Long, action: NavigationAction) -> Unit = { postId, commentId, _ -> openLink(ControllerApi.linkToPostComment(postId, commentId))}
+    var ON_TO_DRAFTS_CLICKED: (action: NavigationAction) -> Unit = {  }
+    var ON_TO_DRAFT_CLICKED: (postId: Long, action: NavigationAction) -> Unit = { _, _ -> }
+    var ON_TO_POST_TAGS_CLICKED: (postId: Long, isMyUnit: Boolean, action: NavigationAction) -> Unit = { _, _, _ -> }
+    var ON_TO_FORUM_CLICKED: (forumId: Long, commentId: Long, action: NavigationAction) -> Unit = { forumId, commentId, _ -> openLink(ControllerApi.linkToForumComment(forumId, commentId))}
+    var ON_TO_ACHIEVEMENT_CLICKED: (accountId: Long, accountName: String, achievementIndex: Long, toPrev: Boolean, action: NavigationAction) -> Unit = { _, _, _, _, _ -> }
+    var ON_CHANGE_FORUM_CLICKED: (unit: UnitForum) -> Unit = { }
     var ON_SCREEN_CHAT_START: () -> Unit = { }
 
     var SEARCH_FANDOM: (callback: (Fandom) -> Unit) -> Unit = { }
@@ -111,8 +109,8 @@ object ControllerCampfireSDK {
         ON_TO_FORUM_CLICKED.invoke(forumId, commentId, action)
     }
 
-    fun onToAchievementClicked(accountId: Long, accountName: String, accountLvl: Long, achievementIndex: Long, toPrev: Boolean, action: NavigationAction) {
-        ON_TO_ACHIEVEMENT_CLICKED.invoke(accountId, accountName, accountLvl, achievementIndex, toPrev, action)
+    fun onToAchievementClicked(accountId: Long, accountName: String, achievementIndex: Long, toPrev: Boolean, action: NavigationAction) {
+        ON_TO_ACHIEVEMENT_CLICKED.invoke(accountId, accountName, achievementIndex, toPrev, action)
     }
 
     //
@@ -124,10 +122,10 @@ object ControllerCampfireSDK {
 
             val t = link.substring(API.DOMEN.length)
             val s1 = t.split("-")
-            val link = s1[0]
+            val linkV = s1[0]
             val params: List<String> = if (s1.size > 1) s1[1].split("_") else emptyList()
 
-            when (link) {
+            when (linkV) {
                 API.LINK_TAG_ABOUT -> Navigator.to(SAboutApp())
                 API.LINK_TAG_RULES_USER -> Navigator.to(SRulesUser())
                 API.LINK_TAG_RULES_MODER -> Navigator.to(SRulesModerators())
@@ -144,7 +142,7 @@ object ControllerCampfireSDK {
                     if (params.size == 2) Navigator.to(SComments(params[0].toLong(), params[1].toLong()))
                 }
 
-                else -> return executorLinks?.parseLink(link, params) ?: false
+                else -> return executorLinks?.parseLink(linkV, params) ?: false
 
             }
             return true
@@ -180,7 +178,7 @@ object ControllerCampfireSDK {
                 .setMax(API.ACCOUNT_NAME_L_MAX)
                 .setOnCancel(R.string.app_cancel)
                 .setOnEnter(R.string.app_change) { dialog, name ->
-                    ApiRequestsSupporter.executeEnabled(dialog, RAccountsChangeName(name)) { r ->
+                    ApiRequestsSupporter.executeEnabled(dialog, RAccountsChangeName(name)) {
                         ControllerApi.account.name = name
                         EventBus.post(EventAccountChanged(ControllerApi.account.id, ControllerApi.account.name))
                         dialog.hide()
@@ -235,20 +233,20 @@ object ControllerCampfireSDK {
         WidgetField()
                 .setHint(R.string.app_message)
                 .setOnCancel(R.string.app_cancel)
-                .setOnEnter(R.string.app_share) { w, text ->
-                    ToolsIntent.shareText(text + "\n\r" + "https://play.google.com/store/apps/details?id=com.dzen.campfire")
+                .setOnEnter(R.string.app_share) { _, text ->
+                    ToolsIntent.shareText("$text\n\rhttps://play.google.com/store/apps/details?id=com.dzen.campfire")
                     ToolsThreads.main(10000) { RAchievementsOnFinish(API.ACHI_APP_SHARE.index).send(api) }
                 }
                 .asSheetShow()
     }
 
-    fun createLanguageMenu(selectedId: Long, onClick: (Long) -> kotlin.Unit): WidgetMenu {
+    fun createLanguageMenu(selectedId: Long, onClick: (Long) -> Unit): WidgetMenu {
         val w = WidgetMenu()
         val code =  ControllerApi.getLanguageCode()
 
         for (i in API.LANGUAGES)
             if (i.code == code || i.code == "en")
-                w.add(i.name) { wii, c ->
+                w.add(i.name) { _, _ ->
                     onClick.invoke(i.id)
                 }.backgroundRes(R.color.focus) { i.id == selectedId }
 
@@ -256,7 +254,7 @@ object ControllerCampfireSDK {
 
         for (i in API.LANGUAGES)
             if (i.code != code && i.code != "en")
-                w.add(i.name) { wii, c ->
+                w.add(i.name) { _, _ ->
                     onClick.invoke(i.id)
                 }.backgroundRes(R.color.focus) { i.id == selectedId }
 
@@ -269,7 +267,7 @@ object ControllerCampfireSDK {
         val code = ControllerApi.getLanguageCode()
         for (i in API.LANGUAGES) {
             if (i.code == code || i.code == "en")
-                w.add(i.name).checked(languages.contains(i.id)).onChange { ww, item, b ->
+                w.add(i.name).checked(languages.contains(i.id)).onChange { _, _, b ->
                     if (b) {
                         if (!languages.contains(i.id)) languages.add(i.id)
                     } else {
@@ -280,7 +278,7 @@ object ControllerCampfireSDK {
         w.group(" ")
         for (i in API.LANGUAGES) {
             if (i.code != code && i.code != "en")
-                w.add(i.name).checked(languages.contains(i.id)).onChange { ww, item, b ->
+                w.add(i.name).checked(languages.contains(i.id)).onChange { _, _, b ->
                     if (b) {
                         if (!languages.contains(i.id)) languages.add(i.id)
                     } else {

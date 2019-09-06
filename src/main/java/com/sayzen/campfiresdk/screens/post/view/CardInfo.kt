@@ -83,7 +83,7 @@ class CardInfo(
     private fun addTag(t: UnitTag, vFlow: LayoutFlow) {
         val vChip = if (t.parentUnitId == 0L) ViewChip.instance(vFlow.context) else ViewChip.instanceOutline(vFlow.context)
         vChip.text = t.name
-        vChip.setOnClickListener { v -> SPostsSearch.instance(t, Navigator.TO) }
+        vChip.setOnClickListener { SPostsSearch.instance(t, Navigator.TO) }
         ControllerUnits.createTagMenu(vChip, t)
         if (vFlow.childCount != 0 && t.parentUnitId == 0L) vFlow.addView(ViewSpace(vFlow.context, ToolsView.dpToPx(1).toInt(), 0))
         vFlow.addView(vChip)

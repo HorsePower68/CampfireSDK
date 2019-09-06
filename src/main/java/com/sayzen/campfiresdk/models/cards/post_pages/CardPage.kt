@@ -50,9 +50,9 @@ abstract class CardPage(
 
     init {
         widgetMenu = WidgetMenu()
-            .add(getChangeMenuItemText()) { w, c -> if (onChangeClicked != null) onChangeClicked!!.invoke(this) }
-            .add(R.string.app_remove) { w, c -> if (onRemoveClicked != null) onRemoveClicked!!.invoke(this) }
-            .add(R.string.app_move) { w, c -> if (onMoveClicked != null) onMoveClicked!!.invoke(this) }
+            .add(getChangeMenuItemText()) { _, _ -> if (onChangeClicked != null) onChangeClicked!!.invoke(this) }
+            .add(R.string.app_remove) { _, _ -> if (onRemoveClicked != null) onRemoveClicked!!.invoke(this) }
+            .add(R.string.app_move) { _, _ -> if (onMoveClicked != null) onMoveClicked!!.invoke(this) }
     }
 
     @CallSuper

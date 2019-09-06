@@ -106,12 +106,12 @@ abstract class CardChatMessage constructor(
         }
 
         if (vSwipe != null && onQuote != null) {
-            vSwipe.onClick = { x, y ->
+            vSwipe.onClick = { _, _ ->
                 if (ControllerApi.isCurrentAccount(unit.creatorId)) showMenu()
                 else onClick()
             }
-            vSwipe.onLongClick = { x, y -> showMenu() }
-            vSwipe.onClick = { x, y -> if (onClick()) showMenu() }
+            vSwipe.onLongClick = { _, _ -> showMenu() }
+            vSwipe.onClick = { _, _ -> if (onClick()) showMenu() }
             vSwipe.onSwipe = { onQuote?.invoke(unit) }
             vSwipe.swipeEnabled = quoteEnabled
         } else {
@@ -209,22 +209,22 @@ abstract class CardChatMessage constructor(
         val unit = xUnit.unit as UnitChatMessage
         WidgetMenu()
                 .groupCondition(ControllerApi.isCurrentAccount(unit.creatorId))
-                .add(R.string.app_remove) { w, c ->
+                .add(R.string.app_remove) { _, _ ->
                     ControllerApi.removeUnit(unit.id, R.string.chat_remove_confirm, R.string.chat_error_gone) {
                         EventBus.post(EventUpdateChats())
                     }
                 }
-                .add(R.string.app_change) { w, c -> onChange?.invoke(unit) }.condition(changeEnabled)
+                .add(R.string.app_change) { _, _ -> onChange?.invoke(unit) }.condition(changeEnabled)
                 .clearGroupCondition()
-                .add(R.string.app_copy) { w, c ->
+                .add(R.string.app_copy) { _, _ ->
                     ToolsAndroid.setToClipboard(unit.text)
                     ToolsToast.show(R.string.app_copied)
                 }.condition(copyEnabled)
-                .add(R.string.app_quote) { w, c -> onQuote!!.invoke(unit) }.condition(quoteEnabled && onQuote != null)
+                .add(R.string.app_quote) { _, _ -> onQuote!!.invoke(unit) }.condition(quoteEnabled && onQuote != null)
                 .groupCondition(!ControllerApi.isCurrentAccount(unit.creatorId))
-                .add(R.string.app_report) { w, c -> ControllerApi.reportUnit(unit.id, R.string.chat_report_confirm, R.string.chat_error_gone) }.condition(unit.chatType == API.CHAT_TYPE_FANDOM)
-                .add(R.string.app_clear_reports) { w, c -> ControllerApi.clearReportsUnit(unit.id, unit.unitType) }.backgroundRes(R.color.blue_700).textColorRes(R.color.white).condition(unit.chatType == API.CHAT_TYPE_FANDOM && ControllerApi.can(unit.fandomId, unit.languageId, API.LVL_MODERATOR_BLOCK) && unit.reportsCount > 0)
-                .add(R.string.app_block) { w, c -> ControllerUnits.block(unit) { if (adapter != null && adapter!! is RecyclerCardAdapterLoadingInterface) (adapter!! as RecyclerCardAdapterLoadingInterface).loadBottom() } }.backgroundRes(R.color.blue_700).textColorRes(R.color.white).condition(unit.chatType == API.CHAT_TYPE_FANDOM && ControllerApi.can(unit.fandomId, unit.languageId, API.LVL_MODERATOR_BLOCK))
+                .add(R.string.app_report) { _, _ -> ControllerApi.reportUnit(unit.id, R.string.chat_report_confirm, R.string.chat_error_gone) }.condition(unit.chatType == API.CHAT_TYPE_FANDOM)
+                .add(R.string.app_clear_reports) { _, _ -> ControllerApi.clearReportsUnit(unit.id, unit.unitType) }.backgroundRes(R.color.blue_700).textColorRes(R.color.white).condition(unit.chatType == API.CHAT_TYPE_FANDOM && ControllerApi.can(unit.fandomId, unit.languageId, API.LVL_MODERATOR_BLOCK) && unit.reportsCount > 0)
+                .add(R.string.app_block) { _, _ -> ControllerUnits.block(unit) { if (adapter != null && adapter!! is RecyclerCardAdapterLoadingInterface) (adapter!! as RecyclerCardAdapterLoadingInterface).loadBottom() } }.backgroundRes(R.color.blue_700).textColorRes(R.color.white).condition(unit.chatType == API.CHAT_TYPE_FANDOM && ControllerApi.can(unit.fandomId, unit.languageId, API.LVL_MODERATOR_BLOCK))
                 .asSheetShow()
     }
 

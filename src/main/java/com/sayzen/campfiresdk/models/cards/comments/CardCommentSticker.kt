@@ -29,7 +29,7 @@ class CardCommentSticker(
         val vImage: ImageView = view.findViewById(R.id.vImage)
         val vGifProgressBar: View = view.findViewById(R.id.vGifProgressBar)
 
-        ToolsView.setOnLongClickCoordinates(vImage) { view1, x, y -> showMenu() }
+        ToolsView.setOnLongClickCoordinates(vImage) { _, _, _ -> showMenu() }
 
         vImage.setOnClickListener { SStickersView.instanceBySticker(unit.stickerId, Navigator.TO) }
 

@@ -109,7 +109,7 @@ class PageAchievements(
             val n = e.notification
             val l = adapterSub.get(CardAchievement::class)
             for (card in l)
-                if ((n as NotificationAchievement).achiIndex == card.achievement.index) {
+                if (n.achiIndex == card.achievement.index) {
                     cardInfo.count = cardInfo.count + card.achievement.force * (n.achiLvl - card.lvl)
                     card.lvl = n.achiLvl
                     card.update()

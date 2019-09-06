@@ -79,8 +79,8 @@ class SPost constructor(
         adapter.add(cardInfo)
         adapter.setCommentButton(vFab)
 
-        vShare.setOnClickListener { v -> ControllerApi.sharePost(unit.id) }
-        vMenu.setOnClickListener { v -> ControllerPost.showPostPopup(vMenu, unit) }
+        vShare.setOnClickListener { ControllerApi.sharePost(unit.id) }
+        vMenu.setOnClickListener { ControllerPost.showPostMenu(unit) }
         vRecycler.adapter = adapter
 
         ControllerNotifications.removeNotificationFromNew(NotificationFollowsPublication::class, unit.id)

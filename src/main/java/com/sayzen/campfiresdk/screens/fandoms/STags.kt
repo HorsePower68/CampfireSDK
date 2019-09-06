@@ -57,7 +57,7 @@ class STags private constructor(
 
     init {
 
-        vFab.setOnClickListener { v -> onActionClicked() }
+        vFab.setOnClickListener { onActionClicked() }
         (vFab as View).visibility = if (ControllerApi.can(fandomId, languageId, API.LVL_MODERATOR_TAGS)) View.VISIBLE else View.GONE
 
         tags = ControllerUnits.parseTags(tagsOriginal)
@@ -70,7 +70,7 @@ class STags private constructor(
             val vText: TextView = ToolsView.inflate(context, R.layout.z_text_subhead_touch)
             vText.text = tag.tag.name
             vText.setPadding(ToolsView.dpToPx(8).toInt(), ToolsView.dpToPx(16).toInt(), ToolsView.dpToPx(8).toInt(), ToolsView.dpToPx(8).toInt())
-            vText.setOnClickListener { v -> SPostsSearch.instance(tag.tag, Navigator.TO) }
+            vText.setOnClickListener { SPostsSearch.instance(tag.tag, Navigator.TO) }
 
             vContainer.addView(vText, vContainer.childCount - 1)
             ControllerUnits.createTagMenu(vText, tag.tag, tags)
@@ -80,7 +80,7 @@ class STags private constructor(
             for (t in tag.tags) {
                 val v = ViewChip.instanceOutline(context)
                 v.text = t.name
-                v.setOnClickListener { vi -> SPostsSearch.instance(t, Navigator.TO) }
+                v.setOnClickListener { SPostsSearch.instance(t, Navigator.TO) }
                 v.tag = t.id
                 vFlow.addView(v)
                 ControllerUnits.createTagMenu(v, t, tags)
@@ -105,8 +105,8 @@ class STags private constructor(
     private fun onActionClicked() {
 
         WidgetMenu()
-                .add(R.string.app_tag) { w, c -> createTag() }
-                .add(R.string.app_category) { w, c -> WidgetCategoryCreate(fandomId, languageId) }
+                .add(R.string.app_tag) { _, _ -> createTag() }
+                .add(R.string.app_category) { _, _ -> WidgetCategoryCreate(fandomId, languageId) }
                 .asSheetShow()
     }
 
@@ -119,7 +119,7 @@ class STags private constructor(
 
         val menu = WidgetMenu()
         for (tag in tags)
-            menu.add(tag.tag.name) { w, c -> WidgetTagCreate(tag.tag.id, fandomId, languageId) }
+            menu.add(tag.tag.name) { _, _ -> WidgetTagCreate(tag.tag.id, fandomId, languageId) }
         menu.asSheetShow()
     }
 

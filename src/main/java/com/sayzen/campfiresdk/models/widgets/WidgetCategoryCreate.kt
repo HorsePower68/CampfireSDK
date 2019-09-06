@@ -34,10 +34,10 @@ class WidgetCategoryCreate(
 
     init {
 
-        vCancel.setOnClickListener { v -> hide() }
-        vEnter.setOnClickListener { v -> onActionClicked() }
-        vName.vField.addTextChangedListener(TextWatcherChanged { t -> updateFinishEnabled() })
-        vComment.vField.addTextChangedListener(TextWatcherChanged { t -> updateFinishEnabled() })
+        vCancel.setOnClickListener { hide() }
+        vEnter.setOnClickListener { onActionClicked() }
+        vName.vField.addTextChangedListener(TextWatcherChanged { updateFinishEnabled() })
+        vComment.vField.addTextChangedListener(TextWatcherChanged { updateFinishEnabled() })
 
         if (tag != null) {
             vName.setText(tag.name)
@@ -70,14 +70,14 @@ class WidgetCategoryCreate(
     }
 
     private fun sendCreate() {
-        ApiRequestsSupporter.executeEnabled(this, RTagsCreate(vName.getText(), vComment.getText(), fandomId, languageId, 0, null)) { r ->
+        ApiRequestsSupporter.executeEnabled(this, RTagsCreate(vName.getText(), vComment.getText(), fandomId, languageId, 0, null)) {
             ToolsToast.show(R.string.app_done)
             STags.instance(fandomId, languageId, Navigator.REPLACE)
         }
     }
 
     private fun sendChange() {
-        ApiRequestsSupporter.executeEnabled(this, RTagsChange(tag!!.id, vName.getText(), vComment.getText(), null, false)) { r ->
+        ApiRequestsSupporter.executeEnabled(this, RTagsChange(tag!!.id, vName.getText(), vComment.getText(), null, false)) {
             ToolsToast.show(R.string.app_done)
             STags.instance(fandomId, languageId, Navigator.REPLACE)
         }

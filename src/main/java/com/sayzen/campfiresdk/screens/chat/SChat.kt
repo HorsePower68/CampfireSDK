@@ -51,8 +51,8 @@ class SChat private constructor(
     companion object {
 
         fun instance(chatType: Long, targetId: Long, targetSubId: Long, setStack: Boolean, action: NavigationAction) {
-            val targetSubId = if (chatType != API.CHAT_TYPE_FANDOM || targetSubId != 0L) targetSubId else ControllerApi.getLanguageId()
-            val tag = ChatTag(chatType, targetId, targetSubId)
+            val targetSubIdV = if (chatType != API.CHAT_TYPE_FANDOM || targetSubId != 0L) targetSubId else ControllerApi.getLanguageId()
+            val tag = ChatTag(chatType, targetId, targetSubIdV)
             instance(tag, setStack, action)
         }
 
@@ -95,7 +95,7 @@ class SChat private constructor(
 
         vNotifications = addToolbarIcon(ToolsResources.getDrawableAttrId(R.attr.ic_notifications_24dp)) { sendSubscribe(!subscribed) }
         if (tag.chatType != API.CHAT_TYPE_FANDOM) vNotifications.visibility = View.GONE
-        vMenu = addToolbarIcon(ToolsResources.getDrawableAttrId(R.attr.ic_more_vert_24dp)) { v ->
+        vMenu = addToolbarIcon(ToolsResources.getDrawableAttrId(R.attr.ic_more_vert_24dp)) {
             ControllerChats.instanceChatPopup(tag) { Navigator.remove(this) }.asSheetShow()
         }
 
@@ -251,7 +251,7 @@ class SChat private constructor(
     fun sendSubscribe(subscribed: Boolean) {
         if (tag.chatType != API.CHAT_TYPE_FANDOM) return
         RChatSubscribe(tag, subscribed)
-                .onComplete { r ->
+                .onComplete {
                     EventBus.post(EventChatSubscriptionChanged(tag, subscribed))
                 }
                 .onNetworkError { ToolsToast.show(R.string.error_network) }

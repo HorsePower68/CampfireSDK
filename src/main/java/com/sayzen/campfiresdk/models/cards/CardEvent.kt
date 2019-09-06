@@ -90,11 +90,11 @@ class CardEvent(
                 imageRedId = CampfireConstants.getAchievement(e.achievementIndex).image
                 vAvatarTitle.vImageView.tag = null
                 vAvatarTitle.vImageView.setBackgroundColor(ToolsResources.getColor(CampfireConstants.getAchievement(e.achievementIndex).colorRes))
-                vAvatarTitle.setOnClickListener { ControllerCampfireSDK.onToAchievementClicked(unit.creatorId, unit.creatorName, unit.creatorLvl, e.achievementIndex, false, Navigator.TO) }
-                view.setOnClickListener { ControllerCampfireSDK.onToAchievementClicked(unit.creatorId, unit.creatorName, unit.creatorLvl, e.achievementIndex, false, Navigator.TO) }
+                vAvatarTitle.setOnClickListener { ControllerCampfireSDK.onToAchievementClicked(unit.creatorId, unit.creatorName, e.achievementIndex, false, Navigator.TO) }
+                view.setOnClickListener { ControllerCampfireSDK.onToAchievementClicked(unit.creatorId, unit.creatorName, e.achievementIndex, false, Navigator.TO) }
             }
             is ApiEventFandomSuggest -> {
-                view.setOnClickListener { v -> ControllerCampfireSDK.onToFandomClicked(e.fandomId, ControllerApi.getLanguageId(), Navigator.TO) }
+                view.setOnClickListener {  ControllerCampfireSDK.onToFandomClicked(e.fandomId, ControllerApi.getLanguageId(), Navigator.TO) }
                 if (e.fandomCreatorId == e.administratorId) {
                     text = ToolsResources.sCap(R.string.unit_event_fandom_suggested_self, ToolsResources.sex(e.ownerAccountSex, R.string.he_suggest, R.string.she_suggest), ToolsResources.sex(e.targetAccountSex, R.string.he_accept, R.string.she_accept), "" + e.fandomName + " (" + ControllerApi.linkToFandom(e.fandomId) + ")")
                 } else if (!e.acceptEvent) {
@@ -106,37 +106,37 @@ class CardEvent(
             is ApiEventChangeName -> {
                 if (e.targetAccountId == unit.creatorId) {
                     text = ToolsResources.sCap(R.string.unit_event_change_name, ControllerApi.linkToUser(e.ownerAccountName), ToolsResources.sex(e.ownerAccountSex, R.string.he_changed, R.string.she_changed), e.oldName, ControllerApi.linkToUser(e.targetAccountName))
-                    view.setOnClickListener { v -> ControllerCampfireSDK.onToAccountClicked(e.ownerAccountId, Navigator.TO) }
+                    view.setOnClickListener { ControllerCampfireSDK.onToAccountClicked(e.ownerAccountId, Navigator.TO) }
                 } else {
                     text = ToolsResources.sCap(R.string.unit_event_change_name_admin, ToolsResources.sex(e.ownerAccountSex, R.string.he_changed, R.string.she_changed), e.oldName, ControllerApi.linkToUser(e.targetAccountName))
-                    view.setOnClickListener { v -> ControllerCampfireSDK.onToAccountClicked(e.targetAccountId, Navigator.TO) }
+                    view.setOnClickListener { ControllerCampfireSDK.onToAccountClicked(e.targetAccountId, Navigator.TO) }
                 }
             }
             is ApiEventUserRemoveName -> {
                 if (e.targetAccountId == unit.creatorId) {
                     text = ToolsResources.sCap(R.string.unit_event_remove_name, ControllerApi.linkToUser(e.ownerAccountName), ToolsResources.sex(e.ownerAccountSex, R.string.he_remove, R.string.she_remove))
-                    view.setOnClickListener { v -> ControllerCampfireSDK.onToAccountClicked(e.ownerAccountId, Navigator.TO) }
+                    view.setOnClickListener { ControllerCampfireSDK.onToAccountClicked(e.ownerAccountId, Navigator.TO) }
                 } else {
                     text = ToolsResources.sCap(R.string.unit_event_remove_name_admin, ToolsResources.sex(e.ownerAccountSex, R.string.he_remove, R.string.she_remove), ControllerApi.linkToUser(e.targetAccountName))
-                    view.setOnClickListener { v -> ControllerCampfireSDK.onToAccountClicked(e.targetAccountId, Navigator.TO) }
+                    view.setOnClickListener {  ControllerCampfireSDK.onToAccountClicked(e.targetAccountId, Navigator.TO) }
                 }
             }
             is ApiEventUserRemoveTitleImage -> {
                 if (e.targetAccountId == unit.creatorId) {
                     text = ToolsResources.sCap(R.string.unit_event_remove_titile_image, ControllerApi.linkToUser(e.ownerAccountName), ToolsResources.sex(e.ownerAccountSex, R.string.he_remove, R.string.she_remove))
-                    view.setOnClickListener { v -> ControllerCampfireSDK.onToAccountClicked(e.ownerAccountId, Navigator.TO) }
+                    view.setOnClickListener { ControllerCampfireSDK.onToAccountClicked(e.ownerAccountId, Navigator.TO) }
                 } else {
                     text = ToolsResources.sCap(R.string.unit_event_remove_titile_image_admin, ToolsResources.sex(e.ownerAccountSex, R.string.he_remove, R.string.she_remove), ControllerApi.linkToUser(e.targetAccountName))
-                    view.setOnClickListener { v -> ControllerCampfireSDK.onToAccountClicked(e.targetAccountId, Navigator.TO) }
+                    view.setOnClickListener { ControllerCampfireSDK.onToAccountClicked(e.targetAccountId, Navigator.TO) }
                 }
             }
             is ApiEventUserRemoveImage -> {
                 if (e.targetAccountId == unit.creatorId) {
                     text = ToolsResources.sCap(R.string.unit_event_remove_image, ControllerApi.linkToUser(e.ownerAccountName), ToolsResources.sex(e.ownerAccountSex, R.string.he_remove, R.string.she_remove))
-                    view.setOnClickListener { v -> ControllerCampfireSDK.onToAccountClicked(e.ownerAccountId, Navigator.TO) }
+                    view.setOnClickListener { ControllerCampfireSDK.onToAccountClicked(e.ownerAccountId, Navigator.TO) }
                 } else {
                     text = ToolsResources.sCap(R.string.unit_event_remove_image_admin, ToolsResources.sex(e.ownerAccountSex, R.string.he_remove, R.string.she_remove), ControllerApi.linkToUser(e.targetAccountName))
-                    view.setOnClickListener { v -> ControllerCampfireSDK.onToAccountClicked(e.targetAccountId, Navigator.TO) }
+                    view.setOnClickListener { ControllerCampfireSDK.onToAccountClicked(e.targetAccountId, Navigator.TO) }
                 }
             }
             is ApiEventFandomRemove -> {
@@ -144,12 +144,12 @@ class CardEvent(
             }
             is ApiEventFandomChangeAvatar -> {
                 text = ToolsResources.sCap(R.string.unit_event_fandom_avatar, ToolsResources.sex(e.ownerAccountSex, R.string.he_changed, R.string.she_changed), "" + e.fandomName + " (" + ControllerApi.linkToFandom(e.fandomId) + ")")
-                view.setOnClickListener { v -> ControllerCampfireSDK.onToFandomClicked(e.fandomId, 0, Navigator.TO) }
+                view.setOnClickListener { ControllerCampfireSDK.onToFandomClicked(e.fandomId, 0, Navigator.TO) }
             }
             is ApiEventFandomRename -> {
                 text = ToolsResources.sCap(R.string.unit_event_fandom_rename, ToolsResources.sex(e.ownerAccountSex, R.string.he_rename, R.string.she_rename), e.oldName, "" + e.newName + " (" + ControllerApi.linkToFandom(e.fandomId) + ")")
 
-                view.setOnClickListener { v -> ControllerCampfireSDK.onToFandomClicked(e.fandomId, 0, Navigator.TO) }
+                view.setOnClickListener { ControllerCampfireSDK.onToFandomClicked(e.fandomId, 0, Navigator.TO) }
             }
             is ApiEventFandomClose -> {
                 text = ToolsResources.sCap(
@@ -157,7 +157,7 @@ class CardEvent(
                         if (e.closed) ToolsResources.sex(e.ownerAccountSex, R.string.he_close, R.string.she_close) else ToolsResources.sex(e.ownerAccountSex, R.string.he_open, R.string.she_open),
                         e.fandomName + "(" + ControllerApi.linkToFandom(e.fandomId) + ")")
 
-                view.setOnClickListener { v -> ControllerCampfireSDK.onToFandomClicked(e.fandomId, 0, Navigator.TO) }
+                view.setOnClickListener { ControllerCampfireSDK.onToFandomClicked(e.fandomId, 0, Navigator.TO) }
             }
             is ApiEventFandomChangeParams -> {
                 text = ToolsResources.sCap(R.string.unit_event_fandom_parameters, ToolsResources.sex(e.ownerAccountSex, R.string.he_changed, R.string.she_changed), "" + e.fandomName + " (" + ControllerApi.linkToFandom(e.fandomId) + ")")
@@ -172,87 +172,87 @@ class CardEvent(
                     for (i in 1 until e.removedParams.size) text += ", " + CampfireConstants.getParam(e.categoryId, e.paramsPosition, e.newParams[i]).name
                 }
 
-                view.setOnClickListener { v -> ControllerCampfireSDK.onToFandomClicked(e.fandomId, 0, Navigator.TO) }
+                view.setOnClickListener { ControllerCampfireSDK.onToFandomClicked(e.fandomId, 0, Navigator.TO) }
             }
             is ApiEventUserRemoveStatus -> {
                 if (e.targetAccountId == unit.creatorId) {
                     text = ToolsResources.sCap(R.string.unit_event_remove_status, ControllerApi.linkToUser(e.ownerAccountName), ToolsResources.sex(e.ownerAccountSex, R.string.he_remove, R.string.she_remove))
-                    view.setOnClickListener { v -> ControllerCampfireSDK.onToAccountClicked(e.ownerAccountId, Navigator.TO) }
+                    view.setOnClickListener { ControllerCampfireSDK.onToAccountClicked(e.ownerAccountId, Navigator.TO) }
                 } else {
                     text = ToolsResources.sCap(R.string.unit_event_remove_status_admin, ToolsResources.sex(e.ownerAccountSex, R.string.he_remove, R.string.she_remove), ControllerApi.linkToUser(e.targetAccountName))
-                    view.setOnClickListener { v -> ControllerCampfireSDK.onToAccountClicked(e.targetAccountId, Navigator.TO) }
+                    view.setOnClickListener { ControllerCampfireSDK.onToAccountClicked(e.targetAccountId, Navigator.TO) }
                 }
             }
             is ApiEventUserRemoveDescription -> {
                 if (e.targetAccountId == unit.creatorId) {
                     text = ToolsResources.sCap(R.string.unit_event_remove_description, ControllerApi.linkToUser(e.ownerAccountName), ToolsResources.sex(e.ownerAccountSex, R.string.he_remove, R.string.she_remove))
-                    view.setOnClickListener { v -> ControllerCampfireSDK.onToAccountClicked(e.ownerAccountId, Navigator.TO) }
+                    view.setOnClickListener { ControllerCampfireSDK.onToAccountClicked(e.ownerAccountId, Navigator.TO) }
                 } else {
                     text = ToolsResources.sCap(R.string.unit_event_remove_description_admin, ToolsResources.sex(e.ownerAccountSex, R.string.he_remove, R.string.she_remove), ControllerApi.linkToUser(e.targetAccountName))
-                    view.setOnClickListener { v -> ControllerCampfireSDK.onToAccountClicked(e.targetAccountId, Navigator.TO) }
+                    view.setOnClickListener { ControllerCampfireSDK.onToAccountClicked(e.targetAccountId, Navigator.TO) }
                 }
             }
             is ApiEventUserRemoveLink -> {
                 if (e.targetAccountId == unit.creatorId) {
                     text = ToolsResources.sCap(R.string.unit_event_remove_link, ControllerApi.linkToUser(e.ownerAccountName), ToolsResources.sex(e.ownerAccountSex, R.string.he_remove, R.string.she_remove))
-                    view.setOnClickListener { v -> ControllerCampfireSDK.onToAccountClicked(e.ownerAccountId, Navigator.TO) }
+                    view.setOnClickListener { ControllerCampfireSDK.onToAccountClicked(e.ownerAccountId, Navigator.TO) }
                 } else {
                     text = ToolsResources.sCap(R.string.unit_event_remove_link_admin, ToolsResources.sex(e.ownerAccountSex, R.string.he_remove, R.string.she_remove), ControllerApi.linkToUser(e.targetAccountName))
-                    view.setOnClickListener { v -> ControllerCampfireSDK.onToAccountClicked(e.targetAccountId, Navigator.TO) }
+                    view.setOnClickListener { ControllerCampfireSDK.onToAccountClicked(e.targetAccountId, Navigator.TO) }
                 }
             }
             is ApiEventFandomMakeModerator -> {
                 if (e.targetAccountId == unit.creatorId || isFeedInFandom) {
                     text = ToolsResources.sCap(R.string.unit_event_make_moderator, ControllerApi.linkToUser(e.ownerAccountName), ToolsResources.sex(e.ownerAccountSex, R.string.he_make, R.string.she_make), e.fandomName + " (${ControllerApi.linkToFandom(e.fandomId, e.languageId)})")
-                    view.setOnClickListener { v -> ControllerCampfireSDK.onToAccountClicked(e.ownerAccountId, Navigator.TO) }
+                    view.setOnClickListener { ControllerCampfireSDK.onToAccountClicked(e.ownerAccountId, Navigator.TO) }
                 } else {
                     text = ToolsResources.sCap(R.string.unit_event_make_moderator_admin, ToolsResources.sex(e.ownerAccountSex, R.string.he_make, R.string.she_make), ControllerApi.linkToUser(e.targetAccountName), e.fandomName + " (${ControllerApi.linkToFandom(e.fandomId, e.languageId)})")
-                    view.setOnClickListener { v -> ControllerCampfireSDK.onToAccountClicked(e.targetAccountId, Navigator.TO) }
+                    view.setOnClickListener { ControllerCampfireSDK.onToAccountClicked(e.targetAccountId, Navigator.TO) }
                 }
             }
             is ApiEventFandomRemoveModerator -> {
                 if (e.targetAccountId == unit.creatorId) {
                     text = ToolsResources.sCap(R.string.unit_event_remove_moderator, ControllerApi.linkToUser(e.ownerAccountName), ToolsResources.sex(e.ownerAccountSex, R.string.he_deprived, R.string.she_deprived), e.fandomName + " (${ControllerApi.linkToFandom(e.fandomId, e.languageId)})")
-                    view.setOnClickListener { v -> ControllerCampfireSDK.onToAccountClicked(e.ownerAccountId, Navigator.TO) }
+                    view.setOnClickListener { ControllerCampfireSDK.onToAccountClicked(e.ownerAccountId, Navigator.TO) }
                 } else {
                     text = ToolsResources.sCap(R.string.unit_event_remove_moderator_admin, ToolsResources.sex(e.ownerAccountSex, R.string.he_deprived, R.string.she_deprived), ControllerApi.linkToUser(e.targetAccountName), e.fandomName + " (${ControllerApi.linkToFandom(e.fandomId, e.languageId)})")
-                    view.setOnClickListener { v -> ControllerCampfireSDK.onToAccountClicked(e.targetAccountId, Navigator.TO) }
+                    view.setOnClickListener { ControllerCampfireSDK.onToAccountClicked(e.targetAccountId, Navigator.TO) }
                 }
             }
             is ApiEventPunishmentRemove -> {
                 if (e.targetAccountId == unit.creatorId) {
                     text = ToolsResources.sCap(R.string.unit_event_remove_punishment, ControllerApi.linkToUser(e.ownerAccountName), ToolsResources.sex(e.ownerAccountSex, R.string.he_remove, R.string.she_remove))
-                    view.setOnClickListener { v -> ControllerCampfireSDK.onToAccountClicked(e.ownerAccountId, Navigator.TO) }
+                    view.setOnClickListener { ControllerCampfireSDK.onToAccountClicked(e.ownerAccountId, Navigator.TO) }
                 } else {
                     text = ToolsResources.sCap(R.string.unit_event_remove_punishment_admin, ToolsResources.sex(e.ownerAccountSex, R.string.he_remove, R.string.she_remove), ControllerApi.linkToUser(e.targetAccountName))
-                    view.setOnClickListener { v -> ControllerCampfireSDK.onToAccountClicked(e.targetAccountId, Navigator.TO) }
+                    view.setOnClickListener { ControllerCampfireSDK.onToAccountClicked(e.targetAccountId, Navigator.TO) }
                 }
             }
             is ApiEventModerationRejected -> {
                 if (e.targetAccountId == unit.creatorId) {
                     text = ToolsResources.sCap(R.string.unit_event_moderation_rejected, ControllerApi.linkToUser(e.ownerAccountName), ToolsResources.sex(e.ownerAccountSex, R.string.he_reject, R.string.she_reject))
-                    view.setOnClickListener { v -> ControllerCampfireSDK.onToFandomClicked(e.moderationId, 0, Navigator.TO) }
+                    view.setOnClickListener { ControllerCampfireSDK.onToFandomClicked(e.moderationId, 0, Navigator.TO) }
                 } else {
                     text = ToolsResources.sCap(R.string.unit_event_moderation_rejected_admin, ToolsResources.sex(e.ownerAccountSex, R.string.he_reject, R.string.she_reject), ControllerApi.linkToUser(e.targetAccountName))
-                    view.setOnClickListener { v -> ControllerCampfireSDK.onToFandomClicked(e.moderationId, 0, Navigator.TO) }
+                    view.setOnClickListener { ControllerCampfireSDK.onToFandomClicked(e.moderationId, 0, Navigator.TO) }
                 }
             }
             is ApiEventUnitRestore -> {
                 if (e.targetAccountId == unit.creatorId) {
                     text = ToolsResources.sCap(R.string.unit_event_unit_restore, ControllerApi.linkToUser(e.ownerAccountName), ToolsResources.sex(e.ownerAccountSex, R.string.he_restore, R.string.she_restore))
-                    view.setOnClickListener { v -> ControllerCampfireSDK.onToFandomClicked(e.moderationId, 0, Navigator.TO) }
+                    view.setOnClickListener { ControllerCampfireSDK.onToFandomClicked(e.moderationId, 0, Navigator.TO) }
                 } else {
                     text = ToolsResources.sCap(R.string.unit_event_unit_restore_admin, ToolsResources.sex(e.ownerAccountSex, R.string.he_restore, R.string.she_restore), ControllerApi.linkToUser(e.targetAccountName))
-                    view.setOnClickListener { v -> ControllerCampfireSDK.onToFandomClicked(e.moderationId, 0, Navigator.TO) }
+                    view.setOnClickListener { ControllerCampfireSDK.onToFandomClicked(e.moderationId, 0, Navigator.TO) }
                 }
             }
             is ApiEventAdminPostChangeFandom -> {
                 if (e.targetAccountId == unit.creatorId) {
                     text = ToolsResources.sCap(R.string.unit_event_post_fandom_change, ControllerApi.linkToUser(e.ownerAccountName), ToolsResources.sex(e.ownerAccountSex, R.string.he_move, R.string.she_move), e.oldFandomName, e.newFandomName)
-                    view.setOnClickListener { v -> ControllerCampfireSDK.onToPostClicked(e.unitId, 0, Navigator.TO) }
+                    view.setOnClickListener { ControllerCampfireSDK.onToPostClicked(e.unitId, 0, Navigator.TO) }
                 } else {
                     text = ToolsResources.sCap(R.string.unit_event_post_fandom_change_admin, ToolsResources.sex(e.ownerAccountSex, R.string.he_move, R.string.she_move), ControllerApi.linkToUser(e.targetAccountName), e.oldFandomName, e.newFandomName)
-                    view.setOnClickListener { v -> ControllerCampfireSDK.onToPostClicked(e.unitId, 0, Navigator.TO) }
+                    view.setOnClickListener { ControllerCampfireSDK.onToPostClicked(e.unitId, 0, Navigator.TO) }
                 }
             }
             is ApiEventFandomChangeCategory -> {
@@ -261,7 +261,7 @@ class CardEvent(
                         e.fandomName,
                         CampfireConstants.getCategory(e.oldCategory).name,
                         CampfireConstants.getCategory(e.newCategory).name)
-                view.setOnClickListener { v -> ControllerCampfireSDK.onToFandomClicked(e.fandomId, 0, Navigator.TO) }
+                view.setOnClickListener { ControllerCampfireSDK.onToFandomClicked(e.fandomId, 0, Navigator.TO) }
             }
         }
 

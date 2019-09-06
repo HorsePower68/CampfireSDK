@@ -25,7 +25,7 @@ import java.util.*
 
 object ControllerPost {
 
-    var ON_PRE_SHOW_MENU: (Unit, WidgetMenu) -> kotlin.Unit = { u, w -> }
+    var ON_PRE_SHOW_MENU: (Unit, WidgetMenu) -> kotlin.Unit = { _, _ -> }
 
 
     var ENABLED_BOOKMARK = false
@@ -50,37 +50,37 @@ object ControllerPost {
     var ENABLED_PIN_FANDOM = false
     var ENABLED_MAKE_MULTI_LANGUAGES = false
 
-    fun showPostPopup(view: View, unit: UnitPost) {
+    fun showPostMenu(unit: UnitPost) {
 
         val w = WidgetMenu()
-                .add(R.string.bookmark) { w, card -> ControllerUnits.changeBookmark(unit.id) }.condition(ENABLED_BOOKMARK && unit.isPublic)
-                .add(R.string.unit_menu_comments_watch) { w, card -> ControllerUnits.changeWatchComments(unit.id) }.condition(ENABLED_WATCH && unit.isPublic)
-                .add(R.string.app_share) { w, card -> ControllerApi.sharePost(unit.id) }.condition(ENABLED_SHARE && unit.isPublic)
-                .add(R.string.app_copy_link) { w, card -> copyLink(unit) }.condition(ENABLED_COPY_LINK && unit.isPublic)
+                .add(R.string.bookmark) { _, _ -> ControllerUnits.changeBookmark(unit.id) }.condition(ENABLED_BOOKMARK && unit.isPublic)
+                .add(R.string.unit_menu_comments_watch) { _, _ -> ControllerUnits.changeWatchComments(unit.id) }.condition(ENABLED_WATCH && unit.isPublic)
+                .add(R.string.app_share) { _, _ -> ControllerApi.sharePost(unit.id) }.condition(ENABLED_SHARE && unit.isPublic)
+                .add(R.string.app_copy_link) { _, _ -> copyLink(unit) }.condition(ENABLED_COPY_LINK && unit.isPublic)
                 .groupCondition(ControllerApi.isCurrentAccount(unit.creatorId))
-                .add(R.string.post_create_notify_followers) { w, card -> notifyFollowers(unit.id) }.condition(ENABLED_NOTIFY_FOLLOWERS && unit.isPublic && unit.tag_3 == 0L)
-                .add(R.string.app_change) { w, card -> ControllerCampfireSDK.onToDraftClicked(unit.id, Navigator.TO) }.condition(ENABLED_CHANGE && unit.isPublic)
-                .add(R.string.post_menu_change_tags) { w, card -> changeTags(unit) }.condition(ENABLED_CHANGE_TAGS && unit.isPublic && unit.languageId != -1L)
-                .add(R.string.app_remove) { w, card -> remove(unit) }.condition(ENABLED_REMOVE)
-                .add(R.string.app_to_drafts) { w, card -> toDrafts(unit) }.condition(ENABLED_TO_DRAFTS && (unit.isPublic || unit.status == API.STATUS_PENDING) && unit.languageId != -1L)
-                .add(R.string.unit_menu_change_fandom) { w, card -> changeFandom(unit.id) }.condition(ENABLED_CHANGE_FANDOM && unit.languageId != -1L && (unit.status == API.STATUS_PUBLIC || unit.status == API.STATUS_DRAFT))
-                .add(R.string.unit_menu_pin_in_profile) { w, card -> pinInProfile(unit) }.condition(ENABLED_PIN_PROFILE && ControllerApi.can(API.LVL_CAN_PIN_POST) && unit.isPublic && !unit.isPined)
-                .add(R.string.unit_menu_unpin_in_profile) { w, card -> unpinInProfile(unit) }.condition(ENABLED_PIN_PROFILE && unit.isPined)
-                .add(R.string.unit_menu_multi_languages) { w, card -> multilanguage(unit) }.condition(ENABLED_MAKE_MULTI_LANGUAGES && unit.languageId != -1L && unit.status == API.STATUS_PUBLIC)
-                .add(R.string.app_publish) { w, card -> publishPending(unit) }.condition(unit.status == API.STATUS_PENDING)
+                .add(R.string.post_create_notify_followers) { _, _ -> notifyFollowers(unit.id) }.condition(ENABLED_NOTIFY_FOLLOWERS && unit.isPublic && unit.tag_3 == 0L)
+                .add(R.string.app_change) { _, _ -> ControllerCampfireSDK.onToDraftClicked(unit.id, Navigator.TO) }.condition(ENABLED_CHANGE && unit.isPublic)
+                .add(R.string.post_menu_change_tags) { _, _ -> changeTags(unit) }.condition(ENABLED_CHANGE_TAGS && unit.isPublic && unit.languageId != -1L)
+                .add(R.string.app_remove) { _, _ -> remove(unit) }.condition(ENABLED_REMOVE)
+                .add(R.string.app_to_drafts) { _, _ -> toDrafts(unit) }.condition(ENABLED_TO_DRAFTS && (unit.isPublic || unit.status == API.STATUS_PENDING) && unit.languageId != -1L)
+                .add(R.string.unit_menu_change_fandom) { _, _ -> changeFandom(unit.id) }.condition(ENABLED_CHANGE_FANDOM && unit.languageId != -1L && (unit.status == API.STATUS_PUBLIC || unit.status == API.STATUS_DRAFT))
+                .add(R.string.unit_menu_pin_in_profile) { _, _ -> pinInProfile(unit) }.condition(ENABLED_PIN_PROFILE && ControllerApi.can(API.LVL_CAN_PIN_POST) && unit.isPublic && !unit.isPined)
+                .add(R.string.unit_menu_unpin_in_profile) { _, _ -> unpinInProfile(unit) }.condition(ENABLED_PIN_PROFILE && unit.isPined)
+                .add(R.string.unit_menu_multi_languages) { _, _ -> multilanguage(unit) }.condition(ENABLED_MAKE_MULTI_LANGUAGES && unit.languageId != -1L && unit.status == API.STATUS_PUBLIC)
+                .add(R.string.app_publish) { _, _ -> publishPending(unit) }.condition(unit.status == API.STATUS_PENDING)
                 .groupCondition(!ControllerApi.isCurrentAccount(unit.creatorId) && unit.isPublic)
-                .add(R.string.app_report) { w, card -> ControllerUnits.report(unit) }.condition(ENABLED_REPORT)
-                .add(R.string.app_clear_reports) { w, card -> ControllerUnits.clearReports(unit) }.backgroundRes(R.color.blue_700).textColorRes(R.color.white).condition(ENABLED_CLEAR_REPORTS && ControllerApi.can(unit.fandomId, unit.languageId, API.LVL_MODERATOR_BLOCK) && unit.reportsCount > 0)
-                .add(R.string.app_block) { w, card -> ControllerUnits.block(unit) }.backgroundRes(R.color.blue_700).textColorRes(R.color.white).condition(ENABLED_BLOCK && ControllerApi.can(unit.fandomId, unit.languageId, API.LVL_MODERATOR_BLOCK))
-                .add(R.string.unit_menu_moderator_to_drafts) { w, card -> moderatorToDrafts(unit.id) }.backgroundRes(R.color.blue_700).textColorRes(R.color.white).condition(ENABLED_MODER_TO_DRAFT && ControllerApi.can(unit.fandomId, unit.languageId, API.LVL_MODERATOR_TO_DRAFTS) && unit.languageId != -1L)
-                .add(R.string.post_menu_change_tags) { w, card -> changeTagsModer(unit) }.backgroundRes(R.color.blue_700).textColorRes(R.color.white).condition(ENABLED_MODER_CHANGE_TAGS && ControllerApi.can(unit.fandomId, unit.languageId, API.LVL_MODERATOR_POST_TAGS) && unit.languageId != -1L)
-                .add(R.string.unit_menu_pin_in_fandom) { w, card -> pinInFandom(unit) }.backgroundRes(R.color.blue_700).textColorRes(R.color.white).condition(ENABLED_PIN_FANDOM && ControllerApi.can(unit.fandomId, unit.languageId, API.LVL_MODERATOR_PIN_POST) && unit.isPublic && !unit.isPined)
-                .add(R.string.unit_menu_unpin_in_fandom) { w, card -> unpinInFandom(unit) }.backgroundRes(R.color.blue_700).textColorRes(R.color.white).condition(ENABLED_PIN_FANDOM && ControllerApi.can(unit.fandomId, unit.languageId, API.LVL_MODERATOR_PIN_POST) && unit.isPined)
+                .add(R.string.app_report) { _, _ -> ControllerUnits.report(unit) }.condition(ENABLED_REPORT)
+                .add(R.string.app_clear_reports) { _, _ -> ControllerUnits.clearReports(unit) }.backgroundRes(R.color.blue_700).textColorRes(R.color.white).condition(ENABLED_CLEAR_REPORTS && ControllerApi.can(unit.fandomId, unit.languageId, API.LVL_MODERATOR_BLOCK) && unit.reportsCount > 0)
+                .add(R.string.app_block) { _, _ -> ControllerUnits.block(unit) }.backgroundRes(R.color.blue_700).textColorRes(R.color.white).condition(ENABLED_BLOCK && ControllerApi.can(unit.fandomId, unit.languageId, API.LVL_MODERATOR_BLOCK))
+                .add(R.string.unit_menu_moderator_to_drafts) { _, _ -> moderatorToDrafts(unit.id) }.backgroundRes(R.color.blue_700).textColorRes(R.color.white).condition(ENABLED_MODER_TO_DRAFT && ControllerApi.can(unit.fandomId, unit.languageId, API.LVL_MODERATOR_TO_DRAFTS) && unit.languageId != -1L)
+                .add(R.string.post_menu_change_tags) { _, _ -> changeTagsModer(unit) }.backgroundRes(R.color.blue_700).textColorRes(R.color.white).condition(ENABLED_MODER_CHANGE_TAGS && ControllerApi.can(unit.fandomId, unit.languageId, API.LVL_MODERATOR_POST_TAGS) && unit.languageId != -1L)
+                .add(R.string.unit_menu_pin_in_fandom) { _, _ -> pinInFandom(unit) }.backgroundRes(R.color.blue_700).textColorRes(R.color.white).condition(ENABLED_PIN_FANDOM && ControllerApi.can(unit.fandomId, unit.languageId, API.LVL_MODERATOR_PIN_POST) && unit.isPublic && !unit.isPined)
+                .add(R.string.unit_menu_unpin_in_fandom) { _, _ -> unpinInFandom(unit) }.backgroundRes(R.color.blue_700).textColorRes(R.color.white).condition(ENABLED_PIN_FANDOM && ControllerApi.can(unit.fandomId, unit.languageId, API.LVL_MODERATOR_PIN_POST) && unit.isPined)
                 .clearGroupCondition()
-                .add(if (unit.important == API.UNIT_IMPORTANT_IMPORTANT) R.string.unit_menu_important_unmark else R.string.unit_menu_important_mark) { w, card -> markAsImportant(unit.id, !(unit.important == API.UNIT_IMPORTANT_IMPORTANT)) }.backgroundRes(R.color.blue_700).textColorRes(R.color.white).condition(ENABLED_INPORTANT && ControllerApi.can(unit.fandomId, unit.languageId, API.LVL_MODERATOR_IMPORTANT) && unit.isPublic && unit.languageId != -1L)
+                .add(if (unit.important == API.UNIT_IMPORTANT_IMPORTANT) R.string.unit_menu_important_unmark else R.string.unit_menu_important_mark) { _, _ -> markAsImportant(unit.id, !(unit.important == API.UNIT_IMPORTANT_IMPORTANT)) }.backgroundRes(R.color.blue_700).textColorRes(R.color.white).condition(ENABLED_INPORTANT && ControllerApi.can(unit.fandomId, unit.languageId, API.LVL_MODERATOR_IMPORTANT) && unit.isPublic && unit.languageId != -1L)
                 .groupCondition(!ControllerApi.isCurrentAccount(unit.creatorId) && unit.isPublic)
-                .add(R.string.admin_make_moder) { w, card -> makeModerator(unit) }.backgroundRes(R.color.red_700).textColorRes(R.color.white).condition(ENABLED_MAKE_MODER && ControllerApi.can(API.LVL_ADMIN_MAKE_MODERATOR) && unit.languageId != -1L)
-                .add(R.string.unit_menu_change_fandom) { w, card -> changeFandomAdmin(unit.id) }.backgroundRes(R.color.red_700).textColorRes(R.color.white).condition(ENABLED_MODER_CHANGE_FANDOM && ControllerApi.can(API.LVL_ADMIN_POST_CHANGE_FANDOM) && unit.languageId != -1L)
+                .add(R.string.admin_make_moder) { _, _ -> makeModerator(unit) }.backgroundRes(R.color.red_700).textColorRes(R.color.white).condition(ENABLED_MAKE_MODER && ControllerApi.can(API.LVL_ADMIN_MAKE_MODERATOR) && unit.languageId != -1L)
+                .add(R.string.unit_menu_change_fandom) { _, _ -> changeFandomAdmin(unit.id) }.backgroundRes(R.color.red_700).textColorRes(R.color.white).condition(ENABLED_MODER_CHANGE_FANDOM && ControllerApi.can(API.LVL_ADMIN_POST_CHANGE_FANDOM) && unit.languageId != -1L)
                 .clearGroupCondition()
         ON_PRE_SHOW_MENU.invoke(unit, w)
         w.asSheetShow()
@@ -280,12 +280,12 @@ object ControllerPost {
                 .setOnCancel(R.string.app_cancel)
                 .setMin(API.MODERATION_COMMENT_MIN_L)
                 .setMax(API.MODERATION_COMMENT_MAX_L)
-                .setOnEnter(if (!important) R.string.app_do_unmark else R.string.app_do_mark) { w, comment ->
+                .setOnEnter(if (!important) R.string.app_do_unmark else R.string.app_do_mark) { _, comment ->
                     ApiRequestsSupporter.executeEnabledConfirm(
                             if (!important) R.string.unit_menu_important_unmark_confirm else R.string.unit_menu_important_mark_confirm,
                             if (!important) R.string.app_do_unmark else R.string.app_do_mark,
                             RFandomsModerationImportant(unitId, important, comment)
-                    ) { r ->
+                    ) {
                         ToolsToast.show(R.string.app_done)
                         EventBus.post(
                                 EventUnitImportantChange(
@@ -306,7 +306,7 @@ object ControllerPost {
                 .setMin(API.MODERATION_COMMENT_MIN_L)
                 .setMax(API.MODERATION_COMMENT_MAX_L)
                 .setOnEnter(R.string.app_to_return) { w, comment ->
-                    ApiRequestsSupporter.executeEnabled(w, RFandomsModerationToDrafts(unitId, comment)) { r ->
+                    ApiRequestsSupporter.executeEnabled(w, RFandomsModerationToDrafts(unitId, comment)) {
                         ToolsToast.show(R.string.app_done)
                         EventBus.post(EventUnitRemove(unitId))
                     }

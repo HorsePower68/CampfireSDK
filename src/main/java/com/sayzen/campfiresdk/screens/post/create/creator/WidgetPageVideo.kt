@@ -33,9 +33,7 @@ class WidgetPageVideo(
 
         vLink.vField.setSingleLine(true)
         vLink.vField.imeOptions = EditorInfo.IME_FLAG_NO_ENTER_ACTION
-        vLink.vField.addTextChangedListener(TextWatcherChanged { s ->
-            update()
-        })
+        vLink.vField.addTextChangedListener(TextWatcherChanged { update() })
 
         vPast.setOnClickListener{ vLink.setText(ToolsAndroid.getFromClipboard()) }
 
@@ -47,8 +45,8 @@ class WidgetPageVideo(
         }
 
         vEnter.setText(enterText)
-        vEnter.setOnClickListener { v -> onEnter() }
-        vCancel.setOnClickListener { v -> onCancel() }
+        vEnter.setOnClickListener { onEnter() }
+        vCancel.setOnClickListener { onCancel() }
 
         update()
     }

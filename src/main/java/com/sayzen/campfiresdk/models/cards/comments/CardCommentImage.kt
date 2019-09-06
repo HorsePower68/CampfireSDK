@@ -28,7 +28,7 @@ class CardCommentImage(
 
         vCommentText.visibility = if (unit.text.isEmpty()) View.GONE else View.VISIBLE
 
-        ToolsView.setOnLongClickCoordinates(vImage) { view1, x, y -> showMenu() }
+        ToolsView.setOnLongClickCoordinates(vImage) { _, _, _ -> showMenu() }
 
         vImage.setOnClickListener { Navigator.to(SImageView(if (unit.gifId == 0L) unit.imageId else unit.gifId)) }
 

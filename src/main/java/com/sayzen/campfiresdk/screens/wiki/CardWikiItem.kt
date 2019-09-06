@@ -45,15 +45,15 @@ class CardWikiItem(
 
         view.setOnLongClickListener {
             WidgetMenu()
-                    .add(R.string.app_change) { w, i -> Navigator.to(SWikiItemCreate(wikiItem.fandomId, wikiItem.parentItemId, wikiItem)) }
-                    .add(R.string.app_remove) { w, i -> removeWikiItem() }.condition(ControllerApi.can(wikiItem.fandomId, ControllerApi.getLanguage("en").id, API.LVL_MODERATOR_WIKI_EDIT))
+                    .add(R.string.app_change) { _, _ -> Navigator.to(SWikiItemCreate(wikiItem.fandomId, wikiItem.parentItemId, wikiItem)) }
+                    .add(R.string.app_remove) { _, _ -> removeWikiItem() }.condition(ControllerApi.can(wikiItem.fandomId, ControllerApi.getLanguage("en").id, API.LVL_MODERATOR_WIKI_EDIT))
                     .asSheetShow()
             true
         }
     }
 
     private fun removeWikiItem() {
-        ApiRequestsSupporter.executeEnabledConfirm(R.string.stickers_remove_confirm, R.string.app_remove, RWikiRemove(wikiItem.itemId)) { r ->
+        ApiRequestsSupporter.executeEnabledConfirm(R.string.stickers_remove_confirm, R.string.app_remove, RWikiRemove(wikiItem.itemId)) {
             EventBus.post(EventWikiRemove(wikiItem))
             ToolsToast.show(R.string.app_done)
         }

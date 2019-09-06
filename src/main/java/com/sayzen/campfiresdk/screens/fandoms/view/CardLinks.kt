@@ -56,11 +56,11 @@ class CardLinks(
             vLinkSubtitle.text = link.url
 
             val w = WidgetMenu()
-                    .add(R.string.app_copy_link) { w, i ->
+                    .add(R.string.app_copy_link) { _, _ ->
                         ToolsAndroid.setToClipboard(link.url)
                         ToolsToast.show(R.string.app_copied)
                     }
-                    .add(R.string.app_remove) { w, i -> removeLink(link) }.condition(ControllerApi.can(xFandom.fandomId, xFandom.languageId, API.LVL_MODERATOR_LINKS)).backgroundRes(R.color.blue_700).textColorRes(R.color.white)
+                    .add(R.string.app_remove) { _, _ -> removeLink(link) }.condition(ControllerApi.can(xFandom.fandomId, xFandom.languageId, API.LVL_MODERATOR_LINKS)).backgroundRes(R.color.blue_700).textColorRes(R.color.white)
 
             vLink.setOnLongClickListener {
                 w.asSheetShow()
@@ -87,8 +87,8 @@ class CardLinks(
                 .setOnCancel(R.string.app_cancel)
                 .setMin(API.MODERATION_COMMENT_MIN_L)
                 .setMax(API.MODERATION_COMMENT_MAX_L)
-                .setOnEnter(R.string.app_remove) { w, comment ->
-                    ApiRequestsSupporter.executeEnabledConfirm(R.string.fandom_link_remove_confirm, R.string.app_remove, RFandomsModerationLinkRemove(link.index, comment)) { rr ->
+                .setOnEnter(R.string.app_remove) { _, comment ->
+                    ApiRequestsSupporter.executeEnabledConfirm(R.string.fandom_link_remove_confirm, R.string.app_remove, RFandomsModerationLinkRemove(link.index, comment)) {
                         val list = ArrayList<FandomLink>()
                         for (l in links) if (l.index != link.index) list.add(l)
                         EventBus.post(EventFandomInfoChanged(xFandom.fandomId, xFandom.languageId, emptyArray(), list.toTypedArray()))

@@ -254,7 +254,7 @@ class FieldLogic(
 
     private fun sendChange(text: String) {
         val unitChangeId = unitChange!!.id
-        ApiRequestsSupporter.executeEnabledCallback(RChatMessageChange(unitChangeId, quoteId, text), { r ->
+        ApiRequestsSupporter.executeEnabledCallback(RChatMessageChange(unitChangeId, quoteId, text), {
             ToolsToast.show(R.string.app_changed)
             EventBus.post(EventChatMessageChanged(unitChangeId, text, quoteId, quoteText))
             clearInput()

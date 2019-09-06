@@ -56,7 +56,7 @@ class CardModeration(
         ControllerUnits.setModerationText(vText, unit)
 
         if (clickDisabled) view.setOnClickListener(null)
-        else view.setOnClickListener { v -> ControllerCampfireSDK.onToModerationClicked(unit.id, 0, Navigator.TO) }
+        else view.setOnClickListener { ControllerCampfireSDK.onToModerationClicked(unit.id, 0, Navigator.TO) }
     }
 
     override fun updateComments() {

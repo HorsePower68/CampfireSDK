@@ -11,7 +11,6 @@ import com.sup.dev.android.tools.ToolsResources
 import com.sup.dev.android.views.views.ViewTextLinkable
 
 class SStory(
-        accountId: Long,
         accountName: String,
         r : RAccountsGetStory.Response
 ) : Screen(R.layout.screen_account_story){
@@ -20,7 +19,7 @@ class SStory(
 
         fun instance(accountId: Long, accountName: String, action: NavigationAction) {
             ApiRequestsSupporter.executeInterstitial(action, RAccountsGetStory(accountId)) { r ->
-                SStory(accountId, accountName, r)
+                SStory(accountName, r)
             }
         }
     }

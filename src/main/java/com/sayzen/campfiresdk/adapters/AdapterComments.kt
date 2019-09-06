@@ -64,12 +64,12 @@ class AdapterComments(
     }
 
     fun setCommentButton(view: View) {
-        view.setOnClickListener { v -> showCommentDialog() }
+        view.setOnClickListener { showCommentDialog() }
     }
 
     fun showCommentDialog(comment: UnitComment? = null, changeComment: UnitComment? = null, quoteId: Long = 0, quoteText: String = "") {
-        WidgetComment(unitId, comment, changeComment, quoteId, quoteText) { comment ->
-            val card = addComment(comment)
+        WidgetComment(unitId, comment, changeComment, quoteId, quoteText) {
+            val card = addComment(it)
             vRecycler.scrollToPosition(indexOf(card) + 1)
             card.flash()
         }.asSheetShow()

@@ -110,7 +110,7 @@ abstract class ViewKarma(
         vUp.isLongClickable =  vUp.isClickable
         vTouch.isClickable = (myKarma != 0L || ControllerApi.isCurrentAccount(creatorId)) && unitStatus == API.STATUS_PUBLIC
 
-        vTouch.setBackgroundDrawable(if (vTouch.isClickable) clickDrawable else null)
+        vTouch.background = if (vTouch.isClickable) clickDrawable else null
 
         vText.setTextColor(if ((karmaCount / 100) == 0L) textColor else if (karmaCount < 0) red else green)
     }

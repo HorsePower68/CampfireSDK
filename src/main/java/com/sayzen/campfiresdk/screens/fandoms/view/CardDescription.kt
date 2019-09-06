@@ -42,7 +42,7 @@ class CardDescription(
 
     private fun changeDescription() {
         WidgetDescription(description) { description, comment ->
-            ApiRequestsSupporter.executeProgressDialog(RFandomsModerationDescriptionChange(xFandom.fandomId, xFandom.languageId, description, comment)) { r ->
+            ApiRequestsSupporter.executeProgressDialog(RFandomsModerationDescriptionChange(xFandom.fandomId, xFandom.languageId, description, comment)) { _ ->
                 EventBus.post(EventFandomDescriptionChanged(xFandom.fandomId, xFandom.languageId, description))
                 ToolsToast.show(R.string.app_done)
             }

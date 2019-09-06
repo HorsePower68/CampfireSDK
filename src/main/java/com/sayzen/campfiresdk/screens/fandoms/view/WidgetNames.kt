@@ -41,7 +41,7 @@ internal class WidgetNames(
             v.tag = 0
             v.isSelected = false
             v.setChipBackgroundColorResource(R.drawable.selector_style_dark_chip_red)
-            v.setOnCheckedChangeListener { compoundButton, b -> updateFinishEnabled() }
+            v.setOnCheckedChangeListener { _, _ -> updateFinishEnabled() }
             vFlow.addView(v)
         }
 

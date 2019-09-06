@@ -36,10 +36,10 @@ class WidgetForumCreate constructor(
     private var image: ByteArray? = null
 
     init {
-        vCancel.setOnClickListener { v -> hide() }
-        vEnter.setOnClickListener { v -> onActionClicked() }
-        vImage.setOnClickListener { v -> chooseImage() }
-        vName.vField.addTextChangedListener(TextWatcherChanged { t -> updateFinishEnabled() })
+        vCancel.setOnClickListener { hide() }
+        vEnter.setOnClickListener { onActionClicked() }
+        vImage.setOnClickListener { chooseImage() }
+        vName.vField.addTextChangedListener(TextWatcherChanged { updateFinishEnabled() })
 
         if (name != null) {
             vName.setText(name)
@@ -62,7 +62,7 @@ class WidgetForumCreate constructor(
     private fun chooseImage() {
         hide()
         WidgetChooseImage()
-                .setOnSelected { w, bytes,index ->
+                .setOnSelected { _, bytes,_ ->
 
 
                     ToolsThreads.thread {
@@ -78,7 +78,7 @@ class WidgetForumCreate constructor(
                             val isGif = ToolsBytes.isGif(bytes)
                             val cropSize = if (isGif) API.FORUM_IMG_SIDE_GIF else API.FORUM_IMG_SIDE
 
-                            Navigator.to(SCrop(bitmap, cropSize, cropSize) { sCrop, b2, x, y, w, h ->
+                            Navigator.to(SCrop(bitmap, cropSize, cropSize) { _, b2, x, y, w, h ->
                                 if (isGif) {
 
                                     val d = ToolsView.showProgressDialog()

@@ -42,7 +42,7 @@ class CardChatMessageImage(
         vCommentText.visibility = if (unit.text.isEmpty()) GONE else VISIBLE
         vLabelImage.visibility = if (unit.text.isEmpty()) VISIBLE else GONE
 
-        ToolsView.setOnLongClickCoordinates(vImage) { view1, x, y -> showMenu() }
+        ToolsView.setOnLongClickCoordinates(vImage) { _, _, _ -> showMenu() }
 
         vImage.setOnClickListener(null)
 

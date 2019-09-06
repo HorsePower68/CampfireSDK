@@ -1288,6 +1288,7 @@
     <string name="administration_user_reports">Жалобы на пользователей</string>
     <string name="administration_user_reports_empty">Нет жалоб на пользователей</string>
     <string name="administration_requests">Статистика запросов</string>
+    <string name="administration_query">Статистика базы данных</string>
     <string name="administration_requests_f_middle">Среднее</string>
     <string name="administration_requests_f_total">Всего</string>
     <string name="administration_requests_f_count">Количество</string>

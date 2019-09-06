@@ -58,7 +58,7 @@ class CardGallery(
                 .setMin(API.MODERATION_COMMENT_MIN_L)
                 .setMax(API.MODERATION_COMMENT_MAX_L)
                 .setOnEnter(R.string.app_remove) { w, comment ->
-                    ApiRequestsSupporter.executeEnabled(w, RFandomsModerationGalleryRemove(xFandom.fandomId, xFandom.languageId, i, comment)) { rr ->
+                    ApiRequestsSupporter.executeEnabled(w, RFandomsModerationGalleryRemove(xFandom.fandomId, xFandom.languageId, i, comment)) {
                         val list = ArrayList<Long>()
                         for (id in gallery) if (id != i) list.add(id)
                         EventBus.post(EventFandomInfoChanged(xFandom.fandomId, xFandom.languageId, list.toTypedArray()))
@@ -75,14 +75,14 @@ class CardGallery(
             return
         }
         WidgetChooseImage()
-                .setOnSelectedBitmap { ww, b ->
-                    Navigator.to(SCrop(b) { screen, bitmap,x,y,w,h ->
+                .setOnSelectedBitmap { _, b ->
+                    Navigator.to(SCrop(b) { _, bitmap,_,_,_,_ ->
                         WidgetField()
                                 .setHint(R.string.moderation_widget_comment)
                                 .setOnCancel(R.string.app_cancel)
                                 .setMin(API.MODERATION_COMMENT_MIN_L)
                                 .setMax(API.MODERATION_COMMENT_MAX_L)
-                                .setOnEnter(R.string.app_add) { ww, comment ->
+                                .setOnEnter(R.string.app_add) { _, comment ->
                                     val dialog = ToolsView.showProgressDialog()
                                     ToolsThreads.thread {
                                         val image = ToolsBitmap.toBytes(ToolsBitmap.keepMaxSides(bitmap, API.FANDOM_GALLERY_MAX_SIDE), API.FANDOM_GALLERY_MAX_WEIGHT)

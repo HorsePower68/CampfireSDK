@@ -54,7 +54,7 @@ open class WidgetStickers : WidgetRecycler(R.layout.widget_stickers) {
 
         setAdapter<WidgetRecycler>(myAdapter)
 
-        myAdapter.setBottomLoader{ onLoad, cards->
+        myAdapter.setBottomLoader{ onLoad, _->
 
             if(!stickerLoaded && ControllerSettings.accountSettings.stickers.isNotEmpty()){
                 RStickersGetAllById(ControllerSettings.accountSettings.stickers)

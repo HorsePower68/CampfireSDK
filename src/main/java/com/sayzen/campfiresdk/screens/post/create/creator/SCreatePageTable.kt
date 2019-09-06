@@ -44,7 +44,7 @@ class SCreatePageTable(
     init {
         isNavigationShadowAvailable = false
 
-        vTable.textProcessor = { vCell, text, vText -> ControllerApi.makeLinkable(vText) }
+        vTable.textProcessor = { _, _, vText -> ControllerApi.makeLinkable(vText) }
 
         vBorderLeft.setOnClickListener {
             if (removeMode)
@@ -79,9 +79,9 @@ class SCreatePageTable(
 
         vTable.setOnCellClicked { v, x, y ->
             WidgetMenu()
-                    .add(R.string.app_clear) { w, i -> clear(v) }.condition(v.hasContent())
-                    .add(R.string.app_text) { w, i -> createText(v) }
-                    .add(R.string.app_image) { w, i -> createImage(v) }
+                    .add(R.string.app_clear) { _, _ -> clear(v) }.condition(v.hasContent())
+                    .add(R.string.app_text) { _, _ -> createText(v) }
+                    .add(R.string.app_image) { _, _ -> createImage(v) }
                     .asPopupShow(v, x, y)
         }
 
@@ -98,7 +98,7 @@ class SCreatePageTable(
             vTable.createRows(3, true)
         }
 
-        vCreate.setOnClickListener { v -> onEnter() }
+        vCreate.setOnClickListener { _ -> onEnter() }
         update()
     }
 
@@ -194,7 +194,7 @@ class SCreatePageTable(
                 .setText(vCell.getText())
                 .setMax(API.PAGE_TABLE_MAX_TEXT_SIZE)
                 .setOnCancel(R.string.app_cancel)
-                .setOnEnter(R.string.app_add) { w, text ->
+                .setOnEnter(R.string.app_add) { _, text ->
                     val cell = PageTable.Cell()
                     cell.type = PageTable.CELL_TYPE_TEXT
                     cell.text = text
@@ -209,7 +209,7 @@ class SCreatePageTable(
         WidgetChooseImage()
                 .setCallbackInWorkerThread(true)
                 .setMaxSelectCount(API.PAGE_IMAGES_MAX_COUNT)
-                .setOnSelected { w, bytes, index ->
+                .setOnSelected { _, bytes, _ ->
                     val dialog = ToolsView.showProgressDialog()
                     ToolsThreads.thread { createImageStep2(vCell, bytes, dialog) }
                 }

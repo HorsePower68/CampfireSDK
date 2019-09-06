@@ -21,7 +21,7 @@ internal class WidgetReject(val callback: (String) -> Unit) : Widget(R.layout.sc
     init {
 
 
-        vComment.vField.addTextChangedListener(TextWatcherChanged { t -> updateFinishEnabled() })
+        vComment.vField.addTextChangedListener(TextWatcherChanged { updateFinishEnabled() })
 
         vEnter.setOnClickListener {
             callback.invoke(vComment.getText())
@@ -29,16 +29,16 @@ internal class WidgetReject(val callback: (String) -> Unit) : Widget(R.layout.sc
         }
         vTemplate.setOnClickListener {
             WidgetMenu()
-                    .add(R.string.fandoms_suggest_tamplate_not_exist) { w, c -> setText(ToolsResources.s(R.string.fandoms_suggest_tamplate_not_exist_text)) }
-                    .add(R.string.fandoms_suggest_tamplate_not_game) { w, c -> setText(ToolsResources.s(R.string.fandoms_suggest_tamplate_not_game_text)) }
-                    .add(R.string.fandoms_suggest_tamplate_already) { w, c -> setText(ToolsResources.s(R.string.fandoms_suggest_tamplate_already_text)) }
-                    .add(R.string.fandoms_suggest_tamplate_bad_name) { w, c -> setText(ToolsResources.s(R.string.fandoms_suggest_tamplate_bad_name_text)) }
-                    .add(R.string.fandoms_suggest_tamplate_bad_image) { w, c -> setText(ToolsResources.s(R.string.fandoms_suggest_tamplate_bad_image_text)) }
-                    .add(R.string.fandoms_suggest_tamplate_bad_image_title) { w, c -> setText(ToolsResources.s(R.string.fandoms_suggest_tamplate_bad_image_title_text)) }
-                    .add(R.string.fandoms_suggest_tamplate_bad_genress) { w, c -> setText(ToolsResources.s(R.string.fandoms_suggest_tamplate_bad_genress_text)) }
+                    .add(R.string.fandoms_suggest_tamplate_not_exist) { _, _ -> setText(ToolsResources.s(R.string.fandoms_suggest_tamplate_not_exist_text)) }
+                    .add(R.string.fandoms_suggest_tamplate_not_game) { _, _ -> setText(ToolsResources.s(R.string.fandoms_suggest_tamplate_not_game_text)) }
+                    .add(R.string.fandoms_suggest_tamplate_already) { _, _ -> setText(ToolsResources.s(R.string.fandoms_suggest_tamplate_already_text)) }
+                    .add(R.string.fandoms_suggest_tamplate_bad_name) { _, _ -> setText(ToolsResources.s(R.string.fandoms_suggest_tamplate_bad_name_text)) }
+                    .add(R.string.fandoms_suggest_tamplate_bad_image) { _, _ -> setText(ToolsResources.s(R.string.fandoms_suggest_tamplate_bad_image_text)) }
+                    .add(R.string.fandoms_suggest_tamplate_bad_image_title) { _, _ -> setText(ToolsResources.s(R.string.fandoms_suggest_tamplate_bad_image_title_text)) }
+                    .add(R.string.fandoms_suggest_tamplate_bad_genress) { _, _ -> setText(ToolsResources.s(R.string.fandoms_suggest_tamplate_bad_genress_text)) }
                     .asSheetShow()
         }
-        vCancel.setOnClickListener { v -> hide() }
+        vCancel.setOnClickListener { hide() }
 
         updateFinishEnabled()
     }

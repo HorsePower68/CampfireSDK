@@ -78,7 +78,7 @@ class SAccount private constructor(
 
     init {
 
-        vMore.setOnClickListener { v -> showDialog() }
+        vMore.setOnClickListener { showDialog() }
         vRecycler.layoutManager = LinearLayoutManager(context)
         vRecycler.addItemDecoration(DecoratorVerticalSpace(8))
 
@@ -168,30 +168,30 @@ class SAccount private constructor(
 
     private fun showDialog() {
         val w = WidgetMenu()
-                .add(R.string.app_copy_link) { w, card ->
+                .add(R.string.app_copy_link) { _, _ ->
                     ToolsAndroid.setToClipboard(ControllerApi.linkToUser(xAccount.name))
                     ToolsToast.show(R.string.app_copied)
                 }
                 .groupCondition(ControllerApi.account.id != xAccount.accountId)
-                .add(R.string.app_report) { w, c -> onReportClicked() }
-                .add(R.string.app_note) { w, c -> onNoteClicked() }
-                .add(if (r.inBlackList) R.string.profile_black_list_remove else R.string.profile_black_list_add) { w, c -> if (r.inBlackList) ControllerCampfireSDK.removeFromBlackListUser(xAccount.accountId) else ControllerCampfireSDK.addToBlackListUser(xAccount.accountId) }
-                .add(R.string.profile_remove_avatar) { w, c -> onAdminRemoveAvatarClicked() }.backgroundRes(R.color.red_700).textColorRes(R.color.white).condition(ControllerApi.can(API.LVL_ADMIN_USER_REMOVE_IMAGE))
-                .add(R.string.profile_remove_name) { w, c -> onAdminRemoveNameClicked() }.backgroundRes(R.color.red_700).textColorRes(R.color.white).condition(ControllerApi.can(API.LVL_ADMIN_USER_REMOVE_NAME))
-                .add(R.string.app_clear_reports) { w, c -> ControllerApi.clearUserReports(xAccount.accountId) }.backgroundRes(R.color.red_700).textColorRes(R.color.white).condition(ControllerApi.can(API.LVL_ADMIN_BAN))
-                .add(R.string.app_punish) { w, c -> onAdminPunishClicked() }.backgroundRes(R.color.red_700).textColorRes(R.color.white).condition(ControllerApi.can(API.LVL_ADMIN_BAN))
-                .add(R.string.admin_change_name) { w, c -> adminChangeName() }.backgroundRes(R.color.red_700).textColorRes(R.color.white).condition(ControllerApi.can(API.LVL_ADMIN_USER_CHANGE_NAME))
-                .add(R.string.profile_remove_title_image) { w, c -> onAdminRemoveTitleImageClicked() }.backgroundRes(R.color.red_700).textColorRes(R.color.white).condition(ControllerApi.can(API.LVL_ADMIN_USER_REMOVE_IMAGE))
-                .add(R.string.profile_remove_status) { w, c -> removeStatus() }.backgroundRes(R.color.red_700).textColorRes(R.color.white).condition(ControllerApi.can(API.LVL_ADMIN_USER_REMOVE_STATUS))
+                .add(R.string.app_report) { _, _ -> onReportClicked() }
+                .add(R.string.app_note) { _, _ -> onNoteClicked() }
+                .add(if (r.inBlackList) R.string.profile_black_list_remove else R.string.profile_black_list_add) { _, _ -> if (r.inBlackList) ControllerCampfireSDK.removeFromBlackListUser(xAccount.accountId) else ControllerCampfireSDK.addToBlackListUser(xAccount.accountId) }
+                .add(R.string.profile_remove_avatar) { _, _ -> onAdminRemoveAvatarClicked() }.backgroundRes(R.color.red_700).textColorRes(R.color.white).condition(ControllerApi.can(API.LVL_ADMIN_USER_REMOVE_IMAGE))
+                .add(R.string.profile_remove_name) { _, _ -> onAdminRemoveNameClicked() }.backgroundRes(R.color.red_700).textColorRes(R.color.white).condition(ControllerApi.can(API.LVL_ADMIN_USER_REMOVE_NAME))
+                .add(R.string.app_clear_reports) { _, _ -> ControllerApi.clearUserReports(xAccount.accountId) }.backgroundRes(R.color.red_700).textColorRes(R.color.white).condition(ControllerApi.can(API.LVL_ADMIN_BAN))
+                .add(R.string.app_punish) { _, _ -> onAdminPunishClicked() }.backgroundRes(R.color.red_700).textColorRes(R.color.white).condition(ControllerApi.can(API.LVL_ADMIN_BAN))
+                .add(R.string.admin_change_name) { _, _ -> adminChangeName() }.backgroundRes(R.color.red_700).textColorRes(R.color.white).condition(ControllerApi.can(API.LVL_ADMIN_USER_CHANGE_NAME))
+                .add(R.string.profile_remove_title_image) { _, _ -> onAdminRemoveTitleImageClicked() }.backgroundRes(R.color.red_700).textColorRes(R.color.white).condition(ControllerApi.can(API.LVL_ADMIN_USER_REMOVE_IMAGE))
+                .add(R.string.profile_remove_status) { _, _ -> removeStatus() }.backgroundRes(R.color.red_700).textColorRes(R.color.white).condition(ControllerApi.can(API.LVL_ADMIN_USER_REMOVE_STATUS))
                 .reverseGroupCondition()
-                .add(R.string.profile_change_avatar) { w, c -> onChangeAvatarClicked() }
-                .add(R.string.profile_change_name) { w, c -> ControllerCampfireSDK.changeLogin() }.condition(ControllerApi.account.name.contains("#"))
-                .add(R.string.profile_change_title_image) { w, c -> onChangeTitleImageClicked() }.condition(ControllerApi.can(API.LVL_CAN_CHANGE_PROFILE_IMAGE))
+                .add(R.string.profile_change_avatar) { _, _ -> onChangeAvatarClicked() }
+                .add(R.string.profile_change_name) { _, _ -> ControllerCampfireSDK.changeLogin() }.condition(ControllerApi.account.name.contains("#"))
+                .add(R.string.profile_change_title_image) { _, _ -> onChangeTitleImageClicked() }.condition(ControllerApi.can(API.LVL_CAN_CHANGE_PROFILE_IMAGE))
                 .clearGroupCondition()
-                .add("Протоадминская авторизация") { w, c -> protoadminAutorization() }.condition(ControllerApi.can(API.LVL_PROTOADMIN)).backgroundRes(R.color.orange_700).textColorRes(R.color.white)
-                .add("Поменять местами с другим аккаунтом") { w, c -> protoadminTranslateAccount() }.condition(ControllerApi.can(API.LVL_PROTOADMIN)).backgroundRes(R.color.orange_700).textColorRes(R.color.white)
-                .add("Пересчитать достижения") { w, c -> protoadminAchievementsRecount() }.condition(ControllerApi.can(API.LVL_PROTOADMIN)).backgroundRes(R.color.orange_700).textColorRes(R.color.white)
-                .add("Пересчитать карму") { w, c -> protoadminKarmaRecount() }.condition(ControllerApi.can(API.LVL_PROTOADMIN)).backgroundRes(R.color.orange_700).textColorRes(R.color.white)
+                .add("Протоадминская авторизация") { _, _ -> protoadminAutorization() }.condition(ControllerApi.can(API.LVL_PROTOADMIN)).backgroundRes(R.color.orange_700).textColorRes(R.color.white)
+                .add("Поменять местами с другим аккаунтом") { _, _ -> protoadminTranslateAccount() }.condition(ControllerApi.can(API.LVL_PROTOADMIN)).backgroundRes(R.color.orange_700).textColorRes(R.color.white)
+                .add("Пересчитать достижения") { _, _ -> protoadminAchievementsRecount() }.condition(ControllerApi.can(API.LVL_PROTOADMIN)).backgroundRes(R.color.orange_700).textColorRes(R.color.white)
+                .add("Пересчитать карму") { _, _ -> protoadminKarmaRecount() }.condition(ControllerApi.can(API.LVL_PROTOADMIN)).backgroundRes(R.color.orange_700).textColorRes(R.color.white)
 
         w.asSheetShow()
     }
@@ -204,11 +204,11 @@ class SAccount private constructor(
                 .setOnEnter(R.string.app_report
                 ) { dialog ->
                     RAccountsReport(xAccount.accountId)
-                            .onComplete { r ->
+                            .onComplete {
                                 ToolsToast.show(R.string.profile_report_reported)
                                 dialog.hide()
                             }
-                            .onApiError(RAccountsReport.E_EXIST) { ex ->
+                            .onApiError(RAccountsReport.E_EXIST) {
                                 ToolsToast.show(R.string.profile_report_already_exist)
                                 dialog.hide()
                             }
@@ -241,7 +241,7 @@ class SAccount private constructor(
 
     private fun onChangeAvatarClicked() {
         WidgetChooseImage()
-                .setOnSelected { w, bytes, index ->
+                .setOnSelected { _, bytes, _ ->
 
                     ToolsThreads.thread {
 
@@ -256,7 +256,7 @@ class SAccount private constructor(
                             val isGif = ControllerApi.can(API.LVL_CAN_CHANGE_AVATAR_GIF) && ToolsBytes.isGif(bytes)
                             val cropSize = if (isGif) API.ACCOUNT_IMG_SIDE_GIF else API.ACCOUNT_IMG_SIDE
 
-                            Navigator.to(SCrop(bitmap, cropSize, cropSize) { sCrop, b2, x, y, w, h ->
+                            Navigator.to(SCrop(bitmap, cropSize, cropSize) { _, b2, x, y, w, h ->
                                 if (isGif) {
 
                                     val d = ToolsView.showProgressDialog()
@@ -293,7 +293,7 @@ class SAccount private constructor(
     }
 
     private fun changeAvatarNow(dialog: WidgetProgressTransparent, bytes: ByteArray) {
-        ApiRequestsSupporter.executeProgressDialog(dialog, RAccountsChangeAvatar(bytes)) { r ->
+        ApiRequestsSupporter.executeProgressDialog(dialog, RAccountsChangeAvatar(bytes)) { _->
             ToolsImagesLoader.clear(xAccount.imageId)
             EventBus.post(EventAccountChanged(xAccount.accountId, xAccount.name, xAccount.imageId))
         }
@@ -301,7 +301,7 @@ class SAccount private constructor(
 
     private fun onChangeTitleImageClicked() {
         WidgetChooseImage()
-                .setOnSelected { w, bytes, index ->
+                .setOnSelected { _, bytes, _ ->
 
                     ToolsThreads.thread {
 
@@ -318,7 +318,7 @@ class SAccount private constructor(
                             val cropSizeW = if (isGif) API.ACCOUNT_TITLE_IMG_GIF_W else API.ACCOUNT_TITLE_IMG_W
                             val cropSizeH = if (isGif) API.ACCOUNT_TITLE_IMG_GIF_H else API.ACCOUNT_TITLE_IMG_H
 
-                            Navigator.to(SCrop(bitmap, cropSizeW, cropSizeH) { sCrop, b2, x, y, w, h ->
+                            Navigator.to(SCrop(bitmap, cropSizeW, cropSizeH) { _, b2, x, y, w, h ->
                                 if (isGif) {
 
                                     val d = ToolsView.showProgressDialog()
@@ -367,7 +367,7 @@ class SAccount private constructor(
                 .setMin(API.MODERATION_COMMENT_MIN_L)
                 .setMax(API.MODERATION_COMMENT_MAX_L)
                 .setOnEnter(R.string.app_remove) { w, comment ->
-                    ApiRequestsSupporter.executeEnabled(w, RAccountsRemoveAvatar(xAccount.accountId, comment)) { rr ->
+                    ApiRequestsSupporter.executeEnabled(w, RAccountsRemoveAvatar(xAccount.accountId, comment)) {
                         ToolsToast.show(R.string.app_done)
                         ToolsImagesLoader.clear(xAccount.imageId)
                         EventBus.post(EventAccountChanged(xAccount.accountId, xAccount.name, xAccount.imageId))
@@ -383,7 +383,7 @@ class SAccount private constructor(
                 .setMin(API.MODERATION_COMMENT_MIN_L)
                 .setMax(API.MODERATION_COMMENT_MAX_L)
                 .setOnEnter(R.string.app_remove) { w, comment ->
-                    ApiRequestsSupporter.executeEnabled(w, RAccountsRemoveName(xAccount.accountId, comment)) { r ->
+                    ApiRequestsSupporter.executeEnabled(w, RAccountsRemoveName(xAccount.accountId, comment)) {
                         ToolsToast.show(R.string.app_done)
                         EventBus.post(EventAccountChanged(xAccount.accountId, "User_" + xAccount.accountId, xAccount.imageId, 0, 0))
                     }
@@ -406,7 +406,7 @@ class SAccount private constructor(
                 .setMax_1(API.ACCOUNT_NAME_L_MAX)
                 .setHint_2(R.string.comments_hint)
                 .setOnEnter(R.string.app_change) { dialog, name, comment ->
-                    ApiRequestsSupporter.executeEnabled(dialog, RAccountsAdminChangeName(xAccount.accountId, name, comment)) { r ->
+                    ApiRequestsSupporter.executeEnabled(dialog, RAccountsAdminChangeName(xAccount.accountId, name, comment)) {
                         ToolsToast.show(R.string.app_done)
                         EventBus.post(EventAccountChanged(xAccount.accountId, name))
                     }.onApiError(RAccountsAdminChangeName.E_LOGIN_NOT_ENABLED) {
@@ -428,7 +428,7 @@ class SAccount private constructor(
                 .setMin(API.MODERATION_COMMENT_MIN_L)
                 .setMax(API.MODERATION_COMMENT_MAX_L)
                 .setOnEnter(R.string.app_remove) { w, comment ->
-                    ApiRequestsSupporter.executeEnabled(w, RAccountsRemoveTitleImage(xAccount.accountId, comment)) { r ->
+                    ApiRequestsSupporter.executeEnabled(w, RAccountsRemoveTitleImage(xAccount.accountId, comment)) {
                         ToolsToast.show(R.string.app_done)
                         EventBus.post(EventAccountChanged(xAccount.accountId, xAccount.name, xAccount.imageId, 0, 0))
                     }
@@ -446,7 +446,7 @@ class SAccount private constructor(
                 .setMin(API.MODERATION_COMMENT_MIN_L)
                 .setMax(API.MODERATION_COMMENT_MAX_L)
                 .setOnEnter(R.string.app_remove) { w, comment ->
-                    ApiRequestsSupporter.executeEnabled(w, RAccountsAdminStatusRemove(xAccount.accountId, comment)) { r ->
+                    ApiRequestsSupporter.executeEnabled(w, RAccountsAdminStatusRemove(xAccount.accountId, comment)) {
                         ToolsToast.show(R.string.app_done)
                         EventBus.post(EventAccountStatusChanged(xAccount.accountId, ""))
                     }
@@ -455,14 +455,14 @@ class SAccount private constructor(
     }
 
     private fun protoadminAutorization() {
-        ApiRequestsSupporter.executeEnabledConfirm("Авторизировться именем протоадмина?", "Авторизироваться", RAccountsProtoadminAutorization(xAccount.accountId)) { r ->
+        ApiRequestsSupporter.executeEnabledConfirm("Авторизировться именем протоадмина?", "Авторизироваться", RAccountsProtoadminAutorization(xAccount.accountId)) {
             ToolsToast.show(R.string.app_done)
         }
     }
 
     private fun protoadminTranslateAccount() {
         Navigator.to(SAccountSearch {
-            ApiRequestsSupporter.executeEnabledConfirm("Перенести аккаунт на ${it.name}?", "Перенести", RAccountsProtoadminReplaceGoogleId(xAccount.accountId, it.id)) { r ->
+            ApiRequestsSupporter.executeEnabledConfirm("Перенести аккаунт на ${it.name}?", "Перенести", RAccountsProtoadminReplaceGoogleId(xAccount.accountId, it.id)) {
                 ToolsToast.show(R.string.app_done)
             }
         })
@@ -470,13 +470,13 @@ class SAccount private constructor(
     }
 
     private fun protoadminAchievementsRecount() {
-        ApiRequestsSupporter.executeEnabledConfirm("Пересчитать достижения", "Пересчитать", RAccountsAchievementsRecount(xAccount.accountId)) { r ->
+        ApiRequestsSupporter.executeEnabledConfirm("Пересчитать достижения", "Пересчитать", RAccountsAchievementsRecount(xAccount.accountId)) {
             ToolsToast.show(R.string.app_done)
         }
     }
 
     private fun protoadminKarmaRecount() {
-        ApiRequestsSupporter.executeEnabledConfirm("Пересчитать карму", "Пересчитать", RAccountsKarmaRecount(xAccount.accountId)) { r ->
+        ApiRequestsSupporter.executeEnabledConfirm("Пересчитать карму", "Пересчитать", RAccountsKarmaRecount(xAccount.accountId)) {
             ToolsToast.show(R.string.app_done)
         }
     }

@@ -78,7 +78,7 @@ class WidgetComment constructor(
         if (changeComment == null) vText.setCallback { link -> sendLink(link, getParentId(), false) }
         vText.addTextChangedListener(TextWatcherChanged { updateSendEnabled() })
 
-        vSend.setOnClickListener { v -> onSendClicked() }
+        vSend.setOnClickListener { onSendClicked() }
         vSend.setImageResource(ToolsResources.getDrawableAttrId(if (changeComment == null) R.attr.ic_send_24dp else R.attr.ic_done_24dp))
         vAttach.visibility = if (changeComment == null) View.VISIBLE else View.GONE
         updateSendEnabled()
@@ -176,7 +176,7 @@ class WidgetComment constructor(
             ApiRequestsSupporter.executeEnabled(
                 this,
                 RUnitsCommentChange(changeComment!!.id, text, quoteId)
-            ) { r ->
+            ) {
                 ToolsToast.show(R.string.app_changed)
                 EventBus.post(EventCommentChange(changeComment.id, text, quoteId, quoteText))
             }
