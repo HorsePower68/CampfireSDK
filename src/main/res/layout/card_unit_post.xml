@@ -132,12 +132,14 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
 
+                <View style="@style/Divider" />
+
                 <FrameLayout
                     android:id="@+id/vBestCommentContainer"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" />
 
-                <View style="@style/Divider" />
+
 
             </LinearLayout>
 

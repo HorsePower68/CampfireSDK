@@ -56,6 +56,8 @@ class CardButtons(
         vChatsButton.setOnClickListener { SChat.instance(API.CHAT_TYPE_FANDOM, xFandom.fandomId, xFandom.languageId, false, Navigator.REORDER) }
         vChatsCount.text = "$chatOnlineCount"
 
+        vWikiButton.visibility = View.GONE
+
         val karma30 = ControllerApi.getKarmaCount(xFandom.fandomId, xFandom.languageId)/100
         vRatingsButton.setOnClickListener { SRating.instance(xFandom.fandomId, xFandom.languageId, Navigator.TO) }
         vRatingsText.text = "$karma30"
