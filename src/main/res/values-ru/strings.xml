@@ -371,7 +371,7 @@
     <string name="moderation_text_forum_change">%s форум %s (%s).</string>
     <string name="moderation_text_forum_remove">%s форум %s (%s).</string>
     <string name="moderation_background_image">%s фоновую картинку в чате</string>
-    <string name="moderation_text_names">%s дополнительные названия фэендома.</string>
+    <string name="moderation_text_names">%s дополнительные названия фэндома.</string>
     <string name="moderation_tag_move_tag">%s тег %s перед %s.</string>
     <string name="moderation_tag_move_category">%s категорию %s перед %s.</string>
     <string name="moderation_tag_move_tag_between_category">%s тег %s из категории %s в %s.</string>
