@@ -12,7 +12,7 @@
 
             <com.sup.dev.android.views.views.ViewIcon
                 android:id="@+id/vCopyLink"
-                style="@style/Icon.Toolbar"
+                style="@style/Icon.Toolbar.Filtered"
                 android:src="?ic_insert_link_24dp" />
 
 

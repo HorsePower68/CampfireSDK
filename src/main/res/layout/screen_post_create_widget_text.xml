@@ -18,13 +18,13 @@
 
                 <com.sup.dev.android.views.views.ViewIcon
                     android:id="@+id/vTextTitle"
-                    style="@style/Icon.Toolbar"
+                    style="@style/Icon.Toolbar.Filtered"
                     android:layout_marginRight="8dp"
                     android:src="?ic_text_fields_24dp"/>
 
                 <com.sup.dev.android.views.views.ViewIcon
                     android:id="@+id/vIconAttach"
-                    style="@style/Icon.Toolbar"/>
+                    style="@style/Icon.Toolbar.Filtered"/>
 
             </androidx.appcompat.widget.Toolbar>
 

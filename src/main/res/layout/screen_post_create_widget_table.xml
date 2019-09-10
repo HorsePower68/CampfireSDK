@@ -55,7 +55,7 @@
 
             <com.sup.dev.android.views.views.ViewIcon
                 android:id="@+id/vRemoveMode"
-                style="@style/Icon.Toolbar"
+                style="@style/Icon.Toolbar.Filtered"
                 android:layout_gravity="center|left"
                 android:src="?ic_clear_24dp" />
 
@@ -68,24 +68,24 @@
 
                 <com.sup.dev.android.views.views.ViewIcon
                     android:id="@+id/vBorderLeft"
-                    style="@style/Icon.Toolbar"
+                    style="@style/Icon.Toolbar.Filtered"
                     android:src="?ic_border_left_24dp" />
 
                 <com.sup.dev.android.views.views.ViewIcon
                     android:id="@+id/vBorderTop"
-                    style="@style/Icon.Toolbar"
+                    style="@style/Icon.Toolbar.Filtered"
                     android:layout_marginLeft="16dp"
                     android:src="?ic_border_top_24dp" />
 
                 <com.sup.dev.android.views.views.ViewIcon
                     android:id="@+id/vBorderRight"
-                    style="@style/Icon.Toolbar"
+                    style="@style/Icon.Toolbar.Filtered"
                     android:layout_marginLeft="16dp"
                     android:src="?ic_border_right_24dp" />
 
                 <com.sup.dev.android.views.views.ViewIcon
                     android:id="@+id/vBorderBottom"
-                    style="@style/Icon.Toolbar"
+                    style="@style/Icon.Toolbar.Filtered"
                     android:layout_marginLeft="16dp"
                     android:src="?ic_border_bottom_24dp" />
 

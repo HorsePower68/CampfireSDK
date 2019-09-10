@@ -746,6 +746,7 @@
     <string name="intro_update">Вышла новая версия приложения, пожалуйста, обновитесь.</string>
     <string name="intro_update_sub">Обновление на Google Play может появится не сразу.</string>
     <string name="intro_google_text">Добро пожаловать, пожалуйста, выберите ваш аккаунт</string>
+    <string name="into_feed_filters">Выберите что вам интересно</string>
 
     <string name="bookmarks_empty">У вас пока нет закладок</string>
     <string name="bookmarks_loading">зарузка ваших закладок</string>
@@ -909,6 +910,7 @@
     <string name="category_people">Люди</string>
     <string name="category_event">Событие</string>
     <string name="category_other">Другое</string>
+    <string name="category_memes">Мемы</string>
 
     <string name="games_genres_1">Экшен</string>
     <string name="games_genres_2">MMORPG</string>

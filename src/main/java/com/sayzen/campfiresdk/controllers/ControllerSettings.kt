@@ -200,6 +200,13 @@ object ControllerSettings {
             onSettingsUpdated()
         }
 
+    var filtersIsShowed: Boolean
+        get() = accountSettings.filtersIsShowed
+        set(b) {
+            accountSettings.filtersIsShowed = b
+            onSettingsUpdated()
+        }
+
     var rulesIsShowed: Boolean
         get() = accountSettings.rulesIsShowed
         set(b) {

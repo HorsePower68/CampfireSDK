@@ -38,7 +38,7 @@
 
             <com.sup.dev.android.views.views.ViewIcon
                 android:id="@+id/vSearch"
-                style="@style/Icon.Toolbar"
+                style="@style/Icon.Toolbar.Filtered"
                 android:layout_gravity="center"
                 android:src="?ic_search_24dp"/>
 

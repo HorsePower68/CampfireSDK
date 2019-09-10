@@ -746,6 +746,7 @@ Campfire has anime fandoms and gaming fandoms.</string>
     <string name="intro_update">There is a new version of the application, please update.</string>
     <string name="intro_update_sub">Update on Google Play may not appear immediately.</string>
     <string name="intro_google_text">Welcome, please select your account</string>
+    <string name="into_feed_filters">Choose what interests you</string>
 
     <string name="bookmarks_empty">You don\'t have any bookmarks</string>
     <string name="bookmarks_loading">Loading you\'r bookmarks</string>
@@ -909,6 +910,7 @@ Campfire has anime fandoms and gaming fandoms.</string>
     <string name="category_people">People</string>
     <string name="category_event">Event</string>
     <string name="category_other">Other</string>
+    <string name="category_memes">Memes</string>
 
     <string name="games_genres_1">Action</string>
     <string name="games_genres_2">MMORPG</string>
