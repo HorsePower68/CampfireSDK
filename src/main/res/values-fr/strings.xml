@@ -395,7 +395,7 @@ Campfire has anime fandoms and gaming fandoms.</string>
     <string name="feed_loading_13">Anarchy and self-regulation!</string>
     <string name="feed_loading_14">This could be your ad.</string>
     <string name="feed_loading_15">Madness and courage!</string>
-    <string name="feed_loading_16">People are leaving us, my Lord!</string>
+    <string name="feed_loading_16">Two fools are needed to argue.</string>
     <string name="feed_loading_17">Welcome, my Lord, your stronghold awaits.</string>
     <string name="feed_loading_18">The people love You, my Lord.</string>
     <string name="feed_loading_19">Big brother\'s watching you.</string>
@@ -745,6 +745,7 @@ Campfire has anime fandoms and gaming fandoms.</string>
     <string name="intro_update">There is a new version of the application, please update.</string>
     <string name="intro_update_sub">Update on Google Play may not appear immediately.</string>
     <string name="intro_google_text">Welcome, please select your account</string>
+    <string name="into_feed_filters">Choose what interests you</string>
 
     <string name="bookmarks_empty">You don\'t have any bookmarks</string>
     <string name="bookmarks_loading">Loading you\'r bookmarks</string>
@@ -908,6 +909,7 @@ Campfire has anime fandoms and gaming fandoms.</string>
     <string name="category_people">People</string>
     <string name="category_event">Event</string>
     <string name="category_other">Other</string>
+    <string name="category_memes">Memes</string>
 
     <string name="games_genres_1">Action</string>
     <string name="games_genres_2">MMORPG</string>
@@ -1236,30 +1238,20 @@ Campfire has anime fandoms and gaming fandoms.</string>
     <string name="rules_users_1_title">Spam</string>
     <string name="rules_users_2">It is forbidden to insult other users. Jokes are not prohibited, but don\'t go too far. Joke without offending anyone.</string>
     <string name="rules_users_2_title">Insults/Rude behavior</string>
-    <string name="rules_users_3">Prohibited curse language and direct mat.</string>
-    <string name="rules_users_3_title">Filthy/Bad language</string>
-    <string name="rules_users_4">Sabotaging is prohibited. Sabotaging includes: purposefully mocking other users, specifically interfere with chatting, cause problems with the application.</string>
-    <string name="rules_users_4_title">Sabotage</string>
-    <string name="rules_users_5">Forbidden to publish pornography, immoral/illegal/shock content.</string>
-    <string name="rules_users_5_title">Prohibited content</string>
-    <string name="rules_users_6">Forbidden off-topic and meaningless publication. Publications are not related to fandom, meaningless polls.</string>
-    <string name="rules_users_6_title">Offtop/Pointless publications</string>
-    <string name="rules_users_7">Advertising spam is prohibited. Regularly asking for subscribes to the channel, etc.</string>
-    <string name="rules_users_7_title">Advertising spam</string>
-    <string name="rules_users_8">Do not publish several posts that can be done by one. For example, 10 pictures with game characters should be published in one post, not ten.</string>
-    <string name="rules_users_8_title">Content spam</string>
-    <string name="rules_users_9">Story spoilers must be placed under the "spoiler" card, and in the header of the card must be a warning.</string>
-    <string name="rules_users_9_title">Spoiler</string>
-    <string name="rules_users_10">Forbidden to unreasonably give negative ratings to all publications in a row.</string>
-    <string name="rules_users_10_title">Hate</string>
-    <string name="rules_users_11">Forbidden to publish pirated content, torrents and links to it. (hacked games, pirated music ...)</string>
-    <string name="rules_users_11_title">Pirate</string>
-    <string name="rules_users_12">It is forbidden to use text formatting without a reason. For example, you can not just do all text green or bold.</string>
-    <string name="rules_users_12_title">Formatting</string>
-    <string name="rules_users_13">It is forbidden to beg to rate on the publication.</string>
-    <string name="rules_users_13_title">Begging</string>
-    <string name="rules_users_14">It is forbidden to use the app functions to the detriment. For example, to make a post multilingual if it may not be understood in other languages.</string>
-    <string name="rules_users_14_title">Misuse of functions</string>
+    <string name="rules_users_3">Sabotaging is prohibited. Sabotaging includes: purposefully mocking other users, specifically interfere with chatting, cause problems with the application.</string>
+    <string name="rules_users_3_title">Sabotage</string>
+    <string name="rules_users_4">Forbidden to publish pornography, immoral/illegal/shock content.</string>
+    <string name="rules_users_4_title">Prohibited content</string>
+    <string name="rules_users_5">Forbidden off-topic/low quality/meaningless publication. Publications are not related to fandom, meaningless polls.</string>
+    <string name="rules_users_5_title">Offtop/Pointless publications</string>
+    <string name="rules_users_6">Story spoilers must be placed under the "spoiler" card, and in the header of the card must be a warning.</string>
+    <string name="rules_users_6_title">Spoiler</string>
+    <string name="rules_users_7">It is forbidden to use text formatting without a reason. For example, you can not just do all text green or bold.</string>
+    <string name="rules_users_7_title">Formatting</string>
+    <string name="rules_users_8">It is forbidden to beg to rate on the publication.</string>
+    <string name="rules_users_8_title">Begging</string>
+    <string name="rules_users_9">It is forbidden to use the app functions to the detriment. For example, to make a post multilingual if it may not be understood in other languages.</string>
+    <string name="rules_users_9_title">Misuse of functions</string>
 
     <string name="rules_moderators_info">Great power comes with great responsibility. Please read all the rules for moderators and use privileges for the benefit of the community. If you violate the rules of moderation, your account will be blocked for a long time and may be deprived of the right to moderate in the future. Administrators can see deleted posts and take action if a moderator has broken the rules.</string>
     <string name="rules_moderators_1">Don\'t be too strict. Remember that we do not have a totalitarian regime. Don\'t delete publications and don\'t block users for every little thing.</string>

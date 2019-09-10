@@ -371,7 +371,7 @@
     <string name="moderation_text_forum_change">%s форум %s (%s).</string>
     <string name="moderation_text_forum_remove">%s форум %s (%s).</string>
     <string name="moderation_background_image">%s фоновую картинку в чате</string>
-    <string name="moderation_text_names">%s дополнительные названия фэендома.</string>
+    <string name="moderation_text_names">%s дополнительные названия фэндома.</string>
     <string name="moderation_tag_move_tag">%s тег %s перед %s.</string>
     <string name="moderation_tag_move_category">%s категорию %s перед %s.</string>
     <string name="moderation_tag_move_tag_between_category">%s тег %s из категории %s в %s.</string>
@@ -398,7 +398,7 @@
     <string name="feed_loading_13">Анархия и саморегуляция!</string>
     <string name="feed_loading_14">Здесь могла быть ваша реклама.</string>
     <string name="feed_loading_15">Безумие и отвага!</string>
-    <string name="feed_loading_16">Люди покидают нас, Милорд!</string>
+    <string name="feed_loading_16">Для того, чтобы спорить нужны два глупца.</string>
     <string name="feed_loading_17">Добро пожаловать, милорд, ваша цитадель ждет.</string>
     <string name="feed_loading_18">Народ любит Вас, милорд.</string>
     <string name="feed_loading_19">Большой брат следит за тобой.</string>
@@ -746,6 +746,7 @@
     <string name="intro_update">Вышла новая версия приложения, пожалуйста, обновитесь.</string>
     <string name="intro_update_sub">Обновление на Google Play может появится не сразу.</string>
     <string name="intro_google_text">Добро пожаловать, пожалуйста, выберите ваш аккаунт</string>
+    <string name="into_feed_filters">Выберите что вам интересно</string>
 
     <string name="bookmarks_empty">У вас пока нет закладок</string>
     <string name="bookmarks_loading">зарузка ваших закладок</string>
@@ -909,6 +910,7 @@
     <string name="category_people">Люди</string>
     <string name="category_event">Событие</string>
     <string name="category_other">Другое</string>
+    <string name="category_memes">Мемы</string>
 
     <string name="games_genres_1">Экшен</string>
     <string name="games_genres_2">MMORPG</string>
@@ -1234,32 +1236,22 @@
     <string name="rules_users_info">Пожалуйста, прочтите все правила приложения, это не займет много времени, но поможет лучше понимать как устроено наше сообщество.</string>
     <string name="rules_users_1">Запрещен спам. Многократно создавать похожие публикации или сообщения в чате.</string>
     <string name="rules_users_1_title">Спам</string>
-    <string name="rules_users_2">Запрещено оскорблять других пользователей. Не запрещены шутки и подколы, но не заходите слишком далеко.</string>
+    <string name="rules_users_2">Запрещено оскорблять других пользователей и использовать мат.</string>
     <string name="rules_users_2_title">Оскорбления/Грубое поведение</string>
-    <string name="rules_users_3">Запрещены грубые выражения и открытый мат.</string>
-    <string name="rules_users_3_title">Мат</string>
-    <string name="rules_users_4">Запрещен саботаж. Целенаправленно издеваться над другими пользователями, специально мешать общению в чате, вызывать проблемы с приложением.</string>
-    <string name="rules_users_4_title">Вредительство/Саботаж</string>
-    <string name="rules_users_5">Запрещено публиковать порнографию, аморальный/незаконный/шок контент.</string>
-    <string name="rules_users_5_title">Запрещенный контент</string>
-    <string name="rules_users_6">Запрещен оффтоп и бессмысленные публикации. Публикации не имеющие отношения к фэндому, бесмысленные опросы.</string>
-    <string name="rules_users_6_title">Оффтоп/Бессмысленные публикации</string>
-    <string name="rules_users_7">Запрещен рекламный спам. Регулярно просить подписаться на канал и т.п.</string>
-    <string name="rules_users_7_title">Рекламный спам</string>
-    <string name="rules_users_8">Не публикуйте несколькими постами то, что можно сделать одним. Например, 10 картинок с игровыми персонажами, следует публиковать одним постом, а не десятью.</string>
-    <string name="rules_users_8_title">Спам контентом</string>
-    <string name="rules_users_9">Спойлеры сюжета обязательно должны быть помещены под карточку "спойлер", а в заголовке карточки должно быть предупреждение.</string>
-    <string name="rules_users_9_title">Cпойлер</string>
-    <string name="rules_users_10">Запрещено необоснованно выставлять отрицательные оценки всем публикациям подряд.</string>
-    <string name="rules_users_10_title">Хейт</string>
-    <string name="rules_users_11">Запрещено публиковать пиратский контент, торренты и ссылки на него. (взломанные игры, пиратская музыка...)</string>
-    <string name="rules_users_11_title">Пират</string>
-    <string name="rules_users_12">Запрещено использовать форматирование текста без причины. Например нельзя просто так делать весь текст зеленым или жирным.</string>
-    <string name="rules_users_12_title">Форматирование</string>
-    <string name="rules_users_13">Запрещено выпрашивать поставить оценку публикации.</string>
-    <string name="rules_users_13_title">Попрошайничество</string>
-    <string name="rules_users_14">Запрещено использовать функции приложение во вред. Например делать пост мультиязычным, в случае если он может быть не понятен на других языках.</string>
-    <string name="rules_users_14_title">Использование функций не по назначению</string>
+    <string name="rules_users_3">Запрещен саботаж. Целенаправленно мешать общению в чате, вызывать проблемы с приложением.</string>
+    <string name="rules_users_3_title">Вредительство/Саботаж</string>
+    <string name="rules_users_4">Запрещено публиковать порнографию, пиратский/аморальный/незаконный/шок контент.</string>
+    <string name="rules_users_4_title">Запрещенный контент</string>
+    <string name="rules_users_5">Запрещен оффтоп, бессмысленные и низкокачественные публикации. Публикации не имеющие отношения к фэндому, бесмысленные опросы.</string>
+    <string name="rules_users_5_title">Оффтоп/Бессмысленные публикации</string>
+    <string name="rules_users_6">Спойлеры сюжета обязательно должны быть помещены под карточку "спойлер", а в заголовке карточки должно быть предупреждение.</string>
+    <string name="rules_users_6_title">Cпойлер</string>
+    <string name="rules_users_7">Запрещено использовать форматирование текста без причины. Например нельзя просто так делать весь текст зеленым или жирным.</string>
+    <string name="rules_users_7_title">Форматирование</string>
+    <string name="rules_users_8">Запрещено выпрашивать поставить оценку публикации.</string>
+    <string name="rules_users_8_title">Попрошайничество</string>
+    <string name="rules_users_9">Запрещено использовать функции приложение во вред. Например делать пост мультиязычным, в случае если он может быть не понятен на других языках.</string>
+    <string name="rules_users_9_title">Использование функций не по назначению</string>
 
     <string name="rules_moderators_info">Пожалуйста прочтите все правила для модераторов, чтобы использовать свои привилегии на благо сообщества. При нарушении правил модерации, аккаунт будет заблокирован на длительный срок и возможно лишен права модерировать приложение в будущем. Администраторы могут видеть удаленные публикации, и принять меры, если модератор нарушил правила.</string>
     <string name="rules_moderators_1">Не будьте слишком строгими. Помните что у нас не тоталитарный режим, не удаляйте публикации и не блокируйте пользователей за каждую мелочь.</string>

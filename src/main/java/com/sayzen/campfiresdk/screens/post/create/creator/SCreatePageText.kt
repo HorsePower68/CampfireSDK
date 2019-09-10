@@ -19,7 +19,9 @@ import com.sup.dev.android.views.support.watchers.TextWatcherChanged
 import com.sup.dev.android.views.views.ViewIcon
 import com.sup.dev.android.views.widgets.WidgetGreed
 import com.sup.dev.android.views.widgets.WidgetRecycler
+import com.sup.dev.java.libs.debug.log
 import com.sup.dev.java.tools.ToolsText
+import com.sup.dev.java.tools.ToolsThreads
 
 class SCreatePageText(
         private val screen: SPostCreate,
@@ -57,6 +59,7 @@ class SCreatePageText(
             vField.setText(this.oldPage.text)
             vField.setSelection(vField.text.length)
             onTextSizeClicked(this.oldPage.size)
+            icon = this.oldPage.icon
         } else {
             onTextSizeClicked(size)
         }
@@ -65,15 +68,20 @@ class SCreatePageText(
 
         vIconAttach.setOnClickListener {
             val w = WidgetGreed()
-            for(i in CampfireConstants.TEXT_ICONS.indices) w.addAttr(CampfireConstants.TEXT_ICONS[i]){ _, _ ->
+            for (i in CampfireConstants.TEXT_ICONS.indices) w.addAttr(CampfireConstants.TEXT_ICONS[i]) { _, _ ->
                 this.icon = i
-                vIconAttach.setImageDrawable(ToolsResources.getDrawableAttr(CampfireConstants.TEXT_ICONS[i]))
+                updateIcon()
             }
             w.asSheetShow()
         }
 
-
+        updateIcon()
         update()
+    }
+
+    private fun updateIcon() {
+        if (icon == 0) vIconAttach.setImageDrawable(ToolsResources.getDrawableAttr(R.attr.ic_mood_24dp))
+        else vIconAttach.setImageDrawable(ToolsResources.getDrawableAttr(CampfireConstants.TEXT_ICONS[icon]))
     }
 
     override fun onResume() {
@@ -90,7 +98,7 @@ class SCreatePageText(
     private fun update() {
         val s = vField.text.toString()
 
-        vField.textSize = if (s.length < 200) 22f  else 16f
+        vField.textSize = if (s.length < 200) 22f else 16f
 
         ToolsView.setFabEnabledR(vFab, !s.isEmpty() && s.length <= maxL, R.color.green_700)
     }
@@ -100,7 +108,7 @@ class SCreatePageText(
         page.text = vField.getText().toString().trim { it <= ' ' }
         page.size = size
         page.icon = icon
-        if(oldPage == null)
+        if (oldPage == null)
             screen.putPage(page, this, null, { page1 -> CardPageText(null, page1) }, null, true)
         else
             screen.changePage(page, card!!, this, null)
@@ -119,7 +127,7 @@ class SCreatePageText(
         if (notChanged())
             onClose.invoke()
         else {
-            WidgetAdd.showConfirmCancelDialog(this){
+            WidgetAdd.showConfirmCancelDialog(this) {
                 onClose.invoke()
             }
         }

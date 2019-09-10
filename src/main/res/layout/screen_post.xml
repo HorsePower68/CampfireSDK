@@ -18,12 +18,12 @@
 
                 <com.sup.dev.android.views.views.ViewIcon
                     android:id="@+id/vShare"
-                    style="@style/Icon.Toolbar"
+                    style="@style/Icon.Toolbar.Filtered"
                     android:src="?ic_share_24dp"/>
 
                 <com.sup.dev.android.views.views.ViewIcon
                     android:id="@+id/vMenu"
-                    style="@style/Icon.Toolbar"
+                    style="@style/Icon.Toolbar.Filtered"
                     android:src="?ic_more_vert_24dp"/>
 
             </LinearLayout>

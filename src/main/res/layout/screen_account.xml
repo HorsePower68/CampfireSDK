@@ -38,7 +38,7 @@
 
                 <com.sup.dev.android.views.views.ViewIcon
                     android:id="@+id/vMore"
-                    style="@style/Icon.Toolbar"
+                    style="@style/Icon.Toolbar.Filtered"
                     android:src="?ic_more_vert_24dp"/>
 
             </androidx.appcompat.widget.Toolbar>
