@@ -182,6 +182,8 @@
     <string name="app_email">Почта</string>
     <string name="app_article">Статья</string>
     <string name="app_section">Раздел</string>
+    <string name="app_coefficient">Коэффициент</string>
+    <string name="app_coefficient_karma">Коэффициент кармы %s</string>
 
     <string name="he">он</string>
     <string name="she">она</string>
@@ -434,6 +436,8 @@
     <string name="fandoms_menu_background_change">Изменить фон чата</string>
     <string name="fandoms_menu_rename_confirm">Переименовать этот фэндом?</string>
     <string name="fandoms_menu_change_params_confirms">Изменить параметры этого фэндома?</string>
+    <string name="fandoms_menu_set_cof">Коэффициент кармы</string>
+    <string name="fandoms_menu_set_cof_hint">Укажите новое значение коэффициента от %s до %s.</string>
     <string name="fandoms_subscription_none">Ничего</string>
     <string name="fandoms_subscription_all">Всё</string>
     <string name="fandoms_subscription_important">Важные</string>
@@ -606,7 +610,8 @@
     <string name="lvl_admin_fandom_category">Возможность изменять категорию фэндома</string>
     <string name="lvl_ads_ban">Банхаммер. Возможность банить других пользователей</string>
     <string name="lvl_post_fandom_change">Доступ к перемещению любых постов между фэндомами</string>
-    <string name="lvl_community_admin">Возможность отменить модераторские действия</string>
+    <string name="lvl_fandom_admin">Возможность отменить модераторские действия</string>
+    <string name="lvl_fandom_set_cof">Возможность устанавливать коэффициент кармы в фэндоме</string>
     <string name="lvl_fandoms_marge">Возможность объединять фэндомы</string>
     <string name="lvl_fandoms">Возможность принимать и отклонять фэндомы</string>
     <string name="lvl_remove_image">Возможность удалять аватар и фоновую картинку пользователей</string>
@@ -654,6 +659,7 @@
     <string name="error_already_returned_to_drafts">Кто-то уже вернул это в черновики</string>
     <string name="error_unsupported_link">Не потдерживаемая ссылка</string>
     <string name="error_of_loading">Ошибка загрузки</string>
+    <string name="error_incorrect_value">Некорректное значение</string>
 
     <string name="profile_report_confirm">Пожаловаться на пользователя?</string>
     <string name="profile_story">История</string>
@@ -1194,6 +1200,7 @@
     <string name="unit_event_remove_titile_image">Администратор %s %s фоновую картинку этого пользователя</string>
     <string name="unit_event_remove_titile_image_admin">%s фоновую картинку пользователя %s</string>
     <string name="unit_event_remove_fandom">%s фэндом %s</string>
+    <string name="unit_event_fandom_karma_cof">%s коэффициент кармы в фэндоме с %s на %s</string>
     <string name="unit_event_fandom_rename">%s фэндом с %s на %s</string>
     <string name="unit_event_fandom_close">%s фэндом %s</string>
     <string name="unit_event_fandom_avatar">%s аватар фэндома %s</string>

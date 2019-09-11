@@ -95,6 +95,7 @@
     <attr name="ic_mood_24dp" format="reference"/>
 
     <style name="CampfireRootThemeBlack" parent="AppThemeDark">
+        <item name="them_use_navigation_icons_filters">true</item>
         <item name="icon_games">@drawable/icon_games_white</item>
         <item name="icon_anime">@drawable/icon_anime_white</item>
         <item name="icon_youtube">@drawable/icon_youtube_white</item>
@@ -191,6 +192,7 @@
     </style>
 
     <style name="CampfireRootThemeWhite" parent="AppThemeLight">
+        <item name="them_use_navigation_icons_filters">true</item>
         <item name="icon_games">@drawable/icon_games_black</item>
         <item name="icon_anime">@drawable/icon_anime_black</item>
         <item name="icon_youtube">@drawable/icon_youtube_black</item>
