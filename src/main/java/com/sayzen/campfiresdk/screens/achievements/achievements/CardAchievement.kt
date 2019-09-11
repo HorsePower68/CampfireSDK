@@ -37,20 +37,21 @@ class CardAchievement(
 ) : Card(R.layout.screen_achievement_card_achievement) {
     var valueMultiplier = 1.0
 
-    var progress = 0L
-    var lvl = 0
     private var flash: Boolean = false
     private var animationFlash: AnimationPendulumColor? = null
     private var subscriptionFlash: Subscription? = null
-
-    init {
-        progress = screen.achiProgress(achievement.index)
-        lvl = achievement.getLvl(progress)
-    }
+    private var forcedLvl = -1
 
     fun setValueMultiplier(valueMultiplier: Double): CardAchievement {
         this.valueMultiplier = valueMultiplier
         return this
+    }
+
+    fun getLvl() = if(forcedLvl == -1)achievement.getLvl(getProgress()) else forcedLvl
+    fun getProgress() = screen.achiProgress(achievement.index)
+    fun setForcedLvl(lvl:Int){
+        forcedLvl = lvl
+        update()
     }
 
     override fun bindView(view: View) {
@@ -65,6 +66,9 @@ class CardAchievement(
 
         val accountId = screen.accountId
         val ach = CampfireConstants.getAchievement(achievement)
+
+        val progress = getProgress()
+        val lvl = getLvl()
 
         if (ControllerApi.isCurrentAccount(accountId) && ach.clickable && lvl != ach.info.maxLvl) view.setOnClickListener { onClick() }
         else view.setOnClickListener(null)

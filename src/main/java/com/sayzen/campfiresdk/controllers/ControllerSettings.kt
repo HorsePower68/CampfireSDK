@@ -35,13 +35,18 @@ object ControllerSettings {
                     val x = updateSettingsTime - System.currentTimeMillis()
                     if (x > 0) ToolsThreads.sleep(x)
                 }
-                updateSettingsStarted = false
-                ToolsStorage.put("ControllerSettings_accountSettings", accountSettings.json(true, Json()))
-                ApiRequestsSupporter.execute(RAccountSetSettings(accountSettings)) {
-
-                }
+                if (!updateSettingsStarted) return@thread
+                setSettingsNow()
             }
         }
+    }
+
+    fun setSettingsNow(onFinish: () -> Unit = {}, onError: () -> Unit = {}) {
+        updateSettingsStarted = false
+        ToolsStorage.put("ControllerSettings_accountSettings", accountSettings.json(true, Json()))
+        ApiRequestsSupporter.execute(RAccountSetSettings(accountSettings)) {
+            onFinish.invoke()
+        }.onError { onError.invoke() }
     }
 
     var notifyDateChecked: Long
@@ -50,7 +55,7 @@ object ControllerSettings {
 
     fun setSettings(accountSettings: AccountSettings) {
         this.accountSettings = accountSettings
-        ToolsStorage.put("ControllerSettings_accountSettings", ControllerSettings.accountSettings.json(true, Json()))
+        ToolsStorage.put("ControllerSettings_accountSettings", accountSettings.json(true, Json()))
         ViewCircleImage.SQUARE_GLOBAL_MODE = styleAvatarsSquare
         ViewCircleImage.SQUARE_GLOBAL_CORNED = ToolsView.dpToPx(styleAvatarsRounding)
         EventBus.post(EventStyleChanged())
@@ -91,9 +96,11 @@ object ControllerSettings {
             onSettingsUpdated()
         }
 
+
     var styleTheme: Int
         get() = accountSettings.theme
         set(b) {
+            log("> set $b")
             accountSettings.theme = b
             onSettingsUpdated()
         }
@@ -117,7 +124,7 @@ object ControllerSettings {
     //
 
     var appLanguage: String
-        get() = if(accountSettings.appLanguage.isEmpty()) ToolsAndroid.getLanguageCode().toLowerCase() else accountSettings.appLanguage
+        get() = if (accountSettings.appLanguage.isEmpty()) ToolsAndroid.getLanguageCode().toLowerCase() else accountSettings.appLanguage
         set(b) {
             accountSettings.appLanguage = b
             onSettingsUpdated()
@@ -138,7 +145,7 @@ object ControllerSettings {
         }
 
     var longPlusFandomLanguageId: Long
-        get() = if(accountSettings.longPlusFandomLanguageId == 0L) ControllerApi.getLanguage(appLanguage).id else accountSettings.longPlusFandomLanguageId
+        get() = if (accountSettings.longPlusFandomLanguageId == 0L) ControllerApi.getLanguage(appLanguage).id else accountSettings.longPlusFandomLanguageId
         set(b) {
             accountSettings.longPlusFandomLanguageId = b
             onSettingsUpdated()
@@ -159,7 +166,7 @@ object ControllerSettings {
         }
 
     var fastPublicationFandomLanguageId: Long
-        get() = if(accountSettings.fastPublicationFandomLanguageId == 0L) ControllerApi.getLanguage(appLanguage).id else accountSettings.fastPublicationFandomLanguageId
+        get() = if (accountSettings.fastPublicationFandomLanguageId == 0L) ControllerApi.getLanguage(appLanguage).id else accountSettings.fastPublicationFandomLanguageId
         set(b) {
             accountSettings.fastPublicationFandomLanguageId = b
             onSettingsUpdated()
@@ -210,7 +217,7 @@ object ControllerSettings {
     var rulesIsShowed: Boolean
         get() = accountSettings.rulesIsShowed
         set(b) {
-            if(b != accountSettings.rulesIsShowed) onSettingsUpdated()
+            if (b != accountSettings.rulesIsShowed) onSettingsUpdated()
             accountSettings.rulesIsShowed = b
         }
 
@@ -363,28 +370,28 @@ object ControllerSettings {
     //
 
     var feedIgnoreFandoms: Array<Long>
-        get() = if(accountSettings.feedIgnoreFandoms.isEmpty()) emptyArray() else accountSettings.feedIgnoreFandoms
+        get() = if (accountSettings.feedIgnoreFandoms.isEmpty()) emptyArray() else accountSettings.feedIgnoreFandoms
         set(b) {
             accountSettings.feedIgnoreFandoms = b
             onSettingsUpdated()
         }
 
     var feedLanguages: Array<Long>
-        get() = if(accountSettings.feedLanguages.isEmpty()) arrayOf(ControllerApi.getLanguageId()) else accountSettings.feedLanguages
+        get() = if (accountSettings.feedLanguages.isEmpty()) arrayOf(ControllerApi.getLanguageId()) else accountSettings.feedLanguages
         set(b) {
             accountSettings.feedLanguages = b
             onSettingsUpdated()
         }
 
     var adminReportsLanguages: Array<Long>
-        get() = if(accountSettings.adminReportsLanguages.isEmpty()) arrayOf(ControllerApi.getLanguageId()) else accountSettings.adminReportsLanguages
+        get() = if (accountSettings.adminReportsLanguages.isEmpty()) arrayOf(ControllerApi.getLanguageId()) else accountSettings.adminReportsLanguages
         set(b) {
             accountSettings.adminReportsLanguages = b
             onSettingsUpdated()
         }
 
     var feedCategories: Array<Long>
-        get() = if(accountSettings.feedCategories.isEmpty()) Array(CampfireConstants.CATEGORIES.size) { CampfireConstants.CATEGORIES[it].index } else accountSettings.feedCategories
+        get() = if (accountSettings.feedCategories.isEmpty()) Array(CampfireConstants.CATEGORIES.size) { CampfireConstants.CATEGORIES[it].index } else accountSettings.feedCategories
         set(b) {
             accountSettings.feedCategories = b
             onSettingsUpdated()

@@ -13,6 +13,7 @@ import com.sup.dev.android.tools.ToolsResources
 import com.sup.dev.android.views.views.ViewAvatar
 import com.sup.dev.android.views.views.ViewTextLinkable
 import com.sup.dev.java.tools.ToolsDate
+import com.sup.dev.java.tools.ToolsText
 
 class CardEvent(
         unit: UnitEvent,
@@ -141,6 +142,9 @@ class CardEvent(
             }
             is ApiEventFandomRemove -> {
                 text = "" + ToolsResources.sCap(R.string.unit_event_remove_fandom, ToolsResources.sex(e.ownerAccountSex, R.string.he_remove, R.string.she_remove), e.fandomName)
+            }
+            is ApiEventFandomKarmaCofChanged -> {
+                text = "" + ToolsResources.sCap(R.string.unit_event_fandom_karma_cof, ToolsResources.sex(e.ownerAccountSex, R.string.he_changed, R.string.she_changed), ToolsText.numToStringRound(e.oldCof/100.0, 2), ToolsText.numToStringRound(e.newCof/100.0, 2))
             }
             is ApiEventFandomChangeAvatar -> {
                 text = ToolsResources.sCap(R.string.unit_event_fandom_avatar, ToolsResources.sex(e.ownerAccountSex, R.string.he_changed, R.string.she_changed), "" + e.fandomName + " (" + ControllerApi.linkToFandom(e.fandomId) + ")")
