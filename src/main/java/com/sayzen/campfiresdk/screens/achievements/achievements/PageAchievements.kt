@@ -69,8 +69,11 @@ class PageAchievements(
         cardSpoiler.cardLoading.setOnRetry { loadPack(index, cardSpoiler) }
         RAchievementsPack(accountId, index)
                 .onComplete { r->
-                    for(i in r.indexes) indexes.add(i)
-                    for(i in r.progress) progress.add(i)
+                    for(i in r.indexes.indices) {
+                        indexes.add(r.indexes[i])
+                        progress.add(r.progress[i])
+                    }
+
                     cardSpoiler.onLoaded()
                 }
                 .onError { cardSpoiler.cardLoading.setState(CardLoading.State.RETRY) }
@@ -82,7 +85,7 @@ class PageAchievements(
         return 0
     }
     fun achiLvl(index:Long): Long {
-        for (i in 0 until r.indexes.size) if (r.indexes[i] == index) return r.lvls[i]
+        for (i in r.indexes.indices) if (r.indexes[i] == index) return r.lvls[i]
         return 0
     }
 
@@ -110,9 +113,8 @@ class PageAchievements(
             val l = adapterSub.get(CardAchievement::class)
             for (card in l)
                 if (n.achiIndex == card.achievement.index) {
-                    cardInfo.count = cardInfo.count + card.achievement.force * (n.achiLvl - card.lvl)
-                    card.lvl = n.achiLvl
-                    card.update()
+                    cardInfo.count = cardInfo.count + card.achievement.force * (n.achiLvl - card.getLvl())
+                    card.setForcedLvl(n.achiLvl)
                 }
         }
     }

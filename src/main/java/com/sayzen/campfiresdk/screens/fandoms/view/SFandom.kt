@@ -74,7 +74,7 @@ class SFandom private constructor(
     private val adapter: RecyclerCardAdapterLoading<CardUnit, Unit>
     private val xFandom = XFandom(r.fandom) { update() }
     private val spoiler = CardSpoiler()
-    private val cardFilters:CardFilters
+    private val cardFilters: CardFilters
     private val cardTitle = CardTitle(xFandom, r.fandom.category, r.subscriptionType, r.notifyImportant)
     private var cardPinnedPost: CardPost? = null
 
@@ -114,6 +114,7 @@ class SFandom private constructor(
         spoiler.setTitleGravity(Gravity.CENTER)
         spoiler.setUseExpandedTitleArrow(true)
         spoiler.setUseExpandedArrow(false)
+        spoiler.add(CardKarmaCof(r.fandom))
         spoiler.add(CardReview(xFandom, r.reviews))
         spoiler.add(CardDescription(xFandom, r.description, r.names))
         spoiler.add(CardGallery(xFandom, r.gallery))
@@ -166,10 +167,10 @@ class SFandom private constructor(
         update()
     }
 
-    private fun afterPackLoaded(){
-        if(cardPinnedPost != null && ControllerSettings.getFandomFilters().contains(API.UNIT_TYPE_POST))
+    private fun afterPackLoaded() {
+        if (cardPinnedPost != null && ControllerSettings.getFandomFilters().contains(API.UNIT_TYPE_POST))
             for (c in adapter.get(CardPost::class))
-                if(c.xUnit.unit.id == cardPinnedPost!!.xUnit.unit.id && !(c.xUnit.unit as UnitPost).isPined)
+                if (c.xUnit.unit.id == cardPinnedPost!!.xUnit.unit.id && !(c.xUnit.unit as UnitPost).isPined)
                     adapter.remove(c)
     }
 
@@ -220,7 +221,7 @@ class SFandom private constructor(
                                     ToolsThreads.thread {
                                         val image = ToolsBitmap.toBytes(ToolsBitmap.resize(b, API.FANDOM_IMG_SIDE, API.FANDOM_IMG_SIDE), API.FANDOM_IMG_WEIGHT)
                                         ToolsThreads.main {
-                                            ApiRequestsSupporter.executeProgressDialog(dialog, RFandomsAdminChangeImage(xFandom.fandomId, image, comment)) { _->
+                                            ApiRequestsSupporter.executeProgressDialog(dialog, RFandomsAdminChangeImage(xFandom.fandomId, image, comment)) { _ ->
                                                 ImageLoaderId(xFandom.imageId).clear()
                                                 EventBus.post(EventFandomChanged(xFandom.fandomId, xFandom.name))
                                                 ToolsToast.show(R.string.app_done)
