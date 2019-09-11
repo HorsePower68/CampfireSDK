@@ -15,7 +15,7 @@ import com.sup.dev.android.views.views.ViewTextLinkable
 import com.sup.dev.java.tools.ToolsDate
 import com.sup.dev.java.tools.ToolsText
 
-class CardEvent(
+class CardUnitEvent(
         unit: UnitEvent,
         val isFeedInFandom: Boolean
 ) : CardUnit(R.layout.card_event, unit) {

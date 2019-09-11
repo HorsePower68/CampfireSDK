@@ -1297,6 +1297,7 @@ Campfire has anime fandoms and gaming fandoms.</string>
     <string name="administration_requests_middle">Middle</string>
     <string name="administration_requests_count">Total</string>
     <string name="administration_errors">Errors statistic</string>
+    <string name="administration_admins_events">Admins events</string>
     <string name="administration_errors_empty">No errors. Yet ;)</string>
 
     <string name="statistic_7_day">7 days</string>

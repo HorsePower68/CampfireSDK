@@ -1295,6 +1295,7 @@
     <string name="administration_requests_middle">В среднем</string>
     <string name="administration_requests_count">Всего</string>
     <string name="administration_errors">Статистика ошибок</string>
+    <string name="administration_admins_events">События админов</string>
     <string name="administration_errors_empty">Нет ошибок. Пока ;)</string>
 
     <string name="statistic_7_day">7 дней</string>

@@ -100,7 +100,6 @@ object ControllerSettings {
     var styleTheme: Int
         get() = accountSettings.theme
         set(b) {
-            log("> set $b")
             accountSettings.theme = b
             onSettingsUpdated()
         }

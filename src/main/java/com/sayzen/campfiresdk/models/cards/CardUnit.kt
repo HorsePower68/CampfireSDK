@@ -50,7 +50,7 @@ abstract class CardUnit(
                 is UnitPost -> CardPost(vRecycler, unit)
                 is UnitChatMessage -> CardChatMessage.instance(unit)
                 is UnitModeration -> CardModeration(unit)
-                is UnitEvent -> CardEvent(unit, isFeedInFandom)
+                is UnitEvent -> CardUnitEvent(unit, isFeedInFandom)
                 is UnitReview -> CardReview(unit)
                 is UnitForum -> CardForum(unit)
                 is UnitSticker -> CardSticker(unit, isShowFullInfo, isShowReports)
