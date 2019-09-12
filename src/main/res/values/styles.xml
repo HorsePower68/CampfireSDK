@@ -290,6 +290,10 @@
 
     <style name="CampfireRootThemeWhiteColored" parent="CampfireRootThemeWhite">
         <item name="toolbar_content_color">@color/white</item>
+        <item name="them_status_bar_is_light">false</item>
+        <item name="toolbar_content_color_secondary">@color/grey_700</item>
+        <item name="revers_color">@color/white</item>
+        <item name="revers_color_lighted">@color/grey_200</item>
     </style>
 
     <style name="CampfireThemeDarkGrey" parent="CampfireRootThemeBlack">

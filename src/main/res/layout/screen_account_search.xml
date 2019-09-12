@@ -33,6 +33,7 @@
                 android:layout_marginBottom="12dp"
                 android:layout_weight="1"
                 android:hint="@string/app_name_s"
+                android:textColor="?toolbar_content_color"
                 android:inputType="textPersonName"
                 android:singleLine="true"/>
 

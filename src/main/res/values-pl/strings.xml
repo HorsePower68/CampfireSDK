@@ -653,6 +653,7 @@ Campfire has anime fandoms and gaming fandoms.</string>
     <string name="error_max_items_count">Too many items</string>
     <string name="error_cant_create_tag_without_category">Cannot create tag without categories</string>
     <string name="error_rate_self_unit">Cannot rate your own publication</string>
+    <string name="error_rate_cant_down">You have received the ancient curse of haters and for some time you will not be able to downrate publications</string>
     <string name="error_already_blocked">Someone already blocked it.</string>
     <string name="error_already_returned_to_drafts">Someone already put it back in the draft</string>
     <string name="error_unsupported_link">Unsupported link</string>
@@ -1175,6 +1176,7 @@ Campfire has anime fandoms and gaming fandoms.</string>
     <string name="unit_event_blocked">%s in fandom %s until %s by moderator %s</string>
     <string name="unit_event_blocked_admin">%s user %s in fandom %s until %s</string>
     <string name="unit_event_blocked_app">%s in application until %s by administrator %s</string>
+    <string name="unit_event_user_moder_action_rejected">Admin %s %s moderator action of this user in fandom %s</string>
     <string name="unit_event_blocked_app_admin">%s user %s until %s</string>
     <string name="unit_event_warn_app">warned by administrator %s</string>
     <string name="unit_event_warn_app_admin">%s user %s</string>

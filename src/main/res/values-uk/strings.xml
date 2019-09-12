@@ -655,6 +655,7 @@
     <string name="error_max_items_count">Слишком много элементов</string>
     <string name="error_cant_create_tag_without_category">Нельзя создать тег пока нет категорий</string>
     <string name="error_rate_self_unit">Вы не можете оценить свою публикацию</string>
+    <string name="error_rate_cant_down">В получили древнее проклятие хейтеров и некоторое время не сможете отрицательно оценивать публикации</string>
     <string name="error_already_blocked">Кто-то уже заблокировал это</string>
     <string name="error_already_returned_to_drafts">Кто-то уже вернул это в черновики</string>
     <string name="error_unsupported_link">Не потдерживаемая ссылка</string>
@@ -1176,6 +1177,7 @@
     <string name="unit_event_blocked">%s в фэндоме %s до %s модератором %s</string>
     <string name="unit_event_blocked_admin">%s пользователя %s в фандоме %s до %s</string>
     <string name="unit_event_blocked_app">%s в приложении до %s администратором %s</string>
+    <string name="unit_event_user_moder_action_rejected">Администратор %s %s модераторское действие этого пользователя в фэндоме %s</string>
     <string name="unit_event_blocked_app_admin">%s пользователя %s до %s</string>
     <string name="unit_event_warn_app">Предупрежден администратором %s</string>
     <string name="unit_event_warn_app_admin">%s пользователя %s</string>
