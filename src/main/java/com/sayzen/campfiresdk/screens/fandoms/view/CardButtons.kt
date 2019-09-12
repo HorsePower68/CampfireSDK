@@ -23,7 +23,6 @@ import com.sup.dev.java.libs.eventBus.EventBus
 
 class CardButtons(
         private val xFandom: XFandom,
-        private var newChatMessagesCount: Long,
         private val chatOnlineCount: Long,
         private val forumsCount: Long,
         private val tagsCount: Long,
@@ -33,7 +32,6 @@ class CardButtons(
 ) : Card(R.layout.screen_fandom_card_buttons) {
 
     private val eventBus = EventBus
-            .subscribe(EventChatRead::class) { this.onChatRead(it) }
             .subscribe(EventFandomSubscribe::class) { onEventFandomSubscribe(it) }
             .subscribe(EventFandomRemoveModerator::class) { onEventFandomRemoveModerator(it)}
 
@@ -81,13 +79,6 @@ class CardButtons(
     //
     //  EventBus
     //
-
-    private fun onChatRead(e: EventChatRead) {
-        if (e.tag.chatType == API.CHAT_TYPE_FANDOM && e.tag.targetId == xFandom.fandomId && e.tag.targetSubId == xFandom.languageId) {
-            newChatMessagesCount = 0
-            update()
-        }
-    }
 
     private fun onEventFandomRemoveModerator(e: EventFandomRemoveModerator) {
         if(e.fandomId == xFandom.fandomId && e.languageId == xFandom.languageId){

@@ -10,7 +10,10 @@ import com.dzen.campfire.api.models.units.Unit
 import com.dzen.campfire.api.models.units.UnitForum
 import com.dzen.campfire.api.models.units.post.UnitPost
 import com.dzen.campfire.api.models.units.chat.UnitChatMessage
-import com.dzen.campfire.api.models.units.events.UnitEvent
+import com.dzen.campfire.api.models.units.events_admins.UnitEventAdmin
+import com.dzen.campfire.api.models.units.events_fandoms.UnitEventFandom
+import com.dzen.campfire.api.models.units.events_moderators.UnitEventModer
+import com.dzen.campfire.api.models.units.events_user.UnitEventUser
 import com.dzen.campfire.api.models.units.moderations.UnitModeration
 import com.dzen.campfire.api.models.units.stickers.UnitSticker
 import com.dzen.campfire.api.models.units.stickers.UnitStickersPack
@@ -18,6 +21,10 @@ import com.sayzen.campfiresdk.R
 import com.sayzen.campfiresdk.adapters.*
 import com.sayzen.campfiresdk.models.cards.chat.CardChatMessage
 import com.sayzen.campfiresdk.models.cards.comments.CardComment
+import com.sayzen.campfiresdk.models.cards.events.CardUnitEventAdmin
+import com.sayzen.campfiresdk.models.cards.events.CardUnitEventFandom
+import com.sayzen.campfiresdk.models.cards.events.CardUnitEventModer
+import com.sayzen.campfiresdk.models.cards.events.CardUnitEventUser
 import com.sayzen.campfiresdk.models.cards.stickers.CardSticker
 import com.sayzen.campfiresdk.models.cards.stickers.CardStickersPack
 import com.sup.dev.android.tools.ToolsResources
@@ -40,7 +47,6 @@ abstract class CardUnit(
                 vRecycler: RecyclerView? = null,
                 showFandom: Boolean = false,
                 dividers: Boolean = false,
-                isFeedInFandom: Boolean = false,
                 isShowFullInfo: Boolean = false,
                 isShowReports: Boolean = true
         ): CardUnit {
@@ -50,7 +56,10 @@ abstract class CardUnit(
                 is UnitPost -> CardPost(vRecycler, unit)
                 is UnitChatMessage -> CardChatMessage.instance(unit)
                 is UnitModeration -> CardModeration(unit)
-                is UnitEvent -> CardUnitEvent(unit, isFeedInFandom)
+                is UnitEventUser -> CardUnitEventUser(unit)
+                is UnitEventModer -> CardUnitEventModer(unit)
+                is UnitEventAdmin -> CardUnitEventAdmin(unit)
+                is UnitEventFandom -> CardUnitEventFandom(unit)
                 is UnitReview -> CardReview(unit)
                 is UnitForum -> CardForum(unit)
                 is UnitSticker -> CardSticker(unit, isShowFullInfo, isShowReports)

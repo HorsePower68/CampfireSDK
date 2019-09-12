@@ -47,7 +47,6 @@ class SForumView(
     }
 
     private val eventBus = EventBus
-            .subscribe(EventCommentsCountChanged::class) { if (it.unitId == unit.id && adapter != null) (adapter as AdapterComments).loadTop() }
             .subscribe(EventUnitRemove::class) { if (it.unitId == unit.id) Navigator.remove(this) }
             .subscribe(EventForumChanged::class) { onEventForumChanged(it) }
 

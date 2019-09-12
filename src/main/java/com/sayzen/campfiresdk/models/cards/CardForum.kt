@@ -2,17 +2,11 @@ package com.sayzen.campfiresdk.models.cards
 
 import android.view.View
 import android.widget.TextView
-import com.dzen.campfire.api.API
 import com.dzen.campfire.api.models.units.UnitForum
-import com.dzen.campfire.api.models.units.events.UnitEvent
 import com.sayzen.campfiresdk.R
-import com.sayzen.campfiresdk.adapters.XFandom
-import com.sayzen.campfiresdk.adapters.XKarma
-import com.sayzen.campfiresdk.controllers.ControllerApi
 import com.sayzen.campfiresdk.controllers.ControllerCampfireSDK
 import com.sayzen.campfiresdk.controllers.ControllerUnits
 import com.sayzen.campfiresdk.models.events.fandom.EventForumChanged
-import com.sayzen.campfiresdk.views.ViewKarma
 import com.sup.dev.android.libs.screens.navigator.Navigator
 import com.sup.dev.android.tools.ToolsImagesLoader
 import com.sup.dev.android.views.views.ViewAvatarTitle

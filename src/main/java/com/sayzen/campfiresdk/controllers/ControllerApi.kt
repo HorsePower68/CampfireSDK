@@ -1,6 +1,5 @@
 package com.sayzen.campfiresdk.controllers
 
-
 import android.graphics.Bitmap
 import android.text.Html
 import android.text.util.Linkify
@@ -11,6 +10,7 @@ import com.dzen.campfire.api.models.account.Account
 import com.dzen.campfire.api.models.lvl.LvlInfo
 import com.dzen.campfire.api.models.lvl.LvlInfoAdmin
 import com.dzen.campfire.api.models.lvl.LvlInfoUser
+import com.dzen.campfire.api.requests.accounts.RAccountLogout
 import com.dzen.campfire.api.requests.accounts.RAccountsClearReports
 import com.dzen.campfire.api.requests.accounts.RAccountsLoginSimple
 import com.dzen.campfire.api.requests.accounts.RAccountsRegistration
@@ -40,6 +40,7 @@ import com.sup.dev.java.libs.eventBus.EventBus
 import com.sup.dev.java.libs.json.Json
 import com.sup.dev.java.tools.ToolsThreads
 import java.util.regex.Pattern
+
 
 val api: API = API(
         ControllerCampfireSDK.projectKey,
@@ -244,16 +245,20 @@ object ControllerApi {
     }
 
     fun logout(onComplete: () -> Unit) {
-        ControllerNotifications.hideAll()
-        ControllerGoogleToken.logout {
-            api.clearTokens()
-            ControllerChats.clearMessagesCount()
-            ControllerNotifications.setNewNotifications(emptyArray())
-            setCurrentAccount(Account())
-            this.fandomsKarmaCounts = null
-            serverTimeDelta = 0
-            onComplete.invoke()
-        }
+        RAccountLogout()
+                .onFinish {
+                    ControllerNotifications.hideAll()
+                    ControllerGoogleToken.logout {
+                        api.clearTokens()
+                        ControllerChats.clearMessagesCount()
+                        ControllerNotifications.setNewNotifications(emptyArray())
+                        setCurrentAccount(Account())
+                        this.fandomsKarmaCounts = null
+                        serverTimeDelta = 0
+                        onComplete.invoke()
+                    }
+                }
+                .send(api)
     }
 
     //

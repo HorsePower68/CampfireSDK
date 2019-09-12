@@ -93,6 +93,9 @@ class SChat private constructor(
         isNavigationShadowAvailable = false
         SActivityTypeBottomNavigation.setShadow(vLine)
 
+        vAvatarTitle.setTitleColor(ToolsResources.getColorAttr(R.attr.toolbar_content_color))
+        vAvatarTitle.setSubtitleColor(ToolsResources.getColorAttr(R.attr.toolbar_content_color))
+
         vNotifications = addToolbarIcon(ToolsResources.getDrawableAttrId(R.attr.ic_notifications_24dp)) { sendSubscribe(!subscribed) }
         if (tag.chatType != API.CHAT_TYPE_FANDOM) vNotifications.visibility = View.GONE
         vMenu = addToolbarIcon(ToolsResources.getDrawableAttrId(R.attr.ic_more_vert_24dp)) {
