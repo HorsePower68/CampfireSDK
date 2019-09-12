@@ -54,6 +54,7 @@ object ControllerKarma {
                     EventBus.post(EventUnitKarmaAdd(unitId, r.myKarmaCount))
                 }
                     .onApiError(RUnitsKarmaAdd.E_SELF_UNIT) { ToolsToast.show(R.string.error_rate_self_unit) }
+                    .onApiError(RUnitsKarmaAdd.E_CANT_DOWN) { ToolsToast.show(R.string.error_rate_cant_down) }
                     .onFinish {
                         if(rates[unitId] == this) rates.remove(unitId)
                         clearRate()

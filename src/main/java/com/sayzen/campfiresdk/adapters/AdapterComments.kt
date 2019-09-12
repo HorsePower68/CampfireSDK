@@ -12,7 +12,6 @@ import com.sayzen.campfiresdk.controllers.ControllerApi
 import com.sayzen.campfiresdk.controllers.api
 import com.sayzen.campfiresdk.models.cards.comments.CardComment
 import com.sayzen.campfiresdk.models.events.notifications.EventNotification
-import com.sayzen.campfiresdk.models.events.notifications.EventNotificationsCountChanged
 import com.sayzen.campfiresdk.models.events.units.EventCommentsCountChanged
 import com.sayzen.campfiresdk.models.widgets.WidgetComment
 import com.sup.dev.android.tools.ToolsResources
@@ -29,29 +28,26 @@ class AdapterComments(
         private val startFromBottom: Boolean = false
 ) : RecyclerCardAdapterLoading<CardComment, UnitComment>(CardComment::class, null) {
 
-    companion object {
-        val COUNT = 500
-    }
 
     private val eventBus = EventBus
             .subscribe(EventNotification::class) { this.onNotification(it) }
             .subscribe(EventCommentsCountChanged::class) { this.onEventCommentsCountChanged(it) }
 
     private var needScrollToBottom = false
-    private val cardSpace = CardSpace(124)
 
     init {
         setBottomLoader { onLoad, cards ->
             RCommentsGetAll(unitId, if (cards.isEmpty()) 0 else cards.get(cards.size - 1).xUnit.unit.dateCreate, false, startFromBottom)
                     .onComplete { r ->
                         onLoad.invoke(r.units)
+                        ToolsThreads.main(true) { if (r.units.isNotEmpty() && !contains(CardSpace::class)) add(CardSpace(124)) }
                     }
                     .onError {
-                        remove(cardSpace)
                         onLoad.invoke(null)
                     }
                     .send(api)
         }
+        setAddToSameCards(true)
         setMapper { unit -> instanceCard(unit) }
         setShowLoadingCardBottom(false)
         setShowLoadingCardTop(true)
@@ -78,21 +74,22 @@ class AdapterComments(
     fun enableTopLoader() {
         setTopLoader { onLoad, cards ->
             RCommentsGetAll(unitId, if (cards.isEmpty()) 0 else cards.get(0).xUnit.unit.dateCreate, true, startFromBottom)
-                    .onComplete { r -> onLoad.invoke(r.units) }
+                    .onComplete { r ->
+                        onLoad.invoke(r.units)
+                    }
                     .onNetworkError { onLoad.invoke(null) }
                     .send(api)
         }
     }
 
     private fun onCommentsPackLoaded() {
-        remove(cardSpace)
-        if (get(CardComment::class).size % COUNT != 0) add(cardSpace)
-
         if (scrollToCommentId == -1L) {
             scrollToCommentId = 0
             val v = get(CardComment::class)
             val index = if (v.isNotEmpty()) indexOf(v.get(0)) + 1 else size()
-            ToolsThreads.main(600) { vRecycler.scrollToPosition(index) }
+            ToolsThreads.main(600) {
+                vRecycler.scrollToPosition(index)
+            }
         } else if (scrollToCommentId != 0L) {
             for (c in get(CardComment::class)) {
                 if (c.xUnit.unit.id == scrollToCommentId) {
@@ -116,11 +113,9 @@ class AdapterComments(
     }
 
     fun addComment(unitComment: UnitComment): CardComment {
-        remove(cardSpace)
         val card = instanceCard(unitComment)
         addWithHash(card)
         card.flash()
-        add(cardSpace)
         return card
     }
 
@@ -138,9 +133,9 @@ class AdapterComments(
                 },
                 { comment ->
                     var quoteText = comment.creatorName + ": "
-                    if(comment.text.isNotEmpty()) quoteText+= comment.text
-                    else if(comment.imageId != 0L || comment.imageIdArray.isNotEmpty()) quoteText += ToolsResources.s(R.string.app_image)
-                    else if(comment.stickerId != 0L) quoteText += ToolsResources.s(R.string.app_sticker)
+                    if (comment.text.isNotEmpty()) quoteText += comment.text
+                    else if (comment.imageId != 0L || comment.imageIdArray.isNotEmpty()) quoteText += ToolsResources.s(R.string.app_image)
+                    else if (comment.stickerId != 0L) quoteText += ToolsResources.s(R.string.app_sticker)
 
                     showCommentDialog(if (ControllerApi.isCurrentAccount(comment.creatorId)) null else comment, null, comment.id, quoteText)
                 },
@@ -163,7 +158,6 @@ class AdapterComments(
     private fun onEventCommentsCountChanged(e: EventCommentsCountChanged) {
         if (e.unitId == unitId && e.change < 0) {
             if (get(CardComment::class).size == 0) {
-                remove(cardSpace)
                 reloadBottom()
             }
         }

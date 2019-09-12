@@ -477,7 +477,11 @@ object ControllerSettings {
         if (profileFilterComments) list.add(API.UNIT_TYPE_COMMENT)
         if (profileFilterPosts) list.add(API.UNIT_TYPE_POST)
         if (profileFilterModerations) list.add(API.UNIT_TYPE_MODERATION)
-        if (profileFilterEvents) list.add(API.UNIT_TYPE_EVENT)
+        if (profileFilterEvents) {
+            list.add(API.UNIT_TYPE_EVENT_USER)
+            list.add(API.UNIT_TYPE_EVENT_MODER)
+            list.add(API.UNIT_TYPE_EVENT_ADMIN)
+        }
         if (profileFilterChatMessages) list.add(API.UNIT_TYPE_CHAT_MESSAGE)
         if (profileFilterReviews) list.add(API.UNIT_TYPE_REVIEW)
         if (profileFilterForums) list.add(API.UNIT_TYPE_FORUM)
@@ -594,7 +598,7 @@ object ControllerSettings {
         val list = ArrayList<Long>()
 
         if (fandomFilterModerationsPosts) list.add(API.UNIT_TYPE_POST)
-        if (fandomFilterAdministrations) list.add(API.UNIT_TYPE_EVENT)
+        if (fandomFilterAdministrations) list.add(API.UNIT_TYPE_EVENT_FANDOM)
         if (fandomFilterModerations || fandomFilterModerationsBlocks) list.add(API.UNIT_TYPE_MODERATION)
 
         return list.toTypedArray()
