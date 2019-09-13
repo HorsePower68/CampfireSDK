@@ -9,6 +9,7 @@ import com.sup.dev.android.tools.ToolsResources
 import com.sup.dev.android.views.cards.CardLoading
 import com.sup.dev.android.views.cards.CardSpoiler
 import com.sup.dev.java.tools.ToolsText
+import com.sup.dev.java.tools.ToolsThreads
 
 class CardSpoilerAchi(
         val pageAchievements: PageAchievements,
@@ -19,16 +20,18 @@ class CardSpoilerAchi(
     val cardLoading = CardLoading()
     var isFirstExpand = true
     var karmaCount = 0.0
+    var scrollToIndex = 0L
+    val pack = when (packIndex) {
+        1 -> API.ACHI_PACK_1
+        2 -> API.ACHI_PACK_2
+        3 -> API.ACHI_PACK_3
+        4 -> API.ACHI_PACK_4
+        else -> API.ACHI_PACK_5
+    }
+
 
     init {
         super.add(cardLoading)
-
-        val pack = if (packIndex == 1) API.ACHI_PACK_1
-        else if (packIndex == 2) API.ACHI_PACK_2
-        else if (packIndex == 3) API.ACHI_PACK_3
-        else if (packIndex == 4) API.ACHI_PACK_4
-        else API.ACHI_PACK_5
-
 
         for (i in pack) {
             karmaCount += (CampfireConstants.getAchievement(i.index)).info.getForce() * pageAchievements.achiLvl(i.index)
@@ -57,7 +60,18 @@ class CardSpoilerAchi(
                 || card.achievement == API.ACHI_MODERATOR_ACTION_KARMA
                 || card.achievement == API.ACHI_STICKERS_KARMA
         ) card.setValueMultiplier(0.01)
-        return super.add(card) as CardSpoilerAchi
+        super.add(card)
+        if (isExpanded() && card.achievement.index == scrollToIndex) {
+            scrollToIndex = 0
+            ToolsThreads.main(500) {
+                pageAchievements.scrollToCard(card)
+                ToolsThreads.main(500) {
+                    card.flash()
+                }
+            }
+        }
+
+        return this
     }
 
     override fun setTitle(@StringRes title: Int): CardSpoilerAchi {

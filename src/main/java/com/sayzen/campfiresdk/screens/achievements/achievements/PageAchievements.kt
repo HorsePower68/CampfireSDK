@@ -3,6 +3,7 @@ package com.sayzen.campfiresdk.screens.achievements.achievements
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import android.view.View
+import com.dzen.campfire.api.API
 import com.dzen.campfire.api.models.notifications.NotificationAchievement
 import com.dzen.campfire.api.requests.achievements.RAchievementsInfo
 import com.dzen.campfire.api.requests.achievements.RAchievementsPack
@@ -16,11 +17,12 @@ import com.sup.dev.android.tools.ToolsView
 import com.sup.dev.android.views.cards.Card
 import com.sup.dev.android.views.cards.CardLoading
 import com.sup.dev.android.views.support.adapters.recycler_view.RecyclerCardAdapter
+import com.sup.dev.java.libs.debug.log
 import com.sup.dev.java.libs.eventBus.EventBus
 
 class PageAchievements(
         val accountId: Long,
-        scrollToId: Long,
+        scrollToIndex: Long,
         val r: RAchievementsInfo.Response
 ) : Card(0) {
 
@@ -51,25 +53,24 @@ class PageAchievements(
         adapterSub.add(spoiler5)
 
 
-        if (scrollToId != 0L) {
-            for (card in adapterSub.get(CardSpoilerAchi::class))
-                for (c in card.cards)
-                    if (c is CardAchievement && c.achievement.index == scrollToId) {
+        if (scrollToIndex != 0L) {
+            for (card in adapterSub.get(CardSpoilerAchi::class)) {
+                for (achi in card.pack) {
+                    if (achi.index == scrollToIndex) {
+                        card.scrollToIndex = scrollToIndex
                         card.setExpanded(true)
-                        c.flash()
-                        scrollToIndex = adapterSub.indexOf(c) + 3
-                        if (scrollToIndex > adapterSub.size() - 1) scrollToIndex = adapterSub.size() - 1
-                        break
                     }
+                }
+            }
         }
     }
 
-    fun loadPack(index:Int, cardSpoiler:CardSpoilerAchi){
+    fun loadPack(index: Int, cardSpoiler: CardSpoilerAchi) {
         cardSpoiler.cardLoading.setState(CardLoading.State.LOADING)
         cardSpoiler.cardLoading.setOnRetry { loadPack(index, cardSpoiler) }
         RAchievementsPack(accountId, index)
-                .onComplete { r->
-                    for(i in r.indexes.indices) {
+                .onComplete { r ->
+                    for (i in r.indexes.indices) {
                         indexes.add(r.indexes[i])
                         progress.add(r.progress[i])
                     }
@@ -80,11 +81,12 @@ class PageAchievements(
                 .send(api)
     }
 
-    fun achiProgress(index:Long): Long {
+    fun achiProgress(index: Long): Long {
         for (i in 0 until indexes.size) if (indexes[i] == index) return progress[i]
         return 0
     }
-    fun achiLvl(index:Long): Long {
+
+    fun achiLvl(index: Long): Long {
         for (i in r.indexes.indices) if (r.indexes[i] == index) return r.lvls[i]
         return 0
     }
@@ -92,15 +94,28 @@ class PageAchievements(
     override fun instanceView(): View {
         val v = RecyclerView(SupAndroid.activity!!)
         v.layoutManager = LinearLayoutManager(SupAndroid.activity)
+        v.id = R.id.vRecycler
         ToolsView.setRecyclerAnimation(v)
         return v
     }
 
     override fun bindView(view: View) {
-        super.bindView(view)
         val vRecycler = view as RecyclerView
         vRecycler.adapter = adapterSub
-        if (scrollToIndex > 0) vRecycler.smoothScrollToPosition(scrollToIndex)
+        if (this.scrollToIndex > 0) vRecycler.smoothScrollToPosition(this.scrollToIndex)
+    }
+
+    fun scrollToCard(card: Card) {
+        if (getView() == null) return
+        val vRecycler: RecyclerView = getView()!!.findViewById(R.id.vRecycler)
+        val index = adapterSub.indexOf(card)
+        if(index > adapterSub.size()-3) {
+            log("Scroll 1")
+            vRecycler.scrollToPosition(index)
+        } else {
+            log("Scroll 2")
+            vRecycler.scrollToPosition(index + 2)
+        }
     }
 
     //
