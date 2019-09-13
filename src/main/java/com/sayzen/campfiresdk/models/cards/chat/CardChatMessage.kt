@@ -32,6 +32,7 @@ import com.sup.dev.android.views.views.ViewImagesSwipe
 import com.sup.dev.android.views.views.ViewSwipe
 import com.sup.dev.android.views.views.ViewTextLinkable
 import com.sup.dev.android.views.widgets.WidgetMenu
+import com.sup.dev.java.libs.debug.log
 import com.sup.dev.java.libs.eventBus.EventBus
 import com.sup.dev.java.tools.ToolsColor
 import com.sup.dev.java.tools.ToolsDate
@@ -108,7 +109,7 @@ abstract class CardChatMessage constructor(
         if (vSwipe != null && onQuote != null) {
             vSwipe.onClick = { _, _ ->
                 if (ControllerApi.isCurrentAccount(unit.creatorId)) showMenu()
-                else if(!onClick()) showMenu()
+                else if (!onClick()) showMenu()
             }
             vSwipe.onLongClick = { _, _ -> showMenu() }
             vSwipe.onSwipe = { onQuote?.invoke(unit) }
@@ -321,10 +322,8 @@ abstract class CardChatMessage constructor(
             unit.quoteId = e.quoteId
             unit.quoteText = e.quoteText
             unit.changed = true
-            if (adapter!!.isVisible(this))
-                flash()
-            else
-                update()
+            flash()
+            update()
         }
     }
 

@@ -153,6 +153,7 @@ class SAccount private constructor(
             for (c in adapter.get(CardPost::class)) if (c.xUnit.unit.id == post.id) adapter.remove(c)
             post.isPined = true
             cardPinnedPost = CardPost(vRecycler, post)
+            cardPinnedPost?.showFandom = true
             if (ControllerSettings.getProfileFilters().contains(API.UNIT_TYPE_POST)) {
                 adapter.add(adapter.indexOf(cardFilters) + 1, cardPinnedPost!!)
             }

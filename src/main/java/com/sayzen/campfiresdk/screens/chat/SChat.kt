@@ -28,6 +28,7 @@ import com.sup.dev.android.libs.screens.activity.SActivityTypeBottomNavigation
 import com.sup.dev.android.libs.screens.navigator.NavigationAction
 import com.sup.dev.android.libs.screens.navigator.Navigator
 import com.sup.dev.android.tools.*
+import com.sup.dev.android.views.cards.Card
 import com.sup.dev.android.views.cards.CardSpace
 import com.sup.dev.android.views.screens.SLoadingRecycler
 import com.sup.dev.android.views.support.adapters.recycler_view.RecyclerCardAdapterLoading
@@ -167,7 +168,7 @@ class SChat private constructor(
                 .setBottomLoader { onLoad, cards ->
                     subscription = RChatMessageGetAll(tag, if (cards.isEmpty()) 0 else cards[cards.size - 1].xUnit.unit.dateCreate, false)
                             .onComplete { r ->
-                                if(loaded){
+                                if (loaded) {
                                     onLoad.invoke(emptyArray())
                                     return@onComplete
                                 }
@@ -182,8 +183,8 @@ class SChat private constructor(
                                 EventBus.post(EventChatRead(tag))
                                 if (r.units.isNotEmpty())
                                     EventBus.post(EventChatNewBottomMessage(tag, r.units[r.units.size - 1]))
-                                ToolsThreads.main(true){
-                                    for(c in addAfterLoadList) addMessage(c, true)
+                                ToolsThreads.main(true) {
+                                    for (c in addAfterLoadList) addMessage(c, true)
                                 }
                                 adapter!!.lockBottom()
                             }
@@ -261,8 +262,8 @@ class SChat private constructor(
                 .send(api)
     }
 
-    fun isNeedScrollAfterAdd():Boolean{
-        if(vRecycler.layoutManager !is LinearLayoutManager || adapter == null) return false
+    fun isNeedScrollAfterAdd(): Boolean {
+        if (vRecycler.layoutManager !is LinearLayoutManager || adapter == null) return false
         return (vRecycler.layoutManager as LinearLayoutManager).findLastCompletelyVisibleItemPosition() == vRecycler.adapter!!.itemCount - 1
     }
 
@@ -275,16 +276,29 @@ class SChat private constructor(
         return super.onBackPressed()
     }
 
-    fun addMessage(message: UnitChatMessage, forceScroll: Boolean) {
-        if(!loaded){
+    fun addCard(card: CardSending) {
+        if(adapter != null) {
+            adapter!!.remove(carSpace)
+            adapter!!.add(card)
+            adapter!!.add(carSpace)
+            vRecycler.smoothScrollToPosition(vRecycler.adapter!!.itemCount - 1)
+        }
+    }
+
+    fun addMessage(message: UnitChatMessage, forceScroll: Boolean, replaceCard: Card? = null) {
+        if (!loaded) {
             addAfterLoadList.add(message)
             return
         }
         val b = isNeedScrollAfterAdd()
         if (adapter != null) {
-            adapter!!.remove(carSpace)
-            adapter!!.add(instanceCard(message))
-            adapter!!.add(carSpace)
+            if (replaceCard == null || !adapter!!.contains(replaceCard)) {
+                adapter!!.remove(carSpace)
+                adapter!!.add(instanceCard(message))
+                adapter!!.add(carSpace)
+            } else {
+                adapter!!.replace(adapter!!.indexOf(replaceCard), instanceCard(message))
+            }
             if (forceScroll)
                 vRecycler.scrollToPosition(vRecycler.adapter!!.itemCount - 1)
             else if (b)

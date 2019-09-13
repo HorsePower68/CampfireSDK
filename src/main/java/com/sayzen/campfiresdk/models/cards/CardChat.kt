@@ -114,7 +114,9 @@ class CardChat(
         }
 
         val messagesCount: Int = ControllerChats.getMessagesCount(unit.tag)
-        vMessagesCounter.setText("$messagesCount")
+        if(messagesCount > 9) vMessagesCounter.setText("9+")
+        else vMessagesCounter.setText("$messagesCount")
+
         vMessagesCounter.setBackgroundColor(if (subscribed) ToolsResources.getAccentColor(view.context) else ToolsResources.getColor(R.color.grey_600))
         vMessagesCounter.visibility = if (messagesCount < 1) View.GONE else View.VISIBLE
 

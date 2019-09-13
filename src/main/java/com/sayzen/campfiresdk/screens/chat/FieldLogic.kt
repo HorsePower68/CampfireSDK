@@ -130,17 +130,6 @@ class FieldLogic(
         return true
     }
 
-    fun setLock(b: Boolean) {
-        vAttach.isEnabled = !b
-        vText.isEnabled = !b
-        vSend.isEnabled = !b
-        vQuoteRemove.isEnabled = !b
-        vQuoteText.isEnabled = !b
-        vVoicePlay.isEnabled = !b
-        vVoiceRemove.isEnabled = !b
-        vVoiceLabel.isEnabled = !b
-    }
-
     private fun onTextChanged() {
         sendTyping()
         updateAction()
@@ -191,18 +180,13 @@ class FieldLogic(
         } else sendChange(text)
     }
 
-    private fun afterSend(message: UnitChatMessage) {
-        clearInput()
-        EventBus.post(EventUpdateChats())
-        screen.addMessage(message, true)
-        updateAction()
-    }
-
-    private fun clearInput() {
+    private fun beforeSend(){
+        voiceBytes = null
         setQuote("")
         attach.clear()
         setChange(null)
         setText("")
+        updateAction()
     }
 
     fun setText(text: String) {
@@ -231,34 +215,22 @@ class FieldLogic(
     }
 
     fun sendVoice() {
-        setLock(true)
-        ApiRequestsSupporter.execute(RChatMessageCreate(screen.tag, "", null, null, voiceBytes, 0L, quoteId, 0)) { r ->
-            voiceBytes = null
-            afterSend(r.message)
-        }
-                .onApiError(RChatMessageCreate.E_BLACK_LIST) { ToolsToast.show(R.string.error_black_list) }
-                .onApiError(RChatMessageCreate.E_IS_IGNORE_VOICE_MESSAGES) { ToolsToast.show(R.string.error_ignore_voice_messages) }
-                .onFinish { setLock(false) }
+        beforeSend()
+        screen.addCard(CardSending(screen, RChatMessageCreate(screen.tag, "", null, null, voiceBytes, 0L, quoteId, 0)))
     }
 
     private fun sendText(text: String, parentId: Long) {
-        setLock(true)
-        ApiRequestsSupporter.execute(RChatMessageCreate(screen.tag, text, null, null, null, parentId, quoteId, 0)) { r ->
-            afterSend(r.message)
-        }
-                .onApiError(RChatMessageCreate.E_BLACK_LIST) {
-                    ToolsToast.show(R.string.error_black_list)
-                }
-                .onFinish { setLock(false) }
+        beforeSend()
+        screen.addCard(CardSending(screen, RChatMessageCreate(screen.tag, text, null, null, null, parentId, quoteId, 0)))
     }
 
     private fun sendChange(text: String) {
         val unitChangeId = unitChange!!.id
-        ApiRequestsSupporter.executeEnabledCallback(RChatMessageChange(unitChangeId, quoteId, text), {
-            ToolsToast.show(R.string.app_changed)
-            EventBus.post(EventChatMessageChanged(unitChangeId, text, quoteId, quoteText))
-            clearInput()
-        }, { enabled -> setLock(!enabled) })
+        beforeSend()
+        ToolsToast.show(R.string.app_changed)
+        EventBus.post(EventChatMessageChanged(unitChangeId, text, quoteId, quoteText))
+        ApiRequestsSupporter.execute(RChatMessageChange(unitChangeId, quoteId, text)) {
+        }
 
     }
 
@@ -280,42 +252,32 @@ class FieldLogic(
     }
 
     private fun sendImage(text: String, parentId: Long) {
-        setLock(true)
         ToolsThreads.thread {
             val bytes = attach.getBytes()
             val gif = if (bytes.size == 1 && ToolsBytes.isGif(bytes[0])) bytes[0] else null
             if (gif != null) {
                 val bt = ToolsBitmap.decode(bytes[0])
                 if (bt == null) {
-                    setLock(false)
                     ToolsToast.show(R.string.error_cant_load_image)
                     return@thread
                 }
                 val byt = ToolsBitmap.toBytes(bt, API.CHAT_MESSAGE_IMAGE_WEIGHT)
                 if (byt == null) {
-                    setLock(false)
                     ToolsToast.show(R.string.error_cant_load_image)
                     return@thread
                 }
                 bytes[0] = byt
             }
-            ApiRequestsSupporter.executeProgressDialog(RChatMessageCreate(screen.tag, text, bytes, gif, null, parentId, quoteId, 0)) { r ->
-                afterSend(r.message)
-                setLock(false)
+            ToolsThreads.main {
+                beforeSend()
+                screen.addCard(CardSending(screen, RChatMessageCreate(screen.tag, text, bytes, gif, null, parentId, quoteId, 0)))
             }
-                    .onApiError(RChatMessageCreate.E_BLACK_LIST) { ToolsToast.show(R.string.error_black_list) }
-                    .onFinish { setLock(false) }
         }
     }
 
     private fun sendSticker(sticker: UnitSticker) {
-        setLock(true)
-        ApiRequestsSupporter.executeProgressDialog(RChatMessageCreate(screen.tag, "", null, null, null, 0, 0, sticker.id)) { r ->
-            afterSend(r.message)
-            setLock(false)
-        }
-                .onApiError(RChatMessageCreate.E_BLACK_LIST) { ToolsToast.show(R.string.error_black_list) }
-                .onFinish { setLock(false) }
+        beforeSend()
+        screen.addCard(CardSending(screen, RChatMessageCreate(screen.tag, "", null, null, null, 0, 0, sticker.id)))
     }
 
     private fun sendTyping() {

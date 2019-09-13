@@ -23,8 +23,7 @@ object CampfireConstants {
             Rule(R.string.rules_users_5_title, R.string.rules_users_5),
             Rule(R.string.rules_users_6_title, R.string.rules_users_6),
             Rule(R.string.rules_users_7_title, R.string.rules_users_7),
-            Rule(R.string.rules_users_8_title, R.string.rules_users_8),
-            Rule(R.string.rules_users_9_title, R.string.rules_users_9)
+            Rule(R.string.rules_users_8_title, R.string.rules_users_8)
     )
     val RULES_MODER = arrayOf(
             R.string.rules_moderators_1,

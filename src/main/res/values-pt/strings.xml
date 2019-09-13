@@ -1252,12 +1252,10 @@ Campfire has anime fandoms and gaming fandoms.</string>
     <string name="rules_users_5_title">Offtop/Pointless publications</string>
     <string name="rules_users_6">Story spoilers must be placed under the "spoiler" card, and in the header of the card must be a warning.</string>
     <string name="rules_users_6_title">Spoiler</string>
-    <string name="rules_users_7">It is forbidden to use text formatting without a reason. For example, you can not just do all text green or bold.</string>
-    <string name="rules_users_7_title">Formatting</string>
-    <string name="rules_users_8">It is forbidden to beg to rate on the publication.</string>
-    <string name="rules_users_8_title">Begging</string>
-    <string name="rules_users_9">It is forbidden to use the app functions to the detriment. For example, to make a post multilingual if it may not be understood in other languages.</string>
-    <string name="rules_users_9_title">Misuse of functions</string>
+    <string name="rules_users_7">It is forbidden to beg to rate on the publication.</string>
+    <string name="rules_users_7_title">Begging</string>
+    <string name="rules_users_8">It is forbidden to use the app functions to the detriment. For example, to make a post multilingual if it may not be understood in other languages.</string>
+    <string name="rules_users_8_title">Misuse of functions</string>
 
     <string name="rules_moderators_info">Great power comes with great responsibility. Please read all the rules for moderators and use privileges for the benefit of the community. If you violate the rules of moderation, your account will be blocked for a long time and may be deprived of the right to moderate in the future. Administrators can see deleted posts and take action if a moderator has broken the rules.</string>
     <string name="rules_moderators_1">Don\'t be too strict. Remember that we do not have a totalitarian regime. Don\'t delete publications and don\'t block users for every little thing.</string>
