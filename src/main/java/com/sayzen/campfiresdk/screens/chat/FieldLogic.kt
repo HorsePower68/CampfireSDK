@@ -15,7 +15,6 @@ import com.sayzen.campfiresdk.controllers.ControllerApi
 import com.sayzen.campfiresdk.controllers.ControllerSettings
 import com.sayzen.campfiresdk.controllers.api
 import com.sayzen.campfiresdk.models.events.chat.EventChatMessageChanged
-import com.sayzen.campfiresdk.models.events.chat.EventUpdateChats
 import com.sayzen.campfiresdk.models.support.Attach
 import com.sup.dev.android.libs.api_simple.ApiRequestsSupporter
 import com.sup.dev.android.tools.ToolsBitmap
@@ -215,21 +214,24 @@ class FieldLogic(
     }
 
     fun sendVoice() {
+        val quoteIdV = quoteId
         beforeSend()
-        screen.addCard(CardSending(screen, RChatMessageCreate(screen.tag, "", null, null, voiceBytes, 0L, quoteId, 0)))
+        screen.addCard(CardSending(screen, RChatMessageCreate(screen.tag, "", null, null, voiceBytes, 0L, quoteIdV, 0)))
     }
 
     private fun sendText(text: String, parentId: Long) {
+        val quoteIdV = quoteId
         beforeSend()
-        screen.addCard(CardSending(screen, RChatMessageCreate(screen.tag, text, null, null, null, parentId, quoteId, 0)))
+        screen.addCard(CardSending(screen, RChatMessageCreate(screen.tag, text, null, null, null, parentId, quoteIdV, 0)))
     }
 
     private fun sendChange(text: String) {
+        val quoteIdV = quoteId
         val unitChangeId = unitChange!!.id
         beforeSend()
         ToolsToast.show(R.string.app_changed)
-        EventBus.post(EventChatMessageChanged(unitChangeId, text, quoteId, quoteText))
-        ApiRequestsSupporter.execute(RChatMessageChange(unitChangeId, quoteId, text)) {
+        EventBus.post(EventChatMessageChanged(unitChangeId, text, quoteIdV, quoteText))
+        ApiRequestsSupporter.execute(RChatMessageChange(unitChangeId, quoteIdV, text)) {
         }
 
     }
@@ -269,8 +271,9 @@ class FieldLogic(
                 bytes[0] = byt
             }
             ToolsThreads.main {
+                val quoteIdV = quoteId
                 beforeSend()
-                screen.addCard(CardSending(screen, RChatMessageCreate(screen.tag, text, bytes, gif, null, parentId, quoteId, 0)))
+                screen.addCard(CardSending(screen, RChatMessageCreate(screen.tag, text, bytes, gif, null, parentId, quoteIdV, 0)))
             }
         }
     }
