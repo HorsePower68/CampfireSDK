@@ -99,7 +99,7 @@ object ControllerNotifications {
             )
         }
 
-        val b1 = executorNotification!!.canShowBySettings(notification)
+        val b1 = canShowBySettings(notification)
         val parser = parser(notification)
         val b2 = parser.canShow()
 
@@ -122,6 +122,10 @@ object ControllerNotifications {
             }
         }
     }
+
+    fun canShowBySettings(notification:Notification) =  executorNotification!!.canShowBySettings(notification)
+
+    fun canShowByFilter(notification:Notification) = parser(notification).canShow()
 
     fun tag(notificationId: Long) = "id_$notificationId"
 
@@ -340,7 +344,7 @@ object ControllerNotifications {
 
         open fun getTitle() = ""
 
-        fun canShow() = executorNotification!!.canShow(n)
+        fun canShow() = executorNotification!!.canShowByFilter(n)
 
         fun doAction() {
             executorNotification!!.doAction(n)
@@ -1087,7 +1091,7 @@ object ControllerNotifications {
 
         fun canShowBySettings(notification: Notification): Boolean
 
-        fun canShow(notification: Notification): Boolean
+        fun canShowByFilter(notification: Notification): Boolean
 
         fun notificationsFilterEnabled(type: Long): Boolean
 

@@ -28,8 +28,14 @@ class CardSending(
         ApiRequestsSupporter.execute(request) { r ->
             afterSend(r.message)
         }
-                .onApiError(RChatMessageCreate.E_BLACK_LIST) { ToolsToast.show(R.string.error_black_list) }
-                .onApiError(RChatMessageCreate.E_IS_IGNORE_VOICE_MESSAGES) { ToolsToast.show(R.string.error_ignore_voice_messages) }
+                .onApiError(RChatMessageCreate.E_BLACK_LIST) {
+                    ToolsToast.show(R.string.error_black_list)
+                    adapter?.remove(this)
+                }
+                .onApiError(RChatMessageCreate.E_IS_IGNORE_VOICE_MESSAGES) {
+                    ToolsToast.show(R.string.error_ignore_voice_messages)
+                    adapter?.remove(this)
+                }
                 .onFinish {
                     sending = false
                     ToolsThreads.main(true) { update() }

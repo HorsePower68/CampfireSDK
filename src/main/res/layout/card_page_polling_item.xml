@@ -24,10 +24,11 @@
                 android:layout_height="match_parent"
                 android:orientation="horizontal">
 
-                <View
+                <com.sup.dev.android.views.views.layouts.LayoutCorned
                     android:id="@+id/vLine1"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"/>
+                    android:layout_height="match_parent"
+                    app:LayoutCorned_cornedSize="8dp"/>
 
                 <View
                     android:id="@+id/vLine2"

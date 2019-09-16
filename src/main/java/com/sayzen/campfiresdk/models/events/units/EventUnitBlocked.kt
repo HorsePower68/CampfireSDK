@@ -4,5 +4,6 @@ import com.dzen.campfire.api.models.units.chat.UnitChatMessage
 
 class EventUnitBlocked(
         val unitId:Long,
+        val firstBlockUnitId:Long,
         val unitChatMessage: UnitChatMessage?
 )

@@ -15,27 +15,10 @@ object CampfireConstants {
 
     val CHECK_RULES_ACCEPTED = "CHECK_RULES_ACCEPTED"
 
-    val RULES_USER = arrayOf(
-            Rule(R.string.rules_users_1_title, R.string.rules_users_1),
-            Rule(R.string.rules_users_2_title, R.string.rules_users_2),
-            Rule(R.string.rules_users_3_title, R.string.rules_users_3),
-            Rule(R.string.rules_users_4_title, R.string.rules_users_4),
-            Rule(R.string.rules_users_5_title, R.string.rules_users_5),
-            Rule(R.string.rules_users_6_title, R.string.rules_users_6),
-            Rule(R.string.rules_users_7_title, R.string.rules_users_7),
-            Rule(R.string.rules_users_8_title, R.string.rules_users_8)
-    )
-    val RULES_MODER = arrayOf(
-            R.string.rules_moderators_1,
-            R.string.rules_moderators_2,
-            R.string.rules_moderators_3,
-            R.string.rules_moderators_4,
-            R.string.rules_moderators_5,
-            R.string.rules_moderators_6,
-            R.string.rules_moderators_7,
-            R.string.rules_moderators_8,
-            R.string.rules_moderators_9
-    )
+    private val RULES_USER_TITLES = ToolsResources.getStringIndexedArrayId("rules_users_%s_title")
+    private val RULES_USER_BODIES = ToolsResources.getStringIndexedArrayId("rules_users_")
+    val RULES_USER = Array(RULES_USER_TITLES.size) { Rule(RULES_USER_TITLES[it], RULES_USER_BODIES[it]) }
+    val RULES_MODER = ToolsResources.getStringIndexedArrayId("rules_moderators_")
 
     val TEXT_ICONS = arrayOf(0/*Stub item*/,
             R.attr.ic_arrow_back_24dp, R.attr.ic_menu_24dp, R.attr.ic_keyboard_arrow_right_24dp, R.attr.ic_keyboard_arrow_left_24dp, R.attr.ic_file_download_24dp, R.attr.ic_share_24dp, R.attr.ic_keyboard_arrow_up_24dp, R.attr.ic_keyboard_arrow_down_24dp, R.attr.ic_content_copy_24dp, R.attr.ic_folder_24dp,
@@ -162,267 +145,46 @@ object CampfireConstants {
             FandomParam(API.CATEGORY_OTHER, R.string.category_other)
     )
 
-    val GAMES_1 = arrayOf(FandomParam(1, R.string.games_genres_1),
-            FandomParam(2, R.string.games_genres_2),
-            FandomParam(3, R.string.games_genres_3),
-            FandomParam(4, R.string.games_genres_4),
-            FandomParam(5, R.string.games_genres_5),
-            FandomParam(6, R.string.games_genres_6),
-            FandomParam(7, R.string.games_genres_7),
-            FandomParam(8, R.string.games_genres_8),
-            FandomParam(9, R.string.games_genres_9),
-            FandomParam(10, R.string.games_genres_10),
-            FandomParam(11, R.string.games_genres_11),
-            FandomParam(12, R.string.games_genres_12),
-            FandomParam(13, R.string.games_genres_13),
-            FandomParam(14, R.string.games_genres_14),
-            FandomParam(15, R.string.games_genres_15),
-            FandomParam(16, R.string.games_genres_16),
-            FandomParam(17, R.string.games_genres_17),
-            FandomParam(18, R.string.games_genres_18),
-            FandomParam(19, R.string.games_genres_19),
-            FandomParam(20, R.string.games_genres_20),
-            FandomParam(21, R.string.games_genres_21),
-            FandomParam(22, R.string.games_genres_22),
-            FandomParam(23, R.string.games_genres_23),
-            FandomParam(24, R.string.games_genres_24),
-            FandomParam(25, R.string.games_genres_25),
-            FandomParam(26, R.string.games_genres_26),
-            FandomParam(27, R.string.games_genres_27),
-            FandomParam(28, R.string.games_genres_28)
-    )
-    val GAMES_2 = arrayOf(FandomParam(1, R.string.games_platform_1),
-            FandomParam(2, R.string.games_platform_2),
-            FandomParam(3, R.string.games_platform_3),
-            FandomParam(4, R.string.games_platform_4),
-            FandomParam(5, R.string.games_platform_5),
-            FandomParam(6, R.string.games_platform_6),
-            FandomParam(7, R.string.games_platform_7),
-            FandomParam(8, R.string.games_platform_8),
-            FandomParam(9, R.string.games_platform_9),
-            FandomParam(10, R.string.games_platform_10)
-    )
-    val GAMES_3 = arrayOf(FandomParam(1, R.string.games_control_1),
-            FandomParam(2, R.string.games_control_2),
-            FandomParam(3, R.string.games_control_3),
-            FandomParam(4, R.string.games_control_4),
-            FandomParam(5, R.string.games_control_5)
-    )
-    val ANIME_1 = arrayOf(FandomParam(1, R.string.anime_genres_1),
-            FandomParam(2, R.string.anime_genres_2),
-            FandomParam(3, R.string.anime_genres_3),
-            FandomParam(4, R.string.anime_genres_4),
-            FandomParam(5, R.string.anime_genres_5),
-            FandomParam(6, R.string.anime_genres_6),
-            FandomParam(7, R.string.anime_genres_7),
-            FandomParam(8, R.string.anime_genres_8),
-            FandomParam(9, R.string.anime_genres_9),
-            FandomParam(10, R.string.anime_genres_10),
-            FandomParam(11, R.string.anime_genres_11),
-            FandomParam(12, R.string.anime_genres_12),
-            FandomParam(13, R.string.anime_genres_13),
-            FandomParam(14, R.string.anime_genres_14),
-            FandomParam(15, R.string.anime_genres_15),
-            FandomParam(16, R.string.anime_genres_16),
-            FandomParam(17, R.string.anime_genres_17),
-            FandomParam(18, R.string.anime_genres_18),
-            FandomParam(19, R.string.anime_genres_19),
-            FandomParam(20, R.string.anime_genres_20),
-            FandomParam(21, R.string.anime_genres_21),
-            FandomParam(22, R.string.anime_genres_22),
-            FandomParam(23, R.string.anime_genres_23),
-            FandomParam(24, R.string.anime_genres_24),
-            FandomParam(25, R.string.anime_genres_25),
-            FandomParam(26, R.string.anime_genres_26),
-            FandomParam(27, R.string.anime_genres_27),
-            FandomParam(28, R.string.anime_genres_28),
-            FandomParam(29, R.string.anime_genres_29),
-            FandomParam(30, R.string.anime_genres_30)
-    )
-    val ANIME_2 = arrayOf(FandomParam(1, R.string.anime_type_1),
-            FandomParam(2, R.string.anime_type_2),
-            FandomParam(3, R.string.anime_type_3)
-    )
-    val MUSIC_1 = arrayOf(FandomParam(1, R.string.music_1_1),
-            FandomParam(2, R.string.music_1_2),
-            FandomParam(3, R.string.music_1_3),
-            FandomParam(4, R.string.music_1_4),
-            FandomParam(5, R.string.music_1_5),
-            FandomParam(6, R.string.music_1_6),
-            FandomParam(7, R.string.music_1_7),
-            FandomParam(8, R.string.music_1_8),
-            FandomParam(9, R.string.music_1_9),
-            FandomParam(10, R.string.music_1_10),
-            FandomParam(11, R.string.music_1_11),
-            FandomParam(12, R.string.music_1_12),
-            FandomParam(13, R.string.music_1_13),
-            FandomParam(14, R.string.music_1_14),
-            FandomParam(15, R.string.music_1_15),
-            FandomParam(16, R.string.music_1_16),
-            FandomParam(17, R.string.music_1_17),
-            FandomParam(18, R.string.music_1_18),
-            FandomParam(19, R.string.music_1_19),
-            FandomParam(20, R.string.music_1_20),
-            FandomParam(21, R.string.music_1_21),
-            FandomParam(22, R.string.music_1_22),
-            FandomParam(23, R.string.music_1_23)
-    )
-    val MUSIC_2 = arrayOf(FandomParam(1, R.string.music_2_1),
-            FandomParam(2, R.string.music_2_2),
-            FandomParam(3, R.string.music_2_3),
-            FandomParam(4, R.string.music_2_4),
-            FandomParam(5, R.string.music_2_5),
-            FandomParam(6, R.string.music_2_6),
-            FandomParam(7, R.string.music_2_7),
-            FandomParam(8, R.string.music_2_8),
-            FandomParam(9, R.string.music_2_9),
-            FandomParam(10, R.string.music_2_10),
-            FandomParam(11, R.string.music_2_11),
-            FandomParam(12, R.string.music_2_12),
-            FandomParam(13, R.string.music_2_13),
-            FandomParam(14, R.string.music_2_14),
-            FandomParam(15, R.string.music_2_15),
-            FandomParam(16, R.string.music_2_16),
-            FandomParam(17, R.string.music_2_17)
-    )
-    val MUSIC_3 = arrayOf(FandomParam(1, R.string.music_3_1),
-            FandomParam(2, R.string.music_3_2),
-            FandomParam(3, R.string.music_3_3),
-            FandomParam(4, R.string.music_3_4),
-            FandomParam(5, R.string.music_3_5),
-            FandomParam(6, R.string.music_3_6),
-            FandomParam(7, R.string.music_3_7),
-            FandomParam(8, R.string.music_3_8)
-    )
-    val PROGRAMS_1 = arrayOf(FandomParam(1, R.string.programs_1_1),
-            FandomParam(2, R.string.programs_1_2),
-            FandomParam(3, R.string.programs_1_3),
-            FandomParam(4, R.string.programs_1_4),
-            FandomParam(5, R.string.programs_1_5),
-            FandomParam(6, R.string.programs_1_6),
-            FandomParam(7, R.string.programs_1_7),
-            FandomParam(8, R.string.programs_1_8),
-            FandomParam(9, R.string.programs_1_9),
-            FandomParam(10, R.string.programs_1_10),
-            FandomParam(11, R.string.programs_1_11),
-            FandomParam(12, R.string.programs_1_12),
-            FandomParam(13, R.string.programs_1_13),
-            FandomParam(14, R.string.programs_1_14),
-            FandomParam(15, R.string.programs_1_15),
-            FandomParam(16, R.string.programs_1_16),
-            FandomParam(17, R.string.programs_1_17),
-            FandomParam(18, R.string.programs_1_18),
-            FandomParam(19, R.string.programs_1_19),
-            FandomParam(20, R.string.programs_1_20),
-            FandomParam(21, R.string.programs_1_21),
-            FandomParam(22, R.string.programs_1_22),
-            FandomParam(23, R.string.programs_1_23),
-            FandomParam(24, R.string.programs_1_24),
-            FandomParam(25, R.string.programs_1_25),
-            FandomParam(26, R.string.programs_1_26),
-            FandomParam(27, R.string.programs_1_27),
-            FandomParam(28, R.string.programs_1_28),
-            FandomParam(29, R.string.programs_1_29)
-    )
-    val PROGRAMS_2 = arrayOf(FandomParam(1, R.string.programs_2_1),
-            FandomParam(2, R.string.programs_2_2),
-            FandomParam(3, R.string.programs_2_3),
-            FandomParam(4, R.string.programs_2_4),
-            FandomParam(5, R.string.programs_2_5)
-    )
-    val MOVIES_1 = arrayOf(FandomParam(1, R.string.movies_1_1),
-            FandomParam(2, R.string.movies_1_2),
-            FandomParam(3, R.string.movies_1_3),
-            FandomParam(4, R.string.movies_1_4),
-            FandomParam(5, R.string.movies_1_5),
-            FandomParam(6, R.string.movies_1_6),
-            FandomParam(7, R.string.movies_1_7),
-            FandomParam(8, R.string.movies_1_8),
-            FandomParam(9, R.string.movies_1_9),
-            FandomParam(10, R.string.movies_1_10),
-            FandomParam(11, R.string.movies_1_11),
-            FandomParam(12, R.string.movies_1_12),
-            FandomParam(13, R.string.movies_1_13),
-            FandomParam(14, R.string.movies_1_14),
-            FandomParam(15, R.string.movies_1_15)
-    )
-    val MOVIES_2 = arrayOf(FandomParam(1, R.string.movies_2_1),
-            FandomParam(2, R.string.movies_2_2),
-            FandomParam(3, R.string.movies_2_3),
-            FandomParam(4, R.string.movies_2_4),
-            FandomParam(5, R.string.movies_2_5)
-    )
-    val SITE_1 = arrayOf(FandomParam(1, R.string.site_1_1),
-            FandomParam(2, R.string.site_1_2),
-            FandomParam(3, R.string.site_1_3),
-            FandomParam(4, R.string.site_1_4),
-            FandomParam(5, R.string.site_1_5),
-            FandomParam(6, R.string.site_1_6),
-            FandomParam(7, R.string.site_1_7),
-            FandomParam(8, R.string.site_1_8),
-            FandomParam(9, R.string.site_1_9),
-            FandomParam(10, R.string.site_1_10),
-            FandomParam(11, R.string.site_1_11),
-            FandomParam(12, R.string.site_1_12),
-            FandomParam(13, R.string.site_1_13),
-            FandomParam(14, R.string.site_1_14)
-    )
-    val COMPANY_1 = arrayOf(FandomParam(1, R.string.company_1_1),
-            FandomParam(2, R.string.company_1_2),
-            FandomParam(3, R.string.company_1_3),
-            FandomParam(4, R.string.company_1_4),
-            FandomParam(5, R.string.company_1_5),
-            FandomParam(6, R.string.company_1_6),
-            FandomParam(7, R.string.company_1_7),
-            FandomParam(8, R.string.company_1_8),
-            FandomParam(9, R.string.company_1_9),
-            FandomParam(10, R.string.company_1_10)
-    )
-    val BOOKS_1 = arrayOf(FandomParam(1, R.string.books_1_1),
-            FandomParam(2, R.string.books_1_2),
-            FandomParam(3, R.string.books_1_3),
-            FandomParam(4, R.string.books_1_4),
-            FandomParam(5, R.string.books_1_5),
-            FandomParam(6, R.string.books_1_6),
-            FandomParam(7, R.string.books_1_7),
-            FandomParam(8, R.string.books_1_8),
-            FandomParam(9, R.string.books_1_9),
-            FandomParam(10, R.string.books_1_10),
-            FandomParam(11, R.string.books_1_11)
-    )
-    val ANIMALS_1 = arrayOf(FandomParam(1, R.string.animals_1_1),
-            FandomParam(2, R.string.animals_1_2),
-            FandomParam(3, R.string.animals_1_3),
-            FandomParam(4, R.string.animals_1_4),
-            FandomParam(5, R.string.animals_1_5),
-            FandomParam(6, R.string.animals_1_6),
-            FandomParam(7, R.string.animals_1_7),
-            FandomParam(8, R.string.animals_1_8)
-    )
-    val HOBBIES_1 = arrayOf(FandomParam(1, R.string.hobbies_1_1),
-            FandomParam(2, R.string.hobbies_1_2),
-            FandomParam(3, R.string.hobbies_1_3),
-            FandomParam(4, R.string.hobbies_1_4)
-    )
-    val PEOPLE_1 = arrayOf(FandomParam(1, R.string.people_1_1),
-            FandomParam(2, R.string.people_1_2),
-            FandomParam(3, R.string.people_1_3),
-            FandomParam(4, R.string.people_1_4),
-            FandomParam(5, R.string.people_1_5),
-            FandomParam(6, R.string.people_1_6),
-            FandomParam(7, R.string.people_1_7),
-            FandomParam(8, R.string.people_1_8),
-            FandomParam(9, R.string.people_1_9)
-    )
+    private val GAMES_1_ARRAY = ToolsResources.getStringIndexedArrayId("games_genres_")
+    val GAMES_1 = Array(GAMES_1_ARRAY.size) { FandomParam(it.toLong(), GAMES_1_ARRAY[it]) }
 
-    val EVENT_1 = arrayOf(FandomParam(1, R.string.event_1_1),
-            FandomParam(2, R.string.event_1_2),
-            FandomParam(3, R.string.event_1_3),
-            FandomParam(4, R.string.event_1_4),
-            FandomParam(5, R.string.event_1_5),
-            FandomParam(6, R.string.event_1_6)
-    )
 
+    private val GAMES_2_ARRAY = ToolsResources.getStringIndexedArrayId("games_platform_")
+    val GAMES_2 = Array(GAMES_2_ARRAY.size) { FandomParam(it.toLong(), GAMES_2_ARRAY[it]) }
+    private val GAMES_3_ARRAY = ToolsResources.getStringIndexedArrayId("games_control_")
+    val GAMES_3 = Array(GAMES_3_ARRAY.size) { FandomParam(it.toLong(), GAMES_3_ARRAY[it]) }
+    private val ANIME_1_ARRAY = ToolsResources.getStringIndexedArrayId("anime_genres_")
+    val ANIME_1 = Array(ANIME_1_ARRAY.size) { FandomParam(it.toLong(), ANIME_1_ARRAY[it]) }
+    private val ANIME_2_ARRAY = ToolsResources.getStringIndexedArrayId("anime_type_")
+    val ANIME_2 = Array(ANIME_2_ARRAY.size) { FandomParam(it.toLong(), ANIME_2_ARRAY[it]) }
+    private val MUSIC_1_ARRAY = ToolsResources.getStringIndexedArrayId("music_1_")
+    val MUSIC_1 = Array(MUSIC_1_ARRAY.size) { FandomParam(it.toLong(), MUSIC_1_ARRAY[it]) }
+    private val MUSIC_2_ARRAY = ToolsResources.getStringIndexedArrayId("music_2_")
+    val MUSIC_2 = Array(MUSIC_2_ARRAY.size) { FandomParam(it.toLong(), MUSIC_2_ARRAY[it]) }
+    private val MUSIC_3_ARRAY = ToolsResources.getStringIndexedArrayId("music_3_")
+    val MUSIC_3 = Array(MUSIC_3_ARRAY.size) { FandomParam(it.toLong(), MUSIC_3_ARRAY[it]) }
+    private val PROGRAMS_1_ARRAY = ToolsResources.getStringIndexedArrayId("programs_1_")
+    val PROGRAMS_1 = Array(PROGRAMS_1_ARRAY.size) { FandomParam(it.toLong(), PROGRAMS_1_ARRAY[it]) }
+    private val PROGRAMS_2_ARRAY = ToolsResources.getStringIndexedArrayId("programs_2_")
+    val PROGRAMS_2 = Array(PROGRAMS_2_ARRAY.size) { FandomParam(it.toLong(), PROGRAMS_2_ARRAY[it]) }
+    private val MOVIES_1_ARRAY = ToolsResources.getStringIndexedArrayId("movies_1_")
+    val MOVIES_1 = Array(MOVIES_1_ARRAY.size) { FandomParam(it.toLong(), MOVIES_1_ARRAY[it]) }
+    private val MOVIES_2_ARRAY = ToolsResources.getStringIndexedArrayId("movies_2_")
+    val MOVIES_2 = Array(MOVIES_2_ARRAY.size) { FandomParam(it.toLong(), MOVIES_2_ARRAY[it]) }
+    private val SITE_1_ARRAY = ToolsResources.getStringIndexedArrayId("site_1_")
+    val SITE_1 = Array(SITE_1_ARRAY.size) { FandomParam(it.toLong(), SITE_1_ARRAY[it]) }
+    private val COMPANY_1_ARRAY = ToolsResources.getStringIndexedArrayId("company_1_")
+    val COMPANY_1 = Array(COMPANY_1_ARRAY.size) { FandomParam(it.toLong(), COMPANY_1_ARRAY[it]) }
+    private val BOOKS_1_ARRAY = ToolsResources.getStringIndexedArrayId("books_1_")
+    val BOOKS_1 = Array(BOOKS_1_ARRAY.size) { FandomParam(it.toLong(), BOOKS_1_ARRAY[it]) }
+    private val ANIMALS_1_ARRAY = ToolsResources.getStringIndexedArrayId("animals_1_")
+    val ANIMALS_1 = Array(ANIMALS_1_ARRAY.size) { FandomParam(it.toLong(), ANIMALS_1_ARRAY[it]) }
+    private val HOBBIES_1_ARRAY = ToolsResources.getStringIndexedArrayId("hobbies_1_")
+    val HOBBIES_1 = Array(HOBBIES_1_ARRAY.size) { FandomParam(it.toLong(), HOBBIES_1_ARRAY[it]) }
+    private val PEOPLE_1_ARRAY = ToolsResources.getStringIndexedArrayId("people_1_")
+    val PEOPLE_1 = Array(PEOPLE_1_ARRAY.size) { FandomParam(it.toLong(), PEOPLE_1_ARRAY[it]) }
+    private val EVENT_1_ARRAY = ToolsResources.getStringIndexedArrayId("event_1_")
+    val EVENT_1 = Array(EVENT_1_ARRAY.size) { FandomParam(it.toLong(), EVENT_1_ARRAY[it]) }
 
     fun getAchievement(info: AchievementInfo): Achievement {
         return getAchievement(info.index)
@@ -643,18 +405,7 @@ object CampfireConstants {
         }
     }
 
-    val FEED_TEXTS = arrayOf(R.string.feed_loading,
-            R.string.feed_loading_1, R.string.feed_loading_2, R.string.feed_loading_3, R.string.feed_loading_4, R.string.feed_loading_5,
-            R.string.feed_loading_6, R.string.feed_loading_7, R.string.feed_loading_8, R.string.feed_loading_9, R.string.feed_loading_10,
-            R.string.feed_loading_11, R.string.feed_loading_12, R.string.feed_loading_13, R.string.feed_loading_14, R.string.feed_loading_15,
-            R.string.feed_loading_16, R.string.feed_loading_17, R.string.feed_loading_18, R.string.feed_loading_19, R.string.feed_loading_20, R.string.feed_loading_21,
-            R.string.feed_loading_22, R.string.feed_loading_23, R.string.feed_loading_24, R.string.feed_loading_25, R.string.feed_loading_26, R.string.feed_loading_27, R.string.feed_loading_28, R.string.feed_loading_29, R.string.feed_loading_30,
-            R.string.feed_loading_31, R.string.feed_loading_32, R.string.feed_loading_33, R.string.feed_loading_34
-    )
-
-    val ACCOUNT_TEXT = arrayOf(
-            R.string.profile_subtitle_text_1, R.string.profile_subtitle_text_2, R.string.profile_subtitle_text_3, R.string.profile_subtitle_text_4, R.string.profile_subtitle_text_5, R.string.profile_subtitle_text_6, R.string.profile_subtitle_text_7, R.string.profile_subtitle_text_8, R.string.profile_subtitle_text_9,
-            R.string.profile_subtitle_text_10,R.string.profile_subtitle_text_11,R.string.profile_subtitle_text_12,R.string.profile_subtitle_text_13,R.string.profile_subtitle_text_14
-    )
+    val FEED_TEXTS = ToolsResources.getStringIndexedArrayId("feed_loading_")
+    val ACCOUNT_TEXT = ToolsResources.getStringIndexedArrayId("profile_subtitle_text_")
 
 }

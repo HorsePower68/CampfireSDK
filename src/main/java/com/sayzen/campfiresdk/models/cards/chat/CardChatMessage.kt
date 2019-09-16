@@ -32,7 +32,6 @@ import com.sup.dev.android.views.views.ViewImagesSwipe
 import com.sup.dev.android.views.views.ViewSwipe
 import com.sup.dev.android.views.views.ViewTextLinkable
 import com.sup.dev.android.views.widgets.WidgetMenu
-import com.sup.dev.java.libs.debug.log
 import com.sup.dev.java.libs.eventBus.EventBus
 import com.sup.dev.java.tools.ToolsColor
 import com.sup.dev.java.tools.ToolsDate
@@ -80,6 +79,7 @@ abstract class CardChatMessage constructor(
     var useMessageContainerBackground = true
     var quoteEnabled = true
     var copyEnabled = true
+    var wasBlocked = false
 
     init {
         updateFandomOnBind = false
@@ -334,9 +334,9 @@ abstract class CardChatMessage constructor(
 
     private fun onEventUnitBlocked(e: EventUnitBlocked) {
         val unit = xUnit.unit as UnitChatMessage
-        if (e.unitId == unit.id) {
+        if (!wasBlocked && e.firstBlockUnitId == unit.id) {
+            wasBlocked = true
             if (onBlocked != null && e.unitChatMessage != null) onBlocked!!.invoke(e.unitChatMessage)
-
         }
     }
 

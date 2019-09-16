@@ -264,6 +264,8 @@
     <string name="time_day">День</string>
     <string name="time_week">Неделя</string>
     <string name="time_month">Месяц</string>
+    <string name="time_6_month">6 месяцев</string>
+    <string name="time_year">Год</string>
     <string name="time_all">Всегда</string>
 
     <string name="notifications_follows_new_content">%s %s новую публикацию</string>
@@ -419,7 +421,7 @@
     <string name="feed_loading_32">Без красителей и консервантов</string>
     <string name="feed_loading_33">Не играйте с огнём</string>
     <string name="feed_loading_34">Добро пожаловать в мой мир</string>
-    <string name="feed_loading">Загружаем вашу ленту</string>
+    <string name="feed_loading_35">Загружаем вашу ленту</string>
     <string name="feed_all">Все побликации</string>
     <string name="feed_subscribed">Только подписки</string>
     <string name="feed_important">Только важные</string>
@@ -1310,6 +1312,9 @@
     <string name="statistic_messages">Сообщения</string>
     <string name="statistic_enters">Посещение</string>
     <string name="statistic_rates">Оценки</string>
+
+    <string name="holiday_campfire_birthday_title">День рождения Campfire.</string>
+    <string name="holiday_campfire_birthday_text">В 2015 году, в этот день зародился Campfire.</string>
 
     <string name="about_about">О приложении</string>
     <string name="about_rules_user">Правила приложения</string>

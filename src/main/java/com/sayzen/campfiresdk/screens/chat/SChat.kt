@@ -34,6 +34,7 @@ import com.sup.dev.android.views.screens.SLoadingRecycler
 import com.sup.dev.android.views.support.adapters.recycler_view.RecyclerCardAdapterLoading
 import com.sup.dev.android.views.views.ViewAvatarTitle
 import com.sup.dev.android.views.views.ViewIcon
+import com.sup.dev.java.libs.debug.Debug
 import com.sup.dev.java.libs.eventBus.EventBus
 import com.sup.dev.java.tools.*
 
@@ -166,30 +167,34 @@ class SChat private constructor(
     override fun instanceAdapter(): RecyclerCardAdapterLoading<CardChatMessage, UnitChatMessage> {
         val adapter = RecyclerCardAdapterLoading<CardChatMessage, UnitChatMessage>(CardChatMessage::class) { u -> instanceCard(u) }
                 .setBottomLoader { onLoad, cards ->
-                    subscription = RChatMessageGetAll(tag, if (cards.isEmpty()) 0 else cards[cards.size - 1].xUnit.unit.dateCreate, false)
-                            .onComplete { r ->
-                                if (loaded) {
-                                    onLoad.invoke(emptyArray())
-                                    return@onComplete
+                    if (loaded) {
+                        onLoad.invoke(emptyArray())
+                    } else {
+                        subscription = RChatMessageGetAll(tag, if (cards.isEmpty()) 0 else cards[cards.size - 1].xUnit.unit.dateCreate, false)
+                                .onComplete { r ->
+                                    if (loaded) {
+                                        onLoad.invoke(emptyArray())
+                                        return@onComplete
+                                    }
+                                    loaded = true
+                                    adapter!!.remove(carSpace)
+                                    onLoad.invoke(r.units)
+                                    adapter!!.add(carSpace)
+                                    if (scrollAfterLoad) {
+                                        scrollAfterLoad = false
+                                        vRecycler.smoothScrollToPosition(vRecycler.adapter!!.itemCount)
+                                    }
+                                    EventBus.post(EventChatRead(tag))
+                                    if (r.units.isNotEmpty())
+                                        EventBus.post(EventChatNewBottomMessage(tag, r.units[r.units.size - 1]))
+                                    ToolsThreads.main(true) {
+                                        for (c in addAfterLoadList) addMessage(c, true)
+                                    }
+                                    adapter!!.lockBottom()
                                 }
-                                loaded = true
-                                adapter!!.remove(carSpace)
-                                onLoad.invoke(r.units)
-                                adapter!!.add(carSpace)
-                                if (scrollAfterLoad) {
-                                    scrollAfterLoad = false
-                                    vRecycler.smoothScrollToPosition(vRecycler.adapter!!.itemCount)
-                                }
-                                EventBus.post(EventChatRead(tag))
-                                if (r.units.isNotEmpty())
-                                    EventBus.post(EventChatNewBottomMessage(tag, r.units[r.units.size - 1]))
-                                ToolsThreads.main(true) {
-                                    for (c in addAfterLoadList) addMessage(c, true)
-                                }
-                                adapter!!.lockBottom()
-                            }
-                            .onNetworkError { onLoad.invoke(null) }
-                            .send(api)
+                                .onNetworkError { onLoad.invoke(null) }
+                                .send(api)
+                    }
                 }
                 .setTopLoader { onLoad, cards ->
                     subscription = RChatMessageGetAll(tag, if (cards.isEmpty()) 0 else cards[0].xUnit.unit.dateCreate, true)

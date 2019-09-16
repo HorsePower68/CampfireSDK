@@ -122,8 +122,12 @@ class CardUnitEventUser(
                 view.setOnClickListener { ControllerCampfireSDK.onToModerationClicked(e.moderationId, 0, Navigator.TO) }
             }
             is ApiEventUserModerWarn -> {
-                text = ToolsResources.sCap(R.string.unit_event_unit_warn_app, ToolsResources.sex(e.ownerAccountSex, R.string.he_warned, R.string.she_warned), ControllerApi.linkToUser(e.ownerAccountName), "" + e.fandomName + " (" + ControllerApi.linkToFandom(e.fandomId, e.languageId) + ")")
+                text = ToolsResources.sCap(R.string.unit_event_unit_warn_app, ToolsResources.sex(e.ownerAccountSex, R.string.he_warned, R.string.she_warned), ControllerApi.linkToUser(e.adminAccountName), "" + e.fandomName + " (" + ControllerApi.linkToFandom(e.fandomId, e.languageId) + ")")
                 view.setOnClickListener { ControllerCampfireSDK.onToAccountClicked(e.ownerAccountId, Navigator.TO) }
+            }
+            is ApiEventUserAdminPostChangeFandom -> {
+                text = ToolsResources.sCap(R.string.unit_event_post_fandom_change, ControllerApi.linkToUser(e.adminAccountId), ToolsResources.sex(e.adminAccountSex, R.string.he_move, R.string.she_move), e.oldFandomName, e.newFandomName)
+                view.setOnClickListener { ControllerCampfireSDK.onToPostClicked(e.unitId, 0, Navigator.TO) }
             }
         }
 

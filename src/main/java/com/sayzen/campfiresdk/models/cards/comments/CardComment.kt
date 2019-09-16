@@ -141,7 +141,7 @@ abstract class CardComment protected constructor(
 
 
         if (vLabelName != null) vLabelName.text = unit.creatorName
-        if (vLabelDate != null) vLabelDate.text = "${ToolsDate.dateToString(unit.dateCreate)}${if (unit.changed) ToolsResources.s(R.string.app_edited) else ""}"
+        if (vLabelDate != null) vLabelDate.text = "${ToolsDate.dateToString(unit.dateCreate)}${if (unit.changed) " " + ToolsResources.s(R.string.app_edited) else ""}"
         if (vLabel != null) vLabel.text = unit.creatorName + "   " + ToolsDate.dateToString(unit.dateCreate) + (if (unit.changed) " " + ToolsResources.s(R.string.app_edited) else "")
         if (vDivider != null) vDivider.visibility = if (dividers) View.VISIBLE else View.GONE
 

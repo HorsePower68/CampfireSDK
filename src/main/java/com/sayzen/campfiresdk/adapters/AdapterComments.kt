@@ -34,17 +34,17 @@ class AdapterComments(
             .subscribe(EventCommentsCountChanged::class) { this.onEventCommentsCountChanged(it) }
 
     private var needScrollToBottom = false
+    private var extraScroll = 1
 
     init {
         setBottomLoader { onLoad, cards ->
             RCommentsGetAll(unitId, if (cards.isEmpty()) 0 else cards.get(cards.size - 1).xUnit.unit.dateCreate, false, startFromBottom)
                     .onComplete { r ->
                         onLoad.invoke(r.units)
-                        ToolsThreads.main(true) { if (r.units.isNotEmpty() && !contains(CardSpace::class)) add(CardSpace(124)) }
+                        remove(CardSpace::class)
+                        if(!isEmpty)add(CardSpace(124))
                     }
-                    .onError {
-                        onLoad.invoke(null)
-                    }
+                    .onError { onLoad.invoke(null) }
                     .send(api)
         }
         setAddToSameCards(true)
@@ -95,7 +95,7 @@ class AdapterComments(
                 if (c.xUnit.unit.id == scrollToCommentId) {
                     scrollToCommentId = 0
                     ToolsThreads.main(600) {
-                        vRecycler.scrollToPosition(indexOf(c) + 1)
+                        vRecycler.scrollToPosition(indexOf(c) + extraScroll)
                         c.flash()
                     }
                 }
@@ -149,6 +149,10 @@ class AdapterComments(
                     }
                 }
         )
+    }
+
+    fun setExtraScroll(extraScroll:Int){
+        this.extraScroll = extraScroll
     }
 
     //

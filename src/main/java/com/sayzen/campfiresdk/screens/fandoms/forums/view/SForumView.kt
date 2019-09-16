@@ -81,6 +81,7 @@ class SForumView(
     override fun instanceAdapter(): RecyclerCardAdapterLoading<CardComment, UnitComment> {
         val adapter = AdapterComments(unit.id, commentId, vRecycler, true)
         adapter.enableTopLoader()
+        adapter.setExtraScroll(0)
         adapter.setEmptyMessage(null)
         return adapter
     }

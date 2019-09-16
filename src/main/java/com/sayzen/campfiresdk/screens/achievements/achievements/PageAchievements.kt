@@ -17,7 +17,6 @@ import com.sup.dev.android.tools.ToolsView
 import com.sup.dev.android.views.cards.Card
 import com.sup.dev.android.views.cards.CardLoading
 import com.sup.dev.android.views.support.adapters.recycler_view.RecyclerCardAdapter
-import com.sup.dev.java.libs.debug.log
 import com.sup.dev.java.libs.eventBus.EventBus
 
 class PageAchievements(
@@ -110,10 +109,8 @@ class PageAchievements(
         val vRecycler: RecyclerView = getView()!!.findViewById(R.id.vRecycler)
         val index = adapterSub.indexOf(card)
         if(index > adapterSub.size()-3) {
-            log("Scroll 1")
             vRecycler.scrollToPosition(index)
         } else {
-            log("Scroll 2")
             vRecycler.scrollToPosition(index + 2)
         }
     }

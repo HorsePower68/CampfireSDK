@@ -15,6 +15,7 @@ import com.sup.dev.android.tools.ToolsResources
 import com.sup.dev.android.views.cards.CardDividerTitle
 import com.sup.dev.android.views.screens.SLoadingRecycler
 import com.sup.dev.android.views.support.adapters.recycler_view.RecyclerCardAdapterLoading
+import com.sup.dev.java.tools.ToolsThreads
 import java.util.*
 
 class SFandomsSearch private constructor(
@@ -54,7 +55,6 @@ class SFandomsSearch private constructor(
         setTextEmpty(R.string.fandoms_empty)
         setTextProgress(R.string.fandoms_loading)
         setBackgroundImage(R.drawable.bg_7)
-
 
         val vFab: FloatingActionButton = findViewById(R.id.vFab)
         (vFab as View).visibility = View.VISIBLE
@@ -103,8 +103,6 @@ class SFandomsSearch private constructor(
         adapter.addOnLoadedNotEmpty {
             if (subscribedLoaded || isSearchMode()) setState(State.NONE)
             else {
-                subscribedLoaded = true
-                adapter.add(CardDividerTitle(R.string.fandoms_global))
                 adapter.loadBottom()
             }
         }
@@ -112,7 +110,6 @@ class SFandomsSearch private constructor(
             if (lockOnEmpty) return@addOnEmpty
             if (subscribedLoaded || isSearchMode()) setState(State.EMPTY)
             else {
-                subscribedLoaded = true
                 adapter.loadBottom()
             }
         }
@@ -137,7 +134,13 @@ class SFandomsSearch private constructor(
         lockOnEmpty = false
         if (!subscribedLoaded && !isSearchMode())
             RFandomsGetAll(RFandomsGetAll.SUBSCRIBE_YES, getLastSubscribedOffset(), ControllerApi.getLanguageId(), categoryId, "", emptyArray(), emptyArray(), emptyArray(), emptyArray())
-                    .onComplete { r -> onLoad.invoke(r.fandoms) }
+                    .onComplete { r ->
+                        if (r.fandoms.size < RFandomsGetAll.COUNT) {
+                            subscribedLoaded = true
+                            if (!adapter!!.isEmpty || r.fandoms.isNotEmpty()) ToolsThreads.main(true) { adapter!!.add(CardDividerTitle(R.string.fandoms_global)) }
+                        }
+                        onLoad.invoke(r.fandoms)
+                    }
                     .onNetworkError { onLoad.invoke(null) }
                     .send(api)
         else if (!isSearchMode())

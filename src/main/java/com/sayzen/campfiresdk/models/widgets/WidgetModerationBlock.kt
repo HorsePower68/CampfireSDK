@@ -94,6 +94,8 @@ class WidgetModerationBlock(
         vBlockUser.add(R.string.time_day) { setBanTime(1000L * 60 * 60 * 24) }
         vBlockUser.add(R.string.time_week) { setBanTime(1000L * 60 * 60 * 24 * 7) }
         vBlockUser.add(R.string.time_month) { setBanTime(1000L * 60 * 60 * 24 * 30) }
+        vBlockUser.add(R.string.time_6_month) { setBanTime(1000L * 60 * 60 * 24 * 30 * 6) }
+        vBlockUser.add(R.string.time_year) { setBanTime(1000L * 60 * 60 * 24 * 365) }
 
         vBlockUser.setSubtitle(R.string.moderation_widget_ban_no)
         setBanTime(0)
@@ -171,7 +173,7 @@ class WidgetModerationBlock(
             EventBus.post(EventFandomReviewTextRemoved(unit.id))
         } else {
             for (id in blockedUnitsIds) EventBus.post(EventUnitRemove(id))
-            for (id in blockedUnitsIds) EventBus.post(EventUnitBlocked(id, unitChatMessage))
+            for (id in blockedUnitsIds) EventBus.post(EventUnitBlocked(id, unit.id, unitChatMessage))
         }
     }
 

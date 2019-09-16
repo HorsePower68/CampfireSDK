@@ -79,6 +79,8 @@ class WidgetAdminBlock(
         vBlockUser.add(R.string.time_day) { banTime = 1000L * 60 * 60 * 24 }
         vBlockUser.add(R.string.time_week) {  banTime = 1000L * 60 * 60 * 24 * 7 }
         vBlockUser.add(R.string.time_month) { banTime = 1000L * 60 * 60 * 24 * 30 }
+        vBlockUser.add(R.string.time_6_month) { banTime = 1000L * 60 * 60 * 24 * 30 * 6 }
+        vBlockUser.add(R.string.time_year) { banTime = 1000L * 60 * 60 * 24 * 365 }
 
         vBlockUser.setSubtitle(R.string.moderation_widget_ban_warn)
         banTime = -1

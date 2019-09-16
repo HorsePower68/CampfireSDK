@@ -264,6 +264,8 @@ Campfire has anime fandoms and gaming fandoms.</string>
     <string name="time_day">Day</string>
     <string name="time_week">Week</string>
     <string name="time_month">Month</string>
+    <string name="time_6_month">6 months</string>
+    <string name="time_year">Year</string>
     <string name="time_all">All-time</string>
 
     <string name="notifications_follows_new_content">%s %s new publication</string>
@@ -412,12 +414,12 @@ Campfire has anime fandoms and gaming fandoms.</string>
     <string name="feed_loading_27">Know... The world always needs new heroes.</string>
     <string name="feed_loading_28">Heroes never die!</string>
     <string name="feed_loading_29">Appreciate these last moments of silence.</string>
-    <string name="feed_loading_30">If you\'re reading this, the feed isn\'t loaded yet.</string>
+    <string name="feed_loading_30">If youre reading this, the feed isn\'t loaded yet.</string>
     <string name="feed_loading_31">Faster read, soon this message will disappear!</string>
     <string name="feed_loading_32">No colorants or preservatives</string>
     <string name="feed_loading_33">Do not play with fire</string>
     <string name="feed_loading_34">welcome to my world</string>
-    <string name="feed_loading">Loading you\'r feed</string>
+    <string name="feed_loading_35">Loading your feed</string>
     <string name="feed_all">All publications</string>
     <string name="feed_subscribed">Subscribed only</string>
     <string name="feed_important">Important only</string>
@@ -480,7 +482,7 @@ Campfire has anime fandoms and gaming fandoms.</string>
     <string name="fandom_review_empty">No reviews</string>
 
     <string name="chats_empty">You don\'t have chats</string>
-    <string name="chats_loading">Loading you\'r chats</string>
+    <string name="chats_loading">Loading your chats</string>
 
     <string name="chat_never">You won\'t receive any notifications</string>
     <string name="chat_time">You receive notifications until: %s</string>
@@ -756,7 +758,7 @@ Campfire has anime fandoms and gaming fandoms.</string>
     <string name="into_feed_filters">Choose what interests you</string>
 
     <string name="bookmarks_empty">You don\'t have any bookmarks</string>
-    <string name="bookmarks_loading">Loading you\'r bookmarks</string>
+    <string name="bookmarks_loading">Loading your bookmarks</string>
     <string name="bookmark">Bookmark</string>
     <string name="bookmarks_add">Add bookmark</string>
     <string name="bookmarks_remove">Remove bookmark</string>
@@ -764,7 +766,7 @@ Campfire has anime fandoms and gaming fandoms.</string>
     <string name="bookmarks_removed">Bookmark is removed</string>
 
     <string name="notifications_empty">You don\'t have any notification</string>
-    <string name="notifications_loading">Loading you\'r notifications</string>
+    <string name="notifications_loading">Loading your notifications</string>
 
     <string name="achievements_notification">You got a new achievement:</string>
 
@@ -855,7 +857,7 @@ Campfire has anime fandoms and gaming fandoms.</string>
     <string name="post_page_polling_change_alert">If you change the polling, all responses will be lost.</string>
     <string name="post_change_alert">Any changes in the published post are immediately visible to users. For serious changes, return the post to drafts.</string>
     <string name="post_drafts_empty_text">You don\'t have any draft yet</string>
-    <string name="post_drafts_loading">Loading you\'r drafts</string>
+    <string name="post_drafts_loading">Loading your drafts</string>
     <string name="post_search_empty">Nothing is found, try another tag</string>
     <string name="post_search_action">To tags</string>
     <string name="post_page_images_empty">No images in the list.</string>
@@ -1310,6 +1312,9 @@ Campfire has anime fandoms and gaming fandoms.</string>
     <string name="statistic_messages">Messages</string>
     <string name="statistic_enters">Enters</string>
     <string name="statistic_rates">Rates</string>
+
+    <string name="holiday_campfire_birthday_title">Campfire\'s birthday.</string>
+    <string name="holiday_campfire_birthday_text">In 2015, Campfire was born on this day.</string>
 
     <string name="about_about">About App</string>
     <string name="about_rules_user">Rules of app</string>
