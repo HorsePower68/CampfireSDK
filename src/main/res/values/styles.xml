@@ -93,6 +93,7 @@
     <attr name="ic_wb_incandescent_24dp" format="reference"/>
     <attr name="ic_whatshot_24dp" format="reference"/>
     <attr name="ic_mood_24dp" format="reference"/>
+    <attr name="ic_spa_24dp" format="reference"/>
 
     <style name="CampfireRootThemeBlack" parent="AppThemeDark">
         <item name="them_use_navigation_icons_filters">true</item>
@@ -189,6 +190,7 @@
         <item name="ic_wb_incandescent_24dp">@drawable/ic_wb_incandescent_white_24dp</item>
         <item name="ic_whatshot_24dp">@drawable/ic_whatshot_white_24dp</item>
         <item name="ic_mood_24dp">@drawable/ic_mood_white_24dp</item>
+        <item name="ic_spa_24dp">@drawable/ic_spa_white_24dp</item>
     </style>
 
     <style name="CampfireRootThemeWhite" parent="AppThemeLight">
@@ -286,6 +288,7 @@
         <item name="ic_wb_incandescent_24dp">@drawable/ic_wb_incandescent_grey_700_24dp</item>
         <item name="ic_whatshot_24dp">@drawable/ic_whatshot_grey_700_24dp</item>
         <item name="ic_mood_24dp">@drawable/ic_mood_grey_700_24dp</item>
+        <item name="ic_spa_24dp">@drawable/ic_spa_grey_700_24dp</item>
     </style>
 
     <style name="CampfireRootThemeWhiteColored" parent="CampfireRootThemeWhite">

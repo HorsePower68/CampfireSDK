@@ -14,10 +14,10 @@ import com.sayzen.campfiresdk.models.events.account.EventAccountChanged
 import com.sayzen.campfiresdk.models.events.account.EventAccountRemoveFromBlackList
 import com.sayzen.campfiresdk.models.events.fandom.EventFandomBlackListChange
 import com.sayzen.campfiresdk.screens.comments.SComments
-import com.sayzen.campfiresdk.screens.other.SAboutApp
-import com.sayzen.campfiresdk.screens.other.SAboutCreators
-import com.sayzen.campfiresdk.screens.other.SRulesModerators
-import com.sayzen.campfiresdk.screens.other.SRulesUser
+import com.sayzen.campfiresdk.screens.other.about.SAboutApp
+import com.sayzen.campfiresdk.screens.other.about.SAboutCreators
+import com.sayzen.campfiresdk.screens.other.rules.SRulesModerators
+import com.sayzen.campfiresdk.screens.other.rules.SRulesUser
 import com.sayzen.campfiresdk.screens.stickers.SStickersView
 import com.sayzen.devsupandroidgoogle.ControllerGoogleToken
 import com.sup.dev.android.libs.api_simple.ApiRequestsSupporter

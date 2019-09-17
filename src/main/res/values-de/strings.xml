@@ -420,6 +420,7 @@ Campfire has anime fandoms and gaming fandoms.</string>
     <string name="feed_loading_33">Do not play with fire</string>
     <string name="feed_loading_34">welcome to my world</string>
     <string name="feed_loading_35">Loading your feed</string>
+    <string name="feed_loading_1000">Hello datamineers!</string>
     <string name="feed_all">All publications</string>
     <string name="feed_subscribed">Subscribed only</string>
     <string name="feed_important">Important only</string>
@@ -650,6 +651,7 @@ Campfire has anime fandoms and gaming fandoms.</string>
     <string name="error_cant_load_image">Failed to load image</string>
     <string name="error_app_not_found">No application found to perform this action</string>
     <string name="error_network">Could not connect to the server</string>
+    <string name="error_network_trying">Trying to connect to the server...</string>
     <string name="error_gone">Looks like it\'s gone. \nMaybe it was removed by user or something...</string>
     <string name="error_cant_find_images">No images found</string>
     <string name="error_max_items_count">Too many items</string>
@@ -756,6 +758,8 @@ Campfire has anime fandoms and gaming fandoms.</string>
     <string name="intro_update_sub">Update on Google Play may not appear immediately.</string>
     <string name="intro_google_text">Welcome, please select your account</string>
     <string name="into_feed_filters">Choose what interests you</string>
+    <string name="into_mini_game_humans">Humans: %s</string>
+    <string name="into_mini_game_robots">Robots: %s</string>
 
     <string name="bookmarks_empty">You don\'t have any bookmarks</string>
     <string name="bookmarks_loading">Loading your bookmarks</string>
@@ -918,6 +922,7 @@ Campfire has anime fandoms and gaming fandoms.</string>
     <string name="category_hobbies">Hobbies</string>
     <string name="category_people">People</string>
     <string name="category_event">Event</string>
+    <string name="category_plants">Plants</string>
     <string name="category_other">Other</string>
     <string name="category_memes">Memes</string>
 
@@ -1174,6 +1179,15 @@ Campfire has anime fandoms and gaming fandoms.</string>
     <string name="event_1_4">Regular</string>
     <string name="event_1_5">Natural</string>
     <string name="event_1_6">Man-made</string>
+
+    <string name="plants_1_1">Flowers</string>
+    <string name="plants_1_2">Produce</string>
+    <string name="plants_1_3">Fruits</string>
+    <string name="plants_1_4">Berries</string>
+    <string name="plants_1_5">Trees</string>
+    <string name="plants_1_6">Mushrooms</string>
+    <string name="plants_1_7">House</string>
+    <string name="plants_1_8">Wild</string>
 
     <string name="unit_event_blocked">%s in fandom %s until %s by moderator %s</string>
     <string name="unit_event_blocked_admin">%s user %s in fandom %s until %s</string>

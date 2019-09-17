@@ -1,4 +1,4 @@
-package com.sayzen.campfiresdk.screens.other
+package com.sayzen.campfiresdk.screens.other.rules
 
 import android.view.View
 import android.view.ViewGroup
@@ -8,33 +8,22 @@ import com.sayzen.campfiresdk.R
 import com.sayzen.campfiresdk.app.CampfireConstants
 import com.sup.dev.android.libs.screens.Screen
 import com.sup.dev.android.tools.ToolsAndroid
-import com.sup.dev.android.tools.ToolsResources
 import com.sup.dev.android.tools.ToolsToast
 import com.sup.dev.android.tools.ToolsView
 
-class SRulesUser(
-        noNavigationMode:Boolean = false
-) : Screen(R.layout.screen_other_rules_user) {
+class SRulesModerators : Screen(R.layout.screen_other_rules_moderators) {
 
     private val vCopyLink: View = findViewById(R.id.vCopyLink)
     private val vContainer: ViewGroup = findViewById(R.id.vContainer)
 
     init {
-        if(noNavigationMode){
-            activityRootBackground = ToolsResources.getColorAttr(R.attr.colorPrimary)
-            isNavigationVisible = false
-            isNavigationAllowed = false
-            isNavigationAnimation = false
-            vCopyLink.visibility = View.GONE
-        }
-
         vCopyLink.setOnClickListener {
-            ToolsAndroid.setToClipboard(API.LINK_RULES_USER)
+            ToolsAndroid.setToClipboard(API.LINK_RULES_MODER)
             ToolsToast.show(R.string.app_copied)
         }
 
-        addCard(R.string.rules_users_info)
-        for (i in CampfireConstants.RULES_USER) addCard(i.text)
+        addCard(R.string.rules_moderators_info)
+        for (i in CampfireConstants.RULES_MODER) addCard(i)
     }
 
     private fun addCard(text: Int) {

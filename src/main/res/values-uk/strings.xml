@@ -422,6 +422,7 @@
     <string name="feed_loading_33">Не играйте с огнём</string>
     <string name="feed_loading_34">Добро пожаловать в мой мир</string>
     <string name="feed_loading_35">Загружаем вашу ленту</string>
+    <string name="feed_loading_1000">Привет датамайнерам!</string>
     <string name="feed_all">Все побликации</string>
     <string name="feed_subscribed">Только подписки</string>
     <string name="feed_important">Только важные</string>
@@ -652,6 +653,7 @@
     <string name="error_cant_load_image">Ошибка при загрузке картинки</string>
     <string name="error_app_not_found">Не найдено приложение, для выполнения этого действия</string>
     <string name="error_network">Не удалось подключится к серверу</string>
+    <string name="error_network_trying">Пытаемся связаться с сервером...</string>
     <string name="error_gone">Похоже это пропало. \nВозможно кто-то удалил?</string>
     <string name="error_cant_find_images">Изображений не найдено</string>
     <string name="error_max_items_count">Слишком много элементов</string>
@@ -756,6 +758,8 @@
     <string name="intro_update_sub">Обновление на Google Play может появится не сразу.</string>
     <string name="intro_google_text">Добро пожаловать, пожалуйста, выберите ваш аккаунт</string>
     <string name="into_feed_filters">Выберите что вам интересно</string>
+    <string name="into_mini_game_humans">Человеки: %s</string>
+    <string name="into_mini_game_robots">Роботы: %s</string>
 
     <string name="bookmarks_empty">У вас пока нет закладок</string>
     <string name="bookmarks_loading">зарузка ваших закладок</string>
@@ -919,6 +923,7 @@
     <string name="category_hobbies">Хобби</string>
     <string name="category_people">Люди</string>
     <string name="category_event">Событие</string>
+    <string name="category_plants">Растения</string>
     <string name="category_other">Другое</string>
     <string name="category_memes">Мемы</string>
 
@@ -1175,6 +1180,15 @@
     <string name="event_1_4">Регулярное</string>
     <string name="event_1_5">Природное</string>
     <string name="event_1_6">Рукотворное</string>
+
+    <string name="plants_1_1">Цветы</string>
+    <string name="plants_1_2">Овощи</string>
+    <string name="plants_1_3">Фрукты</string>
+    <string name="plants_1_4">Ягоды</string>
+    <string name="plants_1_5">Деревья</string>
+    <string name="plants_1_6">Грибы</string>
+    <string name="plants_1_7">Домашние</string>
+    <string name="plants_1_8">Дикие</string>
 
     <string name="unit_event_blocked">%s в фэндоме %s до %s модератором %s</string>
     <string name="unit_event_blocked_admin">%s пользователя %s в фандоме %s до %s</string>

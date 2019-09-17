@@ -1,4 +1,4 @@
-package com.sayzen.campfiresdk.screens.other
+package com.sayzen.campfiresdk.screens.other.about
 
 import android.view.View
 import com.dzen.campfire.api.API

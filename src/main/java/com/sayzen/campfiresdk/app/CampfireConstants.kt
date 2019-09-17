@@ -142,6 +142,7 @@ object CampfireConstants {
             FandomParam(API.CATEGORY_HOBBIES, R.string.category_hobbies),
             FandomParam(API.CATEGORY_PEOPLE, R.string.category_people),
             FandomParam(API.CATEGORY_EVENT, R.string.category_event),
+            FandomParam(API.CATEGORY_PLANTS, R.string.category_plants),
             FandomParam(API.CATEGORY_OTHER, R.string.category_other)
     )
 
@@ -185,6 +186,8 @@ object CampfireConstants {
     val PEOPLE_1 = Array(PEOPLE_1_ARRAY.size) { FandomParam(it.toLong(), PEOPLE_1_ARRAY[it]) }
     private val EVENT_1_ARRAY = ToolsResources.getStringIndexedArrayId("event_1_")
     val EVENT_1 = Array(EVENT_1_ARRAY.size) { FandomParam(it.toLong(), EVENT_1_ARRAY[it]) }
+    private val PLANTS_1_ARRAY = ToolsResources.getStringIndexedArrayId("plants_1_")
+    val PLANTS_1 = Array(PLANTS_1_ARRAY.size) { FandomParam(it.toLong(), PLANTS_1_ARRAY[it]) }
 
     fun getAchievement(info: AchievementInfo): Achievement {
         return getAchievement(info.index)
@@ -231,6 +234,7 @@ object CampfireConstants {
                     API.CATEGORY_HOBBIES -> R.attr.ic_directions_bike_24dp
                     API.CATEGORY_PEOPLE -> R.attr.ic_person_24dp
                     API.CATEGORY_EVENT -> R.attr.ic_access_time_24dp
+                    API.CATEGORY_PLANTS -> R.attr.ic_spa_24dp
                     else -> R.attr.ic_clear_24dp
                 }
         )
@@ -301,6 +305,11 @@ object CampfireConstants {
                     else -> null
                 }
             API.CATEGORY_EVENT ->
+                when (paramsPosition) {
+                    1 -> ToolsResources.s(R.string.app_type)
+                    else -> null
+                }
+            API.CATEGORY_PLANTS ->
                 when (paramsPosition) {
                     1 -> ToolsResources.s(R.string.app_type)
                     else -> null
@@ -377,6 +386,11 @@ object CampfireConstants {
             API.CATEGORY_EVENT ->
                 when (paramsPosition) {
                     1 -> EVENT_1
+                    else -> null
+                }
+            API.CATEGORY_PLANTS ->
+                when (paramsPosition) {
+                    1 -> PLANTS_1
                     else -> null
                 }
             API.CATEGORY_OTHER -> null

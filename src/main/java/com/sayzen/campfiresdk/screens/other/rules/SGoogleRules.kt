@@ -1,4 +1,4 @@
-package com.sayzen.campfiresdk.screens.other
+package com.sayzen.campfiresdk.screens.other.rules
 
 import android.text.Spannable
 import android.text.Spanned
