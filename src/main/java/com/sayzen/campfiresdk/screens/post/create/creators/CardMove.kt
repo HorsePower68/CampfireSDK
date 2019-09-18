@@ -1,4 +1,4 @@
-package com.sayzen.campfiresdk.screens.post.create.creator
+package com.sayzen.campfiresdk.screens.post.create.creators
 
 import com.sup.dev.android.views.cards.Card
 

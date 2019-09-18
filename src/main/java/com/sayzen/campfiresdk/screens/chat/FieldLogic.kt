@@ -215,6 +215,7 @@ class FieldLogic(
 
     fun sendVoice() {
         val quoteIdV = quoteId
+        val voiceBytes = this.voiceBytes
         beforeSend()
         screen.addCard(CardSending(screen, RChatMessageCreate(screen.tag, "", null, null, voiceBytes, 0L, quoteIdV, 0)))
     }

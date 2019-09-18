@@ -1,14 +1,15 @@
-package com.sayzen.campfiresdk.screens.post.create.creator
+package com.sayzen.campfiresdk.screens.post.create.creators
 
 import android.view.inputmethod.EditorInfo
 import android.widget.Button
 
 import com.dzen.campfire.api.API
+import com.dzen.campfire.api.models.units.post.Page
 import com.dzen.campfire.api.models.units.post.PageQuote
 import com.sayzen.campfiresdk.R
-import com.sayzen.campfiresdk.screens.post.create.SPostCreate
 import com.sayzen.campfiresdk.models.cards.post_pages.CardPage
 import com.sayzen.campfiresdk.models.cards.post_pages.CardPageQuote
+import com.sup.dev.android.libs.screens.Screen
 import com.sup.dev.android.tools.ToolsView
 import com.sup.dev.android.views.settings.SettingsField
 import com.sup.dev.android.views.support.watchers.TextWatcherChanged
@@ -17,7 +18,8 @@ import com.sup.dev.java.tools.ToolsText
 import com.sup.dev.java.tools.ToolsThreads
 
 class WidgetPageQuote(
-        private val screen: SPostCreate,
+        private val requestPutPage:(page: Page, screen: Screen?, widget: Widget?, mapper: (Page) -> CardPage, onFinish: ((CardPage)->Unit))->Unit,
+        private val requestChangePage: (page: Page, card: CardPage, screen: Screen?, widget: Widget?, (Page)->Unit) -> Unit,
         private val card: CardPage?,
         private val oldPage: PageQuote?
 ) : Widget(R.layout.screen_post_create_widget_quote) {
@@ -64,9 +66,9 @@ class WidgetPageQuote(
         page.text = vText.getText().trim { it <= ' ' }
 
         if (card == null)
-            screen.putPage(page, null, this, { page1 -> CardPageQuote(null, page1) }, null, true)
+            requestPutPage.invoke(page, null, this, { page1 -> CardPageQuote(null, page1 as PageQuote) }){}
         else
-            screen.changePage(page, card, null, this)
+            requestChangePage.invoke(page, card, null, this){}
 
     }
 

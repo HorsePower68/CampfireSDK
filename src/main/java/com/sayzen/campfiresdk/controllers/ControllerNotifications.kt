@@ -311,6 +311,7 @@ object ControllerNotifications {
             is NotificationKarmaAdd -> NotificationKarmaAddParser(n)
             is NotificationUnitImportant -> NotificationUnitImportantParser(n)
             is NotificationModerationToDraft -> NotificationModerationToDraftParser(n)
+            is NotificationModerationMultilingualNot -> NotificationModerationMultilingualNotParser(n)
             is NotificationModerationPostTags -> NotificationModerationPostTagsParser(n)
             is NotificationAdminBlock -> NotificationBlockParser(n)
             is NotificationForgive -> NotificationForgiveParser(n)
@@ -715,7 +716,7 @@ object ControllerNotifications {
 
         override fun asString(html: Boolean): String {
             val comment = if (!html) n.comment else ToolsHTML.i(n.comment)
-            return (if (ToolsText.empty(n.comment)) "" else ". " + ToolsResources.s(R.string.moderation_notification_moderator_comment) + " " + comment)
+            return (if (ToolsText.empty(n.comment)) "" else ToolsResources.s(R.string.moderation_notification_moderator_comment) + " " + comment)
 
         }
 
@@ -733,6 +734,32 @@ object ControllerNotifications {
 
     }
 
+    private class NotificationModerationMultilingualNotParser(override val n: NotificationModerationMultilingualNot) : Parser(n) {
+
+        override fun post(icon: Int, intent: Intent, text: String, title: String, tag: String) {
+            chanelOther.post(icon, getTitle(), text, intent, tag)
+        }
+
+        override fun asString(html: Boolean): String {
+            val comment = if (!html) n.comment else ToolsHTML.i(n.comment)
+            return (if (ToolsText.empty(n.comment)) "" else ToolsResources.s(R.string.moderation_notification_moderator_comment) + " " + comment)
+
+        }
+
+        override fun getTitle(): String {
+            return ToolsResources.sCap(
+                    R.string.notifications_moderation_multilingual_not, n.moderatorName, ToolsResources.sex(
+                    n.moderatorSex,
+                    R.string.he_make,
+                    R.string.she_make
+            )
+            )
+        }
+
+        override fun getIcon() = R.drawable.ic_security_white_24dp
+
+    }
+
     private class NotificationModerationPostTagsParser(override val n: NotificationModerationPostTags) : Parser(n) {
 
         override fun post(icon: Int, intent: Intent, text: String, title: String, tag: String) {
@@ -741,7 +768,7 @@ object ControllerNotifications {
 
         override fun asString(html: Boolean): String {
             val comment = if (!html) n.comment else ToolsHTML.i(n.comment)
-            return if (ToolsText.empty(n.comment)) "" else ". " + ToolsResources.s(R.string.moderation_notification_moderator_comment) + " " + comment
+            return if (ToolsText.empty(n.comment)) "" else ToolsResources.s(R.string.moderation_notification_moderator_comment) + " " + comment
 
         }
 
@@ -793,7 +820,7 @@ object ControllerNotifications {
 
         override fun asString(html: Boolean): String {
             val comment = if (!html) n.comment else ToolsHTML.i(n.comment)
-            return if (ToolsText.empty(n.comment)) "" else ". " + ToolsResources.s(R.string.moderation_notification_moderator_comment) + " " + comment
+            return if (ToolsText.empty(n.comment)) "" else ToolsResources.s(R.string.moderation_notification_moderator_comment) + " " + comment
 
         }
 
@@ -910,7 +937,7 @@ object ControllerNotifications {
 
         override fun asString(html: Boolean): String {
             val comment = if (!html) n.comment else ToolsHTML.i(n.comment)
-            return (if (ToolsText.empty(n.comment)) "" else ". " + ToolsResources.s(R.string.moderation_notification_moderator_comment) + " " + comment)
+            return (if (ToolsText.empty(n.comment)) "" else ToolsResources.s(R.string.moderation_notification_moderator_comment) + " " + comment)
         }
 
         override fun getTitle(): String {
@@ -936,7 +963,7 @@ object ControllerNotifications {
 
         override fun asString(html: Boolean): String {
             val comment = if (!html) n.comment else ToolsHTML.i(n.comment)
-            return (if (ToolsText.empty(n.comment)) "" else ". " + ToolsResources.s(R.string.moderation_notification_moderator_comment) + " " + comment)
+            return (if (ToolsText.empty(n.comment)) "" else ToolsResources.s(R.string.moderation_notification_moderator_comment) + " " + comment)
         }
 
         override fun getTitle(): String {
@@ -961,7 +988,7 @@ object ControllerNotifications {
 
         override fun asString(html: Boolean): String {
             val comment = if (!html) n.comment else ToolsHTML.i(n.comment)
-            return (if (ToolsText.empty(n.comment)) "" else ". " + ToolsResources.s(R.string.moderation_notification_moderator_comment) + " " + comment)
+            return (if (ToolsText.empty(n.comment)) "" else ToolsResources.s(R.string.moderation_notification_moderator_comment) + " " + comment)
         }
 
         override fun getTitle(): String {
@@ -986,7 +1013,7 @@ object ControllerNotifications {
 
         override fun asString(html: Boolean): String {
             val comment = if (!html) n.comment else ToolsHTML.i(n.comment)
-            return (if (ToolsText.empty(n.comment)) "" else ". " + ToolsResources.s(R.string.moderation_notification_moderator_comment) + " " + comment)
+            return (if (ToolsText.empty(n.comment)) "" else ToolsResources.s(R.string.moderation_notification_moderator_comment) + " " + comment)
         }
 
         override fun getTitle(): String {
@@ -1011,7 +1038,7 @@ object ControllerNotifications {
 
         override fun asString(html: Boolean): String {
             val comment = if (!html) n.comment else ToolsHTML.i(n.comment)
-            return (if (ToolsText.empty(n.comment)) "" else ". " + ToolsResources.s(R.string.moderation_notification_moderator_comment) + " " + comment)
+            return (if (ToolsText.empty(n.comment)) "" else ToolsResources.s(R.string.moderation_notification_moderator_comment) + " " + comment)
         }
 
         override fun getTitle(): String {
@@ -1036,7 +1063,7 @@ object ControllerNotifications {
 
         override fun asString(html: Boolean): String {
             val comment = if (!html) n.comment else ToolsHTML.i(n.comment)
-            return if (ToolsText.empty(n.comment)) "" else ". " + ToolsResources.s(R.string.moderation_notification_moderator_comment) + " " + comment
+            return if (ToolsText.empty(n.comment)) "" else ToolsResources.s(R.string.moderation_notification_moderator_comment) + " " + comment
         }
 
         override fun getTitle(): String {
@@ -1056,7 +1083,7 @@ object ControllerNotifications {
 
         override fun asString(html: Boolean): String {
             val comment = if (!html) n.comment else ToolsHTML.i(n.comment)
-            return (if (ToolsText.empty(n.comment)) "" else ". " + ToolsResources.s(R.string.moderation_notification_moderator_comment) + " " + comment)
+            return (if (ToolsText.empty(n.comment)) "" else ToolsResources.s(R.string.moderation_notification_moderator_comment) + " " + comment)
         }
 
         override fun getTitle(): String {

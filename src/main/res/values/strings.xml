@@ -274,6 +274,7 @@
     <string name="notifications_fandom_remove_moderator">Now you can moderate fandom %s</string>
     <string name="notifications_important_publication">Important publication appeared in the fandom %s</string>
     <string name="notifications_moderation_to_drafts">Moderator %s %s your post to drafts</string>
+    <string name="notifications_moderation_multilingual_not">Moderator %s %s your post not multilingual</string>
     <string name="notifications_moderation_tags">Moderator %s %s your post tags</string>
     <string name="notifications_moderation_forgive">Moderator %s %s you in fandom %s</string>
     <string name="notification_post_comment">%s %s your post</string>
@@ -368,6 +369,7 @@
     <string name="moderation_text_importance_mark">%s publication as important.</string>
     <string name="moderation_text_importance_unmark">%s important mark from publication.</string>
     <string name="moderation_text_to_drafts">%s post of user %s to drafts.</string>
+    <string name="moderation_text_multilingual_not">%s post of user %s not multilingual</string>
     <string name="moderation_text_post_tags">%s tags of %s.</string>
     <string name="moderation_text_forum_create">%s forum %s (%s).</string>
     <string name="moderation_text_forum_change">%s forum %s (%s).</string>
@@ -872,6 +874,7 @@
     <string name="post_search_empty">Nothing is found, try another tag</string>
     <string name="post_search_action">To tags</string>
     <string name="post_page_images_empty">No images in the list.</string>
+    <string name="post_page_image_create_as_list_text">Add images with one card?</string>
     <string name="post_page_images_remove_confirm">Remove these image?</string>
     <string name="post_page_tale_clear_confirm">Clear this cell?</string>
     <string name="post_page_tale_remove_confirm">When deleting, some filled cells will be lost.</string>
@@ -1253,8 +1256,9 @@
     <string name="unit_menu_change_fandom">Change fandom</string>
     <string name="unit_menu_pin_in_profile">Pin in the profile</string>
     <string name="unit_menu_unpin_in_profile">Unpin from profile</string>
-    <string name="unit_menu_multi_languages">Make it multilingual</string>
-    <string name="unit_menu_multi_languages_confirm">Make this post multilingual? It will be seen by users in all languages.</string>
+    <string name="unit_menu_multilingual">Make multilingual</string>
+    <string name="unit_menu_multilingual_not">Make not multilingual</string>
+    <string name="unit_menu_multilingual_confirm">Make this post multilingual? It will be seen by users in all languages.</string>
     <string name="unit_menu_pin_in_fandom">Pin in the fandom</string>
     <string name="unit_menu_unpin_in_fandom">Unpin from fandom</string>
     <string name="unit_menu_change_fandom_confirm">Change this post fandom?</string>

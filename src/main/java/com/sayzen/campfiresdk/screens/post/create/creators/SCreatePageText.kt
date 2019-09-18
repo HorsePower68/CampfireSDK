@@ -1,29 +1,30 @@
-package com.sayzen.campfiresdk.screens.post.create.creator
+package com.sayzen.campfiresdk.screens.post.create.creators
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import android.view.Gravity
 import android.view.inputmethod.EditorInfo
 import android.widget.EditText
 import com.dzen.campfire.api.API
+import com.dzen.campfire.api.models.units.post.Page
 import com.dzen.campfire.api.models.units.post.PageText
 import com.sayzen.campfiresdk.R
 import com.sayzen.campfiresdk.app.CampfireConstants
-import com.sayzen.campfiresdk.screens.post.create.SPostCreate
 import com.sayzen.campfiresdk.models.cards.post_pages.CardPage
 import com.sayzen.campfiresdk.models.cards.post_pages.CardPageText
 import com.sup.dev.android.libs.screens.Screen
 import com.sup.dev.android.libs.screens.ScreenProtected
 import com.sup.dev.android.tools.ToolsResources
 import com.sup.dev.android.tools.ToolsView
+import com.sup.dev.android.views.cards.Card
 import com.sup.dev.android.views.support.watchers.TextWatcherChanged
 import com.sup.dev.android.views.views.ViewIcon
+import com.sup.dev.android.views.widgets.Widget
 import com.sup.dev.android.views.widgets.WidgetGreed
-import com.sup.dev.android.views.widgets.WidgetRecycler
 import com.sup.dev.java.tools.ToolsText
-import com.sup.dev.java.tools.ToolsThreads
 
 class SCreatePageText(
-        private val screen: SPostCreate,
+        private val requestPutPage:(page: Page, screen: Screen?, widget: Widget?, mapper: (Page) -> CardPage, onFinish: ((Card)->Unit))->Unit,
+        private val requestChangePage: (page: Page, card: CardPage, screen: Screen?, widget: Widget?, (Page)->Unit) -> Unit,
         private val card: CardPage?,
         private val oldPage: PageText?
 ) : Screen(R.layout.screen_post_create_widget_text), ScreenProtected {
@@ -108,9 +109,9 @@ class SCreatePageText(
         page.size = size
         page.icon = icon
         if (oldPage == null)
-            screen.putPage(page, this, null, { page1 -> CardPageText(null, page1) }, null, true)
+            requestPutPage.invoke(page, this, null, { page1 -> CardPageText(null, page1 as PageText) }){}
         else
-            screen.changePage(page, card!!, this, null)
+            requestChangePage.invoke(page, card!!, this, null){}
     }
 
     override fun onBackPressed(): Boolean {

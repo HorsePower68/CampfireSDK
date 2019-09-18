@@ -409,6 +409,9 @@ object ControllerUnits {
             is ModerationToDrafts -> {
                 text = ToolsResources.sCap(R.string.moderation_text_to_drafts, ToolsResources.sex(unit.creatorSex, R.string.he_return, R.string.she_return), ControllerApi.linkToUser(m.accountName))
             }
+            is ModerationMultilingualNot -> {
+                text = ToolsResources.sCap(R.string.moderation_text_multilingual_not, ToolsResources.sex(unit.creatorSex, R.string.he_make, R.string.she_make), ControllerApi.linkToUser(m.accountName))
+            }
             is ModerationBackgroundImage -> {
                 if (m.imageId > 0)
                     text = ToolsResources.sCap(R.string.moderation_background_image, ToolsResources.sex(unit.creatorSex, R.string.he_changed, R.string.she_changed))

@@ -1,6 +1,5 @@
 package com.sayzen.campfiresdk.controllers
 
-import android.view.View
 import com.dzen.campfire.api.API
 import com.dzen.campfire.api.models.units.Unit
 import com.dzen.campfire.api.models.units.post.PageSpoiler
@@ -48,7 +47,7 @@ object ControllerPost {
     var ENABLED_MODER_CHANGE_FANDOM = false
     var ENABLED_PIN_PROFILE = false
     var ENABLED_PIN_FANDOM = false
-    var ENABLED_MAKE_MULTI_LANGUAGES = false
+    var ENABLED_MAKE_MULTILINGUAL = false
 
     fun showPostMenu(unit: UnitPost) {
 
@@ -66,13 +65,15 @@ object ControllerPost {
                 .add(R.string.unit_menu_change_fandom) { _, _ -> changeFandom(unit.id) }.condition(ENABLED_CHANGE_FANDOM && unit.languageId != -1L && (unit.status == API.STATUS_PUBLIC || unit.status == API.STATUS_DRAFT))
                 .add(R.string.unit_menu_pin_in_profile) { _, _ -> pinInProfile(unit) }.condition(ENABLED_PIN_PROFILE && ControllerApi.can(API.LVL_CAN_PIN_POST) && unit.isPublic && !unit.isPined)
                 .add(R.string.unit_menu_unpin_in_profile) { _, _ -> unpinInProfile(unit) }.condition(ENABLED_PIN_PROFILE && unit.isPined)
-                .add(R.string.unit_menu_multi_languages) { _, _ -> multilanguage(unit) }.condition(ENABLED_MAKE_MULTI_LANGUAGES && unit.languageId != -1L && unit.status == API.STATUS_PUBLIC)
+                .add(R.string.unit_menu_multilingual) { _, _ -> multilingual(unit) }.condition(ENABLED_MAKE_MULTILINGUAL && unit.languageId != -1L && unit.status == API.STATUS_PUBLIC)
+                .add(R.string.unit_menu_multilingual_not) { _, _ -> multilingualNot(unit) }.condition(ENABLED_MAKE_MULTILINGUAL && unit.languageId == -1L && unit.status == API.STATUS_PUBLIC)
                 .add(R.string.app_publish) { _, _ -> publishPending(unit) }.condition(unit.status == API.STATUS_PENDING)
                 .groupCondition(!ControllerApi.isCurrentAccount(unit.creatorId) && unit.isPublic)
                 .add(R.string.app_report) { _, _ -> ControllerUnits.report(unit) }.condition(ENABLED_REPORT)
                 .add(R.string.app_clear_reports) { _, _ -> ControllerUnits.clearReports(unit) }.backgroundRes(R.color.blue_700).textColorRes(R.color.white).condition(ENABLED_CLEAR_REPORTS && ControllerApi.can(unit.fandomId, unit.languageId, API.LVL_MODERATOR_BLOCK) && unit.reportsCount > 0)
                 .add(R.string.app_block) { _, _ -> ControllerUnits.block(unit) }.backgroundRes(R.color.blue_700).textColorRes(R.color.white).condition(ENABLED_BLOCK && ControllerApi.can(unit.fandomId, unit.languageId, API.LVL_MODERATOR_BLOCK))
                 .add(R.string.unit_menu_moderator_to_drafts) { _, _ -> moderatorToDrafts(unit.id) }.backgroundRes(R.color.blue_700).textColorRes(R.color.white).condition(ENABLED_MODER_TO_DRAFT && ControllerApi.can(unit.fandomId, unit.languageId, API.LVL_MODERATOR_TO_DRAFTS))
+                .add(R.string.unit_menu_multilingual_not) { _, _ -> moderatorMakeMultilingualNot(unit) }.backgroundRes(R.color.blue_700).condition(ENABLED_MAKE_MULTILINGUAL && ControllerApi.can(unit.fandomId, unit.languageId, API.LVL_MODERATOR_TO_DRAFTS) && unit.languageId == -1L && unit.status == API.STATUS_PUBLIC)
                 .add(R.string.post_menu_change_tags) { _, _ -> changeTagsModer(unit) }.backgroundRes(R.color.blue_700).textColorRes(R.color.white).condition(ENABLED_MODER_CHANGE_TAGS && ControllerApi.can(unit.fandomId, unit.languageId, API.LVL_MODERATOR_POST_TAGS) && unit.languageId != -1L)
                 .add(R.string.unit_menu_pin_in_fandom) { _, _ -> pinInFandom(unit) }.backgroundRes(R.color.blue_700).textColorRes(R.color.white).condition(ENABLED_PIN_FANDOM && ControllerApi.can(unit.fandomId, unit.languageId, API.LVL_MODERATOR_PIN_POST) && unit.isPublic && !unit.isPined)
                 .add(R.string.unit_menu_unpin_in_fandom) { _, _ -> unpinInFandom(unit) }.backgroundRes(R.color.blue_700).textColorRes(R.color.white).condition(ENABLED_PIN_FANDOM && ControllerApi.can(unit.fandomId, unit.languageId, API.LVL_MODERATOR_PIN_POST) && unit.isPined)
@@ -97,13 +98,24 @@ object ControllerPost {
         }
     }
 
-    fun multilanguage(unit: UnitPost) {
+    fun multilingual(unit: UnitPost) {
         ApiRequestsSupporter.executeEnabledConfirm(
-                R.string.unit_menu_multi_languages_confirm,
+                R.string.unit_menu_multilingual_confirm,
                 R.string.app_continue,
-                RPostMakeMultiLanguages(unit.id)
+                RPostMakeMultilingual(unit.id)
         ) {
-            EventBus.post(EventPostMultiLanguage(unit.id))
+            EventBus.post(EventPostMultilingualChange(unit.id, -1L))
+            ToolsToast.show(R.string.app_done)
+        }
+    }
+
+    fun multilingualNot(unit: UnitPost) {
+        ApiRequestsSupporter.executeEnabledConfirm(
+                R.string.unit_menu_multilingual_not,
+                R.string.app_continue,
+                RPostMakeMultilingualNot(unit.id)
+        ) {
+            EventBus.post(EventPostMultilingualChange(unit.id, unit.tag_5))
             ToolsToast.show(R.string.app_done)
         }
     }
@@ -319,6 +331,23 @@ object ControllerPost {
                                 EventBus.post(EventUnitRemove(unitId))
                             }
                             .onApiError(RFandomsModerationToDrafts.E_LOW_KARMA_FORCE) { ToolsToast.show(R.string.moderation_low_karma) }
+                }
+                .asSheetShow()
+    }
+
+    fun moderatorMakeMultilingualNot(unit: Unit) {
+        WidgetField()
+                .setTitle(R.string.unit_menu_multilingual_not)
+                .setHint(R.string.moderation_widget_comment)
+                .setOnCancel(R.string.app_cancel)
+                .setMin(API.MODERATION_COMMENT_MIN_L)
+                .setMax(API.MODERATION_COMMENT_MAX_L)
+                .setOnEnter(R.string.app_make) { w, comment ->
+                    ApiRequestsSupporter.executeEnabled(w, RPostMakeMultilingualModeratorNot(unit.id, comment)) {
+                        ToolsToast.show(R.string.app_done)
+                        EventBus.post(EventPostMultilingualChange(unit.id, unit.tag_5))
+                    }
+                            .onApiError(RPostMakeMultilingualModeratorNot.E_LOW_KARMA_FORCE) { ToolsToast.show(R.string.moderation_low_karma) }
                 }
                 .asSheetShow()
     }

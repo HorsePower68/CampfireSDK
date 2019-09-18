@@ -1,4 +1,4 @@
-package com.sayzen.campfiresdk.screens.post.create.creator
+package com.sayzen.campfiresdk.screens.post.create.creators
 
 import android.graphics.Bitmap
 import android.view.View
@@ -9,6 +9,7 @@ import android.widget.TextView
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.dzen.campfire.api.API
+import com.dzen.campfire.api.models.units.post.Page
 import com.dzen.campfire.api.models.units.post.PageImages
 import com.dzen.campfire.api.requests.post.RPostChangePage
 import com.dzen.campfire.api.requests.post.RPostPutPage
@@ -17,7 +18,9 @@ import com.sayzen.campfiresdk.screens.post.create.SPostCreate
 import com.sayzen.campfiresdk.controllers.ControllerApi
 import com.sayzen.campfiresdk.models.cards.post_pages.CardPage
 import com.sayzen.campfiresdk.models.cards.post_pages.CardPageImages
+import com.sup.dev.android.app.SupAndroid
 import com.sup.dev.android.libs.api_simple.ApiRequestsSupporter
+import com.sup.dev.android.libs.screens.Screen
 import com.sup.dev.android.libs.screens.navigator.Navigator
 import com.sup.dev.android.tools.*
 import com.sup.dev.android.views.cards.Card
@@ -26,15 +29,15 @@ import com.sup.dev.android.views.screens.SImageView
 import com.sup.dev.android.views.settings.SettingsField
 import com.sup.dev.android.views.support.adapters.recycler_view.RecyclerCardAdapter
 import com.sup.dev.android.views.widgets.Widget
+import com.sup.dev.android.views.widgets.WidgetAlert
 import com.sup.dev.android.views.widgets.WidgetChooseImage
 import com.sup.dev.java.tools.ToolsBytes
 import com.sup.dev.java.tools.ToolsThreads
 
 class WidgetPageImages(
-        private val screen: SPostCreate,
-        private val card: CardPage?,
-        private var oldPage: PageImages?,
-        private val pageIndex: Int
+        private val requestChangePage: (page: Page, card: CardPage, screen: Screen?, widget: Widget?, (Page) -> Unit) -> Unit,
+        private val card: CardPage,
+        private var oldPage: PageImages
 ) : Widget(R.layout.screen_post_create_widget_images) {
 
     private val vPageTitle: SettingsField = findViewById(R.id.vPgeTitle)
@@ -57,37 +60,22 @@ class WidgetPageImages(
         vAttachRecycler.adapter = adapter
         adapter.setCardW(ViewGroup.LayoutParams.WRAP_CONTENT)
 
-        if (oldPage != null) {
-            vPageTitle.setText(oldPage!!.title)
-            if (oldPage!!.imagesIds.isNotEmpty()) vTextEmpty.visibility = View.GONE
-            for (i in 0 until oldPage!!.imagesIds.size) {
-                addBytes(null, oldPage!!.imagesMiniIds[i])
-            }
-        }
+        vPageTitle.setText(oldPage!!.title)
+        if (oldPage.imagesIds.isNotEmpty()) vTextEmpty.visibility = View.GONE
+        for (element in oldPage.imagesIds) addBytes(null, element)
 
         update()
     }
 
     private fun update() {
         vAdd.isEnabled = adapter.size() < API.PAGE_IMAGES_MAX_COUNT
-        vEnter.isEnabled = vPageTitle.getText().length <= API.PAGE_IMAGES_TITLE_MAX
+        vEnter.isEnabled =  vPageTitle.getText().length <= API.PAGE_IMAGES_TITLE_MAX
     }
 
     private fun onEnter() {
-        if (oldPage == null) {
-            hide()
-            return
-        }
-
-        oldPage!!.title = vPageTitle.getText()
-        ApiRequestsSupporter.executeProgressDialog(RPostChangePage(screen.getUnitId(), oldPage, pageIndex)) { r ->
-            oldPage = r.page as PageImages
-            if (card == null)
-                screen.putPage(oldPage!!, null, this, { page1 -> CardPageImages(null, page1) }, null, false)
-            else
-                screen.changePage(oldPage!!, card, null, this, false)
-
-            hide()
+        oldPage.title = vPageTitle.getText()
+        requestChangePage.invoke(oldPage, card, null, this) { page ->
+            oldPage = page as PageImages
         }
     }
 
@@ -95,17 +83,25 @@ class WidgetPageImages(
         val pageNew = PageImages()
         pageNew.insertImages = emptyArray()
         pageNew.insertImagesMini = emptyArray()
-        pageNew.title = oldPage!!.title
-        pageNew.imagesIds = oldPage!!.imagesIds
-        pageNew.imagesMiniIds = oldPage!!.imagesMiniIds
+        pageNew.title = oldPage.title
+        pageNew.imagesIds = oldPage.imagesIds
+        pageNew.imagesMiniIds = oldPage.imagesMiniIds
         pageNew.removePageIndex = index
 
-        ApiRequestsSupporter.executeEnabledConfirm(R.string.post_page_images_remove_confirm, R.string.app_remove, RPostChangePage(screen.getUnitId(), pageNew, pageIndex)) { r ->
-            oldPage = r.page as PageImages
-            vTextEmpty.visibility = if (oldPage!!.imagesIds.isNotEmpty()) View.GONE else View.VISIBLE
-            adapter.remove(index)
-            update()
-        }
+        WidgetAlert()
+                .setText(R.string.post_page_images_remove_confirm)
+                .setOnCancel(SupAndroid.TEXT_APP_CANCEL)
+                .setAutoHideOnEnter(false)
+                .setOnEnter(R.string.app_remove) { ww ->
+                    requestChangePage.invoke(pageNew, card, null, ww) { page ->
+                        oldPage = page as PageImages
+                        vTextEmpty.visibility = if (oldPage.imagesIds.isNotEmpty()) View.GONE else View.VISIBLE
+                        adapter.remove(index)
+                        update()
+                    }
+                }
+                .asSheetShow()
+
     }
 
     private fun addImage() {
@@ -148,27 +144,16 @@ class WidgetPageImages(
         pageNew.insertImages = Array(1) { img }
         pageNew.insertImagesMini = Array(1) { imgMini }
         pageNew.replacePageIndex = replaceIndex
-        if (oldPage == null) {
-            ApiRequestsSupporter.executeProgressDialog(dialog, RPostPutPage(screen.getUnitId(), arrayOf(pageNew), screen.fandomId, screen.languageId, "", ""), true) { r ->
-                screen.setUnitId(r.unitId)
-                oldPage = r.pages[0] as PageImages
-                ToolsThreads.main {
-                    vTextEmpty.visibility = View.GONE
-                    addBytes(rawBytes, oldPage!!.imagesMiniIds[oldPage!!.imagesMiniIds.size - 1], replaceIndex)
-                    update()
-                }
-            }
-        } else {
-            pageNew.title = oldPage!!.title
-            pageNew.imagesIds = oldPage!!.imagesIds
-            pageNew.imagesMiniIds = oldPage!!.imagesMiniIds
-            ApiRequestsSupporter.executeProgressDialog(dialog, RPostChangePage(screen.getUnitId(), pageNew, pageIndex), true) { r ->
-                oldPage = r.page as PageImages
-                ToolsThreads.main {
-                    vTextEmpty.visibility = View.GONE
-                    addBytes(rawBytes, oldPage!!.imagesMiniIds[oldPage!!.imagesMiniIds.size - 1], replaceIndex)
-                    update()
-                }
+        pageNew.title = oldPage.title
+        pageNew.imagesIds = oldPage.imagesIds
+        pageNew.imagesMiniIds = oldPage.imagesMiniIds
+
+        requestChangePage.invoke(pageNew, card, null, dialog) { page ->
+            oldPage = page as PageImages
+            ToolsThreads.main {
+                vTextEmpty.visibility = View.GONE
+                addBytes(rawBytes, oldPage.imagesMiniIds[oldPage.imagesMiniIds.size - 1], replaceIndex)
+                update()
             }
         }
     }

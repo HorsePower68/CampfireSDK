@@ -1,17 +1,13 @@
-package com.sayzen.campfiresdk.screens.post.create.creator
+package com.sayzen.campfiresdk.screens.post.create.creators
 
 import android.widget.Button
 import com.dzen.campfire.api.API
+import com.dzen.campfire.api.models.units.post.Page
 import com.dzen.campfire.api.models.units.post.PageTable
-import com.dzen.campfire.api.requests.post.RPostChangePage
-import com.dzen.campfire.api.requests.post.RPostPutPage
 import com.sayzen.campfiresdk.R
 import com.sayzen.campfiresdk.models.cards.post_pages.CardPage
 import com.sayzen.campfiresdk.models.cards.post_pages.CardPageTable
-import com.sayzen.campfiresdk.models.events.units.EventPostChanged
-import com.sayzen.campfiresdk.screens.post.create.SPostCreate
 import com.sayzen.campfiresdk.controllers.ControllerApi
-import com.sup.dev.android.libs.api_simple.ApiRequestsSupporter
 import com.sup.dev.android.libs.screens.Screen
 import com.sup.dev.android.libs.screens.ScreenProtected
 import com.sup.dev.android.libs.screens.navigator.Navigator
@@ -20,16 +16,16 @@ import com.sup.dev.android.views.views.ViewIcon
 import com.sup.dev.android.views.views.table.ViewTable
 import com.sup.dev.android.views.views.table.ViewTableCell
 import com.sup.dev.android.views.widgets.*
-import com.sup.dev.java.libs.eventBus.EventBus
+import com.sup.dev.java.libs.debug.log
 import com.sup.dev.java.tools.ToolsBytes
 import com.sup.dev.java.tools.ToolsCollections
 import com.sup.dev.java.tools.ToolsThreads
 
 class SCreatePageTable(
-        private val screen: SPostCreate,
-        private val card: CardPage?,
-        private var oldPage: PageTable?,
-        private val pageIndex: Int
+        private val requestPutPage: (page: Page, screen: Screen?, widget: Widget?, mapper: (Page) -> CardPage, onFinish: ((CardPage) -> Unit)) -> Unit,
+        private val requestChangePage: (page: Page, card: CardPage, screen: Screen?, widget: Widget?, (Page) -> Unit) -> Unit,
+        private var card: CardPage?,
+        private var oldPage: PageTable?
 ) : Screen(R.layout.screen_post_create_widget_table), ScreenProtected {
 
     private val vCreate: Button = findViewById(R.id.vCreate)
@@ -48,27 +44,49 @@ class SCreatePageTable(
 
         vBorderLeft.setOnClickListener {
             if (removeMode)
-                checkAndConfirmRemoveColumn(0) { vTable.setColumnsCount(vTable.getColumnsCount() + -1, false) }
-            else
+                checkAndConfirmRemoveColumn(0) {
+                    sendChangesMove(-1, 0)
+                    vTable.setColumnsCount(vTable.getColumnsCount() - 1, false)
+                }
+            else {
+                sendChangesMove(1, 0)
                 vTable.setColumnsCount(vTable.getColumnsCount() + 1, false)
+            }
             update()
         }
         vBorderRight.setOnClickListener {
             if (removeMode)
-                checkAndConfirmRemoveColumn(vTable.getColumnsCount() - 1) { vTable.setColumnsCount(vTable.getColumnsCount() - 1, true) }
-            else
+                checkAndConfirmRemoveColumn(vTable.getColumnsCount() - 1) {
+                    sendChangesMove(0, 0)
+                    vTable.setColumnsCount(vTable.getColumnsCount() - 1, true)
+                }
+            else {
+                sendChangesMove(0, 0)
                 vTable.setColumnsCount(vTable.getColumnsCount() + 1, true)
+            }
 
             update()
         }
         vBorderTop.setOnClickListener {
-            if (removeMode) checkAndConfirmRemoveRow(0) { vTable.removeRow(0) }
-            else vTable.createRow(false)
+            if (removeMode) checkAndConfirmRemoveRow(0) {
+                sendChangesMove(0, -1)
+                vTable.removeRow(0)
+            }
+            else {
+                sendChangesMove(0, 1)
+                vTable.createRow(false)
+            }
             update()
         }
         vBorderBottom.setOnClickListener {
-            if (removeMode) checkAndConfirmRemoveRow(vTable.getRowsCount() - 1) { vTable.removeRow(vTable.getRowsCount() - 1) }
-            else vTable.createRow(true)
+            if (removeMode) checkAndConfirmRemoveRow(vTable.getRowsCount() - 1) {
+                sendChangesMove(0, 0)
+                vTable.removeRow(vTable.getRowsCount() - 1)
+            }
+            else {
+                sendChangesMove(0, 0)
+                vTable.createRow(true)
+            }
             update()
         }
         vRemoveMode.setOnClickListener {
@@ -130,12 +148,59 @@ class SCreatePageTable(
         oldPage!!.title = ""
         oldPage!!.columnsCount = vTable.getColumnsCount()
         oldPage!!.rowsCount = vTable.getRowsCount()
-        ApiRequestsSupporter.executeProgressDialog(RPostChangePage(screen.getUnitId(), oldPage, pageIndex)) { r ->
-            oldPage = r.page as PageTable
-            if(card == null)
-                screen.putPage(oldPage!!, this, null, { page1 -> CardPageTable(null, page1) }, null, false)
-            else {
-                screen.changePage(oldPage!!, card, this, null, false)
+
+
+        requestChangePage.invoke(oldPage!!, card!!, this, ToolsView.showProgressDialog()) { page ->
+            this.oldPage = page as PageTable
+        }
+    }
+
+
+    private fun sendChangesMove(addHorizontal: Int, addVertical: Int) {
+        if (oldPage == null) return
+        val dialog = ToolsView.showProgressDialog()
+
+        oldPage!!.title = ""
+        oldPage!!.columnsCount = vTable.getColumnsCount() + addHorizontal
+        oldPage!!.rowsCount = vTable.getRowsCount() + addVertical
+
+        for(cell in oldPage!!.cells){
+            cell.columnIndex += addHorizontal
+            cell.rowIndex += addVertical
+        }
+
+        requestChangePage.invoke(oldPage!!, card!!, null, dialog) { page ->
+            this.oldPage = page as PageTable
+        }
+    }
+
+    private fun sendChanges(cell: PageTable.Cell?, vCell: ViewTableCell, dialog: Widget, onCreated: () -> Unit) {
+
+        cell?.rowIndex = vCell.getRowIndex()
+        cell?.columnIndex = vCell.getColumnIndex()
+        val page = if (oldPage == null) PageTable() else oldPage!!
+
+        if (cell != null) {
+            page.cells = ToolsCollections.add(cell, page.cells)
+        } else {
+            val list = ArrayList<PageTable.Cell>()
+            for (c in page.cells) if (c.rowIndex != vCell.getRowIndex() || c.columnIndex != vCell.getColumnIndex()) list.add(c)
+            page.cells = list.toTypedArray()
+        }
+
+        page.columnsCount = vTable.getColumnsCount()
+        page.rowsCount = vTable.getRowsCount()
+
+        if (oldPage == null) {
+            requestPutPage.invoke(page, null, dialog, { CardPageTable(null, it as PageTable) }) { card ->
+                this.card = card
+                this.oldPage = card.page as PageTable
+                onCreated.invoke()
+            }
+        } else {
+            requestChangePage.invoke(page, card!!, null, dialog) { page ->
+                this.oldPage = page as PageTable
+                onCreated.invoke()
             }
         }
     }
@@ -252,40 +317,6 @@ class SCreatePageTable(
         ToolsThreads.main {
             sendChanges(cell, vCell, dialog) {
                 vCell.setContentImageId(oldPage!!.getCell(vCell.getRowIndex(), vCell.getColumnIndex())!!.imageId)
-            }
-        }
-    }
-
-
-    private fun sendChanges(cell: PageTable.Cell?, vCell: ViewTableCell, dialog: Widget, onCreated: () -> Unit) {
-
-        cell?.rowIndex = vCell.getRowIndex()
-        cell?.columnIndex = vCell.getColumnIndex()
-
-        val page = if (oldPage == null) PageTable() else oldPage!!
-        if (cell != null) {
-            page.cells = ToolsCollections.add(cell, page.cells)
-        } else {
-            val list = ArrayList<PageTable.Cell>()
-            for (c in page.cells) if (c.rowIndex != vCell.getRowIndex() || c.columnIndex != vCell.getColumnIndex()) list.add(c)
-            page.cells = list.toTypedArray()
-        }
-
-        page.columnsCount = vTable.getColumnsCount()
-        page.rowsCount = vTable.getRowsCount()
-
-        if (oldPage == null) {
-            ApiRequestsSupporter.executeProgressDialog(dialog, RPostPutPage(screen.getUnitId(), arrayOf(page), screen.fandomId, screen.languageId, "", "")) { r ->
-                screen.setUnitId(r.unitId)
-                oldPage = r.pages[0] as PageTable
-                onCreated.invoke()
-                EventBus.post(EventPostChanged(screen.getUnitId(), screen.pages))
-            }
-        } else {
-            ApiRequestsSupporter.executeProgressDialog(dialog, RPostChangePage(screen.getUnitId(), page, pageIndex)) { r ->
-                oldPage = r.page as PageTable
-                onCreated.invoke()
-                EventBus.post(EventPostChanged(screen.getUnitId(), screen.pages))
             }
         }
     }

@@ -273,7 +273,8 @@
     <string name="notifications_fandom_make_moderator">Вас лишили права модерировать фэндом %s</string>
     <string name="notifications_fandom_remove_moderator">Теперь вы можете модерировать фэндом %s</string>
     <string name="notifications_important_publication">В фэндоме %s появилась важная публикация</string>
-    <string name="notifications_moderation_to_drafts">Модератор %s вернул ваш пост в черновики</string>
+    <string name="notifications_moderation_to_drafts">Модератор %s %s ваш пост в черновики</string>
+    <string name="notifications_moderation_multilingual_not">Модератор %s %s ваш пост не мультиязычным</string>
     <string name="notifications_moderation_tags">Модератор %s %s теги вашего поста</string>
     <string name="notifications_moderation_forgive">Модератор %s %s вас в фэндоме %s</string>
     <string name="notification_post_comment">%s %s ваш пост</string>
@@ -370,6 +371,7 @@
     <string name="moderation_text_importance_mark">%s публикацию как важную.</string>
     <string name="moderation_text_importance_unmark">%s метку важности с публикации</string>
     <string name="moderation_text_to_drafts">%s пост пользователя %s в черновики</string>
+    <string name="moderation_text_multilingual_not">%s пост пользователя %s не мультиязычным</string>
     <string name="moderation_text_post_tags">%s теги %s.</string>
     <string name="moderation_text_forum_create">%s форум %s (%s).</string>
     <string name="moderation_text_forum_change">%s форум %s (%s).</string>
@@ -865,6 +867,7 @@
     <string name="post_search_empty">Ничего не найдено, попробуйте другой тег</string>
     <string name="post_search_action">К тегам</string>
     <string name="post_page_images_empty">Нет изображений в списке.</string>
+    <string name="post_page_image_create_as_list_text">Добавить изображения одной карточкой?</string>
     <string name="post_page_images_remove_confirm">Удалить это изображение?</string>
     <string name="post_page_tale_clear_confirm">Очистить эту ячейку?</string>
     <string name="post_page_tale_remove_confirm">При удалении будут потеряны некоторые заполненные ячейки.</string>
@@ -1232,8 +1235,9 @@
     <string name="unit_menu_change_fandom">Изменить фэндом</string>
     <string name="unit_menu_pin_in_profile">Закрепить в профиле</string>
     <string name="unit_menu_unpin_in_profile">Открепить от профиля</string>
-    <string name="unit_menu_multi_languages">Сделать мультиязычным</string>
-    <string name="unit_menu_multi_languages_confirm">Сделать этот пост мультиязычным? Его увидят пользователи на всех языках.</string>
+    <string name="unit_menu_multilingual">Сделать мультиязычным</string>
+    <string name="unit_menu_multilingual_not">Сделать не мультиязычным</string>
+    <string name="unit_menu_multilingual_confirm">Сделать этот пост мультиязычным? Его увидят пользователи на всех языках.</string>
     <string name="unit_menu_pin_in_fandom">Закрепить в фэндоме</string>
     <string name="unit_menu_unpin_in_fandom">Открепить от фэндома</string>
     <string name="unit_menu_change_fandom_confirm">Изменить фэндом этого поста?</string>

@@ -89,7 +89,7 @@ class SFandom private constructor(
                             .setLanguageId(xFandom.languageId)
                             .setImportant(if (ControllerSettings.fandomFilterOnlyImportant) API.UNIT_IMPORTANT_IMPORTANT else API.UNIT_IMPORTANT_NONE)
                             .setIncludeZeroLanguages(true)
-                            .setIncludeMultiLanguages(true)
+                            .setIncludeMultilingual(true)
                             .setIncludeModerationsBlocks(ControllerSettings.fandomFilterModerationsBlocks)
                             .setIncludeModerationsOther(ControllerSettings.fandomFilterModerations)
                             .onComplete { rr ->

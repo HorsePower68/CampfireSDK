@@ -1,7 +1,7 @@
 package com.sayzen.campfiresdk.adapters
 
 import com.dzen.campfire.api.models.units.Unit
-import com.sayzen.campfiresdk.models.events.units.EventPostMultiLanguage
+import com.sayzen.campfiresdk.models.events.units.EventPostMultilingualChange
 import com.sayzen.campfiresdk.models.events.units.EventPostNotifyFollowers
 import com.sayzen.campfiresdk.models.events.units.EventUnitImportantChange
 import com.sayzen.campfiresdk.models.events.units.EventUnitRemove
@@ -21,9 +21,9 @@ class XUnit(
     val eventBus = EventBus
             .subscribe(EventPostNotifyFollowers::class) { if (it.unitId == unit.id) unit.tag_3 = 1 }
             .subscribe(EventUnitRemove::class) { if (it.unitId == unit.id) onRemove.invoke() }
-            .subscribe(EventPostMultiLanguage::class) {
+            .subscribe(EventPostMultilingualChange::class) {
                 if (it.unitId == unit.id) {
-                    xFandom.languageId = -1L
+                    xFandom.languageId = it.languageId
                     onChangedFandom.invoke()
                 }
             }
