@@ -422,6 +422,15 @@ Campfire has anime fandoms and gaming fandoms.</string>
     <string name="feed_loading_33">Do not play with fire</string>
     <string name="feed_loading_34">welcome to my world</string>
     <string name="feed_loading_35">Loading your feed</string>
+    <string name="feed_loading_36">The project is unique, there are no analogues!</string>
+    <string name="feed_loading_37">Keep calm and keep posting.</string>
+    <string name="feed_loading_38">Made for portfolio.</string>
+    <string name="feed_loading_39">Made with love.</string>
+    <string name="feed_loading_40">Nothing is true everything is permitted.</string>
+    <string name="feed_loading_41">Wake up and sing</string>
+    <string name="feed_loading_42">I used to be an adventurer like you...</string>
+    <string name="feed_loading_43">War. War never changes</string>
+    <string name="feed_loading_44">Wandering in the dark</string>
     <string name="feed_loading_1000">Hello datamineers!</string>
     <string name="feed_all">All publications</string>
     <string name="feed_subscribed">Subscribed only</string>
@@ -749,6 +758,8 @@ Campfire has anime fandoms and gaming fandoms.</string>
     <string name="profile_subtitle_text_12">Not playing with fire</string>
     <string name="profile_subtitle_text_13">Protoadmin</string>
     <string name="profile_subtitle_text_14">Meow</string>
+    <string name="profile_subtitle_text_15">Stylish</string>
+    <string name="profile_subtitle_text_16">Very serious</string>
 
 
     <string name="about_privacy_policy">Privacy policy</string>

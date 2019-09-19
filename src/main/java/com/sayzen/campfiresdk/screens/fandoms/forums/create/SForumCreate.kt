@@ -13,7 +13,6 @@ import com.sayzen.campfiresdk.models.events.fandom.EventForumCreated
 import com.sayzen.campfiresdk.screens.fandoms.forums.view.SForumView
 import com.sup.dev.android.libs.api_simple.ApiRequestsSupporter
 import com.sup.dev.android.libs.screens.Screen
-import com.sup.dev.android.libs.screens.ScreenProtected
 import com.sup.dev.android.libs.screens.navigator.Navigator
 import com.sup.dev.android.tools.ToolsBitmap
 import com.sup.dev.android.tools.ToolsImagesLoader
@@ -33,7 +32,7 @@ class SForumCreate(
         val imageId: Long?,
         val name: String,
         val image: ByteArray?
-) : Screen(R.layout.screen_forums_create), ScreenProtected {
+) : Screen(R.layout.screen_forums_create) {
 
     private val vField: EditText = findViewById(R.id.vField)
     private val vFab: FloatingActionButton = findViewById(R.id.vFab)
@@ -100,29 +99,16 @@ class SForumCreate(
                 .asSheetShow()
     }
 
-    override fun onBackPressed(): Boolean {
+    override fun onTryToHideOrClose(willCloseCallback: (Boolean) -> Unit) {
         if (notChanged())
-            return false
+            willCloseCallback.invoke(true)
         else {
-            showConfirmCancelDialog()
-            return true
+            WidgetAlert()
+                    .setText(R.string.post_create_cancel_alert)
+                    .setOnEnter(R.string.app_yes) { willCloseCallback.invoke(true) }
+                    .setOnCancel(R.string.app_no) { willCloseCallback.invoke(false) }
+                    .asSheetShow()
         }
-    }
-
-    override fun onProtectedClose(onClose: () -> Unit) {
-        if (notChanged())
-            onClose.invoke()
-        else {
-            showConfirmCancelDialog()
-        }
-    }
-
-    private fun showConfirmCancelDialog() {
-        WidgetAlert()
-                .setText(R.string.post_create_cancel_alert)
-                .setOnEnter(R.string.app_yes) { Navigator.remove(this) }
-                .setOnCancel(R.string.app_no)
-                .asSheetShow()
     }
 
     private fun notChanged(): Boolean {

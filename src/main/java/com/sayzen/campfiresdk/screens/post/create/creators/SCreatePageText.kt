@@ -12,7 +12,6 @@ import com.sayzen.campfiresdk.app.CampfireConstants
 import com.sayzen.campfiresdk.models.cards.post_pages.CardPage
 import com.sayzen.campfiresdk.models.cards.post_pages.CardPageText
 import com.sup.dev.android.libs.screens.Screen
-import com.sup.dev.android.libs.screens.ScreenProtected
 import com.sup.dev.android.tools.ToolsResources
 import com.sup.dev.android.tools.ToolsView
 import com.sup.dev.android.views.cards.Card
@@ -27,7 +26,7 @@ class SCreatePageText(
         private val requestChangePage: (page: Page, card: CardPage, screen: Screen?, widget: Widget?, (Page)->Unit) -> Unit,
         private val card: CardPage?,
         private val oldPage: PageText?
-) : Screen(R.layout.screen_post_create_widget_text), ScreenProtected {
+) : Screen(R.layout.screen_post_create_widget_text) {
 
     private val vField: EditText = findViewById(R.id.vField)
     private val vFab: FloatingActionButton = findViewById(R.id.vFab)
@@ -123,12 +122,12 @@ class SCreatePageText(
         }
     }
 
-    override fun onProtectedClose(onClose: () -> Unit) {
+    override fun onTryToHideOrClose(willCloseCallback: (Boolean) -> Unit) {
         if (notChanged())
-            onClose.invoke()
+            willCloseCallback.invoke(true)
         else {
             WidgetAdd.showConfirmCancelDialog(this) {
-                onClose.invoke()
+                willCloseCallback.invoke(true)
             }
         }
     }

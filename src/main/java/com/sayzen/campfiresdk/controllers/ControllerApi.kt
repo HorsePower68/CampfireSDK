@@ -323,6 +323,9 @@ object ControllerApi {
     fun linkToReview(reviewId: Long) = API.LINK_REVIEW + reviewId
     fun linkToModeration(moderationId: Long) = API.LINK_MODERATION + moderationId
     fun linkToForum(forumId: Long) = API.LINK_FORUM + forumId
+    fun linkToWikiFandomId(fandomId: Long) = API.LINK_WIKI_FANDOM + fandomId
+    fun linkToWikiItemId(itemId: Long) = API.LINK_WIKI_SECTION + itemId
+    fun linkToWikiArticle(itemId: Long) = API.LINK_WIKI_ARTICLE + itemId
     fun linkToSticker(id: Long) = API.LINK_STICKER + id
     fun linkToStickersPack(id: Long) = API.LINK_STICKERS_PACK + id
     fun linkToPostComment(parentUnitId: Long, commentId: Long) = API.LINK_POST + parentUnitId + "_" + commentId
@@ -361,10 +364,13 @@ object ControllerApi {
         replaceLinkable(vText, API.LINK_SHORT_RULES_MODER, API.LINK_RULES_MODER)
         replaceLinkable(vText, API.LINK_SHORT_CREATORS, API.LINK_CREATORS)
         replaceLinkable(vText, API.LINK_SHORT_ABOUT, API.LINK_ABOUT)
-        replaceLinkable(vText, API.LINK_SHORT_BOX_WITH_FIREWIRKS, API.LINK_BOX_WITH_FIREWORKS)
+        replaceLinkable(vText, API.LINK_SHORT_BOX_WITH_FIREWORKS, API.LINK_BOX_WITH_FIREWORKS)
         replaceLinkable(vText, API.LINK_SHORT_BOX_WITH_SUMMER, API.LINK_BOX_WITH_SUMMER)
         replaceLinkable(vText, API.LINK_SHORT_BOX_WITH_AUTUMN, API.LINK_BOX_WITH_AUTUMN)
         replaceLinkable(vText, API.LINK_SHORT_PROFILE, API.LINK_PROFILE_NAME)
+        replaceLinkable(vText, API.LINK_SHORT_WIKI_FANDOM, API.LINK_WIKI_FANDOM)
+        replaceLinkable(vText, API.LINK_SHORT_WIKI_SECTION, API.LINK_WIKI_SECTION)
+        replaceLinkable(vText, API.LINK_SHORT_WIKI_ARTICLE, API.LINK_WIKI_ARTICLE)
 
         onReplace.invoke()
         makeTextHtml(vText)
@@ -376,6 +382,9 @@ object ControllerApi {
         makeLinkable(vText, API.LINK_SHORT_PROFILE_ID, API.LINK_PROFILE_ID)
         makeLinkable(vText, API.LINK_SHORT_MODERATION_ID, API.LINK_MODERATION)
         makeLinkable(vText, API.LINK_SHORT_FORUM_ID, API.LINK_FORUM)
+        makeLinkable(vText, API.LINK_SHORT_WIKI_FANDOM, API.LINK_WIKI_FANDOM)
+        makeLinkable(vText, API.LINK_SHORT_WIKI_SECTION, API.LINK_WIKI_SECTION)
+        makeLinkable(vText, API.LINK_SHORT_WIKI_ARTICLE, API.LINK_WIKI_ARTICLE)
         makeLinkable(vText, API.LINK_SHORT_STICKER, API.LINK_STICKER)
         makeLinkable(vText, API.LINK_SHORT_STICKERS_PACK, API.LINK_STICKERS_PACK)
         makeLinkable(vText, API.LINK_SHORT_EVENT, API.LINK_EVENT)
@@ -384,7 +393,7 @@ object ControllerApi {
         makeLinkableInner(vText, API.LINK_SHORT_RULES_MODER, API.LINK_RULES_MODER)
         makeLinkableInner(vText, API.LINK_SHORT_CREATORS, API.LINK_CREATORS)
         makeLinkableInner(vText, API.LINK_SHORT_ABOUT, API.LINK_ABOUT)
-        makeLinkableInner(vText, API.LINK_SHORT_BOX_WITH_FIREWIRKS, API.LINK_BOX_WITH_FIREWORKS)
+        makeLinkableInner(vText, API.LINK_SHORT_BOX_WITH_FIREWORKS, API.LINK_BOX_WITH_FIREWORKS)
         makeLinkableInner(vText, API.LINK_SHORT_BOX_WITH_SUMMER, API.LINK_BOX_WITH_SUMMER)
         makeLinkableInner(vText, API.LINK_SHORT_BOX_WITH_AUTUMN, API.LINK_BOX_WITH_AUTUMN)
         makeLinkable(vText, API.LINK_SHORT_PROFILE, API.LINK_PROFILE_NAME, "([A-Za-z0-9#]+)")

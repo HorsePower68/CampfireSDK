@@ -9,7 +9,6 @@ import com.sayzen.campfiresdk.models.cards.post_pages.CardPage
 import com.sayzen.campfiresdk.models.cards.post_pages.CardPageTable
 import com.sayzen.campfiresdk.controllers.ControllerApi
 import com.sup.dev.android.libs.screens.Screen
-import com.sup.dev.android.libs.screens.ScreenProtected
 import com.sup.dev.android.libs.screens.navigator.Navigator
 import com.sup.dev.android.tools.*
 import com.sup.dev.android.views.views.ViewIcon
@@ -25,7 +24,7 @@ class SCreatePageTable(
         private val requestChangePage: (page: Page, card: CardPage, screen: Screen?, widget: Widget?, (Page) -> Unit) -> Unit,
         private var card: CardPage?,
         private var oldPage: PageTable?
-) : Screen(R.layout.screen_post_create_widget_table), ScreenProtected {
+) : Screen(R.layout.screen_post_create_widget_table) {
 
     private val vCreate: Button = findViewById(R.id.vCreate)
     private val vTable: ViewTable = findViewById(R.id.vTable)
@@ -233,10 +232,6 @@ class SCreatePageTable(
             }
         }
         onConfirm.invoke()
-    }
-
-    override fun onProtectedClose(onClose: () -> Unit) {
-        onClose.invoke()
     }
 
     //

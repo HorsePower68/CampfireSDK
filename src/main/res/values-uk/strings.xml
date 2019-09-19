@@ -425,6 +425,15 @@
     <string name="feed_loading_33">Не играйте с огнём</string>
     <string name="feed_loading_34">Добро пожаловать в мой мир</string>
     <string name="feed_loading_35">Загружаем вашу ленту</string>
+    <string name="feed_loading_36">Проект уникальный, аналогов нет!</string>
+    <string name="feed_loading_37">Сохраняй спокойствие и продолжай постить.</string>
+    <string name="feed_loading_38">Сделано для портфолио.</string>
+    <string name="feed_loading_39">Сделано с любовью.</string>
+    <string name="feed_loading_40">Ничто не истинно, всё дозволено.</string>
+    <string name="feed_loading_41">Проснитесь и пойте</string>
+    <string name="feed_loading_42">Когда-то и меня вела дорога приключений...</string>
+    <string name="feed_loading_43">Война. Война никогда не меняется</string>
+    <string name="feed_loading_44">Блуждаем во тьме</string>
     <string name="feed_loading_1000">Привет датамайнерам!</string>
     <string name="feed_all">Все побликации</string>
     <string name="feed_subscribed">Только подписки</string>
@@ -751,6 +760,8 @@
     <string name="profile_subtitle_text_12">Не играет с огнём</string>
     <string name="profile_subtitle_text_13">Протоадмин</string>
     <string name="profile_subtitle_text_14">Мяу</string>
+    <string name="profile_subtitle_text_15">Стильный</string>
+    <string name="profile_subtitle_text_16">Очень серьезен</string>
 
     <string name="about_privacy_policy">Политика конфиденциальности</string>
 

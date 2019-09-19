@@ -11,6 +11,8 @@ import com.dzen.campfire.api.models.PagesContainer
 import com.dzen.campfire.api.models.units.post.Page
 import com.dzen.campfire.api.models.wiki.WikiTitle
 import com.dzen.campfire.api.requests.wiki.RWikiGetPages
+import com.dzen.campfire.api.requests.wiki.RWikiItemGet
+import com.dzen.campfire.api.requests.wiki.RWikiListGet
 import com.sayzen.campfiresdk.R
 import com.sayzen.campfiresdk.controllers.ControllerApi
 import com.sayzen.campfiresdk.controllers.ControllerWiki
@@ -18,7 +20,9 @@ import com.sayzen.campfiresdk.controllers.api
 import com.sayzen.campfiresdk.models.cards.post_pages.CardPage
 import com.sayzen.campfiresdk.models.events.wiki.EventWikiPagesChanged
 import com.sayzen.campfiresdk.models.events.wiki.EventWikiRemove
+import com.sup.dev.android.libs.api_simple.ApiRequestsSupporter
 import com.sup.dev.android.libs.screens.Screen
+import com.sup.dev.android.libs.screens.navigator.NavigationAction
 import com.sup.dev.android.libs.screens.navigator.Navigator
 import com.sup.dev.android.tools.ToolsImagesLoader
 import com.sup.dev.android.views.cards.CardSpace
@@ -30,6 +34,15 @@ class SWikiArticleView(
         var languageId: Long
         ) : Screen(R.layout.screen_wiki_article), PagesContainer {
 
+    companion object{
+
+        fun instance(wikiItemId:Long, action: NavigationAction){
+            ApiRequestsSupporter.executeInterstitial(action, RWikiItemGet(wikiItemId)) { r ->
+                SWikiArticleView(r.wikiTitle, ControllerApi.getLanguageId())
+            }
+        }
+
+    }
 
     private val eventBus = EventBus
             .subscribe(EventWikiPagesChanged::class) { this.onEventWikiPagesChanged(it) }
