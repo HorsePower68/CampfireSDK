@@ -201,7 +201,7 @@ class SWikiItemCreate(
         }
 
         if (item.itemId == 0L) {
-            item.type = if (vTypeArticle.isChecked) API.WIKI_TYPE_ARTICLE else API.WIKI_TYPE_SECION
+            item.itemType = if (vTypeArticle.isChecked) API.WIKI_TYPE_ARTICLE else API.WIKI_TYPE_SECION
             ApiRequestsSupporter.executeProgressDialog(RWikiItemCreate(fandomId, parentItemId, item, imageMini, image)) { _,r ->
                 ToolsToast.show(R.string.app_done)
                 Navigator.remove(this)

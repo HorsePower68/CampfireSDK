@@ -8,27 +8,32 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.dzen.campfire.api.API
 import com.dzen.campfire.api.models.PagesContainer
-import com.dzen.campfire.api.models.wiki.WikiPages
+import com.dzen.campfire.api.models.units.post.Page
 import com.dzen.campfire.api.models.wiki.WikiTitle
 import com.dzen.campfire.api.requests.wiki.RWikiGetPages
 import com.sayzen.campfiresdk.R
 import com.sayzen.campfiresdk.controllers.ControllerApi
+import com.sayzen.campfiresdk.controllers.ControllerWiki
 import com.sayzen.campfiresdk.controllers.api
 import com.sayzen.campfiresdk.models.cards.post_pages.CardPage
+import com.sayzen.campfiresdk.models.events.wiki.EventWikiPagesChanged
 import com.sayzen.campfiresdk.models.events.wiki.EventWikiRemove
 import com.sup.dev.android.libs.screens.Screen
 import com.sup.dev.android.libs.screens.navigator.Navigator
 import com.sup.dev.android.tools.ToolsImagesLoader
+import com.sup.dev.android.views.cards.CardSpace
 import com.sup.dev.android.views.support.adapters.recycler_view.RecyclerCardAdapter
 import com.sup.dev.java.libs.eventBus.EventBus
 
-class SWikiArticlerView(
-        val item: WikiTitle,
+class SWikiArticleView(
+        val wikiTitle: WikiTitle,
         var languageId: Long
-) : Screen(R.layout.screen_wiki_article), PagesContainer {
+        ) : Screen(R.layout.screen_wiki_article), PagesContainer {
 
 
-    private val eventBus = EventBus.subscribe(EventWikiRemove::class) { if (it.item.itemId == item.itemId) Navigator.remove(this) }
+    private val eventBus = EventBus
+            .subscribe(EventWikiPagesChanged::class) { this.onEventWikiPagesChanged(it) }
+            .subscribe(EventWikiRemove::class) { if (it.item.itemId == wikiTitle.itemId) Navigator.remove(this) }
 
     private val vImageTitle: ImageView = findViewById(R.id.vImageTitle)
     private val vToolbarTitle: TextView = findViewById(R.id.vToolbarTitle)
@@ -39,23 +44,24 @@ class SWikiArticlerView(
     private val vMessage: TextView = findViewById(R.id.vMessage)
     private val vProgressLine: View = findViewById(R.id.vProgressLine)
     private val vAction: Button = findViewById(R.id.vAction)
-    private val vEdit: View = findViewById(R.id.vEdit)
 
     private val adapter = RecyclerCardAdapter()
-    private var pages = WikiPages()
+    private var pages:Array<Page> = emptyArray()
     private var isLoading = false
     private var error = false
 
     init {
-        ToolsImagesLoader.loadGif(item.imageId, 0, 0, 0, vAvatar)
-        ToolsImagesLoader.loadGif(item.imageBigId, 0, 0, 0, vImageTitle)
-        vToolbarTitle.text = item.getName(ControllerApi.getLanguageCode())
+        hasToolbarBackIcon = false
+        ToolsImagesLoader.loadGif(wikiTitle.imageId, 0, 0, 0, vAvatar)
+        ToolsImagesLoader.loadGif(wikiTitle.imageBigId, 0, 0, 0, vImageTitle)
+        vToolbarTitle.text = wikiTitle.getName(ControllerApi.getLanguageCode())
 
         vRecycler.layoutManager = LinearLayoutManager(context)
         vRecycler.adapter = adapter
         vRecycler.setOnClickListener { load() }
 
-        vEdit.setOnClickListener { Navigator.to(SWikiArticleEdit(item, pages, languageId)) }
+
+        vMore.setOnClickListener { ControllerWiki.showMenu(wikiTitle, languageId) }
 
         load()
     }
@@ -64,16 +70,17 @@ class SWikiArticlerView(
         isLoading = true
         error = false
         adapter.clear()
+        adapter.add(CardSpace(112))
         updateMessage()
-        RWikiGetPages(item.itemId, languageId)
+        RWikiGetPages(wikiTitle.itemId, languageId)
                 .onComplete {
                     isLoading = false
-                    if (it.wikiPages.pages.isEmpty() && languageId != 1L) {
+                    if ((it.wikiPages == null || it.wikiPages!!.pages.isEmpty()) && languageId != 1L) {
                         languageId = 1L
                         load()
                     } else {
-                        pages = it.wikiPages
-                        for (i in pages.pages) adapter.add(CardPage.instance(this, i))
+                        pages = it.wikiPages?.pages?: emptyArray()
+                        for (i in pages) adapter.add(CardPage.instance(this, i))
                         updateMessage()
                     }
                 }
@@ -101,7 +108,6 @@ class SWikiArticlerView(
     }
 
     private fun updateMessage() {
-        vEdit.visibility = if (ControllerApi.can(item.fandomId, languageId, API.LVL_MODERATOR_WIKI_EDIT)) View.VISIBLE else View.GONE
         vMessage.visibility = View.VISIBLE
         vProgressLine.visibility = View.GONE
         vAction.visibility = View.GONE
@@ -113,7 +119,7 @@ class SWikiArticlerView(
                 vAction.visibility = View.VISIBLE
                 vMessage.setText(R.string.error_network)
             } else {
-                if (pages.pages.isEmpty()) {
+                if (pages.isEmpty()) {
                     vMessage.setText(R.string.wiki_article_empty)
                 } else {
                     vMessage.visibility = View.GONE
@@ -124,5 +130,19 @@ class SWikiArticlerView(
 
     }
 
-    override fun getPagesArray() = pages.pages
+    override fun getPagesArray() = pages
+
+    //
+    //  EventBus
+    //
+
+    private fun onEventWikiPagesChanged(e: EventWikiPagesChanged) {
+        if (e.itemId == wikiTitle.itemId && e.languageId == languageId) {
+            adapter.remove(CardPage::class)
+            pages = e.pages
+            for (i in pages) adapter.add(CardPage.instance(this, i))
+            updateMessage()
+        }
+    }
+
 }

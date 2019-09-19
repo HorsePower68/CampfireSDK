@@ -166,6 +166,7 @@
     <string name="app_note">Заметка</string>
     <string name="app_congratulations">Поздравляем!</string>
     <string name="app_edited">ред.</string>
+    <string name="app_edit">Редактировать</string>
     <string name="app_comments">Комментарии</string>
     <string name="app_choose_image">Выбрать изображение</string>
     <string name="app_title">Заголовок</string>
@@ -667,6 +668,7 @@
     <string name="error_unsupported_link">Не потдерживаемая ссылка</string>
     <string name="error_of_loading">Ошибка загрузки</string>
     <string name="error_incorrect_value">Некорректное значение</string>
+    <string name="error_same_fandom">Выбран тот-же фэндом</string>
 
     <string name="profile_report_confirm">Пожаловаться на пользователя?</string>
     <string name="profile_story">История</string>
@@ -912,6 +914,7 @@
     <string name="wiki_article_loading">Загружаем статью...</string>
     <string name="wiki_article_empty_no_english">Нет перевода для вашего языка. Открыта английская версия.</string>
     <string name="wiki_article_empty">Эта статья еще не заполнена</string>
+    <string name="wiki_article_edit_title">Редактирование</string>
 
     <string name="category_games">Игры</string>
     <string name="category_anime">Аниме</string>

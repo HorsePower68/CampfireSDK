@@ -87,7 +87,7 @@ object ControllerPost {
         w.asSheetShow()
     }
 
-    fun publishPending(unit: UnitPost){
+    fun publishPending(unit: UnitPost) {
         ApiRequestsSupporter.executeEnabledConfirm(
                 R.string.post_pending_publish,
                 R.string.app_publish,
@@ -253,6 +253,7 @@ object ControllerPost {
                 ToolsToast.show(R.string.app_done)
                 EventBus.post(EventUnitFandomChanged(unitId, fandom.id, fandom.languageId, fandom.name, fandom.imageId))
             }
+                    .onApiError(RPostChangeFandom.E_SAME_FANDOM) { ToolsToast.show(R.string.error_same_fandom) }
         }
     }
 
@@ -280,6 +281,7 @@ object ControllerPost {
                                     )
                             )
                         }
+                                .onApiError(RPostChangeFandom.E_SAME_FANDOM) { ToolsToast.show(R.string.error_same_fandom) }
                     }
                     .asSheetShow()
         }

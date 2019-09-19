@@ -17,12 +17,10 @@ import com.sup.dev.java.tools.ToolsBytes
 import com.sup.dev.java.tools.ToolsThreads
 import com.sayzen.campfiresdk.models.cards.post_pages.CardPage
 import com.sayzen.campfiresdk.models.cards.post_pages.CardPageImages
-import com.sup.dev.android.app.SupAndroid
 import com.sup.dev.android.libs.screens.Screen
 import com.sup.dev.android.tools.*
 import com.sup.dev.android.views.widgets.WidgetAlert
 import com.sup.dev.java.classes.items.Item
-import com.sup.dev.java.libs.debug.log
 import com.sup.dev.java.tools.ToolsCollections
 
 class WidgetPageImage(
@@ -37,7 +35,6 @@ class WidgetPageImage(
         setMaxSelectCount(15)
         setCallbackInWorkerThread(true)
         setOnSelected { w, bytes, index ->
-            log(">>> " + index +" : " + w.getSelectedCount())
 
             if (w.getSelectedCount() > 1) {
 

@@ -112,7 +112,7 @@ class SChat private constructor(
         layoutManager.stackFromEnd = true
         vRecycler.layoutManager = layoutManager
 
-        updateSubscribed()
+        ToolsThreads.main(100) { updateSubscribed() }  // Иначе иконка не красится.
         update()
         updateTyping()
         updateBackground()

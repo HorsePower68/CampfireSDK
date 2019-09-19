@@ -16,7 +16,6 @@ import com.sup.dev.android.views.views.ViewIcon
 import com.sup.dev.android.views.views.table.ViewTable
 import com.sup.dev.android.views.views.table.ViewTableCell
 import com.sup.dev.android.views.widgets.*
-import com.sup.dev.java.libs.debug.log
 import com.sup.dev.java.tools.ToolsBytes
 import com.sup.dev.java.tools.ToolsCollections
 import com.sup.dev.java.tools.ToolsThreads

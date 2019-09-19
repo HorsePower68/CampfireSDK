@@ -166,6 +166,7 @@ Campfire has anime fandoms and gaming fandoms.</string>
     <string name="app_note">Note</string>
     <string name="app_congratulations">Congratulations!</string>
     <string name="app_edited">edited</string>
+    <string name="app_edit">Edit</string>
     <string name="app_comments">Comments</string>
     <string name="app_choose_image">Choose image</string>
     <string name="app_title">Title</string>
@@ -665,6 +666,7 @@ Campfire has anime fandoms and gaming fandoms.</string>
     <string name="error_unsupported_link">Unsupported link</string>
     <string name="error_of_loading">Loading error</string>
     <string name="error_incorrect_value">Incorrect value</string>
+    <string name="error_same_fandom">Selected the same fandom</string>
 
 
     <string name="profile_report_confirm">Report this user?</string>

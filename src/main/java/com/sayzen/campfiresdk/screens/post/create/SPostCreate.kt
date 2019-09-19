@@ -12,6 +12,9 @@ import com.sayzen.campfiresdk.models.ScreenShare
 import com.sayzen.campfiresdk.R
 import com.sayzen.campfiresdk.adapters.XFandom
 import com.sayzen.campfiresdk.controllers.ControllerApi
+import com.sayzen.campfiresdk.models.events.units.EventPostChanged
+import com.sayzen.campfiresdk.models.events.units.EventPostDraftCreated
+import com.sayzen.campfiresdk.models.events.units.EventUnitRemove
 import com.sayzen.campfiresdk.screens.post.view.SPost
 import com.sup.dev.android.libs.api_simple.ApiRequestsSupporter
 import com.sup.dev.android.libs.screens.Screen
@@ -21,6 +24,7 @@ import com.sup.dev.android.tools.ToolsResources
 import com.sup.dev.android.views.views.ViewAvatarTitle
 import com.sup.dev.android.views.widgets.Widget
 import com.sup.dev.android.views.widgets.WidgetAlert
+import com.sup.dev.java.libs.eventBus.EventBus
 import com.sup.dev.java.tools.ToolsThreads
 
 class SPostCreate constructor(
@@ -63,21 +67,24 @@ class SPostCreate constructor(
     private val vAdd: FloatingActionButton = findViewById(R.id.vAdd)
     private val vFinish: FloatingActionButton = findViewById(R.id.vFinish)
     private val vAvatarTitle: ViewAvatarTitle = findViewById(R.id.vAvatarTitle)
-    private val xPostCreator = PostCreator(changePost, vRecycler, vAdd, vFinish, { backIfEmptyAndNewerAdd() }, requestPutPage(), requestRemovePage(), requestChangePage(), requestMovePage())
+    private val xPostCreator = PostCreator(changePost?.pages?: emptyArray(), vRecycler, vAdd, vFinish, { backIfEmptyAndNewerAdd() }, requestPutPage(), requestRemovePage(), requestChangePage(), requestMovePage())
     private val xFandom = XFandom(fandomId, languageId, fandomName, fandomImageId) { updateTitle() }
 
+    private var unitId = 0L
     private var unitTag3 = 0L
 
     init {
         isSingleInstanceInBackStack = true
+
+        this.unitId = changePost?.id ?: 0
         this.unitTag3 = changePost?.tag_3 ?: 0
 
         vFinish.setOnClickListener {
-            if (changePost == null || changePost.isDraft) SCreationTags.instance(xPostCreator.getUnitId(), unitTag3, true, fandomId, languageId, tags, Navigator.TO)
+            if (changePost == null || changePost.isDraft) SCreationTags.instance(unitId, unitTag3, true, fandomId, languageId, tags, Navigator.TO)
             else Navigator.back()
         }
         vFinish.setOnLongClickListener {
-            SCreationTags.create(xPostCreator.getUnitId(), tags, false, 0) { SPost.instance(xPostCreator.getUnitId(), 0, NavigationAction.replace()) }
+            SCreationTags.create(unitId, tags, false, 0) { SPost.instance(unitId, 0, NavigationAction.replace()) }
             true
         }
         if (changePost != null && !changePost.isDraft) vFinish.setImageResource(ToolsResources.getDrawableAttrId(R.attr.ic_done_24dp))
@@ -105,33 +112,47 @@ class SPostCreate constructor(
         if (xPostCreator.pages.isEmpty() && xPostCreator.isNewerAdd()) Navigator.back()
     }
 
+    fun setUnitId(unitId: Long) {
+        this.unitId = unitId
+        EventBus.post(EventPostDraftCreated(unitId))
+    }
+
     //
     //  Requests
     //
 
-    private fun requestPutPage(): (Widget?, Array<Page>, (Long, Array<Page>) -> Unit, () -> Unit) -> Unit = { widget, pages, onCreate, onFinish ->
-        ApiRequestsSupporter.executeEnabled(widget, RPostPutPage(xPostCreator.getUnitId(), pages, fandomId, languageId, "", "")) { r ->
-            onCreate.invoke(r.unitId, r.pages)
+    private fun requestPutPage(): (Widget?, Array<Page>, (Array<Page>) -> Unit, () -> Unit) -> Unit = { widget, pages, onCreate, onFinish ->
+        ApiRequestsSupporter.executeEnabled(widget, RPostPutPage(unitId, pages, fandomId, languageId, "", "")) { r ->
+            if (this.unitId == 0L) setUnitId(r.unitId)
+            onCreate.invoke(r.pages)
+            EventBus.post(EventPostChanged(unitId, pages))
         }.onFinish {
             onFinish.invoke()
         }
     }
 
     private fun requestRemovePage(): (Array<Int>, () -> Unit) -> Unit = { pages, onFinish->
-        ApiRequestsSupporter.executeEnabledConfirm(R.string.post_page_remove_confirm, R.string.app_remove, RPostRemovePage(xPostCreator.getUnitId(), pages)) {
+        ApiRequestsSupporter.executeEnabledConfirm(R.string.post_page_remove_confirm, R.string.app_remove, RPostRemovePage(unitId, pages)) {
             onFinish.invoke()
+            EventBus.post(EventPostChanged(unitId, xPostCreator.pages))
+            if (xPostCreator.pages.isEmpty()) {
+                EventBus.post(EventUnitRemove(unitId))
+                unitId = 0
+            }
         }
     }
 
     private fun requestChangePage(): (Widget?, Page, Int, (Page) -> Unit) -> Unit = {widget, page, index, onFinish->
-        ApiRequestsSupporter.executeEnabled(widget, RPostChangePage(xPostCreator.getUnitId(), page, index)) { r ->
+        ApiRequestsSupporter.executeEnabled(widget, RPostChangePage(unitId, page, index)) { r ->
             onFinish.invoke(r.page!!)
+            EventBus.post(EventPostChanged(unitId, xPostCreator.pages))
         }
     }
 
     private fun requestMovePage(): (Int,Int,() -> Unit) -> Unit = { currentIndex, targetIndex, onFinish->
-        ApiRequestsSupporter.executeProgressDialog(RPostMovePage(xPostCreator.getUnitId(), currentIndex, targetIndex)) { _ ->
+        ApiRequestsSupporter.executeProgressDialog(RPostMovePage(unitId, currentIndex, targetIndex)) { _ ->
             onFinish.invoke()
+            EventBus.post(EventPostChanged(unitId, xPostCreator.pages))
         }
     }
 
@@ -141,19 +162,19 @@ class SPostCreate constructor(
 
     override fun addText(text: String, postAfterAdd: Boolean) {
         xPostCreator.addText(text) {
-            if (postAfterAdd) SCreationTags.create(xPostCreator.getUnitId(), tags, false, 0) { SPost.instance(xPostCreator.getUnitId(), 0, NavigationAction.replace()) }
+            if (postAfterAdd) SCreationTags.create(unitId, tags, false, 0) { SPost.instance(unitId, 0, NavigationAction.replace()) }
         }
     }
 
     override fun addImage(image: Uri, postAfterAdd: Boolean) {
         xPostCreator.addImage(image) {
-            if (postAfterAdd) SCreationTags.create(xPostCreator.getUnitId(), tags, false, 0) { SPost.instance(xPostCreator.getUnitId(), 0, NavigationAction.replace()) }
+            if (postAfterAdd) SCreationTags.create(unitId, tags, false, 0) { SPost.instance(unitId, 0, NavigationAction.replace()) }
         }
     }
 
     override fun addImage(image: Bitmap, postAfterAdd: Boolean) {
         xPostCreator.addImage(image) {
-            if (postAfterAdd) SCreationTags.create(xPostCreator.getUnitId(), tags, false, 0) { SPost.instance(xPostCreator.getUnitId(), 0, NavigationAction.replace()) }
+            if (postAfterAdd) SCreationTags.create(unitId, tags, false, 0) { SPost.instance(unitId, 0, NavigationAction.replace()) }
         }
     }
 

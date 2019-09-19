@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    style="@style/Root">
+    style="@style/Root.Content">
 
     <com.google.android.material.appbar.AppBarLayout style="@style/AppBar">
 
@@ -22,20 +22,16 @@
 
             </com.sup.dev.android.views.views.layouts.LayoutAspectRatio>
 
-            <androidx.appcompat.widget.Toolbar style="@style/Toolbar.Collapse">
+            <androidx.appcompat.widget.Toolbar
+                style="@style/Toolbar.Collapse">
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center">
+                <com.sup.dev.android.views.views.ViewIcon
+                    style="@style/Icon.Shadow.Back.Filtered" />
 
-                    <com.sup.dev.android.views.views.ViewIcon
-                        android:id="@+id/vMore"
-                        style="@style/Icon"
-                        android:src="?ic_more_vert_24dp" />
-
-                </LinearLayout>
-
+                <com.sup.dev.android.views.views.ViewIcon
+                    android:id="@+id/vMore"
+                    style="@style/Icon.Shadow.Filtered"
+                    android:src="?ic_more_vert_24dp" />
 
             </androidx.appcompat.widget.Toolbar>
 
@@ -50,29 +46,29 @@
         app:layout_behavior="com.sup.dev.android.views.support.behavior.BehaviorAppBarCollapse">
 
         <FrameLayout
-            android:layout_marginTop="96dp"
             android:layout_width="match_parent"
             android:layout_height="96dp"
+            android:layout_marginTop="96dp"
             android:background="?content_background">
 
             <TextView
                 android:id="@+id/vToolbarTitle"
-                android:layout_marginTop="12dp"
-                android:lines="1"
-                android:singleLine="true"
                 style="@style/TextAppearance.AppCompat.Title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center" />
+                android:layout_gravity="center"
+                android:layout_marginTop="12dp"
+                android:lines="1"
+                android:singleLine="true" />
 
         </FrameLayout>
 
         <FrameLayout
             android:id="@+id/vAvatarTouch"
             android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_gravity="center|top"
-            android:layout_marginTop="48dp"
-            android:layout_height="wrap_content">
+            android:layout_marginTop="48dp">
 
             <com.sup.dev.android.views.views.ViewCircleImage
                 android:layout_width="88dp"
@@ -90,7 +86,6 @@
         </FrameLayout>
 
 
-
     </FrameLayout>
 
     <androidx.recyclerview.widget.RecyclerView style="@style/Recycler" />
@@ -98,9 +93,9 @@
     <LinearLayout
         android:id="@+id/vMessageContainer"
         android:layout_width="wrap_content"
-        android:layout_marginTop="142dp"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
+        android:layout_marginTop="142dp"
         android:orientation="vertical">
 
         <TextView
@@ -116,26 +111,20 @@
             android:id="@+id/vProgressLine"
             style="@style/Widget.AppCompat.ProgressBar.Horizontal"
             android:layout_width="128dp"
-            android:layout_marginTop="12dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
+            android:layout_marginTop="12dp"
             android:indeterminate="true" />
 
         <com.sup.dev.android.views.views.ViewButton
             android:id="@+id/vAction"
             style="@style/Button.Text"
-            android:text="@string/app_retry"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_marginTop="8dp"/>
+            android:layout_marginTop="8dp"
+            android:text="@string/app_retry" />
 
     </LinearLayout>
-
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/vEdit"
-        android:src="@drawable/ic_mode_edit_white_24dp"
-        style="@style/Fab"/>
-
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

@@ -18,14 +18,21 @@ class CardSending(
 ) : Card(R.layout.screen_chat_card_sending) {
 
     private var sending = false
+    private var sendingDone = false
+    private var hided = true
 
     init {
         send()
+        ToolsThreads.main(1000) {
+            hided = false
+            update()
+        }
     }
 
     private fun send() {
         sending = true
         ApiRequestsSupporter.execute(request) { r ->
+            sendingDone = true
             afterSend(r.message)
         }
                 .onApiError(RChatMessageCreate.E_BLACK_LIST) {
@@ -52,11 +59,13 @@ class CardSending(
     override fun bindView(view: View) {
         super.bindView(view)
 
+        view.visibility = if (hided) View.GONE else View.VISIBLE
+
         val vRetry: Button = view.findViewById(R.id.vRetry)
         val vProgress: View = view.findViewById(R.id.vProgress)
 
-        vRetry.visibility = if (sending) View.GONE else View.VISIBLE
-        vProgress.visibility = if (sending) View.VISIBLE else View.GONE
+        vRetry.visibility = if (sending || sendingDone) View.GONE else View.VISIBLE
+        vProgress.visibility = if (sending && !sendingDone) View.VISIBLE else View.GONE
         vRetry.setOnClickListener {
             vProgress.visibility = View.GONE
             send()

@@ -34,12 +34,12 @@ import com.sup.dev.java.tools.ToolsMapper
 import com.sup.dev.java.tools.ToolsThreads
 
 class PostCreator(
-        val changePost: UnitPost?,
+        val oldPages: Array<Page>,
         val vRecycler: RecyclerView,
         val vAdd: FloatingActionButton,
         val vFinish: FloatingActionButton,
         val onBackEmptyAndNewerAdd: () -> Unit,
-        val requestPutPage: (Widget?, Array<Page>, (Long, Array<Page>) -> Unit, () -> Unit) -> Unit,
+        val requestPutPage: (Widget?, Array<Page>, (Array<Page>) -> Unit, () -> Unit) -> Unit,
         val requestRemovePage: (Array<Int>, () -> Unit) -> Unit,
         val requestChangePage: (Widget?, Page, Int, (Page) -> Unit) -> Unit,
         val requestMovePage: (Int, Int, () -> Unit) -> Unit
@@ -53,7 +53,6 @@ class PostCreator(
     private var actionType: ActionType? = null
     private val widgetAdd: WidgetAdd
     private var newerAdd = true
-    private var unitId = 0L
 
     val pages: Array<Page>
         get() {
@@ -64,7 +63,6 @@ class PostCreator(
         }
 
     init {
-        this.unitId = changePost?.id ?: 0
 
         widgetAdd = WidgetAdd(
                 { page, screen, widget, mapper, onFinish -> putPage(page, screen, widget, mapper, onFinish) },
@@ -78,7 +76,7 @@ class PostCreator(
         vRecycler.adapter = adapter
         vRecycler.scrollToPosition(adapter.size() - 1)
 
-        if (changePost != null) for (p in changePost.pages) addPage(CardPage.instance(null, p))
+        for (p in oldPages) addPage(CardPage.instance(null, p))
 
         vAdd.setOnClickListener { onFabClicked() }
 
@@ -107,11 +105,6 @@ class PostCreator(
     //
     //  Actions
     //
-
-    fun setUnitId(unitId: Long) {
-        this.unitId = unitId
-        EventBus.post(EventPostDraftCreated(unitId))
-    }
 
     private fun addPage(c: CardPage) {
         adapter.add(adapter.size() - 1, c.setEditMod(true, { c1: CardPage -> this.startMove(c1) }, { c2: CardPage -> widgetAdd.changePage(c2) }, { c3: CardPage -> this.removePage(c3) }))
@@ -151,15 +144,10 @@ class PostCreator(
     }
 
     @Suppress("UNCHECKED_CAST")
-    private fun <K : Page, N : CardPage> onPageAdd(screen: Screen?, unitId: Long, pages: Array<Page>, mapper: (K) -> N): CardPage {
+    private fun <K : Page, N : CardPage> onPageAdd(screen: Screen?, pages: Array<Page>, mapper: (K) -> N): CardPage {
         if (screen != null) Navigator.remove(screen)
-        if (this.unitId == 0L) {
-            this.unitId = unitId
-            EventBus.post(EventPostDraftCreated(unitId))
-        }
         val card = mapper.invoke(pages[0] as K)
         addPage(card)
-        EventBus.post(EventPostChanged(unitId, pages))
         ToolsThreads.main(200) { vRecycler.scrollToPosition((vRecycler.adapter as RecyclerCardAdapter).indexOf(card) + 1) }
         return card
     }
@@ -168,7 +156,6 @@ class PostCreator(
         if (screen != null) Navigator.remove(screen)
         card.page = page
         card.update()
-        EventBus.post(EventPostChanged(unitId, pages))
     }
 
 
@@ -178,52 +165,28 @@ class PostCreator(
 
     private fun putPage(page: Page, screen: Screen?, widget: Widget?, mapper: (Page) -> CardPage, onFinish: ((CardPage) -> Unit)) {
         newerAdd = false
-
-        //  if (needSend) {
         screen?.isEnabled = false
 
-        requestPutPage.invoke(widget, arrayOf(page), { unitId, pages ->
-            val card = onPageAdd(screen, unitId, pages, mapper)
+        requestPutPage.invoke(widget, arrayOf(page), { pages ->
+            val card = onPageAdd(screen, pages, mapper)
             onFinish.invoke(card)
         }, {
             screen?.isEnabled = true
         })
-
-        // } else {
-        //     if (screen != null) Navigator.remove(screen)
-        //     val card = mapper.invoke(page)
-        //     addPage(card)
-        //     EventBus.post(EventPostChanged(unitId, pages))
-        //     ToolsThreads.main(200) { vRecycler.scrollToPosition((vRecycler.adapter as RecyclerCardAdapter).indexOf(card) + 1) }
-        //     onFinish?.invoke()
-        // }
     }
 
     private fun removePage(c: CardPage) {
         requestRemovePage.invoke(arrayOf(adapter.indexOf(c))) {
             adapter.remove(c)
-            if (adapter.size(CardPage::class) == 0) {
-                EventBus.post(EventUnitRemove(unitId))
-                unitId = 0
-            }
             ControllerPost.openAllSpoilers(adapter)
-            EventBus.post(EventPostChanged(unitId, pages))
         }
     }
 
     private fun changePage(page: Page, card: CardPage, screen: Screen?, widget: Widget?, onFinish: (Page) -> Unit) {
-        // if (needSend) {
-
         requestChangePage.invoke(widget, page, adapter.indexOf(card)) { page ->
             onFinish.invoke(page)
             onChangePage(card, screen, page)
         }
-        // } else {
-        //     if (screen != null) Navigator.remove(screen)
-        //     card.page = page
-        //     card.update()
-        //     EventBus.post(EventPostChanged(unitId, pages))
-        // }
     }
 
     private fun movePage(c: CardPage, index: Int) {
@@ -234,7 +197,6 @@ class PostCreator(
             adapter.remove(c)
             adapter.add(targetIndex, c)
             ControllerPost.openAllSpoilers(adapter)
-            EventBus.post(EventPostChanged(unitId, pages))
         }
     }
 
@@ -304,8 +266,6 @@ class PostCreator(
     //
 
     fun isNewerAdd() = newerAdd
-
-    fun getUnitId() = unitId
 
 
 }

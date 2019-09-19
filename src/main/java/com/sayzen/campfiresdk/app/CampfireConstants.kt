@@ -20,7 +20,7 @@ object CampfireConstants {
     val RULES_USER = Array(RULES_USER_TITLES.size) { Rule(RULES_USER_TITLES[it], RULES_USER_BODIES[it]) }
     val RULES_MODER = ToolsResources.getStringIndexedArrayId("rules_moderators_")
 
-    val TEXT_ICONS = arrayOf(0/*Stub item*/,
+    val TEXT_ICONS = arrayOf(0/*Stub wikiTitle*/,
             R.attr.ic_arrow_back_24dp, R.attr.ic_menu_24dp, R.attr.ic_keyboard_arrow_right_24dp, R.attr.ic_keyboard_arrow_left_24dp, R.attr.ic_file_download_24dp, R.attr.ic_share_24dp, R.attr.ic_keyboard_arrow_up_24dp, R.attr.ic_keyboard_arrow_down_24dp, R.attr.ic_content_copy_24dp, R.attr.ic_folder_24dp,
             R.attr.ic_insert_drive_file_24dp, R.attr.ic_mic_24dp, R.attr.ic_clear_24dp, R.attr.ic_lock_24dp, R.attr.ic_access_time_24dp, R.attr.ic_account_balance_24dp, R.attr.ic_account_box_24dp,
             R.attr.ic_account_circle_24dp, R.attr.ic_add_24dp, R.attr.ic_alarm_24dp, R.attr.ic_all_inclusive_24dp, R.attr.ic_attach_file_24dp, R.attr.ic_bookmark_24dp, R.attr.ic_brush_24dp, R.attr.ic_burst_mode_24dp, R.attr.ic_cached_24dp, R.attr.ic_check_box_24dp,
