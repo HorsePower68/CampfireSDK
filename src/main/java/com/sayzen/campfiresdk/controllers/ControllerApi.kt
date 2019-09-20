@@ -111,7 +111,7 @@ object ControllerApi {
 
     fun isOldVersion() = version.isNotEmpty() && version != API.VERSION
 
-    fun isUnsupportedVersion() = isOldVersion() && !supportedVersion.contains(API.VERSION)
+    fun isUnsupportedVersion() = isOldVersion() && !supportedVersion.contains(API.VERSION) && (version.isEmpty() || !API.SUPPORTED_VERSIONS.contains(version))
 
     fun setVersion(version: String, supportedVersion: Array<String>) {
         this.version = version
