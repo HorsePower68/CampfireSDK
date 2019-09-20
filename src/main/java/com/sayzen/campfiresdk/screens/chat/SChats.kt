@@ -4,6 +4,7 @@ import com.dzen.campfire.api.models.notifications.NotificationChatMessage
 import com.dzen.campfire.api.models.units.chat.UnitChat
 import com.dzen.campfire.api.requests.chat.RChatsGetAll
 import com.sayzen.campfiresdk.R
+import com.sayzen.campfiresdk.controllers.ControllerApi
 import com.sayzen.campfiresdk.controllers.api
 import com.sayzen.campfiresdk.models.cards.CardChat
 import com.sayzen.campfiresdk.models.events.chat.EventChatSubscriptionChanged
@@ -13,7 +14,9 @@ import com.sup.dev.android.libs.screens.navigator.NavigationAction
 import com.sup.dev.android.libs.screens.navigator.Navigator
 import com.sup.dev.android.views.support.adapters.recycler_view.RecyclerCardAdapterLoading
 import com.sup.dev.android.views.screens.SLoadingRecycler
+import com.sup.dev.java.libs.api_simple.client.Request
 import com.sup.dev.java.libs.eventBus.EventBus
+import com.sup.dev.java.tools.ToolsThreads
 
 class SChats constructor(
         var onSelected: ((UnitChat) -> Unit)? = null
@@ -51,12 +54,17 @@ class SChats constructor(
             card
         }
                 .setBottomLoader { onLoad, cards ->
-                    RChatsGetAll(cards.size)
-                            .onComplete { r -> onLoad.invoke(r.units) }
-                            .onNetworkError { onLoad.invoke(null) }
-                            .send(api)
+                    if(ControllerApi.account.id == 0L) ToolsThreads.main(1000) { sendRequest(onLoad, cards) }
+                    else sendRequest(onLoad, cards)
                 }
 
+    }
+
+    private fun sendRequest(onLoad:(Array<UnitChat>?) -> Unit, cards:ArrayList<CardChat>){
+        RChatsGetAll(cards.size)
+                .onComplete { r -> onLoad.invoke(r.units) }
+                .onNetworkError { onLoad.invoke(null) }
+                .send(api)
     }
 
     override fun onResume() {
