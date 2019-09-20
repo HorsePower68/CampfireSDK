@@ -926,6 +926,8 @@
     <string name="wiki_article_empty_no_english">Нет перевода для вашего языка. Открыта английская версия.</string>
     <string name="wiki_article_empty">Эта статья еще не заполнена</string>
     <string name="wiki_article_edit_title">Редактирование</string>
+    <string name="wiki_edit_alert">Любые изменения сразу видны пользователям и попадают в историю изменений страницы.</string>
+
 
     <string name="category_games">Игры</string>
     <string name="category_anime">Аниме</string>

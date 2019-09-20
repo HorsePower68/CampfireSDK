@@ -1,6 +1,7 @@
 package com.sayzen.campfiresdk.screens.wiki
 
 import androidx.recyclerview.widget.RecyclerView
+import com.dzen.campfire.api.API
 import com.dzen.campfire.api.models.units.post.Page
 import com.dzen.campfire.api.requests.wiki.*
 import com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -12,7 +13,9 @@ import com.sup.dev.android.libs.screens.Screen
 import com.sup.dev.android.libs.screens.navigator.NavigationAction
 import com.sup.dev.android.libs.screens.navigator.Navigator
 import com.sup.dev.android.views.widgets.Widget
+import com.sup.dev.android.views.widgets.WidgetAlert
 import com.sup.dev.java.libs.eventBus.EventBus
+import com.sup.dev.java.tools.ToolsThreads
 
 class SWikiArticleEdit(
         val wikiItemId:Long,
@@ -37,6 +40,18 @@ class SWikiArticleEdit(
 
     init {
         vFinish.setOnClickListener { Navigator.back() }
+
+        if (!WidgetAlert.check("SWikiArticleEdit_ALERT"))
+            ToolsThreads.main(true) {
+                WidgetAlert()
+                        .setTopTitleText(R.string.app_attention)
+                        .setCancelable(false)
+                        .setTitleImageBackgroundRes(R.color.blue_700)
+                        .setText(R.string.wiki_edit_alert)
+                        .setChecker("SWikiArticleEdit_ALERT")
+                        .setOnEnter(R.string.app_got_it)
+                        .asSheetShow()
+            }
     }
 
     fun backIfEmptyAndNewerAdd() {

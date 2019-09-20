@@ -20,10 +20,12 @@ class CardUnitEventUser(
 ) : CardUnit(R.layout.card_event, unit) {
 
     private val xAccount: XAccount
+    private val xAccountAdmin: XAccount
 
     init {
         val e = unit.event!!
         xAccount = XAccount(e.ownerAccountId, e.ownerAccountName, e.ownerAccountImageId, 0, 0) { update() }
+        xAccountAdmin = XAccount(e.adminAccountId, e.adminAccountName, e.adminAccountImageId, 0, 0) { update() }
     }
 
     override fun bindView(view: View) {
@@ -142,7 +144,10 @@ class CardUnitEventUser(
         } else if (showFandom && unit.fandomId > 0) {
             xUnit.xFandom.setView(vAvatarTitle)
             vName.text = xUnit.xFandom.name
-        } else {
+        } else if(e.adminAccountId > 0){
+            xAccountAdmin.setView(vAvatarTitle)
+            vName.text = xAccountAdmin.name
+        } else{
             xAccount.setView(vAvatarTitle)
             vName.text = xAccount.name
         }

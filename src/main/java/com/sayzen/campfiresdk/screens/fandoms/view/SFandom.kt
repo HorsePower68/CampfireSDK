@@ -1,5 +1,6 @@
 package com.sayzen.campfiresdk.screens.fandoms.view
 
+import android.graphics.drawable.GradientDrawable
 import android.view.Gravity
 import android.view.View
 import android.widget.ImageView
@@ -25,6 +26,7 @@ import com.sayzen.campfiresdk.models.events.units.EventPostStatusChange
 import com.sup.dev.android.libs.api_simple.ApiRequestsSupporter
 import com.sup.dev.android.libs.image_loader.ImageLoaderId
 import com.sup.dev.android.libs.screens.Screen
+import com.sup.dev.android.libs.screens.activity.SActivityTypeBottomNavigation
 import com.sup.dev.android.libs.screens.navigator.NavigationAction
 import com.sup.dev.android.libs.screens.navigator.Navigator
 import com.sup.dev.android.tools.*
@@ -64,6 +66,7 @@ class SFandom private constructor(
             .subscribe(EventFandomClose::class) { onEventFandomClose(it) }
             .subscribe(EventPostPinedFandom::class) { if (it.fandomId == xFandom.fandomId && it.languageId == xFandom.languageId) setPinnedPost(it.post) }
 
+    private val vToolbarCollapsingShadow: View = findViewById(R.id.vToolbarCollapsingShadow)
     private val vTitle: TextView = findViewById(R.id.vToolbarTitle)
     private val vRecycler: RecyclerView = findViewById(R.id.vRecycler)
     private val vImageTitle: ImageView = findViewById(R.id.vImageTitle)
@@ -79,6 +82,8 @@ class SFandom private constructor(
     private var cardPinnedPost: CardPost? = null
 
     init {
+        vToolbarCollapsingShadow.background = GradientDrawable(GradientDrawable.Orientation.TOP_BOTTOM, intArrayOf(0x60000000, 0x00000000))
+
         adapter = RecyclerCardAdapterLoading<CardUnit, Unit>(CardUnit::class) { unit -> CardUnit.instance(unit, vRecycler, false, false, true) }
                 .setBottomLoader { onLoad, cards ->
                     RUnitsGetAll()

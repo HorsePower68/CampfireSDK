@@ -35,6 +35,9 @@ class SCreatePagePolling(
     private val vAdd: View = findViewById(R.id.vAdd)
 
     init {
+        isNavigationVisible = false
+        isNavigationAllowed = false
+        isNavigationAnimation = false
 
         vTitle.text = "${ToolsResources.s(R.string.app_naming)} (${ToolsResources.s(R.string.app_not_required)})"
         vPageTitle.addTextChangedListener(TextWatcherChanged { update() })

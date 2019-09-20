@@ -1,5 +1,6 @@
 package com.sayzen.campfiresdk.screens.wiki
 
+import android.graphics.drawable.GradientDrawable
 import android.view.View
 import android.widget.Button
 import android.widget.ImageView
@@ -48,6 +49,7 @@ class SWikiArticleView(
             .subscribe(EventWikiPagesChanged::class) { this.onEventWikiPagesChanged(it) }
             .subscribe(EventWikiRemove::class) { if (it.item.itemId == wikiTitle.itemId) Navigator.remove(this) }
 
+    private val vToolbarCollapsingShadow: View = findViewById(R.id.vToolbarCollapsingShadow)
     private val vImageTitle: ImageView = findViewById(R.id.vImageTitle)
     private val vToolbarTitle: TextView = findViewById(R.id.vToolbarTitle)
     private val vMore: View = findViewById(R.id.vMore)
@@ -64,7 +66,7 @@ class SWikiArticleView(
     private var error = false
 
     init {
-        hasToolbarBackIcon = false
+        vToolbarCollapsingShadow.background = GradientDrawable(GradientDrawable.Orientation.TOP_BOTTOM, intArrayOf(0x60000000, 0x00000000))
         ToolsImagesLoader.loadGif(wikiTitle.imageId, 0, 0, 0, vAvatar)
         ToolsImagesLoader.loadGif(wikiTitle.imageBigId, 0, 0, 0, vImageTitle)
         vToolbarTitle.text = wikiTitle.getName(ControllerApi.getLanguageCode())

@@ -137,7 +137,7 @@ class SCreationTags private constructor(
 
         if (isMyUnit) {
             create(unitId, tags, vNotifyFollowers.isChecked, pendingDate) {
-                Navigator.removeAll(SPostCreate::class.java)
+                Navigator.removeAll(SPostCreate::class)
                 if (pendingDate > 0) Navigator.replace(SPending())
                 else SPost.instance(unitId, 0, NavigationAction.replace())
             }
@@ -149,7 +149,7 @@ class SCreationTags private constructor(
                 .setMax(API.MODERATION_COMMENT_MAX_L)
                 .setOnEnter(R.string.app_change) { w, comment ->
                     ApiRequestsSupporter.executeEnabled(w, RPostPublication(unitId, tags, comment, false, 0)) {
-                        Navigator.removeAll(SPostCreate::class.java)
+                        Navigator.removeAll(SPostCreate::class)
                         EventBus.post(EventPostStatusChange(unitId, API.STATUS_PUBLIC))
                         SPost.instance(unitId, 0, NavigationAction.replace())
                     }

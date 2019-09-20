@@ -1,5 +1,6 @@
 package com.sayzen.campfiresdk.screens.account.profile
 
+import android.graphics.drawable.GradientDrawable
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
@@ -64,6 +65,7 @@ class SAccount private constructor(
             .subscribe(EventAccountRemoveFromBlackList::class) { if (it.accountId == xAccount.accountId) r.inBlackList = false }
             .subscribe(EventPostPinedProfile::class) { if (it.accountId == xAccount.accountId) setPinnedPost(it.post) }
 
+    private val vToolbarCollapsingShadow: View = findViewById(R.id.vToolbarCollapsingShadow)
     private val vTitle: TextView = findViewById(R.id.vToolbarTitle)
     private val vRecycler: RecyclerView = findViewById(R.id.vRecycler)
     private val vMore: View = findViewById(R.id.vMore)
@@ -77,6 +79,7 @@ class SAccount private constructor(
     private var cardPinnedPost: CardPost? = null
 
     init {
+        vToolbarCollapsingShadow.background = GradientDrawable(GradientDrawable.Orientation.TOP_BOTTOM, intArrayOf(0x60000000, 0x00000000))
 
         vMore.setOnClickListener { showDialog() }
         vRecycler.layoutManager = LinearLayoutManager(context)

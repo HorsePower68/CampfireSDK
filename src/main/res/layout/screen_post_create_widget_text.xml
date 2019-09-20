@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     style="@style/Root.Content">
 
@@ -9,22 +8,11 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-        <com.google.android.material.appbar.AppBarLayout
-            style="@style/AppBar">
+        <com.google.android.material.appbar.AppBarLayout style="@style/AppBar">
 
             <androidx.appcompat.widget.Toolbar
                 style="@style/Toolbar"
                 app:title="@string/post_page_text">
-
-                <com.sup.dev.android.views.views.ViewIcon
-                    android:id="@+id/vTextTitle"
-                    style="@style/Icon.Toolbar.Filtered"
-                    android:layout_marginRight="8dp"
-                    android:src="?ic_text_fields_24dp"/>
-
-                <com.sup.dev.android.views.views.ViewIcon
-                    android:id="@+id/vIconAttach"
-                    style="@style/Icon.Toolbar.Filtered"/>
 
             </androidx.appcompat.widget.Toolbar>
 
@@ -32,21 +20,50 @@
 
         <EditText
             android:id="@+id/vField"
-            android:layout_marginTop="8dp"
-            android:layout_marginLeft="8dp"
-            android:layout_marginRight="8dp"
-            android:layout_weight="1"
-            app:layout_behavior="@string/appbar_scrolling_view_behavior"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:hint="@string/post_page_text_hint"
+            android:layout_marginLeft="8dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginRight="8dp"
+            android:layout_weight="1"
             android:background="@null"
-            android:inputType="textMultiLine|textCapSentences|textAutoCorrect"/>
+            android:hint="@string/post_page_text_hint"
+            android:inputType="textMultiLine|textCapSentences|textAutoCorrect"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior" />
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="?colorPrimary">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center|left"
+                android:orientation="horizontal">
+
+                <com.sup.dev.android.views.views.ViewIcon
+                    android:id="@+id/vTextTitle"
+                    style="@style/Icon.Toolbar.Filtered"
+                    android:src="?ic_text_fields_24dp" />
+
+                <com.sup.dev.android.views.views.ViewIcon
+                    android:id="@+id/vIconAttach"
+                    style="@style/Icon.Toolbar.Filtered" />
+
+            </LinearLayout>
+
+            <com.google.android.material.floatingactionbutton.FloatingActionButton
+                style="@style/Fab.Mini"
+                android:layout_marginLeft="8dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginRight="8dp"
+                android:layout_marginBottom="8dp"
+                android:src="@drawable/ic_done_white_24dp" />
+
+        </FrameLayout>
 
     </LinearLayout>
 
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        style="@style/Fab.Mini"
-        android:src="@drawable/ic_done_white_24dp"/>
 
 </FrameLayout>

@@ -99,16 +99,17 @@ class SForumCreate(
                 .asSheetShow()
     }
 
-    override fun onTryToHideOrClose(willCloseCallback: (Boolean) -> Unit) {
-        if (notChanged())
-            willCloseCallback.invoke(true)
-        else {
-            WidgetAlert()
-                    .setText(R.string.post_create_cancel_alert)
-                    .setOnEnter(R.string.app_yes) { willCloseCallback.invoke(true) }
-                    .setOnCancel(R.string.app_no) { willCloseCallback.invoke(false) }
-                    .asSheetShow()
-        }
+
+    override fun onBackPressed(): Boolean {
+        if (notChanged()) return false
+
+        WidgetAlert()
+                .setText(R.string.post_create_cancel_alert)
+                .setOnEnter(R.string.app_yes) { Navigator.remove(this) }
+                .setOnCancel(R.string.app_no)
+                .asSheetShow()
+
+        return true
     }
 
     private fun notChanged(): Boolean {

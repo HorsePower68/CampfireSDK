@@ -22,8 +22,8 @@ import com.sup.dev.android.views.widgets.WidgetGreed
 import com.sup.dev.java.tools.ToolsText
 
 class SCreatePageText(
-        private val requestPutPage:(page: Page, screen: Screen?, widget: Widget?, mapper: (Page) -> CardPage, onFinish: ((Card)->Unit))->Unit,
-        private val requestChangePage: (page: Page, card: CardPage, screen: Screen?, widget: Widget?, (Page)->Unit) -> Unit,
+        private val requestPutPage: (page: Page, screen: Screen?, widget: Widget?, mapper: (Page) -> CardPage, onFinish: ((Card) -> Unit)) -> Unit,
+        private val requestChangePage: (page: Page, card: CardPage, screen: Screen?, widget: Widget?, (Page) -> Unit) -> Unit,
         private val card: CardPage?,
         private val oldPage: PageText?
 ) : Screen(R.layout.screen_post_create_widget_text) {
@@ -40,6 +40,9 @@ class SCreatePageText(
         get() = if (size == PageText.SIZE_0) API.PAGE_TEXT_MAX_L else API.PAGE_TEXT_TITLE_MAX_L
 
     init {
+        isNavigationVisible = false
+        isNavigationAllowed = false
+        isNavigationAnimation = false
 
         vField.setSingleLine(false)
         vField.imeOptions = EditorInfo.IME_FLAG_NO_ENTER_ACTION
@@ -108,28 +111,16 @@ class SCreatePageText(
         page.size = size
         page.icon = icon
         if (oldPage == null)
-            requestPutPage.invoke(page, this, null, { page1 -> CardPageText(null, page1 as PageText) }){}
+            requestPutPage.invoke(page, this, null, { page1 -> CardPageText(null, page1 as PageText) }) {}
         else
-            requestChangePage.invoke(page, card!!, this, null){}
+            requestChangePage.invoke(page, card!!, this, null) {}
     }
 
     override fun onBackPressed(): Boolean {
-        if (notChanged())
-            return false
-        else {
-            WidgetAdd.showConfirmCancelDialog(this)
-            return true
-        }
-    }
+        if (notChanged()) return false
 
-    override fun onTryToHideOrClose(willCloseCallback: (Boolean) -> Unit) {
-        if (notChanged())
-            willCloseCallback.invoke(true)
-        else {
-            WidgetAdd.showConfirmCancelDialog(this) {
-                willCloseCallback.invoke(true)
-            }
-        }
+        WidgetAdd.showConfirmCancelDialog(this)
+        return true
     }
 
     private fun notChanged(): Boolean {

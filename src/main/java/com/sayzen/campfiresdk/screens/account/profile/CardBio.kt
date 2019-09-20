@@ -22,6 +22,7 @@ import com.sup.dev.android.views.cards.Card
 import com.sup.dev.android.views.views.ViewTextLinkable
 import com.sup.dev.android.views.widgets.*
 import com.sup.dev.java.libs.eventBus.EventBus
+import com.sup.dev.java.tools.ToolsText
 
 class CardBio(
         private var accountId: Long,
@@ -140,6 +141,7 @@ class CardBio(
                 .setText_1(title)
                 .setLinesCount_1(1)
                 .setHint_2(R.string.app_link)
+                .addChecker_2{ToolsText.isWebLink(it)}
                 .setMin_2(2)
                 .setText_2(url)
                 .setMax_2(API.ACCOUNT_LINK_URL_MAX_L)

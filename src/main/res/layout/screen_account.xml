@@ -23,6 +23,11 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"/>
 
+                <View
+                    android:id="@+id/vToolbarCollapsingShadow"
+                    android:layout_width="match_parent"
+                    android:layout_height="56dp" />
+
             </com.sup.dev.android.views.views.layouts.LayoutAspectRatio>
 
 
@@ -37,8 +42,8 @@
                     style="@style/TextAppearance.AppCompat.Title"/>
 
                 <com.sup.dev.android.views.views.ViewIcon
-                    android:id="@+id/vMore"
                     style="@style/Icon.Toolbar.Filtered"
+                    android:id="@+id/vMore"
                     android:src="?ic_more_vert_24dp"/>
 
             </androidx.appcompat.widget.Toolbar>

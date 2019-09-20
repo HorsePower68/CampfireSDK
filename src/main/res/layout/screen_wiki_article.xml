@@ -20,18 +20,20 @@
                     android:layout_height="wrap_content"
                     android:adjustViewBounds="true" />
 
+                <View
+                    android:id="@+id/vToolbarCollapsingShadow"
+                    android:layout_width="match_parent"
+                    android:layout_height="56dp" />
+
             </com.sup.dev.android.views.views.layouts.LayoutAspectRatio>
 
             <androidx.appcompat.widget.Toolbar
                 style="@style/Toolbar.Collapse">
 
                 <com.sup.dev.android.views.views.ViewIcon
-                    style="@style/Icon.Shadow.Back.Filtered" />
-
-                <com.sup.dev.android.views.views.ViewIcon
+                    style="@style/Icon.Toolbar.Filtered"
                     android:id="@+id/vMore"
-                    style="@style/Icon.Shadow.Filtered"
-                    android:src="?ic_more_vert_24dp" />
+                    android:src="?ic_more_vert_24dp"/>
 
             </androidx.appcompat.widget.Toolbar>
 

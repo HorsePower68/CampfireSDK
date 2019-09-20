@@ -36,7 +36,9 @@ class SCreatePageTable(
     private var removeMode = false
 
     init {
-        isNavigationShadowAvailable = false
+        isNavigationVisible = false
+        isNavigationAllowed = false
+        isNavigationAnimation = false
 
         vTable.textProcessor = { _, _, vText -> ControllerApi.makeLinkable(vText) }
 

@@ -90,14 +90,15 @@ class SPostCreate constructor(
         if (changePost != null && !changePost.isDraft) vFinish.setImageResource(ToolsResources.getDrawableAttrId(R.attr.ic_done_24dp))
 
         if (changePost != null && changePost.status == API.STATUS_PUBLIC && !WidgetAlert.check("ALERT_CHANGE_POSTS"))
-            WidgetAlert()
-                    .setTopTitleText(R.string.app_attention)
-                    .setCancelable(false)
-                    .setTitleImageBackgroundRes(R.color.blue_700)
-                    .setText(R.string.post_change_alert)
-                    .setChecker("ALERT_CHANGE_POSTS")
-                    .setOnEnter(R.string.app_got_it)
-                    .asSheetShow()
+          ToolsThreads.main(true) {   WidgetAlert()
+                  .setTopTitleText(R.string.app_attention)
+                  .setCancelable(false)
+                  .setTitleImageBackgroundRes(R.color.blue_700)
+                  .setText(R.string.post_change_alert)
+                  .setChecker("ALERT_CHANGE_POSTS")
+                  .setOnEnter(R.string.app_got_it)
+                  .asSheetShow()
+          }
 
         if (changePost == null && showMenu) ToolsThreads.main(true) {  vAdd.performClick() }
 
