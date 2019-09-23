@@ -1221,7 +1221,7 @@
     <string name="unit_event_blocked">%s in fandom %s until %s by moderator %s</string>
     <string name="unit_event_blocked_admin">%s user %s in fandom %s until %s</string>
     <string name="unit_event_blocked_app">%s in application until %s by administrator %s</string>
-    <string name="unit_event_blocked_unit">%s of this user was blocked by administrator %s</string>
+    <string name="unit_event_blocked_unit">Administrator %s %s %s of this users</string>
     <string name="unit_event_user_moder_action_rejected">Admin %s %s moderator action of this user in fandom %s</string>
     <string name="unit_event_blocked_app_admin">%s user %s until %s</string>
     <string name="unit_event_admin_blocked_unit">%s %s of user %s</string>
