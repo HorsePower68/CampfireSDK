@@ -926,7 +926,10 @@
     <string name="wiki_article_empty_no_english">Нет перевода для вашего языка. Открыта английская версия.</string>
     <string name="wiki_article_empty">Эта статья еще не заполнена</string>
     <string name="wiki_article_edit_title">Редактирование</string>
+    <string name="wiki_article_edit_language_alert">Выберите язык на котором вы хотите редактировать статью.</string>
     <string name="wiki_edit_alert">Любые изменения сразу видны пользователям и попадают в историю изменений страницы.</string>
+    <string name="wiki_change_language">Изменить язык статьи</string>
+    <string name="wiki_change_language_alert">Статья на выбраном языке будет заменена текущей. Статья на текущем языке будет очищена.</string>
 
 
     <string name="category_games">Игры</string>

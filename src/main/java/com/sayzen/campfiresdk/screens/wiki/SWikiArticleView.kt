@@ -16,6 +16,7 @@ import com.dzen.campfire.api.requests.wiki.RWikiItemGet
 import com.dzen.campfire.api.requests.wiki.RWikiListGet
 import com.sayzen.campfiresdk.R
 import com.sayzen.campfiresdk.controllers.ControllerApi
+import com.sayzen.campfiresdk.controllers.ControllerCampfireSDK
 import com.sayzen.campfiresdk.controllers.ControllerWiki
 import com.sayzen.campfiresdk.controllers.api
 import com.sayzen.campfiresdk.models.cards.post_pages.CardPage
@@ -28,6 +29,7 @@ import com.sup.dev.android.libs.screens.navigator.Navigator
 import com.sup.dev.android.tools.ToolsImagesLoader
 import com.sup.dev.android.views.cards.CardSpace
 import com.sup.dev.android.views.support.adapters.recycler_view.RecyclerCardAdapter
+import com.sup.dev.java.libs.debug.log
 import com.sup.dev.java.libs.eventBus.EventBus
 
 class SWikiArticleView(
@@ -47,7 +49,7 @@ class SWikiArticleView(
 
     private val eventBus = EventBus
             .subscribe(EventWikiPagesChanged::class) { this.onEventWikiPagesChanged(it) }
-            .subscribe(EventWikiRemove::class) { if (it.item.itemId == wikiTitle.itemId) Navigator.remove(this) }
+            .subscribe(EventWikiRemove::class) { if (it.itemId == wikiTitle.itemId) Navigator.remove(this) }
 
     private val vToolbarCollapsingShadow: View = findViewById(R.id.vToolbarCollapsingShadow)
     private val vImageTitle: ImageView = findViewById(R.id.vImageTitle)
@@ -59,11 +61,13 @@ class SWikiArticleView(
     private val vMessage: TextView = findViewById(R.id.vMessage)
     private val vProgressLine: View = findViewById(R.id.vProgressLine)
     private val vAction: Button = findViewById(R.id.vAction)
+    private val vLanguage: Button = findViewById(R.id.vLanguage)
 
     private val adapter = RecyclerCardAdapter()
     private var pages:Array<Page> = emptyArray()
     private var isLoading = false
     private var error = false
+    private var wasSwitchedToEnglish = false
 
     init {
         vToolbarCollapsingShadow.background = GradientDrawable(GradientDrawable.Orientation.TOP_BOTTOM, intArrayOf(0x60000000, 0x00000000))
@@ -75,8 +79,14 @@ class SWikiArticleView(
         vRecycler.adapter = adapter
         vRecycler.setOnClickListener { load() }
 
-
         vMore.setOnClickListener { ControllerWiki.showMenu(wikiTitle, languageId) }
+
+        vLanguage.setOnClickListener {
+            ControllerCampfireSDK.createLanguageMenu(languageId) { languageId ->
+                this.languageId = languageId
+                load()
+            }.asSheetShow()
+        }
 
         load()
     }
@@ -85,13 +95,14 @@ class SWikiArticleView(
         isLoading = true
         error = false
         adapter.clear()
-        adapter.add(CardSpace(112))
         updateMessage()
+        vLanguage.text = ControllerApi.getLanguage(languageId).name
         RWikiGetPages(wikiTitle.itemId, languageId)
                 .onComplete {
                     isLoading = false
-                    if ((it.wikiPages == null || it.wikiPages!!.pages.isEmpty()) && languageId != 1L) {
+                    if ((it.wikiPages == null || it.wikiPages!!.pages.isEmpty()) && languageId != 1L && !wasSwitchedToEnglish) {
                         languageId = 1L
+                        wasSwitchedToEnglish = true
                         load()
                     } else {
                         pages = it.wikiPages?.pages?: emptyArray()

@@ -21,7 +21,7 @@ class CardWikiItem(
 ) : Card(R.layout.screen_wiki_card_item), NotifyItem {
 
     private val eventBus = EventBus
-            .subscribe(EventWikiRemove::class) { if (it.item.itemId == wikiItem.itemId) adapter?.remove(this) }
+            .subscribe(EventWikiRemove::class) { if (it.itemId == wikiItem.itemId) adapter?.remove(this) }
             .subscribe(EventWikiChanged::class) { if (it.item.itemId == wikiItem.itemId) wikiItem = it.item; update(); }
 
     override fun bindView(view: View) {

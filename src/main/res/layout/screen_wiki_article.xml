@@ -27,6 +27,61 @@
 
             </com.sup.dev.android.views.views.layouts.LayoutAspectRatio>
 
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="48dp"
+                android:layout_gravity="center|bottom">
+
+                <FrameLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="96dp"
+                    android:layout_marginTop="96dp"
+                    android:background="?content_background">
+
+                    <TextView
+                        android:id="@+id/vToolbarTitle"
+                        style="@style/TextAppearance.AppCompat.Title"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginTop="12dp"
+                        android:lines="1"
+                        android:singleLine="true" />
+
+                </FrameLayout>
+
+                <FrameLayout
+                    android:id="@+id/vAvatarTouch"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center|top"
+                    android:layout_marginTop="48dp">
+
+                    <com.sup.dev.android.views.views.ViewCircleImage
+                        android:layout_width="88dp"
+                        android:layout_height="88dp"
+                        android:layout_gravity="center"
+                        android:src="?android:windowBackground" />
+
+                    <com.sup.dev.android.views.views.ViewCircleImage
+                        android:id="@+id/vAvatar"
+                        android:layout_width="82dp"
+                        android:layout_height="82dp"
+                        android:layout_gravity="center" />
+
+                </FrameLayout>
+
+                <com.sup.dev.android.views.views.ViewButton
+                    android:id="@+id/vLanguage"
+                    android:layout_marginTop="28dp"
+                    android:layout_marginLeft="104dp"
+                    style="@style/Button.Outlined"
+                    android:layout_gravity="center" />
+
+
+            </FrameLayout>
+
             <androidx.appcompat.widget.Toolbar
                 style="@style/Toolbar.Collapse">
 
@@ -40,59 +95,6 @@
         </com.google.android.material.appbar.CollapsingToolbarLayout>
 
     </com.google.android.material.appbar.AppBarLayout>
-
-    <FrameLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center|bottom"
-        app:layout_behavior="com.sup.dev.android.views.support.behavior.BehaviorAppBarCollapse">
-
-        <FrameLayout
-            android:layout_width="match_parent"
-            android:layout_height="96dp"
-            android:layout_marginTop="96dp"
-            android:background="?content_background">
-
-            <TextView
-                android:id="@+id/vToolbarTitle"
-                style="@style/TextAppearance.AppCompat.Title"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginTop="12dp"
-                android:lines="1"
-                android:singleLine="true" />
-
-        </FrameLayout>
-
-        <FrameLayout
-            android:id="@+id/vAvatarTouch"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center|top"
-            android:layout_marginTop="48dp">
-
-            <com.sup.dev.android.views.views.ViewCircleImage
-                android:layout_width="88dp"
-                android:layout_height="88dp"
-                android:layout_gravity="center"
-                android:src="?android:windowBackground" />
-
-            <com.sup.dev.android.views.views.ViewCircleImage
-                android:id="@+id/vAvatar"
-                android:layout_width="82dp"
-                android:layout_height="82dp"
-                android:layout_gravity="center" />
-
-        </FrameLayout>
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            />
-
-
-    </FrameLayout>
 
     <androidx.recyclerview.widget.RecyclerView style="@style/Recycler" />
 

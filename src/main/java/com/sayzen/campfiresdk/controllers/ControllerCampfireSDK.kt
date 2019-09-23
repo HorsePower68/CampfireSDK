@@ -42,14 +42,14 @@ object ControllerCampfireSDK {
     var IS_USE_SECOND_IP = false
     var IS_DEBUG = false
 
-    var ON_TO_FANDOM_CLICKED: (fandomId: Long, languageId: Long, action: NavigationAction) -> Unit = { fandomId, languageId, _ -> openLink(ControllerApi.linkToFandom(fandomId, languageId))}
-    var ON_TO_ACCOUNT_CLICKED: (accountId: Long, action: NavigationAction) -> Unit = {accountId, _ -> openLink(ControllerApi.linkToUser(accountId))}
-    var ON_TO_MODERATION_CLICKED: (moderationId: Long, commentId: Long, action: NavigationAction) -> Unit = { moderationId, commentId, _ -> openLink(ControllerApi.linkToModerationComment(moderationId, commentId))}
-    var ON_TO_POST_CLICKED: (postId: Long, commentId: Long, action: NavigationAction) -> Unit = { postId, commentId, _ -> openLink(ControllerApi.linkToPostComment(postId, commentId))}
-    var ON_TO_DRAFTS_CLICKED: (action: NavigationAction) -> Unit = {  }
+    var ON_TO_FANDOM_CLICKED: (fandomId: Long, languageId: Long, action: NavigationAction) -> Unit = { fandomId, languageId, _ -> openLink(ControllerApi.linkToFandom(fandomId, languageId)) }
+    var ON_TO_ACCOUNT_CLICKED: (accountId: Long, action: NavigationAction) -> Unit = { accountId, _ -> openLink(ControllerApi.linkToUser(accountId)) }
+    var ON_TO_MODERATION_CLICKED: (moderationId: Long, commentId: Long, action: NavigationAction) -> Unit = { moderationId, commentId, _ -> openLink(ControllerApi.linkToModerationComment(moderationId, commentId)) }
+    var ON_TO_POST_CLICKED: (postId: Long, commentId: Long, action: NavigationAction) -> Unit = { postId, commentId, _ -> openLink(ControllerApi.linkToPostComment(postId, commentId)) }
+    var ON_TO_DRAFTS_CLICKED: (action: NavigationAction) -> Unit = { }
     var ON_TO_DRAFT_CLICKED: (postId: Long, action: NavigationAction) -> Unit = { _, _ -> }
     var ON_TO_POST_TAGS_CLICKED: (postId: Long, isMyUnit: Boolean, action: NavigationAction) -> Unit = { _, _, _ -> }
-    var ON_TO_FORUM_CLICKED: (forumId: Long, commentId: Long, action: NavigationAction) -> Unit = { forumId, commentId, _ -> openLink(ControllerApi.linkToForumComment(forumId, commentId))}
+    var ON_TO_FORUM_CLICKED: (forumId: Long, commentId: Long, action: NavigationAction) -> Unit = { forumId, commentId, _ -> openLink(ControllerApi.linkToForumComment(forumId, commentId)) }
     var ON_TO_ACHIEVEMENT_CLICKED: (accountId: Long, accountName: String, achievementIndex: Long, toPrev: Boolean, action: NavigationAction) -> Unit = { _, _, _, _, _ -> }
     var ON_CHANGE_FORUM_CLICKED: (unit: UnitForum) -> Unit = { }
     var ON_SCREEN_CHAT_START: () -> Unit = { }
@@ -60,7 +60,7 @@ object ControllerCampfireSDK {
     var projectKey = ""
 
     fun init(
-            projectKey:String,
+            projectKey: String,
             logoColored: Int,
             logoWhite: Int,
             notificationExecutor: ControllerNotifications.ExecutorNotification,
@@ -240,23 +240,20 @@ object ControllerCampfireSDK {
                 .asSheetShow()
     }
 
-    fun createLanguageMenu(selectedId: Long, onClick: (Long) -> Unit): WidgetMenu {
+    fun createLanguageMenu(selectedId: Long, exclude: Array<Long> = emptyArray(), onClick: (Long) -> Unit): WidgetMenu {
         val w = WidgetMenu()
-        val code =  ControllerApi.getLanguageCode()
+        val code = ControllerApi.getLanguageCode()
 
         for (i in API.LANGUAGES)
             if (i.code == code || i.code == "en")
-                w.add(i.name) { _, _ ->
-                    onClick.invoke(i.id)
-                }.backgroundRes(R.color.focus) { i.id == selectedId }
-
+                if (!exclude.contains(i.id))
+                    w.add(i.name) { _, _ -> onClick.invoke(i.id) }.backgroundRes(R.color.focus) { i.id == selectedId }
         w.group(" ")
 
         for (i in API.LANGUAGES)
             if (i.code != code && i.code != "en")
-                w.add(i.name) { _, _ ->
-                    onClick.invoke(i.id)
-                }.backgroundRes(R.color.focus) { i.id == selectedId }
+                if (!exclude.contains(i.id))
+                    w.add(i.name) { _, _ -> onClick.invoke(i.id) }.backgroundRes(R.color.focus) { i.id == selectedId }
 
         return w
     }
@@ -288,7 +285,6 @@ object ControllerCampfireSDK {
         }
         return w
     }
-
 
 
     interface ExecutorLinks {
