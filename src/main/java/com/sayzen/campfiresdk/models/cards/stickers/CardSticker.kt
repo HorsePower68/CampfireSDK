@@ -7,6 +7,7 @@ import com.dzen.campfire.api.API
 import com.dzen.campfire.api.models.units.stickers.UnitSticker
 import com.sayzen.campfiresdk.R
 import com.sayzen.campfiresdk.controllers.ControllerApi
+import com.sayzen.campfiresdk.controllers.ControllerStickers
 import com.sayzen.campfiresdk.controllers.ControllerUnits
 import com.sayzen.campfiresdk.models.cards.CardUnit
 import com.sayzen.campfiresdk.screens.stickers.SStickersView
@@ -37,7 +38,7 @@ class CardSticker(
         vMenu.visibility = if (isShowFullInfo || isShowReports) View.VISIBLE else View.GONE
         vTitle.text = ToolsResources.sCap(R.string.sticker_event_create_sticker, ToolsResources.sex(unit.creatorSex, R.string.he_add, R.string.she_add))
 
-        vMenu.setOnClickListener { ControllerUnits.showStickerPopup(vMenu, 0, 0, unit) }
+        vMenu.setOnClickListener { ControllerStickers.showStickerPopup(vMenu, 0, 0, unit) }
 
         if (isShowFullInfo) {
             ToolsView.setOnLongClickCoordinates(vRootContainer) { _, _, _ ->
@@ -46,7 +47,7 @@ class CardSticker(
             view.setOnClickListener { SStickersView.instanceBySticker(unit.id, Navigator.TO) }
         } else {
             ToolsView.setOnLongClickCoordinates(vRootContainer) { _, x, y ->
-                ControllerUnits.showStickerPopup(vRootContainer, x, y, unit)
+                ControllerStickers.showStickerPopup(vRootContainer, x, y, unit)
             }
             view.setOnClickListener { onClick.invoke(unit) }
             vRootContainer.setBackgroundColor(0x00000000)

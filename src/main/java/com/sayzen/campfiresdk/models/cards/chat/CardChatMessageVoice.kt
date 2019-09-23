@@ -71,7 +71,7 @@ class CardChatMessageVoice(
         val vSoundLine: ViewSoundLine = view.findViewById(R.id.vSoundLine)
 
         val time = ControllerVoiceMessages.getPlayTimeMs(unit.voiceResourceId)
-        if (ControllerVoiceMessages.isPlay(unit.voiceResourceId) || ControllerVoiceMessages.isPause(unit.voiceResourceId)) {
+        if (time < unit.voiceMs && ControllerVoiceMessages.isPlay(unit.voiceResourceId) || ControllerVoiceMessages.isPause(unit.voiceResourceId)) {
             vTimeLabel.text = ToolsText.toTime(unit.voiceMs - time)
             vSoundLine.setProgress(time.toFloat(), unit.voiceMs.toFloat())
         } else {

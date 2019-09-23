@@ -12,10 +12,7 @@ import com.dzen.campfire.api.requests.stickers.RStickersPacksGetInfo
 import com.sayzen.campfiresdk.R
 import com.sayzen.campfiresdk.adapters.XComments
 import com.sayzen.campfiresdk.adapters.XKarma
-import com.sayzen.campfiresdk.controllers.ControllerApi
-import com.sayzen.campfiresdk.controllers.ControllerSettings
-import com.sayzen.campfiresdk.controllers.ControllerUnits
-import com.sayzen.campfiresdk.controllers.api
+import com.sayzen.campfiresdk.controllers.*
 import com.sayzen.campfiresdk.models.cards.stickers.CardSticker
 import com.sayzen.campfiresdk.models.events.stickers.EventStickerCreate
 import com.sayzen.campfiresdk.models.events.stickers.EventStickersPackChanged
@@ -82,7 +79,7 @@ class SStickersView(
         vRecycler.layoutManager = GridLayoutManager(context, spanCount)
         ToolsView.setRecyclerAnimation(vRecycler)
         addToolbarIcon(ToolsResources.getDrawableAttr(R.attr.ic_more_vert_24dp)!!) {
-            ControllerUnits.showStickerPackPopup(stickersPack)
+            ControllerStickers.showStickerPackPopup(stickersPack)
         }
 
         vFab.setImageResource(R.drawable.ic_add_white_24dp)

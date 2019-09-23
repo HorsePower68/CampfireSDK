@@ -99,6 +99,7 @@ Campfire has anime fandoms and gaming fandoms.</string>
     <string name="app_unfollow">Unfollow</string>
     <string name="app_online">Online</string>
     <string name="app_stickers">Stickers</string>
+    <string name="app_stickers_pack">Stickers pack</string>
     <string name="app_sticker">Sticker</string>
     <string name="app_was_online">%s online %s</string>
     <string name="app_crop">Crop</string>
@@ -1213,8 +1214,10 @@ Campfire has anime fandoms and gaming fandoms.</string>
     <string name="unit_event_blocked">%s in fandom %s until %s by moderator %s</string>
     <string name="unit_event_blocked_admin">%s user %s in fandom %s until %s</string>
     <string name="unit_event_blocked_app">%s in application until %s by administrator %s</string>
+    <string name="unit_event_blocked_unit">%s of this user was blocked by administrator %s</string>
     <string name="unit_event_user_moder_action_rejected">Admin %s %s moderator action of this user in fandom %s</string>
     <string name="unit_event_blocked_app_admin">%s user %s until %s</string>
+    <string name="unit_event_admin_blocked_unit">%s %s of user %s</string>
     <string name="unit_event_warn_app">warned by administrator %s</string>
     <string name="unit_event_warn_app_admin">%s user %s</string>
     <string name="unit_event_unit_warn_app">warned by moderator %s in fandom %s</string>
@@ -1259,6 +1262,9 @@ Campfire has anime fandoms and gaming fandoms.</string>
     <string name="unit_event_post_fandom_change">Administrator %s %s post of this user from fandom %s to %s</string>
     <string name="unit_event_post_fandom_change_admin">%s post of user %s from fandom %s to %s</string>
     <string name="unit_event_category_fandom_change_admin">%s category of fandom %s %s to %s</string>
+    <string name="unit_event_account_blocked_date">User is blocked until %s</string>
+    <string name="unit_event_account_blocked_warn">User was warned</string>
+    <string name="unit_event_account_blocked_last_units">Last publications was blocked.</string>
 
     <string name="unit_menu_important_mark">Mark as important</string>
     <string name="unit_menu_important_unmark">Remove important mark</string>

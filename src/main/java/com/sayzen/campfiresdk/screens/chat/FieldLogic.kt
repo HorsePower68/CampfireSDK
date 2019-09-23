@@ -72,6 +72,7 @@ class FieldLogic(
         vVoiceRecorder.maxRecordingTimeMs = API.CHAT_MESSAGE_VOICE_MAX_MS
         vVoiceRecorder.onRecordingProgress = { vVoiceLabel.text = ToolsText.toTime(it) }
         vVoiceRecorder.onRecordingStart = {
+            stopMyVoice()
             vVoiceLabel.text = ToolsText.toTime(0)
             isRecording = true
             updateAction()
@@ -85,18 +86,30 @@ class FieldLogic(
         }
 
         vVoiceRemove.setOnClickListener {
+            stopMyVoice()
             voiceBytes = null
             updateAction()
         }
         vVoicePlay.setOnClickListener {
-            utilsAudioPlayer.stop()
-            utilsAudioPlayer.play(voiceBytes!!)
+            if(utilsAudioPlayer.isPlaying()) stopMyVoice()
+            else startMyVoice()
         }
 
         updateMedieEditText()
         onTextChanged()
     }
 
+    private fun stopMyVoice(){
+        utilsAudioPlayer.stop()
+        vVoicePlay.setImageDrawable(ToolsResources.getDrawableAttr(R.attr.ic_play_arrow_24dp))
+    }
+
+    private fun startMyVoice(){
+        utilsAudioPlayer.play(voiceBytes!!){
+            vVoicePlay.setImageDrawable(ToolsResources.getDrawableAttr(R.attr.ic_play_arrow_24dp))
+        }
+        vVoicePlay.setImageDrawable(ToolsResources.getDrawableAttr(R.attr.ic_pause_24dp))
+    }
 
     fun setQuote(unit: UnitChatMessage) {
         var text = unit.creatorName + ": "

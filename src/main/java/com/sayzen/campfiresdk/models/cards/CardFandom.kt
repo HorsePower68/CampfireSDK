@@ -27,6 +27,7 @@ class CardFandom constructor(
     var subscribed = false
     var showLanguage = true
     var showSubscribes = true
+    var avatarClickable = true
 
     override fun bindView(view: View) {
         super.bindView(view)
@@ -42,6 +43,8 @@ class CardFandom constructor(
 
         view.setOnClickListener { onClick() }
         xFandom.setView(vAvatar)
+
+        vAvatar.isClickable = avatarClickable
 
         if (showLanguage && xFandom.languageId > 0) vAvatar.vAvatar.setChipText(ControllerApi.getLanguage(xFandom.languageId).code)
         else vAvatar.vAvatar.setChipText("")

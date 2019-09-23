@@ -98,7 +98,8 @@
     <string name="app_follow">Подписаться</string>
     <string name="app_unfollow">Отписаться</string>
     <string name="app_online">Онлайн</string>
-    <string name="app_stickers">Стикеры</string>\
+    <string name="app_stickers">Стикеры</string>
+    <string name="app_stickers_pack">Набор стикеров</string>
     <string name="app_sticker">Стикер</string>
     <string name="app_was_online">%s онлайн %s</string>
     <string name="app_crop">Обрезать</string>
@@ -1214,8 +1215,10 @@
     <string name="unit_event_blocked">%s в фэндоме %s до %s модератором %s</string>
     <string name="unit_event_blocked_admin">%s пользователя %s в фандоме %s до %s</string>
     <string name="unit_event_blocked_app">%s в приложении до %s администратором %s</string>
+    <string name="unit_event_blocked_unit">%s этого пользователя заблокирована администратором %s</string>
     <string name="unit_event_user_moder_action_rejected">Администратор %s %s модераторское действие этого пользователя в фэндоме %s</string>
     <string name="unit_event_blocked_app_admin">%s пользователя %s до %s</string>
+    <string name="unit_event_admin_blocked_unit">%s %s пользователя %s</string>
     <string name="unit_event_warn_app">Предупрежден администратором %s</string>
     <string name="unit_event_warn_app_admin">%s пользователя %s</string>
     <string name="unit_event_unit_warn_app">%s модератором %s в фэндоме %s</string>
@@ -1280,6 +1283,9 @@
     <string name="unit_event_post_fandom_change">Администратор %s %s пост этого пользователя из фэндома %s в %s</string>
     <string name="unit_event_post_fandom_change_admin">%s пост пользователя %s из фэндома %s в %s</string>
     <string name="unit_event_category_fandom_change_admin">%s категорию фэндома %s с %s на %s</string>
+    <string name="unit_event_account_blocked_date">Пользователь заблокирован до %s</string>
+    <string name="unit_event_account_blocked_warn">Пользователь предупреждён</string>
+    <string name="unit_event_account_blocked_last_units">Последнии публикации пользователя заблокированы.</string>
 
     <string name="rules_users_info">Пожалуйста, прочтите все правила приложения, это не займет много времени, но поможет лучше понимать как устроено наше сообщество.</string>
     <string name="rules_users_1">Запрещен спам. Многократно создавать похожие публикации или сообщения в чате.</string>

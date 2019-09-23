@@ -25,6 +25,7 @@ import com.sayzen.campfiresdk.controllers.ControllerSettings
 import com.sayzen.campfiresdk.controllers.api
 import com.sayzen.campfiresdk.models.events.account.*
 import com.sayzen.campfiresdk.models.events.units.EventPostPinedProfile
+import com.sayzen.campfiresdk.screens.administation.SAdministrationDeepBlocked
 import com.sup.dev.android.libs.api_simple.ApiRequestsSupporter
 import com.sup.dev.android.libs.screens.Screen
 import com.sup.dev.android.libs.screens.navigator.NavigationAction
@@ -192,6 +193,7 @@ class SAccount private constructor(
                 .add(R.string.profile_change_name) { _, _ -> ControllerCampfireSDK.changeLogin() }.condition(ControllerApi.account.name.contains("#"))
                 .add(R.string.profile_change_title_image) { _, _ -> onChangeTitleImageClicked() }.condition(ControllerApi.can(API.LVL_CAN_CHANGE_PROFILE_IMAGE))
                 .clearGroupCondition()
+                .add("Заблокированные публикации") { _, _ -> Navigator.to(SAdministrationDeepBlocked(xAccount.accountId)) }.condition(ControllerApi.can(API.LVL_PROTOADMIN)).backgroundRes(R.color.orange_700).textColorRes(R.color.white)
                 .add("Протоадминская авторизация") { _, _ -> protoadminAutorization() }.condition(ControllerApi.can(API.LVL_PROTOADMIN)).backgroundRes(R.color.orange_700).textColorRes(R.color.white)
                 .add("Поменять местами с другим аккаунтом") { _, _ -> protoadminTranslateAccount() }.condition(ControllerApi.can(API.LVL_PROTOADMIN)).backgroundRes(R.color.orange_700).textColorRes(R.color.white)
                 .add("Пересчитать достижения") { _, _ -> protoadminAchievementsRecount() }.condition(ControllerApi.can(API.LVL_PROTOADMIN)).backgroundRes(R.color.orange_700).textColorRes(R.color.white)
@@ -297,7 +299,7 @@ class SAccount private constructor(
     }
 
     private fun changeAvatarNow(dialog: WidgetProgressTransparent, bytes: ByteArray) {
-        ApiRequestsSupporter.executeProgressDialog(dialog, RAccountsChangeAvatar(bytes)) { _->
+        ApiRequestsSupporter.executeProgressDialog(dialog, RAccountsChangeAvatar(bytes)) { _ ->
             ToolsImagesLoader.clear(xAccount.imageId)
             EventBus.post(EventAccountChanged(xAccount.accountId, xAccount.name, xAccount.imageId))
         }

@@ -2,12 +2,14 @@ package com.sayzen.campfiresdk.models.cards.events
 
 import android.view.View
 import android.widget.TextView
+import com.dzen.campfire.api.API
 import com.dzen.campfire.api.models.units.events_user.*
 import com.sayzen.campfiresdk.R
 import com.sayzen.campfiresdk.adapters.XAccount
 import com.sayzen.campfiresdk.app.CampfireConstants
 import com.sayzen.campfiresdk.controllers.ControllerApi
 import com.sayzen.campfiresdk.controllers.ControllerCampfireSDK
+import com.sayzen.campfiresdk.controllers.ControllerUnits
 import com.sayzen.campfiresdk.models.cards.CardUnit
 import com.sup.dev.android.libs.screens.navigator.Navigator
 import com.sup.dev.android.tools.ToolsResources
@@ -61,6 +63,17 @@ class CardUnitEventUser(
             is ApiEventUserAdminBaned -> {
                 text = ToolsResources.sCap(R.string.unit_event_blocked_app, ToolsResources.sex(e.adminAccountSex, R.string.he_baned, R.string.she_baned), ToolsDate.dateToStringFull(e.blockDate), ControllerApi.linkToUser(e.adminAccountName))
                 view.setOnClickListener { ControllerCampfireSDK.onToAccountClicked(e.ownerAccountId, Navigator.TO) }
+            }
+            is ApiEventUserAdminUnitBlocked -> {
+                val unitName = ControllerUnits.getName(e.unitType)
+                text = ToolsResources.sCap(R.string.unit_event_blocked_unit, unitName, ControllerApi.linkToUser(e.adminAccountName))
+                if (e.blockAccountDate > 0) text += "\n" + ToolsResources.s(R.string.unit_event_account_blocked_date, ToolsDate.dateToStringFull(e.blockAccountDate))
+                if (e.warned) text += "\n" + ToolsResources.s(R.string.unit_event_account_blocked_warn)
+                if (e.lastUnitsBlocked) text += "\n" + ToolsResources.s(R.string.unit_event_account_blocked_last_units)
+                view.setOnClickListener {
+                    if(e.moderationId > 0) ControllerCampfireSDK.onToModerationClicked(e.moderationId, 0L, Navigator.TO)
+                    else ControllerCampfireSDK.onToAccountClicked(e.ownerAccountId, Navigator.TO)
+                }
             }
             is ApiEventUserAdminModerationRejected -> {
                 text = ToolsResources.sCap(R.string.unit_event_user_moder_action_rejected, ControllerApi.linkToUser(e.adminAccountName), ToolsResources.sex(e.adminAccountSex, R.string.he_reject, R.string.she_reject), e.fandomName)
@@ -118,14 +131,6 @@ class CardUnitEventUser(
                 view.setOnClickListener { ControllerCampfireSDK.onToFandomClicked(e.fandomId, ControllerApi.getLanguageId(), Navigator.TO) }
                 text = ToolsResources.sCap(R.string.unit_event_fandom_suggested, ToolsResources.sex(e.ownerAccountSex, R.string.he_suggest, R.string.she_suggest), e.fandomName)
 
-            }
-            is ApiEventUserModerBan -> {
-                text = ToolsResources.sCap(R.string.unit_event_blocked, ToolsResources.sex(e.ownerAccountSex, R.string.he_baned, R.string.she_baned), e.fandomName, ToolsDate.dateToStringFull(e.blockDate), ControllerApi.linkToUser(e.adminAccountName))
-                view.setOnClickListener { ControllerCampfireSDK.onToModerationClicked(e.moderationId, 0, Navigator.TO) }
-            }
-            is ApiEventUserModerWarn -> {
-                text = ToolsResources.sCap(R.string.unit_event_unit_warn_app, ToolsResources.sex(e.ownerAccountSex, R.string.he_warned, R.string.she_warned), ControllerApi.linkToUser(e.adminAccountName), "" + e.fandomName + " (" + ControllerApi.linkToFandom(e.fandomId, e.languageId) + ")")
-                view.setOnClickListener { ControllerCampfireSDK.onToAccountClicked(e.ownerAccountId, Navigator.TO) }
             }
             is ApiEventUserAdminPostChangeFandom -> {
                 text = ToolsResources.sCap(R.string.unit_event_post_fandom_change, ControllerApi.linkToUser(e.adminAccountName), ToolsResources.sex(e.adminAccountSex, R.string.he_move, R.string.she_move), e.oldFandomName, e.newFandomName)

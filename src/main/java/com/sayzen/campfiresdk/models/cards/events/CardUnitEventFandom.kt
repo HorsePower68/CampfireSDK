@@ -5,8 +5,6 @@ import android.widget.TextView
 import com.dzen.campfire.api.models.units.events_user.*
 import com.dzen.campfire.api.models.units.events_admins.*
 import com.dzen.campfire.api.models.units.events_fandoms.*
-import com.dzen.campfire.api.models.units.events_moderators.ApiEventModerBan
-import com.dzen.campfire.api.models.units.events_moderators.ApiEventModerWarn
 import com.sayzen.campfiresdk.R
 import com.sayzen.campfiresdk.adapters.XAccount
 import com.sayzen.campfiresdk.app.CampfireConstants

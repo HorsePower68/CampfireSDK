@@ -58,6 +58,7 @@
     <attr name="ic_person_18dp" format="reference"/>
     <attr name="ic_person_24dp" format="reference"/>
     <attr name="ic_play_arrow_24dp" format="reference"/>
+    <attr name="ic_pause_24dp" format="reference"/>
     <attr name="ic_play_arrow_48dp" format="reference"/>
     <attr name="ic_reply_24dp" format="reference"/>
     <attr name="ic_rowing_24dp" format="reference"/>
@@ -155,6 +156,7 @@
         <item name="ic_person_18dp">@drawable/ic_person_white_18dp</item>
         <item name="ic_person_24dp">@drawable/ic_person_white_24dp</item>
         <item name="ic_play_arrow_24dp">@drawable/ic_play_arrow_white_24dp</item>
+        <item name="ic_pause_24dp">@drawable/ic_pause_white_24dp</item>
         <item name="ic_play_arrow_48dp">@drawable/ic_play_arrow_white_48dp</item>
         <item name="ic_reply_24dp">@drawable/ic_reply_white_24dp</item>
         <item name="ic_rowing_24dp">@drawable/ic_rowing_white_24dp</item>
@@ -253,6 +255,7 @@
         <item name="ic_person_18dp">@drawable/ic_person_grey_700_18dp</item>
         <item name="ic_person_24dp">@drawable/ic_person_grey_700_24dp</item>
         <item name="ic_play_arrow_24dp">@drawable/ic_play_arrow_grey_700_24dp</item>
+        <item name="ic_pause_24dp">@drawable/ic_pause_grey_700_24dp</item>
         <item name="ic_play_arrow_48dp">@drawable/ic_play_arrow_grey_700_48dp</item>
         <item name="ic_reply_24dp">@drawable/ic_reply_grey_700_24dp</item>
         <item name="ic_rowing_24dp">@drawable/ic_rowing_grey_700_24dp</item>

@@ -5,32 +5,26 @@ import com.dzen.campfire.api.API
 import com.dzen.campfire.api.models.units.Unit
 import com.dzen.campfire.api.models.units.UnitForum
 import com.dzen.campfire.api.models.units.moderations.*
-import com.dzen.campfire.api.models.units.stickers.UnitSticker
-import com.dzen.campfire.api.models.units.stickers.UnitStickersPack
 import com.dzen.campfire.api.models.units.tags.UnitTag
-import com.dzen.campfire.api.requests.fandoms.*
+import com.dzen.campfire.api.requests.fandoms.RFandomsModerationForumRemove
 import com.dzen.campfire.api.requests.post.RPostToDrafts
-import com.dzen.campfire.api.requests.stickers.RStickerCollectionChange
-import com.dzen.campfire.api.requests.stickers.RStickersPackCollectionChange
 import com.dzen.campfire.api.requests.tags.RTagsMove
 import com.dzen.campfire.api.requests.tags.RTagsMoveCategory
 import com.dzen.campfire.api.requests.tags.RTagsMoveTag
 import com.dzen.campfire.api.requests.units.RUnitsBookmarksChange
 import com.dzen.campfire.api.requests.units.RUnitsCommentsWatchChange
-import com.dzen.campfire.api.requests.units.RUnitsRemove
-import com.sayzen.campfiresdk.screens.fandoms.tags.WidgetTagCreate
-import com.sayzen.campfiresdk.screens.fandoms.tags.WidgetTagRemove
 import com.sayzen.campfiresdk.R
-import com.sayzen.campfiresdk.controllers.ControllerPost.ENABLED_BLOCK
 import com.sayzen.campfiresdk.models.events.fandom.EventFandomTagMove
-import com.sayzen.campfiresdk.models.events.stickers.EventStickerCollectionChanged
-import com.sayzen.campfiresdk.models.events.stickers.EventStickersPackCollectionChanged
-import com.sayzen.campfiresdk.models.events.units.*
-import com.sayzen.campfiresdk.models.widgets.WidgetModerationBlock
+import com.sayzen.campfiresdk.models.events.units.EventPostStatusChange
+import com.sayzen.campfiresdk.models.events.units.EventUnitBookmarkChange
+import com.sayzen.campfiresdk.models.events.units.EventUnitCommentWatchChange
+import com.sayzen.campfiresdk.models.events.units.EventUnitRemove
 import com.sayzen.campfiresdk.models.objects.TagParent
 import com.sayzen.campfiresdk.models.widgets.WidgetCategoryCreate
+import com.sayzen.campfiresdk.models.widgets.WidgetModerationBlock
 import com.sayzen.campfiresdk.screens.comments.SComments
-import com.sayzen.campfiresdk.screens.stickers.SStickersPackCreate
+import com.sayzen.campfiresdk.screens.fandoms.tags.WidgetTagCreate
+import com.sayzen.campfiresdk.screens.fandoms.tags.WidgetTagRemove
 import com.sayzen.campfiresdk.screens.stickers.SStickersView
 import com.sup.dev.android.libs.api_simple.ApiRequestsSupporter
 import com.sup.dev.android.libs.screens.navigator.Navigator
@@ -41,12 +35,26 @@ import com.sup.dev.android.views.views.ViewTextLinkable
 import com.sup.dev.android.views.widgets.WidgetField
 import com.sup.dev.android.views.widgets.WidgetMenu
 import com.sup.dev.java.libs.eventBus.EventBus
-import com.sup.dev.java.tools.ToolsCollections
 import com.sup.dev.java.tools.ToolsDate
 import com.sup.dev.java.tools.ToolsText
 import java.util.*
 
 object ControllerUnits {
+
+    fun getName(unitType:Long):String{
+        return when (unitType) {
+            API.UNIT_TYPE_COMMENT -> ToolsResources.s(R.string.app_sticker)
+            API.UNIT_TYPE_CHAT_MESSAGE -> ToolsResources.s(R.string.app_message)
+            API.UNIT_TYPE_TAG -> ToolsResources.s(R.string.app_tag)
+            API.UNIT_TYPE_MODERATION -> ToolsResources.s(R.string.app_moderation)
+            API.UNIT_TYPE_POST -> ToolsResources.s(R.string.app_post)
+            API.UNIT_TYPE_REVIEW -> ToolsResources.s(R.string.app_review)
+            API.UNIT_TYPE_FORUM -> ToolsResources.s(R.string.app_forum)
+            API.UNIT_TYPE_STICKERS_PACK -> ToolsResources.s(R.string.app_stickers_pack)
+            API.UNIT_TYPE_STICKER -> ToolsResources.s(R.string.app_sticker)
+            else -> "[unknown]"
+        }
+    }
 
     fun toUnit(unitType: Long, unitId: Long, commentId: Long = 0) {
         if (unitType == API.UNIT_TYPE_POST) ControllerCampfireSDK.onToPostClicked(unitId, commentId, Navigator.TO)
@@ -236,79 +244,6 @@ object ControllerUnits {
 
     fun changeForum(unit: UnitForum) {
         ControllerCampfireSDK.ON_CHANGE_FORUM_CLICKED.invoke(unit)
-    }
-
-    //
-    //  Stickers
-    //
-
-    fun showStickerPackPopup(unit: UnitStickersPack) {
-        WidgetMenu()
-                .add(R.string.app_copy_link) { _, _ -> ToolsAndroid.setToClipboard(ControllerApi.linkToStickersPack(unit.id)); ToolsToast.show(R.string.app_copied) }
-                .add(R.string.unit_menu_comments_watch) { _, _ -> changeWatchComments(unit.id) }.condition(unit.isPublic)
-                .add(R.string.app_change) { _, _ -> Navigator.to(SStickersPackCreate(unit)) }.condition(unit.creatorId == ControllerApi.account.id)
-                .add(R.string.app_remove) { _, _ -> removeStickersPack(unit.id) }.condition(unit.creatorId == ControllerApi.account.id)
-                .add(R.string.app_report) { _, _ -> ControllerApi.reportUnit(unit.id, R.string.stickers_packs_report_confirm, R.string.stickers_packs_error_gone) }.condition(unit.creatorId != ControllerApi.account.id)
-                .add(if (ControllerSettings.accountSettings.stickersPacks.contains(unit.id)) R.string.sticker_remove else R.string.sticker_add) { _, _ -> addStickerPackToCollection(unit) }.condition(unit.status == API.STATUS_PUBLIC)
-                .add(R.string.app_clear_reports) { _, _ -> clearReports(unit) }.backgroundRes(R.color.red_700).textColorRes(R.color.white).condition(ControllerPost.ENABLED_CLEAR_REPORTS && ControllerApi.can(API.LVL_ADMIN_MODER) && unit.reportsCount > 0 && unit.creatorId != ControllerApi.account.id)
-                .add(R.string.app_block) { _, _ -> block(unit) }.backgroundRes(R.color.red_700).textColorRes(R.color.white).condition(ENABLED_BLOCK && ControllerApi.can(API.LVL_ADMIN_MODER) && unit.creatorId != ControllerApi.account.id)
-                .asSheetShow()
-    }
-
-    fun addStickerPackToCollection(unit: UnitStickersPack) {
-        val inCollection = !ControllerSettings.accountSettings.stickersPacks.contains(unit.id)
-
-        ApiRequestsSupporter.executeProgressDialog(RStickersPackCollectionChange(unit.id, inCollection)) {_->
-
-            if (inCollection)
-                ControllerSettings.accountSettings.stickersPacks = ToolsCollections.add(unit.id, ControllerSettings.accountSettings.stickersPacks)
-            else
-                ControllerSettings.accountSettings.stickersPacks = ToolsCollections.removeItem(unit.id, ControllerSettings.accountSettings.stickersPacks)
-
-            EventBus.post(EventStickersPackCollectionChanged(unit))
-        }
-    }
-
-    fun removeStickersPack(unitId: Long) {
-        ApiRequestsSupporter.executeEnabledConfirm(R.string.stickers_packs_remove_confirm, R.string.app_remove, RUnitsRemove(unitId)) {
-            EventBus.post(EventUnitRemove(unitId))
-            ControllerSettings.accountSettings.stickersPacks = ToolsCollections.removeItem(unitId, ControllerSettings.accountSettings.stickersPacks)
-            ToolsToast.show(R.string.app_done)
-        }
-    }
-
-    fun showStickerPopup(view: View, x: Int, y: Int, unit: UnitSticker) {
-        WidgetMenu()
-                .add(R.string.app_copy_link) { _, _ -> ToolsAndroid.setToClipboard(ControllerApi.linkToSticker(unit.id)); ToolsToast.show(R.string.app_copied) }
-                .add(R.string.app_remove) { _, _ -> removeSticker(unit.id) }.condition(unit.creatorId == ControllerApi.account.id)
-                .add(R.string.app_report) { _, _ -> ControllerApi.reportUnit(unit.id, R.string.stickers_report_confirm, R.string.sticker_error_gone) }
-                .add(if (ControllerSettings.accountSettings.stickers.contains(unit.id)) R.string.sticker_remove else R.string.sticker_add) { _, _ -> addStickerToCollection(unit) }.condition(unit.status == API.STATUS_PUBLIC)
-                .add(R.string.app_clear_reports) { _, _ -> clearReports(unit) }.backgroundRes(R.color.red_700).textColorRes(R.color.white).condition(ControllerPost.ENABLED_CLEAR_REPORTS && ControllerApi.can(API.LVL_ADMIN_MODER) && unit.reportsCount > 0 && unit.creatorId != ControllerApi.account.id)
-                .add(R.string.app_block) { _, _ -> block(unit) }.backgroundRes(R.color.red_700).textColorRes(R.color.white).condition(ENABLED_BLOCK && ControllerApi.can(API.LVL_ADMIN_MODER) && unit.creatorId != ControllerApi.account.id)
-                .asPopupShow(view, x, y)
-    }
-
-
-    fun addStickerToCollection(unit: UnitSticker) {
-        val inCollection = !ControllerSettings.accountSettings.stickers.contains(unit.id)
-
-        ApiRequestsSupporter.executeProgressDialog(RStickerCollectionChange(unit.id, inCollection)) {_->
-
-            if (inCollection)
-                ControllerSettings.accountSettings.stickers = ToolsCollections.add(unit.id, ControllerSettings.accountSettings.stickers)
-            else
-                ControllerSettings.accountSettings.stickers = ToolsCollections.removeItem(unit.id, ControllerSettings.accountSettings.stickers)
-
-            EventBus.post(EventStickerCollectionChanged(unit))
-        }
-    }
-
-
-    fun removeSticker(unitId: Long) {
-        ApiRequestsSupporter.executeEnabledConfirm(R.string.stickers_remove_confirm, R.string.app_remove, RUnitsRemove(unitId)) {
-            EventBus.post(EventUnitRemove(unitId))
-            ToolsToast.show(R.string.app_done)
-        }
     }
 
     //

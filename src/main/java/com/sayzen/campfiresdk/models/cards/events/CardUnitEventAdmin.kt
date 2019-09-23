@@ -2,12 +2,14 @@ package com.sayzen.campfiresdk.models.cards.events
 
 import android.view.View
 import android.widget.TextView
+import com.dzen.campfire.api.API
 import com.dzen.campfire.api.models.units.events_admins.*
 import com.sayzen.campfiresdk.R
 import com.sayzen.campfiresdk.adapters.XAccount
 import com.sayzen.campfiresdk.app.CampfireConstants
 import com.sayzen.campfiresdk.controllers.ControllerApi
 import com.sayzen.campfiresdk.controllers.ControllerCampfireSDK
+import com.sayzen.campfiresdk.controllers.ControllerUnits
 import com.sayzen.campfiresdk.models.cards.CardUnit
 import com.sup.dev.android.libs.screens.navigator.Navigator
 import com.sup.dev.android.tools.ToolsResources
@@ -52,7 +54,14 @@ class CardUnitEventAdmin(
             is ApiEventAdminBan -> {
                 text = ToolsResources.sCap(R.string.unit_event_blocked_app_admin, ToolsResources.sex(e.ownerAccountSex, R.string.he_blocked, R.string.she_blocked), ControllerApi.linkToUser(e.targetAccountName), ToolsDate.dateToStringFull(e.blockDate))
                 view.setOnClickListener { ControllerCampfireSDK.onToAccountClicked(e.targetAccountId, Navigator.TO) }
-
+            }
+            is ApiEventAdminBlockUnit -> {
+                val unitName = ControllerUnits.getName(e.unitType)
+                text = ToolsResources.sCap(R.string.unit_event_admin_blocked_unit, ToolsResources.sex(e.ownerAccountSex, R.string.he_blocked, R.string.she_blocked), unitName, ControllerApi.linkToUser(e.targetAccountName))
+                if (e.blockAccountDate > 0) text += "\n" + ToolsResources.s(R.string.unit_event_account_blocked_date, ToolsDate.dateToStringFull(e.blockAccountDate))
+                if (e.warned) text += "\n" + ToolsResources.s(R.string.unit_event_account_blocked_warn)
+                if (e.lastUnitsBlocked) text += "\n" + ToolsResources.s(R.string.unit_event_account_blocked_last_units)
+                view.setOnClickListener { ControllerCampfireSDK.onToAccountClicked(e.targetAccountId, Navigator.TO) }
             }
             is ApiEventAdminChangeName -> {
                 text = ToolsResources.sCap(R.string.unit_event_change_name_admin, ToolsResources.sex(e.ownerAccountSex, R.string.he_changed, R.string.she_changed), e.oldName, ControllerApi.linkToUser(e.targetAccountName))

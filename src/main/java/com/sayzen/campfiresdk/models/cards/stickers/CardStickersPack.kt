@@ -7,6 +7,7 @@ import com.dzen.campfire.api.models.units.stickers.UnitStickersPack
 import com.sayzen.campfiresdk.R
 import com.sayzen.campfiresdk.adapters.XKarma
 import com.sayzen.campfiresdk.controllers.ControllerApi
+import com.sayzen.campfiresdk.controllers.ControllerStickers
 import com.sayzen.campfiresdk.controllers.ControllerUnits
 import com.sayzen.campfiresdk.models.cards.CardUnit
 import com.sayzen.campfiresdk.models.events.stickers.EventStickersPackChanged
@@ -61,7 +62,7 @@ class CardStickersPack(
             true
         }
 
-        vMenu.setOnClickListener { ControllerUnits.showStickerPackPopup(unit) }
+        vMenu.setOnClickListener { ControllerStickers.showStickerPackPopup(unit) }
 
         view.setOnClickListener { Navigator.to(SStickersView(unit, 0)) }
     }

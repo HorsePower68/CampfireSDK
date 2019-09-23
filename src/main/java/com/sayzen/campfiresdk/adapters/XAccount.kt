@@ -57,7 +57,7 @@ class XAccount(
         }
 
         fun isOnline(accountId: Long): Boolean {
-            return online.containsKey(accountId) && online[accountId]!! > ControllerApi.currentTime() - 1000L * 60L * 15L
+            return accountId == ControllerApi.account.id || (online.containsKey(accountId) && online[accountId]!! > ControllerApi.currentTime() - 1000L * 60L * 15L)
         }
 
     }

@@ -2,8 +2,6 @@ package com.sayzen.campfiresdk.models.cards.events
 
 import android.view.View
 import android.widget.TextView
-import com.dzen.campfire.api.models.units.events_moderators.ApiEventModerBan
-import com.dzen.campfire.api.models.units.events_moderators.ApiEventModerWarn
 import com.dzen.campfire.api.models.units.events_moderators.UnitEventModer
 import com.sayzen.campfiresdk.R
 import com.sayzen.campfiresdk.adapters.XAccount
@@ -48,14 +46,6 @@ class CardUnitEventModer(
         xUnit.xAccount.lvl = 0    //  Чтоб везде небыло уровней а не на 90% крточек
 
         when (e) {
-            is ApiEventModerBan -> {
-                text = ToolsResources.sCap(R.string.unit_event_blocked_admin, ToolsResources.sex(e.ownerAccountSex, R.string.he_blocked, R.string.she_blocked), ControllerApi.linkToUser(e.targetAccountName), "" + e.fandomName + " (" + ControllerApi.linkToFandom(unit.fandomId, unit.languageId) + ")", ToolsDate.dateToStringFull(e.blockDate))
-                view.setOnClickListener { ControllerCampfireSDK.onToModerationClicked(e.moderationId, 0, Navigator.TO) }
-            }
-            is ApiEventModerWarn -> {
-                text = ToolsResources.sCap(R.string.unit_event_unit_warn_app_admin, ToolsResources.sex(e.ownerAccountSex, R.string.he_warn, R.string.she_warn), ControllerApi.linkToUser(e.targetAccountName), "" + e.fandomName + " (" + ControllerApi.linkToFandom(e.fandomId, e.fandomLanguageId) + ")")
-                view.setOnClickListener { ControllerCampfireSDK.onToAccountClicked(e.targetAccountId, Navigator.TO) }
-            }
 
         }
 
