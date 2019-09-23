@@ -1269,7 +1269,8 @@
     <string name="unit_event_post_fandom_change">Administrator %s %s post of this user from fandom %s to %s</string>
     <string name="unit_event_post_fandom_change_admin">%s post of user %s from fandom %s to %s</string>
     <string name="unit_event_category_fandom_change_admin">%s category of fandom %s %s to %s</string>
-    <string name="unit_event_account_blocked_date">User is blocked until %s</string>
+    <string name="unit_event_account_blocked_date">User was blocked until %s</string>
+    <string name="unit_event_account_blocked_date_fandom">User was blocked until %s in fandom %s</string>
     <string name="unit_event_account_blocked_warn">User was warned</string>
     <string name="unit_event_account_blocked_last_units">Last publications was blocked.</string>
 

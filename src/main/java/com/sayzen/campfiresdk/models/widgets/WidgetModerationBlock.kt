@@ -83,6 +83,11 @@ class WidgetModerationBlock(
         }
 
         vBlockInApp.visibility = if (ControllerApi.can(API.LVL_ADMIN_BAN)) View.VISIBLE else View.GONE
+        if(unit.unitType == API.UNIT_TYPE_STICKERS_PACK
+                ||unit.unitType == API.UNIT_TYPE_STICKER){
+            vBlockInApp.visibility = View.GONE
+            vBlockInApp.setChecked(true)
+        }
 
         vEnter.setOnClickListener { block() }
         vCancel.setOnClickListener { hide() }

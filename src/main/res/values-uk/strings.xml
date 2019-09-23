@@ -1284,6 +1284,7 @@
     <string name="unit_event_post_fandom_change_admin">%s пост пользователя %s из фэндома %s в %s</string>
     <string name="unit_event_category_fandom_change_admin">%s категорию фэндома %s с %s на %s</string>
     <string name="unit_event_account_blocked_date">Пользователь заблокирован до %s</string>
+    <string name="unit_event_account_blocked_date_fandom">Пользователь заблокирован до %s в фэндоме $s</string>
     <string name="unit_event_account_blocked_warn">Пользователь предупреждён</string>
     <string name="unit_event_account_blocked_last_units">Последнии публикации пользователя заблокированы.</string>
 

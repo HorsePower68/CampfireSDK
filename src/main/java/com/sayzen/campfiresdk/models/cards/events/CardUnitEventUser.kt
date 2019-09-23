@@ -67,7 +67,8 @@ class CardUnitEventUser(
             is ApiEventUserAdminUnitBlocked -> {
                 val unitName = ControllerUnits.getName(e.unitType)
                 text = ToolsResources.sCap(R.string.unit_event_blocked_unit, unitName, ControllerApi.linkToUser(e.adminAccountName))
-                if (e.blockAccountDate > 0) text += "\n" + ToolsResources.s(R.string.unit_event_account_blocked_date, ToolsDate.dateToStringFull(e.blockAccountDate))
+                if (e.blockAccountDate > 0 && e.blockFandomId < 1) text += "\n" + ToolsResources.s(R.string.unit_event_account_blocked_date, ToolsDate.dateToStringFull(e.blockAccountDate))
+                if (e.blockAccountDate > 0 && e.blockFandomId > 0) text += "\n" + ToolsResources.s(R.string.unit_event_account_blocked_date_fandom, ToolsDate.dateToStringFull(e.blockAccountDate), "${e.blockFandomName} (${ControllerApi.linkToFandom(e.blockFandomId, e.blockFandomLanguageId)})")
                 if (e.warned) text += "\n" + ToolsResources.s(R.string.unit_event_account_blocked_warn)
                 if (e.lastUnitsBlocked) text += "\n" + ToolsResources.s(R.string.unit_event_account_blocked_last_units)
                 view.setOnClickListener {

@@ -58,7 +58,8 @@ class CardUnitEventAdmin(
             is ApiEventAdminBlockUnit -> {
                 val unitName = ControllerUnits.getName(e.unitType)
                 text = ToolsResources.sCap(R.string.unit_event_admin_blocked_unit, ToolsResources.sex(e.ownerAccountSex, R.string.he_blocked, R.string.she_blocked), unitName, ControllerApi.linkToUser(e.targetAccountName))
-                if (e.blockAccountDate > 0) text += "\n" + ToolsResources.s(R.string.unit_event_account_blocked_date, ToolsDate.dateToStringFull(e.blockAccountDate))
+                if (e.blockAccountDate > 0 && e.blockedInApp && e.blockFandomId < 1) text += "\n" + ToolsResources.s(R.string.unit_event_account_blocked_date, ToolsDate.dateToStringFull(e.blockAccountDate))
+                if (e.blockAccountDate > 0 && !e.blockedInApp && e.blockFandomId > 0) text += "\n" + ToolsResources.s(R.string.unit_event_account_blocked_date_fandom, ToolsDate.dateToStringFull(e.blockAccountDate), "${e.blockFandomName} (${ControllerApi.linkToFandom(e.blockFandomId, e.blockFandomLanguageId)})")
                 if (e.warned) text += "\n" + ToolsResources.s(R.string.unit_event_account_blocked_warn)
                 if (e.lastUnitsBlocked) text += "\n" + ToolsResources.s(R.string.unit_event_account_blocked_last_units)
                 view.setOnClickListener { ControllerCampfireSDK.onToAccountClicked(e.targetAccountId, Navigator.TO) }
