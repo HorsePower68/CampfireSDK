@@ -44,7 +44,7 @@ class CardFandom constructor(
         view.setOnClickListener { onClick() }
         xFandom.setView(vAvatar)
 
-        vAvatar.isClickable = avatarClickable
+        //vAvatar.isClickable = avatarClickable
 
         if (showLanguage && xFandom.languageId > 0) vAvatar.vAvatar.setChipText(ControllerApi.getLanguage(xFandom.languageId).code)
         else vAvatar.vAvatar.setChipText("")
