@@ -18,10 +18,10 @@ object ControllerWiki {
 
     fun instanceMenu(wikiTitle: WikiTitle, languageId: Long): WidgetMenu {
         return WidgetMenu()
-                .add(R.string.app_change) { _, _ -> Navigator.to(SWikiItemCreate(wikiTitle.fandomId, wikiTitle.parentItemId, wikiTitle)) }
-                .add(R.string.app_remove) { _, _ -> removeWikiItem(wikiTitle) }.condition(ControllerApi.can(wikiTitle.fandomId, ControllerApi.getLanguage("en").id, API.LVL_MODERATOR_WIKI_EDIT))
-                .add(R.string.app_link) { _, _ -> copyLink(wikiTitle) }.condition(ControllerApi.can(wikiTitle.fandomId, ControllerApi.getLanguage("en").id, API.LVL_MODERATOR_WIKI_EDIT))
-                .add(R.string.app_edit) { w, i -> SWikiArticleEdit.instance(wikiTitle.itemId, languageId, Navigator.TO)}.backgroundRes(R.color.blue_700).condition(ControllerApi.can(wikiTitle.fandomId, languageId, API.LVL_MODERATOR_WIKI_EDIT))
+                .add(R.string.app_link) { _, _ -> copyLink(wikiTitle) }
+                .add(R.string.app_change) { _, _ -> Navigator.to(SWikiItemCreate(wikiTitle.fandomId, wikiTitle.parentItemId, wikiTitle)) }.backgroundRes(R.color.blue_700).condition(wikiTitle.itemType == API.WIKI_TYPE_SECION && ControllerApi.can(wikiTitle.fandomId, ControllerApi.getLanguage("en").id, API.LVL_MODERATOR_WIKI_EDIT))
+                .add(R.string.app_remove) { _, _ -> removeWikiItem(wikiTitle) }.backgroundRes(R.color.blue_700).condition(ControllerApi.can(wikiTitle.fandomId, ControllerApi.getLanguage("en").id, API.LVL_MODERATOR_WIKI_EDIT))
+                .add(R.string.app_edit) { w, i -> SWikiArticleEdit.instance(wikiTitle.itemId, languageId, Navigator.TO)}.backgroundRes(R.color.blue_700).condition(wikiTitle.itemType == API.WIKI_TYPE_ARTICLE && ControllerApi.can(wikiTitle.fandomId, languageId, API.LVL_MODERATOR_WIKI_EDIT))
     }
 
     fun showMenu(wikiTitle: WikiTitle, languageId: Long) {

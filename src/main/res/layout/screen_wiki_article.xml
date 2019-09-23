@@ -82,10 +82,11 @@
                 android:id="@+id/vAvatar"
                 android:layout_width="82dp"
                 android:layout_height="82dp"
-                android:layout_gravity="center"
-                android:src="@color/green_700" />
+                android:layout_gravity="center" />
 
         </FrameLayout>
+
+        <TextView
 
 
     </FrameLayout>

@@ -36,7 +36,7 @@ class CardWikiItem(
         vSectionIcon.visibility = if (wikiItem.itemType == API.WIKI_TYPE_SECION) View.VISIBLE else View.GONE
 
         view.setOnClickListener {
-            if (wikiItem.itemType == API.WIKI_TYPE_SECION) Navigator.to(SWikiList(wikiItem.fandomId, wikiItem.itemId, wikiItem.name))
+            if (wikiItem.itemType == API.WIKI_TYPE_SECION) Navigator.to(SWikiList(wikiItem.fandomId, wikiItem.itemId, wikiItem.getName(ControllerApi.getLanguageCode())))
             else Navigator.to(SWikiArticleView(wikiItem, ControllerApi.getLanguageId()))
         }
 
