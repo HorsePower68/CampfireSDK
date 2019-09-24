@@ -28,7 +28,8 @@ class CardButtons(
         private val tagsCount: Long,
         private var subscribersCount: Long,
         private var modersCount: Long,
-        private var subscribed: Boolean
+        private var subscribed: Boolean,
+        private var wikiCount: Long
 ) : Card(R.layout.screen_fandom_card_buttons) {
 
     private val eventBus = EventBus
@@ -50,6 +51,7 @@ class CardButtons(
         val vSubscribersButton: View = view.findViewById(R.id.vSubscribersButton)
         val vSubscribersText: TextView = view.findViewById(R.id.vSubscribersText)
         val vWikiButton: View = view.findViewById(R.id.vWikiButton)
+        val vWikiText: TextView = view.findViewById(R.id.vWikiText)
 
         vChatsButton.setOnClickListener { SChat.instance(API.CHAT_TYPE_FANDOM, xFandom.fandomId, xFandom.languageId, false, Navigator.REORDER) }
         vChatsCount.text = "$chatOnlineCount"
@@ -65,6 +67,7 @@ class CardButtons(
         vModerationButton.setOnClickListener { Navigator.to(SModeration(xFandom.fandomId, xFandom.languageId)) }
         vModerationText.text = "$modersCount"
 
+
         vForumsButton.setOnClickListener { Navigator.to(SForums(xFandom.fandomId, xFandom.languageId)) }
         vForumsText.text = "$forumsCount"
 
@@ -72,6 +75,7 @@ class CardButtons(
         vSubscribersText.text = "$subscribersCount"
 
         vWikiButton.setOnClickListener { Navigator.to(SWikiList(xFandom.fandomId, 0, "")) }
+        vWikiText.text = "$wikiCount"
     }
 
     //

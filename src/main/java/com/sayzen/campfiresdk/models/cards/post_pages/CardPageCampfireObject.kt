@@ -5,7 +5,6 @@ import com.dzen.campfire.api.API
 import com.dzen.campfire.api.models.CampfireLink
 import com.dzen.campfire.api.models.PagesContainer
 import com.dzen.campfire.api.models.units.post.PageCampfireObject
-import com.dzen.campfire.api.models.units.post.UnitPost
 import com.sayzen.campfiresdk.R
 import com.sayzen.campfiresdk.controllers.ControllerCampfireObjects
 import com.sayzen.campfiresdk.screens.account.profile.SAccount
@@ -13,7 +12,7 @@ import com.sayzen.campfiresdk.screens.chat.SChat
 import com.sayzen.campfiresdk.screens.fandoms.forums.view.SForumView
 import com.sayzen.campfiresdk.screens.fandoms.view.SFandom
 import com.sayzen.campfiresdk.screens.post.view.SPost
-import com.sayzen.campfiresdk.screens.stickers.SStickersView
+import com.sayzen.campfiresdk.screens.account.stickers.SStickersView
 import com.sup.dev.android.libs.screens.navigator.Navigator
 import com.sup.dev.android.tools.ToolsImagesLoader
 import com.sup.dev.android.views.views.ViewAvatarTitle

@@ -17,7 +17,6 @@ import com.sup.dev.android.tools.ToolsResources
 import com.sup.dev.android.tools.ToolsToast
 import com.sup.dev.android.views.screens.SLoadingRecycler
 import com.sup.dev.android.views.support.adapters.recycler_view.RecyclerCardAdapterLoading
-import com.sup.dev.java.libs.debug.log
 import com.sup.dev.java.libs.eventBus.EventBus
 
 class SWikiList(
@@ -62,7 +61,9 @@ class SWikiList(
         return RecyclerCardAdapterLoading<CardWikiItem, WikiTitle>(CardWikiItem::class) { CardWikiItem(it) }
                 .setBottomLoader { onLoad, cards ->
                     subscription = RWikiListGet(fandomId, itemId, cards.size.toLong())
-                            .onComplete { r -> onLoad.invoke(r.items) }
+                            .onComplete { r ->
+                                onLoad.invoke(r.items)
+                            }
                             .onNetworkError { onLoad.invoke(null) }
                             .send(api)
                 }

@@ -123,7 +123,7 @@ class SAccount private constructor(
 
         cardInfo = CardInfo(xAccount, r.account.karma30, r.account.dateCreate, r.account.sex,
                 r.banDate, r.isFollow, r.followsCount, r.followersCount, r.moderateFandomsCount, r.status,
-                r.ratesCount, r.bansCount, r.warnsCount, r.note)
+                r.ratesCount, r.bansCount, r.warnsCount, r.note, r.fandomsCount, r.blackFandomsCount, r.blackAccountCount, r.stickersCount)
         cardFilters = CardFilters {
             if (cardPinnedPost != null) setPinnedPost(cardPinnedPost!!.xUnit.unit as UnitPost)
             adapter.reloadBottom()

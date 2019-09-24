@@ -10,6 +10,7 @@ import com.sup.dev.android.tools.ToolsResources
 import com.sup.dev.android.views.cards.CardAvatar
 import com.sup.dev.android.views.support.adapters.NotifyItem
 import com.sup.dev.android.views.views.ViewAvatarTitle
+import com.sup.dev.java.tools.ToolsDate
 
 class CardRateText(
         val rate: Rate
@@ -30,6 +31,7 @@ class CardRateText(
 
     override fun onBind(vAvatar: ViewAvatarTitle) {
         xAccount.setView(vAvatar)
+        vAvatar.setSubtitle(ToolsDate.dateToString(rate.date))
     }
 
     override fun notifyItem() {

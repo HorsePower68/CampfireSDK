@@ -23,8 +23,11 @@ import com.sayzen.campfiresdk.models.events.account.EventAccountBaned
 import com.sayzen.campfiresdk.models.events.account.EventAccountNoteChanged
 import com.sayzen.campfiresdk.models.events.account.EventAccountStatusChanged
 import com.sayzen.campfiresdk.models.events.account.EventAccountsFollowsChange
+import com.sayzen.campfiresdk.screens.account.black_list.SBlackList
+import com.sayzen.campfiresdk.screens.account.fandoms.SAcounFandoms
 import com.sayzen.campfiresdk.screens.achievements.SAchievements
 import com.sayzen.campfiresdk.screens.fandoms.search.SFandomsModeration
+import com.sayzen.campfiresdk.screens.account.stickers.SStickersPacks
 import com.sup.dev.android.libs.api_simple.ApiRequestsSupporter
 import com.sup.dev.android.libs.screens.navigator.Navigator
 import com.sup.dev.android.tools.ToolsResources
@@ -50,7 +53,11 @@ class CardInfo(
         private var ratesCount: Long,
         private var bansCount: Long,
         private var warnsCount: Long,
-        private var note: String
+        private var note: String,
+        private var fandomsCount: Long,
+        private var blackFandomsCount: Long,
+        private var blackAccountCount: Long,
+        private var stickersCount: Long
 ) : Card(R.layout.screen_account_card_info) {
 
     private val eventBus = EventBus
@@ -88,6 +95,12 @@ class CardInfo(
         val vPunishmentsCount: TextView = view.findViewById(R.id.vPunishmentsCount)
         val vStory: View = view.findViewById(R.id.vStory)
         val vNote: ViewTextLinkable = view.findViewById(R.id.vNote)
+        val vBlackList: View = view.findViewById(R.id.vBlackList)
+        val vBlackListCount: TextView = view.findViewById(R.id.vBlackListCount)
+        val vStickers: View = view.findViewById(R.id.vStickers)
+        val vStickersCount: TextView = view.findViewById(R.id.vStickersCount)
+        val vFandoms: View = view.findViewById(R.id.vFandoms)
+        val vFandomsCount: TextView = view.findViewById(R.id.vFandomsCount)
 
         if (xAccount.isBot()) {
             vOnline.text = ToolsResources.s(R.string.app_bot)
@@ -124,7 +137,9 @@ class CardInfo(
         vAchiText.setTextColor(ToolsResources.getColor(R.color.green_700))
         vFollowersCount.text = "" + followersCount
         vTimeText.text = "${((ControllerApi.currentTime() - dateCreate) / (1000L * 60 * 60 * 24)) + 1} ${ToolsResources.s(R.string.app_d)}"
-
+        vFandomsCount.text = "$fandomsCount"
+        vStickersCount.text = "$stickersCount"
+        vBlackListCount.text = "$blackAccountCount/$blackFandomsCount"
 
         vStatusContainer.visibility = VISIBLE
         if (status.isEmpty()) {
@@ -187,7 +202,9 @@ class CardInfo(
         vStory.setOnClickListener { SStory.instance(xAccount.accountId, xAccount.name, Navigator.TO) }
         vAchiButton.setOnClickListener { SAchievements.instance(xAccount.accountId, xAccount.name, 0, false, Navigator.TO) }
         vKarmaButton.setOnClickListener { Navigator.to(ScreenAccountKarma(xAccount.accountId, xAccount.name)) }
-
+        vStickers.setOnClickListener { Navigator.to(SStickersPacks(xAccount.accountId)) }
+        vBlackList.setOnClickListener { Navigator.to(SBlackList(xAccount.accountId, xAccount.name)) }
+        vFandoms.setOnClickListener { Navigator.to(SAcounFandoms(xAccount.accountId)) }
 
     }
 
@@ -254,7 +271,7 @@ class CardInfo(
 
     private fun toggleFollows() {
         if (!isFollow)
-            ApiRequestsSupporter.executeProgressDialog(RAccountsFollowsChange(xAccount.accountId, !isFollow)) { _->eventBus.post(EventAccountsFollowsChange(xAccount.accountId, !isFollow)) }
+            ApiRequestsSupporter.executeProgressDialog(RAccountsFollowsChange(xAccount.accountId, !isFollow)) { _ -> eventBus.post(EventAccountsFollowsChange(xAccount.accountId, !isFollow)) }
         else
             ApiRequestsSupporter.executeEnabledConfirm(R.string.profile_follows_remove_confirm, R.string.app_unfollow, RAccountsFollowsChange(xAccount.accountId, !isFollow)) { eventBus.post(EventAccountsFollowsChange(xAccount.accountId, !isFollow)) }
     }

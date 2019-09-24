@@ -51,7 +51,7 @@ class FieldLogic(
     val vVoiceRemove: ViewIcon = screen.findViewById(R.id.vVoiceRemove)
     val vVoiceLabel: TextView = screen.findViewById(R.id.vVoiceLabel)
 
-    val attach = Attach(vAttach, vAttachRecycler, { updateAction() }, {}, {sendSticker(it)})
+    val attach = Attach(vAttach, vAttachRecycler, { updateAction() }, {}, { sendSticker(it) })
     private val utilsAudioPlayer = UtilsAudioPlayer()
 
     private var lastTypingSent = 0L
@@ -76,13 +76,13 @@ class FieldLogic(
             vVoiceLabel.text = ToolsText.toTime(0)
             isRecording = true
             updateAction()
-            if(ControllerSettings.voiceMessagesAutoLock) vVoiceRecorder.lock()
+            if (ControllerSettings.voiceMessagesAutoLock) vVoiceRecorder.lock()
         }
         vVoiceRecorder.onRecordingStop = {
             voiceBytes = it
             isRecording = false
             updateAction()
-            if(voiceBytes != null && ControllerSettings.voiceMessagesAutoSend) sendVoice()
+            if (voiceBytes != null && ControllerSettings.voiceMessagesAutoSend) sendVoice()
         }
 
         vVoiceRemove.setOnClickListener {
@@ -91,7 +91,7 @@ class FieldLogic(
             updateAction()
         }
         vVoicePlay.setOnClickListener {
-            if(utilsAudioPlayer.isPlaying()) stopMyVoice()
+            if (utilsAudioPlayer.isPlaying()) stopMyVoice()
             else startMyVoice()
         }
 
@@ -99,13 +99,13 @@ class FieldLogic(
         onTextChanged()
     }
 
-    private fun stopMyVoice(){
+    private fun stopMyVoice() {
         utilsAudioPlayer.stop()
         vVoicePlay.setImageDrawable(ToolsResources.getDrawableAttr(R.attr.ic_play_arrow_24dp))
     }
 
-    private fun startMyVoice(){
-        utilsAudioPlayer.play(voiceBytes!!){
+    private fun startMyVoice() {
+        utilsAudioPlayer.play(voiceBytes!!) {
             vVoicePlay.setImageDrawable(ToolsResources.getDrawableAttr(R.attr.ic_play_arrow_24dp))
         }
         vVoicePlay.setImageDrawable(ToolsResources.getDrawableAttr(R.attr.ic_pause_24dp))
@@ -113,17 +113,18 @@ class FieldLogic(
 
     fun setQuote(unit: UnitChatMessage) {
         var text = unit.creatorName + ": "
-        if(unit.text.isNotEmpty()) text+= unit.text
-        else if(unit.resourceId != 0L || unit.imageIdArray.isNotEmpty()) text += ToolsResources.s(R.string.app_image)
-        else if(unit.stickerId != 0L) text += ToolsResources.s(R.string.app_sticker)
+        if (unit.text.isNotEmpty()) text += unit.text
+        else if (unit.resourceId != 0L || unit.imageIdArray.isNotEmpty()) text += ToolsResources.s(R.string.app_image)
+        else if (unit.stickerId != 0L) text += ToolsResources.s(R.string.app_sticker)
         setQuote(text, unit.id)
     }
 
     fun setQuote(quoteText: String, quoteId: Long = 0) {
         this.quoteText = quoteText
+        if (this.quoteText.length > API.CHAT_MESSAGE_QUOTE_MAX_SIZE) this.quoteText = this.quoteText.substring(0, API.CHAT_MESSAGE_QUOTE_MAX_SIZE) + "..."
         this.quoteId = quoteId
-        vQuoteContainer.visibility = if (quoteText.isEmpty()) View.GONE else View.VISIBLE
-        vQuoteText.text = quoteText
+        vQuoteContainer.visibility = if (this.quoteText.isEmpty()) View.GONE else View.VISIBLE
+        vQuoteText.text = this.quoteText
         ControllerApi.makeTextHtml(vQuoteText)
         updateAction()
     }
@@ -192,7 +193,7 @@ class FieldLogic(
         } else sendChange(text)
     }
 
-    private fun beforeSend(){
+    private fun beforeSend() {
         voiceBytes = null
         setQuote("")
         attach.clear()
@@ -293,8 +294,10 @@ class FieldLogic(
     }
 
     private fun sendSticker(sticker: UnitSticker) {
+        val quoteIdV = quoteId
+        val parentId = getParentId()
         beforeSend()
-        screen.addCard(CardSending(screen, RChatMessageCreate(screen.tag, "", null, null, null, 0, 0, sticker.id)))
+        screen.addCard(CardSending(screen, RChatMessageCreate(screen.tag, "", null, null, null, parentId, quoteIdV, sticker.id)))
     }
 
     private fun sendTyping() {

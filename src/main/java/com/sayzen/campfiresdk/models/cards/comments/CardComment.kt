@@ -17,7 +17,7 @@ import com.sayzen.campfiresdk.models.cards.CardUnit
 import com.sayzen.campfiresdk.models.events.units.EventCommentChange
 import com.sayzen.campfiresdk.models.events.units.EventCommentRemove
 import com.sayzen.campfiresdk.models.widgets.WidgetComment
-import com.sayzen.campfiresdk.screens.stickers.SStickersView
+import com.sayzen.campfiresdk.screens.account.stickers.SStickersView
 import com.sayzen.campfiresdk.views.ViewKarma
 import com.sup.dev.android.app.SupAndroid
 import com.sup.dev.android.libs.screens.navigator.Navigator

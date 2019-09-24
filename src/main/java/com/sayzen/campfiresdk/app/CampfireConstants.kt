@@ -82,6 +82,7 @@ object CampfireConstants {
             AppLevel(API.LVL_CAN_CHANGE_STATUS, R.string.lvl_app_status),
             AppLevel(API.LVL_CAN_CHANGE_AVATAR_GIF, R.string.lvl_avatar_gif),
             AppLevel(API.LVL_CAN_PIN_POST, R.string.lvl_pin_post),
+            AppLevel(API.LVL_CREATE_STICKERS, R.string.lvl_create_stickers),
             AppLevel(R.string.lvl_moderate_block, API.LVL_MODERATOR_BLOCK, R.color.blue_500),
             AppLevel(R.string.lvl_moderate_to_drafts, API.LVL_MODERATOR_TO_DRAFTS, R.color.blue_500),
             AppLevel(R.string.lvl_moderate_forums, API.LVL_MODERATOR_FORUMS, R.color.blue_500),

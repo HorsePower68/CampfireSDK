@@ -10,7 +10,7 @@ import com.dzen.campfire.api.models.account.Account
 import com.dzen.campfire.api.models.lvl.LvlInfo
 import com.dzen.campfire.api.models.lvl.LvlInfoAdmin
 import com.dzen.campfire.api.models.lvl.LvlInfoUser
-import com.dzen.campfire.api.requests.accounts.RAccountLogout
+import com.dzen.campfire.api.requests.accounts.RAccountsLogout
 import com.dzen.campfire.api.requests.accounts.RAccountsClearReports
 import com.dzen.campfire.api.requests.accounts.RAccountsLoginSimple
 import com.dzen.campfire.api.requests.accounts.RAccountsRegistration
@@ -245,7 +245,7 @@ object ControllerApi {
     }
 
     fun logout(onComplete: () -> Unit) {
-        RAccountLogout()
+        RAccountsLogout()
                 .onFinish {
                     ControllerNotifications.hideAll()
                     ControllerGoogleToken.logout {
@@ -296,17 +296,17 @@ object ControllerApi {
     fun isProtoadmin() = isProtoadmin(account)
 
     fun can(adminInfo: LvlInfoUser): Boolean {
-        if (account.id == 1L) return true
+        if (API.PROTOADMINS.contains(account.id)) return true
         return account.lvl >= adminInfo.lvl && account.karma30 >= adminInfo.karmaCount
     }
 
     fun can(adminInfo: LvlInfoAdmin): Boolean {
-        if (account.id == 1L) return true
+        if (API.PROTOADMINS.contains(account.id)) return true
         return account.lvl >= adminInfo.lvl && account.karma30 >= adminInfo.karmaCount
     }
 
     fun can(fandomId: Long, languageId: Long, moderateInfo: LvlInfo): Boolean {
-        if (account.id == 1L) return true
+        if (API.PROTOADMINS.contains(account.id)) return true
         if (can(API.LVL_ADMIN_MODER)) return true
         return account.lvl >= moderateInfo.lvl && getKarmaCount(fandomId, languageId) >= moderateInfo.karmaCount
     }

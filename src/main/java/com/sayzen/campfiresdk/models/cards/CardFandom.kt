@@ -16,7 +16,7 @@ import com.sup.dev.java.libs.eventBus.EventBus
 
 class CardFandom constructor(
         val fandom: Fandom,
-        private val onClick: (() -> Unit)? = null)
+        var onClick: (() -> Unit)? = null)
     : Card(R.layout.card_fandom) {
 
     private val eventBus = EventBus
@@ -44,7 +44,7 @@ class CardFandom constructor(
         view.setOnClickListener { onClick() }
         xFandom.setView(vAvatar)
 
-        //vAvatar.isClickable = avatarClickable
+        vAvatar.vAvatar.isClickable = avatarClickable
 
         if (showLanguage && xFandom.languageId > 0) vAvatar.vAvatar.setChipText(ControllerApi.getLanguage(xFandom.languageId).code)
         else vAvatar.vAvatar.setChipText("")
@@ -54,7 +54,7 @@ class CardFandom constructor(
 
     private fun onClick() {
         if (onClick != null) {
-            onClick.invoke()
+            onClick?.invoke()
             return
         }
         ControllerCampfireSDK.onToFandomClicked(xFandom.fandomId, xFandom.languageId, Navigator.TO)

@@ -1,4 +1,4 @@
-package com.sayzen.campfiresdk.screens.stickers
+package com.sayzen.campfiresdk.screens.account.stickers
 
 import android.view.View
 import com.sayzen.campfiresdk.R

@@ -21,7 +21,7 @@ import com.sayzen.campfiresdk.models.events.chat.EventUpdateChats
 import com.sayzen.campfiresdk.models.events.notifications.EventNotification
 import com.sayzen.campfiresdk.models.events.units.EventUnitBlocked
 import com.sayzen.campfiresdk.screens.chat.SChat
-import com.sayzen.campfiresdk.screens.stickers.SStickersView
+import com.sayzen.campfiresdk.screens.account.stickers.SStickersView
 import com.sup.dev.android.app.SupAndroid
 import com.sup.dev.android.libs.screens.navigator.Navigator
 import com.sup.dev.android.models.EventStyleChanged

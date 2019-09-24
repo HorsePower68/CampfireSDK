@@ -3,14 +3,11 @@ package com.sayzen.campfiresdk.models.cards.stickers
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
-import com.dzen.campfire.api.API
 import com.dzen.campfire.api.models.units.stickers.UnitSticker
 import com.sayzen.campfiresdk.R
-import com.sayzen.campfiresdk.controllers.ControllerApi
 import com.sayzen.campfiresdk.controllers.ControllerStickers
-import com.sayzen.campfiresdk.controllers.ControllerUnits
 import com.sayzen.campfiresdk.models.cards.CardUnit
-import com.sayzen.campfiresdk.screens.stickers.SStickersView
+import com.sayzen.campfiresdk.screens.account.stickers.SStickersView
 import com.sup.dev.android.libs.screens.navigator.Navigator
 import com.sup.dev.android.tools.ToolsImagesLoader
 import com.sup.dev.android.tools.ToolsResources

@@ -1,4 +1,4 @@
-package com.sayzen.campfiresdk.screens.stickers
+package com.sayzen.campfiresdk.screens.account.stickers
 
 import android.view.View
 import android.widget.TextView
@@ -16,7 +16,6 @@ import com.sayzen.campfiresdk.controllers.*
 import com.sayzen.campfiresdk.models.cards.stickers.CardSticker
 import com.sayzen.campfiresdk.models.events.stickers.EventStickerCreate
 import com.sayzen.campfiresdk.models.events.stickers.EventStickersPackChanged
-import com.sayzen.campfiresdk.models.events.units.EventCommentsCountChanged
 import com.sayzen.campfiresdk.models.events.units.EventUnitRemove
 import com.sayzen.campfiresdk.screens.account.profile.SAccount
 import com.sayzen.campfiresdk.screens.comments.SComments
@@ -87,6 +86,7 @@ class SStickersView(
             chooseImage()
         }
 
+
         vAvatarTitle.setOnClickListener {
             SAccount.instance(stickersPack.creatorId, Navigator.TO)
         }
@@ -131,7 +131,10 @@ class SStickersView(
                                     loaded = true
                                     if (r.stickersPacks != null) ControllerSettings.accountSettings.stickersPacks = r.stickersPacks!!
                                     onLoad.invoke(r.stickers)
-                                    if (r.stickers.size < API.STICKERS_MAX_COUNT_IN_PACK && stickersPack.creatorId == ControllerApi.account.id) (vFab as View).visibility = View.VISIBLE
+                                    if (r.stickers.size < API.STICKERS_MAX_COUNT_IN_PACK
+                                            && stickersPack.creatorId == ControllerApi.account.id
+                                            && ControllerApi.can(API.LVL_CREATE_STICKERS))
+                                        (vFab as View).visibility = View.VISIBLE
                                 }
                             }
                             .onNetworkError { onLoad.invoke(null) }

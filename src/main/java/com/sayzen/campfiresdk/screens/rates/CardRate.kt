@@ -1,7 +1,6 @@
 package com.sayzen.campfiresdk.screens.rates
 
 import android.view.View
-import android.widget.TextView
 import com.dzen.campfire.api.API
 import com.dzen.campfire.api.models.Rate
 import com.sayzen.campfiresdk.R
@@ -12,7 +11,7 @@ import com.sayzen.campfiresdk.screens.fandoms.moderation.view.SModerationView
 import com.sayzen.campfiresdk.screens.fandoms.reviews.SReviews
 import com.sayzen.campfiresdk.screens.fandoms.view.SFandom
 import com.sayzen.campfiresdk.screens.post.view.SPost
-import com.sayzen.campfiresdk.screens.stickers.SStickersView
+import com.sayzen.campfiresdk.screens.account.stickers.SStickersView
 import com.sup.dev.android.libs.screens.navigator.Navigator
 import com.sup.dev.android.tools.ToolsImagesLoader
 import com.sup.dev.android.tools.ToolsResources
@@ -21,7 +20,6 @@ import com.sup.dev.android.views.support.adapters.NotifyItem
 import com.sup.dev.android.views.views.ViewAvatarTitle
 import com.sup.dev.android.views.views.ViewIcon
 import com.sup.dev.java.tools.ToolsDate
-import java.lang.RuntimeException
 
 class CardRate(
         val rate: Rate

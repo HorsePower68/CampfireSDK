@@ -1,4 +1,4 @@
-package com.sayzen.campfiresdk.screens.stickers
+package com.sayzen.campfiresdk.screens.account.stickers
 
 import com.dzen.campfire.api.models.units.stickers.UnitStickersPack
 import com.dzen.campfire.api.requests.stickers.RStickersSearch

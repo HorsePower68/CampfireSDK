@@ -2,18 +2,14 @@ package com.sayzen.campfiresdk.models.cards.stickers
 
 import android.view.View
 import android.widget.TextView
-import com.dzen.campfire.api.API
 import com.dzen.campfire.api.models.units.stickers.UnitStickersPack
 import com.sayzen.campfiresdk.R
-import com.sayzen.campfiresdk.adapters.XKarma
-import com.sayzen.campfiresdk.controllers.ControllerApi
 import com.sayzen.campfiresdk.controllers.ControllerStickers
-import com.sayzen.campfiresdk.controllers.ControllerUnits
 import com.sayzen.campfiresdk.models.cards.CardUnit
 import com.sayzen.campfiresdk.models.events.stickers.EventStickersPackChanged
 import com.sayzen.campfiresdk.models.widgets.WidgetComment
 import com.sayzen.campfiresdk.screens.comments.SComments
-import com.sayzen.campfiresdk.screens.stickers.SStickersView
+import com.sayzen.campfiresdk.screens.account.stickers.SStickersView
 import com.sayzen.campfiresdk.views.ViewKarma
 import com.sup.dev.android.libs.screens.navigator.Navigator
 import com.sup.dev.android.tools.ToolsImagesLoader

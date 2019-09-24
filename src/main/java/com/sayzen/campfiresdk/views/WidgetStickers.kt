@@ -10,7 +10,7 @@ import com.sayzen.campfiresdk.R
 import com.sayzen.campfiresdk.controllers.ControllerSettings
 import com.sayzen.campfiresdk.controllers.api
 import com.sayzen.campfiresdk.models.cards.stickers.CardSticker
-import com.sayzen.campfiresdk.screens.stickers.SStickersPacksSearch
+import com.sayzen.campfiresdk.screens.account.stickers.SStickersPacksSearch
 import com.sup.dev.android.libs.screens.navigator.Navigator
 import com.sup.dev.android.tools.ToolsAndroid
 import com.sup.dev.android.tools.ToolsView

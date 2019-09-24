@@ -1,19 +1,18 @@
-package com.sayzen.campfiresdk.screens.stickers
+package com.sayzen.campfiresdk.screens.account.stickers
 
 import android.view.View
+import com.dzen.campfire.api.API
 import com.dzen.campfire.api.models.units.stickers.UnitStickersPack
-import com.dzen.campfire.api.requests.stickers.RStickersPacksGetAll
 import com.dzen.campfire.api.requests.stickers.RStickersPacksGetAllById
 import com.sayzen.campfiresdk.R
+import com.sayzen.campfiresdk.controllers.ControllerApi
 import com.sayzen.campfiresdk.controllers.ControllerSettings
 import com.sayzen.campfiresdk.controllers.api
 import com.sayzen.campfiresdk.models.cards.stickers.CardStickersPack
 import com.sayzen.campfiresdk.models.events.stickers.EventStickersPackCollectionChanged
 import com.sayzen.campfiresdk.models.events.stickers.EventStickersPackCreate
 import com.sup.dev.android.libs.screens.navigator.Navigator
-import com.sup.dev.android.tools.ToolsBitmap
 import com.sup.dev.android.tools.ToolsResources
-import com.sup.dev.android.views.cards.CardAvatar
 import com.sup.dev.android.views.screens.SLoadingRecycler
 import com.sup.dev.android.views.support.adapters.recycler_view.RecyclerCardAdapterLoading
 import com.sup.dev.java.libs.eventBus.EventBus
@@ -31,14 +30,17 @@ class SStickersPacks(
         setTitle(R.string.app_stickers)
         setTextEmpty(R.string.stickers_packs_empty)
         setBackgroundImage(R.drawable.bg_4)
-        addToolbarIcon(ToolsResources.getDrawableAttrId(R.attr.ic_add_24dp)) {
-            Navigator.to(SStickersPackCreate(null))
-        }
-
-        (vFab as View).visibility = View.VISIBLE
-        vFab.setImageResource(R.drawable.ic_search_white_24dp)
-        vFab.setOnClickListener {
-            Navigator.to(SStickersPacksSearch())
+        if (accountId == ControllerApi.account.id) {
+            if(ControllerApi.can(API.LVL_CREATE_STICKERS)) {
+                addToolbarIcon(ToolsResources.getDrawableAttrId(R.attr.ic_add_24dp)) {
+                    Navigator.to(SStickersPackCreate(null))
+                }
+            }
+            (vFab as View).visibility = View.VISIBLE
+            vFab.setImageResource(R.drawable.ic_search_white_24dp)
+            vFab.setOnClickListener {
+                Navigator.to(SStickersPacksSearch())
+            }
         }
     }
 
@@ -48,13 +50,13 @@ class SStickersPacks(
     }
 
     override fun instanceAdapter(): RecyclerCardAdapterLoading<CardStickersPack, UnitStickersPack> {
-        val adapter =  RecyclerCardAdapterLoading<CardStickersPack, UnitStickersPack>(CardStickersPack::class) { CardStickersPack(it) }
+        val adapter = RecyclerCardAdapterLoading<CardStickersPack, UnitStickersPack>(CardStickersPack::class) { CardStickersPack(it) }
                 .setBottomLoader { onLoad, _ ->
 
-                    if(ControllerSettings.accountSettings.stickersPacks.isEmpty()){
+                    if (ControllerSettings.accountSettings.stickersPacks.isEmpty()) {
                         onLoad.invoke(emptyArray())
-                    }else {
-                        subscription = RStickersPacksGetAllById(ControllerSettings.accountSettings.stickersPacks)
+                    } else {
+                        subscription = RStickersPacksGetAllById(accountId,  if (accountId == ControllerApi.account.id) ControllerSettings.accountSettings.stickersPacks else emptyArray())
                                 .onComplete { r ->
                                     if (loaded) {
                                         onLoad.invoke(emptyArray())
@@ -68,7 +70,9 @@ class SStickersPacks(
                     }
                 }
 
-        adapter.add(CardFavorites())
+        if (accountId == ControllerApi.account.id) {
+            adapter.add(CardFavorites())
+        }
 
         return adapter
     }

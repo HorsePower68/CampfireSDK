@@ -4,7 +4,7 @@ import android.view.View
 import android.widget.ImageView
 import com.dzen.campfire.api.models.UnitComment
 import com.sayzen.campfiresdk.R
-import com.sayzen.campfiresdk.screens.stickers.SStickersView
+import com.sayzen.campfiresdk.screens.account.stickers.SStickersView
 import com.sup.dev.android.libs.screens.navigator.Navigator
 import com.sup.dev.android.tools.ToolsImagesLoader
 import com.sup.dev.android.tools.ToolsView
