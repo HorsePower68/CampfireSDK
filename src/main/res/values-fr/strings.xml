@@ -185,6 +185,7 @@ Campfire has anime fandoms and gaming fandoms.</string>
     <string name="app_section">Section</string>
     <string name="app_coefficient">Coefficient</string>
     <string name="app_coefficient_karma">Karma coefficient %s</string>
+    <string name="app_history">History</string>
 
     <string name="he">he</string>
     <string name="she">she</string>
@@ -1355,6 +1356,29 @@ Campfire has anime fandoms and gaming fandoms.</string>
     <string name="statistic_messages">Messages</string>
     <string name="statistic_enters">Enters</string>
     <string name="statistic_rates">Rates</string>
+
+    <string name="history_created">Publication created</string>
+    <string name="history_admin_back_draft">Publication returned in draft</string>
+    <string name="history_admin_block">Publication blocked</string>
+    <string name="history_admin_change_fandom">Fandom changed from %s to %s</string>
+    <string name="history_admin_clear_reports">Reports removed</string>
+    <string name="history_admin_deep_block">Block confirmed</string>
+    <string name="history_admin_not_block">Block canceled</string>
+    <string name="history_admin_not_multilingual">Publication now not multilingual</string>
+    <string name="history_back_draft">Publication returned in draft</string>
+    <string name="history_change_fandom">Fandom changed from %s to %s</string>
+    <string name="history_edit_public">Publication edited</string>
+    <string name="history_multilingual">Publication now multilingual</string>
+    <string name="history_not_multilingual">Publication now not multilingual</string>
+    <string name="history_publish">Publication published</string>
+    <string name="history_admin_change_tags">Tags changed</string>
+    <string name="history_admin_important">Publication marked important</string>
+    <string name="history_admin_not_important">Publication marked unimportant</string>
+    <string name="history_admin_pin_fandom">Publication pinned in Fandom</string>
+    <string name="history_admin_unpin_fandom">The publication is no longer pined in the fandom.</string>
+    <string name="history_change_tags">Tags changed</string>
+    <string name="history_pin_profile">Publication pinned in profile</string>
+    <string name="history_unpin_profile">The publication is no longer pined in the profile</string>
 
     <string name="holiday_campfire_birthday_title">Campfire\'s birthday.</string>
     <string name="holiday_campfire_birthday_text">In 2015, Campfire was born on this day.</string>

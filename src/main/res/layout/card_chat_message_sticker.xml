@@ -101,7 +101,16 @@
                             style="@style/Base.TextAppearance.AppCompat.Caption"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_gravity="right|bottom"
+                            android:layout_margin="8dp"
+                            android:textColor="@color/white"
+                            android:background="@color/focus_dark"
+                            android:padding="2dp"/>
+
+                        <com.sup.dev.android.views.views.ViewTextLinkable
+                            android:id="@+id/vLabelImageAnswer"
+                            style="@style/Base.TextAppearance.AppCompat.Caption"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
                             android:layout_margin="8dp"
                             android:textColor="@color/white"
                             android:background="@color/focus_dark"

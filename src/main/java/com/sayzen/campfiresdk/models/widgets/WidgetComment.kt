@@ -256,9 +256,9 @@ class WidgetComment constructor(
                     "",
                     null,
                     null,
-                    0,
+                    answer?.id?:0,
                     ControllerSettings.watchPost,
-                    0,
+                    quoteId,
                     sticker.id
                 )
             ) { r -> afterSend(r.comment) }

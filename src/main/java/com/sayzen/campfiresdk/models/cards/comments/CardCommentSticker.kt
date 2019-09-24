@@ -2,12 +2,15 @@ package com.sayzen.campfiresdk.models.cards.comments
 
 import android.view.View
 import android.widget.ImageView
+import android.widget.TextView
 import com.dzen.campfire.api.models.UnitComment
 import com.sayzen.campfiresdk.R
+import com.sayzen.campfiresdk.controllers.ControllerApi
 import com.sayzen.campfiresdk.screens.account.stickers.SStickersView
 import com.sup.dev.android.libs.screens.navigator.Navigator
 import com.sup.dev.android.tools.ToolsImagesLoader
 import com.sup.dev.android.tools.ToolsView
+import com.sup.dev.java.tools.ToolsHTML
 
 class CardCommentSticker(
         unit: UnitComment,
@@ -28,6 +31,20 @@ class CardCommentSticker(
 
         val vImage: ImageView = view.findViewById(R.id.vImage)
         val vGifProgressBar: View = view.findViewById(R.id.vGifProgressBar)
+        val vLabelImageAnswer: TextView = view.findViewById(R.id.vLabelImageAnswer)
+
+        val myName = ControllerApi.account.name
+        if (unit.text.startsWith(myName)) vLabelImageAnswer.text = ToolsHTML.font_color(myName, "#ff6d00")
+        else vLabelImageAnswer.text = unit.text
+        ToolsView.makeTextHtml(vLabelImageAnswer)
+
+        vLabelImageAnswer.visibility = if (unit.text.isEmpty()) View.GONE else View.VISIBLE
+        vLabelImageAnswer.setOnClickListener {
+            if (onGoTo != null) {
+                if (unit.quoteId > 0) onGoTo!!.invoke(unit.quoteId)
+                else if (unit.parentUnitId > 0) onGoTo!!.invoke(unit.parentUnitId)
+            }
+        }
 
         ToolsView.setOnLongClickCoordinates(vImage) { _, _, _ -> showMenu() }
 

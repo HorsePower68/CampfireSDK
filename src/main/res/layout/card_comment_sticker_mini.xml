@@ -92,6 +92,17 @@
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"/>
 
+                        <com.sup.dev.android.views.views.ViewTextLinkable
+                            android:id="@+id/vLabelImageAnswer"
+                            style="@style/Base.TextAppearance.AppCompat.Caption"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="right|top"
+                            android:layout_margin="8dp"
+                            android:background="@color/focus_dark"
+                            android:padding="2dp"
+                            android:textColor="@color/white" />
+
                     </com.sup.dev.android.views.views.layouts.LayoutCorned>
 
 
@@ -105,7 +116,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="right|bottom"
                 android:layout_marginRight="4dp"
-                android:layout_marginBottom="4dp"/>
+                android:layout_marginBottom="4dp" />
         </LinearLayout>
 
     </FrameLayout>

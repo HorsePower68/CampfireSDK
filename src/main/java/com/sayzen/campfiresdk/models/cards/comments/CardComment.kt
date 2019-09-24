@@ -41,7 +41,7 @@ abstract class CardComment protected constructor(
         protected val miniSize: Boolean,
         private val onClick: ((UnitComment) -> Boolean)? = null,
         private val onQuote: ((UnitComment) -> Unit)? = null,
-        private var onGoTo: ((Long) -> Unit)? = null
+        var onGoTo: ((Long) -> Unit)? = null
 ) : CardUnit(layout, unit) {
 
     companion object {

@@ -12,6 +12,7 @@ import com.sayzen.campfiresdk.R
 import com.sayzen.campfiresdk.models.cards.post_pages.CardPage
 import com.sayzen.campfiresdk.models.cards.post_pages.CardPageSpoiler
 import com.sayzen.campfiresdk.models.events.units.*
+import com.sayzen.campfiresdk.screens.post.history.SUnitHistory
 import com.sup.dev.android.libs.api_simple.ApiRequestsSupporter
 import com.sup.dev.android.libs.screens.navigator.Navigator
 import com.sup.dev.android.tools.ToolsAndroid
@@ -48,6 +49,7 @@ object ControllerPost {
     var ENABLED_PIN_PROFILE = false
     var ENABLED_PIN_FANDOM = false
     var ENABLED_MAKE_MULTILINGUAL = false
+    var ENABLED_HISTORY = false
 
     fun showPostMenu(unit: UnitPost) {
 
@@ -56,6 +58,7 @@ object ControllerPost {
                 .add(R.string.unit_menu_comments_watch) { _, _ -> ControllerUnits.changeWatchComments(unit.id) }.condition(ENABLED_WATCH && unit.isPublic)
                 .add(R.string.app_share) { _, _ -> ControllerApi.sharePost(unit.id) }.condition(ENABLED_SHARE && unit.isPublic)
                 .add(R.string.app_copy_link) { _, _ -> copyLink(unit) }.condition(ENABLED_COPY_LINK && unit.isPublic)
+                .add(R.string.app_history) { _, _ -> Navigator.to(SUnitHistory(unit.id)) }.condition(ENABLED_HISTORY)
                 .groupCondition(ControllerApi.isCurrentAccount(unit.creatorId))
                 .add(R.string.post_create_notify_followers) { _, _ -> notifyFollowers(unit.id) }.condition(ENABLED_NOTIFY_FOLLOWERS && unit.isPublic && unit.tag_3 == 0L)
                 .add(R.string.app_change) { _, _ -> ControllerCampfireSDK.onToDraftClicked(unit.id, Navigator.TO) }.condition(ENABLED_CHANGE && unit.isPublic)

@@ -15,6 +15,8 @@ import com.sup.dev.android.libs.screens.navigator.Navigator
 import com.sup.dev.android.tools.ToolsImagesLoader
 import com.sup.dev.android.tools.ToolsView
 import com.sup.dev.java.tools.ToolsDate
+import com.sup.dev.java.tools.ToolsHTML
+import com.sup.dev.java.tools.ToolsText
 
 class CardChatMessageSticker(
         unit: UnitChatMessage,
@@ -38,12 +40,23 @@ class CardChatMessageSticker(
         val vImage: ImageView = view.findViewById(R.id.vImage)
         val vGifProgressBar: View = view.findViewById(R.id.vGifProgressBar)
         val vLabelImage: TextView = view.findViewById(R.id.vLabelImage)
+        val vLabelImageAnswer: TextView = view.findViewById(R.id.vLabelImageAnswer)
         val vLabel: TextView = view.findViewById(R.id.vLabel)
 
-        vLabelImage.text = vLabel.text
+        val myName = ControllerApi.account.name
+        if (unit.text.startsWith(myName)) vLabelImageAnswer.text =ToolsHTML.font_color(myName, "#ff6d00")
+        else vLabelImageAnswer.text = unit.text
+        ToolsView.makeTextHtml(vLabelImageAnswer)
 
-        vLabel.visibility = if (unit.text.isEmpty()) GONE else VISIBLE
-        vLabelImage.visibility = if (unit.text.isEmpty()) VISIBLE else GONE
+        vLabel.visibility = GONE
+        vLabelImageAnswer.visibility = if (unit.text.isEmpty()) GONE else VISIBLE
+        vLabelImageAnswer.setOnClickListener {
+            if (onGoTo != null) {
+                if (unit.quoteId > 0) onGoTo!!.invoke(unit.quoteId)
+                else if (unit.parentUnitId > 0) onGoTo!!.invoke(unit.parentUnitId)
+            }
+        }
+
 
         ToolsView.setOnLongClickCoordinates(vImage) { _, _, _ -> showMenu() }
 
@@ -53,13 +66,14 @@ class CardChatMessageSticker(
         vImage.setOnClickListener { SStickersView.instanceBySticker(unit.stickerId, Navigator.TO) }
 
         if (ControllerApi.isCurrentAccount(unit.creatorId)) {
+            (vLabelImageAnswer.layoutParams as FrameLayout.LayoutParams).gravity = Gravity.LEFT or Gravity.TOP
             (vLabelImage.layoutParams as FrameLayout.LayoutParams).gravity = Gravity.RIGHT or Gravity.BOTTOM
             vLabelImage.text = ToolsDate.dateToString(unit.dateCreate)
         } else {
+            (vLabelImageAnswer.layoutParams as FrameLayout.LayoutParams).gravity = Gravity.RIGHT or Gravity.TOP
             (vLabelImage.layoutParams as FrameLayout.LayoutParams).gravity = Gravity.LEFT or Gravity.BOTTOM
             vLabelImage.text = xUnit.xAccount.name + "  " + ToolsDate.dateToString(unit.dateCreate)
         }
-
 
     }
 

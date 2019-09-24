@@ -186,6 +186,7 @@
     <string name="app_section">Раздел</string>
     <string name="app_coefficient">Коэффициент</string>
     <string name="app_coefficient_karma">Коэффициент кармы %s</string>
+    <string name="app_history">История</string>
 
     <string name="he">он</string>
     <string name="she">она</string>
@@ -1355,6 +1356,29 @@
     <string name="statistic_messages">Сообщения</string>
     <string name="statistic_enters">Посещение</string>
     <string name="statistic_rates">Оценки</string>
+
+    <string name="history_created">Публикация создана</string>
+    <string name="history_admin_back_draft">Публикация возвращена в черновики</string>
+    <string name="history_admin_block">Публикация заблокирована</string>
+    <string name="history_admin_change_fandom">Фэндом изменён с %s на %s</string>
+    <string name="history_admin_clear_reports">Жалобы удалены</string>
+    <string name="history_admin_deep_block">Блокировка подтверждена</string>
+    <string name="history_admin_not_block">Блокировка отменена</string>
+    <string name="history_admin_not_multilingual">Публикация сделана не мультиязычной</string>
+    <string name="history_back_draft">Публикация возвращена в черновики</string>
+    <string name="history_change_fandom">Фэндом изменён с %s на %s</string>
+    <string name="history_edit_public">Публикация отредактирована</string>
+    <string name="history_multilingual">Публикация сделана мультиязычной</string>
+    <string name="history_not_multilingual">Публикация сделана не мультиязычной</string>
+    <string name="history_publish">Публикация опубликована</string>
+    <string name="history_admin_change_tags">Теги изменены</string>
+    <string name="history_admin_important">Публикация помечена важной</string>
+    <string name="history_admin_not_important">Публикация помечена не важной</string>
+    <string name="history_admin_pin_fandom">Публикация закреплена в фэндоме</string>
+    <string name="history_admin_unpin_fandom">Публикация больше не закреплена в фэндоме</string>
+    <string name="history_change_tags">Теги изменены</string>
+    <string name="history_pin_profile">Публикация закреплена в профиле</string>
+    <string name="history_unpin_profile">Публикация больше не закреплена в профиле</string>
 
     <string name="holiday_campfire_birthday_title">День рождения Campfire.</string>
     <string name="holiday_campfire_birthday_text">В 2015 году, в этот день зародился Campfire.</string>
