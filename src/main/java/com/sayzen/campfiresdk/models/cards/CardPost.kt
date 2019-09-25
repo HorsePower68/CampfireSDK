@@ -24,6 +24,7 @@ import com.sup.dev.android.tools.ToolsResources
 import com.sup.dev.android.tools.ToolsView
 import com.sup.dev.android.views.views.ViewAvatarTitle
 import com.sup.dev.android.views.views.layouts.LayoutMaxSizes
+import com.sup.dev.java.libs.debug.log
 import com.sup.dev.java.libs.eventBus.EventBus
 import com.sup.dev.java.tools.ToolsDate
 import com.sup.dev.java.tools.ToolsThreads
@@ -123,6 +124,7 @@ class CardPost constructor(
     }
 
     override fun bindView(view: View) {
+        val t = System.currentTimeMillis()
         super.bindView(view)
         val unit = xUnit.unit as UnitPost
 
@@ -153,7 +155,7 @@ class CardPost constructor(
         for (page in pages) {
             page.clickable = isShowFull || (page is CardPageSpoiler) || (page is CardPageImage) || (page is CardPageImages)
             page.postIsDraft = unit.isDraft
-            val v = page.instanceView(view.context)
+            val v = page.instanceView(vPagesContainer)
             page.bindCardView(v)
             vPagesContainer.addView(v)
         }
@@ -169,7 +171,7 @@ class CardPost constructor(
 
         if (unit.bestComment != null) {
             val cardComment = CardComment.instance(unit.bestComment!!, false, true)
-            val cardCommentView = cardComment.instanceView(view.context)
+            val cardCommentView = cardComment.instanceView(vBestCommentContainer)
             cardComment.bindCardView(cardCommentView)
             vBestCommentContainer.addView(cardCommentView)
         }
@@ -184,6 +186,7 @@ class CardPost constructor(
         }
 
         updateShowAll()
+        log("bindView (${System.currentTimeMillis() - t})")
     }
 
     override fun updateFandom() {

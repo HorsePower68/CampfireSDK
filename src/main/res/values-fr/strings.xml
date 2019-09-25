@@ -135,6 +135,7 @@ Campfire has anime fandoms and gaming fandoms.</string>
     <string name="app_add">Add</string>
     <string name="app_status">Status</string>
     <string name="app_subscription">Subscription</string>
+    <string name="app_subscriptions">Subscriptions</string>
     <string name="app_subscribers">Subscribers</string>
     <string name="app_wiki">Wiki</string>
     <string name="app_do_mark">Mark</string>
@@ -186,6 +187,7 @@ Campfire has anime fandoms and gaming fandoms.</string>
     <string name="app_coefficient">Coefficient</string>
     <string name="app_coefficient_karma">Karma coefficient %s</string>
     <string name="app_history">History</string>
+    <string name="app_feed_all">Anything</string>
 
     <string name="he">he</string>
     <string name="she">she</string>

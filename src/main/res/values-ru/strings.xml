@@ -136,6 +136,7 @@
     <string name="app_add">Добавить</string>
     <string name="app_status">Статус</string>
     <string name="app_subscription">Подписка</string>
+    <string name="app_subscriptions">Подписки</string>
     <string name="app_subscribers">Подписчики</string>
     <string name="app_wiki">Вики</string>
     <string name="app_do_mark">Пометить</string>
@@ -187,6 +188,7 @@
     <string name="app_coefficient">Коэффициент</string>
     <string name="app_coefficient_karma">Коэффициент кармы %s</string>
     <string name="app_history">История</string>
+    <string name="app_feed_all">Бездна</string>
 
     <string name="he">он</string>
     <string name="she">она</string>

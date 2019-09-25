@@ -286,7 +286,6 @@ object ControllerCampfireSDK {
         return w
     }
 
-
     interface ExecutorLinks {
 
         fun parseLink(link: String, params: List<String>): Boolean

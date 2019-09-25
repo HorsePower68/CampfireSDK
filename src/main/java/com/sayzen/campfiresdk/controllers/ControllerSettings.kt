@@ -396,13 +396,6 @@ object ControllerSettings {
             onSettingsUpdated()
         }
 
-    var feedSubscribed: Boolean
-        get() = accountSettings.feedSubscribed
-        set(b) {
-            accountSettings.feedSubscribed = b
-            onSettingsUpdated()
-        }
-
     var feedImportant: Boolean
         get() = accountSettings.feedImportant
         set(b) {

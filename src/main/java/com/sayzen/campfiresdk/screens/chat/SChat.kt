@@ -298,9 +298,12 @@ class SChat private constructor(
         val b = isNeedScrollAfterAdd()
         if (adapter != null) {
             if (replaceCard == null || !adapter!!.contains(replaceCard)) {
-                adapter!!.remove(carSpace)
-                adapter!!.add(instanceCard(message))
-                adapter!!.add(carSpace)
+                val card = instanceCard(message)
+                if(!adapter!!.containsSame(card)) {
+                    adapter!!.remove(carSpace)
+                    adapter!!.add(card)
+                    adapter!!.add(carSpace)
+                }
             } else {
                 adapter!!.replace(adapter!!.indexOf(replaceCard), instanceCard(message))
             }

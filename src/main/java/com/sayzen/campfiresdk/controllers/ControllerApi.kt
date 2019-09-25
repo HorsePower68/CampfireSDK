@@ -69,11 +69,11 @@ fun instanceTokenProvider(): TokenProvider {
         }
 
         override fun clearToken() {
-            ControllerApi.setCurrentAccount(Account())
+            ControllerApi.setCurrentAccount(Account(), false)
         }
 
         override fun onLoginFailed() {
-            ControllerApi.setCurrentAccount(Account())
+            ControllerApi.setCurrentAccount(Account(), false)
         }
     }
 }
@@ -81,6 +81,7 @@ fun instanceTokenProvider(): TokenProvider {
 object ControllerApi {
 
     var account = Account()
+    var hasSubscribes = false
     private var serverTimeDelta = 0L
     private var fandomsKarmaCounts: Array<Item3<Long, Long, Long>?>? = null
     private var version = ""
@@ -127,6 +128,20 @@ object ControllerApi {
 
     fun getLanguage(languageId: Long) = API.getLanguage(languageId)
 
+    fun getIconForLanguage(languageId: Long): Int {
+        return when (languageId) {
+            API.LANGUAGE_EN -> R.drawable.logo_128x128
+            API.LANGUAGE_RU -> R.drawable.logo_128x128
+            API.LANGUAGE_PT -> R.drawable.logo_128x128
+            API.LANGUAGE_UK -> R.drawable.logo_128x128
+            API.LANGUAGE_DE -> R.drawable.logo_128x128
+            API.LANGUAGE_IT -> R.drawable.logo_128x128
+            API.LANGUAGE_PL -> R.drawable.logo_128x128
+            API.LANGUAGE_FR -> R.drawable.logo_128x128
+            else -> R.drawable.logo_128x128
+        }
+    }
+
     @Suppress("DEPRECATION")
     fun makeTextHtml(vText: TextView) {
         val text = vText.text.toString().replace("<", "&#60;")
@@ -161,9 +176,11 @@ object ControllerApi {
         return account.id == accountId
     }
 
-    fun setCurrentAccount(account: Account) {
+    fun setCurrentAccount(account: Account, hasSubscribes: Boolean) {
         this.account = account
+        this.hasSubscribes = hasSubscribes
         ToolsStorage.put("account json", account.json(true, Json()))
+        ToolsStorage.put("hasSubscribes", hasSubscribes)
         ControllerPolling.clear()
     }
 
@@ -172,6 +189,10 @@ object ControllerApi {
         val account = Account()
         account.json(false, json)
         return account
+    }
+
+    fun getLastHasSubscribes(): Boolean {
+        return ToolsStorage.getBoolean("hasSubscribes", false)
     }
 
     fun enableAutoRegistration() {
@@ -252,7 +273,7 @@ object ControllerApi {
                         api.clearTokens()
                         ControllerChats.clearMessagesCount()
                         ControllerNotifications.setNewNotifications(emptyArray())
-                        setCurrentAccount(Account())
+                        setCurrentAccount(Account(), false)
                         this.fandomsKarmaCounts = null
                         serverTimeDelta = 0
                         onComplete.invoke()

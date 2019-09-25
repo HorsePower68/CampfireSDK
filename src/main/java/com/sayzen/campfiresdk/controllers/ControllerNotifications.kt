@@ -111,6 +111,7 @@ object ControllerNotifications {
             info("ControllerNotifications text $text")
             if (text.isNotEmpty()) {
 
+                val canSound = canSoundBySettings(notification)
                 val icon = if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) logoWhite else logoColored
                 val intent = Intent(SupAndroid.appContext, SupAndroid.activityClass)
                 val title = SupAndroid.TEXT_APP_NAME ?: ""
@@ -124,6 +125,8 @@ object ControllerNotifications {
     }
 
     fun canShowBySettings(notification:Notification) =  executorNotification!!.canShowBySettings(notification)
+
+    fun canSoundBySettings(notification:Notification) =  executorNotification!!.canSoundBySettings(notification)
 
     fun canShowByFilter(notification:Notification) = parser(notification).canShow()
 
@@ -1115,6 +1118,8 @@ object ControllerNotifications {
     }
 
     interface ExecutorNotification {
+
+        fun canSoundBySettings(notification: Notification): Boolean
 
         fun canShowBySettings(notification: Notification): Boolean
 

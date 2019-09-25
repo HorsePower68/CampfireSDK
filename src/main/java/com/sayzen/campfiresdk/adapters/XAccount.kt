@@ -103,6 +103,8 @@ class XAccount(
 
     fun setView(viewAvatar: ViewAvatar) {
         setView(viewAvatar.vImageView)
+        viewAvatar.setChipIcon(0)
+
         if (isBot()) viewAvatar.vChip.setText("B")
         else viewAvatar.vChip.setText("${lvl / 100}")
         setOnline(viewAvatar.vChip)
