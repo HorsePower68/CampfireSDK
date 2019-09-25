@@ -12,6 +12,7 @@ import com.sup.dev.android.tools.ToolsResources
 import com.sup.dev.android.views.cards.Card
 import com.sup.dev.android.views.views.ViewAvatarTitle
 import com.sup.dev.java.tools.ToolsDate
+import com.sup.dev.java.tools.ToolsHTML
 
 class CardHistoryUnit(
         val historyUnit: HistoryUnit
@@ -38,10 +39,10 @@ class CardHistoryUnit(
             is HistoryAdminClearReports -> vAvatar.setSubtitle(R.string.history_admin_clear_reports)
             is HistoryAdminDeepBlock -> vAvatar.setSubtitle(R.string.history_admin_deep_block)
             is HistoryAdminNotBlock -> vAvatar.setSubtitle(R.string.history_admin_not_block)
+            is HistoryAdminNotDeepBlock -> vAvatar.setSubtitle(R.string.history_admin_not_deep_block)
             is HistoryAdminNotMultilingual -> vAvatar.setSubtitle(R.string.history_admin_not_multilingual)
             is HistoryBackDraft -> vAvatar.setSubtitle(R.string.history_back_draft)
             is HistoryChangeFandom -> vAvatar.setSubtitle(ToolsResources.s(R.string.history_change_fandom, "${history.oldFandomName} ( ${API.LINK_SHORT_FANDOM_ID + history.oldFandomId})", "${history.newFandomName} (${API.LINK_SHORT_FANDOM_ID + history.newFandomId})"))
-            is HistoryEditPublic -> vAvatar.setSubtitle(R.string.history_edit_public)
             is HistoryMultilingual -> vAvatar.setSubtitle(R.string.history_multilingual)
             is HistoryNotMultolingual -> vAvatar.setSubtitle(R.string.history_not_multilingual)
             is HistoryPublish -> vAvatar.setSubtitle(R.string.history_publish)
@@ -53,6 +54,10 @@ class CardHistoryUnit(
             is HistoryChangeTags -> vAvatar.setSubtitle(R.string.history_change_tags)
             is HistoryPinProfile -> vAvatar.setSubtitle(R.string.history_pin_profile)
             is HistoryUnpinProfile -> vAvatar.setSubtitle(R.string.history_unpin_profile)
+            is HistoryEditPublic -> {
+                vAvatar.setSubtitle(R.string.history_edit_public)
+                if (history.oldText.isNotEmpty())vAvatar.setSubtitle(vAvatar.getSubTitle() + "\n\"${history.oldText}\"")
+            }
         }
 
         if (history.comment.isNotEmpty()) vAvatar.setSubtitle(vAvatar.getSubTitle() + "\n" + ToolsResources.s(R.string.app_comment) + ": " + history.comment)

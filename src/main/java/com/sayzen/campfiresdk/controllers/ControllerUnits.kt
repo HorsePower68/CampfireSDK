@@ -11,14 +11,12 @@ import com.dzen.campfire.api.requests.post.RPostToDrafts
 import com.dzen.campfire.api.requests.tags.RTagsMove
 import com.dzen.campfire.api.requests.tags.RTagsMoveCategory
 import com.dzen.campfire.api.requests.tags.RTagsMoveTag
+import com.dzen.campfire.api.requests.units.RUnitsAdminRestoreDeepBlock
 import com.dzen.campfire.api.requests.units.RUnitsBookmarksChange
 import com.dzen.campfire.api.requests.units.RUnitsCommentsWatchChange
 import com.sayzen.campfiresdk.R
 import com.sayzen.campfiresdk.models.events.fandom.EventFandomTagMove
-import com.sayzen.campfiresdk.models.events.units.EventPostStatusChange
-import com.sayzen.campfiresdk.models.events.units.EventUnitBookmarkChange
-import com.sayzen.campfiresdk.models.events.units.EventUnitCommentWatchChange
-import com.sayzen.campfiresdk.models.events.units.EventUnitRemove
+import com.sayzen.campfiresdk.models.events.units.*
 import com.sayzen.campfiresdk.models.objects.TagParent
 import com.sayzen.campfiresdk.models.widgets.WidgetCategoryCreate
 import com.sayzen.campfiresdk.models.widgets.WidgetModerationBlock
@@ -271,6 +269,22 @@ object ControllerUnits {
             EventBus.post(EventPostStatusChange(unitId, API.STATUS_DRAFT))
             onComplete.invoke()
         }
+    }
+
+    fun restoreDeepBlock(unitId: Long) {
+        WidgetField()
+                .setTitle("Востановить из глубокой блокировки?")
+                .setHint(R.string.comments_hint)
+                .setOnCancel(R.string.app_cancel)
+                .setMin(API.MODERATION_COMMENT_MIN_L)
+                .setMax(API.MODERATION_COMMENT_MAX_L)
+                .setOnEnter(R.string.app_restore) { w, comment ->
+                    ApiRequestsSupporter.executeEnabled(w, RUnitsAdminRestoreDeepBlock(unitId, comment)) {
+                        EventBus.post(EventUnitDeepBlockRestore(unitId))
+                        ToolsToast.show(R.string.app_done)
+                    }
+                }
+                .asSheetShow()
     }
 
     //

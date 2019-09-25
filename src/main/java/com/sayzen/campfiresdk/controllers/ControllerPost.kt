@@ -8,6 +8,7 @@ import com.dzen.campfire.api.requests.fandoms.RFandomsAdminMakeModerator
 import com.dzen.campfire.api.requests.fandoms.RFandomsModerationImportant
 import com.dzen.campfire.api.requests.fandoms.RFandomsModerationToDrafts
 import com.dzen.campfire.api.requests.post.*
+import com.dzen.campfire.api.requests.units.RUnitsAdminRestoreDeepBlock
 import com.sayzen.campfiresdk.R
 import com.sayzen.campfiresdk.models.cards.post_pages.CardPage
 import com.sayzen.campfiresdk.models.cards.post_pages.CardPageSpoiler
@@ -86,6 +87,8 @@ object ControllerPost {
                 .add(R.string.admin_make_moder) { _, _ -> makeModerator(unit) }.backgroundRes(R.color.red_700).textColorRes(R.color.white).condition(ENABLED_MAKE_MODER && ControllerApi.can(API.LVL_ADMIN_MAKE_MODERATOR) && unit.languageId != -1L)
                 .add(R.string.unit_menu_change_fandom) { _, _ -> changeFandomAdmin(unit.id) }.backgroundRes(R.color.red_700).textColorRes(R.color.white).condition(ENABLED_MODER_CHANGE_FANDOM && ControllerApi.can(API.LVL_ADMIN_POST_CHANGE_FANDOM) && unit.languageId != -1L)
                 .clearGroupCondition()
+                .add("Востановить") { _, _ -> ControllerUnits.restoreDeepBlock(unit.id) }.backgroundRes(R.color.orange_700).textColorRes(R.color.white).condition(ControllerApi.can(API.LVL_PROTOADMIN) && unit.status == API.STATUS_DEEP_BLOCKED)
+
         ON_PRE_SHOW_MENU.invoke(unit, w)
         w.asSheetShow()
     }
@@ -107,7 +110,7 @@ object ControllerPost {
                 R.string.app_continue,
                 RPostMakeMultilingual(unit.id)
         ) {
-            EventBus.post(EventPostMultilingualChange(unit.id, -1L))
+            EventBus.post(EventPostMultilingualChange(unit.id, -1L, unit.languageId))
             ToolsToast.show(R.string.app_done)
         }
     }
@@ -118,7 +121,7 @@ object ControllerPost {
                 R.string.app_continue,
                 RPostMakeMultilingualNot(unit.id)
         ) {
-            EventBus.post(EventPostMultilingualChange(unit.id, unit.tag_5))
+            EventBus.post(EventPostMultilingualChange(unit.id, unit.tag_5, -1L))
             ToolsToast.show(R.string.app_done)
         }
     }
@@ -350,7 +353,7 @@ object ControllerPost {
                 .setOnEnter(R.string.app_make) { w, comment ->
                     ApiRequestsSupporter.executeEnabled(w, RPostMakeMultilingualModeratorNot(unit.id, comment)) {
                         ToolsToast.show(R.string.app_done)
-                        EventBus.post(EventPostMultilingualChange(unit.id, unit.tag_5))
+                        EventBus.post(EventPostMultilingualChange(unit.id, unit.tag_5, -1L))
                     }
                             .onApiError(RPostMakeMultilingualModeratorNot.E_LOW_KARMA_FORCE) { ToolsToast.show(R.string.moderation_low_karma) }
                 }

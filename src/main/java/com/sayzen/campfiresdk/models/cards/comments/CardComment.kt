@@ -12,12 +12,15 @@ import com.dzen.campfire.api.models.notifications.NotificationMention
 import com.sayzen.campfiresdk.R
 import com.sayzen.campfiresdk.controllers.ControllerApi
 import com.sayzen.campfiresdk.controllers.ControllerNotifications
+import com.sayzen.campfiresdk.controllers.ControllerPost
 import com.sayzen.campfiresdk.controllers.ControllerUnits
 import com.sayzen.campfiresdk.models.cards.CardUnit
 import com.sayzen.campfiresdk.models.events.units.EventCommentChange
 import com.sayzen.campfiresdk.models.events.units.EventCommentRemove
+import com.sayzen.campfiresdk.models.events.units.EventUnitDeepBlockRestore
 import com.sayzen.campfiresdk.models.widgets.WidgetComment
 import com.sayzen.campfiresdk.screens.account.stickers.SStickersView
+import com.sayzen.campfiresdk.screens.post.history.SUnitHistory
 import com.sayzen.campfiresdk.views.ViewKarma
 import com.sup.dev.android.app.SupAndroid
 import com.sup.dev.android.libs.screens.navigator.Navigator
@@ -60,6 +63,7 @@ abstract class CardComment protected constructor(
 
     private val eventBus = EventBus
             .subscribe(EventCommentChange::class) { e: EventCommentChange -> this.onCommentChange(e) }
+            .subscribe(EventUnitDeepBlockRestore::class) { onEventUnitDeepBlockRestore(it) }
 
     var changeEnabled = true
     var quoteEnabled = true
@@ -97,13 +101,13 @@ abstract class CardComment protected constructor(
             vSwipe.onClick = { _, _ -> if (onClick()) showMenu() }
             vSwipe.onLongClick = { _, _ -> showMenu() }
             vSwipe.swipeEnabled = quoteEnabled
-        }
-        if (vSwipe != null && onQuote != null) {
-            vSwipe.onClick = { _, _ ->
-                if (ControllerApi.isCurrentAccount(unit.creatorId)) showMenu()
-                else onClick()
+            if (onQuote != null) {
+                vSwipe.onClick = { _, _ ->
+                    if (ControllerApi.isCurrentAccount(unit.creatorId)) showMenu()
+                    else onClick()
+                }
+                vSwipe.onSwipe = { onQuote.invoke(unit) }
             }
-            vSwipe.onSwipe = { onQuote.invoke(unit) }
         }
 
         if (vQuoteContainer != null) {
@@ -164,10 +168,13 @@ abstract class CardComment protected constructor(
                     ToolsToast.show(R.string.app_copied)
                 }.condition(copyEnabled)
                 .add(R.string.app_quote) { _, _ -> onQuote?.invoke(unit) }.condition(quoteEnabled && onQuote != null)
+                .add(R.string.app_history) { _, _ ->  Navigator.to(SUnitHistory(unit.id))  }.condition(ControllerPost.ENABLED_HISTORY)
                 .groupCondition(!ControllerApi.isCurrentAccount(unit.creatorId))
                 .add(R.string.app_report) { _, _ -> ControllerApi.reportUnit(unit.id, R.string.comment_report_confirm, R.string.comment_error_gone) }
                 .add(R.string.app_clear_reports) { _, _ -> ControllerApi.clearReportsUnit(unit.id, unit.unitType) }.backgroundRes(R.color.blue_700).textColorRes(R.color.white).condition(ControllerApi.can(unit.fandomId, unit.languageId, API.LVL_MODERATOR_BLOCK) && unit.reportsCount > 0)
                 .add(R.string.app_block) { _, _ -> ControllerUnits.block(unit) }.backgroundRes(R.color.blue_700).textColorRes(R.color.white).condition(ControllerApi.can(unit.fandomId, unit.languageId, API.LVL_MODERATOR_BLOCK))
+                .clearGroupCondition()
+                .add("Востановить") { _, _ -> ControllerUnits.restoreDeepBlock(unit.id) }.backgroundRes(R.color.orange_700).textColorRes(R.color.white).condition(ControllerApi.can(API.LVL_PROTOADMIN) && unit.status == API.STATUS_DEEP_BLOCKED)
                 .asSheetShow()
     }
 
@@ -231,6 +238,12 @@ abstract class CardComment protected constructor(
     //
     //  Event Bus
     //
+
+    private fun onEventUnitDeepBlockRestore(e: EventUnitDeepBlockRestore) {
+        if (e.unitId == xUnit.unit.id && xUnit.unit.status == API.STATUS_DEEP_BLOCKED) {
+            adapter?.remove(this)
+        }
+    }
 
     private fun onCommentChange(e: EventCommentChange) {
         val unit = xUnit.unit as UnitComment

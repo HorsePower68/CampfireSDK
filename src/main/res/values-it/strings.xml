@@ -764,6 +764,7 @@ Campfire has anime fandoms and gaming fandoms.</string>
     <string name="profile_subtitle_text_14">Meow</string>
     <string name="profile_subtitle_text_15">Stylish</string>
     <string name="profile_subtitle_text_16">Very serious</string>
+    <string name="profile_subtitle_text_17">Pow-pow</string>
 
 
     <string name="about_privacy_policy">Privacy policy</string>
@@ -1365,6 +1366,7 @@ Campfire has anime fandoms and gaming fandoms.</string>
     <string name="history_admin_clear_reports">Reports removed</string>
     <string name="history_admin_deep_block">Block confirmed</string>
     <string name="history_admin_not_block">Block canceled</string>
+    <string name="history_admin_not_deep_block">Deep block canceled</string>
     <string name="history_admin_not_multilingual">Publication now not multilingual</string>
     <string name="history_back_draft">Publication returned in draft</string>
     <string name="history_change_fandom">Fandom changed from %s to %s</string>

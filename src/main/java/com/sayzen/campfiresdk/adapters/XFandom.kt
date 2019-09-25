@@ -28,6 +28,7 @@ class XFandom(
 ) {
 
     var showLanguage = true
+    var allViewIsClickable = false
 
     private val eventBus = EventBus
             .subscribe(EventUnitFandomChanged::class) { onEventUnitFandomChanged(it) }
@@ -63,6 +64,10 @@ class XFandom(
 
         if (name.isNotEmpty()) viewAvatar.setTitle(name)
         if (date != 0L) viewAvatar.setSubtitle(ToolsDate.dateToString(date))
+        if (allViewIsClickable) {
+            viewAvatar.vAvatar.setOnClickListener(null)
+            viewAvatar.setOnClickListener { ControllerCampfireSDK.onToFandomClicked(fandomId, languageId, Navigator.TO) }
+        }
     }
 
     fun setView(vText: TextView, vImage: ImageView?, vImageBig: ImageView? = null) {

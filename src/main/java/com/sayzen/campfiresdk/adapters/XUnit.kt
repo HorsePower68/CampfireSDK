@@ -23,6 +23,8 @@ class XUnit(
             .subscribe(EventUnitRemove::class) { if (it.unitId == unit.id) onRemove.invoke() }
             .subscribe(EventPostMultilingualChange::class) {
                 if (it.unitId == unit.id) {
+                    unit.languageId = it.languageId
+                    unit.tag_5 = it.tag5
                     xFandom.languageId = it.languageId
                     onChangedFandom.invoke()
                 }

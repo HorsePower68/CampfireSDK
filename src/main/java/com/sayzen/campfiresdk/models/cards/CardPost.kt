@@ -41,12 +41,14 @@ class CardPost constructor(
             .subscribe(EventPollingChanged::class) { onEventPollingChanged(it) }
             .subscribe(EventCommentRemove::class) { onEventCommentRemove2(it) }
             .subscribe(EventUnitBlockedRemove::class) { onEventUnitBlockedRemove(it) }
+            .subscribe(EventUnitDeepBlockRestore::class) { onEventUnitDeepBlockRestore(it) }
 
     private val pages = ArrayList<CardPage>()
     private var isShowFull = false
     private var onBack: () -> Boolean = { false }
 
     init {
+        xUnit.xFandom.allViewIsClickable = true
         updateFandomOnBind = false
         updatePages()
         onBack = {
@@ -290,6 +292,12 @@ class CardPost constructor(
         if (unit.bestComment != null && e.unitId == unit.bestComment!!.id) {
             unit.bestComment = null
             update()
+        }
+    }
+
+    private fun onEventUnitDeepBlockRestore(e: EventUnitDeepBlockRestore) {
+        if (e.unitId == xUnit.unit.id && xUnit.unit.status == API.STATUS_DEEP_BLOCKED) {
+            adapter?.remove(this)
         }
     }
 

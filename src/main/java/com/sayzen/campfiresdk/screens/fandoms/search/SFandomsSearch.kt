@@ -27,7 +27,7 @@ class SFandomsSearch private constructor(
         private var params4: Array<Long>,
         private var backWhenSelect: Boolean,
         private val onSelected: ((Fandom) -> Unit)?
-) : SLoadingRecycler<CardFandom, Fandom>() {
+) : SLoadingRecycler<CardFandom, Fandom>(R.layout.screen_fandoms_search) {
 
 
     companion object {
@@ -132,7 +132,7 @@ class SFandomsSearch private constructor(
 
     private fun load(onLoad: (Array<Fandom>?) -> Unit, cards: ArrayList<CardFandom>) {
         lockOnEmpty = false
-        if (!subscribedLoaded && !isSearchMode())
+        if (!subscribedLoaded && !isSearchMode()) {
             RFandomsGetAll(RFandomsGetAll.SUBSCRIBE_YES, getLastSubscribedOffset(), ControllerApi.getLanguageId(), categoryId, "", emptyArray(), emptyArray(), emptyArray(), emptyArray())
                     .onComplete { r ->
                         if (r.fandoms.size < RFandomsGetAll.COUNT) {
@@ -140,19 +140,23 @@ class SFandomsSearch private constructor(
                             if (!adapter!!.isEmpty || r.fandoms.isNotEmpty()) ToolsThreads.main(true) { adapter!!.add(CardDividerTitle(R.string.fandoms_global)) }
                         }
                         onLoad.invoke(r.fandoms)
+                        if(adapter!!.isEmpty) ToolsThreads.main(true) { adapter?.loadBottom() }
                     }
                     .onNetworkError { onLoad.invoke(null) }
                     .send(api)
-        else if (!isSearchMode())
+        } else if (!isSearchMode()) {
             RFandomsGetAll(RFandomsGetAll.SUBSCRIBE_NO, getLastUnsubscribedOffset(), ControllerApi.getLanguageId(), categoryId, "", emptyArray(), emptyArray(), emptyArray(), emptyArray())
-                    .onComplete { r -> onLoad.invoke(r.fandoms) }
+                    .onComplete { r ->
+                        onLoad.invoke(r.fandoms)
+                    }
                     .onNetworkError { onLoad.invoke(null) }
                     .send(api)
-        else
+        } else {
             RFandomsGetAll(RFandomsGetAll.SUBSCRIBE_NONE, cards.size.toLong(), ControllerApi.getLanguageId(), categoryId, name, params1, params2, params3, params4)
                     .onComplete { r -> onLoad.invoke(r.fandoms) }
                     .onNetworkError { onLoad.invoke(null) }
                     .send(api)
+        }
     }
 
     //

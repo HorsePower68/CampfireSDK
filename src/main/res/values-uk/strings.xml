@@ -765,6 +765,7 @@
     <string name="profile_subtitle_text_14">Мяу</string>
     <string name="profile_subtitle_text_15">Стильный</string>
     <string name="profile_subtitle_text_16">Очень серьезен</string>
+    <string name="profile_subtitle_text_17">Вжух</string>
 
     <string name="about_privacy_policy">Политика конфиденциальности</string>
 
@@ -1365,6 +1366,7 @@
     <string name="history_admin_clear_reports">Жалобы удалены</string>
     <string name="history_admin_deep_block">Блокировка подтверждена</string>
     <string name="history_admin_not_block">Блокировка отменена</string>
+    <string name="history_admin_not_deep_block">Глубокая блокировка отменена</string>
     <string name="history_admin_not_multilingual">Публикация сделана не мультиязычной</string>
     <string name="history_back_draft">Публикация возвращена в черновики</string>
     <string name="history_change_fandom">Фэндом изменён с %s на %s</string>

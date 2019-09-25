@@ -20,8 +20,10 @@ import com.sayzen.campfiresdk.models.events.chat.EventChatReadDateChanged
 import com.sayzen.campfiresdk.models.events.chat.EventUpdateChats
 import com.sayzen.campfiresdk.models.events.notifications.EventNotification
 import com.sayzen.campfiresdk.models.events.units.EventUnitBlocked
+import com.sayzen.campfiresdk.models.events.units.EventUnitDeepBlockRestore
 import com.sayzen.campfiresdk.screens.chat.SChat
 import com.sayzen.campfiresdk.screens.account.stickers.SStickersView
+import com.sayzen.campfiresdk.screens.post.history.SUnitHistory
 import com.sup.dev.android.app.SupAndroid
 import com.sup.dev.android.libs.screens.navigator.Navigator
 import com.sup.dev.android.models.EventStyleChanged
@@ -74,6 +76,7 @@ abstract class CardChatMessage constructor(
             .subscribe(EventChatReadDateChanged::class) { onEventChatReadDateChanged(it) }
             .subscribe(EventStyleChanged::class) { update() }
             .subscribe(EventUnitBlocked::class) { onEventUnitBlocked(it) }
+            .subscribe(EventUnitDeepBlockRestore::class) { onEventUnitDeepBlockRestore(it) }
 
     var changeEnabled = true
     var useMessageContainerBackground = true
@@ -103,22 +106,19 @@ abstract class CardChatMessage constructor(
             ControllerNotifications.removeNotificationFromNew(NotificationMention::class, unit.id)
         }
         if (vSwipe != null) {
-            vSwipe.swipeEnabled = this !is CardChatMessageVoice
-        }
-
-        if (vSwipe != null && onQuote != null) {
             vSwipe.onClick = { _, _ ->
                 if (ControllerApi.isCurrentAccount(unit.creatorId)) showMenu()
                 else if (!onClick()) showMenu()
             }
             vSwipe.onLongClick = { _, _ -> showMenu() }
-            vSwipe.onSwipe = { onQuote?.invoke(unit) }
-            vSwipe.swipeEnabled = quoteEnabled
-        } else {
-            if (vSwipe != null) {
-                vSwipe.swipeEnabled = quoteEnabled
+            vSwipe.swipeEnabled = this !is CardChatMessageVoice && quoteEnabled
+
+
+            if ( onQuote != null) {
+                vSwipe.onSwipe = { onQuote?.invoke(unit) }
             }
         }
+
 
         if (vQuoteContainer != null) {
             vQuoteContainer.visibility = if (unit.quoteText.isEmpty() && unit.quoteImages.isEmpty() && unit.quoteStickerId < 1L) View.GONE else View.VISIBLE
@@ -221,10 +221,13 @@ abstract class CardChatMessage constructor(
                     ToolsToast.show(R.string.app_copied)
                 }.condition(copyEnabled)
                 .add(R.string.app_quote) { _, _ -> onQuote!!.invoke(unit) }.condition(quoteEnabled && onQuote != null)
+                .add(R.string.app_history) { _, _ ->  Navigator.to(SUnitHistory(unit.id))  }.condition(ControllerPost.ENABLED_HISTORY)
                 .groupCondition(!ControllerApi.isCurrentAccount(unit.creatorId))
                 .add(R.string.app_report) { _, _ -> ControllerApi.reportUnit(unit.id, R.string.chat_report_confirm, R.string.chat_error_gone) }.condition(unit.chatType == API.CHAT_TYPE_FANDOM)
                 .add(R.string.app_clear_reports) { _, _ -> ControllerApi.clearReportsUnit(unit.id, unit.unitType) }.backgroundRes(R.color.blue_700).textColorRes(R.color.white).condition(unit.chatType == API.CHAT_TYPE_FANDOM && ControllerApi.can(unit.fandomId, unit.languageId, API.LVL_MODERATOR_BLOCK) && unit.reportsCount > 0)
                 .add(R.string.app_block) { _, _ -> ControllerUnits.block(unit) { if (adapter != null && adapter!! is RecyclerCardAdapterLoadingInterface) (adapter!! as RecyclerCardAdapterLoadingInterface).loadBottom() } }.backgroundRes(R.color.blue_700).textColorRes(R.color.white).condition(unit.chatType == API.CHAT_TYPE_FANDOM && ControllerApi.can(unit.fandomId, unit.languageId, API.LVL_MODERATOR_BLOCK))
+                .clearGroupCondition()
+                .add("Востановить") { _, _ -> ControllerUnits.restoreDeepBlock(unit.id) }.backgroundRes(R.color.orange_700).textColorRes(R.color.white).condition(ControllerApi.can(API.LVL_PROTOADMIN) && unit.status == API.STATUS_DEEP_BLOCKED)
                 .asSheetShow()
     }
 
@@ -300,6 +303,11 @@ abstract class CardChatMessage constructor(
     //  Event Bus
     //
 
+    private fun onEventUnitDeepBlockRestore(e: EventUnitDeepBlockRestore) {
+        if (e.unitId == xUnit.unit.id && xUnit.unit.status == API.STATUS_DEEP_BLOCKED) {
+            adapter?.remove(this)
+        }
+    }
     private fun onNotification(e: EventNotification) {
         val unit = xUnit.unit as UnitChatMessage
         if (e.notification is NotificationChatMessageChange) {

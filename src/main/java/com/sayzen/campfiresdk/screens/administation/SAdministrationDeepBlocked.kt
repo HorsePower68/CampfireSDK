@@ -20,7 +20,7 @@ class SAdministrationDeepBlocked(val accountId: Long) : SLoadingRecycler<CardUni
     }
 
     override fun instanceAdapter(): RecyclerCardAdapterLoading<CardUnit, Unit> {
-        return RecyclerCardAdapterLoading<CardUnit, Unit>(CardUnit::class) { unit -> CardUnit.instance(unit, vRecycler) }
+        return RecyclerCardAdapterLoading<CardUnit, Unit>(CardUnit::class) { unit -> CardUnit.instance(unit, vRecycler, true, false, true, true) }
                 .setBottomLoader { onLoad, cards ->
                     RUnitsGetAllDeepBlocked(accountId, cards.size.toLong())
                             .onComplete { r -> onLoad.invoke(r.units) }
