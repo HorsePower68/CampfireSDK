@@ -130,15 +130,15 @@ object ControllerApi {
 
     fun getIconForLanguage(languageId: Long): Int {
         return when (languageId) {
-            API.LANGUAGE_EN -> R.drawable.logo_128x128
-            API.LANGUAGE_RU -> R.drawable.logo_128x128
-            API.LANGUAGE_PT -> R.drawable.logo_128x128
-            API.LANGUAGE_UK -> R.drawable.logo_128x128
-            API.LANGUAGE_DE -> R.drawable.logo_128x128
-            API.LANGUAGE_IT -> R.drawable.logo_128x128
-            API.LANGUAGE_PL -> R.drawable.logo_128x128
-            API.LANGUAGE_FR -> R.drawable.logo_128x128
-            else -> R.drawable.logo_128x128
+            API.LANGUAGE_EN -> R.drawable.icon_flag_en
+            API.LANGUAGE_RU -> R.drawable.icon_flag_ru
+            API.LANGUAGE_PT -> R.drawable.icon_flag_pt
+            API.LANGUAGE_UK -> R.drawable.icon_flag_uk
+            API.LANGUAGE_DE -> R.drawable.icon_flag_de
+            API.LANGUAGE_IT -> R.drawable.icon_flag_it
+            API.LANGUAGE_PL -> R.drawable.icon_flag_pl
+            API.LANGUAGE_FR -> R.drawable.icon_flag_fr
+            else -> R.drawable.icon_flag_world
         }
     }
 
