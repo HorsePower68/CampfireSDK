@@ -86,7 +86,7 @@ class SFandomsSearch private constructor(
     }
 
     override fun instanceAdapter(): RecyclerCardAdapterLoading<CardFandom, Fandom> {
-        return RecyclerCardAdapterLoading<CardFandom, Fandom>(CardFandom::class) { fandom ->
+        val adapterX = RecyclerCardAdapterLoading<CardFandom, Fandom>(CardFandom::class) { fandom ->
             val card = if (onSelected == null) CardFandom(fandom) else CardFandom(fandom) {
                 if (backWhenSelect) Navigator.back()
                 if (fandom.languageId == 0L) fandom.languageId = ControllerApi.getLanguageId()
@@ -96,23 +96,22 @@ class SFandomsSearch private constructor(
             card.setShowLanguage(!subscribedLoaded && !isSearchMode())
         }
                 .setBottomLoader { onLoad, cards -> load(onLoad, cards) }
-    }
 
-
-    override fun prepareAdapter(adapter: RecyclerCardAdapterLoading<CardFandom, Fandom>) {
-        adapter.addOnLoadedNotEmpty {
+        adapterX.addOnLoadedNotEmpty {
             if (subscribedLoaded || isSearchMode()) setState(State.NONE)
             else {
-                adapter.loadBottom()
+                adapterX.loadBottom()
             }
         }
-        adapter.addOnEmpty {
+        adapterX.addOnEmpty {
             if (lockOnEmpty) return@addOnEmpty
             if (subscribedLoaded || isSearchMode()) setState(State.EMPTY)
             else {
-                adapter.loadBottom()
+                adapterX.loadBottom()
             }
         }
+
+        return adapterX
     }
 
     override fun reload() {
