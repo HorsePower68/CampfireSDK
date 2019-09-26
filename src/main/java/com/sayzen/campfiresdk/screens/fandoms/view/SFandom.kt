@@ -152,8 +152,7 @@ class SFandom private constructor(
                         ToolsAndroid.setToClipboard(xFandom.linkToWithLanguage())
                         ToolsToast.show(R.string.app_copied)
                     }
-                    .add(R.string.fandoms_menu_black_list_add) { _, _ -> ControllerCampfireSDK.addToBlackListFandom(xFandom.fandomId) }.condition(!ControllerSettings.feedIgnoreFandoms.contains(xFandom.fandomId))
-                    .add(R.string.fandoms_menu_black_list_remove) { _, _ -> ControllerCampfireSDK.removeFromBlackListFandom(xFandom.fandomId) }.condition(ControllerSettings.feedIgnoreFandoms.contains(xFandom.fandomId))
+                    .add(R.string.settings_black_list) { _, _ -> ControllerCampfireSDK.switchToBlackListFandom(xFandom.fandomId) }
                     .add(R.string.fandoms_menu_background_change) { _, _ -> changeBackgroundImage() }.condition(ControllerApi.can(xFandom.fandomId, xFandom.languageId, API.LVL_MODERATOR_BACKGROUND_IMAGE)).backgroundRes(R.color.blue_700).textColorRes(R.color.white)
                     .add(R.string.fandoms_menu_background_remove) { _, _ -> removeBackgroundImage() }.condition(ControllerApi.can(xFandom.fandomId, xFandom.languageId, API.LVL_MODERATOR_BACKGROUND_IMAGE)).backgroundRes(R.color.blue_700).textColorRes(R.color.white)
                     .add(R.string.profile_change_avatar) { _, _ -> changeImage() }.condition(ControllerApi.can(API.LVL_ADMIN_FANDOM_AVATAR)).backgroundRes(R.color.red_700).textColorRes(R.color.white)

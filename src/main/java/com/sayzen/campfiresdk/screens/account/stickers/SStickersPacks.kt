@@ -3,10 +3,9 @@ package com.sayzen.campfiresdk.screens.account.stickers
 import android.view.View
 import com.dzen.campfire.api.API
 import com.dzen.campfire.api.models.units.stickers.UnitStickersPack
-import com.dzen.campfire.api.requests.stickers.RStickersPacksGetAllById
+import com.dzen.campfire.api.requests.stickers.RStickersPacksGetAllByAccount
 import com.sayzen.campfiresdk.R
 import com.sayzen.campfiresdk.controllers.ControllerApi
-import com.sayzen.campfiresdk.controllers.ControllerSettings
 import com.sayzen.campfiresdk.controllers.api
 import com.sayzen.campfiresdk.models.cards.stickers.CardStickersPack
 import com.sayzen.campfiresdk.models.events.stickers.EventStickersPackCollectionChanged
@@ -51,23 +50,18 @@ class SStickersPacks(
 
     override fun instanceAdapter(): RecyclerCardAdapterLoading<CardStickersPack, UnitStickersPack> {
         val adapter = RecyclerCardAdapterLoading<CardStickersPack, UnitStickersPack>(CardStickersPack::class) { CardStickersPack(it) }
-                .setBottomLoader { onLoad, _ ->
-
-                    if (ControllerSettings.accountSettings.stickersPacks.isEmpty()) {
-                        onLoad.invoke(emptyArray())
-                    } else {
-                        subscription = RStickersPacksGetAllById(accountId,  if (accountId == ControllerApi.account.id) ControllerSettings.accountSettings.stickersPacks else emptyArray())
-                                .onComplete { r ->
-                                    if (loaded) {
-                                        onLoad.invoke(emptyArray())
-                                    } else {
-                                        loaded = true
-                                        onLoad.invoke(r.stickersPacks)
-                                    }
+                .setBottomLoader { onLoad, cards ->
+                    subscription = RStickersPacksGetAllByAccount(accountId, if(cards.isEmpty()) Long.MAX_VALUE else cards.get(cards.size-1).xUnit.unit.dateCreate)
+                            .onComplete { r ->
+                                if (loaded) {
+                                    onLoad.invoke(emptyArray())
+                                } else {
+                                    loaded = true
+                                    onLoad.invoke(r.stickersPacks)
                                 }
-                                .onNetworkError { onLoad.invoke(null) }
-                                .send(api)
-                    }
+                            }
+                            .onNetworkError { onLoad.invoke(null) }
+                            .send(api)
                 }
 
         if (accountId == ControllerApi.account.id) {

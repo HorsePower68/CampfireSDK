@@ -189,6 +189,7 @@
     <string name="app_coefficient_karma">Коэффициент кармы %s</string>
     <string name="app_history">История</string>
     <string name="app_feed_all">Бездна</string>
+    <string name="app_collection">Коллекция</string>
 
     <string name="he">он</string>
     <string name="she">она</string>
@@ -542,6 +543,10 @@
     <string name="stickers_packs_error_gone">Похоже кто-то удалил этот набор стикеров</string>
     <string name="stickers_empty">Похоже у вас нет стикеров</string>
     <string name="stickers_packs_clear_reports_confirm">Удалить жалобы на этот набор стикеров?</string>
+    <string name="stickers_message_add_to_collection">Стикер добавлен в коллекцию</string>
+    <string name="stickers_message_add_to_collection_pack">Набор стикеров добавлен в коллекцию</string>
+    <string name="stickers_message_remove_from_collection">Стикер удалён из в коллекции</string>
+    <string name="stickers_message_remove_from_collection_pack">Набор стикеров удалён из в коллекции</string>
     <string name="sticker_error_gone">Похоже кто-то удалил этот стикер</string>
     <string name="sticker_add">Добавить в коллекцию</string>
     <string name="sticker_remove">Убрать из коллекции</string>

@@ -126,18 +126,27 @@
                 android:layout_marginBottom="8dp" />
 
             <com.sup.dev.android.views.views.layouts.LayoutCorned
-                android:layout_width="200dp"
-                android:layout_height="200dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_marginLeft="16dp"
                 android:layout_marginTop="8dp"
                 android:layout_marginRight="16dp">
 
+                <com.sup.dev.android.views.views.layouts.LayoutMaxSizes
+                    android:id="@+id/vMaxSizes"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center"
+                    app:LayoutMaxSizes_maxHeight="200dp"
+                    app:LayoutMaxSizes_maxWidth="200dp">
+
                 <ImageView
                     android:id="@+id/vImage"
-                    android:layout_width="200dp"
-                    android:layout_height="200dp"
-                    android:layout_gravity="center"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
                     android:adjustViewBounds="true" />
+
+                </com.sup.dev.android.views.views.layouts.LayoutMaxSizes>
 
                 <ProgressBar
                     android:id="@+id/vGifProgressBar"

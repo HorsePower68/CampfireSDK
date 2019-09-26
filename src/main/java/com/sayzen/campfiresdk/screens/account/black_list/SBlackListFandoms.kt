@@ -26,10 +26,7 @@ class SBlackListFandoms(
     companion object {
 
         fun instance(accountId: Long, accountName: String, action: NavigationAction) {
-            if (accountId == ControllerApi.account.id)
-                Navigator.action(action, SBlackListFandoms(accountId, accountName, ControllerSettings.feedIgnoreFandoms))
-            else
-                ApiRequestsSupporter.executeInterstitial(action, RAccountsGetIgnoredFandoms(accountId)) { r -> SBlackListFandoms(accountId, accountName, r.fandomsIds) }
+            ApiRequestsSupporter.executeInterstitial(action, RAccountsGetIgnoredFandoms(accountId)) { r -> SBlackListFandoms(accountId, accountName, r.fandomsIds) }
         }
 
     }

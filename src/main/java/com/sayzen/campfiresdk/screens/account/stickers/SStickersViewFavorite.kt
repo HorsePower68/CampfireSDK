@@ -3,9 +3,9 @@ package com.sayzen.campfiresdk.screens.account.stickers
 
 import androidx.recyclerview.widget.GridLayoutManager
 import com.dzen.campfire.api.models.units.stickers.UnitSticker
-import com.dzen.campfire.api.requests.stickers.RStickersGetAllById
+import com.dzen.campfire.api.requests.stickers.RStickersGetAllFavorite
 import com.sayzen.campfiresdk.R
-import com.sayzen.campfiresdk.controllers.ControllerSettings
+import com.sayzen.campfiresdk.controllers.ControllerApi
 import com.sayzen.campfiresdk.controllers.api
 import com.sayzen.campfiresdk.models.cards.stickers.CardSticker
 import com.sayzen.campfiresdk.models.events.stickers.EventStickerCollectionChanged
@@ -20,7 +20,7 @@ class SStickersViewFavorite() : SLoadingRecycler<CardSticker, UnitSticker>() {
     private val eventBus = EventBus
             .subscribe(EventStickerCollectionChanged::class){
                 if(adapter != null) {
-                    if (ControllerSettings.accountSettings.stickers.contains(it.sticker.id)) {
+                    if (it.inCollection) {
                         var found = false
                         for (c in adapter!!.get(CardSticker::class)) if (c.xUnit.unit.id == it.sticker.id) found = true
                         if (!found) adapter!!.add(0, CardSticker(it.sticker))
@@ -47,21 +47,17 @@ class SStickersViewFavorite() : SLoadingRecycler<CardSticker, UnitSticker>() {
         return RecyclerCardAdapterLoading<CardSticker, UnitSticker>(CardSticker::class) { CardSticker(it) }
                 .setShowLoadingCardBottom(false)
                 .setBottomLoader { onLoad, _ ->
-                    if(ControllerSettings.accountSettings.stickers.isEmpty()){
-                        onLoad.invoke(emptyArray())
-                    }else {
-                        subscription = RStickersGetAllById(ControllerSettings.accountSettings.stickers)
-                                .onComplete { r ->
-                                    if (loaded) {
-                                        onLoad.invoke(emptyArray())
-                                    } else {
-                                        loaded = true
-                                        onLoad.invoke(r.stickers)
-                                    }
+                    subscription = RStickersGetAllFavorite(ControllerApi.account.id)
+                            .onComplete { r ->
+                                if (loaded) {
+                                    onLoad.invoke(emptyArray())
+                                } else {
+                                    loaded = true
+                                    onLoad.invoke(r.stickers)
                                 }
-                                .onNetworkError { onLoad.invoke(null) }
-                                .send(api)
-                    }
+                            }
+                            .onNetworkError { onLoad.invoke(null) }
+                            .send(api)
                 }
     }
 

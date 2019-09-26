@@ -7,7 +7,7 @@ import com.dzen.campfire.api.API
 import com.dzen.campfire.api.models.units.stickers.UnitSticker
 import com.dzen.campfire.api.models.units.stickers.UnitStickersPack
 import com.dzen.campfire.api.requests.stickers.RStickersAdd
-import com.dzen.campfire.api.requests.stickers.RStickersGetAll
+import com.dzen.campfire.api.requests.stickers.RStickersGetAllByPackId
 import com.dzen.campfire.api.requests.stickers.RStickersPacksGetInfo
 import com.sayzen.campfiresdk.R
 import com.sayzen.campfiresdk.adapters.XComments
@@ -123,13 +123,12 @@ class SStickersView(
         }
                 .setShowLoadingCardBottom(false)
                 .setBottomLoader { onLoad, _ ->
-                    subscription = RStickersGetAll(stickersPack.id)
+                    subscription = RStickersGetAllByPackId(stickersPack.id)
                             .onComplete { r ->
                                 if (loaded) {
                                     onLoad.invoke(emptyArray())
                                 } else {
                                     loaded = true
-                                    if (r.stickersPacks != null) ControllerSettings.accountSettings.stickersPacks = r.stickersPacks!!
                                     onLoad.invoke(r.stickers)
                                     if (r.stickers.size < API.STICKERS_MAX_COUNT_IN_PACK
                                             && stickersPack.creatorId == ControllerApi.account.id

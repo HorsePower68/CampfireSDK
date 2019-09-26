@@ -8,6 +8,9 @@ import com.dzen.campfire.api.requests.accounts.RAccountsBlackListAdd
 import com.dzen.campfire.api.requests.accounts.RAccountsBlackListRemove
 import com.dzen.campfire.api.requests.accounts.RAccountsChangeName
 import com.dzen.campfire.api.requests.achievements.RAchievementsOnFinish
+import com.dzen.campfire.api.requests.fandoms.RFandomsBlackListAdd
+import com.dzen.campfire.api.requests.fandoms.RFandomsBlackListContains
+import com.dzen.campfire.api.requests.fandoms.RFandomsBlackListRemove
 import com.sayzen.campfiresdk.R
 import com.sayzen.campfiresdk.models.events.account.EventAccountAddToBlackList
 import com.sayzen.campfiresdk.models.events.account.EventAccountChanged
@@ -190,18 +193,19 @@ object ControllerCampfireSDK {
     }
 
 
-    fun addToBlackListFandom(fandomId: Long) {
-        WidgetAlert()
-                .setText(R.string.fandoms_menu_black_list_add_confirm)
-                .setOnEnter(R.string.app_add) {
-                    ControllerSettings.feedIgnoreFandoms = ToolsCollections.add(fandomId, ControllerSettings.feedIgnoreFandoms)
-                    EventBus.post(EventFandomBlackListChange(fandomId, true))
-                    ToolsToast.show(R.string.app_done)
-                }
-                .setOnCancel(R.string.app_cancel)
-                .asSheetShow()
+    fun switchToBlackListFandom(fandomId: Long) {
+        ApiRequestsSupporter.executeProgressDialog(RFandomsBlackListContains(fandomId)){r->
+            if(r.contains) removeFromBlackListFandom(fandomId)
+            else addToBlackListFandom(fandomId)
+        }
     }
 
+    fun addToBlackListFandom(fandomId: Long) {
+        ApiRequestsSupporter.executeEnabledConfirm(R.string.fandoms_menu_black_list_add_confirm, R.string.app_add, RFandomsBlackListAdd(fandomId)) {
+            EventBus.post(EventFandomBlackListChange(fandomId, true))
+            ToolsToast.show(R.string.app_done)
+        }
+    }
 
     fun removeFromBlackListUser(accountId: Long) {
         ApiRequestsSupporter.executeEnabledConfirm(R.string.profile_black_list_remove_confirm, R.string.app_remove, RAccountsBlackListRemove(accountId)) {
@@ -218,15 +222,10 @@ object ControllerCampfireSDK {
     }
 
     fun removeFromBlackListFandom(fandomId: Long) {
-        WidgetAlert()
-                .setText(R.string.fandoms_menu_black_list_remove_confirm)
-                .setOnEnter(R.string.app_remove) {
-                    ControllerSettings.feedIgnoreFandoms = ToolsCollections.removeItem(fandomId, ControllerSettings.feedIgnoreFandoms)
-                    EventBus.post(EventFandomBlackListChange(fandomId, false))
-                    ToolsToast.show(R.string.app_done)
-                }
-                .setOnCancel(R.string.app_cancel)
-                .asSheetShow()
+        ApiRequestsSupporter.executeEnabledConfirm(R.string.fandoms_menu_black_list_remove_confirm, R.string.app_remove, RFandomsBlackListRemove(fandomId)) {
+            EventBus.post(EventFandomBlackListChange(fandomId, false))
+            ToolsToast.show(R.string.app_done)
+        }
     }
 
     fun shareCampfireApp() {

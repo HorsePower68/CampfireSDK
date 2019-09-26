@@ -188,6 +188,7 @@ Campfire has anime fandoms and gaming fandoms.</string>
     <string name="app_coefficient_karma">Karma coefficient %s</string>
     <string name="app_history">History</string>
     <string name="app_feed_all">Anything</string>
+    <string name="app_collection">Collection</string>
 
     <string name="he">he</string>
     <string name="she">she</string>
@@ -539,6 +540,10 @@ Campfire has anime fandoms and gaming fandoms.</string>
     <string name="stickers_packs_error_gone">Looks like someone deleted this stickers pack</string>
     <string name="stickers_empty">Looks like you have no stickers</string>
     <string name="stickers_packs_clear_reports_confirm">Clear this stickers pack reports?</string>
+    <string name="stickers_message_add_to_collection">Sticker added to collection.</string>
+    <string name="stickers_message_add_to_collection_pack">Stickers pack added to collection.</string>
+    <string name="stickers_message_remove_from_collection">Sticker removed from collection.</string>
+    <string name="stickers_message_remove_from_collection_pack">Stickers pack removed from collection</string>
     <string name="sticker_error_gone">Looks like someone deleted this sticker</string>
     <string name="sticker_add">Add to collection</string>
     <string name="sticker_remove">Remove from collection</string>

@@ -368,13 +368,6 @@ object ControllerSettings {
     //  Feed
     //
 
-    var feedIgnoreFandoms: Array<Long>
-        get() = if (accountSettings.feedIgnoreFandoms.isEmpty()) emptyArray() else accountSettings.feedIgnoreFandoms
-        set(b) {
-            accountSettings.feedIgnoreFandoms = b
-            onSettingsUpdated()
-        }
-
     var feedLanguages: Array<Long>
         get() = if (accountSettings.feedLanguages.isEmpty()) arrayOf(ControllerApi.getLanguageId()) else accountSettings.feedLanguages
         set(b) {

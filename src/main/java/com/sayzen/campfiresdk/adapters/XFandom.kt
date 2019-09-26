@@ -52,14 +52,7 @@ class XFandom(
         viewAvatar.setChipIcon(0)
         viewAvatar.setChipText("")
 
-        if (showLanguage) {
-            if (languageId > 0) {
-                viewAvatar.setChipIcon(ControllerApi.getIconForLanguage(languageId))
-            }
-            if (languageId == -1L) {
-                viewAvatar.setChipText("∞")
-            }
-        }
+        if (showLanguage && languageId != 0L) viewAvatar.setChipIcon(ControllerApi.getIconForLanguage(languageId))
 
         viewAvatar.vChip.setBackgroundColor(ToolsResources.getAccentColor(viewAvatar.context))
         viewAvatar.setOnClickListener { ControllerCampfireSDK.onToFandomClicked(fandomId, languageId, Navigator.TO) }
