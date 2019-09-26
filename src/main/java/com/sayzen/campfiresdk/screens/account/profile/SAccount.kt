@@ -88,13 +88,22 @@ class SAccount private constructor(
 
         vAvatar.setOnClickListener {
             if (ControllerApi.isCurrentAccount(r.account.id)) onChangeAvatarClicked()
+            else Navigator.to(SImageView(xAccount.imageId))
+        }
+        vAvatar.setOnLongClickListener {
             Navigator.to(SImageView(xAccount.imageId))
+            true
         }
 
         vImage.setOnClickListener {
             if (ControllerApi.isCurrentAccount(r.account.id)) onChangeTitleImageClicked()
             else if (xAccount.titleImageGifId > 0) Navigator.to(SImageView(xAccount.titleImageGifId))
             else Navigator.to(SImageView(xAccount.titleImageId))
+        }
+        vImage.setOnLongClickListener {
+            if (xAccount.titleImageGifId > 0) Navigator.to(SImageView(xAccount.titleImageGifId))
+            else Navigator.to(SImageView(xAccount.titleImageId))
+            true
         }
 
 

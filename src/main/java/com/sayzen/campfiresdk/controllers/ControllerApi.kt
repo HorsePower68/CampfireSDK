@@ -38,6 +38,7 @@ import com.sup.dev.java.classes.items.ItemNullable
 import com.sup.dev.java.libs.api_simple.client.TokenProvider
 import com.sup.dev.java.libs.eventBus.EventBus
 import com.sup.dev.java.libs.json.Json
+import com.sup.dev.java.libs.json.JsonArray
 import com.sup.dev.java.tools.ToolsThreads
 import java.util.regex.Pattern
 
@@ -69,11 +70,11 @@ fun instanceTokenProvider(): TokenProvider {
         }
 
         override fun clearToken() {
-            ControllerApi.setCurrentAccount(Account(), false)
+            ControllerApi.setCurrentAccount(Account())
         }
 
         override fun onLoginFailed() {
-            ControllerApi.setCurrentAccount(Account(), false)
+            ControllerApi.setCurrentAccount(Account())
         }
     }
 }
@@ -82,6 +83,7 @@ object ControllerApi {
 
     var account = Account()
     var hasSubscribes = false
+    var protoadmins = emptyArray<Long>()
     private var serverTimeDelta = 0L
     private var fandomsKarmaCounts: Array<Item3<Long, Long, Long>?>? = null
     private var version = ""
@@ -176,11 +178,17 @@ object ControllerApi {
         return account.id == accountId
     }
 
-    fun setCurrentAccount(account: Account, hasSubscribes: Boolean) {
+    fun setCurrentAccount(account: Account, hasSubscribes: Boolean = false, protoadmins: Array<Long> = emptyArray()) {
         this.account = account
         this.hasSubscribes = hasSubscribes
+        this.protoadmins = protoadmins
         ToolsStorage.put("account json", account.json(true, Json()))
         ToolsStorage.put("hasSubscribes", hasSubscribes)
+
+        val jProtoadmins = JsonArray()
+        for(i in protoadmins) jProtoadmins.put(i)
+        ToolsStorage.put("protoadmins", jProtoadmins)
+
         ControllerPolling.clear()
     }
 
@@ -193,6 +201,10 @@ object ControllerApi {
 
     fun getLastHasSubscribes(): Boolean {
         return ToolsStorage.getBoolean("hasSubscribes", false)
+    }
+
+    fun getLastProtadmins(): Array<Long> {
+        return ToolsStorage.getJsonArray("protoadmins", JsonArray()).getLongs()
     }
 
     fun enableAutoRegistration() {
@@ -273,7 +285,7 @@ object ControllerApi {
                         api.clearTokens()
                         ControllerChats.clearMessagesCount()
                         ControllerNotifications.setNewNotifications(emptyArray())
-                        setCurrentAccount(Account(), false)
+                        setCurrentAccount(Account())
                         this.fandomsKarmaCounts = null
                         serverTimeDelta = 0
                         onComplete.invoke()
@@ -317,17 +329,17 @@ object ControllerApi {
     fun isProtoadmin() = isProtoadmin(account)
 
     fun can(adminInfo: LvlInfoUser): Boolean {
-        if (API.PROTOADMINS.contains(account.id)) return true
+        if (protoadmins.contains(account.id)) return true
         return account.lvl >= adminInfo.lvl && account.karma30 >= adminInfo.karmaCount
     }
 
     fun can(adminInfo: LvlInfoAdmin): Boolean {
-        if (API.PROTOADMINS.contains(account.id)) return true
+        if (protoadmins.contains(account.id)) return true
         return account.lvl >= adminInfo.lvl && account.karma30 >= adminInfo.karmaCount
     }
 
     fun can(fandomId: Long, languageId: Long, moderateInfo: LvlInfo): Boolean {
-        if (API.PROTOADMINS.contains(account.id)) return true
+        if (protoadmins.contains(account.id)) return true
         if (can(API.LVL_ADMIN_MODER)) return true
         return account.lvl >= moderateInfo.lvl && getKarmaCount(fandomId, languageId) >= moderateInfo.karmaCount
     }

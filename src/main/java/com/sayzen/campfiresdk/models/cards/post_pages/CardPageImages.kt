@@ -35,6 +35,12 @@ class CardPageImages(
         ControllerApi.makeLinkable(vTitle)
     }
 
+    override fun onDetachView() {
+        if(getView() == null) return
+        val vImagesSwipe: ViewImagesContainer = getView()!!.findViewById(R.id.vImagesSwipe)
+        vImagesSwipe.clear()
+    }
+
     override fun notifyItem() {
         for (i in 0 until (page as PageImages).imagesIds.size) {
             ToolsImagesLoader.load((page as PageImages).imagesIds[i]).intoCash()

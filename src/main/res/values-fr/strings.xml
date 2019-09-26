@@ -816,7 +816,7 @@ Campfire has anime fandoms and gaming fandoms.</string>
     <string name="settings_notifications_enabled">The app receive notifications</string>
     <string name="settings_notifications_disabled">Notifications are muted until: %s</string>
     <string name="settings_notifications_silent">Do not disturb</string>
-    <string name="settings_notifications_silent_time">Do not disturb between</string>
+    <string name="settings_notifications_silent_time">Salient between</string>
     <string name="settings_notifications_watch">Automatically watch the post that I commented</string>
     <string name="settings_notifications_auto_read">Automatically read all notifications when opening a list</string>
     <string name="settings_notifications_notifications">Notifications</string>

@@ -817,7 +817,7 @@
     <string name="settings_notifications_enabled">Приложение получает уведомления</string>
     <string name="settings_notifications_disabled">Уведомления отключены до %s</string>
     <string name="settings_notifications_silent">Не беспокоить</string>
-    <string name="settings_notifications_silent_time">Не беспокоить в это время</string>
+    <string name="settings_notifications_silent_time">Без звука в это время</string>
     <string name="settings_notifications_watch">Автоматически следить за постом при комментировании</string>
     <string name="settings_notifications_auto_read">Автоматически читать все уведомления при открытии списка</string>
     <string name="settings_notifications_notifications">Уведомления</string>

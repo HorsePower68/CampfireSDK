@@ -23,18 +23,57 @@ import com.sup.dev.android.libs.screens.navigator.Navigator
 import com.sup.dev.android.tools.ToolsResources
 import com.sup.dev.android.tools.ToolsView
 import com.sup.dev.android.views.views.ViewAvatarTitle
+import com.sup.dev.android.views.views.ViewChip
+import com.sup.dev.android.views.views.ViewChipMini
 import com.sup.dev.android.views.views.layouts.LayoutMaxSizes
-import com.sup.dev.java.libs.debug.log
 import com.sup.dev.java.libs.eventBus.EventBus
 import com.sup.dev.java.tools.ToolsDate
+import com.sup.dev.java.tools.ToolsText
 import com.sup.dev.java.tools.ToolsThreads
-import java.util.*
+import kotlin.collections.ArrayList
+import kotlin.collections.HashMap
 
 class CardPost constructor(
         private val vRecycler: RecyclerView?,
         unit: UnitPost,
         var onClick: ((UnitPost) -> Unit)? = null
 ) : CardUnit(R.layout.card_unit_post, unit) {
+
+    companion object {
+
+        private val pagesCash = HashMap<Long, ArrayList<View>>()
+        private val cashSize = 5
+
+        private fun getList(card: CardPage): ArrayList<View> {
+            var list = pagesCash[card.page.getType()]
+            if (list == null) {
+                list = ArrayList()
+                pagesCash[card.page.getType()] = list
+            }
+            return list
+        }
+
+        fun getView(card: CardPage, vParent: ViewGroup): View {
+            val list = getList(card)
+            if (list.isEmpty()) {
+                return card.instanceView(vParent)
+            } else {
+                return ToolsView.removeFromParent(list.removeAt(0))
+            }
+        }
+
+        fun putView(card: CardPage) {
+            val view = card.getView()
+            if (view != null) {
+                val list = getList(card)
+                if (list.size < cashSize) {
+                    card.detachView()
+                    getList(card).add(view)
+                }
+            }
+        }
+
+    }
 
     private val eventBus = EventBus
             .subscribe(EventPostChanged::class) { onPostChange(it) }
@@ -123,8 +162,13 @@ class CardPost constructor(
         pages.add(card)
     }
 
+    override fun onDetachView() {
+        for (page in pages) {
+            putView(page)
+        }
+    }
+
     override fun bindView(view: View) {
-        val t = System.currentTimeMillis()
         super.bindView(view)
         val unit = xUnit.unit as UnitPost
 
@@ -155,7 +199,7 @@ class CardPost constructor(
         for (page in pages) {
             page.clickable = isShowFull || (page is CardPageSpoiler) || (page is CardPageImage) || (page is CardPageImages)
             page.postIsDraft = unit.isDraft
-            val v = page.instanceView(vPagesContainer)
+            val v = Companion.getView(page, vPagesContainer)
             page.bindCardView(v)
             vPagesContainer.addView(v)
         }
@@ -175,7 +219,6 @@ class CardPost constructor(
             cardComment.bindCardView(cardCommentView)
             vBestCommentContainer.addView(cardCommentView)
         }
-
         vComments.setOnClickListener {
             if (onClick == null && unit.status == API.STATUS_PUBLIC)
                 ControllerCampfireSDK.onToPostClicked(unit.id, -1, Navigator.TO)
@@ -186,7 +229,6 @@ class CardPost constructor(
         }
 
         updateShowAll()
-        log("bindView (${System.currentTimeMillis() - t})")
     }
 
     override fun updateFandom() {
@@ -197,9 +239,19 @@ class CardPost constructor(
         if (getView() == null) return
         val unit = xUnit.unit as UnitPost
         val vAvatar: ViewAvatarTitle = getView()!!.findViewById(R.id.vAvatar)
-        if (!showFandom) xUnit.xAccount.setView(vAvatar)
-        else xUnit.xFandom.setView(vAvatar)
+        val vKarmaCof: ViewChipMini = getView()!!.findViewById(R.id.vKarmaCof)
+
+        if (showFandom) {
+            vKarmaCof.setText("x${ToolsText.numToStringRoundAndTrim(unit.fandomKarmaCof / 100.0, 2)}")
+            vKarmaCof.setBackgroundRes(if (unit.fandomKarmaCof < 100L) R.color.red_700 else R.color.green_700)
+            vKarmaCof.visibility = if (unit.fandomKarmaCof > 0 && unit.fandomKarmaCof != 100L) View.VISIBLE else View.GONE
+            xUnit.xFandom.setView(vAvatar)
+        } else {
+            vKarmaCof.visibility = View.GONE
+            xUnit.xAccount.setView(vAvatar)
+        }
         if (unit.status == API.STATUS_PENDING) vAvatar.setSubtitle(ToolsDate.dateToString(unit.tag_4))
+
     }
 
     override fun updateComments() {

@@ -119,7 +119,6 @@ class SFandom private constructor(
         spoiler.setTitleGravity(Gravity.CENTER)
         spoiler.setUseExpandedTitleArrow(true)
         spoiler.setUseExpandedArrow(false)
-        spoiler.add(CardKarmaCof(r.fandom))
         spoiler.add(CardReview(xFandom, r.reviews))
         spoiler.add(CardDescription(xFandom, r.description, r.names))
         spoiler.add(CardGallery(xFandom, r.gallery))
@@ -128,6 +127,7 @@ class SFandom private constructor(
         adapter.add(CardSpace(56))
         adapter.add(cardTitle)
         adapter.add(CardButtons(xFandom, r.chatOnlineCount, r.forumsCount, r.tagsCount, r.subscribersCount, r.modersCount, r.subscriptionType != API.UNIT_IMPORTANT_NONE, r.wikiCount))
+        adapter.add(CardKarmaCof(r.fandom))
         adapter.add(spoiler)
         adapter.add(cardFilters)
 
