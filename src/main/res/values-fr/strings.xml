@@ -842,6 +842,8 @@ Campfire has anime fandoms and gaming fandoms.</string>
     <string name="settings_notifications_filter_follows_publications">Follows Publications</string>
     <string name="settings_notifications_filter_chat">Chat</string>
     <string name="settings_notifications_filter_chat_messages">Messages</string>
+    <string name="settings_notifications_filter_chat_messages_salient">Messages (Salient)</string>
+    <string name="settings_notifications_filter_app_other_salient">Other notifications (Salient)</string>
     <string name="settings_notifications_filter_chat_answers">Answers</string>
     <string name="settings_notifications_filter_pm">Private messages</string>
     <string name="settings_style_circles">Round avatars</string>

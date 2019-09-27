@@ -844,6 +844,8 @@
     <string name="settings_notifications_filter_follows_publications">Публикации от подписок</string>
     <string name="settings_notifications_filter_chat">Чат</string>
     <string name="settings_notifications_filter_chat_messages">Сообщения</string>
+    <string name="settings_notifications_filter_chat_messages_salient">Сообщения (Без звука)</string>
+    <string name="settings_notifications_filter_app_other_salient">Другие уведомления (Без звука)</string>
     <string name="settings_notifications_filter_chat_answers">Ответы</string>
     <string name="settings_notifications_filter_pm">Личные сообщения</string>
     <string name="settings_style_circles">Круглые аватары</string>
