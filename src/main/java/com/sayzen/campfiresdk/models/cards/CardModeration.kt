@@ -16,9 +16,10 @@ import com.sup.dev.android.libs.screens.navigator.Navigator
 import com.sup.dev.android.tools.ToolsResources
 import com.sup.dev.android.views.views.ViewAvatarTitle
 import com.sup.dev.android.views.views.ViewTextLinkable
+import com.sup.dev.java.libs.json.Json
 
 class CardModeration(
-    unit: UnitModeration
+        unit: UnitModeration
 ) : CardUnit(R.layout.card_moderation, unit) {
 
     private var clickDisabled: Boolean = false
@@ -28,26 +29,31 @@ class CardModeration(
 
         val unit = xUnit.unit as UnitModeration
 
-        val vText:ViewTextLinkable = view.findViewById(R.id.vText)
-        val vContainerInfo:View = view.findViewById(R.id.vInfoContainer)
-        val vStatus:ViewTextLinkable = view.findViewById(R.id.vStatus)
+        val vText: ViewTextLinkable = view.findViewById(R.id.vText)
+        val vContainerInfo: View = view.findViewById(R.id.vInfoContainer)
+        val vStatus: ViewTextLinkable = view.findViewById(R.id.vStatus)
+        val vStatusComment: ViewTextLinkable = view.findViewById(R.id.vStatusComment)
 
-        if(unit.moderation is ModerationBlock){
+        vStatusComment.visibility = View.GONE
+
+        if (unit.moderation is ModerationBlock) {
             vStatus.visibility = View.VISIBLE
-            if(unit.tag_2 == 0L) {
+            if (unit.tag_2 == 0L) {
                 vStatus.setText(R.string.moderation_checked_empty)
                 vStatus.setTextColor(ToolsResources.getColor(R.color.grey_500))
             }
-            if(unit.tag_2 == 1L) {
-                vStatus.text = ToolsResources.s(R.string.moderation_checked_yes, ControllerApi.linkToUser(unit.tag_s_1))
+            if (unit.tag_2 == 1L) {
                 vStatus.setTextColor(ToolsResources.getColor(R.color.green_700))
+                vStatus.text = ToolsResources.s(R.string.moderation_checked_yes, ControllerApi.linkToUser((unit.moderation!! as ModerationBlock).checkAdminName))
             }
-            if(unit.tag_2 == 2L) {
-                vStatus.text = ToolsResources.s(R.string.moderation_checked_no, ControllerApi.linkToUser(unit.tag_s_1))
+            if (unit.tag_2 == 2L) {
                 vStatus.setTextColor(ToolsResources.getColor(R.color.red_700))
+                vStatus.text = ToolsResources.s(R.string.moderation_checked_no, ControllerApi.linkToUser((unit.moderation!! as ModerationBlock).checkAdminName))
+                vStatusComment.visibility = View.VISIBLE
+                vStatusComment.text = (unit.moderation!! as ModerationBlock).checkAdminComment
             }
             ControllerApi.makeLinkable(vStatus)
-        }else{
+        } else {
             vStatus.visibility = View.GONE
         }
 
@@ -60,7 +66,7 @@ class CardModeration(
     }
 
     override fun updateComments() {
-        if(getView() == null) return
+        if (getView() == null) return
         xUnit.xComments.setView(getView()!!.findViewById(R.id.vComments))
     }
 
@@ -69,8 +75,8 @@ class CardModeration(
     }
 
     override fun updateAccount() {
-        if(getView() == null) return
-        val vAvatar:ViewAvatarTitle = getView()!!.findViewById(R.id.vAvatar)
+        if (getView() == null) return
+        val vAvatar: ViewAvatarTitle = getView()!!.findViewById(R.id.vAvatar)
         if (!showFandom)
             xUnit.xAccount.setView(vAvatar)
         else
@@ -79,12 +85,12 @@ class CardModeration(
     }
 
     override fun updateKarma() {
-        if(getView() == null) return
+        if (getView() == null) return
         xUnit.xKarma.setView(getView()!!.findViewById(R.id.vKarma))
     }
 
     override fun updateReports() {
-       update()
+        update()
     }
 
     override fun notifyItem() {

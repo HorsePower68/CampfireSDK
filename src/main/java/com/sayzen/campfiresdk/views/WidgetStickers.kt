@@ -2,6 +2,8 @@ package com.sayzen.campfiresdk.views
 
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
+import android.widget.TextView
 import androidx.recyclerview.widget.GridLayoutManager
 import com.dzen.campfire.api.models.units.stickers.UnitSticker
 import com.dzen.campfire.api.requests.stickers.RStickersGetAllByAccount
@@ -17,12 +19,15 @@ import com.sup.dev.android.views.dialogs.DialogSheetWidget
 import com.sup.dev.android.views.dialogs.DialogWidget
 import com.sup.dev.android.views.support.adapters.recycler_view.RecyclerCardAdapter
 import com.sup.dev.android.views.widgets.WidgetRecycler
+import com.sup.dev.java.libs.debug.log
 
 open class WidgetStickers : WidgetRecycler(R.layout.widget_stickers) {
 
     private val myAdapter = RecyclerCardAdapter()
     private val vEmptyContainer: View = findViewById(R.id.vEmptyContainer)
-    private val vSearchStickers: View = findViewById(R.id.vSearchStickers)
+    private val vButton: Button = findViewById(R.id.vButton)
+    private val vMessage: TextView = findViewById(R.id.vMessage)
+    private val vProgress: View = findViewById(R.id.vProgress)
 
     private var onSelected: (UnitSticker) -> Unit = { }
     private var spanCount = 4
@@ -31,7 +36,6 @@ open class WidgetStickers : WidgetRecycler(R.layout.widget_stickers) {
     init {
         vEmptyContainer.visibility = View.GONE
 
-        vSearchStickers.setOnClickListener { Navigator.to(SStickersPacksSearch()) }
 
         spanCount = if (ToolsAndroid.isScreenPortrait()) 4 else 8
         vRecycler.layoutManager = GridLayoutManager(view.context, spanCount)
@@ -40,6 +44,12 @@ open class WidgetStickers : WidgetRecycler(R.layout.widget_stickers) {
         setAdapter<WidgetRecycler>(myAdapter)
 
 
+    }
+
+    private fun load(){
+        myAdapter.clear()
+        vProgress.visibility = View.VISIBLE
+        vEmptyContainer.visibility = View.GONE
         RStickersGetAllByAccount(ControllerApi.account.id)
                 .onComplete { r->
                     for(i in r.stickers) {
@@ -50,13 +60,22 @@ open class WidgetStickers : WidgetRecycler(R.layout.widget_stickers) {
                         }
                         myAdapter.add(card)
                     }
+                    vProgress.visibility = View.GONE
                     if(r.stickers.isEmpty()){
                         vEmptyContainer.visibility = View.VISIBLE
+                        vMessage.setText(R.string.stickers_empty)
+                        vButton.setText(R.string.app_search)
+                        vButton.setOnClickListener { Navigator.to(SStickersPacksSearch()) }
                     }
                 }
-                .onError {}
+                .onError {
+                    vProgress.visibility = View.GONE
+                    vEmptyContainer.visibility = View.VISIBLE
+                    vMessage.setText(R.string.error_network)
+                    vButton.setText(R.string.app_retry)
+                    vButton.setOnClickListener { load() }
+                }
                 .send(api)
-
 
     }
 
@@ -75,6 +94,8 @@ open class WidgetStickers : WidgetRecycler(R.layout.widget_stickers) {
             (vRecycler.layoutParams as ViewGroup.MarginLayoutParams).setMargins(ToolsView.dpToPx(8).toInt(), ToolsView.dpToPx(2).toInt(), ToolsView.dpToPx(8).toInt(), 0)
         else if (viewWrapper is DialogSheetWidget)
             vRecycler.layoutParams.height = ToolsView.dpToPx(320).toInt()
+
+        load()
     }
 
     //

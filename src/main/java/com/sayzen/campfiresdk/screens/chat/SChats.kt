@@ -54,15 +54,17 @@ class SChats constructor(
             card
         }
                 .setBottomLoader { onLoad, cards ->
-                    if(ControllerApi.account.id == 0L) ToolsThreads.main(1000) { sendRequest(onLoad, cards) }
+                    if (ControllerApi.account.id == 0L) ToolsThreads.main(1000) { sendRequest(onLoad, cards) }
                     else sendRequest(onLoad, cards)
                 }
 
     }
 
-    private fun sendRequest(onLoad:(Array<UnitChat>?) -> Unit, cards:ArrayList<CardChat>){
+    private fun sendRequest(onLoad: (Array<UnitChat>?) -> Unit, cards: ArrayList<CardChat>) {
         RChatsGetAll(cards.size)
-                .onComplete { r -> onLoad.invoke(r.units) }
+                .onComplete { r ->
+                    onLoad.invoke(r.units)
+                }
                 .onNetworkError { onLoad.invoke(null) }
                 .send(api)
     }
@@ -75,7 +77,7 @@ class SChats constructor(
         }
     }
 
-    private fun reloadOrFlag(){
+    private fun reloadOrFlag() {
         if (Navigator.getCurrent() == this) reload()
         else needReload = true
     }

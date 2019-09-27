@@ -64,9 +64,7 @@ class SStickersPacks(
                             .send(api)
                 }
 
-        if (accountId == ControllerApi.account.id) {
-            adapter.add(CardFavorites())
-        }
+        adapter.add(CardFavorites(accountId))
 
         return adapter
     }

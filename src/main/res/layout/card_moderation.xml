@@ -45,13 +45,26 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center|left"
+            android:layout_marginLeft="16dp"
+            android:orientation="vertical">
+
         <com.sup.dev.android.views.views.ViewTextLinkable
             android:id="@+id/vStatus"
             style="@style/TextAppearance.AppCompat.Body1"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="16dp"
-            android:layout_gravity="center|left"/>
+            android:layout_height="wrap_content"/>
+
+        <com.sup.dev.android.views.views.ViewTextLinkable
+            android:id="@+id/vStatusComment"
+            style="@style/TextAppearance.AppCompat.Caption"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+        </LinearLayout>
 
         <LinearLayout
             android:id="@+id/vInfoContainer"

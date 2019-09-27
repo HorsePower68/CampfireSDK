@@ -1,6 +1,7 @@
 package com.sayzen.campfiresdk.models.cards.stickers
 
 import android.view.View
+import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import com.dzen.campfire.api.models.units.stickers.UnitSticker
@@ -17,7 +18,7 @@ class CardSticker(
         unit: UnitSticker,
         val isShowFullInfo: Boolean = false,
         val isShowReports: Boolean = false
-) : CardUnit(R.layout.card_sticker, unit) {
+) : CardUnit(if (isShowFullInfo) R.layout.card_sticker_info else R.layout.card_sticker, unit) {
 
     var onClick: (UnitSticker) -> Unit = {}
 
@@ -70,8 +71,8 @@ class CardSticker(
     }
 
     override fun updateReports() {
-        if(getView() == null) return
-         xUnit.xReports.setView(getView()!!.findViewById(R.id.vReports))
+        if (getView() == null) return
+        xUnit.xReports.setView(getView()!!.findViewById(R.id.vReports))
     }
 
     override fun notifyItem() {

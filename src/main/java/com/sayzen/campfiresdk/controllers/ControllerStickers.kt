@@ -4,8 +4,7 @@ import android.view.View
 import com.dzen.campfire.api.API
 import com.dzen.campfire.api.models.units.stickers.UnitSticker
 import com.dzen.campfire.api.models.units.stickers.UnitStickersPack
-import com.dzen.campfire.api.requests.stickers.RStickerCollectionChange
-import com.dzen.campfire.api.requests.stickers.RStickersPackCollectionChange
+import com.dzen.campfire.api.requests.stickers.*
 import com.dzen.campfire.api.requests.units.RUnitsRemove
 import com.sayzen.campfiresdk.R
 import com.sayzen.campfiresdk.models.events.stickers.EventStickerCollectionChanged
@@ -39,9 +38,19 @@ object ControllerStickers {
     }
 
     fun switchStickerPackCollection(unit: UnitStickersPack) {
-        ApiRequestsSupporter.executeProgressDialog(RStickersPackCollectionChange(unit.id)) { r ->
-            EventBus.post(EventStickersPackCollectionChanged(unit, r.inCollection))
-            if(r.inCollection)ToolsToast.show(R.string.stickers_message_add_to_collection_pack) else ToolsToast.show(R.string.stickers_message_remove_from_collection_pack)
+        ApiRequestsSupporter.executeProgressDialog(RStickersPackCollectionCheck(unit.id)){ r->
+            if(r.inCollection) {
+                ApiRequestsSupporter.executeEnabledConfirm(R.string.sticker_remove, R.string.app_remove, RStickersPackCollectionRemove(unit.id)) {
+                    EventBus.post(EventStickersPackCollectionChanged(unit, false))
+                    ToolsToast.show(R.string.stickers_message_remove_from_collection_pack)
+                }
+            }
+            else {
+                ApiRequestsSupporter.executeEnabledConfirm(R.string.sticker_add, R.string.app_add, RStickersPackCollectionAdd(unit.id)) {
+                    EventBus.post(EventStickersPackCollectionChanged(unit, true))
+                    ToolsToast.show(R.string.stickers_message_add_to_collection_pack)
+                }
+            }
         }
     }
 
@@ -57,17 +66,26 @@ object ControllerStickers {
                 .add(R.string.app_copy_link) { _, _ -> ToolsAndroid.setToClipboard(ControllerApi.linkToSticker(unit.id)); ToolsToast.show(R.string.app_copied) }
                 .add(R.string.app_remove) { _, _ -> removeSticker(unit.id) }.condition(unit.creatorId == ControllerApi.account.id)
                 .add(R.string.app_report) { _, _ -> ControllerApi.reportUnit(unit.id, R.string.stickers_report_confirm, R.string.sticker_error_gone) }
-                .add(R.string.app_collection) { _, _ -> switchStickerCollection(unit) }.condition(unit.status == API.STATUS_PUBLIC)
+                .add(R.string.app_favorite) { _, _ -> switchStickerCollection(unit) }.condition(unit.status == API.STATUS_PUBLIC)
                 .add(R.string.app_clear_reports) { _, _ -> ControllerUnits.clearReports(unit) }.backgroundRes(R.color.red_700).textColorRes(R.color.white).condition(ControllerPost.ENABLED_CLEAR_REPORTS && ControllerApi.can(API.LVL_ADMIN_MODER) && unit.reportsCount > 0 && unit.creatorId != ControllerApi.account.id)
                 .add(R.string.app_block) { _, _ -> ControllerUnits.block(unit) }.backgroundRes(R.color.red_700).textColorRes(R.color.white).condition(ControllerPost.ENABLED_BLOCK && ControllerApi.can(API.LVL_ADMIN_MODER) && unit.creatorId != ControllerApi.account.id)
                 .asPopupShow(view, x, y)
     }
 
-
     fun switchStickerCollection(unit: UnitSticker) {
-        ApiRequestsSupporter.executeProgressDialog(RStickerCollectionChange(unit.id)) { r ->
-            if(r.inCollection)ToolsToast.show(R.string.stickers_message_add_to_collection) else ToolsToast.show(R.string.stickers_message_remove_from_collection)
-            EventBus.post(EventStickerCollectionChanged(unit, r.inCollection))
+        ApiRequestsSupporter.executeProgressDialog(RStickerCollectionCheck(unit.id)){ r->
+            if(r.inCollection) {
+                ApiRequestsSupporter.executeEnabledConfirm(R.string.sticker_remove_favorites, R.string.app_remove, RStickerCollectionRemove(unit.id)) {
+                    EventBus.post(EventStickerCollectionChanged(unit, false))
+                    ToolsToast.show(R.string.stickers_message_remove_from_collection)
+                }
+            }
+            else {
+                ApiRequestsSupporter.executeEnabledConfirm(R.string.sticker_add_favorites, R.string.app_add, RStickerCollectionAdd(unit.id)) {
+                    EventBus.post(EventStickerCollectionChanged(unit, true))
+                    ToolsToast.show(R.string.stickers_message_add_to_collection)
+                }
+            }
         }
     }
 

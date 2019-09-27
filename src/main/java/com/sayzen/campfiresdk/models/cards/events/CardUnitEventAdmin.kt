@@ -104,7 +104,7 @@ class CardUnitEventAdmin(
                 view.setOnClickListener { ControllerCampfireSDK.onToFandomClicked(e.fandomId, 0, Navigator.TO) }
             }
             is ApiEventAdminFandomKarmaCofChanged -> {
-                text = "" + ToolsResources.sCap(R.string.unit_event_fandom_karma_cof, ToolsResources.sex(e.ownerAccountSex, R.string.he_changed, R.string.she_changed), ToolsText.numToStringRound(e.oldCof / 100.0, 2), ToolsText.numToStringRound(e.newCof / 100.0, 2))
+                text = "" + ToolsResources.sCap(R.string.unit_event_fandom_karma_cof, ToolsResources.sex(e.ownerAccountSex, R.string.he_changed, R.string.she_changed), e.fandomName + " (${ControllerApi.linkToFandom(e.fandomId)})", ToolsText.numToStringRound(e.oldCof / 100.0, 2), ToolsText.numToStringRound(e.newCof / 100.0, 2))
             }
             is ApiEventAdminFandomMakeModerator -> {
                 text = ToolsResources.sCap(R.string.unit_event_make_moderator_admin, ToolsResources.sex(e.ownerAccountSex, R.string.he_make, R.string.she_make), ControllerApi.linkToUser(e.targetAccountName), e.fandomName + " (${ControllerApi.linkToFandom(e.fandomId, e.languageId)})")

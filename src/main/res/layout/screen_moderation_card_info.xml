@@ -29,6 +29,17 @@
             android:layout_marginRight="16dp"
             android:layout_gravity="center|left"/>
 
+
+        <com.sup.dev.android.views.views.ViewTextLinkable
+            android:id="@+id/vStatusComment"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
+            android:layout_gravity="center|left"
+            style="@style/TextAppearance.AppCompat.Caption"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+
         <View style="@style/Divider"
             android:layout_marginTop="16dp"/>
 

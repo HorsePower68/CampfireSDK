@@ -207,9 +207,9 @@ object ControllerCampfireSDK {
         }
     }
 
-    fun removeFromBlackListUser(accountId: Long) {
-        ApiRequestsSupporter.executeEnabledConfirm(R.string.profile_black_list_remove_confirm, R.string.app_remove, RAccountsBlackListRemove(accountId)) {
-            EventBus.post(EventAccountRemoveFromBlackList(accountId))
+    fun removeFromBlackListFandom(fandomId: Long) {
+        ApiRequestsSupporter.executeEnabledConfirm(R.string.fandoms_menu_black_list_remove_confirm, R.string.app_remove, RFandomsBlackListRemove(fandomId)) {
+            EventBus.post(EventFandomBlackListChange(fandomId, false))
             ToolsToast.show(R.string.app_done)
         }
     }
@@ -221,9 +221,9 @@ object ControllerCampfireSDK {
         }
     }
 
-    fun removeFromBlackListFandom(fandomId: Long) {
-        ApiRequestsSupporter.executeEnabledConfirm(R.string.fandoms_menu_black_list_remove_confirm, R.string.app_remove, RFandomsBlackListRemove(fandomId)) {
-            EventBus.post(EventFandomBlackListChange(fandomId, false))
+    fun removeFromBlackListUser(accountId: Long) {
+        ApiRequestsSupporter.executeEnabledConfirm(R.string.profile_black_list_remove_confirm, R.string.app_remove, RAccountsBlackListRemove(accountId)) {
+            EventBus.post(EventAccountRemoveFromBlackList(accountId))
             ToolsToast.show(R.string.app_done)
         }
     }

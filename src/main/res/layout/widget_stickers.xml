@@ -24,6 +24,7 @@
             android:orientation="vertical">
 
             <TextView
+                android:id="@+id/vMessage"
                 android:layout_width="wrap_content"
                 android:layout_gravity="center"
                 android:layout_height="wrap_content"
@@ -31,7 +32,7 @@
                 style="@style/TextAppearance.AppCompat.Subhead"/>
 
             <com.sup.dev.android.views.views.ViewButton
-                android:id="@+id/vSearchStickers"
+                android:id="@+id/vButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 style="@style/Button.Text"
@@ -41,6 +42,13 @@
 
 
         </LinearLayout>
+
+        <ProgressBar
+            android:id="@+id/vProgress"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            />
 
 
     </FrameLayout>

@@ -15,7 +15,9 @@ import com.sup.dev.android.views.screens.SLoadingRecycler
 import com.sup.dev.android.views.support.adapters.recycler_view.RecyclerCardAdapterLoading
 import com.sup.dev.java.libs.eventBus.EventBus
 
-class SStickersViewFavorite() : SLoadingRecycler<CardSticker, UnitSticker>() {
+class SStickersViewFavorite(
+        val accountId:Long
+) : SLoadingRecycler<CardSticker, UnitSticker>() {
 
     private val eventBus = EventBus
             .subscribe(EventStickerCollectionChanged::class){
@@ -47,7 +49,7 @@ class SStickersViewFavorite() : SLoadingRecycler<CardSticker, UnitSticker>() {
         return RecyclerCardAdapterLoading<CardSticker, UnitSticker>(CardSticker::class) { CardSticker(it) }
                 .setShowLoadingCardBottom(false)
                 .setBottomLoader { onLoad, _ ->
-                    subscription = RStickersGetAllFavorite(ControllerApi.account.id)
+                    subscription = RStickersGetAllFavorite(accountId)
                             .onComplete { r ->
                                 if (loaded) {
                                     onLoad.invoke(emptyArray())

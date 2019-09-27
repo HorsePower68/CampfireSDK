@@ -330,6 +330,7 @@ object ControllerNotifications {
             is NotificationAdminLinkRemove -> NotificationAdminLinkRemoveParser(n)
             is NotificationAdminStatusRemove -> NotificationAdminStatusRemoveParser(n)
             is NotificationModerationRejected -> NotificationModerationRejectedParser(n)
+            is NotificationQuestFinish -> NotificationQuestFinishParser(n)
             is NotificationUnitRestore -> NotificationUnitRestoreParser(n)
             is NotificationAdminPostFandomChange -> NotificationAdminPostFandomChangeParser(n)
             is NotificationMention -> NotificationMentionParser(n)
@@ -361,7 +362,7 @@ object ControllerNotifications {
     private class NotificationCommentParser(override val n: NotificationComment) : Parser(n) {
 
         override fun post(icon: Int, intent: Intent, text: String, title: String, tag: String, sound: Boolean) {
-            chanelComments.post(icon, getTitle(), text, intent, tag, sound)
+            chanelComments.post(icon, getTitle(), text, intent, tag, sound, sound)
         }
 
         override fun asString(html: Boolean): String {
@@ -410,7 +411,7 @@ object ControllerNotifications {
     private class NotificationAccountsFollowsAddParser(override val n: NotificationAccountsFollowsAdd) : Parser(n) {
 
         override fun post(icon: Int, intent: Intent, text: String, title: String, tag: String, sound: Boolean) {
-            chanelFollows.post(icon, title, text, intent, tag, sound)
+            chanelFollows.post(icon, title, text, intent, tag, sound, sound)
         }
 
         override fun asString(html: Boolean) = ToolsResources.sCap(
@@ -429,7 +430,7 @@ object ControllerNotifications {
     private class NotificationCommentAnswerParser(override val n: NotificationCommentAnswer) : Parser(n) {
 
         override fun post(icon: Int, intent: Intent, text: String, title: String, tag: String, sound: Boolean) {
-            chanelCommentsAnswers.post(icon, getTitle(), text, intent, tag, sound)
+            chanelCommentsAnswers.post(icon, getTitle(), text, intent, tag, sound, sound)
         }
 
         override fun asString(html: Boolean) = if (n.commentText.isNotEmpty()) n.commentText
@@ -477,7 +478,7 @@ object ControllerNotifications {
             }
 
 
-            chanelChatMessages.post(icon, titleV, textV, intent, tagV, sound)
+            chanelChatMessages.post(icon, titleV, textV, intent, tagV, sound, sound)
         }
 
         override fun asString(html: Boolean): String {
@@ -502,7 +503,7 @@ object ControllerNotifications {
             val unit = n.unitChatMessage
             val tagV = n.tag.asTag()
 
-            chanelChatAnswers.post(icon, unit.fandomName, text, intent, tagV, sound)
+            chanelChatAnswers.post(icon, unit.fandomName, text, intent, tagV, sound, sound)
         }
 
         override fun asString(html: Boolean): String {
@@ -519,7 +520,7 @@ object ControllerNotifications {
     private class NotificationFollowsPublicationParser(override val n: NotificationFollowsPublication) : Parser(n) {
 
         override fun post(icon: Int, intent: Intent, text: String, title: String, tag: String, sound: Boolean) {
-            chanelFollowsPost.post(icon, title, text, intent, tag, sound)
+            chanelFollowsPost.post(icon, title, text, intent, tag, sound, sound)
         }
 
         override fun asString(html: Boolean) = ToolsResources.sCap(
@@ -538,7 +539,7 @@ object ControllerNotifications {
             Parser(n) {
 
         override fun post(icon: Int, intent: Intent, text: String, title: String, tag: String, sound: Boolean) {
-            chanelOther.post(icon, title, text, intent, tag, sound)
+            chanelOther.post(icon, title, text, intent, tag, sound, sound)
         }
 
         override fun asString(html: Boolean) =
@@ -551,7 +552,7 @@ object ControllerNotifications {
     private class NotificationFandomMakeModeratorParser(override val n: NotificationFandomMakeModerator) : Parser(n) {
 
         override fun post(icon: Int, intent: Intent, text: String, title: String, tag: String, sound: Boolean) {
-            chanelOther.post(icon, title, text, intent, tag, sound)
+            chanelOther.post(icon, title, text, intent, tag, sound, sound)
         }
 
         override fun asString(html: Boolean) =
@@ -564,7 +565,7 @@ object ControllerNotifications {
     private class NotificationAchievementParser(override val n: NotificationAchievement) : Parser(n) {
 
         override fun post(icon: Int, intent: Intent, text: String, title: String, tag: String, sound: Boolean) {
-            chanelAchievements.post(icon, getTitle(), text, intent, tag, sound)
+            chanelAchievements.post(icon, getTitle(), text, intent, tag, sound, sound)
         }
 
         override fun getTitle(): String {
@@ -584,7 +585,7 @@ object ControllerNotifications {
     private class NotificationFandomAcceptedParser(override val n: NotificationFandomAccepted) : Parser(n) {
 
         override fun post(icon: Int, intent: Intent, text: String, title: String, tag: String, sound: Boolean) {
-            chanelOther.post(icon, title, text, intent, tag, sound)
+            chanelOther.post(icon, title, text, intent, tag, sound, sound)
         }
 
         override fun asString(html: Boolean): String {
@@ -599,7 +600,7 @@ object ControllerNotifications {
     private class NotificationUnitBlockParser(override val n: NotificationUnitBlock) : Parser(n) {
 
         override fun post(icon: Int, intent: Intent, text: String, title: String, tag: String, sound: Boolean) {
-            chanelOther.post(icon, getTitle(), text, intent, tag, sound)
+            chanelOther.post(icon, getTitle(), text, intent, tag, sound, sound)
         }
 
         override fun asString(html: Boolean): String {
@@ -623,7 +624,7 @@ object ControllerNotifications {
     private class NotificationUnitBlockAfterReportParser(override val n: NotificationUnitBlockAfterReport) : Parser(n) {
 
         override fun post(icon: Int, intent: Intent, text: String, title: String, tag: String, sound: Boolean) {
-            chanelOther.post(icon, getTitle(), text, intent, tag, sound)
+            chanelOther.post(icon, getTitle(), text, intent, tag, sound, sound)
         }
 
         override fun asString(html: Boolean): String {
@@ -647,7 +648,7 @@ object ControllerNotifications {
     private class NotificationKarmaAddParser(override val n: NotificationKarmaAdd) : Parser(n) {
 
         override fun post(icon: Int, intent: Intent, text: String, title: String, tag: String, sound: Boolean) {
-            chanelKarma.post(icon, title, text, intent, tag, sound)
+            chanelKarma.post(icon, title, text, intent, tag, sound, sound)
         }
 
         override fun asString(html: Boolean): String {
@@ -701,7 +702,7 @@ object ControllerNotifications {
     private class NotificationUnitImportantParser(override val n: NotificationUnitImportant) : Parser(n) {
 
         override fun post(icon: Int, intent: Intent, text: String, title: String, tag: String, sound: Boolean) {
-            chanelImportant.post(icon, title, text, intent, tag, sound)
+            chanelImportant.post(icon, title, text, intent, tag, sound, sound)
         }
 
         override fun asString(html: Boolean) =
@@ -714,7 +715,7 @@ object ControllerNotifications {
     private class NotificationModerationToDraftParser(override val n: NotificationModerationToDraft) : Parser(n) {
 
         override fun post(icon: Int, intent: Intent, text: String, title: String, tag: String, sound: Boolean) {
-            chanelOther.post(icon, getTitle(), text, intent, tag, sound)
+            chanelOther.post(icon, getTitle(), text, intent, tag, sound, sound)
         }
 
         override fun asString(html: Boolean): String {
@@ -740,7 +741,7 @@ object ControllerNotifications {
     private class NotificationModerationMultilingualNotParser(override val n: NotificationModerationMultilingualNot) : Parser(n) {
 
         override fun post(icon: Int, intent: Intent, text: String, title: String, tag: String, sound: Boolean) {
-            chanelOther.post(icon, getTitle(), text, intent, tag, sound)
+            chanelOther.post(icon, getTitle(), text, intent, tag, sound, sound)
         }
 
         override fun asString(html: Boolean): String {
@@ -766,7 +767,7 @@ object ControllerNotifications {
     private class NotificationModerationPostTagsParser(override val n: NotificationModerationPostTags) : Parser(n) {
 
         override fun post(icon: Int, intent: Intent, text: String, title: String, tag: String, sound: Boolean) {
-            chanelOther.post(icon, getTitle(), text, intent, tag, sound)
+            chanelOther.post(icon, getTitle(), text, intent, tag, sound, sound)
         }
 
         override fun asString(html: Boolean): String {
@@ -792,7 +793,7 @@ object ControllerNotifications {
     private class NotificationBlockParser(override val n: NotificationAdminBlock) : Parser(n) {
 
         override fun post(icon: Int, intent: Intent, text: String, title: String, tag: String, sound: Boolean) {
-            chanelOther.post(icon, getTitle(), text, intent, tag, sound)
+            chanelOther.post(icon, getTitle(), text, intent, tag, sound, sound)
         }
 
         override fun asString(html: Boolean): String {
@@ -818,7 +819,7 @@ object ControllerNotifications {
     private class NotificationForgiveParser(override val n: NotificationForgive) : Parser(n) {
 
         override fun post(icon: Int, intent: Intent, text: String, title: String, tag: String, sound: Boolean) {
-            chanelOther.post(icon, getTitle(), text, intent, tag, sound)
+            chanelOther.post(icon, getTitle(), text, intent, tag, sound, sound)
         }
 
         override fun asString(html: Boolean): String {
@@ -844,7 +845,7 @@ object ControllerNotifications {
     private class NotificationPunishmentRemoveParser(override val n: NotificationPunishmentRemove) : Parser(n) {
 
         override fun post(icon: Int, intent: Intent, text: String, title: String, tag: String, sound: Boolean) {
-            chanelOther.post(icon, title, text, intent, tag, sound)
+            chanelOther.post(icon, title, text, intent, tag, sound, sound)
         }
 
         override fun asString(html: Boolean) = ToolsResources.sCap(
@@ -935,7 +936,7 @@ object ControllerNotifications {
     private class NotificationAdminNameRemoveParser(override val n: NotificationAdminNameRemove) : Parser(n) {
 
         override fun post(icon: Int, intent: Intent, text: String, title: String, tag: String, sound: Boolean) {
-            chanelOther.post(icon, getTitle(), text, intent, tag, sound)
+            chanelOther.post(icon, getTitle(), text, intent, tag, sound, sound)
         }
 
         override fun asString(html: Boolean): String {
@@ -961,7 +962,7 @@ object ControllerNotifications {
             Parser(n) {
 
         override fun post(icon: Int, intent: Intent, text: String, title: String, tag: String, sound: Boolean) {
-            chanelOther.post(icon, getTitle(), text, intent, tag, sound)
+            chanelOther.post(icon, getTitle(), text, intent, tag, sound, sound)
         }
 
         override fun asString(html: Boolean): String {
@@ -986,7 +987,7 @@ object ControllerNotifications {
     private class NotificationAdminLinkRemoveParser(override val n: NotificationAdminLinkRemove) : Parser(n) {
 
         override fun post(icon: Int, intent: Intent, text: String, title: String, tag: String, sound: Boolean) {
-            chanelOther.post(icon, getTitle(), text, intent, tag, sound)
+            chanelOther.post(icon, getTitle(), text, intent, tag, sound, sound)
         }
 
         override fun asString(html: Boolean): String {
@@ -1011,7 +1012,7 @@ object ControllerNotifications {
     private class NotificationAdminStatusRemoveParser(override val n: NotificationAdminStatusRemove) : Parser(n) {
 
         override fun post(icon: Int, intent: Intent, text: String, title: String, tag: String, sound: Boolean) {
-            chanelOther.post(icon, getTitle(), text, intent, tag, sound)
+            chanelOther.post(icon, getTitle(), text, intent, tag, sound, sound)
         }
 
         override fun asString(html: Boolean): String {
@@ -1036,7 +1037,7 @@ object ControllerNotifications {
     private class NotificationModerationRejectedParser(override val n: NotificationModerationRejected) : Parser(n) {
 
         override fun post(icon: Int, intent: Intent, text: String, title: String, tag: String, sound: Boolean) {
-            chanelOther.post(icon, getTitle(), text, intent, tag, sound)
+            chanelOther.post(icon, getTitle(), text, intent, tag, sound, sound)
         }
 
         override fun asString(html: Boolean): String {
@@ -1058,10 +1059,28 @@ object ControllerNotifications {
 
     }
 
+    private class NotificationQuestFinishParser(override val n: NotificationQuestFinish) : Parser(n) {
+
+        override fun post(icon: Int, intent: Intent, text: String, title: String, tag: String, sound: Boolean) {
+            chanelOther.post(icon, getTitle(), text, intent, tag, sound, sound)
+        }
+
+        override fun asString(html: Boolean): String {
+            return ToolsResources.s(CampfireConstants.getQuest(n.questIndex).text)
+        }
+
+        override fun getTitle(): String {
+            return ToolsResources.sCap(R.string.notification_quest_finish)
+        }
+
+        override fun getIcon() = R.drawable.ic_security_white_24dp
+
+    }
+
     private class NotificationUnitRestoreParser(override val n: NotificationUnitRestore) : Parser(n) {
 
         override fun post(icon: Int, intent: Intent, text: String, title: String, tag: String, sound: Boolean) {
-            chanelOther.post(icon, getTitle(), text, intent, tag, sound)
+            chanelOther.post(icon, getTitle(), text, intent, tag, sound, sound)
         }
 
         override fun asString(html: Boolean): String {
@@ -1081,7 +1100,7 @@ object ControllerNotifications {
             Parser(n) {
 
         override fun post(icon: Int, intent: Intent, text: String, title: String, tag: String, sound: Boolean) {
-            chanelOther.post(icon, title, text, intent, tag, sound)
+            chanelOther.post(icon, title, text, intent, tag, sound, sound)
         }
 
         override fun asString(html: Boolean): String {
@@ -1106,7 +1125,7 @@ object ControllerNotifications {
     private class NotificationMentionParser(override val n: NotificationMention) : Parser(n) {
 
         override fun post(icon: Int, intent: Intent, text: String, title: String, tag: String, sound: Boolean) {
-            chanelOther.post(icon, getTitle(), text, intent, tag, sound)
+            chanelOther.post(icon, getTitle(), text, intent, tag, sound, sound)
         }
 
         override fun asString(html: Boolean) = n.text

@@ -47,6 +47,7 @@ class CardInfo(
         val vComments: TextView = view.findViewById(R.id.vComments)
         val vKarma: ViewKarma = view.findViewById(R.id.vKarma)
         val vStatus:ViewTextLinkable = view.findViewById(R.id.vStatus)
+        val vStatusComment: ViewTextLinkable = view.findViewById(R.id.vStatusComment)
 
         if(unit.moderation is ModerationBlock){
             vStatus.visibility = View.VISIBLE
@@ -54,13 +55,15 @@ class CardInfo(
                 vStatus.setText(R.string.moderation_checked_empty)
                 vStatus.setTextColor(ToolsResources.getColor(R.color.grey_500))
             }
-            if(unit.tag_2 == 1L) {
-                vStatus.text = ToolsResources.s(R.string.moderation_checked_yes, ControllerApi.linkToUser(unit.tag_s_1))
+            if (unit.tag_2 == 1L) {
                 vStatus.setTextColor(ToolsResources.getColor(R.color.green_700))
+                vStatus.text = ToolsResources.s(R.string.moderation_checked_yes, ControllerApi.linkToUser((unit.moderation!! as ModerationBlock).checkAdminName))
             }
-            if(unit.tag_2 == 2L) {
-                vStatus.text = ToolsResources.s(R.string.moderation_checked_no, ControllerApi.linkToUser(unit.tag_s_1))
+            if (unit.tag_2 == 2L) {
                 vStatus.setTextColor(ToolsResources.getColor(R.color.red_700))
+                vStatus.text = ToolsResources.s(R.string.moderation_checked_no, ControllerApi.linkToUser((unit.moderation!! as ModerationBlock).checkAdminName))
+                vStatusComment.visibility = View.VISIBLE
+                vStatusComment.text = (unit.moderation!! as ModerationBlock).checkAdminComment
             }
             ControllerApi.makeLinkable(vStatus)
         }else{

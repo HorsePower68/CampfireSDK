@@ -174,6 +174,7 @@
     <string name="app_title">Заголовок</string>
     <string name="app_confirm">Подтвердить</string>
     <string name="app_file">Файл</string>
+    <string name="app_favorite">Избранное</string>
     <string name="app_favorites">Избранные</string>
     <string name="app_error">Ошибка</string>
     <string name="app_post">Пост</string>
@@ -251,6 +252,8 @@
     <string name="she_close">закрыла</string>
     <string name="he_pined">закрепил</string>
     <string name="she_pined">закрепилa</string>
+    <string name="he_finished">завершил</string>
+    <string name="she_finished">завершила</string>
 
     <string name="filter_events">События</string>
     <string name="filter_posts">Посты</string>
@@ -309,6 +312,7 @@
     <string name="notification_admin_moderation_restore">Ваша публикация востановлена</string>
     <string name="notification_admin_post_fandom_change">Администартор %s %s ваш пост из фэндома %s в %s</string>
     <string name="notification_mention">%s %s вас</string>
+    <string name="notification_quest_finish">Ежедневное задание завершено</string>
 
     <string name="message_publication_rules">Используя данное приложение, вы подтверждаете что вам уже исполнилось 13 лет. Любые публикации должны соответстовать %s и %s</string>
     <string name="message_publication_rules_1">правилам Campfire</string>
@@ -543,13 +547,15 @@
     <string name="stickers_packs_error_gone">Похоже кто-то удалил этот набор стикеров</string>
     <string name="stickers_empty">Похоже у вас нет стикеров</string>
     <string name="stickers_packs_clear_reports_confirm">Удалить жалобы на этот набор стикеров?</string>
-    <string name="stickers_message_add_to_collection">Стикер добавлен в коллекцию</string>
     <string name="stickers_message_add_to_collection_pack">Набор стикеров добавлен в коллекцию</string>
-    <string name="stickers_message_remove_from_collection">Стикер удалён из в коллекции</string>
     <string name="stickers_message_remove_from_collection_pack">Набор стикеров удалён из в коллекции</string>
     <string name="sticker_error_gone">Похоже кто-то удалил этот стикер</string>
-    <string name="sticker_add">Добавить в коллекцию</string>
-    <string name="sticker_remove">Убрать из коллекции</string>
+    <string name="sticker_add">Добавить в коллекцию?</string>
+    <string name="sticker_remove">Убрать из коллекции?</string>
+    <string name="sticker_add_favorites">Добавить в избранное?</string>
+    <string name="sticker_remove_favorites">Убрать из избранного?</string>
+    <string name="stickers_message_add_to_collection">Стикер добавлен в избранное</string>
+    <string name="stickers_message_remove_from_collection">Стикер удалён из в избранного</string>
     <string name="sticker_event_create_sticker">%s новый стикер в набор</string>
     <string name="sticker_event_create_stickers_pack">%s набор стикеров</string>
 
@@ -1234,6 +1240,7 @@
     <string name="unit_event_unit_warn_app">%s модератором %s в фэндоме %s</string>
     <string name="unit_event_unit_warn_app_admin">%s пользователя %s в фэндоме %s</string>
     <string name="unit_event_achievement">%s новый уровень достижения: %s</string>
+    <string name="unit_event_quest_finish">%s ежедневное задание</string>
     <string name="unit_event_fandom_suggested">%s фэндом %s</string>
     <string name="unit_event_fandom_suggested_self">%s и %s фэндом %s</string>
     <string name="unit_event_fandom_suggested_accept">%s фэндом %s</string>
@@ -1252,7 +1259,7 @@
     <string name="unit_event_remove_titile_image">Администратор %s %s фоновую картинку этого пользователя</string>
     <string name="unit_event_remove_titile_image_admin">%s фоновую картинку пользователя %s</string>
     <string name="unit_event_remove_fandom">%s фэндом %s</string>
-    <string name="unit_event_fandom_karma_cof">%s коэффициент кармы в фэндоме с %s на %s</string>
+    <string name="unit_event_fandom_karma_cof">%s коэффициент кармы в фэндоме %s с %s на %s</string>
     <string name="unit_event_fandom_rename">%s фэндом с %s на %s</string>
     <string name="unit_event_fandom_close">%s фэндом %s</string>
     <string name="unit_event_fandom_avatar">%s аватар фэндома %s</string>
@@ -1351,7 +1358,7 @@
     <string name="administration_requests_middle">В среднем</string>
     <string name="administration_requests_count">Всего</string>
     <string name="administration_errors">Статистика ошибок</string>
-    <string name="administration_admins_events">События админов</string>
+    <string name="administration_admins_events">Действия администраторов</string>
     <string name="administration_errors_empty">Нет ошибок. Пока ;)</string>
 
     <string name="statistic_7_day">7 дней</string>

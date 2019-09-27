@@ -67,6 +67,16 @@ class CardKarmaCof(
 
                     return@addChecker_1 true
                 }
+                .addChecker_1("") {
+                    try {
+                        val v = (it.toDouble() * 100).toLong()
+                        if (v == fandom.karmaCof)  return@addChecker_1 false
+                    } catch (e: Exception) {
+                        return@addChecker_1 false
+                    }
+
+                    return@addChecker_1 true
+                }
                 .setMin_1(1)
                 .setMax_1(4)
                 .setMin_2(API.MODERATION_COMMENT_MIN_L)
@@ -75,6 +85,7 @@ class CardKarmaCof(
                 .addChecker_2(R.string.error_use_english) { ToolsText.isOnly(it, API.ENGLISH) }
                 .setOnEnter(R.string.app_change) { w, cof, comment ->
                     val v = (cof.toDouble() * 100).toLong()
+
                     ApiRequestsSupporter.executeEnabled(w, RFandomsAdminSetCof(fandom.id, v, comment)) {
                         EventBus.post(EventFandomKarmaCofChanged(fandom.id, v))
                         ToolsToast.show(R.string.app_done)

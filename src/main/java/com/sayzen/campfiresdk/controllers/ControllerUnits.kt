@@ -32,6 +32,7 @@ import com.sup.dev.android.tools.ToolsToast
 import com.sup.dev.android.views.views.ViewTextLinkable
 import com.sup.dev.android.views.widgets.WidgetField
 import com.sup.dev.android.views.widgets.WidgetMenu
+import com.sup.dev.java.libs.debug.log
 import com.sup.dev.java.libs.eventBus.EventBus
 import com.sup.dev.java.tools.ToolsDate
 import com.sup.dev.java.tools.ToolsText
@@ -39,7 +40,7 @@ import java.util.*
 
 object ControllerUnits {
 
-    fun getName(unitType:Long):String{
+    fun getName(unitType: Long): String {
         return when (unitType) {
             API.UNIT_TYPE_COMMENT -> ToolsResources.s(R.string.app_sticker)
             API.UNIT_TYPE_CHAT_MESSAGE -> ToolsResources.s(R.string.app_message)
@@ -201,7 +202,7 @@ object ControllerUnits {
     //
 
 
-    fun showModerationPopup( unit: UnitModeration) {
+    fun showModerationPopup(unit: UnitModeration) {
         WidgetMenu()
                 .add(R.string.app_copy_link) { _, _ ->
                     ToolsAndroid.setToClipboard(ControllerApi.linkToModeration(unit.id))
@@ -232,7 +233,7 @@ object ControllerUnits {
                 .setMin(API.MODERATION_COMMENT_MIN_L)
                 .setMax(API.MODERATION_COMMENT_MAX_L)
                 .setOnEnter(R.string.app_remove) { _, comment ->
-                    ApiRequestsSupporter.executeProgressDialog(RFandomsModerationForumRemove(unitId, comment)) {_->
+                    ApiRequestsSupporter.executeProgressDialog(RFandomsModerationForumRemove(unitId, comment)) { _ ->
                         EventBus.post(EventUnitRemove(unitId))
                         ToolsToast.show(R.string.app_done)
                     }
@@ -417,7 +418,8 @@ object ControllerUnits {
             }
         }
 
-        if (!ToolsText.empty(unit.moderation!!.comment)) text += "\n" + ToolsResources.sCap(R.string.moderation_card_block_text_comment, unit.moderation!!.comment)
+        if (unit.moderation != null)
+            if (!ToolsText.empty(unit.moderation!!.comment)) text += "\n" + ToolsResources.sCap(R.string.moderation_card_block_text_comment, unit.moderation!!.comment)
         vText.text = text
         ControllerApi.makeLinkable(vText)
     }
