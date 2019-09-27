@@ -19,7 +19,6 @@ import com.sup.dev.android.views.dialogs.DialogSheetWidget
 import com.sup.dev.android.views.dialogs.DialogWidget
 import com.sup.dev.android.views.support.adapters.recycler_view.RecyclerCardAdapter
 import com.sup.dev.android.views.widgets.WidgetRecycler
-import com.sup.dev.java.libs.debug.log
 
 open class WidgetStickers : WidgetRecycler(R.layout.widget_stickers) {
 

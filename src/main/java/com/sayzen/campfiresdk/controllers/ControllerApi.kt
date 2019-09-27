@@ -180,16 +180,21 @@ object ControllerApi {
 
     fun setCurrentAccount(account: Account, hasSubscribes: Boolean = false, protoadmins: Array<Long> = emptyArray()) {
         this.account = account
-        this.hasSubscribes = hasSubscribes
         this.protoadmins = protoadmins
         ToolsStorage.put("account json", account.json(true, Json()))
-        ToolsStorage.put("hasSubscribes", hasSubscribes)
+
+        setHasFandomSubscribes(hasSubscribes)
 
         val jProtoadmins = JsonArray()
         for(i in protoadmins) jProtoadmins.put(i)
         ToolsStorage.put("protoadmins", jProtoadmins)
 
         ControllerPolling.clear()
+    }
+
+    fun setHasFandomSubscribes(hasSubscribes: Boolean){
+        this.hasSubscribes = hasSubscribes
+        ToolsStorage.put("hasSubscribes", hasSubscribes)
     }
 
     fun getLastAccount(): Account {

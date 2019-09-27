@@ -1,6 +1,5 @@
 package com.sayzen.campfiresdk.models.support
 
-
 import com.sup.dev.java.libs.debug.err
 import com.sup.dev.java.tools.ToolsText
 import java.lang.Exception
@@ -165,7 +164,7 @@ class TextParser(
 
                 if (nextClose == -1) return false
 
-                var nextSpace = findNext(' ', nextClose)
+                var nextSpace = findNext(' ', 0)
                 if (nextSpace == -1) nextSpace = text.length
 
                 val name = text.substring(i + 1, nextClose)

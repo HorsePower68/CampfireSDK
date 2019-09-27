@@ -49,6 +49,7 @@ class CardTitle(
             val type = if (subscriptionType == API.UNIT_IMPORTANT_NONE) API.UNIT_IMPORTANT_DEFAULT else API.UNIT_IMPORTANT_NONE
             ApiRequestsSupporter.executeProgressDialog(RFandomsSubscribeChange(xFandom.fandomId, xFandom.languageId, type, true)) { _ ->
                 EventBus.post(EventFandomSubscribe(xFandom.fandomId, xFandom.languageId, type, true))
+                if(type != API.UNIT_IMPORTANT_NONE)ControllerApi.setHasFandomSubscribes(true)
                 ToolsToast.show(R.string.app_done)
             }
         }

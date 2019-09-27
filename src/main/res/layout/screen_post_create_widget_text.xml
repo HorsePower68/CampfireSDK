@@ -51,6 +51,11 @@
                     android:id="@+id/vIconAttach"
                     style="@style/Icon.Toolbar.Filtered" />
 
+                <com.sup.dev.android.views.views.ViewIcon
+                    android:id="@+id/vLink"
+                    style="@style/Icon.Toolbar.Filtered"
+                    android:src="?ic_insert_link_24dp" />
+
             </LinearLayout>
 
             <com.google.android.material.floatingactionbutton.FloatingActionButton

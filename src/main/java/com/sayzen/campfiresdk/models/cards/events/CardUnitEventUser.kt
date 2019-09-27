@@ -15,7 +15,6 @@ import com.sup.dev.android.libs.screens.navigator.Navigator
 import com.sup.dev.android.tools.ToolsResources
 import com.sup.dev.android.views.views.ViewAvatar
 import com.sup.dev.android.views.views.ViewTextLinkable
-import com.sup.dev.java.libs.debug.log
 import com.sup.dev.java.tools.ToolsDate
 
 class CardUnitEventUser(
@@ -76,7 +75,6 @@ class CardUnitEventUser(
             }
             is ApiEventUserAdminUnitBlocked -> {
                 val unitName = ControllerUnits.getName(e.unitType)
-                log("> ${e.unitType} $unitName")
                 text = ToolsResources.sCap(R.string.unit_event_blocked_unit, ControllerApi.linkToUser(e.adminAccountName), ToolsResources.sex(e.adminAccountSex, R.string.he_blocked, R.string.she_blocked), unitName)
                 if (e.blockAccountDate > 0 && e.blockFandomId < 1) text += "\n" + ToolsResources.s(R.string.unit_event_account_blocked_date, ToolsDate.dateToStringFull(e.blockAccountDate))
                 if (e.blockAccountDate > 0 && e.blockFandomId > 0) text += "\n" + ToolsResources.s(R.string.unit_event_account_blocked_date_fandom, ToolsDate.dateToStringFull(e.blockAccountDate), "${e.blockFandomName} (${ControllerApi.linkToFandom(e.blockFandomId, e.blockFandomLanguageId)})")

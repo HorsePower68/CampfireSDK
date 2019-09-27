@@ -9,6 +9,7 @@ import com.sayzen.campfiresdk.models.cards.CardFandom
 import com.sayzen.campfiresdk.screens.fandoms.suggest.SFandomSuggest
 import com.sayzen.campfiresdk.controllers.ControllerApi
 import com.sayzen.campfiresdk.controllers.api
+import com.sayzen.devsupandroidgoogle.ControllerFirebaseAnalytics
 import com.sup.dev.android.libs.screens.navigator.NavigationAction
 import com.sup.dev.android.libs.screens.navigator.Navigator
 import com.sup.dev.android.tools.ToolsResources
@@ -60,6 +61,7 @@ class SFandomsSearch private constructor(
         (vFab as View).visibility = View.VISIBLE
         vFab.setImageResource(R.drawable.ic_search_white_24dp)
         vFab.setOnClickListener {
+            ControllerFirebaseAnalytics.post_2()
             Navigator.to(SFandomsSearchParams(name, categoryId,
                     params1,
                     params2,

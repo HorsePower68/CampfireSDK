@@ -18,6 +18,7 @@ import com.sup.dev.android.views.cards.Card
 import com.sup.dev.android.views.support.watchers.TextWatcherChanged
 import com.sup.dev.android.views.views.ViewIcon
 import com.sup.dev.android.views.widgets.Widget
+import com.sup.dev.android.views.widgets.WidgetFieldTwo
 import com.sup.dev.android.views.widgets.WidgetGreed
 import com.sup.dev.java.tools.ToolsText
 
@@ -32,6 +33,7 @@ class SCreatePageText(
     private val vFab: FloatingActionButton = findViewById(R.id.vFab)
     private val vTextTitle: ViewIcon = findViewById(R.id.vTextTitle)
     private val vIconAttach: ViewIcon = findViewById(R.id.vIconAttach)
+    private val vLink: ViewIcon = findViewById(R.id.vLink)
 
     private var size = PageText.SIZE_0
     private var icon = 0
@@ -77,8 +79,30 @@ class SCreatePageText(
             w.asSheetShow()
         }
 
+        vLink.setOnClickListener { addLink() }
+
         updateIcon()
         update()
+    }
+
+    private fun addLink() {
+        val s1 = vField.selectionStart
+        val s2 = vField.selectionEnd
+        WidgetFieldTwo()
+                .setOnCancel(R.string.app_cancel)
+                .setHint_1(R.string.app_name_s)
+                .setLinesCount_1(1)
+                .setMin_1(1)
+                .setMax_1(100)
+                .setHint_2(R.string.app_link)
+                .addChecker_2(R.string.error_not_url) { ToolsText.isWebLink(it) }
+                .setOnEnter(R.string.app_add) { w, name, link ->
+                    val text = vField.text.toString()
+                    val linkS = "[$name]$link"
+                    vField.setText(text.substring(0, s1) + linkS + text.subSequence(s2, text.length))
+                    vField.setSelection(s1 + linkS.length)
+                }
+                .asSheetShow()
     }
 
     private fun updateIcon() {
