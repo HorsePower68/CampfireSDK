@@ -2,8 +2,6 @@ package com.sayzen.campfiresdk.app.develop
 
 /*
 
-    Баг. Сломались мультиязычные посты
-
     Интегрировать вики
 
     Массовый ремонт
