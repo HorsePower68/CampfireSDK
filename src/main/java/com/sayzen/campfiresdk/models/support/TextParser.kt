@@ -2,7 +2,6 @@ package com.sayzen.campfiresdk.models.support
 
 import com.sup.dev.java.libs.debug.err
 import com.sup.dev.java.tools.ToolsText
-import java.lang.Exception
 
 class TextParser(
         val text: String
@@ -164,9 +163,10 @@ class TextParser(
 
                 if (nextClose == -1) return false
 
-                var nextSpace = findNext(' ', 0)
+                var nextSpace = findNext(' ', nextClose - i)
                 if (nextSpace == -1) nextSpace = text.length
 
+                if(ToolsText.TEXT_CHARS_s.contains(text[nextSpace-1])) nextSpace--
                 val name = text.substring(i + 1, nextClose)
                 val link = text.substring(nextClose + 1, nextSpace)
 

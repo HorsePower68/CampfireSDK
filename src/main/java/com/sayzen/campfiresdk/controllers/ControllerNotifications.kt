@@ -321,10 +321,8 @@ object ControllerNotifications {
             is NotificationUnitRestore -> NotificationUnitRestoreParser(n)
             is NotificationAdminPostFandomChange -> NotificationAdminPostFandomChangeParser(n)
             is NotificationMention -> NotificationMentionParser(n)
+            else -> NotificationUnknownParserParser(n)
 
-            else -> {
-                throw RuntimeException("Unknown Notification $n")
-            }
         }
     }
 
@@ -1119,6 +1117,20 @@ object ControllerNotifications {
         override fun getTitle() = ToolsResources.sCap(R.string.notification_mention, n.fromAccountName, ToolsResources.sex(n.fromAccountSex, R.string.he_mentioned, R.string.she_mentioned))
 
         override fun getIcon() = R.drawable.ic_person_white_24dp
+
+    }
+
+    private class NotificationUnknownParserParser(override val n: Notification) : Parser(n) {
+
+        override fun post(icon: Int, intent: Intent, text: String, title: String, tag: String, sound: Boolean) {
+
+        }
+
+        override fun asString(html: Boolean) = ""
+
+        override fun getTitle() = ""
+
+        override fun getIcon() = R.drawable.ic_clear_white_24dp
 
     }
 

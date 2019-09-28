@@ -317,7 +317,7 @@ object ControllerApi {
 
     fun isAdmin(accountId: Long, lvl: Long) = !isProtoadmin(accountId, lvl) && lvl >= API.LVL_ADMIN_MODER.lvl
 
-    fun isProtoadmin(accountId: Long, lvl: Long) = accountId == 1L || lvl >= API.LVL_PROTOADMIN.lvl
+    fun isProtoadmin(accountId: Long, lvl: Long) = protoadmins.contains(accountId) || lvl >= API.LVL_PROTOADMIN.lvl
 
     fun isBot(accountName: String) = accountName.startsWith("Bot#")
 
