@@ -86,7 +86,7 @@ class SPost constructor(
         ControllerNotifications.removeNotificationFromNew(NotificationFollowsPublication::class, unit.id)
         ControllerNotifications.removeNotificationFromNew(NotificationUnitImportant::class, unit.id)
 
-        if (unit.fandomClosed)
+        if (ControllerCampfireSDK.ENABLE_CLOSE_FANDOM_ALERT && unit.fandomClosed)
             ToolsThreads.main(true) { ControllerClosedFandoms.showAlertIfNeed(this, unit.fandomId, true) }
 
     }

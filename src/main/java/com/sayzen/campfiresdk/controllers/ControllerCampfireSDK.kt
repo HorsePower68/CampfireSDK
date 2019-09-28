@@ -45,6 +45,8 @@ object ControllerCampfireSDK {
     var IS_USE_SECOND_IP = false
     var IS_DEBUG = false
 
+    var ENABLE_CLOSE_FANDOM_ALERT = false
+
     var ON_TO_FANDOM_CLICKED: (fandomId: Long, languageId: Long, action: NavigationAction) -> Unit = { fandomId, languageId, _ -> openLink(ControllerApi.linkToFandom(fandomId, languageId)) }
     var ON_TO_ACCOUNT_CLICKED: (accountId: Long, action: NavigationAction) -> Unit = { accountId, _ -> openLink(ControllerApi.linkToUser(accountId)) }
     var ON_TO_MODERATION_CLICKED: (moderationId: Long, commentId: Long, action: NavigationAction) -> Unit = { moderationId, commentId, _ -> openLink(ControllerApi.linkToModerationComment(moderationId, commentId)) }

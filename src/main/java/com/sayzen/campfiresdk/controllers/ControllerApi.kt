@@ -234,10 +234,12 @@ object ControllerApi {
             onFinish.invoke()
             return
         }
+        val dialog = ToolsView.showProgressDialog()
         login(loginToken) {
             if (account.id == 0L) {
                 val r = RAccountsRegistration(getLanguage(getLanguageCode()).id, null)
                         .onFinish {
+                            dialog.hide()
                             login(loginToken) {
                                 onFinish.invoke()
                             }
