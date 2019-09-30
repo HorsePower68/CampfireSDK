@@ -123,6 +123,7 @@ class SFandomsSearch private constructor(
             params2.isNotEmpty() -> setTitle(R.string.app_search)
             params3.isNotEmpty() -> setTitle(R.string.app_search)
             params4.isNotEmpty() -> setTitle(R.string.app_search)
+            categoryId != 0L -> setTitle(R.string.app_search)
             else -> setTitle(R.string.app_fandoms)
         }
         adapter!!.remove(CardDividerTitle::class)
@@ -154,7 +155,9 @@ class SFandomsSearch private constructor(
                     .send(api)
         } else {
             RFandomsGetAll(RFandomsGetAll.SUBSCRIBE_NONE, cards.size.toLong(), ControllerApi.getLanguageId(), categoryId, name, params1, params2, params3, params4)
-                    .onComplete { r -> onLoad.invoke(r.fandoms) }
+                    .onComplete { r ->
+                        onLoad.invoke(r.fandoms)
+                    }
                     .onNetworkError { onLoad.invoke(null) }
                     .send(api)
         }
@@ -165,6 +168,7 @@ class SFandomsSearch private constructor(
     //
 
     private fun isSearchMode() = name.isNotEmpty()
+            || categoryId != 0L
             || params1.isNotEmpty()
             || params2.isNotEmpty()
             || params3.isNotEmpty()

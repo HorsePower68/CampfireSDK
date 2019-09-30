@@ -445,6 +445,7 @@ Campfire has anime fandoms and gaming fandoms.</string>
     <string name="feed_all">All publications</string>
     <string name="feed_subscribed">Subscribed only</string>
     <string name="feed_important">Important only</string>
+    <string name="feed_all_first">All on first screen</string>
     <string name="feed_language">Language</string>
     <string name="feed_categories">Categories</string>
 

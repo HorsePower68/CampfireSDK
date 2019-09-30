@@ -7,6 +7,7 @@ import com.sayzen.campfiresdk.models.events.units.EventPollingChanged
 import com.sayzen.campfiresdk.controllers.api
 import com.sup.dev.android.libs.api_simple.ApiRequestsSupporter
 import com.sup.dev.java.libs.eventBus.EventBus
+import com.sup.dev.java.tools.ToolsThreads
 
 object ControllerPolling {
 
@@ -20,17 +21,25 @@ object ControllerPolling {
         val result = results[pollingId]
         if (result != null) {
             callback.invoke(result)
-            if(result.dataCreate < System.currentTimeMillis() - 1000L * 30) load(pollingId)
-        } else{
+            if (result.dataCreate < System.currentTimeMillis() - 1000L * 30) load(pollingId)
+        } else {
             load(pollingId, callback)
         }
     }
 
-    private fun load(pollingId: Long, callback: (Result) -> Unit = {}){
+    fun reload(pollingId: Long) {
+        results.remove(pollingId)
+    }
+
+    private fun load(pollingId: Long, callback: (Result) -> Unit = {}, tryCount: Int = 3) {
         RPostPagePollingGet(pollingId)
                 .onComplete { r ->
-                    results[pollingId] = Result(r.results)
-                    callback.invoke(results[pollingId]!!)
+                    val result = Result(r.results)
+                    results[pollingId] = result
+                    callback.invoke(result)
+                }
+                .onError {
+                    if (tryCount > -1) ToolsThreads.main(1000) { load(pollingId, callback, tryCount - 1) }
                 }
                 .send(api)
     }
@@ -68,6 +77,10 @@ object ControllerPolling {
 
                 EventBus.post(EventPollingChanged(pollingId))
             }
+                    .onApiError(RPostPagePollingVote.E_ALREADY) {
+                        reload(pollingId)
+                        EventBus.post(EventPollingChanged(pollingId))
+                    }
         }
     }
 

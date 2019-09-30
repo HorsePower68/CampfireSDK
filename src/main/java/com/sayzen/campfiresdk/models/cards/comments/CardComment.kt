@@ -100,7 +100,7 @@ abstract class CardComment protected constructor(
         if (vSwipe != null) {
             vSwipe.onClick = { _, _ -> if (onClick()) showMenu() }
             vSwipe.onLongClick = { _, _ -> showMenu() }
-            vSwipe.swipeEnabled = quoteEnabled
+            vSwipe.swipeEnabled = quoteEnabled && onQuote != null
             if (onQuote != null) {
                 vSwipe.onClick = { _, _ ->
                     if (ControllerApi.isCurrentAccount(unit.creatorId)) showMenu()

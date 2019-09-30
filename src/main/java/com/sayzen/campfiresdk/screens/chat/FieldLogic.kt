@@ -242,10 +242,11 @@ class FieldLogic(
 
     private fun sendChange(text: String) {
         val quoteIdV = quoteId
+        val quoteTextV = quoteText
         val unitChangeId = unitChange!!.id
         beforeSend()
         ToolsToast.show(R.string.app_changed)
-        EventBus.post(EventChatMessageChanged(unitChangeId, text, quoteIdV, quoteText))
+        EventBus.post(EventChatMessageChanged(unitChangeId, text, quoteIdV, quoteTextV))
         ApiRequestsSupporter.execute(RChatMessageChange(unitChangeId, quoteIdV, text)) {
         }
 

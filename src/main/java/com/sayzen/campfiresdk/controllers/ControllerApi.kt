@@ -36,10 +36,12 @@ import com.sup.dev.android.views.widgets.WidgetField
 import com.sup.dev.java.classes.items.Item3
 import com.sup.dev.java.classes.items.ItemNullable
 import com.sup.dev.java.libs.api_simple.client.TokenProvider
+import com.sup.dev.java.libs.debug.err
 import com.sup.dev.java.libs.eventBus.EventBus
 import com.sup.dev.java.libs.json.Json
 import com.sup.dev.java.libs.json.JsonArray
 import com.sup.dev.java.tools.ToolsThreads
+import java.lang.Exception
 import java.util.regex.Pattern
 
 
@@ -87,7 +89,7 @@ object ControllerApi {
     private var serverTimeDelta = 0L
     private var fandomsKarmaCounts: Array<Item3<Long, Long, Long>?>? = null
     private var version = ""
-    private var supportedVersion = emptyArray<String>()
+    private var supported = ""
 
     internal fun init() {
         ApiRequestsSupporter.init(api)
@@ -114,11 +116,22 @@ object ControllerApi {
 
     fun isOldVersion() = version.isNotEmpty() && version != API.VERSION
 
-    fun isUnsupportedVersion() = isOldVersion() && !supportedVersion.contains(API.VERSION) && (version.isEmpty() || !API.SUPPORTED_VERSIONS.contains(version))
+    fun isUnsupportedVersion():Boolean{
+        try {
+            val versionSupportedS = if (supported.contains('b')) supported.substring(0, supported.length - 1) else supported
+            val versionS = if (version.contains('b')) version.substring(0, version.length - 1) else version
+            val versionSupported = versionSupportedS.toDouble()
+            val version = versionS.toDouble()
+            return version < versionSupported
+        }catch (e:Exception){
+            err(e)
+            return true
+        }
+    }
 
-    fun setVersion(version: String, supportedVersion: Array<String>) {
+    fun setVersion(version: String, supported: String) {
         this.version = version
-        this.supportedVersion = supportedVersion
+        this.supported = supported
         EventBus.post(EventApiVersionChanged())
     }
 
@@ -546,5 +559,6 @@ object ControllerApi {
             EventBus.post(EventAccountReportsCleared(accountId))
         }
     }
+
 
 }

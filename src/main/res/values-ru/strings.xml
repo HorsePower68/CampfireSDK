@@ -447,6 +447,7 @@
     <string name="feed_all">Все побликации</string>
     <string name="feed_subscribed">Только подписки</string>
     <string name="feed_important">Только важные</string>
+    <string name="feed_all_first">Бездна первым экраном</string>
     <string name="feed_language">Язык</string>
     <string name="feed_categories">Категории</string>
 
@@ -565,7 +566,7 @@
     <string name="achi_spoiler_sharing">Шаринг</string>
     <string name="achi_spoiler_publications">Публикации</string>
     <string name="achi_spoiler_other">Другие</string>
-    <string name="achi_karma_hint">Определяет количество кармы при оценке публикаций и влияет на способности в приложении. Выполняйте достижения для увеличения уровня.</string>
+    <string name="achi_karma_hint">Определяет размер вашей оценки публикациям и влияет на способности в приложении. Выполняйте достижения для увеличения уровня.</string>
     <string name="achi_privilege_hint">Для использования модераторских способностей необходимо иметь карму в фэндоме, а для админских функций, нужна карма за 30 дней во всем приложении. Карма за использование способностей НЕ отнимается.</string>
     <string name="achi_share">Поделитесь ссылкой на приложение.</string>
     <string name="achi_content_share">Поделитесь публикациями из приложения.</string>

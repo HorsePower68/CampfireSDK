@@ -72,7 +72,7 @@ class SAccount private constructor(
     private val vMore: View = findViewById(R.id.vMore)
     private val vImage: ImageView = findViewById(R.id.vImage)
     private val vAvatar: ImageView = findViewById(R.id.vAvatar)
-    private val xAccount = XAccount(r.account, 0, r.titleImageId, r.titleImageGifId) { update() }
+    val xAccount = XAccount(r.account, 0, r.titleImageId, r.titleImageGifId) { update() }
     private val adapter: RecyclerCardAdapterLoading<CardUnit, Unit>
     private val cardInfo: CardInfo
     private val cardBio: CardBio
@@ -188,7 +188,7 @@ class SAccount private constructor(
                 }
                 .groupCondition(ControllerApi.account.id != xAccount.accountId)
                 .add(R.string.app_report) { _, _ -> onReportClicked() }
-                .add(R.string.app_note) { _, _ -> onNoteClicked() }
+                .add(R.string.app_note) { _, _ -> WidgetNote(this) }
                 .add(if (r.inBlackList) R.string.profile_black_list_remove else R.string.profile_black_list_add) { _, _ -> if (r.inBlackList) ControllerCampfireSDK.removeFromBlackListUser(xAccount.accountId) else ControllerCampfireSDK.addToBlackListUser(xAccount.accountId) }
                 .add(R.string.profile_remove_avatar) { _, _ -> onAdminRemoveAvatarClicked() }.backgroundRes(R.color.red_700).textColorRes(R.color.white).condition(ControllerApi.can(API.LVL_ADMIN_USER_REMOVE_IMAGE))
                 .add(R.string.profile_remove_name) { _, _ -> onAdminRemoveNameClicked() }.backgroundRes(R.color.red_700).textColorRes(R.color.white).condition(ControllerApi.can(API.LVL_ADMIN_USER_REMOVE_NAME))
@@ -232,24 +232,6 @@ class SAccount private constructor(
                                 dialog.setEnabled(true)
                             }
                             .send(api)
-                }
-                .asSheetShow()
-    }
-
-    fun onNoteClicked() {
-        WidgetField()
-                .setHint(R.string.app_note)
-                .setText(r.note)
-                .setLinesCount(1)
-                .setOnCancel(R.string.app_cancel)
-                .setMax(API.ACCOUNT_NOTE_MAX)
-                .setOnEnter(R.string.app_save) { dialog, note ->
-                    ApiRequestsSupporter.executeEnabled(dialog, RAccountsChangeNote(xAccount.accountId, note)) {
-                        this.r.note = note
-                        EventBus.post(EventAccountNoteChanged(xAccount.accountId, note))
-                        dialog.hide()
-                        ToolsToast.show(R.string.app_done)
-                    }
                 }
                 .asSheetShow()
     }

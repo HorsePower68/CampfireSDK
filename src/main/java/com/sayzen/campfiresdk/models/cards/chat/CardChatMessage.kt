@@ -107,11 +107,15 @@ abstract class CardChatMessage constructor(
         }
         if (vSwipe != null) {
             vSwipe.onClick = { _, _ ->
-                if (ControllerApi.isCurrentAccount(unit.creatorId)) showMenu()
-                else if (!onClick()) showMenu()
+                if (ControllerApi.isCurrentAccount(unit.creatorId)) {
+                    showMenu()
+                }
+                else if (!onClick()) {
+                    showMenu()
+                }
             }
             vSwipe.onLongClick = { _, _ -> showMenu() }
-            vSwipe.swipeEnabled = this !is CardChatMessageVoice && quoteEnabled
+            vSwipe.swipeEnabled = quoteEnabled && onQuote != null
 
 
             if ( onQuote != null) {
@@ -283,12 +287,12 @@ abstract class CardChatMessage constructor(
         val unit = xUnit.unit as UnitChatMessage
         if (unit.type == UnitChatMessage.TYPE_BLOCK) {
             ControllerCampfireSDK.onToModerationClicked(unit.blockModerationEventId, 0, Navigator.TO)
-            return false
+            return true
         }
 
         if (onClick == null) {
             SChat.instance(unit.chatType, unit.fandomId, unit.languageId, true, Navigator.TO)
-            return false
+            return true
         } else {
             return onClick!!.invoke(unit)
         }

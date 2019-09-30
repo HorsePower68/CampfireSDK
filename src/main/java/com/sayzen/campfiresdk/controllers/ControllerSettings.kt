@@ -396,6 +396,13 @@ object ControllerSettings {
             onSettingsUpdated()
         }
 
+    var feedAllFirst: Boolean
+        get() = accountSettings.feedAllFirst
+        set(b) {
+            accountSettings.feedAllFirst = b
+            onSettingsUpdated()
+        }
+
     //
     //  Account
     //
