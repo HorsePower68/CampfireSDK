@@ -77,7 +77,7 @@ class CardUnitEventUser(
                 val unitName = ControllerUnits.getName(e.unitType)
                 text = ToolsResources.sCap(R.string.unit_event_blocked_unit, ControllerApi.linkToUser(e.adminAccountName), ToolsResources.sex(e.adminAccountSex, R.string.he_blocked, R.string.she_blocked), unitName)
                 if (e.blockAccountDate > 0 && e.blockFandomId < 1) text += "\n" + ToolsResources.s(R.string.unit_event_account_blocked_date, ToolsDate.dateToStringFull(e.blockAccountDate))
-                if (e.blockAccountDate > 0 && e.blockFandomId > 0) text += "\n" + ToolsResources.s(R.string.unit_event_account_blocked_date_fandom, ToolsDate.dateToStringFull(e.blockAccountDate), "${e.blockFandomName} (${ControllerApi.linkToFandom(e.blockFandomId, e.blockFandomLanguageId)})")
+                if (e.blockAccountDate > 0 && e.blockFandomId > 0) text += "\n" + ToolsResources.s(R.string.unit_event_account_blocked_date_fandom, ToolsDate.dateToStringFull(e.blockAccountDate), "${e.blockFandomName} ( ${ControllerApi.linkToFandom(e.blockFandomId, e.blockFandomLanguageId)})")
                 if (e.warned) text += "\n" + ToolsResources.s(R.string.unit_event_account_blocked_warn)
                 if (e.lastUnitsBlocked) text += "\n" + ToolsResources.s(R.string.unit_event_account_blocked_last_units)
                 view.setOnClickListener {
@@ -130,11 +130,11 @@ class CardUnitEventUser(
                 view.setOnClickListener { ControllerCampfireSDK.onToAccountClicked(e.ownerAccountId, Navigator.TO) }
             }
             is ApiEventUserFandomMakeModerator -> {
-                text = ToolsResources.sCap(R.string.unit_event_make_moderator, ControllerApi.linkToUser(e.adminAccountName), ToolsResources.sex(e.ownerAccountSex, R.string.he_make, R.string.she_make), e.fandomName + " (${ControllerApi.linkToFandom(e.fandomId, e.languageId)})")
+                text = ToolsResources.sCap(R.string.unit_event_make_moderator, ControllerApi.linkToUser(e.adminAccountName), ToolsResources.sex(e.ownerAccountSex, R.string.he_make, R.string.she_make), e.fandomName + " ( ${ControllerApi.linkToFandom(e.fandomId, e.languageId)})")
                 view.setOnClickListener { ControllerCampfireSDK.onToAccountClicked(e.ownerAccountId, Navigator.TO) }
             }
             is ApiEventUserFandomRemoveModerator -> {
-                text = ToolsResources.sCap(R.string.unit_event_remove_moderator, ControllerApi.linkToUser(e.adminAccountName), ToolsResources.sex(e.ownerAccountSex, R.string.he_deprived, R.string.she_deprived), e.fandomName + " (${ControllerApi.linkToFandom(e.fandomId, e.languageId)})")
+                text = ToolsResources.sCap(R.string.unit_event_remove_moderator, ControllerApi.linkToUser(e.adminAccountName), ToolsResources.sex(e.ownerAccountSex, R.string.he_deprived, R.string.she_deprived), e.fandomName + " ( ${ControllerApi.linkToFandom(e.fandomId, e.languageId)})")
                 view.setOnClickListener { ControllerCampfireSDK.onToAccountClicked(e.ownerAccountId, Navigator.TO) }
             }
             is ApiEventUserFandomSuggest -> {

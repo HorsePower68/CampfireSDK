@@ -133,7 +133,14 @@ abstract class CardChatMessage constructor(
 
         if (vQuoteText != null) {
             vQuoteText.text = unit.quoteText
-            ControllerApi.makeLinkable(vQuoteText)
+            ControllerApi.makeLinkable(vQuoteText){
+                if(unit.quoteCreatorName.isNotEmpty()) {
+                    val otherName = unit.quoteCreatorName + ":"
+                    if (unit.quoteText.startsWith(otherName)) {
+                        vQuoteText.text = "{90A4AE $otherName}" + unit.quoteText.substring(otherName.length)
+                    }
+                }
+            }
         }
 
         if (vQuoteImage != null) {
@@ -154,7 +161,16 @@ abstract class CardChatMessage constructor(
 
             ControllerApi.makeLinkable(vText) {
                 val myName = ControllerApi.account.name + ","
-                if (unit.text.startsWith(myName)) vText.text = "{ff6d00 $myName}" + unit.text.substring(myName.length)
+                if (unit.text.startsWith(myName)) {
+                    vText.text = "{ff6d00 $myName}" + unit.text.substring(myName.length)
+                } else {
+                    if(unit.answerName.isNotEmpty()) {
+                        val otherName = unit.answerName + ","
+                        if (unit.text.startsWith(otherName)) {
+                            vText.text = "{90A4AE $otherName}" + unit.text.substring(otherName.length)
+                        }
+                    }
+                }
             }
         }
 

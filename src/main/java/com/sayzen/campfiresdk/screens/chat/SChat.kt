@@ -141,7 +141,7 @@ class SChat private constructor(
     }
 
     private fun updateSubscribed() {
-        vNotifications.setColorFilter(if (subscribed) ToolsResources.getAccentColor(context) else 0x00000000)
+        vNotifications.setColorFilter(if (subscribed) ToolsResources.getAccentColor(context) else ToolsResources.getColorAttr(R.attr.toolbar_content_color))
     }
 
     private fun updateBackground() {

@@ -84,7 +84,9 @@ class SOfflineScreen(
 
     private fun request(){
         RProjectVersionGet()
-                .onComplete{ onConnection.invoke() }
+                .onComplete{
+                    onConnection.invoke()
+                }
                 .onError{ ToolsThreads.main(1000) { request() } }
                 .send(api)
     }
