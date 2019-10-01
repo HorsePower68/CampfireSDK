@@ -1,10 +1,7 @@
 package com.sayzen.campfiresdk.adapters
 
 import com.dzen.campfire.api.models.units.Unit
-import com.sayzen.campfiresdk.models.events.units.EventPostMultilingualChange
-import com.sayzen.campfiresdk.models.events.units.EventPostNotifyFollowers
-import com.sayzen.campfiresdk.models.events.units.EventUnitImportantChange
-import com.sayzen.campfiresdk.models.events.units.EventUnitRemove
+import com.sayzen.campfiresdk.models.events.units.*
 import com.sup.dev.java.libs.eventBus.EventBus
 
 class XUnit(
@@ -19,6 +16,7 @@ class XUnit(
 ) {
 
     val eventBus = EventBus
+            .subscribe(EventPostCloseChange::class) { if (it.unitId == unit.id) unit.closed = it.closed }
             .subscribe(EventPostNotifyFollowers::class) { if (it.unitId == unit.id) unit.tag_3 = 1 }
             .subscribe(EventUnitRemove::class) { if (it.unitId == unit.id) onRemove.invoke() }
             .subscribe(EventPostMultilingualChange::class) {

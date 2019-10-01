@@ -54,6 +54,10 @@ class CardHistoryUnit(
             is HistoryChangeTags -> vAvatar.setSubtitle(R.string.history_change_tags)
             is HistoryPinProfile -> vAvatar.setSubtitle(R.string.history_pin_profile)
             is HistoryUnpinProfile -> vAvatar.setSubtitle(R.string.history_unpin_profile)
+            is HistoryClose -> vAvatar.setSubtitle(R.string.history_close)
+            is HistoryCloseNo -> vAvatar.setSubtitle(R.string.history_close_no)
+            is HistoryAdminClose -> vAvatar.setSubtitle(R.string.history_admin_close)
+            is HistoryAdminCloseNo -> vAvatar.setSubtitle(R.string.history_admin_close_no)
             is HistoryEditPublic -> {
                 vAvatar.setSubtitle(R.string.history_edit_public)
                 if (history.oldText.isNotEmpty())vAvatar.setSubtitle(vAvatar.getSubTitle() + "\n\"${history.oldText}\"")

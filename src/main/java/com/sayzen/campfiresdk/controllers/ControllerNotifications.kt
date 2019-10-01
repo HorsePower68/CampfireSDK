@@ -302,6 +302,8 @@ object ControllerNotifications {
             is NotificationUnitImportant -> NotificationUnitImportantParser(n)
             is NotificationModerationToDraft -> NotificationModerationToDraftParser(n)
             is NotificationModerationMultilingualNot -> NotificationModerationMultilingualNotParser(n)
+            is NotificationModerationPostClosed -> NotificationModerationPostClosedParser(n)
+            is NotificationModerationPostClosedNo -> NotificationModerationPostClosedNoParser(n)
             is NotificationModerationPostTags -> NotificationModerationPostTagsParser(n)
             is NotificationAdminBlock -> NotificationBlockParser(n)
             is NotificationForgive -> NotificationForgiveParser(n)
@@ -740,6 +742,57 @@ object ControllerNotifications {
                     n.moderatorSex,
                     R.string.he_make,
                     R.string.she_make
+            )
+            )
+        }
+
+        override fun getIcon() = R.drawable.ic_security_white_24dp
+
+    }
+
+    private class NotificationModerationPostClosedParser(override val n: NotificationModerationPostClosed) : Parser(n) {
+
+        override fun post(icon: Int, intent: Intent, text: String, title: String, tag: String, sound: Boolean) {
+            (if (sound) chanelOther else chanelOther_salient).post(icon, getTitle(), text, intent, tag)
+        }
+
+        override fun asString(html: Boolean): String {
+            val comment = if (!html) n.comment else ToolsHTML.i(n.comment)
+            return (if (ToolsText.empty(n.comment)) "" else ToolsResources.s(R.string.moderation_notification_moderator_comment) + " " + comment)
+
+        }
+
+        override fun getTitle(): String {
+            return ToolsResources.sCap(
+                    R.string.notifications_moderation_post_close, n.moderatorName, ToolsResources.sex(
+                    n.moderatorSex,
+                    R.string.he_close,
+                    R.string.she_close
+            )
+            )
+        }
+
+        override fun getIcon() = R.drawable.ic_security_white_24dp
+
+    }
+    private class NotificationModerationPostClosedNoParser(override val n: NotificationModerationPostClosedNo) : Parser(n) {
+
+        override fun post(icon: Int, intent: Intent, text: String, title: String, tag: String, sound: Boolean) {
+            (if (sound) chanelOther else chanelOther_salient).post(icon, getTitle(), text, intent, tag)
+        }
+
+        override fun asString(html: Boolean): String {
+            val comment = if (!html) n.comment else ToolsHTML.i(n.comment)
+            return (if (ToolsText.empty(n.comment)) "" else ToolsResources.s(R.string.moderation_notification_moderator_comment) + " " + comment)
+
+        }
+
+        override fun getTitle(): String {
+            return ToolsResources.sCap(
+                    R.string.notifications_moderation_post_close_no, n.moderatorName, ToolsResources.sex(
+                    n.moderatorSex,
+                    R.string.he_open,
+                    R.string.she_open
             )
             )
         }

@@ -284,6 +284,8 @@ Campfire has anime fandoms and gaming fandoms.</string>
     <string name="notifications_important_publication">Important publication appeared in the fandom %s</string>
     <string name="notifications_moderation_to_drafts">Moderator %s %s your post to drafts</string>
     <string name="notifications_moderation_multilingual_not">Moderator %s %s your post not multilingual</string>
+    <string name="notifications_moderation_post_close">Moderator %s %s your post</string>
+    <string name="notifications_moderation_post_close_no">Moderator %s %s your post</string>
     <string name="notifications_moderation_tags">Moderator %s %s your post tags</string>
     <string name="notifications_moderation_forgive">Moderator %s %s you in fandom %s</string>
     <string name="notification_post_comment">%s %s your post</string>
@@ -390,6 +392,8 @@ Campfire has anime fandoms and gaming fandoms.</string>
     <string name="moderation_tag_move_category">%s category %s before %s.</string>
     <string name="moderation_tag_move_tag_between_category">%s tag %s from category %s in %s.</string>
     <string name="moderation_pin_post_in_fandom">%s post %s.</string>
+    <string name="moderation_post_close">%s post %s.</string>
+    <string name="moderation_post_close_no">%s post %s.</string>
     <string name="moderation_checked_empty">Not verified</string>
     <string name="moderation_checked_no">Rejected %s</string>
     <string name="moderation_checked_yes">Confirmed %s</string>
@@ -522,6 +526,8 @@ Campfire has anime fandoms and gaming fandoms.</string>
     <string name="chat_clear_reports_confirm">Clear this message reports?</string>
     <string name="chat_error_gone">Looks like someone deleted this message</string>
 
+    <string name="chat_create_title">Chat creation</string>
+
     <string name="comment_remove_confirm">Remove this comment?</string>
     <string name="comment_report_confirm">Report this comment?</string>
     <string name="comment_clear_reports_confirm">Clear this comment reports?</string>
@@ -627,6 +633,7 @@ Campfire has anime fandoms and gaming fandoms.</string>
     <string name="lvl_moderate_important">Ability to mark a publication as important. Fandom subscribers will receive a notification of this.</string>
     <string name="lvl_moderate_pin_post">Ability to pin a post in fandom</string>
     <string name="lvl_moderate_review_remove_text">Remove text from reviews on fandom.</string>
+    <string name="lvl_moderate_close_post">Ability to close a post of users</string>
     <string name="lvl_avatar_gif">Ability to change avatar with GIF</string>
     <string name="lvl_pin_post">Ability to pin a post in your profile</string>
     <string name="lvl_create_stickers">Ability to create stickers packs</string>
@@ -926,7 +933,10 @@ Campfire has anime fandoms and gaming fandoms.</string>
     <string name="post_create_objects_label">Supported links to the user, post, chat, forum, femdom, a stickers pack.</string>
     <string name="post_create_pending">Pending publication</string>
     <string name="post_create_pending_error">Cannot be published in the past.</string>
+    <string name="post_create_closed">Closed post</string>
     <string name="post_pending_publish">Post this now?</string>
+    <string name="post_close_confirm">Close this post?</string>
+    <string name="post_open_confirm">Open this post?</string>
 
     <string name="quests_next">The next quest will be available tomorrow.</string>
     <string name="quests_text_rates">Rate the publication of other users.</string>
@@ -1399,9 +1409,13 @@ Campfire has anime fandoms and gaming fandoms.</string>
     <string name="history_change_tags">Tags changed</string>
     <string name="history_pin_profile">Publication pinned in profile</string>
     <string name="history_unpin_profile">The publication is no longer pined in the profile</string>
+    <string name="history_close">The publication was closed</string>
+    <string name="history_close_no">The publication was opened</string>
+    <string name="history_admin_close">The publication was closed</string>
+    <string name="history_admin_close_no">The publication was opened</string>
 
     <string name="holiday_campfire_birthday_title">Campfire\'s birthday.</string>
-    <string name="holiday_campfire_birthday_text">In 2015, Campfire was born on this day.</string>
+    <string name="holiday_campfire_birthday_text">In 2016, Campfire was born on this day.</string>
 
     <string name="about_about">About App</string>
     <string name="about_rules_user">Rules of app</string>

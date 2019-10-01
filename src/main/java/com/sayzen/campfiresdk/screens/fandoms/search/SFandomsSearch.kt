@@ -61,7 +61,7 @@ class SFandomsSearch private constructor(
         (vFab as View).visibility = View.VISIBLE
         vFab.setImageResource(R.drawable.ic_search_white_24dp)
         vFab.setOnClickListener {
-            ControllerFirebaseAnalytics.post_2()
+            ControllerFirebaseAnalytics.post("Screen FandomsSearch", "Search")
             Navigator.to(SFandomsSearchParams(name, categoryId,
                     params1,
                     params2,

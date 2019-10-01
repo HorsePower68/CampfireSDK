@@ -163,8 +163,7 @@ class SFandom private constructor(
                     .asSheetShow()
         }
 
-        if (r.fandom.closed)
-            ToolsThreads.main(true) { ControllerClosedFandoms.showAlertIfNeed(this, xFandom.fandomId, false) }
+        if (r.fandom.closed) ToolsThreads.main(true) { ControllerClosedFandoms.showAlertIfNeed(this, xFandom.fandomId, false) }
 
         setPinnedPost(r.pinnedPost)
 

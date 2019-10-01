@@ -284,6 +284,8 @@
     <string name="notifications_important_publication">В фэндоме %s появилась важная публикация</string>
     <string name="notifications_moderation_to_drafts">Модератор %s %s ваш пост в черновики</string>
     <string name="notifications_moderation_multilingual_not">Модератор %s %s ваш пост не мультиязычным</string>
+    <string name="notifications_moderation_post_close">Модератор %s %s ваш пост</string>
+    <string name="notifications_moderation_post_close_no">Модератор %s %s ваш пост</string>
     <string name="notifications_moderation_tags">Модератор %s %s теги вашего поста</string>
     <string name="notifications_moderation_forgive">Модератор %s %s вас в фэндоме %s</string>
     <string name="notification_post_comment">%s %s ваш пост</string>
@@ -392,6 +394,8 @@
     <string name="moderation_tag_move_category">%s категорию %s перед %s.</string>
     <string name="moderation_tag_move_tag_between_category">%s тег %s из категории %s в %s.</string>
     <string name="moderation_pin_post_in_fandom">%s пост %s.</string>
+    <string name="moderation_post_close">%s пост %s.</string>
+    <string name="moderation_post_close_no">%s пост %s.</string>
     <string name="moderation_checked_empty">Не проверено</string>
     <string name="moderation_checked_no">Отклонено %s</string>
     <string name="moderation_checked_yes">Подтверждено %s</string>
@@ -524,6 +528,8 @@
     <string name="chat_clear_reports_confirm">Удалить жалобы на это сообщение?</string>
     <string name="chat_error_gone">Похоже кто-то удалил это сообщение</string>
 
+    <string name="chat_create_title">Создание чата</string>
+
     <string name="comment_remove_confirm">Удалить этот комментарий?</string>
     <string name="comment_report_confirm">Пожаловаться на этот комментарий?</string>
     <string name="comment_clear_reports_confirm">Удалить жалобы на этот комментарий?</string>
@@ -628,6 +634,7 @@
     <string name="lvl_moderate_important">Возможность помечать публикацию как важную. Подписчикам фэндома придет уведомление об этом.</string>
     <string name="lvl_moderate_pin_post">Возможность закрепить пост в фэндоме</string>
     <string name="lvl_moderate_review_remove_text">Удаление текста у отзывов на фэндомы.</string>
+    <string name="lvl_moderate_close_post">Возможность закрывать посты других пользователей.</string>
     <string name="lvl_app_profile_image_gif">Возможность изменить фоновую картинку в профиле на GIF</string>
     <string name="lvl_moderate_tags">Возможность редактировать теги в фэндоме</string>
     <string name="lvl_avatar_gif">Возможность изменить аватарку на GIF</string>
@@ -926,7 +933,10 @@
     <string name="post_create_objects_label">Поддерживаются ссылки на пользователя, пост, чат, форум, фэндом, набор стикеров.</string>
     <string name="post_create_pending">Отложенная публикация</string>
     <string name="post_create_pending_error">Нельзя публиковать в прошлое</string>
+    <string name="post_create_closed">Закрытая публикация</string>
     <string name="post_pending_publish">Опубликовать пост сейчас?</string>
+    <string name="post_close_confirm">Закрыть этот пост?</string>
+    <string name="post_open_confirm">Открыть этот пост?</string>
 
     <string name="quests_next">Следующее задание будет доступно завтра.</string>
     <string name="quests_text_rates">Поставьте оценки публикациям других пользователей.</string>
@@ -1398,9 +1408,13 @@
     <string name="history_change_tags">Теги изменены</string>
     <string name="history_pin_profile">Публикация закреплена в профиле</string>
     <string name="history_unpin_profile">Публикация больше не закреплена в профиле</string>
+    <string name="history_close">Публикация закрыта</string>
+    <string name="history_close_no">Публикация открыта</string>
+    <string name="history_admin_close">Публикация закрыта</string>
+    <string name="history_admin_close_no">Публикация открыта</string>
 
     <string name="holiday_campfire_birthday_title">День рождения Campfire.</string>
-    <string name="holiday_campfire_birthday_text">В 2015 году, в этот день зародился Campfire.</string>
+    <string name="holiday_campfire_birthday_text">В 2016 году, в этот день зародился Campfire.</string>
 
     <string name="about_about">О приложении</string>
     <string name="about_rules_user">Правила приложения</string>

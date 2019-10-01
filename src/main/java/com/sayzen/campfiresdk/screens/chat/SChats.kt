@@ -10,6 +10,7 @@ import com.sayzen.campfiresdk.models.cards.CardChat
 import com.sayzen.campfiresdk.models.events.chat.EventChatSubscriptionChanged
 import com.sayzen.campfiresdk.models.events.chat.EventUpdateChats
 import com.sayzen.campfiresdk.models.events.notifications.EventNotification
+import com.sayzen.campfiresdk.screens.chat.create.SChatCreate
 import com.sup.dev.android.libs.screens.navigator.NavigationAction
 import com.sup.dev.android.libs.screens.navigator.Navigator
 import com.sup.dev.android.views.support.adapters.recycler_view.RecyclerCardAdapterLoading
@@ -41,6 +42,8 @@ class SChats constructor(
         setTextEmpty(R.string.chats_empty)
         setTextProgress(R.string.chats_loading)
         setTitle(R.string.app_chats)
+
+        addToolbarIcon(R.drawable.ic_add_white_24dp){ Navigator.to(SChatCreate()) }
     }
 
     override fun instanceAdapter(): RecyclerCardAdapterLoading<CardChat, UnitChat> {

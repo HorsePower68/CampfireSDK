@@ -51,6 +51,7 @@ object ControllerPost {
     var ENABLED_PIN_FANDOM = false
     var ENABLED_MAKE_MULTILINGUAL = false
     var ENABLED_HISTORY = false
+    var ENABLED_CLOSE = false
 
     fun showPostMenu(unit: UnitPost) {
 
@@ -72,6 +73,8 @@ object ControllerPost {
                 .add(R.string.unit_menu_multilingual) { _, _ -> multilingual(unit) }.condition(ENABLED_MAKE_MULTILINGUAL && unit.languageId != -1L && unit.status == API.STATUS_PUBLIC)
                 .add(R.string.unit_menu_multilingual_not) { _, _ -> multilingualNot(unit) }.condition(ENABLED_MAKE_MULTILINGUAL && unit.languageId == -1L && unit.status == API.STATUS_PUBLIC)
                 .add(R.string.app_publish) { _, _ -> publishPending(unit) }.condition(unit.status == API.STATUS_PENDING)
+                .add(R.string.app_close) { _, _ -> close(unit) }.condition(!unit.closed)
+                .add(R.string.app_open) { _, _ -> open(unit) }.condition(unit.closed)
                 .groupCondition(!ControllerApi.isCurrentAccount(unit.creatorId) && unit.isPublic)
                 .add(R.string.app_report) { _, _ -> ControllerUnits.report(unit) }.condition(ENABLED_REPORT)
                 .add(R.string.app_clear_reports) { _, _ -> ControllerUnits.clearReports(unit) }.backgroundRes(R.color.blue_700).textColorRes(R.color.white).condition(ENABLED_CLEAR_REPORTS && ControllerApi.can(unit.fandomId, unit.languageId, API.LVL_MODERATOR_BLOCK) && unit.reportsCount > 0)
@@ -81,6 +84,8 @@ object ControllerPost {
                 .add(R.string.post_menu_change_tags) { _, _ -> changeTagsModer(unit) }.backgroundRes(R.color.blue_700).textColorRes(R.color.white).condition(ENABLED_MODER_CHANGE_TAGS && ControllerApi.can(unit.fandomId, unit.languageId, API.LVL_MODERATOR_POST_TAGS) && unit.languageId != -1L)
                 .add(R.string.unit_menu_pin_in_fandom) { _, _ -> pinInFandom(unit) }.backgroundRes(R.color.blue_700).textColorRes(R.color.white).condition(ENABLED_PIN_FANDOM && ControllerApi.can(unit.fandomId, unit.languageId, API.LVL_MODERATOR_PIN_POST) && unit.isPublic && !unit.isPined)
                 .add(R.string.unit_menu_unpin_in_fandom) { _, _ -> unpinInFandom(unit) }.backgroundRes(R.color.blue_700).textColorRes(R.color.white).condition(ENABLED_PIN_FANDOM && ControllerApi.can(unit.fandomId, unit.languageId, API.LVL_MODERATOR_PIN_POST) && unit.isPined)
+                .add(R.string.app_close) { _, _ -> closeAdmin(unit) }.backgroundRes(R.color.blue_700).textColorRes(R.color.white).condition(ENABLED_CLOSE && ControllerApi.can(unit.fandomId, unit.languageId, API.LVL_MODERATOR_CLOSE_POST) && !unit.closed)
+                .add(R.string.app_open) { _, _ -> openAdmin(unit) }.backgroundRes(R.color.blue_700).textColorRes(R.color.white).condition(ENABLED_CLOSE && ControllerApi.can(unit.fandomId, unit.languageId, API.LVL_MODERATOR_CLOSE_POST) && unit.closed)
                 .clearGroupCondition()
                 .add(if (unit.important == API.UNIT_IMPORTANT_IMPORTANT) R.string.unit_menu_important_unmark else R.string.unit_menu_important_mark) { _, _ -> markAsImportant(unit.id, !(unit.important == API.UNIT_IMPORTANT_IMPORTANT)) }.backgroundRes(R.color.blue_700).textColorRes(R.color.white).condition(ENABLED_INPORTANT && ControllerApi.can(unit.fandomId, unit.languageId, API.LVL_MODERATOR_IMPORTANT) && unit.isPublic && unit.languageId != -1L)
                 .groupCondition(!ControllerApi.isCurrentAccount(unit.creatorId) && unit.isPublic)
@@ -91,6 +96,59 @@ object ControllerPost {
 
         ON_PRE_SHOW_MENU.invoke(unit, w)
         w.asSheetShow()
+    }
+
+    fun close(unit: UnitPost){
+        ApiRequestsSupporter.executeEnabledConfirm(
+                R.string.post_close_confirm,
+                R.string.app_close,
+                RPostClose(unit.id)
+        ) {
+            EventBus.post(EventPostCloseChange(unit.id, true))
+            ToolsToast.show(R.string.app_done)
+        }
+    }
+
+    fun open(unit: UnitPost){
+        ApiRequestsSupporter.executeEnabledConfirm(
+                R.string.post_open_confirm,
+                R.string.app_open,
+                RPostCloseNo(unit.id)
+        ) {
+            EventBus.post(EventPostCloseChange(unit.id, false))
+            ToolsToast.show(R.string.app_done)
+        }
+    }
+    fun closeAdmin(unit: UnitPost){
+        WidgetField()
+                .setTitle(R.string.post_close_confirm)
+                .setHint(R.string.comments_hint)
+                .setOnCancel(R.string.app_cancel)
+                .setMin(API.MODERATION_COMMENT_MIN_L)
+                .setMax(API.MODERATION_COMMENT_MAX_L)
+                .setOnEnter(R.string.app_close) { w, comment ->
+                    ApiRequestsSupporter.executeEnabled(w, RPostCloseModerator(unit.id, comment)) {
+                        EventBus.post(EventPostCloseChange(unit.id, true))
+                        ToolsToast.show(R.string.app_done)
+                    }
+                }
+                .asSheetShow()
+    }
+
+    fun openAdmin(unit: UnitPost){
+        WidgetField()
+                .setTitle(R.string.post_open_confirm)
+                .setHint(R.string.comments_hint)
+                .setOnCancel(R.string.app_cancel)
+                .setMin(API.MODERATION_COMMENT_MIN_L)
+                .setMax(API.MODERATION_COMMENT_MAX_L)
+                .setOnEnter(R.string.app_open) { w, comment ->
+                    ApiRequestsSupporter.executeEnabled(w, RPostCloseNoModerator(unit.id, comment)) {
+                        EventBus.post(EventPostCloseChange(unit.id, false))
+                        ToolsToast.show(R.string.app_done)
+                    }
+                }
+                .asSheetShow()
     }
 
     fun publishPending(unit: UnitPost) {

@@ -123,7 +123,7 @@ class CardUnitEventAdmin(
             }
             is ApiEventAdminModerationRejected -> {
                 text = ToolsResources.sCap(R.string.unit_event_moderation_rejected_admin, ToolsResources.sex(e.ownerAccountSex, R.string.he_reject, R.string.she_reject), ControllerApi.linkToUser(e.targetAccountName))
-                view.setOnClickListener { ControllerCampfireSDK.onToFandomClicked(e.moderationId, 0, Navigator.TO) }
+                view.setOnClickListener { ControllerCampfireSDK.onToModerationClicked(e.moderationId, 0, Navigator.TO) }
             }
             is ApiEventAdminPostChangeFandom -> {
                 text = ToolsResources.sCap(R.string.unit_event_post_fandom_change_admin, ToolsResources.sex(e.ownerAccountSex, R.string.he_move, R.string.she_move), ControllerApi.linkToUser(e.targetAccountName), e.oldFandomName, e.newFandomName)
@@ -135,7 +135,7 @@ class CardUnitEventAdmin(
             }
             is ApiEventAdminUnitRestore -> {
                 text = ToolsResources.sCap(R.string.unit_event_unit_restore_admin, ToolsResources.sex(e.ownerAccountSex, R.string.he_restore, R.string.she_restore), ControllerApi.linkToUser(e.targetAccountName))
-                view.setOnClickListener { ControllerCampfireSDK.onToFandomClicked(e.moderationId, 0, Navigator.TO) }
+                view.setOnClickListener { ControllerCampfireSDK.onToModerationClicked(e.moderationId, 0, Navigator.TO) }
             }
             is ApiEventAdminUserRemoveDescription -> {
                 text = ToolsResources.sCap(R.string.unit_event_remove_description_admin, ToolsResources.sex(e.ownerAccountSex, R.string.he_remove, R.string.she_remove), ControllerApi.linkToUser(e.targetAccountName))

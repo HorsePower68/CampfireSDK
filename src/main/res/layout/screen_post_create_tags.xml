@@ -110,6 +110,15 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
 
+        <CheckBox
+            android:id="@+id/vClose"
+            android:layout_gravity="center|left"
+            android:layout_marginTop="8dp"
+            android:layout_marginLeft="8dp"
+            android:text="@string/post_create_closed"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
     </LinearLayout>
 
 </LinearLayout>

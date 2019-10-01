@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="16dp"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="16dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginRight="16dp"
+        android:orientation="horizontal">
+
+        <FrameLayout
+            android:layout_width="wrap_content"
+            android:layout_gravity="center"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:id="@+id/vImageMiniPlus"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:src="@drawable/ic_add_white_24dp" />
+
+            <com.sup.dev.android.views.views.ViewCircleImage
+                android:id="@+id/vImageMini"
+                android:layout_width="64dp"
+                android:layout_height="64dp"
+                android:foreground="?selectableItemBackground"
+                android:src="@color/focus" />
+
+        </FrameLayout>
+
+        <com.sup.dev.android.views.settings.SettingsField
+            android:id="@+id/vName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_weight="1"
+            android:hint="@string/app_naming"
+            android:inputType="textCapSentences|textAutoCorrect"
+            android:singleLine="true" />
+
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/vUsers"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"/>
+
+</LinearLayout>

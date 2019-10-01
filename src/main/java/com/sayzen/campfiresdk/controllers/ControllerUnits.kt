@@ -415,6 +415,12 @@ object ControllerUnits {
             is ModerationPinPostInFandom -> {
                 text = ToolsResources.sCap(R.string.moderation_pin_post_in_fandom, ToolsResources.sex(unit.creatorSex, R.string.he_pined, R.string.she_pined), ControllerApi.linkToPost(m.postId))
             }
+            is ModerationPostClose -> {
+                text = ToolsResources.sCap(R.string.moderation_post_close, ToolsResources.sex(unit.creatorSex, R.string.he_close, R.string.she_close), ControllerApi.linkToPost(m.postId))
+            }
+            is ModerationPostCloseNo -> {
+                text = ToolsResources.sCap(R.string.moderation_post_close_no, ToolsResources.sex(unit.creatorSex, R.string.he_open, R.string.she_open), ControllerApi.linkToPost(m.postId))
+            }
         }
 
         if (unit.moderation != null)

@@ -10,6 +10,7 @@ import com.sayzen.campfiresdk.adapters.XAccount
 import com.sayzen.campfiresdk.screens.achievements.achievements.PageAchievements
 import com.sayzen.campfiresdk.screens.achievements.lvl.PageLvl
 import com.sayzen.campfiresdk.controllers.ControllerApi
+import com.sayzen.devsupandroidgoogle.ControllerFirebaseAnalytics
 import com.sup.dev.android.libs.api_simple.ApiRequestsSupporter
 import com.sup.dev.android.libs.screens.navigator.NavigationAction
 import com.sup.dev.android.libs.screens.Screen
@@ -59,6 +60,14 @@ class SAchievements private constructor(
         if(toPrev){
             vPager.setCurrentItem(1, false)
         }
+
+        vPager.addOnPageChangeListener(object : ViewPager.SimpleOnPageChangeListener() {
+            override fun onPageSelected(position: Int) {
+                if(position == 1){
+                    ControllerFirebaseAnalytics.post("Screen Achievements", "To Privilege")
+                }
+            }
+        })
 
         update()
     }

@@ -203,14 +203,16 @@ object ControllerChats {
     //
 
     fun putRead(tag: ChatTag, date: Long) {
-        if (date > readDates[tag] ?: 0) {
+        if (readDates[tag] == null || date > readDates[tag] ?: 0) {
             readDates[tag] = date
             EventBus.post(EventChatReadDateChanged(tag))
         }
 
     }
 
-    fun getRead(tag: ChatTag) = readDates[tag] ?: Long.MAX_VALUE
+    fun getRead(tag: ChatTag):Long{
+        return readDates[tag] ?: Long.MAX_VALUE
+    }
 
     fun isRead(tag: ChatTag, date: Long): Boolean {
         return date < getRead(tag)
@@ -223,20 +225,20 @@ object ControllerChats {
     private fun onNotification(e: EventNotification) {
         if (e.notification is NotificationChatMessage) {
             removeTyping(e.notification.tag, e.notification.unitChatMessage.creatorName)
+            val n = e.notification
+            incrementMessagesCount(n.tag, n.subscribed)
+            putRead(n.tag, n.dateCreate)
         }
         if (e.notification is NotificationChatAnswer) {
             removeTyping(e.notification.tag, e.notification.unitChatMessage.creatorName)
+            val n = e.notification
+            incrementMessagesCount(n.tag, n.subscribed)
+            putRead(n.tag, n.dateCreate)
         }
         if (e.notification is NotificationChatTyping) {
             addTyping( e.notification.chatTag,  e.notification.accountName)
-        }
-        if (e.notification is NotificationChatAnswer) {
             val n = e.notification
-            incrementMessagesCount(n.tag, n.subscribed)
-        }
-        if (e.notification is NotificationChatMessage) {
-            val n = e.notification
-            incrementMessagesCount(n.tag, n.subscribed)
+            putRead(n.chatTag, n.dateCreate)
         }
         if (e.notification is NotificationChatRead) {
             val n = e.notification

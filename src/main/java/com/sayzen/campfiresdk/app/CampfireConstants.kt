@@ -98,6 +98,7 @@ object CampfireConstants {
             AppLevel(R.string.lvl_moderate_pin_post, API.LVL_MODERATOR_PIN_POST, R.color.blue_500),
             AppLevel(R.string.lvl_moderate_important, API.LVL_MODERATOR_IMPORTANT, R.color.blue_500),
             AppLevel(R.string.lvl_moderate_review_remove_text, API.LVL_MODERATOR_REVIEW_REMOVE_TEXT, R.color.blue_500),
+            AppLevel(R.string.lvl_moderate_close_post, API.LVL_MODERATOR_CLOSE_POST, R.color.blue_500),
             AppLevel(R.string.lvl_admin_moder, API.LVL_ADMIN_MODER, R.color.red_500),
             AppLevel(R.string.lvl_admin_fandom_rename, API.LVL_ADMIN_FANDOM_NAME, R.color.red_500),
             AppLevel(R.string.lvl_admin_fandom_image, API.LVL_ADMIN_FANDOM_AVATAR, R.color.red_500),

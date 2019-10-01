@@ -33,6 +33,7 @@ import java.util.*
 
 class SCreationTags private constructor(
     private val unitId: Long,
+    private val closed: Boolean,
     private val unitTag3: Long,
     private val isMyUnit: Boolean,
     private val presetTags: Array<Long>,
@@ -43,17 +44,17 @@ class SCreationTags private constructor(
 
         fun instance(unitId: Long, isMyUnit: Boolean, action: NavigationAction) {
             ApiRequestsSupporter.executeProgressDialog(RPostGet(unitId)) { r ->
-                instance(r.unit.id, r.unit.tag_3, isMyUnit, r.unit.fandomId, r.unit.languageId, ControllerUnits.tagsAsLongArray(r.tags), action)
+                instance(r.unit.id, r.unit.closed, r.unit.tag_3, isMyUnit, r.unit.fandomId, r.unit.languageId, ControllerUnits.tagsAsLongArray(r.tags), action)
             }
         }
 
-        fun instance(unitId: Long, unitTag3: Long, isMyUnit: Boolean, fandomId: Long, languageId: Long, presetTags: Array<Long>, action: NavigationAction) {
-            ApiRequestsSupporter.executeInterstitial(action, RTagsGetAll(fandomId, languageId)) { r -> SCreationTags(unitId, unitTag3, isMyUnit, presetTags, r.tags) }
+        fun instance(unitId: Long, closed:Boolean, unitTag3: Long, isMyUnit: Boolean, fandomId: Long, languageId: Long, presetTags: Array<Long>, action: NavigationAction) {
+            ApiRequestsSupporter.executeInterstitial(action, RTagsGetAll(fandomId, languageId)) { r -> SCreationTags(unitId, closed, unitTag3, isMyUnit, presetTags, r.tags) }
         }
 
-        fun create(unitId: Long, tags: Array<Long>, notifyFollowers: Boolean, pendingTime: Long, onCreate: () -> Unit) {
+        fun create(unitId: Long, tags: Array<Long>, notifyFollowers: Boolean, pendingTime: Long, closed: Boolean, onCreate: () -> Unit) {
             SGoogleRules.acceptRulesDialog {
-                ApiRequestsSupporter.executeProgressDialog(RPostPublication(unitId, tags, "", notifyFollowers, pendingTime)) { _ ->
+                ApiRequestsSupporter.executeProgressDialog(RPostPublication(unitId, tags, "", notifyFollowers, pendingTime, closed)) { _ ->
                     EventBus.post(EventPostStatusChange(unitId, API.STATUS_PUBLIC))
                     onCreate.invoke()
                 }
@@ -66,6 +67,7 @@ class SCreationTags private constructor(
     private val vFab: FloatingActionButton = findViewById(R.id.vFab)
     private val vNotifyFollowers: CheckBox = findViewById(R.id.vNotifyFollowers)
     private val vPending: CheckBox = findViewById(R.id.vPending)
+    private val vClose: CheckBox = findViewById(R.id.vClose)
     private val vLine: View = findViewById(R.id.vLine)
     private val vMessageContainer: View = findViewById(R.id.vMessageContainer)
     private val vContainer: ViewGroup = findViewById(R.id.vTagsContainer)
@@ -81,6 +83,7 @@ class SCreationTags private constructor(
         vNotifyFollowers.isEnabled = unitTag3 == 0L
         vNotifyFollowers.isChecked = false
         vPending.isChecked = false
+        vClose.isChecked = closed
         vMenuContainer.visibility = if (vNotifyFollowers.isEnabled) View.VISIBLE else View.GONE
 
         isSingleInstanceInBackStack = true
@@ -136,7 +139,7 @@ class SCreationTags private constructor(
         val tags = Array(selectedTags.size) { selectedTags[it].id }
 
         if (isMyUnit) {
-            create(unitId, tags, vNotifyFollowers.isChecked, pendingDate) {
+            create(unitId, tags, vNotifyFollowers.isChecked, pendingDate, vClose.isChecked) {
                 Navigator.removeAll(SPostCreate::class)
                 if (pendingDate > 0) Navigator.replace(SPending())
                 else SPost.instance(unitId, 0, NavigationAction.replace())
@@ -148,7 +151,7 @@ class SCreationTags private constructor(
                 .setMin(API.MODERATION_COMMENT_MIN_L)
                 .setMax(API.MODERATION_COMMENT_MAX_L)
                 .setOnEnter(R.string.app_change) { w, comment ->
-                    ApiRequestsSupporter.executeEnabled(w, RPostPublication(unitId, tags, comment, false, 0)) {
+                    ApiRequestsSupporter.executeEnabled(w, RPostPublication(unitId, tags, comment, false, 0, false)) {
                         Navigator.removeAll(SPostCreate::class)
                         EventBus.post(EventPostStatusChange(unitId, API.STATUS_PUBLIC))
                         SPost.instance(unitId, 0, NavigationAction.replace())

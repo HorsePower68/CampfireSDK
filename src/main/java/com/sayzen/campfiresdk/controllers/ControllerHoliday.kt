@@ -20,7 +20,7 @@ object ControllerHoliday {
 
     fun isCampfireBirthday():Boolean{
         val time = ControllerApi.currentTime()
-        return ToolsDate.getCurrentMonthOfYear(time) == 9 && ToolsDate.getCurrentDayOfMonth(time) == 7
+        return ToolsDate.getCurrentMonthOfYear(time) == 3 && ToolsDate.getCurrentDayOfMonth(time) == 10
     }
 
 }

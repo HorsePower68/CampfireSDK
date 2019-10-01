@@ -562,28 +562,39 @@ object ControllerSettings {
             accountSettings.fandomFilterModerationsPosts = b
             onSettingsUpdated()
         }
+
     var fandomFilterOnlyImportant: Boolean
         get() = accountSettings.fandomFilterOnlyImportant
         set(b) {
             accountSettings.fandomFilterOnlyImportant = b
             onSettingsUpdated()
         }
+
     var fandomFilterAdministrations: Boolean
         get() = accountSettings.fandomFilterAdministrations
         set(b) {
             accountSettings.fandomFilterAdministrations = b
             onSettingsUpdated()
         }
+
     var fandomFilterModerations: Boolean
         get() = accountSettings.fandomFilterModerations
         set(b) {
             accountSettings.fandomFilterModerations = b
             onSettingsUpdated()
         }
+
     var fandomFilterModerationsBlocks: Boolean
         get() = accountSettings.fandomFilterModerationsBlocks
         set(b) {
             accountSettings.fandomFilterModerationsBlocks = b
+            onSettingsUpdated()
+        }
+
+    var fandomNSFW: Array<Long>
+        get() = accountSettings.fandomNSFW
+        set(b) {
+            accountSettings.fandomNSFW = b
             onSettingsUpdated()
         }
 

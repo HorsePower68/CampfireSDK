@@ -72,19 +72,21 @@ class SPostCreate constructor(
 
     private var unitId = 0L
     private var unitTag3 = 0L
+    private var closed = false
 
     init {
         isSingleInstanceInBackStack = true
 
         this.unitId = changePost?.id ?: 0
         this.unitTag3 = changePost?.tag_3 ?: 0
+        this.closed = changePost?.closed ?: false
 
         vFinish.setOnClickListener {
-            if (changePost == null || changePost.isDraft) SCreationTags.instance(unitId, unitTag3, true, fandomId, languageId, tags, Navigator.TO)
+            if (changePost == null || changePost.isDraft) SCreationTags.instance(unitId, closed, unitTag3, true, fandomId, languageId, tags, Navigator.TO)
             else Navigator.back()
         }
         vFinish.setOnLongClickListener {
-            SCreationTags.create(unitId, tags, false, 0) { SPost.instance(unitId, 0, NavigationAction.replace()) }
+            SCreationTags.create(unitId, tags, false, 0, false) { SPost.instance(unitId, 0, NavigationAction.replace()) }
             true
         }
         if (changePost != null && !changePost.isDraft) vFinish.setImageResource(ToolsResources.getDrawableAttrId(R.attr.ic_done_24dp))
@@ -163,19 +165,19 @@ class SPostCreate constructor(
 
     override fun addText(text: String, postAfterAdd: Boolean) {
         xPostCreator.addText(text) {
-            if (postAfterAdd) SCreationTags.create(unitId, tags, false, 0) { SPost.instance(unitId, 0, NavigationAction.replace()) }
+            if (postAfterAdd) SCreationTags.create(unitId, tags, false, 0, false) { SPost.instance(unitId, 0, NavigationAction.replace()) }
         }
     }
 
     override fun addImage(image: Uri, postAfterAdd: Boolean) {
         xPostCreator.addImage(image) {
-            if (postAfterAdd) SCreationTags.create(unitId, tags, false, 0) { SPost.instance(unitId, 0, NavigationAction.replace()) }
+            if (postAfterAdd) SCreationTags.create(unitId, tags, false, 0, false) { SPost.instance(unitId, 0, NavigationAction.replace()) }
         }
     }
 
     override fun addImage(image: Bitmap, postAfterAdd: Boolean) {
         xPostCreator.addImage(image) {
-            if (postAfterAdd) SCreationTags.create(unitId, tags, false, 0) { SPost.instance(unitId, 0, NavigationAction.replace()) }
+            if (postAfterAdd) SCreationTags.create(unitId, tags, false, 0, false) { SPost.instance(unitId, 0, NavigationAction.replace()) }
         }
     }
 

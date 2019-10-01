@@ -22,6 +22,7 @@ import com.sayzen.campfiresdk.screens.other.about.SAboutCreators
 import com.sayzen.campfiresdk.screens.other.rules.SRulesModerators
 import com.sayzen.campfiresdk.screens.other.rules.SRulesUser
 import com.sayzen.campfiresdk.screens.account.stickers.SStickersView
+import com.sayzen.devsupandroidgoogle.ControllerFirebaseAnalytics
 import com.sayzen.devsupandroidgoogle.ControllerGoogleToken
 import com.sup.dev.android.libs.api_simple.ApiRequestsSupporter
 import com.sup.dev.android.libs.screens.navigator.NavigationAction
@@ -77,6 +78,7 @@ object ControllerCampfireSDK {
         ControllerApi.init()
         ControllerChats.init()
         ControllerNotifications.init(logoColored, logoWhite, notificationExecutor)
+        ControllerFirebaseAnalytics.init()
         ControllerGoogleToken.init("276237287601-6e9aoah4uivbjh6lnn1l9hna6taljd9u.apps.googleusercontent.com", onLoginFailed)
 
         SAlert.GLOBAL_SHOW_WHOOPS = false
