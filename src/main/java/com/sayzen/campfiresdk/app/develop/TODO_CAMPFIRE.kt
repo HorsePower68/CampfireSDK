@@ -2,6 +2,8 @@ package com.sayzen.campfiresdk.app.develop
 
 /*
 
+    Кусь
+
     Конфирренции
         -   Создание (+соьытие)
         -   Редактирование (+событие)
