@@ -61,7 +61,7 @@ abstract class CardChatMessage constructor(
                 UnitChatMessage.TYPE_TEXT -> return CardChatMessageText(unit, onClick, onChange, onQuote, onGoTo, onBlocked)
                 UnitChatMessage.TYPE_IMAGE, UnitChatMessage.TYPE_GIF -> return CardChatMessageImage(unit, onClick, onChange, onQuote, onGoTo, onBlocked)
                 UnitChatMessage.TYPE_IMAGES -> return CardChatMessageImages(unit, onClick, onChange, onQuote, onGoTo, onBlocked)
-                UnitChatMessage.TYPE_BLOCK -> return CardChatMessageModeration(unit, onClick, onChange, onQuote, onGoTo, onBlocked)
+                UnitChatMessage.TYPE_SYSTEM -> return CardChatMessageSystem(unit, onClick, onChange, onQuote, onGoTo, onBlocked)
                 UnitChatMessage.TYPE_VOICE -> return CardChatMessageVoice(unit, onClick, onChange, onQuote, onGoTo, onBlocked)
                 UnitChatMessage.TYPE_STICKER -> return CardChatMessageSticker(unit, onClick, onChange, onQuote, onGoTo, onBlocked)
                 else -> return CardChatMessageUnknowm(unit, onClick, onChange, onQuote, onGoTo, onBlocked)
@@ -301,7 +301,7 @@ abstract class CardChatMessage constructor(
 
     fun onClick(): Boolean {
         val unit = xUnit.unit as UnitChatMessage
-        if (unit.type == UnitChatMessage.TYPE_BLOCK) {
+        if (unit.type == UnitChatMessage.TYPE_SYSTEM && unit.systemType == UnitChatMessage.SYSTEM_TYPE_BLOCK) {
             ControllerCampfireSDK.onToModerationClicked(unit.blockModerationEventId, 0, Navigator.TO)
             return true
         }

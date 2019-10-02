@@ -19,14 +19,14 @@
             android:layout_height="wrap_content">
 
             <ImageView
-                android:id="@+id/vImageMiniPlus"
+                android:id="@+id/vImageIcon"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:src="@drawable/ic_add_white_24dp" />
 
             <com.sup.dev.android.views.views.ViewCircleImage
-                android:id="@+id/vImageMini"
+                android:id="@+id/vImage"
                 android:layout_width="64dp"
                 android:layout_height="64dp"
                 android:foreground="?selectableItemBackground"

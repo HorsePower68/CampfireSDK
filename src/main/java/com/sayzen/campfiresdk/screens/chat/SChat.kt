@@ -99,7 +99,10 @@ class SChat private constructor(
         vAvatarTitle.setSubtitleColor(ToolsResources.getColorAttr(R.attr.toolbar_content_color))
 
         vNotifications = addToolbarIcon(ToolsResources.getDrawableAttrId(R.attr.ic_notifications_24dp)) { sendSubscribe(!subscribed) }
-        if (tag.chatType != API.CHAT_TYPE_FANDOM) vNotifications.visibility = View.GONE
+
+        if (tag.chatType == API.CHAT_TYPE_FANDOM || tag.chatType == API.CHAT_TYPE_CONFERENCE)  vNotifications.visibility = View.GONE
+            else vNotifications.visibility = View.GONE
+
         vMenu = addToolbarIcon(ToolsResources.getDrawableAttrId(R.attr.ic_more_vert_24dp)) {
             ControllerChats.instanceChatPopup(tag) { Navigator.remove(this) }.asSheetShow()
         }
@@ -125,7 +128,7 @@ class SChat private constructor(
             vAvatarTitle.vSubtitle.setTextColor(ToolsResources.getColor(R.color.grey_500))
             vAvatarTitle.setSubtitle(ToolsResources.s(R.string.app_subscribers) + ": $chatInfo_1")
             vAvatarTitle.setOnClickListener { Navigator.to(SChatSubscribers(tag.targetId, tag.targetSubId, chatName)) }
-        } else {
+        } else if (tag.chatType == API.CHAT_TYPE_PRIVATE){
             val anotherId = if (tag.targetId == ControllerApi.account.id) tag.targetSubId else tag.targetId
             val xAccount = XAccount(anotherId, chatName, chatImageId, chatInfo_1, chatInfo_4, chatInfo_2) { update() }
             xAccount.setView(vAvatarTitle)
@@ -137,6 +140,10 @@ class SChat private constructor(
                 vAvatarTitle.setSubtitle(ToolsResources.s(R.string.app_online))
                 vAvatarTitle.vSubtitle.setTextColor(ToolsResources.getColor(R.color.green_700))
             }
+        } else{
+            ToolsImagesLoader.load(chatImageId).into(vAvatarTitle.vAvatar.vImageView)
+            vAvatarTitle.setTitle(chatName)
+            vAvatarTitle.setSubtitle("")
         }
     }
 
@@ -258,7 +265,7 @@ class SChat private constructor(
     }
 
     fun sendSubscribe(subscribed: Boolean) {
-        if (tag.chatType != API.CHAT_TYPE_FANDOM) return
+        if (tag.chatType != API.CHAT_TYPE_FANDOM && tag.chatType != API.CHAT_TYPE_CONFERENCE) return
         RChatSubscribe(tag, subscribed)
                 .onComplete {
                     EventBus.post(EventChatSubscriptionChanged(tag, subscribed))

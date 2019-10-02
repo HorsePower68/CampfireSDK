@@ -25,6 +25,10 @@ class SAccountSearch(
     private var first = true
 
     init {
+        isNavigationVisible = false
+        isNavigationAllowed = false
+        isNavigationAnimation = false
+
         setTitle(R.string.app_search)
         setTextEmpty(R.string.app_nothing_found)
         setBackgroundImage(R.drawable.bg_4)

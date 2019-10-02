@@ -99,9 +99,9 @@ class CardChat(
                     unit.unitChatMessage.imageIdArray.isNotEmpty() -> ToolsResources.s(R.string.app_image)
                     unit.unitChatMessage.blockModerationEventId != 0L -> {
                         if (unit.unitChatMessage.blockDate > 0L)
-                            ToolsResources.sCap(R.string.message_do_ban_user, ToolsResources.sex(unit.unitChatMessage.blockedAdminSex, R.string.he_blocked, R.string.she_blocked))
+                            ToolsResources.sCap(R.string.message_do_ban_user, ToolsResources.sex(unit.unitChatMessage.systemOwnerSex, R.string.he_blocked, R.string.she_blocked))
                         else
-                            ToolsResources.sCap(R.string.message_do_ban_user, ToolsResources.sex(unit.unitChatMessage.blockedAdminSex, R.string.he_warn, R.string.she_warn))
+                            ToolsResources.sCap(R.string.message_do_ban_user, ToolsResources.sex(unit.unitChatMessage.systemOwnerSex, R.string.he_warn, R.string.she_warn))
                     }
                     else -> unit.unitChatMessage.text
                 }

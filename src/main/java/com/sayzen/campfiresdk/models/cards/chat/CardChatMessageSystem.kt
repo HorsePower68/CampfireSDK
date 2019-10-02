@@ -10,7 +10,7 @@ import com.sup.dev.android.libs.screens.navigator.Navigator
 import com.sup.dev.android.tools.ToolsResources
 import com.sup.dev.android.views.views.ViewTextLinkable
 
-class CardChatMessageModeration(
+class CardChatMessageSystem(
         unit: UnitChatMessage,
         onClick: ((UnitChatMessage) -> Boolean)? = null,
         onChange: ((UnitChatMessage) -> Unit)? = null,
@@ -37,11 +37,11 @@ class CardChatMessageModeration(
         vSystemMessage.visibility = View.VISIBLE
 
         if(unit.blockDate > 0) {
-            vSystemMessage.text = "${ToolsResources.s(R.string.chat_block_message, ControllerApi.linkToUser(unit.blockedAdminName), ToolsResources.sex(unit.blockedAdminSex, R.string.he_blocked, R.string.she_blocked), ControllerApi.linkToUser(unit.blockedAccountName))} " +
-                    "\n ${ToolsResources.s(R.string.app_comment)}: ${unit.blockedAccountComment}"
+            vSystemMessage.text = "${ToolsResources.s(R.string.chat_block_message, ControllerApi.linkToUser(unit.systemOwnerName), ToolsResources.sex(unit.systemOwnerSex, R.string.he_blocked, R.string.she_blocked), ControllerApi.linkToUser(unit.systemTargetName))} " +
+                    "\n ${ToolsResources.s(R.string.app_comment)}: ${unit.systemComment}"
         }else{
-            vSystemMessage.text = "${ToolsResources.s(R.string.chat_warn_message, ControllerApi.linkToUser(unit.blockedAdminName), ToolsResources.sex(unit.blockedAdminSex, R.string.he_warn, R.string.she_warn), ControllerApi.linkToUser(unit.blockedAccountName))} " +
-                    "\n ${ToolsResources.s(R.string.app_comment)}: ${unit.blockedAccountComment}"
+            vSystemMessage.text = "${ToolsResources.s(R.string.chat_warn_message, ControllerApi.linkToUser(unit.systemOwnerName), ToolsResources.sex(unit.systemOwnerSex, R.string.he_warn, R.string.she_warn), ControllerApi.linkToUser(unit.systemTargetName))} " +
+                    "\n ${ToolsResources.s(R.string.app_comment)}: ${unit.systemComment}"
         }
 
         ControllerApi.makeLinkable(vSystemMessage)
