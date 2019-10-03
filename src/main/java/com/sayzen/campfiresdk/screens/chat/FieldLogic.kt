@@ -246,9 +246,10 @@ class FieldLogic(
         val unitChangeId = unitChange!!.id
         beforeSend()
         ToolsToast.show(R.string.app_changed)
-        EventBus.post(EventChatMessageChanged(unitChangeId, text, quoteIdV, quoteTextV))
         ApiRequestsSupporter.execute(RChatMessageChange(unitChangeId, quoteIdV, text)) {
+            EventBus.post(EventChatMessageChanged(unitChangeId, text, quoteIdV, quoteTextV))
         }
+                .onApiError(API.ERROR_ACCESS) { ToolsToast.show(R.string.error_chat_access) }
 
     }
 

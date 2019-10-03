@@ -22,6 +22,7 @@ import com.sayzen.campfiresdk.models.events.fandom.EventFandomBackgroundImageCha
 import com.sayzen.campfiresdk.models.ScreenShare
 import com.sayzen.campfiresdk.models.events.chat.*
 import com.sayzen.campfiresdk.models.events.notifications.EventNotification
+import com.sayzen.campfiresdk.screens.chat.create.SChatCreate
 import com.sup.dev.android.app.SupAndroid
 import com.sup.dev.android.libs.api_simple.ApiRequestsSupporter
 import com.sup.dev.android.libs.screens.activity.SActivityTypeBottomNavigation
@@ -41,10 +42,10 @@ import com.sup.dev.java.tools.*
 class SChat private constructor(
         val tag: ChatTag,
         var subscribed: Boolean,
-        val chatName: String,
-        val chatImageId: Long,
+        var chatName: String,
+        var chatImageId: Long,
         var chatBackgroundImageId: Long,
-        val chatInfo_1: Long,
+        var chatInfo_1: Long,
         val chatInfo_2: Long,
         val chatInfo_3: Long,
         val chatInfo_4: Long)
@@ -75,6 +76,7 @@ class SChat private constructor(
             .subscribe(EventChatTypingChanged::class) { this.eventOnChatTypingChanged(it) }
             .subscribe(EventChatSubscriptionChanged::class) { this.onEventChatSubscriptionChanged(it) }
             .subscribe(EventFandomBackgroundImageChanged::class) { this.onEventFandomBackgroundImageChanged(it) }
+            .subscribe(EventChatChanged::class) { this.onEventChatChanged(it) }
 
     private val vLine: View = findViewById(R.id.vLine)
     private val vMenu: ViewIcon
@@ -100,8 +102,10 @@ class SChat private constructor(
 
         vNotifications = addToolbarIcon(ToolsResources.getDrawableAttrId(R.attr.ic_notifications_24dp)) { sendSubscribe(!subscribed) }
 
-        if (tag.chatType == API.CHAT_TYPE_FANDOM || tag.chatType == API.CHAT_TYPE_CONFERENCE)  vNotifications.visibility = View.GONE
+        if (tag.chatType == API.CHAT_TYPE_FANDOM || tag.chatType == API.CHAT_TYPE_CONFERENCE)  vNotifications.visibility = View.VISIBLE
             else vNotifications.visibility = View.GONE
+
+        if(tag.chatType == API.CHAT_TYPE_CONFERENCE) vAvatarTitle.setOnClickListener { SChatCreate.instance(tag.targetId, Navigator.TO) }
 
         vMenu = addToolbarIcon(ToolsResources.getDrawableAttrId(R.attr.ic_more_vert_24dp)) {
             ControllerChats.instanceChatPopup(tag) { Navigator.remove(this) }.asSheetShow()
@@ -142,8 +146,9 @@ class SChat private constructor(
             }
         } else{
             ToolsImagesLoader.load(chatImageId).into(vAvatarTitle.vAvatar.vImageView)
+            vAvatarTitle.vSubtitle.setTextColor(ToolsResources.getColor(R.color.grey_500))
+            vAvatarTitle.setSubtitle(ToolsResources.s(R.string.app_subscribers) + ": $chatInfo_1")
             vAvatarTitle.setTitle(chatName)
-            vAvatarTitle.setSubtitle("")
         }
     }
 
@@ -368,6 +373,15 @@ class SChat private constructor(
             if (tag.targetId == 0L && tag.targetSubId == 0L) {
                 updateBackground()
             }
+        }
+    }
+
+    private fun onEventChatChanged(e: EventChatChanged) {
+        if (tag.chatType == API.CHAT_TYPE_CONFERENCE && e.chatId == tag.targetId) {
+            chatName = e.name
+            chatImageId = e.imageId
+            chatInfo_1 = e.accountCount.toLong()
+            update()
         }
     }
 

@@ -6,12 +6,15 @@ import com.dzen.campfire.api.models.notifications.NotificationChatAnswer
 import com.dzen.campfire.api.models.notifications.NotificationChatMessage
 import com.dzen.campfire.api.models.notifications.NotificationChatRead
 import com.dzen.campfire.api.models.notifications.NotificationChatTyping
+import com.dzen.campfire.api.models.units.chat.UnitChatMessage
 import com.dzen.campfire.api.requests.chat.RChatRead
 import com.dzen.campfire.api.requests.chat.RChatRemove
 import com.sayzen.campfiresdk.R
 import com.sayzen.campfiresdk.models.events.chat.*
 import com.sayzen.campfiresdk.models.events.notifications.EventNotification
+import com.sayzen.campfiresdk.screens.chat.create.SChatCreate
 import com.sup.dev.android.libs.api_simple.ApiRequestsSupporter
+import com.sup.dev.android.libs.screens.navigator.Navigator
 import com.sup.dev.android.tools.ToolsAndroid
 import com.sup.dev.android.tools.ToolsResources
 import com.sup.dev.android.tools.ToolsStorage
@@ -41,17 +44,30 @@ object ControllerChats {
     //  Methods
     //
 
+    fun getSystemText(unit: UnitChatMessage): String {
+
+        when {
+            unit.systemType == UnitChatMessage.SYSTEM_TYPE_BLOCK -> return if (unit.blockDate > 0) {
+                "${ToolsResources.s(R.string.chat_block_message, ControllerApi.linkToUser(unit.systemOwnerName), ToolsResources.sex(unit.systemOwnerSex, R.string.he_blocked, R.string.she_blocked), ControllerApi.linkToUser(unit.systemTargetName))} " + "\n ${ToolsResources.s(R.string.app_comment)}: ${unit.systemComment}"
+            } else {
+                "${ToolsResources.s(R.string.chat_system_block, ControllerApi.linkToUser(unit.systemOwnerName), ToolsResources.sex(unit.systemOwnerSex, R.string.he_warn, R.string.she_warn), ControllerApi.linkToUser(unit.systemTargetName))} " + "\n ${ToolsResources.s(R.string.app_comment)}: ${unit.systemComment}"
+            }
+            unit.systemType == UnitChatMessage.SYSTEM_TYPE_ADD_USER -> return "${ToolsResources.s(R.string.chat_system_add, ControllerApi.linkToUser(unit.systemOwnerName), ToolsResources.sex(unit.systemOwnerSex, R.string.he_add, R.string.she_add), ControllerApi.linkToUser(unit.systemTargetName))}"
+            unit.systemType == UnitChatMessage.SYSTEM_TYPE_CREATE -> return "${ToolsResources.s(R.string.chat_system_create, ControllerApi.linkToUser(unit.systemOwnerName), ToolsResources.sex(unit.systemOwnerSex, R.string.he_created, R.string.she_created))}"
+            unit.systemType == UnitChatMessage.SYSTEM_TYPE_REMOVE_USER -> return "${ToolsResources.s(R.string.chat_system_remove, ControllerApi.linkToUser(unit.systemOwnerName), ToolsResources.sex(unit.systemOwnerSex, R.string.he_remove, R.string.she_remove), ControllerApi.linkToUser(unit.systemTargetName))}"
+            unit.systemType == UnitChatMessage.SYSTEM_TYPE_CHANGE_IMAGE -> return "${ToolsResources.s(R.string.chat_system_change_image, ControllerApi.linkToUser(unit.systemOwnerName), ToolsResources.sex(unit.systemOwnerSex, R.string.he_changed, R.string.she_changed), unit.systemTargetName)}"
+            unit.systemType == UnitChatMessage.SYSTEM_TYPE_CHANGE_NAME -> return "${ToolsResources.s(R.string.chat_system_change_name, ControllerApi.linkToUser(unit.systemOwnerName), ToolsResources.sex(unit.systemOwnerSex, R.string.he_changed, R.string.she_changed), unit.systemTargetName)}"
+            else -> return ""
+        }
+
+    }
+
     fun instanceChatPopup(tag: ChatTag, onRemove: () -> Unit = {}): WidgetMenu {
         return WidgetMenu()
                 .add(R.string.chat_read) { _, _ -> readRequest(tag) }
-                .add(R.string.app_copy_link) { _, _ ->
-                    ToolsAndroid.setToClipboard(ControllerApi.linkToChat(tag.targetId))
-                    ToolsToast.show(R.string.app_copied)
-                }.condition(tag.chatType == API.CHAT_TYPE_FANDOM)
-                .add(R.string.app_copy_link_with_language) { _, _ ->
-                    ToolsAndroid.setToClipboard(ControllerApi.linkToChat(tag.targetId, tag.targetSubId))
-                    ToolsToast.show(R.string.app_copied)
-                }.condition(tag.chatType == API.CHAT_TYPE_FANDOM)
+                .add(R.string.app_copy_link) { _, _ -> ToolsAndroid.setToClipboard(ControllerApi.linkToChat(tag.targetId));ToolsToast.show(R.string.app_copied) }.condition(tag.chatType == API.CHAT_TYPE_FANDOM)
+                .add(R.string.app_copy_link_with_language) { _, _ -> ToolsAndroid.setToClipboard(ControllerApi.linkToChat(tag.targetId, tag.targetSubId));ToolsToast.show(R.string.app_copied) }.condition(tag.chatType == API.CHAT_TYPE_FANDOM)
+                .add(R.string.app_edit) { _, _ -> SChatCreate.instance(tag.targetId, Navigator.TO) }.condition(tag.chatType == API.CHAT_TYPE_CONFERENCE)
                 .add(R.string.chat_remove) { _, _ ->
                     ApiRequestsSupporter.executeProgressDialog(RChatRemove(tag)) { _ ->
                         EventBus.post(EventChatRemoved(tag))
@@ -210,7 +226,7 @@ object ControllerChats {
 
     }
 
-    fun getRead(tag: ChatTag):Long{
+    fun getRead(tag: ChatTag): Long {
         return readDates[tag] ?: Long.MAX_VALUE
     }
 
@@ -236,7 +252,7 @@ object ControllerChats {
             putRead(n.tag, n.dateCreate)
         }
         if (e.notification is NotificationChatTyping) {
-            addTyping( e.notification.chatTag,  e.notification.accountName)
+            addTyping(e.notification.chatTag, e.notification.accountName)
             val n = e.notification
             putRead(n.chatTag, n.dateCreate)
         }

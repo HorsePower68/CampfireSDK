@@ -517,7 +517,12 @@
     <string name="chat_time">Вы получаете уведомления до: %s</string>
     <string name="chat_forever">Вы всегда получаете уведомления</string>
     <string name="chat_block_message">%s временно %s пользователя %s</string>
-    <string name="chat_warn_message">%s %s пользователя %s</string>
+    <string name="chat_system_block">%s %s пользователя %s</string>
+    <string name="chat_system_add">%s %s пользователя %s</string>
+    <string name="chat_system_remove">%s %s пользователя %s</string>
+    <string name="chat_system_change_image">%s %s аватар чата</string>
+    <string name="chat_system_change_name">%s %s имя чата на %s</string>
+    <string name="chat_system_create">%s %s чат</string>
     <string name="chat_empty_fandom">Здесь еще нет сообщений. Будьте первым.</string>
     <string name="chat_empty_private">Здесь еще нет сообщений</string>
     <string name="chat_loading">Загрузка сообщений</string>
@@ -702,6 +707,7 @@
     <string name="error_of_loading">Ошибка загрузки</string>
     <string name="error_incorrect_value">Некорректное значение</string>
     <string name="error_same_fandom">Выбран тот-же фэндом</string>
+    <string name="error_chat_access">У вас нет доступа к этому чату</string>
 
     <string name="profile_report_confirm">Пожаловаться на пользователя?</string>
     <string name="profile_story">История</string>

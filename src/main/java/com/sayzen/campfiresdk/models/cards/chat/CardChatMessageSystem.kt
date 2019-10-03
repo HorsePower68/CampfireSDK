@@ -6,6 +6,7 @@ import com.dzen.campfire.api.models.units.chat.UnitChatMessage
 import com.sayzen.campfiresdk.R
 import com.sayzen.campfiresdk.controllers.ControllerApi
 import com.sayzen.campfiresdk.controllers.ControllerCampfireSDK
+import com.sayzen.campfiresdk.controllers.ControllerChats
 import com.sup.dev.android.libs.screens.navigator.Navigator
 import com.sup.dev.android.tools.ToolsResources
 import com.sup.dev.android.views.views.ViewTextLinkable
@@ -35,14 +36,12 @@ class CardChatMessageSystem(
         }
 
         vSystemMessage.visibility = View.VISIBLE
+        vSystemMessage.setTextColor(ToolsResources.getColorAttr(R.attr.toolbar_content_color_secondary))
 
-        if(unit.blockDate > 0) {
-            vSystemMessage.text = "${ToolsResources.s(R.string.chat_block_message, ControllerApi.linkToUser(unit.systemOwnerName), ToolsResources.sex(unit.systemOwnerSex, R.string.he_blocked, R.string.she_blocked), ControllerApi.linkToUser(unit.systemTargetName))} " +
-                    "\n ${ToolsResources.s(R.string.app_comment)}: ${unit.systemComment}"
-        }else{
-            vSystemMessage.text = "${ToolsResources.s(R.string.chat_warn_message, ControllerApi.linkToUser(unit.systemOwnerName), ToolsResources.sex(unit.systemOwnerSex, R.string.he_warn, R.string.she_warn), ControllerApi.linkToUser(unit.systemTargetName))} " +
-                    "\n ${ToolsResources.s(R.string.app_comment)}: ${unit.systemComment}"
-        }
+        if (unit.systemType == UnitChatMessage.SYSTEM_TYPE_BLOCK) vSystemMessage.setTextColor(ToolsResources.getColor(R.color.red_600))
+
+
+        vSystemMessage.text = ControllerChats.getSystemText(unit)
 
         ControllerApi.makeLinkable(vSystemMessage)
     }

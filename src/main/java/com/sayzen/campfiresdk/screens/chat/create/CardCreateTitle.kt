@@ -8,19 +8,23 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.sayzen.campfiresdk.R
 import com.sup.dev.android.libs.screens.navigator.Navigator
 import com.sup.dev.android.tools.ToolsBitmap
+import com.sup.dev.android.tools.ToolsImagesLoader
 import com.sup.dev.android.tools.ToolsResources
 import com.sup.dev.android.views.cards.Card
 import com.sup.dev.android.views.screens.SCrop
 import com.sup.dev.android.views.settings.SettingsField
 import com.sup.dev.android.views.widgets.WidgetChooseImage
+import com.sup.dev.java.libs.debug.log
 import com.sup.dev.java.tools.ToolsThreads
 
 class CardCreateTitle(
+        val changeName: String,
+        val changeImageId: Long,
         val updateFinish:()->Unit
 ) : Card(R.layout.screen_chat_create_card_title) {
 
     var image: ByteArray? = null
-    var text = ""
+    var text = changeName
 
     override fun bindView(view: View) {
         super.bindView(view)
@@ -30,10 +34,17 @@ class CardCreateTitle(
         val vUsers: TextView = view.findViewById(R.id.vUsers)
         val vName: SettingsField = view.findViewById(R.id.vName)
 
+        vName.setText(changeName)
+
         vName.setMaxLength(API.CHAT_NAME_MAX)
         vName.addOnTextChanged {
             text = it
             updateFinish.invoke()
+        }
+
+        if(changeImageId != 0L){
+            ToolsImagesLoader.load(changeImageId).into(vImage)
+            vImageIcon.visibility = View.GONE
         }
 
         vImage.setOnClickListener { chooseImage(vImage, vImageIcon) }

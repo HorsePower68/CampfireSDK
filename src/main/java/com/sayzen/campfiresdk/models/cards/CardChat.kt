@@ -8,6 +8,7 @@ import com.dzen.campfire.api.API
 import com.dzen.campfire.api.models.notifications.NotificationChatAnswer
 import com.dzen.campfire.api.models.notifications.NotificationChatMessage
 import com.dzen.campfire.api.models.units.chat.UnitChat
+import com.dzen.campfire.api.models.units.chat.UnitChatMessage
 import com.sayzen.campfiresdk.R
 import com.sayzen.campfiresdk.adapters.XAccount
 import com.sayzen.campfiresdk.adapters.XFandom
@@ -17,6 +18,7 @@ import com.sayzen.campfiresdk.models.events.chat.*
 import com.sayzen.campfiresdk.models.events.notifications.EventNotification
 import com.sayzen.campfiresdk.screens.chat.SChat
 import com.sup.dev.android.libs.screens.navigator.Navigator
+import com.sup.dev.android.tools.ToolsImagesLoader
 import com.sup.dev.android.tools.ToolsResources
 import com.sup.dev.android.views.cards.Card
 import com.sup.dev.android.views.views.ViewAvatarTitle
@@ -46,9 +48,7 @@ class CardChat(
 
     init {
         ControllerChats.putRead(unit.tag, unit.anotherAccountReadDate)
-
-        if (unit.tag.chatType == API.CHAT_TYPE_PRIVATE)
-            unit.tag.setMyAccountId(ControllerApi.account.id)
+        unit.tag.setMyAccountId(ControllerApi.account.id)
         xFandom = XFandom(if (unit.tag.chatType == API.CHAT_TYPE_FANDOM) unit.tag.targetId else 0, unit.tag.targetSubId, unit.unitChatMessage.fandomName, unit.unitChatMessage.fandomImageId) { update() }
         xAccount = XAccount(if (unit.tag.chatType == API.CHAT_TYPE_PRIVATE) unit.tag.getAnotherId() else 0, unit.anotherAccountImageId, unit.anotherAccountLvl, unit.anotherAccountKarma30, unit.anotherAccountLastOnlineTime) { update() }
 
@@ -79,8 +79,11 @@ class CardChat(
         if (unit.tag.chatType == API.CHAT_TYPE_FANDOM) {
             xFandom.setView(vAvatar.vAvatar)
             vAvatar.vAvatar.setChipBackground(if (subscribed) ToolsResources.getAccentColor(view.context) else ToolsResources.getColor(R.color.grey_600))
-        } else {
+        } else if (unit.tag.chatType == API.CHAT_TYPE_PRIVATE) {
             xAccount.setView(vAvatar.vAvatar)
+        } else {
+            ToolsImagesLoader.load(unit.anotherAccountImageId).into(vAvatar.vAvatar.vImageView)
+            vAvatar.setTitle(unit.anotherAccountName)
         }
 
         if (unit.tag.chatType == API.CHAT_TYPE_FANDOM) vAvatar.setTitle(unit.unitChatMessage.fandomName)
@@ -91,18 +94,13 @@ class CardChat(
             if (text != null)
                 vAvatar.setSubtitle(text)
             else {
-                var t = unit.unitChatMessage.creatorName + ": "
+                var t = if(unit.unitChatMessage.creatorName.isNotEmpty())unit.unitChatMessage.creatorName + ": " else ""
                 t += when {
                     unit.unitChatMessage.resourceId > 0 -> ToolsResources.s(R.string.app_image)
                     unit.unitChatMessage.voiceResourceId > 0 -> ToolsResources.s(R.string.app_voice_message)
                     unit.unitChatMessage.stickerId > 0 -> ToolsResources.s(R.string.app_sticker)
                     unit.unitChatMessage.imageIdArray.isNotEmpty() -> ToolsResources.s(R.string.app_image)
-                    unit.unitChatMessage.blockModerationEventId != 0L -> {
-                        if (unit.unitChatMessage.blockDate > 0L)
-                            ToolsResources.sCap(R.string.message_do_ban_user, ToolsResources.sex(unit.unitChatMessage.systemOwnerSex, R.string.he_blocked, R.string.she_blocked))
-                        else
-                            ToolsResources.sCap(R.string.message_do_ban_user, ToolsResources.sex(unit.unitChatMessage.systemOwnerSex, R.string.he_warn, R.string.she_warn))
-                    }
+                    unit.unitChatMessage.type == UnitChatMessage.TYPE_SYSTEM -> ControllerChats.getSystemText(unit.unitChatMessage)
                     else -> unit.unitChatMessage.text
                 }
                 vAvatar.setSubtitle(t)

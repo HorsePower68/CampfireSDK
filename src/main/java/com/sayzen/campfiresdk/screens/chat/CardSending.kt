@@ -2,6 +2,7 @@ package com.sayzen.campfiresdk.screens.chat
 
 import android.view.View
 import android.widget.Button
+import com.dzen.campfire.api.API
 import com.dzen.campfire.api.models.units.chat.UnitChatMessage
 import com.dzen.campfire.api.requests.chat.RChatMessageCreate
 import com.sayzen.campfiresdk.R
@@ -41,6 +42,10 @@ class CardSending(
                 }
                 .onApiError(RChatMessageCreate.E_IS_IGNORE_VOICE_MESSAGES) {
                     ToolsToast.show(R.string.error_ignore_voice_messages)
+                    adapter?.remove(this)
+                }
+                .onApiError(API.ERROR_ACCESS) {
+                    ToolsToast.show(R.string.error_chat_access)
                     adapter?.remove(this)
                 }
                 .onFinish {

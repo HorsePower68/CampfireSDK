@@ -515,7 +515,12 @@ Campfire has anime fandoms and gaming fandoms.</string>
     <string name="chat_time">You receive notifications until: %s</string>
     <string name="chat_forever">You always receive notifications</string>
     <string name="chat_block_message">%s temporarily %s user %s</string>
-    <string name="chat_warn_message">%s %s user %s</string>
+    <string name="chat_system_block">%s %s user %s</string>
+    <string name="chat_system_add">%s %s user %s</string>
+    <string name="chat_system_remove">%s %s user %s</string>
+    <string name="chat_system_change_image">%s %s chat avatar</string>
+    <string name="chat_system_change_name">%s %s chat name to %s</string>
+    <string name="chat_system_create">%s %s chat</string>
     <string name="chat_empty_fandom">There are no messages here yet. Be the first.</string>
     <string name="chat_empty_private">There are no messages here yet</string>
     <string name="chat_loading">Loading messages</string>
@@ -700,7 +705,7 @@ Campfire has anime fandoms and gaming fandoms.</string>
     <string name="error_of_loading">Loading error</string>
     <string name="error_incorrect_value">Incorrect value</string>
     <string name="error_same_fandom">Selected the same fandom</string>
-
+    <string name="error_chat_access">You don\'t have access to this chat</string>
 
     <string name="profile_report_confirm">Report this user?</string>
     <string name="profile_story">Story</string>

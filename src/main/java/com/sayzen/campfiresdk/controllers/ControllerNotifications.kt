@@ -446,14 +446,7 @@ object ControllerNotifications {
             val tagV = n.tag.asTag()
 
             val chatMessagesCount = ControllerChats.getMessagesCount(n.tag)
-            if (n.tag.chatType == API.CHAT_TYPE_FANDOM) {
-                titleV = unit.fandomName
-                if (chatMessagesCount > 1) textV = ToolsResources.s(
-                        R.string.notification_chat_many, chatMessagesCount, ToolsResources.getPlural(
-                        R.plurals.new_fem, chatMessagesCount
-                ), ToolsResources.getPlural(R.plurals.messages, chatMessagesCount)
-                )
-            } else {
+            if (n.tag.chatType == API.CHAT_TYPE_PRIVATE) {
                 titleV = unit.creatorName
                 if (chatMessagesCount > 1) textV = ToolsResources.s(
                         R.string.notification_chat_private_many, chatMessagesCount, ToolsResources.getPlural(
@@ -461,6 +454,13 @@ object ControllerNotifications {
                 ), ToolsResources.getPlural(R.plurals.private_, chatMessagesCount), ToolsResources.getPlural(
                         R.plurals.messages, chatMessagesCount
                 )
+                )
+            } else {
+                titleV = unit.fandomName
+                if (chatMessagesCount > 1) textV = ToolsResources.s(
+                        R.string.notification_chat_many, chatMessagesCount, ToolsResources.getPlural(
+                        R.plurals.new_fem, chatMessagesCount
+                ), ToolsResources.getPlural(R.plurals.messages, chatMessagesCount)
                 )
             }
 
@@ -775,6 +775,7 @@ object ControllerNotifications {
         override fun getIcon() = R.drawable.ic_security_white_24dp
 
     }
+
     private class NotificationModerationPostClosedNoParser(override val n: NotificationModerationPostClosedNo) : Parser(n) {
 
         override fun post(icon: Int, intent: Intent, text: String, title: String, tag: String, sound: Boolean) {
