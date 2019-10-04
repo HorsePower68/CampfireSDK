@@ -91,8 +91,6 @@ abstract class CardChatMessage constructor(
     }
 
     override fun bindView(view: View) {
-        Debug.printStack("Update")
-
         super.bindView(view)
         val unit = xUnit.unit as UnitChatMessage
 
