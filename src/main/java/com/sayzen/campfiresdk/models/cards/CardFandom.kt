@@ -20,7 +20,7 @@ class CardFandom constructor(
     : Card(R.layout.card_fandom) {
 
     private val eventBus = EventBus
-            .subscribe(EventFandomRemove::class) { if(adapter != null) adapter!!.remove(this) }
+            .subscribe(EventFandomRemove::class) { if(adapter != null && it.fandomId == fandom.id) adapter!!.remove(this) }
 
     private val xFandom = XFandom(fandom){update()}
     private val subscribesCount = fandom.subscribesCount

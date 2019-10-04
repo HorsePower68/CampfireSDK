@@ -2,7 +2,7 @@ package com.sayzen.campfiresdk.controllers
 
 import com.dzen.campfire.api.API
 import com.dzen.campfire.api.models.CampfireLink
-import com.dzen.campfire.api.models.ChatTag
+import com.dzen.campfire.api.models.chat.ChatTag
 import com.dzen.campfire.api.requests.accounts.RAccountsGet
 import com.dzen.campfire.api.requests.chat.RChatGet
 import com.dzen.campfire.api.requests.fandoms.RFandomsForumGet

@@ -254,6 +254,10 @@ Campfire has anime fandoms and gaming fandoms.</string>
     <string name="she_pined">pined</string>
     <string name="he_finished">finished</string>
     <string name="she_finished">finished</string>
+    <string name="he_leave">leave</string>
+    <string name="she_leave">leave</string>
+    <string name="he_reenter">Enter</string>
+    <string name="she_reenter">Enter</string>
 
     <string name="filter_events">Events</string>
     <string name="filter_posts">Posts</string>
@@ -520,18 +524,23 @@ Campfire has anime fandoms and gaming fandoms.</string>
     <string name="chat_system_remove">%s %s user %s</string>
     <string name="chat_system_change_image">%s %s chat avatar</string>
     <string name="chat_system_change_name">%s %s chat name to %s</string>
+    <string name="chat_system_leave">%s %s chat</string>
+    <string name="chat_system_enter">%s %s in chat</string>
     <string name="chat_system_create">%s %s chat</string>
     <string name="chat_empty_fandom">There are no messages here yet. Be the first.</string>
     <string name="chat_empty_private">There are no messages here yet</string>
     <string name="chat_loading">Loading messages</string>
     <string name="chat_remove">Remove from chats</string>
+    <string name="chat_clear_history">Clear history</string>
+    <string name="chat_leave">Leave chat</string>
+    <string name="chat_enter">Enter to chat</string>
     <string name="chat_read">Mark as read</string>
     <string name="chat_remove_confirm">Remove this message?</string>
     <string name="chat_report_confirm">Report this message?</string>
     <string name="chat_clear_reports_confirm">Clear this message reports?</string>
     <string name="chat_error_gone">Looks like someone deleted this message</string>
-
     <string name="chat_create_title">Chat creation</string>
+    <string name="chat_member_label_leave">%s chat</string>
 
     <string name="comment_remove_confirm">Remove this comment?</string>
     <string name="comment_report_confirm">Report this comment?</string>

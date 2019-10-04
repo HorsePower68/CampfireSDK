@@ -8,7 +8,7 @@ import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
 import com.dzen.campfire.api.API
-import com.dzen.campfire.api.models.ChatTag
+import com.dzen.campfire.api.models.chat.ChatTag
 import com.dzen.campfire.api.models.notifications.NotificationChatAnswer
 import com.dzen.campfire.api.models.notifications.NotificationChatMessage
 import com.dzen.campfire.api.models.units.chat.UnitChatMessage
@@ -35,7 +35,6 @@ import com.sup.dev.android.views.screens.SLoadingRecycler
 import com.sup.dev.android.views.support.adapters.recycler_view.RecyclerCardAdapterLoading
 import com.sup.dev.android.views.views.ViewAvatarTitle
 import com.sup.dev.android.views.views.ViewIcon
-import com.sup.dev.java.libs.debug.Debug
 import com.sup.dev.java.libs.eventBus.EventBus
 import com.sup.dev.java.tools.*
 
@@ -48,7 +47,8 @@ class SChat private constructor(
         var chatInfo_1: Long,
         val chatInfo_2: Long,
         val chatInfo_3: Long,
-        val chatInfo_4: Long)
+        val chatInfo_4: Long,
+        var memberStatus: Long?)
     : SLoadingRecycler<CardChatMessage, UnitChatMessage>(R.layout.screen_chat), ScreenShare {
 
     companion object {
@@ -63,7 +63,7 @@ class SChat private constructor(
             if (setStack) ControllerCampfireSDK.ON_SCREEN_CHAT_START.invoke()
             ApiRequestsSupporter.executeInterstitial(action, RChatGet(tag)) { r ->
                 ControllerChats.putRead(tag, r.anotherReadDate)
-                val screen = SChat(tag, r.subscribed, r.chatName, r.chatImageId, r.chatBackgroundImageId, r.chatInfo_1, r.chatInfo_2, r.chatInfo_3, r.chatInfo_4)
+                val screen = SChat(tag, r.subscribed, r.chatName, r.chatImageId, r.chatBackgroundImageId, r.chatInfo_1, r.chatInfo_2, r.chatInfo_3, r.chatInfo_4, r.memberStatus)
                 onShow.invoke(screen)
                 screen
             }
@@ -77,6 +77,7 @@ class SChat private constructor(
             .subscribe(EventChatSubscriptionChanged::class) { this.onEventChatSubscriptionChanged(it) }
             .subscribe(EventFandomBackgroundImageChanged::class) { this.onEventFandomBackgroundImageChanged(it) }
             .subscribe(EventChatChanged::class) { this.onEventChatChanged(it) }
+            .subscribe(EventChatMemberStatusChanged::class) { this.onEventChatMemberStatusChanged(it) }
 
     private val vLine: View = findViewById(R.id.vLine)
     private val vMenu: ViewIcon
@@ -102,13 +103,14 @@ class SChat private constructor(
 
         vNotifications = addToolbarIcon(ToolsResources.getDrawableAttrId(R.attr.ic_notifications_24dp)) { sendSubscribe(!subscribed) }
 
-        if (tag.chatType == API.CHAT_TYPE_FANDOM || tag.chatType == API.CHAT_TYPE_CONFERENCE)  vNotifications.visibility = View.VISIBLE
-            else vNotifications.visibility = View.GONE
+        vNotifications.visibility = View.GONE
+        if (tag.chatType == API.CHAT_TYPE_FANDOM) vNotifications.visibility = View.VISIBLE
+        if (tag.chatType == API.CHAT_TYPE_CONFERENCE && memberStatus == 1L) vNotifications.visibility = View.VISIBLE
 
-        if(tag.chatType == API.CHAT_TYPE_CONFERENCE) vAvatarTitle.setOnClickListener { SChatCreate.instance(tag.targetId, Navigator.TO) }
+        if (tag.chatType == API.CHAT_TYPE_CONFERENCE) vAvatarTitle.setOnClickListener { SChatCreate.instance(tag.targetId, Navigator.TO) }
 
         vMenu = addToolbarIcon(ToolsResources.getDrawableAttrId(R.attr.ic_more_vert_24dp)) {
-            ControllerChats.instanceChatPopup(tag) { Navigator.remove(this) }.asSheetShow()
+            ControllerChats.instanceChatPopup(tag, memberStatus) { Navigator.remove(this) }.asSheetShow()
         }
 
         setBackgroundImage(R.drawable.bg_5)
@@ -119,7 +121,7 @@ class SChat private constructor(
         layoutManager.stackFromEnd = true
         vRecycler.layoutManager = layoutManager
 
-        ToolsThreads.main(100) { updateSubscribed() }  // Иначе иконка не красится.
+        updateSubscribed()
         update()
         updateTyping()
         updateBackground()
@@ -132,7 +134,7 @@ class SChat private constructor(
             vAvatarTitle.vSubtitle.setTextColor(ToolsResources.getColor(R.color.grey_500))
             vAvatarTitle.setSubtitle(ToolsResources.s(R.string.app_subscribers) + ": $chatInfo_1")
             vAvatarTitle.setOnClickListener { Navigator.to(SChatSubscribers(tag.targetId, tag.targetSubId, chatName)) }
-        } else if (tag.chatType == API.CHAT_TYPE_PRIVATE){
+        } else if (tag.chatType == API.CHAT_TYPE_PRIVATE) {
             val anotherId = if (tag.targetId == ControllerApi.account.id) tag.targetSubId else tag.targetId
             val xAccount = XAccount(anotherId, chatName, chatImageId, chatInfo_1, chatInfo_4, chatInfo_2) { update() }
             xAccount.setView(vAvatarTitle)
@@ -144,7 +146,7 @@ class SChat private constructor(
                 vAvatarTitle.setSubtitle(ToolsResources.s(R.string.app_online))
                 vAvatarTitle.vSubtitle.setTextColor(ToolsResources.getColor(R.color.green_700))
             }
-        } else{
+        } else {
             ToolsImagesLoader.load(chatImageId).into(vAvatarTitle.vAvatar.vImageView)
             vAvatarTitle.vSubtitle.setTextColor(ToolsResources.getColor(R.color.grey_500))
             vAvatarTitle.setSubtitle(ToolsResources.s(R.string.app_subscribers) + ": $chatInfo_1")
@@ -153,7 +155,7 @@ class SChat private constructor(
     }
 
     private fun updateSubscribed() {
-        vNotifications.setColorFilter(if (subscribed) ToolsResources.getAccentColor(context) else ToolsResources.getColorAttr(R.attr.toolbar_content_color))
+        vNotifications.setFilter(if (subscribed) ToolsResources.getAccentColor(context) else ToolsResources.getColorAttr(R.attr.toolbar_content_color))
     }
 
     private fun updateBackground() {
@@ -294,7 +296,7 @@ class SChat private constructor(
     }
 
     fun addCard(card: CardSending) {
-        if(adapter != null) {
+        if (adapter != null) {
             adapter!!.remove(carSpace)
             adapter!!.add(card)
             adapter!!.add(carSpace)
@@ -311,7 +313,7 @@ class SChat private constructor(
         if (adapter != null) {
             if (replaceCard == null || !adapter!!.contains(replaceCard)) {
                 val card = instanceCard(message)
-                if(!adapter!!.containsSame(card)) {
+                if (!adapter!!.containsSame(card)) {
                     adapter!!.remove(carSpace)
                     adapter!!.add(card)
                     adapter!!.add(carSpace)
@@ -381,6 +383,13 @@ class SChat private constructor(
             chatName = e.name
             chatImageId = e.imageId
             chatInfo_1 = e.accountCount.toLong()
+            update()
+        }
+    }
+
+    private fun onEventChatMemberStatusChanged(e: EventChatMemberStatusChanged) {
+        if (tag.chatType == API.CHAT_TYPE_CONFERENCE && e.chatId == tag.targetId) {
+            if (e.accountId == ControllerApi.account.id) memberStatus = e.status
             update()
         }
     }

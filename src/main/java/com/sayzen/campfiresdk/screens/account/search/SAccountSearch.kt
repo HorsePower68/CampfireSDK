@@ -16,7 +16,8 @@ import com.sup.dev.android.views.views.ViewIcon
 import com.sup.dev.java.tools.ToolsMapper
 
 class SAccountSearch(
-        private val onSelected: (Account)->Unit
+        private val showKeyboard: Boolean = true,
+        private val onSelected: (Account) -> Unit
 ) : SLoadingRecycler<CardAccount, Account>(R.layout.screen_account_search) {
 
     private val vField: SettingsField = findViewById(R.id.vField)
@@ -30,16 +31,15 @@ class SAccountSearch(
         isNavigationAnimation = false
 
         setTitle(R.string.app_search)
-        setTextEmpty(R.string.app_nothing_found)
-        setBackgroundImage(R.drawable.bg_4)
-
+        setTextEmpty("")
+        setBackgroundImage(0)
 
         ToolsView.onFieldEnterKey(vField.vField) { reload() }
         vSearch.setOnClickListener { reload() }
 
         if (first) {
             first = false
-            ToolsView.showKeyboard(vField.vField)
+            if (showKeyboard) ToolsView.showKeyboard(vField.vField)
         }
 
     }
@@ -60,7 +60,11 @@ class SAccountSearch(
                     RAccountsGetAll()
                             .setUsername(vField.getText())
                             .setOffset(cards.size.toLong())
-                            .onComplete { r -> onLoad.invoke(removeMyAccount(r.accounts)) }
+                            .onComplete { r ->
+                                onLoad.invoke(removeMyAccount(r.accounts))
+                                setTextEmpty(R.string.app_nothing_found)
+                                setBackgroundImage(R.drawable.bg_4)
+                            }
                             .onNetworkError { onLoad.invoke(null) }
                             .send(api)
                 }

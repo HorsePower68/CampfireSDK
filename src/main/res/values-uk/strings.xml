@@ -254,6 +254,10 @@
     <string name="she_pined">закрепилa</string>
     <string name="he_finished">завершил</string>
     <string name="she_finished">завершила</string>
+    <string name="he_leave">покинул</string>
+    <string name="she_leave">покинула</string>
+    <string name="he_reenter">вернулся</string>
+    <string name="she_reenter">вернулась</string>
 
     <string name="filter_events">События</string>
     <string name="filter_posts">Посты</string>
@@ -522,18 +526,23 @@
     <string name="chat_system_remove">%s %s пользователя %s</string>
     <string name="chat_system_change_image">%s %s аватар чата</string>
     <string name="chat_system_change_name">%s %s имя чата на %s</string>
+    <string name="chat_system_leave">%s %s чат</string>
+    <string name="chat_system_enter">%s %s в чат</string>
     <string name="chat_system_create">%s %s чат</string>
     <string name="chat_empty_fandom">Здесь еще нет сообщений. Будьте первым.</string>
     <string name="chat_empty_private">Здесь еще нет сообщений</string>
     <string name="chat_loading">Загрузка сообщений</string>
     <string name="chat_remove">Удалить из чатов</string>
+    <string name="chat_clear_history">Очистить историю</string>
+    <string name="chat_leave">Покинуть чат</string>
+    <string name="chat_enter">Вернуться в чат</string>
     <string name="chat_read">Пометить как прочитанный</string>
     <string name="chat_remove_confirm">Удалить это сообщение?</string>
     <string name="chat_report_confirm">Пожаловаться на это сообщение?</string>
     <string name="chat_clear_reports_confirm">Удалить жалобы на это сообщение?</string>
     <string name="chat_error_gone">Похоже кто-то удалил это сообщение</string>
-
     <string name="chat_create_title">Создание чата</string>
+    <string name="chat_member_label_leave">%s чат</string>
 
     <string name="comment_remove_confirm">Удалить этот комментарий?</string>
     <string name="comment_report_confirm">Пожаловаться на этот комментарий?</string>

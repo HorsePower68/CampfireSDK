@@ -327,8 +327,7 @@ object ControllerApi {
         return 0
     }
 
-    fun isModerator(accountId: Long, lvl: Long) =
-            !isProtoadmin(accountId, lvl) && !isAdmin(accountId, lvl) && lvl >= API.LVL_MODERATOR_BLOCK.lvl
+    fun isModerator(accountId: Long, lvl: Long) = !isProtoadmin(accountId, lvl) && !isAdmin(accountId, lvl) && lvl >= API.LVL_MODERATOR_BLOCK.lvl
 
     fun isAdmin(accountId: Long, lvl: Long) = !isProtoadmin(accountId, lvl) && lvl >= API.LVL_ADMIN_MODER.lvl
 

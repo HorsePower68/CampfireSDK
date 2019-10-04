@@ -31,9 +31,8 @@ class CardChatMessageSystem(
         val vSystemMessage: ViewTextLinkable = view.findViewById(R.id.vSystemMessage)
         val vTouchModeration: ViewGroup = view.findViewById(R.id.vTouchModeration)
 
-        vTouchModeration.setOnClickListener {
-            ControllerCampfireSDK.onToModerationClicked(unit.blockModerationEventId, 0, Navigator.TO)
-        }
+        vTouchModeration.setOnClickListener { ControllerCampfireSDK.onToModerationClicked(unit.blockModerationEventId, 0, Navigator.TO) }
+        vTouchModeration.isClickable = unit.blockModerationEventId != 0L
 
         vSystemMessage.visibility = View.VISIBLE
         vSystemMessage.setTextColor(ToolsResources.getColorAttr(R.attr.toolbar_content_color_secondary))

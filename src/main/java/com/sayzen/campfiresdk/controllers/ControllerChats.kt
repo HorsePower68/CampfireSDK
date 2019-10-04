@@ -1,14 +1,13 @@
 package com.sayzen.campfiresdk.controllers
 
 import com.dzen.campfire.api.API
-import com.dzen.campfire.api.models.ChatTag
+import com.dzen.campfire.api.models.chat.ChatTag
 import com.dzen.campfire.api.models.notifications.NotificationChatAnswer
 import com.dzen.campfire.api.models.notifications.NotificationChatMessage
 import com.dzen.campfire.api.models.notifications.NotificationChatRead
 import com.dzen.campfire.api.models.notifications.NotificationChatTyping
 import com.dzen.campfire.api.models.units.chat.UnitChatMessage
-import com.dzen.campfire.api.requests.chat.RChatRead
-import com.dzen.campfire.api.requests.chat.RChatRemove
+import com.dzen.campfire.api.requests.chat.*
 import com.sayzen.campfiresdk.R
 import com.sayzen.campfiresdk.models.events.chat.*
 import com.sayzen.campfiresdk.models.events.notifications.EventNotification
@@ -57,26 +56,55 @@ object ControllerChats {
             unit.systemType == UnitChatMessage.SYSTEM_TYPE_REMOVE_USER -> return "${ToolsResources.s(R.string.chat_system_remove, ControllerApi.linkToUser(unit.systemOwnerName), ToolsResources.sex(unit.systemOwnerSex, R.string.he_remove, R.string.she_remove), ControllerApi.linkToUser(unit.systemTargetName))}"
             unit.systemType == UnitChatMessage.SYSTEM_TYPE_CHANGE_IMAGE -> return "${ToolsResources.s(R.string.chat_system_change_image, ControllerApi.linkToUser(unit.systemOwnerName), ToolsResources.sex(unit.systemOwnerSex, R.string.he_changed, R.string.she_changed), unit.systemTargetName)}"
             unit.systemType == UnitChatMessage.SYSTEM_TYPE_CHANGE_NAME -> return "${ToolsResources.s(R.string.chat_system_change_name, ControllerApi.linkToUser(unit.systemOwnerName), ToolsResources.sex(unit.systemOwnerSex, R.string.he_changed, R.string.she_changed), unit.systemTargetName)}"
+            unit.systemType == UnitChatMessage.SYSTEM_TYPE_LEAVE -> return "${ToolsResources.s(R.string.chat_system_leave, ControllerApi.linkToUser(unit.systemOwnerName), ToolsResources.sex(unit.systemOwnerSex, R.string.he_leave, R.string.she_leave))}"
+            unit.systemType == UnitChatMessage.SYSTEM_TYPE_ENTER -> return "${ToolsResources.s(R.string.chat_system_enter, ControllerApi.linkToUser(unit.systemOwnerName), ToolsResources.sex(unit.systemOwnerSex, R.string.he_reenter, R.string.she_reenter))}"
             else -> return ""
         }
 
     }
 
-    fun instanceChatPopup(tag: ChatTag, onRemove: () -> Unit = {}): WidgetMenu {
+    fun instanceChatPopup(tag: ChatTag, memberStatus:Long?, onRemove: () -> Unit = {}): WidgetMenu {
         return WidgetMenu()
-                .add(R.string.chat_read) { _, _ -> readRequest(tag) }
                 .add(R.string.app_copy_link) { _, _ -> ToolsAndroid.setToClipboard(ControllerApi.linkToChat(tag.targetId));ToolsToast.show(R.string.app_copied) }.condition(tag.chatType == API.CHAT_TYPE_FANDOM)
                 .add(R.string.app_copy_link_with_language) { _, _ -> ToolsAndroid.setToClipboard(ControllerApi.linkToChat(tag.targetId, tag.targetSubId));ToolsToast.show(R.string.app_copied) }.condition(tag.chatType == API.CHAT_TYPE_FANDOM)
-                .add(R.string.app_edit) { _, _ -> SChatCreate.instance(tag.targetId, Navigator.TO) }.condition(tag.chatType == API.CHAT_TYPE_CONFERENCE)
-                .add(R.string.chat_remove) { _, _ ->
-                    ApiRequestsSupporter.executeProgressDialog(RChatRemove(tag)) { _ ->
-                        EventBus.post(EventChatRemoved(tag))
-                        onRemove.invoke()
-                        ToolsToast.show(R.string.app_done)
-                    }
-                }
+                .add(R.string.app_edit) { _, _ -> SChatCreate.instance(tag.targetId, Navigator.TO) }.condition(tag.chatType == API.CHAT_TYPE_CONFERENCE && memberStatus == API.CHAT_MEMBER_STATUS_ACTIVE)
+                .add(R.string.chat_remove) { _, _ -> chatRemove(tag, onRemove) }.condition(tag.chatType == API.CHAT_TYPE_FANDOM)
+                .add(R.string.chat_clear_history) { _, _ -> clearHistory(tag, onRemove) }.condition(tag.chatType != API.CHAT_TYPE_FANDOM)
+                .add(R.string.chat_leave) { _, _ -> leave(tag) }.condition(tag.chatType == API.CHAT_TYPE_CONFERENCE && memberStatus == API.CHAT_MEMBER_STATUS_ACTIVE)
+                .add(R.string.chat_enter) { _, _ -> enter(tag) }.condition(tag.chatType == API.CHAT_TYPE_CONFERENCE && memberStatus == API.CHAT_MEMBER_STATUS_LEAVE)
     }
 
+    fun enter(tag: ChatTag) {
+        ApiRequestsSupporter.executeProgressDialog(RChatEnter(tag)) { _ ->
+            ToolsToast.show(R.string.app_done)
+            EventBus.post(EventChatMemberStatusChanged(tag.targetId, ControllerApi.account.id, API.CHAT_MEMBER_STATUS_ACTIVE))
+        }
+                .onApiError(API.ERROR_ACCESS) { ToolsToast.show(R.string.error_chat_access) }
+    }
+
+    fun leave(tag: ChatTag) {
+        ApiRequestsSupporter.executeProgressDialog(RChatLeave(tag)) { _ ->
+            ToolsToast.show(R.string.app_done)
+            EventBus.post(EventChatMemberStatusChanged(tag.targetId, ControllerApi.account.id, API.CHAT_MEMBER_STATUS_LEAVE))
+        }
+                .onApiError(API.ERROR_ACCESS) { ToolsToast.show(R.string.error_chat_access) }
+    }
+
+    fun clearHistory(tag: ChatTag, onRemove: () -> Unit) {
+        ApiRequestsSupporter.executeProgressDialog(RChatClearHistory(tag)) { _ ->
+            EventBus.post(EventChatRemoved(tag))
+            onRemove.invoke()
+            ToolsToast.show(R.string.app_done)
+        }
+    }
+
+    fun chatRemove(tag: ChatTag, onRemove: () -> Unit) {
+        ApiRequestsSupporter.executeProgressDialog(RChatRemove(tag)) { _ ->
+            EventBus.post(EventChatRemoved(tag))
+            onRemove.invoke()
+            ToolsToast.show(R.string.app_done)
+        }
+    }
 
     fun readRequest(tag: ChatTag) {
         setMessagesCount(tag, 0, false)

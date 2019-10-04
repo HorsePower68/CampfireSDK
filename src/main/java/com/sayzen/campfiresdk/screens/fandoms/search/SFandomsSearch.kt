@@ -28,7 +28,7 @@ class SFandomsSearch private constructor(
         private var params4: Array<Long>,
         private var backWhenSelect: Boolean,
         private val onSelected: ((Fandom) -> Unit)?
-) : SLoadingRecycler<CardFandom, Fandom>(R.layout.screen_fandoms_search) {
+) : SLoadingRecycler<CardFandom, SFandomsSearch.NFandom>(R.layout.screen_fandoms_search) {
 
 
     companion object {
@@ -48,8 +48,8 @@ class SFandomsSearch private constructor(
 
     }
 
-    private var subscribedLoaded: Boolean = false
-    private var lockOnEmpty: Boolean = false
+    private var subscribedLoaded = false
+    private var lockOnEmpty = false
 
     init {
         setTitle(R.string.app_fandoms)
@@ -61,7 +61,7 @@ class SFandomsSearch private constructor(
         (vFab as View).visibility = View.VISIBLE
         vFab.setImageResource(R.drawable.ic_search_white_24dp)
         vFab.setOnClickListener {
-            ControllerFirebaseAnalytics.post("Screen FandomsSearch", "Search")
+            ControllerFirebaseAnalytics.post("Screen_FandomsSearch", "Search")
             Navigator.to(SFandomsSearchParams(name, categoryId,
                     params1,
                     params2,
@@ -87,15 +87,15 @@ class SFandomsSearch private constructor(
         }
     }
 
-    override fun instanceAdapter(): RecyclerCardAdapterLoading<CardFandom, Fandom> {
-        val adapterX = RecyclerCardAdapterLoading<CardFandom, Fandom>(CardFandom::class) { fandom ->
-            val card = if (onSelected == null) CardFandom(fandom) else CardFandom(fandom) {
+    override fun instanceAdapter(): RecyclerCardAdapterLoading<CardFandom, NFandom> {
+        val adapterX = RecyclerCardAdapterLoading<CardFandom, NFandom>(CardFandom::class) { fandom ->
+            val card = if (onSelected == null) CardFandom(fandom.fandom) else CardFandom(fandom.fandom) {
                 if (backWhenSelect) Navigator.back()
-                if (fandom.languageId == 0L) fandom.languageId = ControllerApi.getLanguageId()
-                onSelected.invoke(fandom)
+                if (fandom.fandom.languageId == 0L) fandom.fandom.languageId = ControllerApi.getLanguageId()
+                onSelected.invoke(fandom.fandom)
             }
-            card.setSubscribed(!subscribedLoaded && !isSearchMode())
-            card.setShowLanguage(!subscribedLoaded && !isSearchMode())
+            card.setSubscribed(fandom.subscribed && !isSearchMode())
+            card.setShowLanguage(fandom.subscribed && !isSearchMode())
         }
                 .setBottomLoader { onLoad, cards -> load(onLoad, cards) }
 
@@ -132,7 +132,7 @@ class SFandomsSearch private constructor(
         super.reload()
     }
 
-    private fun load(onLoad: (Array<Fandom>?) -> Unit, cards: ArrayList<CardFandom>) {
+    private fun load(onLoad: (Array<NFandom>?) -> Unit, cards: ArrayList<CardFandom>) {
         lockOnEmpty = false
         if (!subscribedLoaded && !isSearchMode()) {
             RFandomsGetAll(RFandomsGetAll.SUBSCRIBE_YES, getLastSubscribedOffset(), ControllerApi.getLanguageId(), categoryId, "", emptyArray(), emptyArray(), emptyArray(), emptyArray())
@@ -141,7 +141,7 @@ class SFandomsSearch private constructor(
                             subscribedLoaded = true
                             if (!adapter!!.isEmpty || r.fandoms.isNotEmpty()) ToolsThreads.main(true) { adapter!!.add(CardDividerTitle(R.string.fandoms_global)) }
                         }
-                        onLoad.invoke(r.fandoms)
+                        onLoad.invoke(Array(r.fandoms.size){ NFandom(r.fandoms[it], true)})
                         if(adapter!!.isEmpty) ToolsThreads.main(true) { adapter?.loadBottom() }
                     }
                     .onNetworkError { onLoad.invoke(null) }
@@ -149,14 +149,14 @@ class SFandomsSearch private constructor(
         } else if (!isSearchMode()) {
             RFandomsGetAll(RFandomsGetAll.SUBSCRIBE_NO, getLastUnsubscribedOffset(), ControllerApi.getLanguageId(), categoryId, "", emptyArray(), emptyArray(), emptyArray(), emptyArray())
                     .onComplete { r ->
-                        onLoad.invoke(r.fandoms)
+                        onLoad.invoke(Array(r.fandoms.size){ NFandom(r.fandoms[it], false)})
                     }
                     .onNetworkError { onLoad.invoke(null) }
                     .send(api)
         } else {
             RFandomsGetAll(RFandomsGetAll.SUBSCRIBE_NONE, cards.size.toLong(), ControllerApi.getLanguageId(), categoryId, name, params1, params2, params3, params4)
                     .onComplete { r ->
-                        onLoad.invoke(r.fandoms)
+                        onLoad.invoke(Array(r.fandoms.size){ NFandom(r.fandoms[it], false)})
                     }
                     .onNetworkError { onLoad.invoke(null) }
                     .send(api)
@@ -185,8 +185,14 @@ class SFandomsSearch private constructor(
     private fun getLastUnsubscribedOffset(): Long {
         var offset = 0L
         val cards = adapter!!.get(CardFandom::class)
-        for (i in cards.size - 1 downTo 0) if (!cards[i].subscribed) offset++
+        for (c in cards) if (!c.subscribed) {
+            offset++
+        }
         return offset
     }
+
+    class NFandom(
+            val fandom:Fandom,
+            val subscribed:Boolean)
 
 }

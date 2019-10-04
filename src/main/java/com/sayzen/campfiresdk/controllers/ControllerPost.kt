@@ -433,7 +433,6 @@ object ControllerPost {
                             .onApiError(RFandomsAdminMakeModerator.E_TOO_MANY) { ToolsToast.show(R.string.error_moderator_too_many) }
                             .onApiError(RFandomsAdminMakeModerator.E_FANDOM_HAVE_MODERATORS) { ToolsToast.show(R.string.error_moderator_moderators_exist) }
                             .onApiError(RFandomsAdminMakeModerator.E_LOW_LVL) { ToolsToast.show(R.string.error_moderator_low_lvl) }
-                            .onApiError(RFandomsAdminMakeModerator.E_IS_ADMIN) { ToolsToast.show(R.string.error_moderator_admin) }
                 }
                 .asSheetShow()
 

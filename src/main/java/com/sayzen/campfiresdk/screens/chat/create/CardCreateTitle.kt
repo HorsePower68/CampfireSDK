@@ -14,7 +14,6 @@ import com.sup.dev.android.views.cards.Card
 import com.sup.dev.android.views.screens.SCrop
 import com.sup.dev.android.views.settings.SettingsField
 import com.sup.dev.android.views.widgets.WidgetChooseImage
-import com.sup.dev.java.libs.debug.log
 import com.sup.dev.java.tools.ToolsThreads
 
 class CardCreateTitle(

@@ -64,7 +64,7 @@ class SAchievements private constructor(
         vPager.addOnPageChangeListener(object : ViewPager.SimpleOnPageChangeListener() {
             override fun onPageSelected(position: Int) {
                 if(position == 1){
-                    ControllerFirebaseAnalytics.post("Screen Achievements", "To Privilege")
+                    ControllerFirebaseAnalytics.post("Screen_Achievements", "To Privilege")
                 }
             }
         })
