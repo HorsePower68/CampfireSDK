@@ -34,6 +34,7 @@ import com.sup.dev.android.views.views.ViewImagesSwipe
 import com.sup.dev.android.views.views.ViewSwipe
 import com.sup.dev.android.views.views.ViewTextLinkable
 import com.sup.dev.android.views.widgets.WidgetMenu
+import com.sup.dev.java.libs.debug.Debug
 import com.sup.dev.java.libs.eventBus.EventBus
 import com.sup.dev.java.tools.ToolsColor
 import com.sup.dev.java.tools.ToolsDate
@@ -90,10 +91,11 @@ abstract class CardChatMessage constructor(
     }
 
     override fun bindView(view: View) {
+        Debug.printStack("Update")
+
         super.bindView(view)
         val unit = xUnit.unit as UnitChatMessage
 
-        val vNotRead: View? = view.findViewById(R.id.vNotRead)
         val vSwipe: ViewSwipe? = view.findViewById(R.id.vSwipe)
         val vText: ViewTextLinkable? = view.findViewById(R.id.vCommentText)
         val vRootContainer: ViewGroup? = view.findViewById(R.id.vRootContainer)
@@ -174,17 +176,6 @@ abstract class CardChatMessage constructor(
             }
         }
 
-        if (vNotRead != null) {
-
-            if (!ControllerApi.isCurrentAccount(unit.creatorId) || unit.chatType != API.CHAT_TYPE_PRIVATE)
-                vNotRead.visibility = View.GONE
-            else if (ControllerChats.isRead(unit.chatTag(), unit.dateCreate))
-                vNotRead.visibility = View.INVISIBLE
-            else
-                vNotRead.visibility = View.VISIBLE
-
-        }
-
         if (vRootContainer != null) {
             vRootContainer.visibility = View.VISIBLE
             (vRootContainer.layoutParams as FrameLayout.LayoutParams).gravity = if (ControllerApi.isCurrentAccount(unit.creatorId)) Gravity.RIGHT else Gravity.LEFT
@@ -223,6 +214,25 @@ abstract class CardChatMessage constructor(
                 (vRootContainer.layoutParams as ViewGroup.MarginLayoutParams).leftMargin = ToolsView.dpToPx(0).toInt()
             }
         }
+
+        updateRead()
+    }
+
+    fun updateRead(){
+        val unit = xUnit.unit as UnitChatMessage
+        if(getView() == null) return
+        val vNotRead: View? = getView()!!.findViewById(R.id.vNotRead)
+        if (vNotRead != null) {
+
+            if (!ControllerApi.isCurrentAccount(unit.creatorId) || unit.chatType != API.CHAT_TYPE_PRIVATE)
+                vNotRead.visibility = View.GONE
+            else if (ControllerChats.isRead(unit.chatTag(), unit.dateCreate))
+                vNotRead.visibility = View.INVISIBLE
+            else
+                vNotRead.visibility = View.VISIBLE
+
+        }
+
     }
 
     fun showMenu() {
@@ -357,7 +367,9 @@ abstract class CardChatMessage constructor(
 
     private fun onEventChatReadDateChanged(e: EventChatReadDateChanged) {
         val unit = xUnit.unit as UnitChatMessage
-        if (e.tag == unit.chatTag()) update()
+        if (e.tag == unit.chatTag()) {
+            updateRead()
+        }
     }
 
     private fun onEventUnitBlocked(e: EventUnitBlocked) {
