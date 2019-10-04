@@ -77,7 +77,7 @@ object ControllerChats {
     fun enter(tag: ChatTag) {
         ApiRequestsSupporter.executeProgressDialog(RChatEnter(tag)) { _ ->
             ToolsToast.show(R.string.app_done)
-            EventBus.post(EventChatMemberStatusChanged(tag.targetId, ControllerApi.account.id, API.CHAT_MEMBER_STATUS_ACTIVE))
+            EventBus.post(EventChatMemberStatusChanged(tag, ControllerApi.account.id, API.CHAT_MEMBER_STATUS_ACTIVE))
         }
                 .onApiError(API.ERROR_ACCESS) { ToolsToast.show(R.string.error_chat_access) }
     }
@@ -85,7 +85,7 @@ object ControllerChats {
     fun leave(tag: ChatTag) {
         ApiRequestsSupporter.executeProgressDialog(RChatLeave(tag)) { _ ->
             ToolsToast.show(R.string.app_done)
-            EventBus.post(EventChatMemberStatusChanged(tag.targetId, ControllerApi.account.id, API.CHAT_MEMBER_STATUS_LEAVE))
+            EventBus.post(EventChatMemberStatusChanged(tag, ControllerApi.account.id, API.CHAT_MEMBER_STATUS_LEAVE))
         }
                 .onApiError(API.ERROR_ACCESS) { ToolsToast.show(R.string.error_chat_access) }
     }

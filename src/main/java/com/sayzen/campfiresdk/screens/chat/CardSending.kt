@@ -6,6 +6,8 @@ import com.dzen.campfire.api.API
 import com.dzen.campfire.api.models.units.chat.UnitChatMessage
 import com.dzen.campfire.api.requests.chat.RChatMessageCreate
 import com.sayzen.campfiresdk.R
+import com.sayzen.campfiresdk.controllers.ControllerApi
+import com.sayzen.campfiresdk.models.events.chat.EventChatMemberStatusChanged
 import com.sayzen.campfiresdk.models.events.chat.EventUpdateChats
 import com.sup.dev.android.libs.api_simple.ApiRequestsSupporter
 import com.sup.dev.android.tools.ToolsToast
@@ -35,6 +37,7 @@ class CardSending(
         ApiRequestsSupporter.execute(request) { r ->
             sendingDone = true
             afterSend(r.message)
+            EventBus.post(EventChatMemberStatusChanged(screen.tag, ControllerApi.account.id, API.CHAT_MEMBER_STATUS_ACTIVE))
         }
                 .onApiError(RChatMessageCreate.E_BLACK_LIST) {
                     ToolsToast.show(R.string.error_black_list)

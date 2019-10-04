@@ -40,7 +40,7 @@ object ControllerNotifications {
     val TYPE_CHAT = 2
     val lastNotificationsCodes = LongSparseArray<Boolean>()
 
-    var token: String = ""
+    var token = ""
     var executorNotification: ExecutorNotification? = null
     var logoColored = R.drawable.logo_alpha_no_margins
     var logoWhite = R.drawable.logo_alpha_black_and_white_no_margins

@@ -388,7 +388,7 @@ class SChat private constructor(
     }
 
     private fun onEventChatMemberStatusChanged(e: EventChatMemberStatusChanged) {
-        if (tag.chatType == API.CHAT_TYPE_CONFERENCE && e.chatId == tag.targetId) {
+        if (tag.chatType == e.tag.chatType && e.tag.targetId == tag.targetId && e.tag.targetSubId == tag.targetSubId) {
             if (e.accountId == ControllerApi.account.id) memberStatus = e.status
             update()
         }
