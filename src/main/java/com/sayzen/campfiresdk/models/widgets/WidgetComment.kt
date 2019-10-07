@@ -65,7 +65,7 @@ class WidgetComment constructor(
             vText.setSelection(vText.text!!.length)
             quoteText = changeComment.quoteText
             quoteId = changeComment.quoteId
-        } else if (answer != null) {
+        } else if (answer != null && quoteId == 0L) {
             vText.setText(answer.creatorName + ", ")
             vText.setSelection(vText.text!!.length)
         }
@@ -135,11 +135,9 @@ class WidgetComment constructor(
     private fun getText() = vText.text!!.toString().trim { it <= ' ' }
 
     private fun getParentId(): Long {
-        var parentId: Long = 0
-        if (answer != null && getText().startsWith(answer.creatorName + ", "))
-            parentId = answer.id
-        return parentId
-
+        if (quoteId != 0L) return quoteId
+        if (answer != null && getText().startsWith(answer.creatorName + ", ")) return answer.id
+        return 0L
     }
 
     private fun onSendClicked() {

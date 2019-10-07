@@ -17,6 +17,7 @@ import com.sayzen.campfiresdk.controllers.ControllerChats
 import com.sayzen.campfiresdk.models.events.chat.*
 import com.sayzen.campfiresdk.models.events.notifications.EventNotification
 import com.sayzen.campfiresdk.screens.chat.SChat
+import com.sayzen.campfiresdk.screens.chat.create.SChatCreate
 import com.sup.dev.android.libs.screens.navigator.Navigator
 import com.sup.dev.android.tools.ToolsImagesLoader
 import com.sup.dev.android.tools.ToolsResources
@@ -86,6 +87,7 @@ class CardChat(
         } else {
             ToolsImagesLoader.load(unit.anotherAccountImageId).into(vAvatar.vAvatar.vImageView)
             vAvatar.setTitle(unit.anotherAccountName)
+            vAvatar.vAvatar.setOnClickListener { SChatCreate.instance(unit.tag.targetId, Navigator.TO) }
         }
 
         if (unit.tag.chatType == API.CHAT_TYPE_FANDOM) vAvatar.setTitle(unit.unitChatMessage.fandomName)

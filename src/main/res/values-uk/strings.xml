@@ -543,6 +543,8 @@
     <string name="chat_error_gone">Похоже кто-то удалил это сообщение</string>
     <string name="chat_create_title">Создание чата</string>
     <string name="chat_create_error_account_exist">Пользователь уже добавлен в чат</string>
+    <string name="chat_create_allow_invites">Разрешить участникам приглашать пользователей в чат</string>
+    <string name="chat_create_allow_edit">Разрешить участникам редактировать чат</string>
     <string name="chat_member_label_leave">%s чат</string>
 
     <string name="comment_remove_confirm">Удалить этот комментарий?</string>

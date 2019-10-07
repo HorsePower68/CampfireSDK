@@ -54,7 +54,7 @@ class SChatCreate(
     private val vFab: FloatingActionButton = findViewById(R.id.vFab)
     private val adapter = RecyclerCardAdapter()
 
-    private val cardTitle = CardCreateTitle(changeName, changeImageId) { updateFinish() }
+    private val cardTitle = CardCreateTitle(myLvl, changeName, changeImageId) { updateFinish() }
 
     constructor() : this(0, "", 0, emptyArray(), API.CHAT_MEMBER_LVL_ADMIN)
 

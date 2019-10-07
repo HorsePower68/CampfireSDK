@@ -12,11 +12,13 @@ import com.sup.dev.android.tools.ToolsImagesLoader
 import com.sup.dev.android.tools.ToolsResources
 import com.sup.dev.android.views.cards.Card
 import com.sup.dev.android.views.screens.SCrop
+import com.sup.dev.android.views.settings.SettingsCheckBox
 import com.sup.dev.android.views.settings.SettingsField
 import com.sup.dev.android.views.widgets.WidgetChooseImage
 import com.sup.dev.java.tools.ToolsThreads
 
 class CardCreateTitle(
+        val myLvl: Long,
         val changeName: String,
         val changeImageId: Long,
         val updateFinish:()->Unit
@@ -32,6 +34,13 @@ class CardCreateTitle(
         val vImageIcon: View = view.findViewById(R.id.vImageIcon)
         val vUsers: TextView = view.findViewById(R.id.vUsers)
         val vName: SettingsField = view.findViewById(R.id.vName)
+        val vAllowInvites: SettingsCheckBox = view.findViewById(R.id.vAllowInvites)
+        val vAllowEdit: SettingsCheckBox = view.findViewById(R.id.vAllowEdit)
+
+        vAllowInvites.isEnabled = myLvl == API.CHAT_MEMBER_LVL_ADMIN
+        vAllowEdit.isEnabled = myLvl == API.CHAT_MEMBER_LVL_ADMIN
+        vAllowInvites.visibility = View.GONE
+        vAllowEdit.visibility = View.GONE
 
         vName.setText(changeName)
 

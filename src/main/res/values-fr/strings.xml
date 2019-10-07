@@ -540,6 +540,8 @@ Campfire has anime fandoms and gaming fandoms.</string>
     <string name="chat_error_gone">Looks like someone deleted this message</string>
     <string name="chat_create_title">Chat creation</string>
     <string name="chat_create_error_account_exist">User already added to chat</string>
+    <string name="chat_create_allow_invites">Allow users to invite another users to chat</string>
+    <string name="chat_create_allow_edit">Allow users to edit chat</string>
     <string name="chat_member_label_leave">%s chat</string>
 
     <string name="comment_remove_confirm">Remove this comment?</string>
