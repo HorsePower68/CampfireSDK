@@ -70,15 +70,6 @@
                     android:layout_height="wrap_content"
                     android:orientation="vertical">
 
-                    <TextView
-                        android:id="@+id/vLabel"
-                        style="@style/Base.TextAppearance.AppCompat.Caption"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="8dp"
-                        android:layout_marginTop="8dp"
-                        android:layout_marginRight="8dp" />
-
                     <LinearLayout
                         android:id="@+id/vQuoteContainer"
                         android:layout_width="wrap_content"
@@ -123,6 +114,7 @@
                         style="@style/Base.TextAppearance.AppCompat.Body1"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
                         android:layout_marginLeft="8dp"
                         android:layout_marginRight="8dp"
                         android:layout_marginBottom="8dp" />
@@ -138,12 +130,13 @@
                             android:layout_height="wrap_content" />
 
                         <TextView
-                            android:id="@+id/vLabelImage"
+                            android:id="@+id/vLabel"
                             style="@style/Base.TextAppearance.AppCompat.Caption"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="right|bottom"
-                            android:layout_margin="8dp"
+                            android:textSize="9sp"
+                            android:layout_margin="4dp"
                             android:background="@color/focus_dark"
                             android:padding="2dp"
                             android:textColor="@color/white"/>

@@ -493,9 +493,8 @@ object ControllerNotifications {
         }
 
         override fun asString(html: Boolean): String {
-            return if (n.unitChatMessage.resourceId != 0L && n.unitChatMessage.text.isEmpty()) n.unitChatMessage.creatorName + ": " + ToolsResources.s(
-                    R.string.app_image
-            )
+            return if (n.unitChatMessage.resourceId != 0L && n.unitChatMessage.text.isEmpty()) n.unitChatMessage.creatorName + ": " + ToolsResources.s(R.string.app_image)
+            else if (n.unitChatMessage.stickerId != 0L && n.unitChatMessage.text.isEmpty()) n.unitChatMessage.creatorName + ": " + ToolsResources.s(R.string.app_sticker)
             else n.unitChatMessage.creatorName + ": " + n.unitChatMessage.text
         }
 

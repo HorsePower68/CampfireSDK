@@ -23,7 +23,6 @@ import com.sup.dev.android.libs.screens.navigator.Navigator
 import com.sup.dev.android.tools.ToolsResources
 import com.sup.dev.android.tools.ToolsView
 import com.sup.dev.android.views.views.ViewAvatarTitle
-import com.sup.dev.android.views.views.ViewChip
 import com.sup.dev.android.views.views.ViewChipMini
 import com.sup.dev.android.views.views.layouts.LayoutMaxSizes
 import com.sup.dev.java.libs.eventBus.EventBus

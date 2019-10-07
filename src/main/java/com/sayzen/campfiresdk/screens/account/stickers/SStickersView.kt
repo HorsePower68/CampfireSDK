@@ -82,9 +82,9 @@ class SStickersView(
         }
 
         vFab.setImageResource(R.drawable.ic_add_white_24dp)
-        vFab.setOnClickListener {
-            chooseImage()
-        }
+        vFab.setOnClickListener { chooseImage() }
+        if (stickersPack.creatorId == ControllerApi.account.id && ControllerApi.can(API.LVL_CREATE_STICKERS))   (vFab as View).visibility = View.VISIBLE
+
 
 
         vAvatarTitle.setOnClickListener {
@@ -130,10 +130,6 @@ class SStickersView(
                                 } else {
                                     loaded = true
                                     onLoad.invoke(r.stickers)
-                                    if (r.stickers.size < API.STICKERS_MAX_COUNT_IN_PACK
-                                            && stickersPack.creatorId == ControllerApi.account.id
-                                            && ControllerApi.can(API.LVL_CREATE_STICKERS))
-                                        (vFab as View).visibility = View.VISIBLE
                                 }
                             }
                             .onNetworkError { onLoad.invoke(null) }
@@ -142,6 +138,13 @@ class SStickersView(
     }
 
     private fun chooseImage() {
+
+
+        if (adapter!!.size(CardSticker::class) >= API.STICKERS_MAX_COUNT_IN_PACK){
+            ToolsToast.show(R.string.stickers_message_too_many)
+            return
+        }
+
         WidgetChooseImage()
                 .setOnSelected { _, bytes, _ ->
 

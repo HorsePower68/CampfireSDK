@@ -27,6 +27,7 @@ import com.sup.dev.android.views.support.watchers.TextWatcherChanged
 import com.sup.dev.android.views.views.ViewEditTextMedia
 import com.sup.dev.android.views.views.ViewIcon
 import com.sup.dev.android.views.views.ViewTextLinkable
+import com.sup.dev.java.libs.debug.Debug
 import com.sup.dev.java.libs.eventBus.EventBus
 import com.sup.dev.java.tools.ToolsBytes
 import com.sup.dev.java.tools.ToolsNetwork
@@ -129,7 +130,7 @@ class FieldLogic(
         updateAction()
     }
 
-    fun setAnswer(unitAnswer: UnitChatMessage): Boolean {
+    fun setAnswer(unitAnswer: UnitChatMessage, withName: Boolean): Boolean {
         setChange(null)
         if (ControllerApi.isCurrentAccount(unitAnswer.creatorId)) return false
         var text = vText.text!!.toString()
@@ -137,7 +138,7 @@ class FieldLogic(
             text = text.substring((this.unitAnswer!!.creatorName + ", ").length)
         }
         this.unitAnswer = unitAnswer
-        vText.setText(unitAnswer.creatorName + ", " + text)
+        if (withName) vText.setText(unitAnswer.creatorName + ", " + text)
         vText.setSelection(vText.text!!.length)
         ToolsView.showKeyboard(vText)
         return true
@@ -167,10 +168,9 @@ class FieldLogic(
     private fun getText() = vText.text!!.toString().trim { it <= ' ' }
 
     private fun getParentId(): Long {
-        var parentId: Long = 0
-        if (unitAnswer != null && getText().startsWith(unitAnswer!!.creatorName + ", "))
-            parentId = unitAnswer!!.id
-        return parentId
+        if (quoteId != 0L) return quoteId
+        if (unitAnswer != null && getText().startsWith(unitAnswer!!.creatorName + ", ")) return unitAnswer!!.id
+        return 0L
 
     }
 

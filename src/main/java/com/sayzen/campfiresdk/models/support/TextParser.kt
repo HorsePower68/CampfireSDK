@@ -64,7 +64,7 @@ class TextParser(
 
     private fun parse(c: Char, open: String, close: String): Boolean {
         if (text[i] == c) {
-            val next = findNext(c)
+            val next = findNext(c, 0)
             if (next != -1) {
                 result += open + TextParser(text.substring(i + 1, next)).parse() + close
                 i = next + 1
@@ -74,12 +74,19 @@ class TextParser(
         return false
     }
 
-    private fun findNext(c: Char, offset: Int = 0): Int {
+    private fun findNext(c: Char, offset: Int): Int {
         var next = -1
+        var skip = false
         for (n in i + 1 + offset until text.length) {
+            if (skip) {
+                skip = false
+                continue
+            }
             if (text[n] == c) {
                 next = n
                 break
+            } else if (text[n] == '\\') {
+                skip = true
             }
         }
         return next
@@ -159,14 +166,14 @@ class TextParser(
     private fun parseLink(): Boolean {
         try {
             if (text[i] == '[') {
-                val nextClose = findNext(']')
+                val nextClose = findNext(']', 0)
 
                 if (nextClose == -1) return false
 
                 var nextSpace = findNext(' ', nextClose - i)
                 if (nextSpace == -1) nextSpace = text.length
 
-                if(ToolsText.TEXT_CHARS_s.contains(text[nextSpace-1])) nextSpace--
+                if (ToolsText.TEXT_CHARS_s.contains(text[nextSpace - 1])) nextSpace--
                 val name = text.substring(i + 1, nextClose)
                 val link = text.substring(nextClose + 1, nextSpace)
 

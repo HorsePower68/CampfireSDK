@@ -75,7 +75,7 @@ object ControllerCampfireObjects {
         val targetId = link.getLongParamOrZero(0)
         val targetSubId = link.getLongParamOrZero(1)
 
-        RChatGet(ChatTag(API.CHAT_TYPE_FANDOM, targetId, targetSubId))
+        RChatGet(ChatTag(API.CHAT_TYPE_FANDOM, targetId, targetSubId), 0)
                 .onComplete { onComplete(link, it.chatName, ToolsResources.s(R.string.app_chat), it.chatImageId) }
                 .onError { onError(link) }
                 .send(api)

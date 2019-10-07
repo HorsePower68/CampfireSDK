@@ -39,16 +39,13 @@ class CardChatMessageSticker(
 
         val vImage: ImageView = view.findViewById(R.id.vImage)
         val vGifProgressBar: View = view.findViewById(R.id.vGifProgressBar)
-        val vLabelImage: TextView = view.findViewById(R.id.vLabelImage)
         val vLabelImageAnswer: TextView = view.findViewById(R.id.vLabelImageAnswer)
-        val vLabel: TextView = view.findViewById(R.id.vLabel)
 
         val myName = ControllerApi.account.name
         if (unit.text.startsWith(myName)) vLabelImageAnswer.text =ToolsHTML.font_color(myName, "#ff6d00")
         else vLabelImageAnswer.text = unit.text
         ToolsView.makeTextHtml(vLabelImageAnswer)
 
-        vLabel.visibility = GONE
         vLabelImageAnswer.visibility = if (unit.text.isEmpty()) GONE else VISIBLE
         vLabelImageAnswer.setOnClickListener {
             if (onGoTo != null) {
@@ -67,12 +64,8 @@ class CardChatMessageSticker(
 
         if (ControllerApi.isCurrentAccount(unit.creatorId)) {
             (vLabelImageAnswer.layoutParams as FrameLayout.LayoutParams).gravity = Gravity.LEFT or Gravity.TOP
-            (vLabelImage.layoutParams as FrameLayout.LayoutParams).gravity = Gravity.RIGHT or Gravity.BOTTOM
-            vLabelImage.text = ToolsDate.dateToString(unit.dateCreate)
         } else {
             (vLabelImageAnswer.layoutParams as FrameLayout.LayoutParams).gravity = Gravity.RIGHT or Gravity.TOP
-            (vLabelImage.layoutParams as FrameLayout.LayoutParams).gravity = Gravity.LEFT or Gravity.BOTTOM
-            vLabelImage.text = xUnit.xAccount.name + "  " + ToolsDate.dateToString(unit.dateCreate)
         }
 
     }

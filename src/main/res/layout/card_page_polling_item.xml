@@ -3,20 +3,21 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:paddingBottom="16dp">
+    android:paddingBottom="12dp">
 
     <com.google.android.material.card.MaterialCardView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        app:cardCornerRadius="8dp"
+        app:cardCornerRadius="12dp"
+        app:cardBackgroundColor="@color/focus_light"
         app:cardElevation="0dp">
 
         <FrameLayout
             android:id="@+id/vTouch"
+            style="?selectableItemBackground"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            style="?selectableItemBackground">
+            android:layout_height="wrap_content">
 
             <LinearLayout
                 android:id="@+id/vLinesContainer"
@@ -28,48 +29,57 @@
                     android:id="@+id/vLine1"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    app:LayoutCorned_cornedSize="8dp"/>
+                    app:LayoutCorned_cornedSize="8dp" />
 
                 <View
                     android:id="@+id/vLine2"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"/>
+                    android:layout_height="match_parent" />
 
             </LinearLayout>
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/focus"
                 android:orientation="horizontal"
                 android:padding="8dp">
 
                 <TextView
                     android:id="@+id/vText"
                     style="@style/Base.TextAppearance.AppCompat.Body2"
-                    android:textColor="@color/white"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_weight="1"
+                    android:textColor="@color/white" />
+
+                <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:layout_weight="1" />
+                    android:layout_marginLeft="2dp"
+                    android:layout_marginRight="1dp"
+                    android:orientation="vertical">
 
-                <TextView
-                    android:id="@+id/vCount"
-                    android:textColor="#70FFFFFF"
-                    android:textSize="9sp"
-                    style="@style/TextAppearance.AppCompat.Caption"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:layout_marginLeft="12dp"
-                    android:layout_marginRight="4dp"/>
+                    <TextView
+                        android:id="@+id/vPercent"
+                        style="@style/Base.TextAppearance.AppCompat.Body1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:textColor="@color/white" />
 
-                <TextView
-                    android:id="@+id/vPercent"
-                    android:textColor="@color/white"
-                    style="@style/Base.TextAppearance.AppCompat.Body1"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center" />
+                    <TextView
+                        android:id="@+id/vCount"
+                        style="@style/TextAppearance.AppCompat.Caption"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:textColor="#70FFFFFF"
+                        android:textSize="9sp" />
+
+
+                </LinearLayout>
 
 
             </LinearLayout>

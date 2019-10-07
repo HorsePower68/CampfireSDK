@@ -387,6 +387,8 @@ object ControllerApi {
     fun linkToChat(fandomId: Long) = API.LINK_CHAT + fandomId
     fun linkToChat(fandomId: Long, languageId: Long) = API.LINK_CHAT + fandomId + "_" + languageId
     fun linkToChatMessage(messageId: Long, fandomId: Long, languageId: Long) = API.LINK_CHAT + fandomId + "_" + languageId + "_" + messageId
+    fun linkToConf(chatId: Long) = API.LINK_CONF + chatId
+    fun linkToConfMessage(messageId: Long, chatId: Long) = API.LINK_CONF + chatId + "_" + messageId
     fun linkToEvent(eventId: Long) = API.LINK_EVENT + eventId
     fun linkToTag(tagId: Long) = API.LINK_TAG + tagId
     fun linkToComment(comment: UnitComment) = linkToComment(comment.id, comment.parentUnitType, comment.parentUnitId)
@@ -404,6 +406,7 @@ object ControllerApi {
         replaceLinkable(vText, API.LINK_SHORT_POST_ID, API.LINK_POST)
         replaceLinkable(vText, API.LINK_SHORT_REVIEW_ID, API.LINK_REVIEW)
         replaceLinkable(vText, API.LINK_SHORT_CHAT_ID, API.LINK_CHAT)
+        replaceLinkable(vText, API.LINK_SHORT_CONF_ID, API.LINK_CONF)
         replaceLinkable(vText, API.LINK_SHORT_FANDOM_ID, API.LINK_FANDOM)
         replaceLinkable(vText, API.LINK_SHORT_PROFILE_ID, API.LINK_PROFILE_ID)
         replaceLinkable(vText, API.LINK_SHORT_MODERATION_ID, API.LINK_MODERATION)
@@ -430,6 +433,7 @@ object ControllerApi {
         makeLinkable(vText, API.LINK_SHORT_POST_ID, API.LINK_POST)
         makeLinkable(vText, API.LINK_SHORT_REVIEW_ID, API.LINK_REVIEW)
         makeLinkable(vText, API.LINK_SHORT_CHAT_ID, API.LINK_CHAT)
+        makeLinkable(vText, API.LINK_SHORT_CONF_ID, API.LINK_CONF)
         makeLinkable(vText, API.LINK_SHORT_FANDOM_ID, API.LINK_FANDOM)
         makeLinkable(vText, API.LINK_SHORT_PROFILE_ID, API.LINK_PROFILE_ID)
         makeLinkable(vText, API.LINK_SHORT_MODERATION_ID, API.LINK_MODERATION)

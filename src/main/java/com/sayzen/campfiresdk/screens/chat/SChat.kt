@@ -53,6 +53,13 @@ class SChat private constructor(
 
     companion object {
 
+        fun instance(messageId: Long, setStack: Boolean, action: NavigationAction) {
+            if (setStack) ControllerCampfireSDK.ON_SCREEN_CHAT_START.invoke()
+            ApiRequestsSupporter.executeInterstitial(action, RChatGet(ChatTag(), messageId)) { r ->
+                onChatLoaded(r, {})
+            }
+        }
+
         fun instance(chatType: Long, targetId: Long, targetSubId: Long, setStack: Boolean, action: NavigationAction) {
             val targetSubIdV = if (chatType != API.CHAT_TYPE_FANDOM || targetSubId != 0L) targetSubId else ControllerApi.getLanguageId()
             val tag = ChatTag(chatType, targetId, targetSubIdV)
@@ -61,12 +68,16 @@ class SChat private constructor(
 
         fun instance(tag: ChatTag, setStack: Boolean, action: NavigationAction, onShow: (SChat) -> Unit = {}) {
             if (setStack) ControllerCampfireSDK.ON_SCREEN_CHAT_START.invoke()
-            ApiRequestsSupporter.executeInterstitial(action, RChatGet(tag)) { r ->
-                ControllerChats.putRead(tag, r.anotherReadDate)
-                val screen = SChat(tag, r.subscribed, r.chatName, r.chatImageId, r.chatBackgroundImageId, r.chatInfo_1, r.chatInfo_2, r.chatInfo_3, r.chatInfo_4, r.memberStatus)
-                onShow.invoke(screen)
-                screen
+            ApiRequestsSupporter.executeInterstitial(action, RChatGet(tag, 0)) { r ->
+                onChatLoaded(r, onShow)
             }
+        }
+
+        private fun onChatLoaded(r:RChatGet.Response, onShow: (SChat) -> Unit):SChat{
+            ControllerChats.putRead(r.tag, r.anotherReadDate)
+            val screen = SChat(r.tag, r.subscribed, r.chatName, r.chatImageId, r.chatBackgroundImageId, r.chatInfo_1, r.chatInfo_2, r.chatInfo_3, r.chatInfo_4, r.memberStatus)
+            onShow.invoke(screen)
+            return screen
         }
 
     }
@@ -228,13 +239,13 @@ class SChat private constructor(
                     if (ControllerApi.isCurrentAccount(unit.creatorId)) {
                         false
                     } else {
-                        fieldLogic.setAnswer(unit)
+                        fieldLogic.setAnswer(unit, true)
                         true
                     }
                 },
                 onChange = { unit -> fieldLogic.setChange(unit) },
                 onQuote = { unit ->
-                    if (!ControllerApi.isCurrentAccount(unit.creatorId)) fieldLogic.setAnswer(unit)
+                    if (!ControllerApi.isCurrentAccount(unit.creatorId)) fieldLogic.setAnswer(unit, false)
                     fieldLogic.setQuote(unit)
                     ToolsView.showKeyboard(fieldLogic.vText)
                 },

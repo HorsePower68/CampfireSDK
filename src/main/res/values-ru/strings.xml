@@ -542,6 +542,7 @@
     <string name="chat_clear_reports_confirm">Удалить жалобы на это сообщение?</string>
     <string name="chat_error_gone">Похоже кто-то удалил это сообщение</string>
     <string name="chat_create_title">Создание чата</string>
+    <string name="chat_create_error_account_exist">Пользователь уже добавлен в чат</string>
     <string name="chat_member_label_leave">%s чат</string>
 
     <string name="comment_remove_confirm">Удалить этот комментарий?</string>
@@ -570,6 +571,7 @@
     <string name="stickers_packs_clear_reports_confirm">Удалить жалобы на этот набор стикеров?</string>
     <string name="stickers_message_add_to_collection_pack">Набор стикеров добавлен в коллекцию</string>
     <string name="stickers_message_remove_from_collection_pack">Набор стикеров удалён из в коллекции</string>
+    <string name="stickers_message_too_many">Слишком много стикеров в наборе</string>
     <string name="sticker_error_gone">Похоже кто-то удалил этот стикер</string>
     <string name="sticker_add">Добавить в коллекцию?</string>
     <string name="sticker_remove">Убрать из коллекции?</string>

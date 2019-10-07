@@ -72,6 +72,11 @@ class SChatCreate(
         for (a in accounts) adapter.add(CardChatMember(a, myLvl))
         adapter.add(CardMenu().setText(R.string.app_add).setIcon(ToolsResources.getDrawableAttr(R.attr.ic_add_18dp)).setOnClick { view, i, i2 ->
             Navigator.to(SAccountSearch(false) {
+                for (c in adapter.get(CardChatMember::class)) if (c.chatMember.accountId == it.id){
+                    ToolsToast.show(R.string.chat_create_error_account_exist)
+                    return@SAccountSearch
+                }
+
                 val m = ChatMember()
                 m.accountId = it.id
                 m.accountName = it.name
@@ -127,7 +132,9 @@ class SChatCreate(
 
             ApiRequestsSupporter.executeProgressDialog(RChatChange(changeId, cardTitle.text, cardTitle.image, accountsList.toTypedArray(), removeAccountList.toTypedArray())) { r ->
                 ImageLoaderId(changeImageId).clear()
-                EventBus.post(EventChatChanged(changeId, cardTitle.text, changeImageId, accountsList.size))
+                var count = 0
+                for(c in adapter.get(CardChatMember::class)) if(c.chatMember.memberStatus == API.CHAT_MEMBER_STATUS_ACTIVE || c.chatMember.memberStatus == 0L) count++
+                EventBus.post(EventChatChanged(changeId, cardTitle.text, changeImageId, count))
                 Navigator.remove(this)
             }
         }

@@ -51,6 +51,10 @@ class CardSending(
                     ToolsToast.show(R.string.error_chat_access)
                     adapter?.remove(this)
                 }
+                .onApiError(API.ERROR_GONE) {
+                    ToolsToast.show(R.string.chat_error_gone)
+                    adapter?.remove(this)
+                }
                 .onFinish {
                     sending = false
                     ToolsThreads.main(true) { update() }

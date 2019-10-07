@@ -109,8 +109,7 @@ abstract class CardChatMessage constructor(
             vSwipe.onClick = { _, _ ->
                 if (ControllerApi.isCurrentAccount(unit.creatorId)) {
                     showMenu()
-                }
-                else if (!onClick()) {
+                } else if (!onClick()) {
                     showMenu()
                 }
             }
@@ -118,7 +117,7 @@ abstract class CardChatMessage constructor(
             vSwipe.swipeEnabled = quoteEnabled && onQuote != null
 
 
-            if ( onQuote != null) {
+            if (onQuote != null) {
                 vSwipe.onSwipe = { onQuote?.invoke(unit) }
             }
         }
@@ -133,8 +132,8 @@ abstract class CardChatMessage constructor(
 
         if (vQuoteText != null) {
             vQuoteText.text = unit.quoteText
-            ControllerApi.makeLinkable(vQuoteText){
-                if(unit.quoteCreatorName.isNotEmpty()) {
+            ControllerApi.makeLinkable(vQuoteText) {
+                if (unit.quoteCreatorName.isNotEmpty()) {
                     val otherName = unit.quoteCreatorName + ":"
                     if (unit.quoteText.startsWith(otherName)) {
                         vQuoteText.text = "{90A4AE $otherName}" + unit.quoteText.substring(otherName.length)
@@ -164,7 +163,7 @@ abstract class CardChatMessage constructor(
                 if (unit.text.startsWith(myName)) {
                     vText.text = "{ff6d00 $myName}" + unit.text.substring(myName.length)
                 } else {
-                    if(unit.answerName.isNotEmpty()) {
+                    if (unit.answerName.isNotEmpty()) {
                         val otherName = unit.answerName + ","
                         if (unit.text.startsWith(otherName)) {
                             vText.text = "{90A4AE $otherName}" + unit.text.substring(otherName.length)
@@ -216,9 +215,9 @@ abstract class CardChatMessage constructor(
         updateRead()
     }
 
-    fun updateRead(){
+    fun updateRead() {
         val unit = xUnit.unit as UnitChatMessage
-        if(getView() == null) return
+        if (getView() == null) return
         val vNotRead: View? = getView()!!.findViewById(R.id.vNotRead)
         if (vNotRead != null) {
 
@@ -249,7 +248,7 @@ abstract class CardChatMessage constructor(
                     ToolsToast.show(R.string.app_copied)
                 }.condition(copyEnabled)
                 .add(R.string.app_quote) { _, _ -> onQuote!!.invoke(unit) }.condition(quoteEnabled && onQuote != null)
-                .add(R.string.app_history) { _, _ ->  Navigator.to(SUnitHistory(unit.id))  }.condition(ControllerPost.ENABLED_HISTORY)
+                .add(R.string.app_history) { _, _ -> Navigator.to(SUnitHistory(unit.id)) }.condition(ControllerPost.ENABLED_HISTORY)
                 .groupCondition(!ControllerApi.isCurrentAccount(unit.creatorId))
                 .add(R.string.app_report) { _, _ -> ControllerApi.reportUnit(unit.id, R.string.chat_report_confirm, R.string.chat_error_gone) }.condition(unit.chatType == API.CHAT_TYPE_FANDOM)
                 .add(R.string.app_clear_reports) { _, _ -> ControllerApi.clearReportsUnit(unit.id, unit.unitType) }.backgroundRes(R.color.blue_700).textColorRes(R.color.white).condition(unit.chatType == API.CHAT_TYPE_FANDOM && ControllerApi.can(unit.fandomId, unit.languageId, API.LVL_MODERATOR_BLOCK) && unit.reportsCount > 0)
@@ -276,10 +275,12 @@ abstract class CardChatMessage constructor(
 
         if (vLabel != null) {
             if (ControllerApi.isCurrentAccount(unit.creatorId)) {
-                (vLabel.layoutParams as LinearLayout.LayoutParams).gravity = Gravity.RIGHT
+                if (vLabel.layoutParams is FrameLayout.LayoutParams)  (vLabel.layoutParams as FrameLayout.LayoutParams).gravity = Gravity.RIGHT or Gravity.BOTTOM
+                if (vLabel.layoutParams is LinearLayout.LayoutParams) (vLabel.layoutParams as LinearLayout.LayoutParams).gravity = Gravity.RIGHT
                 vLabel.text = ToolsDate.dateToString(unit.dateCreate) + (if (unit.changed) " " + ToolsResources.s(R.string.app_edited) else "")
             } else {
-                (vLabel.layoutParams as LinearLayout.LayoutParams).gravity = Gravity.LEFT
+                if (vLabel.layoutParams is FrameLayout.LayoutParams) (vLabel.layoutParams as FrameLayout.LayoutParams).gravity = Gravity.LEFT or Gravity.BOTTOM
+                if (vLabel.layoutParams is LinearLayout.LayoutParams) (vLabel.layoutParams as LinearLayout.LayoutParams).gravity = Gravity.LEFT
                 if (unit.chatTag().chatType == API.CHAT_TYPE_PRIVATE)
                     vLabel.text = ToolsDate.dateToString(unit.dateCreate) + (if (unit.changed) " " + ToolsResources.s(R.string.app_edited) else "")
                 else
@@ -336,6 +337,7 @@ abstract class CardChatMessage constructor(
             adapter?.remove(this)
         }
     }
+
     private fun onNotification(e: EventNotification) {
         val unit = xUnit.unit as UnitChatMessage
         if (e.notification is NotificationChatMessageChange) {

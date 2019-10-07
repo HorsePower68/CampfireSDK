@@ -27,9 +27,7 @@
             android:paddingLeft="16dp"
             android:paddingRight="16dp"
             android:paddingTop="8dp"
-            android:src="@drawable/image_512x512"
-            app:ViewAvatarTitle_title="Campfire"
-            app:ViewAvatar_chipText="EN"/>
+            app:LayoutCorned_cornedSize="0dp"/>
 
         <TextView
             android:id="@+id/vRate"

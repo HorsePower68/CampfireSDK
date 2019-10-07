@@ -24,6 +24,7 @@ import com.sayzen.campfiresdk.screens.comments.SComments
 import com.sayzen.campfiresdk.screens.fandoms.tags.WidgetTagCreate
 import com.sayzen.campfiresdk.screens.fandoms.tags.WidgetTagRemove
 import com.sayzen.campfiresdk.screens.account.stickers.SStickersView
+import com.sayzen.campfiresdk.screens.chat.SChat
 import com.sup.dev.android.libs.api_simple.ApiRequestsSupporter
 import com.sup.dev.android.libs.screens.navigator.Navigator
 import com.sup.dev.android.tools.ToolsAndroid
@@ -55,11 +56,16 @@ object ControllerUnits {
     }
 
     fun toUnit(unitType: Long, unitId: Long, commentId: Long = 0) {
+
         if (unitType == API.UNIT_TYPE_POST) ControllerCampfireSDK.onToPostClicked(unitId, commentId, Navigator.TO)
         if (unitType == API.UNIT_TYPE_MODERATION) ControllerCampfireSDK.onToModerationClicked(unitId, commentId, Navigator.TO)
         if (unitType == API.UNIT_TYPE_FORUM) ControllerCampfireSDK.onToForumClicked(unitId, commentId, Navigator.TO)
         if (unitType == API.UNIT_TYPE_STICKER) SStickersView.instanceBySticker(unitId, Navigator.TO)
-        if (unitType == API.UNIT_TYPE_STICKERS_PACK) Navigator.to(SComments(unitId, commentId))
+        if (unitType == API.UNIT_TYPE_CHAT_MESSAGE) SChat.instance(unitId, true, Navigator.TO)
+        if (unitType == API.UNIT_TYPE_STICKERS_PACK) {
+            if (commentId == 0L) SStickersView.instance(unitId, Navigator.TO)
+            else Navigator.to(SComments(unitId, commentId))
+        }
     }
 
     fun block(unit: Unit, onBlock: () -> kotlin.Unit = {}) {

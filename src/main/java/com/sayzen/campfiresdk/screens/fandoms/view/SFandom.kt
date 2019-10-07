@@ -153,9 +153,7 @@ class SFandom private constructor(
                         ToolsToast.show(R.string.app_copied)
                     }
                     .add(R.string.settings_black_list) { _, _ -> ControllerCampfireSDK.switchToBlackListFandom(xFandom.fandomId) }
-                    .add(R.string.fandoms_menu_background_change) { _, _ -> changeBackgroundImage() }.condition(ControllerApi.can(xFandom.fandomId, xFandom.languageId, API.LVL_MODERATOR_BACKGROUND_IMAGE)).backgroundRes(R.color.blue_700).textColorRes(R.color.white)
-                    .add(R.string.fandoms_menu_background_remove) { _, _ -> removeBackgroundImage() }.condition(ControllerApi.can(xFandom.fandomId, xFandom.languageId, API.LVL_MODERATOR_BACKGROUND_IMAGE)).backgroundRes(R.color.blue_700).textColorRes(R.color.white)
-                    .add(R.string.profile_change_avatar) { _, _ -> changeImage() }.condition(ControllerApi.can(API.LVL_ADMIN_FANDOM_AVATAR)).backgroundRes(R.color.red_700).textColorRes(R.color.white)
+                   .add(R.string.profile_change_avatar) { _, _ -> changeImage() }.condition(ControllerApi.can(API.LVL_ADMIN_FANDOM_AVATAR)).backgroundRes(R.color.red_700).textColorRes(R.color.white)
                     .add(R.string.fandoms_menu_change_category) { _, _ -> changeCategory() }.condition(ControllerApi.can(API.LVL_ADMIN_FANDOM_CATEGORY)).backgroundRes(R.color.red_700).textColorRes(R.color.white)
                     .add(R.string.fandoms_menu_rename) { _, _ -> rename() }.condition(ControllerApi.can(API.LVL_ADMIN_FANDOM_NAME)).backgroundRes(R.color.red_700).textColorRes(R.color.white)
                     .add(if (r.fandom.closed) R.string.app_open else R.string.app_close) { _, _ -> close() }.condition(ControllerApi.can(API.LVL_ADMIN_FANDOM_CLOSE)).backgroundRes(R.color.red_700).textColorRes(R.color.white)
@@ -306,42 +304,6 @@ class SFandom private constructor(
                         }
                     }
                     .asSheetShow()
-        }
-    }
-
-    private fun changeBackgroundImage() {
-        WidgetChooseImage()
-                .setOnSelectedBitmap { _, bitmap ->
-                    Navigator.to(SCrop(bitmap, API.FANDOM_IMG_BACKGROUND_W, API.FANDOM_IMG_BACKGROUND_H) { _, b, _, _, _, _ ->
-                        WidgetField().setHint(R.string.moderation_widget_comment).setOnCancel(R.string.app_cancel)
-                                .setMin(1)
-                                .setOnEnter(R.string.app_change) { _, comment ->
-                                    val dialog = ToolsView.showProgressDialog()
-                                    ToolsThreads.thread {
-                                        val image = ToolsBitmap.toBytes(ToolsBitmap.resize(b, API.FANDOM_IMG_BACKGROUND_W, API.FANDOM_IMG_BACKGROUND_H), API.FANDOM_IMG_BACKGROUND_WEIGHT)
-                                        changeBackgroundImageNow(dialog, image, comment)
-                                    }
-                                }
-                                .asSheetShow()
-                    })
-                }
-                .asSheetShow()
-    }
-
-    private fun removeBackgroundImage() {
-        WidgetField().setHint(R.string.moderation_widget_comment).setOnCancel(R.string.app_cancel)
-                .setMin(API.MODERATION_COMMENT_MIN_L)
-                .setMax(API.MODERATION_COMMENT_MAX_L)
-                .setOnEnter(R.string.app_change) { _, comment ->
-                    changeBackgroundImageNow(ToolsView.showProgressDialog(), null, comment)
-                }
-                .asSheetShow()
-    }
-
-    private fun changeBackgroundImageNow(dialog: Widget, bytes: ByteArray?, comment: String) {
-        ApiRequestsSupporter.executeProgressDialog(dialog, RFandomsModerationChangeImageBackground(xFandom.fandomId, xFandom.languageId, bytes, comment)) { r ->
-            EventBus.post(EventFandomBackgroundImageChanged(xFandom.fandomId, xFandom.languageId, r.imageId))
-            ToolsToast.show(R.string.app_done)
         }
     }
 
