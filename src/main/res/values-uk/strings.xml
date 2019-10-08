@@ -64,6 +64,7 @@
     <string name="app_clear_reports">Убрать жалобы</string>
     <string name="app_clear_reports_confirm">Убрать жалобы?</string>
     <string name="app_clear">Убрать</string>
+    <string name="app_clear_2">Отчистить</string>
     <string name="app_no">Нет</string>
     <string name="app_yes">Да</string>
     <string name="app_punish">Наказать</string>
@@ -528,6 +529,8 @@
     <string name="chat_system_change_name">%s %s имя чата на %s</string>
     <string name="chat_system_leave">%s %s чат</string>
     <string name="chat_system_enter">%s %s в чат</string>
+    <string name="chat_system_params">%s %s настройки чата</string>
+    <string name="chat_system_level">%s %s роль %s на %s</string>
     <string name="chat_system_create">%s %s чат</string>
     <string name="chat_empty_fandom">Здесь еще нет сообщений. Будьте первым.</string>
     <string name="chat_empty_private">Здесь еще нет сообщений</string>
@@ -1300,9 +1303,9 @@
     <string name="unit_event_fandom_parameters">%s параметры фэндома %s</string>
     <string name="unit_event_fandom_genres_new">Добавлены: </string>
     <string name="unit_event_fandom_genres_remove">Удалены: </string>
-    <string name="unit_menu_important_mark">Пометить как важную</string>
+    <string name="unit_menu_important_mark">Пометить как важный</string>
     <string name="unit_menu_important_unmark">Убрать метку важности</string>
-    <string name="unit_menu_important_mark_confirm">Пометить эту публикацию как важную?</string>
+    <string name="unit_menu_important_mark_confirm">Пометить этот пост как важный?</string>
     <string name="unit_menu_important_unmark_confirm">Убрать метку важности с этой публикации?</string>
     <string name="unit_menu_change_fandom">Изменить фэндом</string>
     <string name="unit_menu_pin_in_profile">Закрепить в профиле</string>

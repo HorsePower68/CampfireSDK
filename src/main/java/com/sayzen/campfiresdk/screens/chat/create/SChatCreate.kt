@@ -4,6 +4,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.dzen.campfire.api.API
 import com.dzen.campfire.api.models.chat.ChatMember
+import com.dzen.campfire.api.models.chat.ChatParams
 import com.dzen.campfire.api.requests.chat.RChatChange
 import com.dzen.campfire.api.requests.chat.RChatCreate
 import com.dzen.campfire.api.requests.chat.RChatGetForChange
@@ -33,7 +34,8 @@ class SChatCreate(
         val changeName: String,
         val changeImageId: Long,
         val accounts: Array<ChatMember>,
-        val myLvl: Long
+        val myLvl: Long,
+        val params: ChatParams
 ) : Screen(R.layout.screen_chat_create) {
 
     companion object {
@@ -41,7 +43,7 @@ class SChatCreate(
         fun instance(chatId: Long, action: NavigationAction) {
 
             ApiRequestsSupporter.executeProgressDialog(RChatGetForChange(chatId)) { r ->
-                Navigator.action(action, SChatCreate(chatId, r.chatName, r.chatImageId, r.accounts, r.myLvl))
+                Navigator.action(action, SChatCreate(chatId, r.chatName, r.chatImageId, r.accounts, r.myLvl, r.params))
             }
                     .onApiError(API.ERROR_ACCESS) { ToolsToast.show(R.string.error_chat_access) }
 
@@ -54,9 +56,9 @@ class SChatCreate(
     private val vFab: FloatingActionButton = findViewById(R.id.vFab)
     private val adapter = RecyclerCardAdapter()
 
-    private val cardTitle = CardCreateTitle(myLvl, changeName, changeImageId) { updateFinish() }
+    private val cardTitle = CardCreateTitle(myLvl, changeName, changeImageId, params) { updateFinish() }
 
-    constructor() : this(0, "", 0, emptyArray(), API.CHAT_MEMBER_LVL_ADMIN)
+    constructor() : this(0, "", 0, emptyArray(), API.CHAT_MEMBER_LVL_ADMIN, ChatParams())
 
     init {
         isNavigationVisible = false
@@ -70,9 +72,18 @@ class SChatCreate(
 
         adapter.add(cardTitle)
         for (a in accounts) adapter.add(CardChatMember(a, myLvl))
+        if (params.allowUserInvite || myLvl != API.CHAT_MEMBER_LVL_USER) addUserButton()
+        adapter.add(CardSpace(128))
+
+        vFab.setOnClickListener { create() }
+
+        updateFinish()
+    }
+
+    private fun addUserButton() {
         adapter.add(CardMenu().setText(R.string.app_add).setIcon(ToolsResources.getDrawableAttr(R.attr.ic_add_18dp)).setOnClick { view, i, i2 ->
             Navigator.to(SAccountSearch(false) {
-                for (c in adapter.get(CardChatMember::class)) if (c.chatMember.accountId == it.id){
+                for (c in adapter.get(CardChatMember::class)) if (c.chatMember.accountId == it.id) {
                     ToolsToast.show(R.string.chat_create_error_account_exist)
                     return@SAccountSearch
                 }
@@ -81,14 +92,10 @@ class SChatCreate(
                 m.accountId = it.id
                 m.accountName = it.name
                 m.accountImageId = it.imageId
+                m.memberLvl = API.CHAT_MEMBER_LVL_USER
                 adapter.add(adapter.size() - 2, CardChatMember(m, myLvl))
             })
         })
-        adapter.add(CardSpace(128))
-
-        vFab.setOnClickListener { create() }
-
-        updateFinish()
     }
 
     private fun updateFinish() {
@@ -98,47 +105,65 @@ class SChatCreate(
 
     private fun create() {
 
-
-
-
-
         if (changeId == 0L) {
 
-            val accountsList = ArrayList<Long>()
-            for (c in adapter.get(CardChatMember::class)) if (c.chatMember.accountId != ControllerApi.account.id) {
-                accountsList.add(c.chatMember.accountId)
-            }
-
-            ApiRequestsSupporter.executeProgressDialog(RChatCreate(cardTitle.text, accountsList.toTypedArray(), cardTitle.image)) { r ->
+            ApiRequestsSupporter.executeProgressDialog(RChatCreate(cardTitle.text, cardTitle.image)) { r ->
                 ToolsThreads.main(300) { Navigator.remove(this) }
-                SChat.instance(r.tag, false, Navigator.TO)
+                cardTitle.text = ""
+                cardTitle.image = null
+                sendChange()
             }
+
         } else {
+            sendChange()
+        }
 
-            val accountsList = ArrayList<Long>()
-            val removeAccountList = ArrayList<Long>()
 
-            for (c in adapter.get(CardChatMember::class)) if (c.chatMember.accountId != ControllerApi.account.id && c.chatMember.memberLvl == 0L) {
-                accountsList.add(c.chatMember.accountId)
-            }
+    }
 
-            for (a in accounts) {
-                var found = a.accountId == ControllerApi.account.id
-                for (c in adapter.get(CardChatMember::class)) if (a.accountId == c.chatMember.accountId) found = true
-                if (!found) {
-                    removeAccountList.add(a.accountId)
+    private fun sendChange(){
+
+
+        val accountsList = ArrayList<Long>()
+        val removeAccountList = ArrayList<Long>()
+        val changeAccountList = ArrayList<Long>()
+        val changeAccountListLevels = ArrayList<Long>()
+
+        for (c in adapter.get(CardChatMember::class)) if (c.chatMember.accountId != ControllerApi.account.id && c.chatMember.memberStatus == 0L) {
+            accountsList.add(c.chatMember.accountId)
+            var foundLvl = c.newLevel
+            var found: ChatMember? = null
+            for (a in accounts) if (a.accountId == c.chatMember.accountId) found = a
+
+            if (found == null) {
+                if(foundLvl > 0 && foundLvl != API.CHAT_MEMBER_LVL_USER){
+                    changeAccountList.add(c.chatMember.accountId)
+                    changeAccountListLevels.add(foundLvl)
                 }
-            }
-
-            ApiRequestsSupporter.executeProgressDialog(RChatChange(changeId, cardTitle.text, cardTitle.image, accountsList.toTypedArray(), removeAccountList.toTypedArray())) { r ->
-                ImageLoaderId(changeImageId).clear()
-                var count = 0
-                for(c in adapter.get(CardChatMember::class)) if(c.chatMember.memberStatus == API.CHAT_MEMBER_STATUS_ACTIVE || c.chatMember.memberStatus == 0L) count++
-                EventBus.post(EventChatChanged(changeId, cardTitle.text, changeImageId, count))
-                Navigator.remove(this)
+            } else {
+                if(foundLvl > 0 && foundLvl != found.memberLvl) {
+                    changeAccountList.add(c.chatMember.accountId)
+                    changeAccountListLevels.add(foundLvl)
+                }
             }
         }
 
+        for (a in accounts) {
+            if (a.accountId == ControllerApi.account.id) continue
+            var found: ChatMember? = null
+            for (c in adapter.get(CardChatMember::class)) if (a.accountId == c.chatMember.accountId) found = c.chatMember
+            if (found == null) removeAccountList.add(a.accountId)
+        }
+
+
+        ApiRequestsSupporter.executeProgressDialog(RChatChange(changeId, cardTitle.text, cardTitle.image, accountsList.toTypedArray(), removeAccountList.toTypedArray(), changeAccountList.toTypedArray(), changeAccountListLevels.toTypedArray(), params)) { r ->
+            if (cardTitle.image != null) ImageLoaderId(changeImageId).clear()
+            var count = 0
+            for (c in adapter.get(CardChatMember::class)) if (c.chatMember.memberStatus == API.CHAT_MEMBER_STATUS_ACTIVE || c.chatMember.memberStatus == 0L) count++
+            EventBus.post(EventChatChanged(changeId, cardTitle.text, changeImageId, count))
+            Navigator.remove(this)
+            SChat.instance(r.tag, false, Navigator.TO)
+        }
 
     }
 

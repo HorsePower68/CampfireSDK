@@ -64,6 +64,7 @@
     <string name="app_clear_reports">Clear reports</string>
     <string name="app_clear_reports_confirm">Clear reports?</string>
     <string name="app_clear">Clear</string>
+    <string name="app_clear_2">Clear</string>
     <string name="app_no">No</string>
     <string name="app_yes">Yes</string>
     <string name="app_punish">Punish</string>
@@ -533,6 +534,8 @@
     <string name="chat_system_change_name">%s %s chat name to %s</string>
     <string name="chat_system_leave">%s %s chat</string>
     <string name="chat_system_enter">%s %s in chat</string>
+    <string name="chat_system_params">%s %s chat settings</string>
+    <string name="chat_system_level">%s %s role of %s to %s</string>
     <string name="chat_system_create">%s %s chat</string>
     <string name="chat_empty_fandom">There are no messages here yet. Be the first.</string>
     <string name="chat_empty_private">There are no messages here yet</string>

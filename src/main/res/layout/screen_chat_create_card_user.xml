@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/vTouch"
     style="@style/Touchable"
     android:layout_width="match_parent"
@@ -20,8 +20,73 @@
         android:paddingRight="16dp"
         android:paddingTop="8dp"/>
 
+
+    <com.sup.dev.android.views.views.layouts.LayoutCorned
+        android:id="@+id/vUser"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:LayoutCorned_chipMode="true"
+        android:layout_marginRight="4dp"
+        android:layout_gravity="center"
+        android:paddingBottom="2dp"
+        android:paddingLeft="6dp"
+        android:paddingRight="6dp"
+        android:paddingTop="2dp"
+        android:background="@color/green_700">
+
+        <TextView
+            style="@style/TextAppearance.AppCompat.Body1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="U" />
+
+    </com.sup.dev.android.views.views.layouts.LayoutCorned>
+
+    <com.sup.dev.android.views.views.layouts.LayoutCorned
+        android:id="@+id/vModer"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:LayoutCorned_chipMode="true"
+        android:layout_gravity="center"
+        android:layout_marginRight="4dp"
+        android:paddingBottom="2dp"
+        android:paddingLeft="6dp"
+        android:paddingRight="6dp"
+        android:paddingTop="2dp"
+        android:background="@color/blue_700">
+
+        <TextView
+            style="@style/TextAppearance.AppCompat.Body1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="M" />
+
+    </com.sup.dev.android.views.views.layouts.LayoutCorned>
+
+    <com.sup.dev.android.views.views.layouts.LayoutCorned
+        android:id="@+id/vAdmin"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:LayoutCorned_chipMode="true"
+        android:layout_gravity="center"
+        android:layout_marginRight="4dp"
+        android:paddingBottom="2dp"
+        android:paddingLeft="6dp"
+        android:paddingRight="6dp"
+        android:paddingTop="2dp"
+        android:background="@color/red_700">
+
+        <TextView
+            style="@style/TextAppearance.AppCompat.Body1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="A" />
+
+    </com.sup.dev.android.views.views.layouts.LayoutCorned>
+
     <com.sup.dev.android.views.views.ViewIcon
         android:id="@+id/vRemove"
+        android:layout_marginRight="16dp"
         android:layout_gravity="center"
         style="@style/Icon"
         android:src="?ic_clear_24dp"/>

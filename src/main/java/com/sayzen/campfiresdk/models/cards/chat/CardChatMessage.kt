@@ -1,5 +1,6 @@
 package com.sayzen.campfiresdk.models.cards.chat
 
+import android.graphics.Color
 import android.view.Gravity
 import android.view.View
 import android.view.ViewGroup
@@ -34,7 +35,6 @@ import com.sup.dev.android.views.views.ViewImagesSwipe
 import com.sup.dev.android.views.views.ViewSwipe
 import com.sup.dev.android.views.views.ViewTextLinkable
 import com.sup.dev.android.views.widgets.WidgetMenu
-import com.sup.dev.java.libs.debug.Debug
 import com.sup.dev.java.libs.eventBus.EventBus
 import com.sup.dev.java.tools.ToolsColor
 import com.sup.dev.java.tools.ToolsDate
@@ -92,6 +92,7 @@ abstract class CardChatMessage constructor(
 
     override fun bindView(view: View) {
         super.bindView(view)
+
         val unit = xUnit.unit as UnitChatMessage
 
         val vSwipe: ViewSwipe? = view.findViewById(R.id.vSwipe)
@@ -121,7 +122,6 @@ abstract class CardChatMessage constructor(
                 vSwipe.onSwipe = { onQuote?.invoke(unit) }
             }
         }
-
 
         if (vQuoteContainer != null) {
             vQuoteContainer.visibility = if (unit.quoteText.isEmpty() && unit.quoteImages.isEmpty() && unit.quoteStickerId < 1L) View.GONE else View.VISIBLE
@@ -213,6 +213,76 @@ abstract class CardChatMessage constructor(
         }
 
         updateRead()
+        updateSameCrds()
+    }
+
+    fun updateSameCrds() {
+        if (getView() == null) return
+
+        val vPaddingContainer: ViewGroup? = getView()!!.findViewById(R.id.vPaddingContainer)
+        val vTextContainer: ViewGroup? = getView()!!.findViewById(R.id.vTextContainer)
+        val vRootContainer: ViewGroup? = getView()!!.findViewById(R.id.vRootContainer)
+        val vMessageContainer: MaterialCardView? = getView()!!.findViewById(R.id.vMessageContainer)
+        val vAvatar: ViewAvatar? = getView()!!.findViewById(R.id.vAvatar)
+        val vLabel: TextView? = getView()!!.findViewById(R.id.vLabel)
+
+        val topIsSameUser = isTopSameUser()
+        val bottomsSameUser = isBottomsSameUser()
+
+        val vPadding = if (vPaddingContainer != null) vPaddingContainer else if (vRootContainer != null) vRootContainer else null
+        if (vPadding != null) vPadding.setPadding(0, if (topIsSameUser) ToolsView.dpToPx(1).toInt() else ToolsView.dpToPx(8).toInt(), 0, if (bottomsSameUser) ToolsView.dpToPx(1).toInt() else ToolsView.dpToPx(8).toInt())
+        if (vMessageContainer != null) (vMessageContainer.layoutParams as ViewGroup.MarginLayoutParams).topMargin = if (!topIsSameUser && bottomsSameUser) ToolsView.dpToPx(8).toInt() else 0
+
+        if (vAvatar != null) {
+            if (topIsSameUser) {
+                vAvatar.layoutParams.height = 0
+            } else {
+                vAvatar.layoutParams.height = ToolsView.dpToPx(40).toInt()
+            }
+        }
+
+        if (vLabel != null) {
+            val bottomUnit = getBottomUnit()
+            if (bottomsSameUser && bottomUnit != null && bottomUnit.dateCreate < xUnit.unit.dateCreate + 1000L * 60L * 5) {
+                vLabel.visibility = View.GONE
+            } else {
+                vLabel.visibility = View.VISIBLE
+            }
+        }
+
+        if (vTextContainer != null && vTextContainer.paddingBottom != 0 && (vLabel == null || vLabel.visibility == View.GONE))
+            vTextContainer.setPadding(0, 0, 0, if (bottomsSameUser) ToolsView.dpToPx(8).toInt() else ToolsView.dpToPx(4).toInt())
+
+
+    }
+
+    fun isTopSameUser(): Boolean {
+        if (adapter != null) {
+            var myIndex = adapter!!.indexOf(this)
+            myIndex--
+            if (myIndex > -1) {
+                val card = adapter!!.get(myIndex)
+                if (card is CardChatMessage) return card.xUnit.unit.creatorId == xUnit.unit.creatorId
+            }
+        }
+        return false
+    }
+
+    fun isBottomsSameUser(): Boolean {
+        val u = getBottomUnit()
+        return u != null && u.creatorId == xUnit.unit.creatorId
+    }
+
+    fun getBottomUnit(): UnitChatMessage? {
+        if (adapter != null) {
+            var myIndex = adapter!!.indexOf(this)
+            myIndex++
+            if (myIndex < adapter!!.size()) {
+                val card = adapter!!.get(myIndex)
+                if (card is CardChatMessage) return card.xUnit.unit as UnitChatMessage
+            }
+        }
+        return null
     }
 
     fun updateRead() {
@@ -258,7 +328,6 @@ abstract class CardChatMessage constructor(
                 .asSheetShow()
     }
 
-
     override fun updateAccount() {
         if (getView() == null) return
         val unit = xUnit.unit as UnitChatMessage
@@ -275,7 +344,7 @@ abstract class CardChatMessage constructor(
 
         if (vLabel != null) {
             if (ControllerApi.isCurrentAccount(unit.creatorId)) {
-                if (vLabel.layoutParams is FrameLayout.LayoutParams)  (vLabel.layoutParams as FrameLayout.LayoutParams).gravity = Gravity.RIGHT or Gravity.BOTTOM
+                if (vLabel.layoutParams is FrameLayout.LayoutParams) (vLabel.layoutParams as FrameLayout.LayoutParams).gravity = Gravity.RIGHT or Gravity.BOTTOM
                 if (vLabel.layoutParams is LinearLayout.LayoutParams) (vLabel.layoutParams as LinearLayout.LayoutParams).gravity = Gravity.RIGHT
                 vLabel.text = ToolsDate.dateToString(unit.dateCreate) + (if (unit.changed) " " + ToolsResources.s(R.string.app_edited) else "")
             } else {

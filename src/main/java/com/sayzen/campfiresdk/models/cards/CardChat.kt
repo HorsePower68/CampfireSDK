@@ -2,7 +2,6 @@ package com.sayzen.campfiresdk.models.cards
 
 import android.text.TextUtils
 import android.view.View
-import android.view.ViewGroup
 import android.widget.TextView
 import com.dzen.campfire.api.API
 import com.dzen.campfire.api.models.notifications.NotificationChatAnswer

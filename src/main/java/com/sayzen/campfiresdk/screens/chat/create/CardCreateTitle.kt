@@ -1,9 +1,11 @@
 package com.sayzen.campfiresdk.screens.chat.create
 
 import android.view.View
+import android.widget.EditText
 import android.widget.ImageView
 import android.widget.TextView
 import com.dzen.campfire.api.API
+import com.dzen.campfire.api.models.chat.ChatParams
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.sayzen.campfiresdk.R
 import com.sup.dev.android.libs.screens.navigator.Navigator
@@ -21,7 +23,8 @@ class CardCreateTitle(
         val myLvl: Long,
         val changeName: String,
         val changeImageId: Long,
-        val updateFinish:()->Unit
+        val params: ChatParams,
+        val updateFinish: () -> Unit
 ) : Card(R.layout.screen_chat_create_card_title) {
 
     var image: ByteArray? = null
@@ -34,15 +37,21 @@ class CardCreateTitle(
         val vImageIcon: View = view.findViewById(R.id.vImageIcon)
         val vUsers: TextView = view.findViewById(R.id.vUsers)
         val vName: SettingsField = view.findViewById(R.id.vName)
+        val vNameTitle: TextView = view.findViewById(R.id.vNameTitle)
         val vAllowInvites: SettingsCheckBox = view.findViewById(R.id.vAllowInvites)
         val vAllowEdit: SettingsCheckBox = view.findViewById(R.id.vAllowEdit)
 
         vAllowInvites.isEnabled = myLvl == API.CHAT_MEMBER_LVL_ADMIN
         vAllowEdit.isEnabled = myLvl == API.CHAT_MEMBER_LVL_ADMIN
-        vAllowInvites.visibility = View.GONE
-        vAllowEdit.visibility = View.GONE
+
+        vAllowInvites.setChecked(params.allowUserInvite)
+        vAllowEdit.setChecked(params.allowUserNameAndImage)
+
+        vAllowInvites.setOnClickListener { params.allowUserInvite = vAllowInvites.isChecked() }
+        vAllowEdit.setOnClickListener { params.allowUserNameAndImage = vAllowEdit.isChecked() }
 
         vName.setText(changeName)
+        vNameTitle.setText(changeName)
 
         vName.setMaxLength(API.CHAT_NAME_MAX)
         vName.addOnTextChanged {
@@ -50,10 +59,21 @@ class CardCreateTitle(
             updateFinish.invoke()
         }
 
-        if(changeImageId != 0L){
+        if (changeImageId != 0L) {
             ToolsImagesLoader.load(changeImageId).into(vImage)
             vImageIcon.visibility = View.GONE
         }
+
+        if( params.allowUserNameAndImage || myLvl != API.CHAT_MEMBER_LVL_USER){
+            vImage.isEnabled = true
+            vName.visibility = View.VISIBLE
+            vNameTitle.visibility = View.GONE
+        } else{
+            vImage.isEnabled = false
+            vName.visibility = View.GONE
+            vNameTitle.visibility = View.VISIBLE
+        }
+
 
         vImage.setOnClickListener { chooseImage(vImage, vImageIcon) }
         vUsers.text = ToolsResources.s(R.string.app_users) + ":"

@@ -45,6 +45,14 @@
             android:inputType="textCapSentences|textAutoCorrect"
             android:singleLine="true" />
 
+        <TextView
+            android:id="@+id/vNameTitle"
+            style="@style/TextAppearance.AppCompat.Title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            />
+
     </LinearLayout>
 
     <com.sup.dev.android.views.settings.SettingsCheckBox

@@ -73,7 +73,7 @@ class SChat private constructor(
             }
         }
 
-        private fun onChatLoaded(r:RChatGet.Response, onShow: (SChat) -> Unit):SChat{
+        private fun onChatLoaded(r: RChatGet.Response, onShow: (SChat) -> Unit): SChat {
             ControllerChats.putRead(r.tag, r.anotherReadDate)
             val screen = SChat(r.tag, r.subscribed, r.chatName, r.chatImageId, r.chatBackgroundImageId, r.chatInfo_1, r.chatInfo_2, r.chatInfo_3, r.chatInfo_4, r.memberStatus)
             onShow.invoke(screen)
@@ -322,16 +322,26 @@ class SChat private constructor(
         }
         val b = isNeedScrollAfterAdd()
         if (adapter != null) {
+            val card = instanceCard(message)
             if (replaceCard == null || !adapter!!.contains(replaceCard)) {
-                val card = instanceCard(message)
                 if (!adapter!!.containsSame(card)) {
                     adapter!!.remove(carSpace)
                     adapter!!.add(card)
                     adapter!!.add(carSpace)
                 }
             } else {
-                adapter!!.replace(adapter!!.indexOf(replaceCard), instanceCard(message))
+                adapter!!.replace(adapter!!.indexOf(replaceCard), card)
             }
+
+            val index = adapter!!.indexOf(card)
+            if (index > 0) {
+                val cardX = adapter!!.get(index - 1)
+                if (cardX is CardChatMessage) {
+                    cardX.updateSameCrds()
+                    ToolsThreads.main(2000) { cardX.updateSameCrds() }
+                }
+            }
+
             if (forceScroll)
                 vRecycler.scrollToPosition(vRecycler.adapter!!.itemCount - 1)
             else if (b)
@@ -339,7 +349,6 @@ class SChat private constructor(
         }
         setState(State.NONE)
     }
-
 
     //
     //  EventBus

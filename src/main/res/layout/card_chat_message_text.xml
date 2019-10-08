@@ -10,6 +10,7 @@
     app:ViewSwipe_background="@color/blue_700">
 
     <FrameLayout
+        android:id="@+id/vPaddingContainer"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingTop="8dp"
@@ -119,6 +120,7 @@
 
                     <TextView
                         android:id="@+id/vLabel"
+                        android:layout_marginLeft="8dp"
                         style="@style/Base.TextAppearance.AppCompat.Caption"
                         android:textSize="9sp"
                         android:layout_width="wrap_content"

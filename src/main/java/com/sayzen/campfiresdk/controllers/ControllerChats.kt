@@ -61,6 +61,8 @@ object ControllerChats {
             unit.systemType == UnitChatMessage.SYSTEM_TYPE_CHANGE_NAME -> return "${ToolsResources.s(R.string.chat_system_change_name, ControllerApi.linkToUser(unit.systemOwnerName), ToolsResources.sex(unit.systemOwnerSex, R.string.he_changed, R.string.she_changed), unit.systemTargetName)}"
             unit.systemType == UnitChatMessage.SYSTEM_TYPE_LEAVE -> return "${ToolsResources.s(R.string.chat_system_leave, ControllerApi.linkToUser(unit.systemOwnerName), ToolsResources.sex(unit.systemOwnerSex, R.string.he_leave, R.string.she_leave))}"
             unit.systemType == UnitChatMessage.SYSTEM_TYPE_ENTER -> return "${ToolsResources.s(R.string.chat_system_enter, ControllerApi.linkToUser(unit.systemOwnerName), ToolsResources.sex(unit.systemOwnerSex, R.string.he_reenter, R.string.she_reenter))}"
+            unit.systemType == UnitChatMessage.SYSTEM_TYPE_PARAMS -> return "${ToolsResources.s(R.string.chat_system_params, ControllerApi.linkToUser(unit.systemOwnerName), ToolsResources.sex(unit.systemOwnerSex, R.string.he_changed, R.string.he_changed))}"
+            unit.systemType == UnitChatMessage.SYSTEM_TYPE_LEVEL -> return "${ToolsResources.s(R.string.chat_system_level, ControllerApi.linkToUser(unit.systemOwnerName), ToolsResources.sex(unit.systemOwnerSex, R.string.he_changed, R.string.he_changed),  ControllerApi.linkToUser(unit.systemTargetName), ToolsResources.s(if(unit.systemTag == API.CHAT_MEMBER_LVL_USER) R.string.app_user else if(unit.systemTag == API.CHAT_MEMBER_LVL_MODERATOR) R.string.app_moderator else R.string.app_admin))}"
             else -> return ""
         }
 
@@ -133,7 +135,7 @@ object ControllerChats {
     }
 
     fun clearHistory(tag: ChatTag, onRemove: () -> Unit) {
-        ApiRequestsSupporter.executeEnabledConfirm(R.string.chat_clear_history, R.string.app_clear, RChatClearHistory(tag)) { _ ->
+        ApiRequestsSupporter.executeEnabledConfirm(R.string.chat_clear_history, R.string.app_clear_2, RChatClearHistory(tag)) { _ ->
             EventBus.post(EventChatRemoved(tag))
             onRemove.invoke()
             ToolsToast.show(R.string.app_done)
@@ -196,8 +198,12 @@ object ControllerChats {
 
     fun getMessagesCount(tag: ChatTag): Int {
         val list = loadMessagesCounts()
-        for (item in list) if (item.a1 == tag) return item.a2
-        return 0
+        var count = 0
+        for (item in list) if (item.a1 == tag) {
+            count = item.a2
+            break
+        }
+        return count
     }
 
     private fun saveMessagesCounts(list: ArrayList<Item3<ChatTag, Int, Boolean>>) {

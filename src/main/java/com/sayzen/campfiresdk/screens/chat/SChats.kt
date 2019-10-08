@@ -15,7 +15,6 @@ import com.sup.dev.android.libs.screens.navigator.NavigationAction
 import com.sup.dev.android.libs.screens.navigator.Navigator
 import com.sup.dev.android.views.support.adapters.recycler_view.RecyclerCardAdapterLoading
 import com.sup.dev.android.views.screens.SLoadingRecycler
-import com.sup.dev.java.libs.api_simple.client.Request
 import com.sup.dev.java.libs.eventBus.EventBus
 import com.sup.dev.java.tools.ToolsThreads
 
@@ -43,7 +42,7 @@ class SChats constructor(
         setTextProgress(R.string.chats_loading)
         setTitle(R.string.app_chats)
 
-        addToolbarIcon(R.drawable.ic_add_white_24dp){ Navigator.to(SChatCreate()) }
+        addToolbarIcon(R.drawable.ic_add_white_24dp) { Navigator.to(SChatCreate()) }
     }
 
     override fun instanceAdapter(): RecyclerCardAdapterLoading<CardChat, UnitChat> {
