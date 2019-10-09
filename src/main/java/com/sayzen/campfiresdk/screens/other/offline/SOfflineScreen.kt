@@ -48,6 +48,7 @@ class SOfflineScreen(
     private val vScoreHumans:TextView = findViewById(R.id.vScoreHumans)
 
     init {
+        activityRootBackground = ToolsResources.getColorAttr(R.attr.colorPrimary)
         isNavigationVisible = false
         isNavigationAnimation = false
         isBackStackAllowed = false
