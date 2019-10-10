@@ -2,13 +2,17 @@ package com.sayzen.campfiresdk.models.cards.comments
 
 import android.annotation.SuppressLint
 import android.text.Html
+import android.util.LongSparseArray
 import android.view.View
+import android.view.ViewGroup
 import android.widget.TextView
 import com.dzen.campfire.api.API
 import com.dzen.campfire.api.models.UnitComment
 import com.dzen.campfire.api.models.notifications.NotificationComment
 import com.dzen.campfire.api.models.notifications.NotificationCommentAnswer
 import com.dzen.campfire.api.models.notifications.NotificationMention
+import com.dzen.campfire.api.requests.comments.RCommentReactionAdd
+import com.dzen.campfire.api.requests.comments.RCommentReactionRemove
 import com.sayzen.campfiresdk.R
 import com.sayzen.campfiresdk.controllers.ControllerApi
 import com.sayzen.campfiresdk.controllers.ControllerNotifications
@@ -22,18 +26,15 @@ import com.sayzen.campfiresdk.models.widgets.WidgetComment
 import com.sayzen.campfiresdk.screens.account.stickers.SStickersView
 import com.sayzen.campfiresdk.screens.post.history.SUnitHistory
 import com.sayzen.campfiresdk.views.ViewKarma
+import com.sayzen.campfiresdk.views.WidgetReactions
 import com.sup.dev.android.app.SupAndroid
+import com.sup.dev.android.libs.api_simple.ApiRequestsSupporter
 import com.sup.dev.android.libs.screens.navigator.Navigator
-import com.sup.dev.android.tools.ToolsAndroid
-import com.sup.dev.android.tools.ToolsImagesLoader
-import com.sup.dev.android.tools.ToolsResources
-import com.sup.dev.android.tools.ToolsToast
-import com.sup.dev.android.views.views.ViewAvatar
-import com.sup.dev.android.views.views.ViewImagesSwipe
-import com.sup.dev.android.views.views.ViewSwipe
-import com.sup.dev.android.views.views.ViewTextLinkable
+import com.sup.dev.android.tools.*
+import com.sup.dev.android.views.views.*
 import com.sup.dev.android.views.widgets.WidgetMenu
 import com.sup.dev.java.libs.eventBus.EventBus
+import com.sup.dev.java.tools.ToolsCollections
 import com.sup.dev.java.tools.ToolsDate
 import com.sup.dev.java.tools.ToolsHTML
 
@@ -149,6 +150,8 @@ abstract class CardComment protected constructor(
         if (vLabel != null) vLabel.text = unit.creatorName + "   " + ToolsDate.dateToString(unit.dateCreate) + (if (unit.changed) " " + ToolsResources.s(R.string.app_edited) else "")
         if (vDivider != null) vDivider.visibility = if (dividers) View.VISIBLE else View.GONE
 
+        updateReactions()
+
         bind(view)
     }
 
@@ -168,7 +171,8 @@ abstract class CardComment protected constructor(
                     ToolsToast.show(R.string.app_copied)
                 }.condition(copyEnabled)
                 .add(R.string.app_quote) { _, _ -> onQuote?.invoke(unit) }.condition(quoteEnabled && onQuote != null)
-                .add(R.string.app_history) { _, _ ->  Navigator.to(SUnitHistory(unit.id))  }.condition(ControllerPost.ENABLED_HISTORY)
+                .add(R.string.app_history) { _, _ -> Navigator.to(SUnitHistory(unit.id)) }.condition(ControllerPost.ENABLED_HISTORY)
+                .add(R.string.app_reaction) { _, _ -> reaction() }.condition(unit.type == UnitComment.TYPE_GIF || unit.type == UnitComment.TYPE_IMAGE || unit.type == UnitComment.TYPE_IMAGES || unit.type == UnitComment.TYPE_TEXT)
                 .groupCondition(!ControllerApi.isCurrentAccount(unit.creatorId))
                 .add(R.string.app_report) { _, _ -> ControllerApi.reportUnit(unit.id, R.string.comment_report_confirm, R.string.comment_error_gone) }
                 .add(R.string.app_clear_reports) { _, _ -> ControllerApi.clearReportsUnit(unit.id, unit.unitType) }.backgroundRes(R.color.blue_700).textColorRes(R.color.white).condition(ControllerApi.can(unit.fandomId, unit.languageId, API.LVL_MODERATOR_BLOCK) && unit.reportsCount > 0)
@@ -176,6 +180,70 @@ abstract class CardComment protected constructor(
                 .clearGroupCondition()
                 .add("Востановить") { _, _ -> ControllerUnits.restoreDeepBlock(unit.id) }.backgroundRes(R.color.orange_700).textColorRes(R.color.white).condition(ControllerApi.can(API.LVL_PROTOADMIN) && unit.status == API.STATUS_DEEP_BLOCKED)
                 .asSheetShow()
+    }
+
+    private fun reaction() {
+        WidgetReactions()
+                .onSelected { sendReaction(it) }
+                .asSheetShow()
+    }
+
+    private fun sendReaction(reactionIndex: Long) {
+        ApiRequestsSupporter.executeProgressDialog(RCommentReactionAdd(xUnit.unit.id, reactionIndex)) { _ ->
+            xUnit.unit as UnitComment
+            xUnit.unit.reactions = ToolsCollections.add(UnitComment.Reaction(ControllerApi.account.id, reactionIndex), xUnit.unit.reactions)
+            updateReactions()
+            ToolsToast.show(R.string.app_done)
+        }
+                .onApiError(API.ERROR_ALREADY) { ToolsToast.show(R.string.app_done) }
+                .onApiError(API.ERROR_GONE) { ToolsToast.show(R.string.comment_error_gone) }
+    }
+
+    private fun removeReaction(reactionIndex: Long) {
+        ApiRequestsSupporter.executeProgressDialog(RCommentReactionRemove(xUnit.unit.id, reactionIndex)) { _ ->
+            xUnit.unit as UnitComment
+            xUnit.unit.reactions = ToolsCollections.removeIf(xUnit.unit.reactions) { it.accountId == ControllerApi.account.id && it.reactionIndex == reactionIndex }
+            updateReactions()
+            ToolsToast.show(R.string.app_done)
+        }
+                .onApiError(API.ERROR_GONE) { ToolsToast.show(R.string.comment_error_gone) }
+    }
+
+    fun updateReactions() {
+        if (getView() == null) return
+        val vReactions: ViewGroup? = getView()!!.findViewById(R.id.vReactions)
+        if (vReactions == null) return
+        val dp = ToolsView.dpToPx(8)
+
+
+        xUnit.unit as UnitComment
+        val map = LongSparseArray<ViewChip>()
+        for (i in xUnit.unit.reactions) {
+            var v: ViewChip? = map.get(i.reactionIndex)
+            if (v == null) {
+                v = ToolsView.inflate(R.layout.z_chip)
+                v.setOnClickListener { sendReaction(i.reactionIndex) }
+                v.tag = 0
+                v.setTextPaddings(0f, dp)
+                map.put(i.reactionIndex, v)
+            }
+
+            v.tag = (v.tag as Int) + 1
+            if (i.accountId == ControllerApi.account.id) {
+                v.setChipBackgroundColorResource(R.color.blue_700)
+                v.setOnClickListener { removeReaction(i.reactionIndex) }
+            }
+
+            if (i.reactionIndex > -1 && i.reactionIndex < API.REACTIONS.size) v.text = "${API.REACTIONS[i.reactionIndex.toInt()]}"
+            else v.text = "${API.REACTIONS[0]}"
+        }
+
+        vReactions.removeAllViews()
+        for (i in 0 until map.size()) {
+            val v = map.valueAt(i)
+            v.text = " ${v.text} ${v.tag}"
+            vReactions.addView(v)
+        }
     }
 
     override fun updateKarma() {

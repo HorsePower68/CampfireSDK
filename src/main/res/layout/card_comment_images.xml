@@ -129,13 +129,32 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
 
-            <com.sayzen.campfiresdk.views.ViewKarmaHorizontal
-                android:id="@+id/vKarma"
-                android:layout_width="wrap_content"
+            <FrameLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_gravity="right|bottom"
                 android:layout_marginRight="4dp"
-                android:layout_marginBottom="4dp" />
+                android:layout_marginBottom="4dp" >
+
+                <com.sup.dev.android.views.views.layouts.LayoutFlow
+                    android:id="@+id/vReactions"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="left|top"
+                    android:orientation="horizontal"
+                    android:layout_marginRight="100dp"
+                    android:layout_marginLeft="8dp"
+                    android:layout_marginTop="8dp"
+                    app:LayoutFlow_horizontal="2dp"
+                    app:LayoutFlow_vertical="2dp" />
+
+                <com.sayzen.campfiresdk.views.ViewKarmaHorizontal
+                    android:id="@+id/vKarma"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="right|bottom" />
+
+            </FrameLayout>
+
         </LinearLayout>
 
     </FrameLayout>
