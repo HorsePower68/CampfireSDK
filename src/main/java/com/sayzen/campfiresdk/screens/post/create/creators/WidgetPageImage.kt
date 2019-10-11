@@ -32,7 +32,7 @@ class WidgetPageImage(
     private var createAsList = false
 
     init {
-        setMaxSelectCount(15)
+        setMaxSelectCount(10)
         setCallbackInWorkerThread(true)
         setOnSelected { w, bytes, index ->
 
