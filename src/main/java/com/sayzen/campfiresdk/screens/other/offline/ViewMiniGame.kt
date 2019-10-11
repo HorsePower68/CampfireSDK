@@ -25,7 +25,7 @@ class ViewMiniGame @JvmOverloads constructor(
     var onWinRobot = {}
 
     private var wasToFocusColor = false
-    private val color = ToolsResources.getColorAttr(R.attr.content_background)
+    private val color = ToolsResources.getColor(R.color.focus)
     private val colorOnFocus = ToolsResources.getColorAttr(R.attr.toolbar_content_color)
     private var currentColor = color
 

@@ -26,11 +26,12 @@ import com.sup.dev.android.views.cards.CardMenu
 import com.sup.dev.android.views.cards.CardSpace
 import com.sup.dev.android.views.support.adapters.recycler_view.RecyclerCardAdapter
 import com.sup.dev.android.views.widgets.WidgetAlert
+import com.sup.dev.java.libs.debug.log
 import com.sup.dev.java.libs.eventBus.EventBus
 import com.sup.dev.java.tools.ToolsThreads
 
 class SChatCreate(
-        val changeId: Long,
+        var changeId: Long,
         val changeName: String,
         val changeImageId: Long,
         val accounts: Array<ChatMember>,
@@ -108,9 +109,10 @@ class SChatCreate(
         if (changeId == 0L) {
 
             ApiRequestsSupporter.executeProgressDialog(RChatCreate(cardTitle.text, cardTitle.image)) { r ->
-                ToolsThreads.main(300) { Navigator.remove(this) }
                 cardTitle.text = ""
                 cardTitle.image = null
+                tag = r.tag
+                changeId = r.tag.targetId
                 sendChange()
             }
 
@@ -155,6 +157,7 @@ class SChatCreate(
             if (found == null) removeAccountList.add(a.accountId)
         }
 
+        log(">>>> $changeId")
 
         ApiRequestsSupporter.executeProgressDialog(RChatChange(changeId, cardTitle.text, cardTitle.image, accountsList.toTypedArray(), removeAccountList.toTypedArray(), changeAccountList.toTypedArray(), changeAccountListLevels.toTypedArray(), params)) { r ->
             if (cardTitle.image != null) ImageLoaderId(changeImageId).clear()

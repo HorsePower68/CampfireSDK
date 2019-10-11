@@ -1,6 +1,5 @@
 package com.sayzen.campfiresdk.models.cards.chat
 
-import android.graphics.Color
 import android.view.Gravity
 import android.view.View
 import android.view.ViewGroup
@@ -22,8 +21,8 @@ import com.sayzen.campfiresdk.models.events.chat.EventUpdateChats
 import com.sayzen.campfiresdk.models.events.notifications.EventNotification
 import com.sayzen.campfiresdk.models.events.units.EventUnitBlocked
 import com.sayzen.campfiresdk.models.events.units.EventUnitDeepBlockRestore
-import com.sayzen.campfiresdk.screens.chat.SChat
 import com.sayzen.campfiresdk.screens.account.stickers.SStickersView
+import com.sayzen.campfiresdk.screens.chat.SChat
 import com.sayzen.campfiresdk.screens.post.history.SUnitHistory
 import com.sup.dev.android.app.SupAndroid
 import com.sup.dev.android.libs.screens.navigator.Navigator
@@ -35,7 +34,6 @@ import com.sup.dev.android.views.views.ViewImagesSwipe
 import com.sup.dev.android.views.views.ViewSwipe
 import com.sup.dev.android.views.views.ViewTextLinkable
 import com.sup.dev.android.views.widgets.WidgetMenu
-import com.sup.dev.java.libs.debug.log
 import com.sup.dev.java.libs.eventBus.EventBus
 import com.sup.dev.java.tools.ToolsColor
 import com.sup.dev.java.tools.ToolsDate
@@ -156,7 +154,6 @@ abstract class CardChatMessage constructor(
         }
 
         if (vText != null) {
-            log("[${unit.text}]")
             vText.text = unit.text
             vText.visibility = if (unit.text.isEmpty()) View.GONE else View.VISIBLE
 
