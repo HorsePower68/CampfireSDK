@@ -52,8 +52,6 @@ class WidgetAdminBlock(
     }
 
     init {
-        isUseMoreScreenSpace = true
-
         vComment.vField.addTextChangedListener(TextWatcherChanged { updateFinishEnabled() })
 
         if (bansCount > 0 || warnsCount > 2) vPunishments.setBackgroundColor(ToolsColor.setAlpha(100, ToolsResources.getColor(R.color.red_700)))

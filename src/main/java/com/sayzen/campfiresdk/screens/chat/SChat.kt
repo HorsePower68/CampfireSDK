@@ -284,12 +284,9 @@ class SChat private constructor(
 
     fun sendSubscribe(subscribed: Boolean) {
         if (tag.chatType != API.CHAT_TYPE_FANDOM && tag.chatType != API.CHAT_TYPE_CONFERENCE) return
-        RChatSubscribe(tag, subscribed)
-                .onComplete {
-                    EventBus.post(EventChatSubscriptionChanged(tag, subscribed))
-                }
-                .onNetworkError { ToolsToast.show(R.string.error_network) }
-                .send(api)
+        ApiRequestsSupporter.executeProgressDialog(RChatSubscribe(tag, subscribed)) { _ ->
+            EventBus.post(EventChatSubscriptionChanged(tag, subscribed))
+        }
     }
 
     fun isNeedScrollAfterAdd(): Boolean {

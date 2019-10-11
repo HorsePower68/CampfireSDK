@@ -15,8 +15,8 @@ import com.sayzen.campfiresdk.screens.account.stickers.SStickersPacksSearch
 import com.sup.dev.android.libs.screens.navigator.Navigator
 import com.sup.dev.android.tools.ToolsAndroid
 import com.sup.dev.android.tools.ToolsView
-import com.sup.dev.android.views.dialogs.DialogSheetWidget
 import com.sup.dev.android.views.dialogs.DialogWidget
+import com.sup.dev.android.views.sheets.Sheet
 import com.sup.dev.android.views.support.adapters.recycler_view.RecyclerCardAdapter
 import com.sup.dev.android.views.widgets.WidgetRecycler
 
@@ -91,7 +91,7 @@ open class WidgetStickers : WidgetRecycler(R.layout.widget_stickers) {
 
         if (viewWrapper is DialogWidget)
             (vRecycler.layoutParams as ViewGroup.MarginLayoutParams).setMargins(ToolsView.dpToPx(8).toInt(), ToolsView.dpToPx(2).toInt(), ToolsView.dpToPx(8).toInt(), 0)
-        else if (viewWrapper is DialogSheetWidget)
+        else if (viewWrapper is Sheet)
             vRecycler.layoutParams.height = ToolsView.dpToPx(320).toInt()
 
         load()

@@ -63,8 +63,6 @@ class WidgetModerationBlock(
     }
 
     init {
-        isUseMoreScreenSpace = true
-
         if (unit.unitType == API.UNIT_TYPE_REVIEW) vBlockLast.visibility = View.GONE
 
         vComment.vField.addTextChangedListener(TextWatcherChanged { updateFinishEnabled() })
