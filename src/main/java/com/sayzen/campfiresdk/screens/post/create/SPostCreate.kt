@@ -128,7 +128,7 @@ class SPostCreate constructor(
         ApiRequestsSupporter.executeEnabled(widget, RPostPutPage(unitId, pages, fandomId, languageId, "", "")) { r ->
             if (this.unitId == 0L) setUnitId(r.unitId)
             onCreate.invoke(r.pages)
-            EventBus.post(EventPostChanged(unitId, pages))
+            EventBus.post(EventPostChanged(unitId, xPostCreator.pages))
         }.onFinish {
             onFinish.invoke()
         }

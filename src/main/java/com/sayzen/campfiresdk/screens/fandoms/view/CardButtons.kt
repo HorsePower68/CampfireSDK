@@ -13,7 +13,6 @@ import com.sayzen.campfiresdk.screens.fandoms.moderation.moderators.SModeration
 import com.sayzen.campfiresdk.screens.fandoms.rating.SRating
 import com.sayzen.campfiresdk.screens.fandoms.subscribers.SSubscribers
 import com.sayzen.campfiresdk.controllers.ControllerApi
-import com.sayzen.campfiresdk.models.events.chat.EventChatRead
 import com.sayzen.campfiresdk.screens.fandoms.STags
 import com.sayzen.campfiresdk.screens.wiki.SWikiList
 import com.sup.dev.android.libs.screens.navigator.Navigator
@@ -26,7 +25,8 @@ class CardButtons(
         private val chatOnlineCount: Long,
         private val forumsCount: Long,
         private val tagsCount: Long,
-        private var subscribersCount: Long,
+        private var subscribersCountLanguage: Long,
+        private var subscribersCountTotal: Long,
         private var modersCount: Long,
         private var subscribed: Boolean,
         private var wikiCount: Long
@@ -34,7 +34,7 @@ class CardButtons(
 
     private val eventBus = EventBus
             .subscribe(EventFandomSubscribe::class) { onEventFandomSubscribe(it) }
-            .subscribe(EventFandomRemoveModerator::class) { onEventFandomRemoveModerator(it)}
+            .subscribe(EventFandomRemoveModerator::class) { onEventFandomRemoveModerator(it) }
 
     override fun bindView(view: View) {
         super.bindView(view)
@@ -50,13 +50,14 @@ class CardButtons(
         val vForumsText: TextView = view.findViewById(R.id.vForumsText)
         val vSubscribersButton: View = view.findViewById(R.id.vSubscribersButton)
         val vSubscribersText: TextView = view.findViewById(R.id.vSubscribersText)
+        val vSubscribersTotalText: TextView = view.findViewById(R.id.vSubscribersTotalText)
         val vWikiButton: View = view.findViewById(R.id.vWikiButton)
         val vWikiText: TextView = view.findViewById(R.id.vWikiText)
 
         vChatsButton.setOnClickListener { SChat.instance(API.CHAT_TYPE_FANDOM, xFandom.fandomId, xFandom.languageId, false, Navigator.REORDER) }
         vChatsCount.text = "$chatOnlineCount"
 
-        val karma30 = ControllerApi.getKarmaCount(xFandom.fandomId, xFandom.languageId)/100
+        val karma30 = ControllerApi.getKarmaCount(xFandom.fandomId, xFandom.languageId) / 100
         vRatingsButton.setOnClickListener { SRating.instance(xFandom.fandomId, xFandom.languageId, Navigator.TO) }
         vRatingsText.text = "$karma30"
         vRatingsText.setTextColor(ToolsResources.getColor(if (karma30 > -1) R.color.green_700 else R.color.red_700))
@@ -72,7 +73,8 @@ class CardButtons(
         vForumsText.text = "$forumsCount"
 
         vSubscribersButton.setOnClickListener { SSubscribers.instance(xFandom.fandomId, xFandom.languageId, Navigator.TO) }
-        vSubscribersText.text = "$subscribersCount"
+        vSubscribersText.text = "$subscribersCountLanguage"
+        vSubscribersTotalText.text = "/${subscribersCountTotal}"
 
         vWikiButton.setOnClickListener { Navigator.to(SWikiList(xFandom.fandomId, 0, "")) }
         vWikiText.text = "$wikiCount"
@@ -83,7 +85,7 @@ class CardButtons(
     //
 
     private fun onEventFandomRemoveModerator(e: EventFandomRemoveModerator) {
-        if(e.fandomId == xFandom.fandomId && e.languageId == xFandom.languageId){
+        if (e.fandomId == xFandom.fandomId && e.languageId == xFandom.languageId) {
             modersCount--
             update()
         }
@@ -91,15 +93,15 @@ class CardButtons(
 
     private fun onEventFandomSubscribe(e: EventFandomSubscribe) {
         if (e.fandomId == xFandom.fandomId && e.languageId == xFandom.languageId) {
-            if(subscribed && e.subscriptionType == API.UNIT_IMPORTANT_NONE){
+            if (subscribed && e.subscriptionType == API.UNIT_IMPORTANT_NONE) {
                 subscribed = false
-                subscribersCount--
+                subscribersCountLanguage--
                 update()
                 return
             }
-            if(!subscribed && e.subscriptionType != API.UNIT_IMPORTANT_NONE){
+            if (!subscribed && e.subscriptionType != API.UNIT_IMPORTANT_NONE) {
                 subscribed = true
-                subscribersCount++
+                subscribersCountLanguage++
                 update()
                 return
             }
