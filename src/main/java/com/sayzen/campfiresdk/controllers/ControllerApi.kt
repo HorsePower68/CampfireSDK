@@ -260,6 +260,7 @@ object ControllerApi {
                 r.loginToken = loginToken
                 r.send(api)
             } else {
+                dialog.hide()
                 onFinish.invoke()
             }
         }
