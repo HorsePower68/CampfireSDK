@@ -423,5 +423,6 @@ object CampfireConstants {
 
     val FEED_TEXTS = ToolsResources.getStringIndexedArrayId("feed_loading_")
     val ACCOUNT_TEXT = ToolsResources.getStringIndexedArrayId("profile_subtitle_text_")
+    val HELLO_TEXT = ToolsResources.getStringIndexedArrayId("campfire_hello_")
 
 }

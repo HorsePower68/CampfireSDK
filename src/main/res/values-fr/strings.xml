@@ -1440,6 +1440,9 @@ Campfire has anime fandoms and gaming fandoms.</string>
     <string name="history_admin_close">The publication was closed</string>
     <string name="history_admin_close_no">The publication was opened</string>
 
+    <string name="campfire_hello_annotation">Post created automatically, welcome new user Campfire</string>
+    <string name="campfire_hello_1">Hello everyone, I\'m %s.</string>
+
     <string name="holiday_campfire_birthday_title">Campfire\'s birthday.</string>
     <string name="holiday_campfire_birthday_text">In 2016, Campfire was born on this day.</string>
 

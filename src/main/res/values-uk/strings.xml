@@ -1442,6 +1442,9 @@
     <string name="history_admin_close">Публикация закрыта</string>
     <string name="history_admin_close_no">Публикация открыта</string>
 
+    <string name="campfire_hello_annotation">Пост создан автоматически, поприветствуем нового пользователя Campfire</string>
+    <string name="campfire_hello_1">Всем привет, я %s.</string>
+
     <string name="holiday_campfire_birthday_title">День рождения Campfire.</string>
     <string name="holiday_campfire_birthday_text">В 2016 году, в этот день зародился Campfire.</string>
 
