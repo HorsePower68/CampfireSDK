@@ -194,8 +194,8 @@
     <string name="app_collection">Коллекция</string>
     <string name="app_reaction">Реакция</string>
 
-    <string name="he">он</string>
-    <string name="she">она</string>
+    <string name="he">Он</string>
+    <string name="she">Она</string>
     <string name="he_baned">заблокирован</string>
     <string name="she_baned">заблокирована</string>
     <string name="he_blocked">заблокировал</string>
@@ -322,9 +322,11 @@
     <string name="notification_mention">%s %s вас</string>
     <string name="notification_quest_finish">Ежедневное задание завершено</string>
 
-    <string name="message_publication_rules">Используя данное приложение, вы подтверждаете что вам уже исполнилось 13 лет. Любые публикации должны соответстовать %s и %s</string>
+    <string name="message_close_app">Закрыть приложение?</string>
+    <string name="message_publication_rules">Используя данное приложение, вы подтверждаете что вам уже исполнилось 13 лет и вы ознакомлены с %s. Любые публикации должны соответстовать %s и %s</string>
     <string name="message_publication_rules_1">правилам Campfire</string>
     <string name="message_publication_rules_2">правилам Google</string>
+    <string name="message_publication_rules_3">политикой конфиденциальности</string>
     <string name="message_link">Перейдя по этой ссылке вы покинете приложение. Мы не несем ответственности за материалы и возможные угрозы, вызванные ресурсом находящемся по этой ссылке.</string>
     <string name="message_removed_by_server">Удалено сервером для экономии памяти</string>
     <string name="message_do_ban_user">%s пользователя</string>
@@ -701,6 +703,7 @@
     <string name="error_moderator_low_lvl">У пользователя слишком низкий уровень.</string>
     <string name="error_moderator_admin">Пользователь уже администратор.</string>
     <string name="error_login_taken">Это имя уже занято.</string>
+    <string name="error_login_cant_change">Вы не можете изменить свой логин.</string>
     <string name="error_low_lvl_or_karma">Вы не можете сделать это. Проверьте свой уровень и карму.</string>
     <string name="error_black_list">Пользователь добавил вас в черный список</string>
     <string name="error_ignore_voice_messages">Пользователь не принимает голосовые сообщения</string>
@@ -824,6 +827,7 @@
     <string name="into_feed_filters">Выберите что вам интересно</string>
     <string name="into_mini_game_humans">Человеки: %s</string>
     <string name="into_mini_game_robots">Роботы: %s</string>
+    <string name="into_hello_sex">Как к вам обращаться?</string>
 
     <string name="bookmarks_empty">У вас пока нет закладок</string>
     <string name="bookmarks_loading">зарузка ваших закладок</string>

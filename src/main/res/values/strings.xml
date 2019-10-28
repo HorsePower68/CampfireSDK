@@ -194,8 +194,8 @@
     <string name="app_collection">Collection</string>
     <string name="app_reaction">Reaction</string>
 
-    <string name="he">he</string>
-    <string name="she">she</string>
+    <string name="he">He</string>
+    <string name="she">She</string>
     <string name="he_baned">banned</string>
     <string name="she_baned">banned</string>
     <string name="he_blocked">blocked</string>
@@ -322,9 +322,11 @@
     <string name="notification_mention">%s %s you</string>
     <string name="notification_quest_finish">Daily quest completed</string>
 
-    <string name="message_publication_rules">The content that you publish in the application should be directly relevant to the subject matter of the app and meet all of the %s and the %s</string>
+    <string name="message_close_app">Close the app?</string>
+    <string name="message_publication_rules">Using this application, you confirm that you are already 13 years old and you read %s. Any publications must meet all of %s and %s</string>
     <string name="message_publication_rules_1">App rules</string>
     <string name="message_publication_rules_2">Google rules</string>
+    <string name="message_publication_rules_3">Privacy policy</string>
     <string name="message_link">By clicking on this link you will leave the application. We are not responsible for the materials and possible threats caused by the resources located at this link.</string>
     <string name="message_removed_by_server">Removed by server to save memory</string>
     <string name="message_do_ban_user">%s user</string>
@@ -706,6 +708,7 @@
     <string name="error_moderator_low_lvl">User have too low lvl.</string>
     <string name="error_moderator_admin">The user is already an administrator.</string>
     <string name="error_login_taken">This name is already taken</string>
+    <string name="error_login_cant_change">You can\'t change login.</string>
     <string name="error_low_lvl_or_karma">You can\'t do that. Check your level and karma.</string>
     <string name="error_black_list">Has blacklisted you</string> <!-- if username is not given before the string, string can be replaced with "You are blacklisted!"-->
     <string name="error_ignore_voice_messages">User does not accept voice messages</string>
@@ -830,6 +833,7 @@
     <string name="into_feed_filters">Choose what interests you</string>
     <string name="into_mini_game_humans">Humans: %s</string>
     <string name="into_mini_game_robots">Robots: %s</string>
+    <string name="into_hello_sex">How can we call you?</string>
 
     <string name="bookmarks_empty">You don\'t have any bookmarks</string>
     <string name="bookmarks_loading">Loading your bookmarks</string>

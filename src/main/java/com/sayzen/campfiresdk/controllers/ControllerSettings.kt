@@ -200,16 +200,9 @@ object ControllerSettings {
         }
 
     var helloIsShowed: Boolean
-        get() = accountSettings.helloIsShowed_v2
+        get() = accountSettings.helloIsShowed
         set(b) {
-            accountSettings.helloIsShowed_v2 = b
-            onSettingsUpdated()
-        }
-
-    var filtersIsShowed: Boolean
-        get() = accountSettings.filtersIsShowed
-        set(b) {
-            accountSettings.filtersIsShowed = b
+            accountSettings.helloIsShowed = b
             onSettingsUpdated()
         }
 

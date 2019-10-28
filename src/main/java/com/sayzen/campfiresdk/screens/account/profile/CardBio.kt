@@ -111,8 +111,8 @@ class CardBio(
 
     private fun onSexClicked() {
         WidgetMenu()
-                .add(R.string.he) { w, _ -> setSex(w, 0) }
-                .add(R.string.she) { w, _ -> setSex(w, 1) }
+                .add(R.string.he) { w, _ -> ControllerCampfireSDK.setSex(0){ ToolsToast.show(R.string.app_done)} }
+                .add(R.string.she) { w, _ -> ControllerCampfireSDK.setSex(1){ ToolsToast.show(R.string.app_done)} }
                 .asSheetShow()
     }
 
@@ -141,7 +141,7 @@ class CardBio(
                 .setText_1(title)
                 .setLinesCount_1(1)
                 .setHint_2(R.string.app_link)
-                .addChecker_2{ToolsText.isWebLink(it)}
+                .addChecker_2 { ToolsText.isWebLink(it) }
                 .setMin_2(2)
                 .setText_2(url)
                 .setMax_2(API.ACCOUNT_LINK_URL_MAX_L)
@@ -180,13 +180,6 @@ class CardBio(
     //
     //  Api
     //
-
-    private fun setSex(widget: Widget, sex: Long) {
-        ApiRequestsSupporter.executeEnabled(widget, RAccountsBioSetSex(sex)) {
-            EventBus.post(EventAccountBioChangedSex(accountId, sex))
-            ToolsToast.show(R.string.app_done)
-        }
-    }
 
     private fun setAge(widget: Widget, age: Long) {
         ApiRequestsSupporter.executeEnabled(widget, RAccountsBioSetAge(age)) {

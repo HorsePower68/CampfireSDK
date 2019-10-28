@@ -4,6 +4,7 @@ import android.view.Gravity
 import com.dzen.campfire.api.API
 import com.dzen.campfire.api.models.Fandom
 import com.dzen.campfire.api.models.units.UnitForum
+import com.dzen.campfire.api.requests.accounts.RAccountsBioSetSex
 import com.dzen.campfire.api.requests.accounts.RAccountsBlackListAdd
 import com.dzen.campfire.api.requests.accounts.RAccountsBlackListRemove
 import com.dzen.campfire.api.requests.accounts.RAccountsChangeName
@@ -13,6 +14,7 @@ import com.dzen.campfire.api.requests.fandoms.RFandomsBlackListContains
 import com.dzen.campfire.api.requests.fandoms.RFandomsBlackListRemove
 import com.sayzen.campfiresdk.R
 import com.sayzen.campfiresdk.models.events.account.EventAccountAddToBlackList
+import com.sayzen.campfiresdk.models.events.account.EventAccountBioChangedSex
 import com.sayzen.campfiresdk.models.events.account.EventAccountChanged
 import com.sayzen.campfiresdk.models.events.account.EventAccountRemoveFromBlackList
 import com.sayzen.campfiresdk.models.events.fandom.EventFandomBlackListChange
@@ -30,10 +32,7 @@ import com.sup.dev.android.libs.screens.navigator.Navigator
 import com.sup.dev.android.tools.ToolsIntent
 import com.sup.dev.android.tools.ToolsToast
 import com.sup.dev.android.views.screens.SAlert
-import com.sup.dev.android.views.widgets.WidgetAlert
-import com.sup.dev.android.views.widgets.WidgetCheckBoxes
-import com.sup.dev.android.views.widgets.WidgetField
-import com.sup.dev.android.views.widgets.WidgetMenu
+import com.sup.dev.android.views.widgets.*
 import com.sup.dev.java.libs.debug.err
 import com.sup.dev.java.libs.eventBus.EventBus
 import com.sup.dev.java.tools.ToolsCollections
@@ -185,17 +184,30 @@ object ControllerCampfireSDK {
                 .setMax(API.ACCOUNT_NAME_L_MAX)
                 .setOnCancel(R.string.app_cancel)
                 .setOnEnter(R.string.app_change) { dialog, name ->
-                    ApiRequestsSupporter.executeEnabled(dialog, RAccountsChangeName(name)) {
-                        ControllerApi.account.name = name
-                        EventBus.post(EventAccountChanged(ControllerApi.account.id, ControllerApi.account.name))
-                        dialog.hide()
-                    }.onApiError(API.ERROR_ACCOUNT_IS_BANED) {
-                        ToolsToast.show(R.string.error_login_taken)
-                    }
+                    changeLoginNow(name, true){}
                 }
                 .asSheetShow()
     }
 
+    fun changeLoginNow(name:String, achievementNotificationEnabled:Boolean, onComplete:()->Unit){
+        ApiRequestsSupporter.executeProgressDialog(RAccountsChangeName(name, achievementNotificationEnabled)) { r->
+            ControllerApi.account.name = name
+            EventBus.post(EventAccountChanged(ControllerApi.account.id, ControllerApi.account.name))
+            onComplete.invoke()
+        }.onApiError(RAccountsChangeName.E_LOGIN_NOT_ENABLED) {
+            ToolsToast.show(R.string.error_login_taken)
+        }.onApiError(RAccountsChangeName.E_LOGIN_IS_NOT_DEFAULT) {
+            ToolsToast.show(R.string.error_login_cant_change)
+            onComplete.invoke()
+        }
+    }
+
+    fun setSex(sex: Long, onComplete:()->Unit) {
+        ApiRequestsSupporter.executeProgressDialog(RAccountsBioSetSex(sex)) { r->
+            EventBus.post(EventAccountBioChangedSex(ControllerApi.account.id, sex))
+            onComplete.invoke()
+        }
+    }
 
     fun switchToBlackListFandom(fandomId: Long) {
         ApiRequestsSupporter.executeProgressDialog(RFandomsBlackListContains(fandomId)){r->
