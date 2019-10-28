@@ -35,7 +35,6 @@ import com.sup.dev.android.views.screens.SAlert
 import com.sup.dev.android.views.widgets.*
 import com.sup.dev.java.libs.debug.err
 import com.sup.dev.java.libs.eventBus.EventBus
-import com.sup.dev.java.tools.ToolsCollections
 import com.sup.dev.java.tools.ToolsText
 import com.sup.dev.java.tools.ToolsThreads
 
