@@ -38,6 +38,9 @@ class CardTitle(
         val vLanguage: Button = view.findViewById(R.id.vLanguage)
         val vIcon: ImageView = view.findViewById(R.id.vIcon)
 
+        vSubscription.visibility = if(SFandom.SUBSCRIPE_ENABLED) View.VISIBLE else View.GONE
+        vSubscriptionSettings.visibility = if(SFandom.SUBSCRIPE_ENABLED) View.VISIBLE else View.GONE
+
         vIcon.setImageResource(CampfireConstants.getCategoryIcon(category))
 
         vName.text = xFandom.name

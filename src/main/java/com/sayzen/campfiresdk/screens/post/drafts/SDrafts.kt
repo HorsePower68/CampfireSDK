@@ -4,8 +4,12 @@ import android.view.View
 import com.dzen.campfire.api.API
 import com.dzen.campfire.api.models.units.Unit
 import com.dzen.campfire.api.models.units.post.UnitPost
+import com.dzen.campfire.api.requests.fandoms.RFandomsGet
+import com.dzen.campfire.api.requests.units.RUnitsDraftsGetAll
 import com.dzen.campfire.api.requests.units.RUnitsGetAll
 import com.sayzen.campfiresdk.R
+import com.sayzen.campfiresdk.controllers.ControllerApi
+import com.sayzen.campfiresdk.controllers.ControllerCampfireSDK
 import com.sayzen.campfiresdk.models.cards.CardPost
 import com.sayzen.campfiresdk.screens.fandoms.search.SFandomsSearch
 import com.sayzen.campfiresdk.screens.post.create.SPostCreate
@@ -13,6 +17,7 @@ import com.sayzen.campfiresdk.controllers.api
 import com.sayzen.campfiresdk.models.events.units.EventPostDraftCreated
 import com.sayzen.campfiresdk.models.events.units.EventPostStatusChange
 import com.sayzen.campfiresdk.screens.post.pending.SPending
+import com.sup.dev.android.libs.api_simple.ApiRequestsSupporter
 import com.sup.dev.android.libs.screens.navigator.Navigator
 import com.sup.dev.android.tools.ToolsResources
 import com.sup.dev.android.views.screens.SLoadingRecycler
@@ -46,8 +51,15 @@ class SDrafts constructor(
         (vFab as View).visibility = View.VISIBLE
         vFab.setImageResource(R.drawable.ic_add_white_24dp)
         vFab.setOnClickListener {
-            SFandomsSearch.instance(Navigator.TO, true) { fandom ->
-                SPostCreate.instance(fandom.id, fandom.languageId, fandom.name, fandom.imageId, emptyArray(), Navigator.TO)
+            if(ControllerCampfireSDK.ROOT_FANDOM_ID > 0){
+                val languageId = ControllerApi.getLanguageId()
+                ApiRequestsSupporter.executeProgressDialog(RFandomsGet(ControllerCampfireSDK.ROOT_FANDOM_ID, languageId, languageId)){ r->
+                    SPostCreate.instance(ControllerCampfireSDK.ROOT_FANDOM_ID, r.fandom.languageId, r.fandom.name, r.fandom.imageId, emptyArray(), Navigator.TO)
+                }
+            }else {
+                SFandomsSearch.instance(Navigator.TO, true) { fandom ->
+                    SPostCreate.instance(fandom.id, fandom.languageId, fandom.name, fandom.imageId, emptyArray(), Navigator.TO)
+                }
             }
         }
     }
@@ -63,11 +75,7 @@ class SDrafts constructor(
             card
         }
                 .setBottomLoader { onLoad, cards ->
-                    val r = RUnitsGetAll()
-                            .setOffset(cards.size)
-                            .setUnitTypes(API.UNIT_TYPE_POST)
-                            .setOrder(RUnitsGetAll.ORDER_NEW)
-                            .setDrafts(true)
+                    val r = RUnitsDraftsGetAll(ControllerCampfireSDK.ROOT_FANDOM_ID, ControllerCampfireSDK.ROOT_PROJECT_KEY, ControllerCampfireSDK.ROOT_PROJECT_SUB_KEY, cards.size.toLong())
                             .onComplete { r -> onLoad.invoke(r.units) }
                             .onNetworkError { onLoad.invoke(null) }
                     r.tokenRequired = true

@@ -64,7 +64,7 @@
     <string name="app_clear_reports">Убрать жалобы</string>
     <string name="app_clear_reports_confirm">Убрать жалобы?</string>
     <string name="app_clear">Убрать</string>
-    <string name="app_clear_2">Отчистить</string>
+    <string name="app_clear_2">Очистить</string>
     <string name="app_no">Нет</string>
     <string name="app_yes">Да</string>
     <string name="app_punish">Наказать</string>
@@ -710,6 +710,7 @@
     <string name="error_gone_comment">Похоже коментарий был удален</string>
     <string name="error_cant_load_video">Ошибка при загрузке видео</string>
     <string name="error_permission_files">У приложения нет доступа к файлам, проверьте настройки Android</string>
+    <string name="error_permission_mic">У приложения нет доступа к микрофону, проверьте настройки Android</string>
     <string name="error_account_baned">Аккаунт заблокирован до %s</string>
     <string name="error_cant_load_image">Ошибка при загрузке картинки</string>
     <string name="error_app_not_found">Не найдено приложение, для выполнения этого действия</string>

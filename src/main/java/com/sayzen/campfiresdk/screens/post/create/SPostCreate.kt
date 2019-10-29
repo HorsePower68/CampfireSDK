@@ -12,9 +12,11 @@ import com.sayzen.campfiresdk.models.ScreenShare
 import com.sayzen.campfiresdk.R
 import com.sayzen.campfiresdk.adapters.XFandom
 import com.sayzen.campfiresdk.controllers.ControllerApi
+import com.sayzen.campfiresdk.controllers.ControllerCampfireSDK
 import com.sayzen.campfiresdk.models.events.units.EventPostChanged
 import com.sayzen.campfiresdk.models.events.units.EventPostDraftCreated
 import com.sayzen.campfiresdk.models.events.units.EventUnitRemove
+import com.sayzen.campfiresdk.screens.post.drafts.SDrafts
 import com.sayzen.campfiresdk.screens.post.view.SPost
 import com.sup.dev.android.libs.api_simple.ApiRequestsSupporter
 import com.sup.dev.android.libs.screens.Screen
@@ -125,7 +127,7 @@ class SPostCreate constructor(
     //
 
     private fun requestPutPage(): (Widget?, Array<Page>, (Array<Page>) -> Unit, () -> Unit) -> Unit = { widget, pages, onCreate, onFinish ->
-        ApiRequestsSupporter.executeEnabled(widget, RPostPutPage(unitId, pages, fandomId, languageId, "", "")) { r ->
+        ApiRequestsSupporter.executeEnabled(widget, RPostPutPage(unitId, pages, fandomId, languageId, ControllerCampfireSDK.ROOT_PROJECT_KEY, ControllerCampfireSDK.ROOT_PROJECT_SUB_KEY)) { r ->
             if (this.unitId == 0L) setUnitId(r.unitId)
             onCreate.invoke(r.pages)
             EventBus.post(EventPostChanged(unitId, xPostCreator.pages))

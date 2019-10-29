@@ -4,6 +4,7 @@ import com.dzen.campfire.api.requests.units.RUnitsBookmarksGetAll
 import com.sayzen.campfiresdk.models.cards.CardUnit
 import com.dzen.campfire.api.models.units.Unit
 import com.sayzen.campfiresdk.R
+import com.sayzen.campfiresdk.controllers.ControllerCampfireSDK
 import com.sayzen.campfiresdk.models.events.units.EventUnitBookmarkChange
 import com.sayzen.campfiresdk.controllers.api
 import com.sup.dev.android.libs.screens.navigator.NavigationAction
@@ -38,7 +39,7 @@ class SBookmarks private constructor() : SLoadingRecycler<CardUnit, Unit>() {
     override fun instanceAdapter(): RecyclerCardAdapterLoading<CardUnit, Unit> {
         return RecyclerCardAdapterLoading<CardUnit, Unit>(CardUnit::class) { unit -> CardUnit.instance(unit, vRecycler) }
                 .setBottomLoader { onLoad, cards ->
-                    RUnitsBookmarksGetAll(cards.size.toLong(), "", 0, 0)
+                    RUnitsBookmarksGetAll(cards.size.toLong(), "", ControllerCampfireSDK.ROOT_FANDOM_ID, 0)
                             .onComplete { r -> onLoad.invoke(r.units) }
                             .onNetworkError { onLoad.invoke(null) }
                             .send(api)

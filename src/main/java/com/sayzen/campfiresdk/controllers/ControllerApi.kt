@@ -27,7 +27,7 @@ import com.sayzen.campfiresdk.models.events.units.EventUnitRemove
 import com.sayzen.campfiresdk.models.events.units.EventUnitReportsAdd
 import com.sayzen.campfiresdk.models.events.units.EventUnitReportsClear
 import com.sayzen.campfiresdk.models.support.TextParser
-import com.sayzen.devsupandroidgoogle.ControllerGoogleToken
+import com.sayzen.devsupandroidgoogle.ControllerGoogleAuth
 import com.sup.dev.android.libs.api_simple.ApiRequestsSupporter
 import com.sup.dev.android.libs.image_loader.ImageLoaderId
 import com.sup.dev.android.tools.*
@@ -47,7 +47,7 @@ import java.util.regex.Pattern
 
 val api: API = API(
         ControllerCampfireSDK.projectKey,
-        ControllerGoogleToken.instanceTokenProvider(),
+        ControllerGoogleAuth.instanceTokenProvider(),
         if (ControllerCampfireSDK.IS_DEBUG) (if (ControllerCampfireSDK.IS_USE_SECOND_IP) ControllerCampfireSDK.SECOND_IP else "192.168.0.64") else API.IP,
         API.PORT_HTTPS,
         API.PORT_CERTIFICATE,
@@ -226,7 +226,7 @@ object ControllerApi {
     }
 
     fun enableAutoRegistration() {
-        ControllerGoogleToken.tokenPostExecutor = { token, callback ->
+        ControllerGoogleAuth.tokenPostExecutor = { token, callback ->
             if (token == null) {
                 callback.invoke(token)
             } else {
@@ -302,7 +302,7 @@ object ControllerApi {
         RAccountsLogout()
                 .onFinish {
                     ControllerNotifications.hideAll()
-                    ControllerGoogleToken.logout {
+                    ControllerGoogleAuth.logout {
                         api.clearTokens()
                         ControllerChats.clearMessagesCount()
                         ControllerNotifications.setNewNotifications(emptyArray())

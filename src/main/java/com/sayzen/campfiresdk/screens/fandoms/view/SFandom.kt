@@ -23,6 +23,9 @@ import com.sayzen.campfiresdk.app.CampfireConstants
 import com.sayzen.campfiresdk.controllers.*
 import com.sayzen.campfiresdk.models.events.units.EventPostPinedFandom
 import com.sayzen.campfiresdk.models.events.units.EventPostStatusChange
+import com.sayzen.campfiresdk.screens.fandoms.CardAd
+import com.sayzen.campfiresdk.screens.fandoms.CardQuest
+import com.sayzen.campfiresdk.screens.fandoms.CardUpdate
 import com.sup.dev.android.libs.api_simple.ApiRequestsSupporter
 import com.sup.dev.android.libs.image_loader.ImageLoaderId
 import com.sup.dev.android.libs.screens.Screen
@@ -47,6 +50,10 @@ class SFandom private constructor(
 ) : Screen(R.layout.screen_fandom), PostList {
 
     companion object {
+
+        var BLACK_LIST_ENABLED = false
+        var SUBSCRIPE_ENABLED = false
+        var INCLUDE_SPECIAL_CARDS = false
 
         fun instance(fandomId: Long, action: NavigationAction) {
             instance(fandomId, ControllerApi.getLanguageId(), action)
@@ -81,6 +88,9 @@ class SFandom private constructor(
     private val cardTitle = CardTitle(xFandom, r.fandom.category, r.subscriptionType, r.notifyImportant)
     private var cardPinnedPost: CardPost? = null
 
+    private var cardUpdate: CardUpdate? = null
+    private var cardQuest: CardQuest? = null
+
     init {
         vToolbarCollapsingShadow.background = GradientDrawable(GradientDrawable.Orientation.TOP_BOTTOM, intArrayOf(0x60000000, 0x00000000))
 
@@ -111,7 +121,7 @@ class SFandom private constructor(
 
         cardFilters = CardFilters {
             if (cardPinnedPost != null) setPinnedPost(cardPinnedPost!!.xUnit.unit as UnitPost)
-            adapter.reloadBottom()
+            reload()
         }
 
         spoiler.setTitleExpanded(R.string.fandom_hide_details)
@@ -131,7 +141,7 @@ class SFandom private constructor(
         adapter.add(spoiler)
         adapter.add(cardFilters)
 
-        adapter.reloadBottom()
+        reload()
 
         vRecycler.addItemDecoration(DecoratorVerticalSpace(8))
         vRecycler.layoutManager = LinearLayoutManager(context)
@@ -152,8 +162,8 @@ class SFandom private constructor(
                         ToolsAndroid.setToClipboard(xFandom.linkToWithLanguage())
                         ToolsToast.show(R.string.app_copied)
                     }
-                    .add(R.string.settings_black_list) { _, _ -> ControllerCampfireSDK.switchToBlackListFandom(xFandom.fandomId) }
-                   .add(R.string.profile_change_avatar) { _, _ -> changeImage() }.condition(ControllerApi.can(API.LVL_ADMIN_FANDOM_AVATAR)).backgroundRes(R.color.red_700).textColorRes(R.color.white)
+                    .add(R.string.settings_black_list) { _, _ -> ControllerCampfireSDK.switchToBlackListFandom(xFandom.fandomId) }.condition(BLACK_LIST_ENABLED)
+                    .add(R.string.profile_change_avatar) { _, _ -> changeImage() }.condition(ControllerApi.can(API.LVL_ADMIN_FANDOM_AVATAR)).backgroundRes(R.color.red_700).textColorRes(R.color.white)
                     .add(R.string.fandoms_menu_change_category) { _, _ -> changeCategory() }.condition(ControllerApi.can(API.LVL_ADMIN_FANDOM_CATEGORY)).backgroundRes(R.color.red_700).textColorRes(R.color.white)
                     .add(R.string.fandoms_menu_rename) { _, _ -> rename() }.condition(ControllerApi.can(API.LVL_ADMIN_FANDOM_NAME)).backgroundRes(R.color.red_700).textColorRes(R.color.white)
                     .add(if (r.fandom.closed) R.string.app_open else R.string.app_close) { _, _ -> close() }.condition(ControllerApi.can(API.LVL_ADMIN_FANDOM_CLOSE)).backgroundRes(R.color.red_700).textColorRes(R.color.white)
@@ -165,7 +175,20 @@ class SFandom private constructor(
 
         setPinnedPost(r.pinnedPost)
 
+        if (INCLUDE_SPECIAL_CARDS) {
+            cardUpdate = CardUpdate()
+            cardQuest = CardQuest()
+        }
+
         update()
+    }
+
+    private fun reload() {
+        if (cardUpdate != null) adapter.remove(cardUpdate!!)
+        if (cardQuest != null) adapter.remove(cardQuest!!)
+        adapter.remove(CardAd::class)
+        adapter.reloadBottom()
+        ControllerCampfireSDK.putAd(vRecycler, adapter, adapter.indexOf(cardFilters) + 1)
     }
 
     private fun afterPackLoaded() {
@@ -173,6 +196,11 @@ class SFandom private constructor(
             for (c in adapter.get(CardPost::class))
                 if (c.xUnit.unit.id == cardPinnedPost!!.xUnit.unit.id && !(c.xUnit.unit as UnitPost).isPined)
                     adapter.remove(c)
+
+
+        if (cardQuest != null && !adapter.contains(cardQuest!!)) adapter.add(adapter.indexOf(cardFilters) + 1, cardQuest!!)
+        if (cardUpdate != null && !adapter.contains(cardUpdate!!)) adapter.add(adapter.indexOf(cardFilters) + 1, cardUpdate!!)
+        cardQuest?.show()
     }
 
     private fun setPinnedPost(post: UnitPost?) {
@@ -394,7 +422,7 @@ class SFandom private constructor(
     //
 
     private fun onEventPostStatusChange(e: EventPostStatusChange) {
-        if (e.status == API.STATUS_PUBLIC) adapter.reloadBottom()
+        if (e.status == API.STATUS_PUBLIC) reload()
     }
 
     private fun onEventFandomCategoryChanged(e: EventFandomCategoryChanged) {

@@ -1,6 +1,8 @@
 package com.sayzen.campfiresdk.controllers
 
 import android.view.Gravity
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.dzen.campfire.api.API
 import com.dzen.campfire.api.models.Fandom
 import com.dzen.campfire.api.models.units.UnitForum
@@ -13,6 +15,7 @@ import com.dzen.campfire.api.requests.fandoms.RFandomsBlackListAdd
 import com.dzen.campfire.api.requests.fandoms.RFandomsBlackListContains
 import com.dzen.campfire.api.requests.fandoms.RFandomsBlackListRemove
 import com.sayzen.campfiresdk.R
+import com.sayzen.campfiresdk.models.cards.CardPost
 import com.sayzen.campfiresdk.models.events.account.EventAccountAddToBlackList
 import com.sayzen.campfiresdk.models.events.account.EventAccountBioChangedSex
 import com.sayzen.campfiresdk.models.events.account.EventAccountChanged
@@ -24,21 +27,29 @@ import com.sayzen.campfiresdk.screens.other.about.SAboutCreators
 import com.sayzen.campfiresdk.screens.other.rules.SRulesModerators
 import com.sayzen.campfiresdk.screens.other.rules.SRulesUser
 import com.sayzen.campfiresdk.screens.account.stickers.SStickersView
+import com.sayzen.campfiresdk.screens.fandoms.CardAd
+import com.sayzen.devsupandroidgoogle.ControllerAdsNative
 import com.sayzen.devsupandroidgoogle.ControllerFirebaseAnalytics
-import com.sayzen.devsupandroidgoogle.ControllerGoogleToken
+import com.sayzen.devsupandroidgoogle.ControllerGoogleAuth
 import com.sup.dev.android.libs.api_simple.ApiRequestsSupporter
 import com.sup.dev.android.libs.screens.navigator.NavigationAction
 import com.sup.dev.android.libs.screens.navigator.Navigator
 import com.sup.dev.android.tools.ToolsIntent
 import com.sup.dev.android.tools.ToolsToast
 import com.sup.dev.android.views.screens.SAlert
+import com.sup.dev.android.views.support.adapters.recycler_view.RecyclerCardAdapter
 import com.sup.dev.android.views.widgets.*
 import com.sup.dev.java.libs.debug.err
+import com.sup.dev.java.libs.debug.info
 import com.sup.dev.java.libs.eventBus.EventBus
 import com.sup.dev.java.tools.ToolsText
 import com.sup.dev.java.tools.ToolsThreads
 
 object ControllerCampfireSDK {
+
+    var ROOT_FANDOM_ID = 0L
+    var ROOT_PROJECT_KEY:String = ""
+    var ROOT_PROJECT_SUB_KEY:String = ""
 
     var SECOND_IP = ""
     var IS_USE_SECOND_IP = false
@@ -77,7 +88,7 @@ object ControllerCampfireSDK {
         ControllerChats.init()
         ControllerNotifications.init(logoColored, logoWhite, notificationExecutor)
         ControllerFirebaseAnalytics.init()
-        ControllerGoogleToken.init("276237287601-6e9aoah4uivbjh6lnn1l9hna6taljd9u.apps.googleusercontent.com", onLoginFailed)
+        ControllerGoogleAuth.init("276237287601-6e9aoah4uivbjh6lnn1l9hna6taljd9u.apps.googleusercontent.com", onLoginFailed)
 
         SAlert.GLOBAL_SHOW_WHOOPS = false
     }
@@ -298,6 +309,33 @@ object ControllerCampfireSDK {
                 }
         }
         return w
+    }
+
+    fun putAd(vRecycler: RecyclerView, adapterSub: RecyclerCardAdapter, extraOffset:Int=0) {
+        if (adapterSub.get(CardAd::class).isNotEmpty()) return
+        if (adapterSub.get(CardPost::class).isEmpty()) {
+            ToolsThreads.main(2000) { putAd(vRecycler, adapterSub) }
+            return
+        }
+        val card = getCardAd()
+        if (card == null) {
+            ToolsThreads.main(2000) { putAd(vRecycler, adapterSub) }
+            return
+        }
+
+        info("XAd", "Ad inserted to feed")
+        var position = (vRecycler.layoutManager as LinearLayoutManager).findLastVisibleItemPosition() + 5 + extraOffset
+        if (position > adapterSub.size()) position = adapterSub.size()
+        adapterSub.add(position, card)
+    }
+
+    private var cardAd: CardAd? = null
+
+    fun getCardAd(): CardAd? {
+        if (cardAd != null) return cardAd
+        val ad = ControllerAdsNative.getAd()
+        if (ad != null) cardAd = CardAd(ad)
+        return cardAd
     }
 
     interface ExecutorLinks {

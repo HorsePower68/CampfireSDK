@@ -1,6 +1,7 @@
 package com.sayzen.campfiresdk.screens.chat.create
 
 import android.view.View
+import android.view.inputmethod.EditorInfo
 import android.widget.EditText
 import android.widget.ImageView
 import android.widget.TextView
@@ -12,6 +13,7 @@ import com.sup.dev.android.libs.screens.navigator.Navigator
 import com.sup.dev.android.tools.ToolsBitmap
 import com.sup.dev.android.tools.ToolsImagesLoader
 import com.sup.dev.android.tools.ToolsResources
+import com.sup.dev.android.tools.ToolsView
 import com.sup.dev.android.views.cards.Card
 import com.sup.dev.android.views.screens.SCrop
 import com.sup.dev.android.views.settings.SettingsCheckBox
@@ -40,6 +42,11 @@ class CardCreateTitle(
         val vNameTitle: TextView = view.findViewById(R.id.vNameTitle)
         val vAllowInvites: SettingsCheckBox = view.findViewById(R.id.vAllowInvites)
         val vAllowEdit: SettingsCheckBox = view.findViewById(R.id.vAllowEdit)
+
+        vName.vField.imeOptions = EditorInfo.IME_ACTION_DONE    //  Вылетало при нажатии Enter
+        ToolsView.onFieldEnterKey(vName.vField){
+            ToolsView.hideKeyboard(vName.vField)
+        }
 
         vAllowInvites.isEnabled = myLvl == API.CHAT_MEMBER_LVL_ADMIN
         vAllowEdit.isEnabled = myLvl == API.CHAT_MEMBER_LVL_ADMIN
