@@ -42,8 +42,8 @@ object ControllerNotifications {
 
     var token = ""
     var executorNotification: ExecutorNotification? = null
-    var logoColored = R.drawable.logo_alpha_no_margins
-    var logoWhite = R.drawable.logo_alpha_black_and_white_no_margins
+    var logoColored = 0
+    var logoWhite = 0
 
     internal fun init(
             logoColored: Int,

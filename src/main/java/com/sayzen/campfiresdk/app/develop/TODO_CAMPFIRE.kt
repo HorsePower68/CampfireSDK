@@ -5,8 +5,8 @@ package com.sayzen.campfiresdk.app.develop
 
     Campfire Frotnite
         -   Уведомлния только Fortnite
-        -   Лого при загрузке
-        -   Лого в уведомлениях
+        -   ? Лого при загрузке
+        -   ? Лого в уведомлениях
 
 
     Программная потдержка рубрик
