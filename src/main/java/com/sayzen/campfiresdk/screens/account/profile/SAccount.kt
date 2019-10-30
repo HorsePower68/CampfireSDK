@@ -454,6 +454,7 @@ class SAccount private constructor(
     private fun protoadminAutorization() {
         ApiRequestsSupporter.executeEnabledConfirm("Авторизировться именем протоадмина?", "Авторизироваться", RAccountsProtoadminAutorization(xAccount.accountId)) {
             ToolsToast.show(R.string.app_done)
+            ControllerCampfireSDK.logoutNow()
         }
     }
 

@@ -40,6 +40,7 @@ class SRulesUser(
     private fun addCard(text: Int) {
         val view: View = ToolsView.inflate(R.layout.view_card_with_text)
         val vText: TextView = view.findViewById(R.id.vText)
+        vText.setTextIsSelectable(true)
         vText.setText(text)
         vContainer.addView(view)
         if(vContainer.childCount > 1) (view.layoutParams as MarginLayoutParams).topMargin = ToolsView.dpToPx(24).toInt()

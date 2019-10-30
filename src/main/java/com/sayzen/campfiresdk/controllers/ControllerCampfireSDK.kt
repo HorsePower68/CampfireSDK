@@ -36,6 +36,7 @@ import com.sup.dev.android.libs.screens.navigator.NavigationAction
 import com.sup.dev.android.libs.screens.navigator.Navigator
 import com.sup.dev.android.tools.ToolsIntent
 import com.sup.dev.android.tools.ToolsToast
+import com.sup.dev.android.tools.ToolsView
 import com.sup.dev.android.views.screens.SAlert
 import com.sup.dev.android.views.support.adapters.recycler_view.RecyclerCardAdapter
 import com.sup.dev.android.views.widgets.*
@@ -48,8 +49,8 @@ import com.sup.dev.java.tools.ToolsThreads
 object ControllerCampfireSDK {
 
     var ROOT_FANDOM_ID = 0L
-    var ROOT_PROJECT_KEY:String = ""
-    var ROOT_PROJECT_SUB_KEY:String = ""
+    var ROOT_PROJECT_KEY: String = ""
+    var ROOT_PROJECT_SUB_KEY: String = ""
 
     var SECOND_IP = ""
     var IS_USE_SECOND_IP = false
@@ -73,6 +74,7 @@ object ControllerCampfireSDK {
 
     var executorLinks: ExecutorLinks? = null
     var projectKey = ""
+    var onLoginFailed:() -> Unit = {}
 
     fun init(
             projectKey: String,
@@ -83,6 +85,7 @@ object ControllerCampfireSDK {
             onLoginFailed: () -> Unit
     ) {
         this.projectKey = projectKey
+        this.onLoginFailed = onLoginFailed
         executorLinks = linksExecutor
         ControllerApi.init()
         ControllerChats.init()
@@ -194,13 +197,13 @@ object ControllerCampfireSDK {
                 .setMax(API.ACCOUNT_NAME_L_MAX)
                 .setOnCancel(R.string.app_cancel)
                 .setOnEnter(R.string.app_change) { dialog, name ->
-                    changeLoginNow(name, true){}
+                    changeLoginNow(name, true) {}
                 }
                 .asSheetShow()
     }
 
-    fun changeLoginNow(name:String, achievementNotificationEnabled:Boolean, onComplete:()->Unit){
-        ApiRequestsSupporter.executeProgressDialog(RAccountsChangeName(name, achievementNotificationEnabled)) { r->
+    fun changeLoginNow(name: String, achievementNotificationEnabled: Boolean, onComplete: () -> Unit) {
+        ApiRequestsSupporter.executeProgressDialog(RAccountsChangeName(name, achievementNotificationEnabled)) { r ->
             ControllerApi.account.name = name
             EventBus.post(EventAccountChanged(ControllerApi.account.id, ControllerApi.account.name))
             onComplete.invoke()
@@ -212,16 +215,16 @@ object ControllerCampfireSDK {
         }
     }
 
-    fun setSex(sex: Long, onComplete:()->Unit) {
-        ApiRequestsSupporter.executeProgressDialog(RAccountsBioSetSex(sex)) { r->
+    fun setSex(sex: Long, onComplete: () -> Unit) {
+        ApiRequestsSupporter.executeProgressDialog(RAccountsBioSetSex(sex)) { r ->
             EventBus.post(EventAccountBioChangedSex(ControllerApi.account.id, sex))
             onComplete.invoke()
         }
     }
 
     fun switchToBlackListFandom(fandomId: Long) {
-        ApiRequestsSupporter.executeProgressDialog(RFandomsBlackListContains(fandomId)){r->
-            if(r.contains) removeFromBlackListFandom(fandomId)
+        ApiRequestsSupporter.executeProgressDialog(RFandomsBlackListContains(fandomId)) { r ->
+            if (r.contains) removeFromBlackListFandom(fandomId)
             else addToBlackListFandom(fandomId)
         }
     }
@@ -311,15 +314,32 @@ object ControllerCampfireSDK {
         return w
     }
 
-    fun putAd(vRecycler: RecyclerView, adapterSub: RecyclerCardAdapter, extraOffset:Int=0) {
+    fun logoutWithAlert() {
+        WidgetAlert()
+                .setText(R.string.settings_exit_confirm)
+                .setOnEnter(R.string.app_exit) { logoutNow() }
+                .setOnCancel(R.string.app_cancel)
+                .asSheetShow()
+    }
+
+    fun logoutNow() {
+        val d = ToolsView.showProgressDialog()
+        ControllerApi.logout {
+            d.hide()
+            onLoginFailed.invoke()
+        }
+    }
+
+
+    fun putAd(vRecycler: RecyclerView, adapterSub: RecyclerCardAdapter, extraOffset: Int = 0, retryCount: Int = 10) {
         if (adapterSub.get(CardAd::class).isNotEmpty()) return
-        if (adapterSub.get(CardPost::class).isEmpty()) {
-            ToolsThreads.main(2000) { putAd(vRecycler, adapterSub) }
+        if (adapterSub.get(CardPost::class).size < 5) {
+            ToolsThreads.main(2000) { if (retryCount > 0) putAd(vRecycler, adapterSub, extraOffset, retryCount - 1) }
             return
         }
         val card = getCardAd()
         if (card == null) {
-            ToolsThreads.main(2000) { putAd(vRecycler, adapterSub) }
+            ToolsThreads.main(2000) { if (retryCount > 0) putAd(vRecycler, adapterSub, extraOffset, retryCount - 1) }
             return
         }
 

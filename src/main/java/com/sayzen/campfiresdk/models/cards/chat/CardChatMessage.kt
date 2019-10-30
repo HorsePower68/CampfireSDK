@@ -160,12 +160,12 @@ abstract class CardChatMessage constructor(
             ControllerApi.makeLinkable(vText) {
                 val myName = ControllerApi.account.name + ","
                 if (unit.text.startsWith(myName)) {
-                    vText.text = "{ff6d00 $myName}" + unit.text.substring(myName.length)
+                    vText.text = "{ff6d00 $myName}" + vText.text.toString().substring(myName.length)
                 } else {
                     if (unit.answerName.isNotEmpty()) {
                         val otherName = unit.answerName + ","
                         if (unit.text.startsWith(otherName)) {
-                            vText.text = "{90A4AE $otherName}" + unit.text.substring(otherName.length)
+                            vText.text = "{90A4AE $otherName}" + vText.text.toString().substring(otherName.length)
                         }
                     }
                 }
