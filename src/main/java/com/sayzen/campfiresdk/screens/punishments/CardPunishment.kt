@@ -55,7 +55,8 @@ class CardPunishment(
         if (punishment.comment.isNotEmpty()) text += "\n" + ToolsResources.s(R.string.app_comment) + ": " + punishment.comment
 
 
-        if (ControllerApi.isCurrentAccount(punishment.fromAccountId) || ControllerApi.can(API.LVL_ADMIN_USER_PUNISHMENTS_REMOVE))
+        if ((ControllerApi.isCurrentAccount(punishment.fromAccountId) || ControllerApi.can(API.LVL_ADMIN_USER_PUNISHMENTS_REMOVE))
+                && !ControllerApi.isCurrentAccount(punishment.ownerId))
             setOnLongClick { _, _, _, _ ->
                 WidgetMenu()
                         .add(R.string.app_remove) { _, _ -> removePunishment() }.backgroundRes(R.color.red_700).textColorRes(R.color.white)

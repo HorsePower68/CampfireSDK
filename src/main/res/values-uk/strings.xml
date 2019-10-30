@@ -162,7 +162,8 @@
     <string name="app_create_post">Создать пост</string>
     <string name="app_add_into_draft">Добавить к черновику</string>
     <string name="app_add_to_message">Добавить к сообщению</string>
-    <string name="app_add_to_anything">Быстрый пост в %s</string>
+    <string name="app_fast_post_to">Быстрый пост в %s</string>
+    <string name="app_fast_post">Быстрый пост</string>
     <string name="app_close">Закрыть</string>
     <string name="app_remove_text">Удалить текст</string>
     <string name="app_bot">Бот</string>

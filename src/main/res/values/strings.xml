@@ -162,7 +162,8 @@
     <string name="app_create_post">Create post</string>
     <string name="app_add_into_draft">Add to draft</string>
     <string name="app_add_to_message">Add to message</string>
-    <string name="app_add_to_anything">Fast post to %s</string>
+    <string name="app_fast_post_to">Fast post to %s</string>
+    <string name="app_fast_post">Fast post</string>
     <string name="app_close">Close</string>
     <string name="app_remove_text">Remove text</string>
     <string name="app_bot">Bot</string>

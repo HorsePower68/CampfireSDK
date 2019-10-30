@@ -22,6 +22,7 @@ import com.sup.dev.android.libs.api_simple.ApiRequestsSupporter
 import com.sup.dev.android.libs.screens.Screen
 import com.sup.dev.android.libs.screens.navigator.NavigationAction
 import com.sup.dev.android.libs.screens.navigator.Navigator
+import com.sup.dev.android.tools.ToolsAndroid
 import com.sup.dev.android.tools.ToolsResources
 import com.sup.dev.android.views.views.ViewAvatarTitle
 import com.sup.dev.android.views.widgets.Widget
@@ -167,19 +168,19 @@ class SPostCreate constructor(
 
     override fun addText(text: String, postAfterAdd: Boolean) {
         xPostCreator.addText(text) {
-            if (postAfterAdd) SCreationTags.create(unitId, tags, false, 0, false) { SPost.instance(unitId, 0, NavigationAction.replace()) }
+            if (postAfterAdd) SCreationTags.create(unitId, tags, false, 0, false) { SPost.instance(unitId, 0, Navigator.REPLACE) }
         }
     }
 
     override fun addImage(image: Uri, postAfterAdd: Boolean) {
         xPostCreator.addImage(image) {
-            if (postAfterAdd) SCreationTags.create(unitId, tags, false, 0, false) { SPost.instance(unitId, 0, NavigationAction.replace()) }
+            if (postAfterAdd) SCreationTags.create(unitId, tags, false, 0, false) { SPost.instance(unitId, 0, Navigator.REPLACE) }
         }
     }
 
     override fun addImage(image: Bitmap, postAfterAdd: Boolean) {
         xPostCreator.addImage(image) {
-            if (postAfterAdd) SCreationTags.create(unitId, tags, false, 0, false) { SPost.instance(unitId, 0, NavigationAction.replace()) }
+            if (postAfterAdd) SCreationTags.create(unitId, tags, false, 0, false) { SPost.instance(unitId, 0, Navigator.REPLACE) }
         }
     }
 

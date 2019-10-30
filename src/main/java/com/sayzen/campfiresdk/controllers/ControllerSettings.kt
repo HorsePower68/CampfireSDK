@@ -206,6 +206,13 @@ object ControllerSettings {
             onSettingsUpdated()
         }
 
+    var helloShortIsShowed: Boolean
+        get() = accountSettings.helloShortIsShowed
+        set(b) {
+            accountSettings.helloShortIsShowed = b
+            onSettingsUpdated()
+        }
+
     var rulesIsShowed: Boolean
         get() = accountSettings.rulesIsShowed
         set(b) {

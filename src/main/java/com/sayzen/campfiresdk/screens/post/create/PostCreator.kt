@@ -132,6 +132,10 @@ class PostCreator(
         }
     }
 
+    fun hideMenu(){
+        widgetAdd.hide()
+    }
+
     private fun onFabClicked() {
         if (adapter.get(CardPage::class).size >= API.POST_MAX_PAGES_COUNT) {
             ToolsToast.show(R.string.error_too_many_items)
@@ -205,6 +209,8 @@ class PostCreator(
     //
 
     fun addText(text: String, onAdd: () -> Unit) {
+        widgetAdd.wasClicked = true
+        widgetAdd.hide()
         if (adapter.get(CardPage::class).size >= API.POST_MAX_PAGES_COUNT) {
             ToolsToast.show(R.string.error_too_many_items)
             return
@@ -218,6 +224,8 @@ class PostCreator(
     }
 
     fun addImage(image: Uri, onAdd: () -> Unit) {
+        widgetAdd.wasClicked = true
+        widgetAdd.hide()
         if (adapter.get(CardPage::class).size >= API.POST_MAX_PAGES_COUNT) {
             ToolsToast.show(R.string.error_too_many_items)
             return
@@ -245,6 +253,8 @@ class PostCreator(
     }
 
     fun addImage(image: Bitmap, onAdd: () -> Unit) {
+        widgetAdd.wasClicked = true
+        widgetAdd.hide()
         if (adapter.get(CardPage::class).size >= API.POST_MAX_PAGES_COUNT) {
             ToolsToast.show(R.string.error_too_many_items)
             return
