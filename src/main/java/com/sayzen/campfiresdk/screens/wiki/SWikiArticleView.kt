@@ -162,11 +162,16 @@ class SWikiArticleView(
     //
 
     private fun onEventWikiPagesChanged(e: EventWikiPagesChanged) {
-        if (e.itemId == wikiTitle.itemId && e.languageId == languageId) {
-            adapter.remove(CardPage::class)
-            pages = e.pages
-            for (i in pages) adapter.add(CardPage.instance(this, i))
-            updateMessage()
+        if (e.itemId == wikiTitle.itemId) {
+            if(e.languageId != languageId){
+                languageId = e.languageId
+                load()
+            }else {
+                adapter.remove(CardPage::class)
+                pages = e.pages
+                for (i in pages) adapter.add(CardPage.instance(this, i))
+                updateMessage()
+            }
         }
     }
 
