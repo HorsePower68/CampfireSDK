@@ -16,13 +16,11 @@ import com.sayzen.campfiresdk.controllers.ControllerCampfireSDK
 import com.sayzen.campfiresdk.models.events.units.EventPostChanged
 import com.sayzen.campfiresdk.models.events.units.EventPostDraftCreated
 import com.sayzen.campfiresdk.models.events.units.EventUnitRemove
-import com.sayzen.campfiresdk.screens.post.drafts.SDrafts
 import com.sayzen.campfiresdk.screens.post.view.SPost
 import com.sup.dev.android.libs.api_simple.ApiRequestsSupporter
 import com.sup.dev.android.libs.screens.Screen
 import com.sup.dev.android.libs.screens.navigator.NavigationAction
 import com.sup.dev.android.libs.screens.navigator.Navigator
-import com.sup.dev.android.tools.ToolsAndroid
 import com.sup.dev.android.tools.ToolsResources
 import com.sup.dev.android.views.views.ViewAvatarTitle
 import com.sup.dev.android.views.widgets.Widget
@@ -85,11 +83,11 @@ class SPostCreate constructor(
         this.closed = changePost?.closed ?: false
 
         vFinish.setOnClickListener {
-            if (changePost == null || changePost.isDraft) SCreationTags.instance(unitId, closed, unitTag3, true, fandomId, languageId, tags, Navigator.TO)
+            if (changePost == null || changePost.isDraft) SPostCreationTags.instance(unitId, closed, unitTag3, true, fandomId, languageId, tags, Navigator.TO)
             else Navigator.back()
         }
         vFinish.setOnLongClickListener {
-            SCreationTags.create(unitId, tags, false, 0, false) { SPost.instance(unitId, 0, NavigationAction.replace()) }
+            SPostCreationTags.create(unitId, tags, false, 0, false) { SPost.instance(unitId, 0, NavigationAction.replace()) }
             true
         }
         if (changePost != null && !changePost.isDraft) vFinish.setImageResource(ToolsResources.getDrawableAttrId(R.attr.ic_done_24dp))
@@ -168,19 +166,19 @@ class SPostCreate constructor(
 
     override fun addText(text: String, postAfterAdd: Boolean) {
         xPostCreator.addText(text) {
-            if (postAfterAdd) SCreationTags.create(unitId, tags, false, 0, false) { SPost.instance(unitId, 0, Navigator.REPLACE) }
+            if (postAfterAdd) SPostCreationTags.create(unitId, tags, false, 0, false) { SPost.instance(unitId, 0, Navigator.REPLACE) }
         }
     }
 
     override fun addImage(image: Uri, postAfterAdd: Boolean) {
         xPostCreator.addImage(image) {
-            if (postAfterAdd) SCreationTags.create(unitId, tags, false, 0, false) { SPost.instance(unitId, 0, Navigator.REPLACE) }
+            if (postAfterAdd) SPostCreationTags.create(unitId, tags, false, 0, false) { SPost.instance(unitId, 0, Navigator.REPLACE) }
         }
     }
 
     override fun addImage(image: Bitmap, postAfterAdd: Boolean) {
         xPostCreator.addImage(image) {
-            if (postAfterAdd) SCreationTags.create(unitId, tags, false, 0, false) { SPost.instance(unitId, 0, Navigator.REPLACE) }
+            if (postAfterAdd) SPostCreationTags.create(unitId, tags, false, 0, false) { SPost.instance(unitId, 0, Navigator.REPLACE) }
         }
     }
 

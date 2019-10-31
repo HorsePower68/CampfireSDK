@@ -1,28 +1,20 @@
 package com.sayzen.campfiresdk.screens.fandoms.view
 
-import android.text.Html
 import android.view.View
 import android.widget.TextView
 import com.dzen.campfire.api.API
-import com.dzen.campfire.api.models.Fandom
+import com.dzen.campfire.api.models.fandoms.Fandom
 import com.dzen.campfire.api.requests.fandoms.RFandomsAdminSetCof
 import com.sayzen.campfiresdk.R
-import com.sayzen.campfiresdk.adapters.XFandom
 import com.sayzen.campfiresdk.controllers.ControllerApi
 import com.sayzen.campfiresdk.models.events.fandom.EventFandomKarmaCofChanged
-import com.sayzen.campfiresdk.models.events.fandom.EventFandomReviewChanged
-import com.sayzen.campfiresdk.models.events.fandom.EventFandomReviewCreated
-import com.sayzen.campfiresdk.models.events.fandom.EventFandomReviewRemoved
-import com.sayzen.campfiresdk.screens.fandoms.reviews.SReviews
 import com.sup.dev.android.libs.api_simple.ApiRequestsSupporter
-import com.sup.dev.android.libs.screens.navigator.Navigator
 import com.sup.dev.android.tools.ToolsResources
 import com.sup.dev.android.tools.ToolsToast
 import com.sup.dev.android.tools.ToolsView
 import com.sup.dev.android.views.cards.Card
 import com.sup.dev.android.views.widgets.WidgetFieldTwo
 import com.sup.dev.java.libs.eventBus.EventBus
-import com.sup.dev.java.tools.ToolsCollections
 import com.sup.dev.java.tools.ToolsHTML
 import com.sup.dev.java.tools.ToolsText
 

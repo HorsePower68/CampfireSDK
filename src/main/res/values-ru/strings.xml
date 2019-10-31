@@ -129,6 +129,7 @@
     <string name="app_copy_link">Копировать ссылку</string>
     <string name="app_copy_link_with_language">Копировать ссылку (+язык)</string>
     <string name="app_choose_template">Выбрать шаблон</string>
+    <string name="app_choose_user">Выбрать пользователя</string>
     <string name="app_moderator">Модератор</string>
     <string name="app_admin">Админ</string>
     <string name="app_protoadmin">Протоадмин</string>
@@ -140,6 +141,8 @@
     <string name="app_subscriptions">Подписки</string>
     <string name="app_subscribers">Подписчики</string>
     <string name="app_wiki">Вики</string>
+    <string name="app_rubric">Рубрика</string>
+    <string name="app_rubrics">Рубрики</string>
     <string name="app_do_mark">Пометить</string>
     <string name="app_do_unmark">Убрать метку</string>
     <string name="app_remove_image">Удалить изображение</string>
@@ -660,6 +663,7 @@
     <string name="lvl_moderate_pin_post">Возможность закрепить пост в фэндоме</string>
     <string name="lvl_moderate_review_remove_text">Удаление текста у отзывов на фэндомы.</string>
     <string name="lvl_moderate_close_post">Возможность закрывать посты других пользователей.</string>
+    <string name="lvl_moderate_rubrics">Возможность управлять рубриками фэндома.</string>
     <string name="lvl_app_profile_image_gif">Возможность изменить фоновую картинку в профиле на GIF</string>
     <string name="lvl_moderate_tags">Возможность редактировать теги в фэндоме</string>
     <string name="lvl_avatar_gif">Возможность изменить аватарку на GIF</string>
@@ -817,6 +821,12 @@
     <string name="profile_subtitle_text_17">Вжух</string>
     <string name="profile_subtitle_text_18">Кусь</string>
 
+    <string name="rubric_empty">В этом фэндоме еще нет рубрик</string>
+    <string name="rubric_empty_my">У вас еще нет рубрик</string>
+    <string name="rubric_empty_other">У этого пользователя еще нет рубрик</string>
+    <string name="rubric_loading">Загрузка спсика рубрик</string>
+    <string name="rubric_creation">Создание рубрики</string>
+
     <string name="about_privacy_policy">Политика конфиденциальности</string>
 
     <string name="comments_hint">Введите комментарий</string>
@@ -964,6 +974,7 @@
     <string name="post_create_pending">Отложенная публикация</string>
     <string name="post_create_pending_error">Нельзя публиковать в прошлое</string>
     <string name="post_create_closed">Закрытая публикация</string>
+    <string name="post_create_rubric">Добавить рубрику</string>
     <string name="post_pending_publish">Опубликовать пост сейчас?</string>
     <string name="post_close_confirm">Закрыть этот пост?</string>
     <string name="post_open_confirm">Открыть этот пост?</string>

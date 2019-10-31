@@ -2,7 +2,7 @@ package com.sayzen.campfiresdk.adapters
 
 import android.widget.ImageView
 import android.widget.TextView
-import com.dzen.campfire.api.models.Fandom
+import com.dzen.campfire.api.models.fandoms.Fandom
 import com.sayzen.campfiresdk.controllers.ControllerApi
 import com.sayzen.campfiresdk.controllers.ControllerCampfireSDK
 import com.sayzen.campfiresdk.models.events.fandom.EventFandomChanged

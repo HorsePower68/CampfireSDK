@@ -1,6 +1,6 @@
 package com.sayzen.campfiresdk.models.events.fandom
 
-import com.dzen.campfire.api.models.FandomLink
+import com.dzen.campfire.api.models.fandoms.FandomLink
 
 class EventFandomInfoChanged(
         val fandomId:Long,

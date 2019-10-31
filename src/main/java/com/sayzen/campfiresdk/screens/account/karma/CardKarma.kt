@@ -2,7 +2,7 @@ package com.sayzen.campfiresdk.screens.account.karma
 
 import android.view.View
 import android.widget.TextView
-import com.dzen.campfire.api.models.KarmaInFandom
+import com.dzen.campfire.api.models.fandoms.KarmaInFandom
 import com.sayzen.campfiresdk.R
 import com.sayzen.campfiresdk.adapters.XFandom
 import com.sayzen.campfiresdk.controllers.ControllerApi

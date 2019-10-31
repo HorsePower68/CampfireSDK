@@ -11,8 +11,10 @@ import com.dzen.campfire.api.requests.post.RPostPublication
 import com.dzen.campfire.api.requests.tags.RTagsGetAll
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.sayzen.campfiresdk.R
+import com.sayzen.campfiresdk.controllers.ControllerApi
 import com.sayzen.campfiresdk.controllers.ControllerUnits
 import com.sayzen.campfiresdk.models.events.units.EventPostStatusChange
+import com.sayzen.campfiresdk.screens.fandoms.rubrics.SRubricsList
 import com.sayzen.campfiresdk.screens.other.rules.SGoogleRules
 import com.sayzen.campfiresdk.screens.post.pending.SPending
 import com.sayzen.campfiresdk.screens.post.view.SPost
@@ -31,13 +33,15 @@ import com.sup.dev.java.libs.eventBus.EventBus
 import com.sup.dev.java.tools.ToolsDate
 import java.util.*
 
-class SCreationTags private constructor(
-    private val unitId: Long,
-    private val closed: Boolean,
-    private val unitTag3: Long,
-    private val isMyUnit: Boolean,
-    private val presetTags: Array<Long>,
-    tags: Array<UnitTag>
+class SPostCreationTags private constructor(
+        private val unitId: Long,
+        private val fandomId: Long,
+        private val language: Long,
+        private val closed: Boolean,
+        private val unitTag3: Long,
+        private val isMyUnit: Boolean,
+        private val presetTags: Array<Long>,
+        tags: Array<UnitTag>
 ) : Screen(R.layout.screen_post_create_tags) {
 
     companion object {
@@ -48,8 +52,8 @@ class SCreationTags private constructor(
             }
         }
 
-        fun instance(unitId: Long, closed:Boolean, unitTag3: Long, isMyUnit: Boolean, fandomId: Long, languageId: Long, presetTags: Array<Long>, action: NavigationAction) {
-            ApiRequestsSupporter.executeInterstitial(action, RTagsGetAll(fandomId, languageId)) { r -> SCreationTags(unitId, closed, unitTag3, isMyUnit, presetTags, r.tags) }
+        fun instance(unitId: Long, closed: Boolean, unitTag3: Long, isMyUnit: Boolean, fandomId: Long, languageId: Long, presetTags: Array<Long>, action: NavigationAction) {
+            ApiRequestsSupporter.executeInterstitial(action, RTagsGetAll(fandomId, languageId)) { r -> SPostCreationTags(unitId, fandomId, languageId, closed, unitTag3, isMyUnit, presetTags, r.tags) }
         }
 
         fun create(unitId: Long, tags: Array<Long>, notifyFollowers: Boolean, pendingTime: Long, closed: Boolean, onCreate: () -> Unit) {
@@ -68,6 +72,7 @@ class SCreationTags private constructor(
     private val vNotifyFollowers: CheckBox = findViewById(R.id.vNotifyFollowers)
     private val vPending: CheckBox = findViewById(R.id.vPending)
     private val vClose: CheckBox = findViewById(R.id.vClose)
+    private val vRubric: TextView = findViewById(R.id.vRubric)
     private val vLine: View = findViewById(R.id.vLine)
     private val vMessageContainer: View = findViewById(R.id.vMessageContainer)
     private val vContainer: ViewGroup = findViewById(R.id.vTagsContainer)
@@ -75,6 +80,7 @@ class SCreationTags private constructor(
 
     private val chips = ArrayList<ViewChip>()
     private var pendingDate = 0L
+    private var rubricId = 0L
 
     init {
         isNavigationShadowAvailable = false
@@ -93,23 +99,38 @@ class SCreationTags private constructor(
 
         vFab.setOnClickListener { sendPublication() }
 
-        vPending.setOnClickListener {
-            if (!vPending.isChecked/*После нажатия положение меняется*/) setPendingDate(0)
-            else {
-                WidgetChooseDate()
+        vPending.setOnClickListener { onPendingClicked() }
+        vRubric.setOnClickListener { onRubricClicked() }
+
+        setTags(tags)
+    }
+
+    private fun onPendingClicked() {
+        if (!vPending.isChecked/*После нажатия положение меняется*/) setPendingDate(0)
+        else {
+            WidgetChooseDate()
                     .setOnEnter(R.string.app_choose) { _, date ->
                         WidgetChooseTime()
-                            .setOnEnter(R.string.app_choose) { _, h, m ->
-                                setPendingDate(ToolsDate.getStartOfDay(date) + (h * 60L * 60 * 1000) + (m * 60L * 1000))
-                            }
-                            .asSheetShow()
+                                .setOnEnter(R.string.app_choose) { _, h, m ->
+                                    setPendingDate(ToolsDate.getStartOfDay(date) + (h * 60L * 60 * 1000) + (m * 60L * 1000))
+                                }
+                                .asSheetShow()
 
                     }
                     .asSheetShow()
-            }
         }
+    }
 
-        setTags(tags)
+    private fun onRubricClicked() {
+        if (rubricId > 0) {
+            vRubric.text = ToolsResources.s(R.string.post_create_rubric)
+            rubricId = 0
+        } else {
+            Navigator.to(SRubricsList(fandomId, language, ControllerApi.account.id) {
+                vRubric.text = ToolsResources.s(R.string.app_rubric) + ": " + it.name
+                rubricId = it.id
+            })
+        }
     }
 
     private fun setPendingDate(date: Long) {
@@ -146,17 +167,17 @@ class SCreationTags private constructor(
             }
         } else {
             WidgetField()
-                .setHint(R.string.moderation_widget_comment)
-                .setOnCancel(R.string.app_cancel)
-                .setMin(API.MODERATION_COMMENT_MIN_L)
-                .setMax(API.MODERATION_COMMENT_MAX_L)
-                .setOnEnter(R.string.app_change) { w, comment ->
-                    ApiRequestsSupporter.executeEnabled(w, RPostPublication(unitId, tags, comment, false, 0, false)) {
-                        Navigator.removeAll(SPostCreate::class)
-                        EventBus.post(EventPostStatusChange(unitId, API.STATUS_PUBLIC))
-                        SPost.instance(unitId, 0, NavigationAction.replace())
-                    }
-                }.asSheetShow()
+                    .setHint(R.string.moderation_widget_comment)
+                    .setOnCancel(R.string.app_cancel)
+                    .setMin(API.MODERATION_COMMENT_MIN_L)
+                    .setMax(API.MODERATION_COMMENT_MAX_L)
+                    .setOnEnter(R.string.app_change) { w, comment ->
+                        ApiRequestsSupporter.executeEnabled(w, RPostPublication(unitId, tags, comment, false, 0, false)) {
+                            Navigator.removeAll(SPostCreate::class)
+                            EventBus.post(EventPostStatusChange(unitId, API.STATUS_PUBLIC))
+                            SPost.instance(unitId, 0, NavigationAction.replace())
+                        }
+                    }.asSheetShow()
         }
 
     }

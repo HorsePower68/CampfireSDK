@@ -14,6 +14,7 @@ import com.sayzen.campfiresdk.screens.fandoms.rating.SRating
 import com.sayzen.campfiresdk.screens.fandoms.subscribers.SSubscribers
 import com.sayzen.campfiresdk.controllers.ControllerApi
 import com.sayzen.campfiresdk.screens.fandoms.STags
+import com.sayzen.campfiresdk.screens.fandoms.rubrics.SRubricsList
 import com.sayzen.campfiresdk.screens.wiki.SWikiList
 import com.sup.dev.android.libs.screens.navigator.Navigator
 import com.sup.dev.android.tools.ToolsResources
@@ -29,7 +30,8 @@ class CardButtons(
         private var subscribersCountTotal: Long,
         private var modersCount: Long,
         private var subscribed: Boolean,
-        private var wikiCount: Long
+        private var wikiCount: Long,
+        private var rubricsCount: Long
 ) : Card(R.layout.screen_fandom_card_buttons) {
 
     private val eventBus = EventBus
@@ -53,6 +55,8 @@ class CardButtons(
         val vSubscribersTotalText: TextView = view.findViewById(R.id.vSubscribersTotalText)
         val vWikiButton: View = view.findViewById(R.id.vWikiButton)
         val vWikiText: TextView = view.findViewById(R.id.vWikiText)
+        val vRubricButton: View = view.findViewById(R.id.vRubricButton)
+        val vRubricText: TextView = view.findViewById(R.id.vRubricText)
 
         vChatsButton.setOnClickListener { SChat.instance(API.CHAT_TYPE_FANDOM, xFandom.fandomId, xFandom.languageId, false, Navigator.REORDER) }
         vChatsCount.text = "$chatOnlineCount"
@@ -68,7 +72,6 @@ class CardButtons(
         vModerationButton.setOnClickListener { Navigator.to(SModeration(xFandom.fandomId, xFandom.languageId)) }
         vModerationText.text = "$modersCount"
 
-
         vForumsButton.setOnClickListener { Navigator.to(SForums(xFandom.fandomId, xFandom.languageId)) }
         vForumsText.text = "$forumsCount"
 
@@ -78,6 +81,9 @@ class CardButtons(
 
         vWikiButton.setOnClickListener { Navigator.to(SWikiList(xFandom.fandomId, 0, "")) }
         vWikiText.text = "$wikiCount"
+
+        vRubricButton.setOnClickListener { Navigator.to(SRubricsList(xFandom.fandomId, xFandom.languageId, 0))}
+        vRubricText.text = "$rubricsCount"
     }
 
     //

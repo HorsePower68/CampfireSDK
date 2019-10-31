@@ -2,7 +2,7 @@ package com.sayzen.campfiresdk.screens.fandoms.search
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import android.view.View
-import com.dzen.campfire.api.models.Fandom
+import com.dzen.campfire.api.models.fandoms.Fandom
 import com.dzen.campfire.api.requests.fandoms.RFandomsGetAll
 import com.sayzen.campfiresdk.R
 import com.sayzen.campfiresdk.models.cards.CardFandom
@@ -192,7 +192,7 @@ class SFandomsSearch private constructor(
     }
 
     class NFandom(
-            val fandom:Fandom,
+            val fandom: Fandom,
             val subscribed:Boolean)
 
 }

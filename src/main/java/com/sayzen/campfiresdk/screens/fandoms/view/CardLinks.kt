@@ -6,7 +6,7 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import com.dzen.campfire.api.API
-import com.dzen.campfire.api.models.FandomLink
+import com.dzen.campfire.api.models.fandoms.FandomLink
 import com.dzen.campfire.api.requests.fandoms.RFandomsModerationLinkAdd
 import com.dzen.campfire.api.requests.fandoms.RFandomsModerationLinkRemove
 import com.sayzen.campfiresdk.R

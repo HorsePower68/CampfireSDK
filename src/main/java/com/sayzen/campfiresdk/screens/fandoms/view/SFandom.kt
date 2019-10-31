@@ -137,7 +137,7 @@ class SFandom private constructor(
 
         adapter.add(CardSpace(56))
         adapter.add(cardTitle)
-        adapter.add(CardButtons(xFandom, r.chatOnlineCount, r.forumsCount, r.tagsCount, r.subscribersCountLanguage, r.subscribersCountTotal, r.modersCount, r.subscriptionType != API.UNIT_IMPORTANT_NONE, r.wikiCount))
+        adapter.add(CardButtons(xFandom, r.chatOnlineCount, r.forumsCount, r.tagsCount, r.subscribersCountLanguage, r.subscribersCountTotal, r.modersCount, r.subscriptionType != API.UNIT_IMPORTANT_NONE, r.wikiCount, r.rubricsCount))
         adapter.add(spoiler)
         adapter.add(cardFilters)
 

@@ -1,6 +1,6 @@
 package com.sayzen.campfiresdk.screens.account.karma
 
-import com.dzen.campfire.api.models.KarmaInFandom
+import com.dzen.campfire.api.models.fandoms.KarmaInFandom
 import com.dzen.campfire.api.requests.accounts.RAccountsKarmaInFandomsGetAll
 import com.sayzen.campfiresdk.R
 import com.sayzen.campfiresdk.adapters.XAccount

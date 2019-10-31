@@ -1,6 +1,6 @@
 package com.sayzen.campfiresdk.screens.account.fandoms
 
-import com.dzen.campfire.api.models.Fandom
+import com.dzen.campfire.api.models.fandoms.Fandom
 import com.dzen.campfire.api.requests.fandoms.RFandomsGetAllSubscribed
 import com.sayzen.campfiresdk.R
 import com.sayzen.campfiresdk.controllers.api

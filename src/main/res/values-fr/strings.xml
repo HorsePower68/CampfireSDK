@@ -128,6 +128,7 @@ Campfire has anime fandoms and gaming fandoms.</string>
     <string name="app_copy_link">Copy link</string>
     <string name="app_copy_link_with_language">Copy link (+language)</string>
     <string name="app_choose_template">Choose a template</string>
+    <string name="app_choose_user">Choose user</string>
     <string name="app_moderator">Moderator</string>
     <string name="app_admin">Admin</string>
     <string name="app_protoadmin">Protoadmin</string>
@@ -139,6 +140,8 @@ Campfire has anime fandoms and gaming fandoms.</string>
     <string name="app_subscriptions">Subscriptions</string>
     <string name="app_subscribers">Subscribers</string>
     <string name="app_wiki">Wiki</string>
+    <string name="app_rubric">Rubric</string>
+    <string name="app_rubrics">Rubrics</string>
     <string name="app_do_mark">Mark</string>
     <string name="app_do_unmark">Unmark</string>
     <string name="app_remove_image">Remove image</string>
@@ -657,7 +660,8 @@ Campfire has anime fandoms and gaming fandoms.</string>
     <string name="lvl_moderate_important">Ability to mark a publication as important. Fandom subscribers will receive a notification of this.</string>
     <string name="lvl_moderate_pin_post">Ability to pin a post in fandom</string>
     <string name="lvl_moderate_review_remove_text">Remove text from reviews on fandom.</string>
-    <string name="lvl_moderate_close_post">Ability to close a post of users</string>
+    <string name="lvl_moderate_close_post">Ability to close a post of users.</string>
+    <string name="lvl_moderate_rubrics">Ability to manage a rubrics of fandom.</string>
     <string name="lvl_avatar_gif">Ability to change avatar with GIF</string>
     <string name="lvl_pin_post">Ability to pin a post in your profile</string>
     <string name="lvl_create_stickers">Ability to create stickers packs</string>
@@ -814,6 +818,11 @@ Campfire has anime fandoms and gaming fandoms.</string>
     <string name="profile_subtitle_text_17">Pow-pow</string>
     <string name="profile_subtitle_text_18">Ho-ho</string>
 
+    <string name="rubric_empty">There are no rubrics in this fandom yet.</string>
+    <string name="rubric_empty_my">You don\'t have rubrics yet.</string>
+    <string name="rubric_empty_other">here are no rubrics on this user yet.</string>
+    <string name="rubric_loading">Loading of rubrics list</string>
+    <string name="rubric_creation">Rubric creation</string>
 
     <string name="about_privacy_policy">Privacy policy</string>
 
@@ -962,6 +971,7 @@ Campfire has anime fandoms and gaming fandoms.</string>
     <string name="post_create_pending">Pending publication</string>
     <string name="post_create_pending_error">Cannot be published in the past.</string>
     <string name="post_create_closed">Closed post</string>
+    <string name="post_create_rubric">Add rubric</string>
     <string name="post_pending_publish">Post this now?</string>
     <string name="post_close_confirm">Close this post?</string>
     <string name="post_open_confirm">Open this post?</string>

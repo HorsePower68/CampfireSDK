@@ -1,7 +1,7 @@
 package com.sayzen.campfiresdk.screens.fandoms.search
 
 
-import com.dzen.campfire.api.models.Fandom
+import com.dzen.campfire.api.models.fandoms.Fandom
 import com.dzen.campfire.api.requests.fandoms.RFandomsGetAllModerated
 import com.sayzen.campfiresdk.R
 import com.sayzen.campfiresdk.models.cards.CardFandom
