@@ -17,6 +17,7 @@ import com.sup.dev.java.tools.ToolsMapper
 
 class SAccountSearch(
         private val showKeyboard: Boolean = true,
+        private val showMyAccount: Boolean = false,
         private val onSelected: (Account) -> Unit
 ) : SLoadingRecycler<CardAccount, Account>(R.layout.screen_account_search) {
 
@@ -71,6 +72,7 @@ class SAccountSearch(
     }
 
     private fun removeMyAccount(accounts: Array<Account>): Array<Account> {
+        if (showMyAccount) return accounts
         for (a in accounts)
             if (a.id == ControllerApi.account.id) {
                 val newAccounts = arrayOfNulls<Account>(accounts.size - 1)

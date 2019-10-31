@@ -379,6 +379,7 @@ object ControllerApi {
     fun linkToWikiFandomId(fandomId: Long) = API.LINK_WIKI_FANDOM + fandomId
     fun linkToWikiItemId(itemId: Long) = API.LINK_WIKI_SECTION + itemId
     fun linkToWikiArticle(itemId: Long) = API.LINK_WIKI_ARTICLE + itemId
+    fun linkToRubric(rubricId: Long) = API.LINK_RUBRIC + rubricId
     fun linkToSticker(id: Long) = API.LINK_STICKER + id
     fun linkToStickersPack(id: Long) = API.LINK_STICKERS_PACK + id
     fun linkToPostComment(parentUnitId: Long, commentId: Long) = API.LINK_POST + parentUnitId + "_" + commentId
@@ -427,6 +428,7 @@ object ControllerApi {
         replaceLinkable(vText, API.LINK_SHORT_WIKI_FANDOM, API.LINK_WIKI_FANDOM)
         replaceLinkable(vText, API.LINK_SHORT_WIKI_SECTION, API.LINK_WIKI_SECTION)
         replaceLinkable(vText, API.LINK_SHORT_WIKI_ARTICLE, API.LINK_WIKI_ARTICLE)
+        replaceLinkable(vText, API.LINK_SHORT_RUBRIC, API.LINK_RUBRIC)
 
         onReplace.invoke()
         makeTextHtml(vText)
@@ -442,6 +444,7 @@ object ControllerApi {
         makeLinkable(vText, API.LINK_SHORT_WIKI_FANDOM, API.LINK_WIKI_FANDOM)
         makeLinkable(vText, API.LINK_SHORT_WIKI_SECTION, API.LINK_WIKI_SECTION)
         makeLinkable(vText, API.LINK_SHORT_WIKI_ARTICLE, API.LINK_WIKI_ARTICLE)
+        makeLinkable(vText, API.LINK_SHORT_RUBRIC, API.LINK_RUBRIC)
         makeLinkable(vText, API.LINK_SHORT_STICKER, API.LINK_STICKER)
         makeLinkable(vText, API.LINK_SHORT_STICKERS_PACK, API.LINK_STICKERS_PACK)
         makeLinkable(vText, API.LINK_SHORT_EVENT, API.LINK_EVENT)

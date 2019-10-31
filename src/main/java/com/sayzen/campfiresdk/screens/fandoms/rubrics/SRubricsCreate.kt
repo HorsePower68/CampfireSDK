@@ -28,7 +28,7 @@ class SRubricsCreate constructor(
     init {
         vName.addTextChangedListener(TextWatcherChanged { updateFinishEnabled() })
         vUser.setOnClickListener {
-            Navigator.to(SAccountSearch(true) {
+            Navigator.to(SAccountSearch(true, true) {
                 ownerId = it.id
                 vUser.text = it.name
                 updateFinishEnabled()

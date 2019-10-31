@@ -826,6 +826,8 @@
     <string name="rubric_empty_other">У этого пользователя еще нет рубрик</string>
     <string name="rubric_loading">Загрузка спсика рубрик</string>
     <string name="rubric_creation">Создание рубрики</string>
+    <string name="rubric_change_owner">Изменить владельца</string>
+    <string name="rubric_posts_empty">В этой рубрики еще нет постов</string>
 
     <string name="about_privacy_policy">Политика конфиденциальности</string>
 

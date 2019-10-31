@@ -824,6 +824,8 @@ Campfire has anime fandoms and gaming fandoms.</string>
     <string name="rubric_empty_other">here are no rubrics on this user yet.</string>
     <string name="rubric_loading">Loading of rubrics list</string>
     <string name="rubric_creation">Rubric creation</string>
+    <string name="rubric_change_owner">Change owner</string>
+    <string name="rubric_posts_empty">There are no posts in this rubric yet.</string>
 
     <string name="about_privacy_policy">Privacy policy</string>
 

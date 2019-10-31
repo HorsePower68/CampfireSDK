@@ -26,7 +26,7 @@ class SRubricsList constructor(
     }
 
     init {
-        setTitle(R.string.app_rubric)
+        setTitle(R.string.app_rubrics)
         if(ownerId == 0L) setTextEmpty(R.string.rubric_empty)
         else if(ControllerApi.isCurrentAccount(ownerId) ) setTextEmpty(R.string.rubric_empty_my)
         else  setTextEmpty(R.string.rubric_empty_other)
@@ -42,6 +42,7 @@ class SRubricsList constructor(
     override fun instanceAdapter(): RecyclerCardAdapterLoading<CardRubric, Rubric> {
         return RecyclerCardAdapterLoading<CardRubric, Rubric>(CardRubric::class) {
             val card = CardRubric(it)
+            if(ownerId > 0) card.showFandom = true
             if(onSelected != null) card.onClick = {
                 onSelected.invoke(it)
                 Navigator.remove(this)

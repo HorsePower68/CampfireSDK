@@ -56,9 +56,9 @@ class SPostCreationTags private constructor(
             ApiRequestsSupporter.executeInterstitial(action, RTagsGetAll(fandomId, languageId)) { r -> SPostCreationTags(unitId, fandomId, languageId, closed, unitTag3, isMyUnit, presetTags, r.tags) }
         }
 
-        fun create(unitId: Long, tags: Array<Long>, notifyFollowers: Boolean, pendingTime: Long, closed: Boolean, onCreate: () -> Unit) {
+        fun create(unitId: Long, tags: Array<Long>, notifyFollowers: Boolean, pendingTime: Long, closed: Boolean, rubricId: Long, onCreate: () -> Unit) {
             SGoogleRules.acceptRulesDialog {
-                ApiRequestsSupporter.executeProgressDialog(RPostPublication(unitId, tags, "", notifyFollowers, pendingTime, closed)) { _ ->
+                ApiRequestsSupporter.executeProgressDialog(RPostPublication(unitId, tags, "", notifyFollowers, pendingTime, closed, rubricId)) { _ ->
                     EventBus.post(EventPostStatusChange(unitId, API.STATUS_PUBLIC))
                     onCreate.invoke()
                 }
@@ -160,7 +160,7 @@ class SPostCreationTags private constructor(
         val tags = Array(selectedTags.size) { selectedTags[it].id }
 
         if (isMyUnit) {
-            create(unitId, tags, vNotifyFollowers.isChecked, pendingDate, vClose.isChecked) {
+            create(unitId, tags, vNotifyFollowers.isChecked, pendingDate, vClose.isChecked, rubricId) {
                 Navigator.removeAll(SPostCreate::class)
                 if (pendingDate > 0) Navigator.replace(SPending())
                 else SPost.instance(unitId, 0, NavigationAction.replace())
@@ -172,7 +172,7 @@ class SPostCreationTags private constructor(
                     .setMin(API.MODERATION_COMMENT_MIN_L)
                     .setMax(API.MODERATION_COMMENT_MAX_L)
                     .setOnEnter(R.string.app_change) { w, comment ->
-                        ApiRequestsSupporter.executeEnabled(w, RPostPublication(unitId, tags, comment, false, 0, false)) {
+                        ApiRequestsSupporter.executeEnabled(w, RPostPublication(unitId, tags, comment, false, 0, false, 0)) {
                             Navigator.removeAll(SPostCreate::class)
                             EventBus.post(EventPostStatusChange(unitId, API.STATUS_PUBLIC))
                             SPost.instance(unitId, 0, NavigationAction.replace())
