@@ -16,6 +16,7 @@ import com.dzen.campfire.api.models.notifications.project.NotificationQuestFinis
 import com.dzen.campfire.api.models.notifications.project.NotificationQuestProgress
 import com.dzen.campfire.api.models.notifications.rubrics.NotificationRubricsChangeName
 import com.dzen.campfire.api.models.notifications.rubrics.NotificationRubricsChangeOwner
+import com.dzen.campfire.api.models.notifications.rubrics.NotificationRubricsKarmaCofChanged
 import com.dzen.campfire.api.models.notifications.rubrics.NotificationRubricsMakeOwner
 import com.dzen.campfire.api.models.notifications.rubrics.NotificationRubricsRemove
 import com.dzen.campfire.api.models.notifications.units.*
@@ -313,6 +314,7 @@ object ControllerNotifications {
             is NotificationUnitBlock -> NotificationUnitBlockParser(n)
             is NotificationUnitBlockAfterReport -> NotificationUnitBlockAfterReportParser(n)
             is NotificationKarmaAdd -> NotificationKarmaAddParser(n)
+            is NotificationUnitReaction -> NotificationUnitReactionParser(n)
             is NotificationUnitImportant -> NotificationUnitImportantParser(n)
             is NotificationModerationToDraft -> NotificationModerationToDraftParser(n)
             is NotificationModerationMultilingualNot -> NotificationModerationMultilingualNotParser(n)
@@ -337,6 +339,7 @@ object ControllerNotifications {
             is NotificationRubricsMakeOwner -> NotificationRubricsMakeOwnerParser(n)
             is NotificationRubricsChangeName -> NotificationRubricsChangeNameParser(n)
             is NotificationRubricsChangeOwner -> NotificationRubricsChangeOwnerParser(n)
+            is NotificationRubricsKarmaCofChanged -> NotificationRubricsKarmaCofChangedParser(n)
             is NotificationRubricsRemove -> NotificationRubricsRemoveParser(n)
             is NotificationUnitRestore -> NotificationUnitRestoreParser(n)
             is NotificationAdminPostFandomChange -> NotificationAdminPostFandomChangeParser(n)
@@ -360,8 +363,6 @@ object ControllerNotifications {
             executorNotification!!.doAction(n)
         }
 
-        abstract fun getIcon(): Int
-
     }
 
     private class NotificationCommentParser(override val n: NotificationComment) : Parser(n) {
@@ -376,8 +377,6 @@ object ControllerNotifications {
             else if (n.stickerId != 0L) ToolsResources.s(R.string.app_sticker)
             else ""
         }
-
-        override fun getIcon() = R.drawable.ic_mode_comment_white_18dp
 
         override fun getTitle(): String {
             var title = ""
@@ -427,9 +426,6 @@ object ControllerNotifications {
         )
         )
 
-        override fun getIcon() = R.drawable.ic_person_white_24dp
-
-
     }
 
     private class NotificationCommentAnswerParser(override val n: NotificationCommentAnswer) : Parser(n) {
@@ -442,8 +438,6 @@ object ControllerNotifications {
         else if (n.commentImageId != 0L || n.commentImagesIds.isNotEmpty()) ToolsResources.s(R.string.app_image)
         else if (n.stickerId != 0L) ToolsResources.s(R.string.app_sticker)
         else ""
-
-        override fun getIcon() = R.drawable.ic_mode_comment_white_18dp
 
         override fun getTitle() = ToolsResources.sCap(
                 R.string.notification_comments_answer, n.accountName, ToolsResources.sex(
@@ -497,8 +491,6 @@ object ControllerNotifications {
             }
         }
 
-        override fun getIcon() = 0
-
     }
 
     private class NotificationChatAnswerParser(override val n: NotificationChatAnswer) : Parser(n) {
@@ -516,8 +508,6 @@ object ControllerNotifications {
             else n.unitChatMessage.creatorName + ": " + n.unitChatMessage.text
         }
 
-        override fun getIcon() = R.drawable.ic_mode_comment_white_18dp
-
     }
 
     private class NotificationFollowsPublicationParser(override val n: NotificationFollowsPublication) : Parser(n) {
@@ -534,8 +524,6 @@ object ControllerNotifications {
         )
         )
 
-        override fun getIcon() = R.drawable.ic_person_white_24dp
-
     }
 
     private class NotificationFandomRemoveModeratorParser(override val n: NotificationFandomRemoveModerator) :
@@ -548,8 +536,6 @@ object ControllerNotifications {
         override fun asString(html: Boolean) =
                 ToolsResources.sCap(R.string.notifications_fandom_remove_moderator, n.fandomName)
 
-        override fun getIcon() = R.drawable.ic_security_white_24dp
-
     }
 
     private class NotificationFandomMakeModeratorParser(override val n: NotificationFandomMakeModerator) : Parser(n) {
@@ -560,8 +546,6 @@ object ControllerNotifications {
 
         override fun asString(html: Boolean) =
                 ToolsResources.sCap(R.string.notifications_fandom_make_moderator, n.fandomName)
-
-        override fun getIcon() = R.drawable.ic_security_white_24dp
 
     }
 
@@ -581,8 +565,6 @@ object ControllerNotifications {
             return text
         }
 
-        override fun getIcon() = R.drawable.ic_star_white_24dp
-
     }
 
     private class NotificationFandomAcceptedParser(override val n: NotificationFandomAccepted) : Parser(n) {
@@ -595,8 +577,6 @@ object ControllerNotifications {
             return if (n.accepted) ToolsResources.s(R.string.fandom_notification_accepted, n.fandomName)
             else ToolsResources.sCap(R.string.fandom_notification_rejected, n.fandomName, n.comment)
         }
-
-        override fun getIcon() = R.drawable.ic_security_white_24dp
 
     }
 
@@ -620,8 +600,6 @@ object ControllerNotifications {
             return ToolsResources.sCap(if (n.blockLastUnits) R.string.moderation_notification_publications_is_blocked else if (n.blockUnitType == API.UNIT_TYPE_REVIEW) R.string.moderation_notification_review_is_blocked else R.string.moderation_notification_publication_is_blocked)
         }
 
-        override fun getIcon() = R.drawable.ic_security_white_24dp
-
     }
 
     private class NotificationUnitBlockAfterReportParser(override val n: NotificationUnitBlockAfterReport) : Parser(n) {
@@ -644,8 +622,6 @@ object ControllerNotifications {
             return ToolsResources.sCap(R.string.moderation_notification_publication_is_blocked_by_report)
         }
 
-        override fun getIcon() = R.drawable.ic_security_white_24dp
-
     }
 
     private class NotificationKarmaAddParser(override val n: NotificationKarmaAdd) : Parser(n) {
@@ -655,42 +631,43 @@ object ControllerNotifications {
         }
 
         override fun asString(html: Boolean): String {
+            val name = if(n.accountId == 0L) ToolsResources.s(R.string.app_anonymous) else n.accountName
             val karmsS = if (!html) "" + (n.karmaCount / 100) else ToolsHTML.font_color(
                     "" + (n.karmaCount / 100),
                     if (n.karmaCount < 0) ToolsHTML.color_red else ToolsHTML.color_green
             )
             if (n.unitType == API.UNIT_TYPE_POST) return ToolsResources.sCap(
-                    R.string.notification_post_karma, n.accountName, ToolsResources.sex(
+                    R.string.notification_post_karma, name, ToolsResources.sex(
                     n.accountSex,
                     R.string.he_rate,
                     R.string.she_rate
             ), karmsS)
             if (n.unitType == API.UNIT_TYPE_COMMENT) return ToolsResources.sCap(
-                    R.string.notification_comments_karma, n.accountName, ToolsResources.sex(
+                    R.string.notification_comments_karma, name, ToolsResources.sex(
                     n.accountSex,
                     R.string.he_rate,
                     R.string.she_rate
             ), karmsS)
             if (n.unitType == API.UNIT_TYPE_MODERATION) return ToolsResources.sCap(
-                    R.string.notification_moderation_karma, n.accountName, ToolsResources.sex(
+                    R.string.notification_moderation_karma, name, ToolsResources.sex(
                     n.accountSex,
                     R.string.he_rate,
                     R.string.she_rate
             ), karmsS)
             if (n.unitType == API.UNIT_TYPE_REVIEW) return ToolsResources.sCap(
-                    R.string.notification_karma_review, n.accountName, ToolsResources.sex(
+                    R.string.notification_karma_review, name, ToolsResources.sex(
                     n.accountSex,
                     R.string.he_rate,
                     R.string.she_rate
             ), karmsS)
             if (n.unitType == API.UNIT_TYPE_FORUM) return ToolsResources.sCap(
-                    R.string.notification_karma_forum, n.accountName, ToolsResources.sex(
+                    R.string.notification_karma_forum, name, ToolsResources.sex(
                     n.accountSex,
                     R.string.he_rate,
                     R.string.she_rate
             ), karmsS)
             if (n.unitType == API.UNIT_TYPE_STICKERS_PACK) return ToolsResources.sCap(
-                    R.string.notification_karma_stickers_pack, n.accountName, ToolsResources.sex(
+                    R.string.notification_karma_stickers_pack, name, ToolsResources.sex(
                     n.accountSex,
                     R.string.he_rate,
                     R.string.she_rate
@@ -698,7 +675,23 @@ object ControllerNotifications {
             return ""
         }
 
-        override fun getIcon() = R.drawable.ic_favorite_white_24dp
+    }
+
+    private class NotificationUnitReactionParser(override val n: NotificationUnitReaction) : Parser(n) {
+
+        override fun post(icon: Int, intent: Intent, text: String, title: String, tag: String, sound: Boolean) {
+            (if (sound) chanelOther else chanelOther_salient).post(icon, getTitle(), text, intent, tag)
+        }
+
+        override fun asString(html: Boolean) = ""
+
+        override fun getTitle() = ToolsResources.sCap(
+                R.string.notification_reaction, n.accountName, ToolsResources.sex(
+                n.accountSex,
+                R.string.he_react,
+                R.string.she_react
+        )
+        )
 
     }
 
@@ -710,8 +703,6 @@ object ControllerNotifications {
 
         override fun asString(html: Boolean) =
                 ToolsResources.sCap(R.string.notifications_important_publication, n.fandomName)
-
-        override fun getIcon() = R.drawable.ic_star_white_24dp
 
     }
 
@@ -737,8 +728,6 @@ object ControllerNotifications {
             )
         }
 
-        override fun getIcon() = R.drawable.ic_security_white_24dp
-
     }
 
     private class NotificationModerationMultilingualNotParser(override val n: NotificationModerationMultilingualNot) : Parser(n) {
@@ -762,8 +751,6 @@ object ControllerNotifications {
             )
             )
         }
-
-        override fun getIcon() = R.drawable.ic_security_white_24dp
 
     }
 
@@ -789,8 +776,6 @@ object ControllerNotifications {
             )
         }
 
-        override fun getIcon() = R.drawable.ic_security_white_24dp
-
     }
 
     private class NotificationModerationPostClosedNoParser(override val n: NotificationModerationPostClosedNo) : Parser(n) {
@@ -814,8 +799,6 @@ object ControllerNotifications {
             )
             )
         }
-
-        override fun getIcon() = R.drawable.ic_security_white_24dp
 
     }
 
@@ -841,8 +824,6 @@ object ControllerNotifications {
             )
         }
 
-        override fun getIcon() = R.drawable.ic_security_white_24dp
-
     }
 
     private class NotificationBlockParser(override val n: NotificationAdminBlock) : Parser(n) {
@@ -866,8 +847,6 @@ object ControllerNotifications {
                 (ToolsResources.sCap(R.string.moderation_notification_warned))
             }
         }
-
-        override fun getIcon() = R.drawable.ic_security_white_24dp
 
     }
 
@@ -893,8 +872,6 @@ object ControllerNotifications {
             )
         }
 
-        override fun getIcon() = R.drawable.ic_security_white_24dp
-
     }
 
     private class NotificationPunishmentRemoveParser(override val n: NotificationPunishmentRemove) : Parser(n) {
@@ -911,8 +888,6 @@ object ControllerNotifications {
         )
         )
 
-        override fun getIcon() = R.drawable.ic_security_white_24dp
-
     }
 
     private class NotificationQuestProgressParser(override val n: NotificationQuestProgress) : Parser(n) {
@@ -922,8 +897,6 @@ object ControllerNotifications {
         }
 
         override fun asString(html: Boolean) = ""
-
-        override fun getIcon() = 0
 
     }
 
@@ -935,8 +908,6 @@ object ControllerNotifications {
 
         override fun asString(html: Boolean) = ""
 
-        override fun getIcon() = 0
-
     }
 
     private class NotificationChatMessageRemoveParser(override val n: NotificationChatMessageRemove) : Parser(n) {
@@ -946,8 +917,6 @@ object ControllerNotifications {
         }
 
         override fun asString(html: Boolean) = ""
-
-        override fun getIcon() = 0
 
     }
 
@@ -959,8 +928,6 @@ object ControllerNotifications {
 
         override fun asString(html: Boolean) = ""
 
-        override fun getIcon() = 0
-
     }
 
     private class NotificationChatTypingParser(override val n: NotificationChatTyping) : Parser(n) {
@@ -970,8 +937,6 @@ object ControllerNotifications {
         }
 
         override fun asString(html: Boolean) = ""
-
-        override fun getIcon() = 0
 
     }
 
@@ -983,8 +948,6 @@ object ControllerNotifications {
         }
 
         override fun asString(html: Boolean) = ""
-
-        override fun getIcon() = 0
 
     }
 
@@ -1008,8 +971,6 @@ object ControllerNotifications {
             )
             )
         }
-
-        override fun getIcon() = R.drawable.ic_security_white_24dp
 
     }
 
@@ -1035,8 +996,6 @@ object ControllerNotifications {
             )
         }
 
-        override fun getIcon() = R.drawable.ic_security_white_24dp
-
     }
 
     private class NotificationAdminLinkRemoveParser(override val n: NotificationAdminLinkRemove) : Parser(n) {
@@ -1059,8 +1018,6 @@ object ControllerNotifications {
             )
             )
         }
-
-        override fun getIcon() = R.drawable.ic_security_white_24dp
 
     }
 
@@ -1085,8 +1042,6 @@ object ControllerNotifications {
             )
         }
 
-        override fun getIcon() = R.drawable.ic_security_white_24dp
-
     }
 
     private class NotificationModerationRejectedParser(override val n: NotificationModerationRejected) : Parser(n) {
@@ -1110,8 +1065,6 @@ object ControllerNotifications {
             )
         }
 
-        override fun getIcon() = R.drawable.ic_security_white_24dp
-
     }
 
     private class NotificationQuestFinishParser(override val n: NotificationQuestFinish) : Parser(n) {
@@ -1128,51 +1081,82 @@ object ControllerNotifications {
             return ToolsResources.sCap(R.string.notification_quest_finish)
         }
 
-        override fun getIcon() = R.drawable.ic_security_white_24dp
-
     }
 
     private class NotificationRubricsMakeOwnerParser(override val n: NotificationRubricsMakeOwner) : Parser(n) {
-        override fun post(icon: Int, intent: Intent, text: String, title: String, tag: String, sound: Boolean) { (if (sound) chanelOther else chanelOther_salient).post(icon, getTitle(), text, intent, tag) }
+        override fun post(icon: Int, intent: Intent, text: String, title: String, tag: String, sound: Boolean) {
+            (if (sound) chanelOther else chanelOther_salient).post(icon, getTitle(), text, intent, tag)
+        }
+
         override fun asString(html: Boolean): String {
             val comment = if (!html) n.comment else ToolsHTML.i(n.comment)
             return if (ToolsText.empty(n.comment)) "" else ToolsResources.s(R.string.moderation_notification_moderator_comment) + " " + comment
         }
 
-        override fun getTitle(): String { return ToolsResources.sCap(R.string.notification_rubric_make_owner, n.adminName, ToolsResources.sex(n.adminSex, R.string.he_make, R.string.she_make), n.rubricName) }
-        override fun getIcon() = R.drawable.ic_security_white_24dp
+        override fun getTitle(): String {
+            return ToolsResources.sCap(R.string.notification_rubric_make_owner, n.adminName, ToolsResources.sex(n.adminSex, R.string.he_make, R.string.she_make), n.rubricName)
+        }
     }
 
     private class NotificationRubricsChangeNameParser(override val n: NotificationRubricsChangeName) : Parser(n) {
-        override fun post(icon: Int, intent: Intent, text: String, title: String, tag: String, sound: Boolean) { (if (sound) chanelOther else chanelOther_salient).post(icon, getTitle(), text, intent, tag) }
+        override fun post(icon: Int, intent: Intent, text: String, title: String, tag: String, sound: Boolean) {
+            (if (sound) chanelOther else chanelOther_salient).post(icon, getTitle(), text, intent, tag)
+        }
+
         override fun asString(html: Boolean): String {
             val comment = if (!html) n.comment else ToolsHTML.i(n.comment)
             return if (ToolsText.empty(n.comment)) "" else ToolsResources.s(R.string.moderation_notification_moderator_comment) + " " + comment
         }
 
-        override fun getTitle(): String { return ToolsResources.sCap(R.string.notification_rubric_change_name, n.adminName, ToolsResources.sex(n.adminSex, R.string.he_changed, R.string.she_changed), n.rubricOldName, n.rubricNewName) }
-        override fun getIcon() = R.drawable.ic_security_white_24dp
+        override fun getTitle(): String {
+            return ToolsResources.sCap(R.string.notification_rubric_change_name, n.adminName, ToolsResources.sex(n.adminSex, R.string.he_changed, R.string.she_changed), n.rubricOldName, n.rubricNewName)
+        }
     }
 
     private class NotificationRubricsChangeOwnerParser(override val n: NotificationRubricsChangeOwner) : Parser(n) {
-        override fun post(icon: Int, intent: Intent, text: String, title: String, tag: String, sound: Boolean) { (if (sound) chanelOther else chanelOther_salient).post(icon, getTitle(), text, intent, tag) }
+        override fun post(icon: Int, intent: Intent, text: String, title: String, tag: String, sound: Boolean) {
+            (if (sound) chanelOther else chanelOther_salient).post(icon, getTitle(), text, intent, tag)
+        }
+
         override fun asString(html: Boolean): String {
             val comment = if (!html) n.comment else ToolsHTML.i(n.comment)
             return if (ToolsText.empty(n.comment)) "" else ToolsResources.s(R.string.moderation_notification_moderator_comment) + " " + comment
         }
 
-        override fun getTitle(): String { return ToolsResources.sCap(R.string.notification_rubric_change_owner, n.adminName, ToolsResources.sex(n.adminSex, R.string.he_changed, R.string.she_changed), n.rubricName, n.newOwnerName) }
-        override fun getIcon() = R.drawable.ic_security_white_24dp
+        override fun getTitle(): String {
+            return ToolsResources.sCap(R.string.notification_rubric_change_owner, n.rubricName, ToolsResources.sex(n.adminSex, R.string.he_changed, R.string.she_changed), n.rubricName, n.newOwnerName)
+        }
+    }
+
+    private class NotificationRubricsKarmaCofChangedParser(override val n: NotificationRubricsKarmaCofChanged) : Parser(n) {
+        override fun post(icon: Int, intent: Intent, text: String, title: String, tag: String, sound: Boolean) {
+            (if (sound) chanelOther else chanelOther_salient).post(icon, getTitle(), text, intent, tag)
+        }
+
+        override fun asString(html: Boolean): String {
+            val text_cof = if (!html) ToolsText.numToStringRound(n.cofChange / 100.0, 2) else "{" + (if (n.cofChange < 0) "red " else "green ") + ToolsText.numToStringRound(n.cofChange / 100.0, 2) + "}"
+            val text_value = if (!html) ToolsText.numToStringRound(n.newCof / 100.0, 2) else "{" + (if (n.newCof < 0) "red " else "green ") + ToolsText.numToStringRound(n.newCof / 100.0, 2) + "}"
+            return ToolsResources.s(R.string.notification_rubric_cof_text, text_cof, text_value)
+        }
+
+        override fun getTitle(): String {
+            return ToolsResources.sCap(R.string.notification_rubric_cof_title, n.rubricName)
+        }
     }
 
     private class NotificationRubricsRemoveParser(override val n: NotificationRubricsRemove) : Parser(n) {
-        override fun post(icon: Int, intent: Intent, text: String, title: String, tag: String, sound: Boolean) { (if (sound) chanelOther else chanelOther_salient).post(icon, getTitle(), text, intent, tag) }
+        override fun post(icon: Int, intent: Intent, text: String, title: String, tag: String, sound: Boolean) {
+            (if (sound) chanelOther else chanelOther_salient).post(icon, getTitle(), text, intent, tag)
+        }
+
         override fun asString(html: Boolean): String {
             val comment = if (!html) n.comment else ToolsHTML.i(n.comment)
             return if (ToolsText.empty(n.comment)) "" else ToolsResources.s(R.string.moderation_notification_moderator_comment) + " " + comment
         }
-        override fun getTitle(): String { return ToolsResources.sCap(R.string.notification_rubric_remove, n.adminName, ToolsResources.sex(n.adminSex, R.string.he_remove, R.string.she_remove), n.rubricName) }
-        override fun getIcon() = R.drawable.ic_security_white_24dp
+
+        override fun getTitle(): String {
+            return ToolsResources.sCap(R.string.notification_rubric_remove, n.adminName, ToolsResources.sex(n.adminSex, R.string.he_remove, R.string.she_remove), n.rubricName)
+        }
     }
 
     private class NotificationUnitRestoreParser(override val n: NotificationUnitRestore) : Parser(n) {
@@ -1189,8 +1173,6 @@ object ControllerNotifications {
         override fun getTitle(): String {
             return ToolsResources.sCap(R.string.notification_admin_moderation_restore)
         }
-
-        override fun getIcon() = R.drawable.ic_security_white_24dp
 
     }
 
@@ -1216,8 +1198,6 @@ object ControllerNotifications {
             )
         }
 
-        override fun getIcon() = R.drawable.ic_security_white_24dp
-
     }
 
     private class NotificationMentionParser(override val n: NotificationMention) : Parser(n) {
@@ -1230,8 +1210,6 @@ object ControllerNotifications {
 
         override fun getTitle() = ToolsResources.sCap(R.string.notification_mention, n.fromAccountName, ToolsResources.sex(n.fromAccountSex, R.string.he_mentioned, R.string.she_mentioned))
 
-        override fun getIcon() = R.drawable.ic_person_white_24dp
-
     }
 
     private class NotificationUnknownParserParser(override val n: Notification) : Parser(n) {
@@ -1243,8 +1221,6 @@ object ControllerNotifications {
         override fun asString(html: Boolean) = ""
 
         override fun getTitle() = ""
-
-        override fun getIcon() = R.drawable.ic_clear_white_24dp
 
     }
 

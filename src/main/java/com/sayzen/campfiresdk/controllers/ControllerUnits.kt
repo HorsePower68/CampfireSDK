@@ -442,8 +442,6 @@ object ControllerUnits {
             is ModerationPostCloseNo -> {
                 text = ToolsResources.sCap(R.string.moderation_post_close_no, ToolsResources.sex(unit.creatorSex, R.string.he_open, R.string.she_open), ControllerApi.linkToPost(m.postId))
             }
-
-
             is ModerationRubricChangeName -> {
                 text = ToolsResources.sCap(R.string.moderation_rubric_change_name, ToolsResources.sex(unit.creatorSex, R.string.he_changed, R.string.she_changed), m.rubricOldName, m.rubricNewName)
             }
@@ -454,7 +452,7 @@ object ControllerUnits {
                 text = ToolsResources.sCap(R.string.moderation_rubric_crete, ToolsResources.sex(unit.creatorSex, R.string.he_created, R.string.she_created), m.rubricName, ToolsResources.sex(unit.creatorSex, R.string.he_assign, R.string.she_assign), m.ownerName)
             }
             is ModerationRubricRemove -> {
-                   text = ToolsResources.sCap(R.string.moderation_rubric_remove, ToolsResources.sex(unit.creatorSex, R.string.he_remove, R.string.she_remove), m.rubricName)
+                text = ToolsResources.sCap(R.string.moderation_rubric_remove, ToolsResources.sex(unit.creatorSex, R.string.he_remove, R.string.she_remove), m.rubricName)
             }
 
 
@@ -478,9 +476,6 @@ object ControllerUnits {
             is ModerationRubricCreate -> {
                 ToolsView.addLink(vText, m.rubricName) { SRubricPosts.instance(m.rubricId, Navigator.TO) }
                 ToolsView.addLink(vText, m.ownerName) { SAccount.instance(m.ownerId, Navigator.TO) }
-            }
-            is ModerationRubricRemove -> {
-                ToolsView.addLink(vText, m.rubricName) { SRubricPosts.instance(m.rubricId, Navigator.TO) }
             }
         }
     }

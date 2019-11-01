@@ -1,7 +1,5 @@
 package com.sayzen.campfiresdk.models.events.rubrics
 
-import com.dzen.campfire.api.models.fandoms.Rubric
-
 class EventRubricChangeOwner(
         val rubricId: Long,
         val ownerId: Long,

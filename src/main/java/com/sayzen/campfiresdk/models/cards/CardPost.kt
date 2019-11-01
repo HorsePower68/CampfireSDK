@@ -254,7 +254,7 @@ class CardPost constructor(
         if (unit.rubricId > 0) {
             vAvatar.vSubtitle.text = vAvatar.getSubTitle() + "  " + unit.rubricName
             ToolsView.addLink(vAvatar.vSubtitle, unit.rubricName) {
-                Navigator.to(SRubricPosts(unit.rubricId, unit.rubricName))
+                SRubricPosts.instance(unit.rubricId, Navigator.TO)
             }
         }
 

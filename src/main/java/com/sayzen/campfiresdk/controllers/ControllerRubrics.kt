@@ -24,7 +24,7 @@ object ControllerRubrics {
             .groupCondition(ControllerApi.can(rubric.fandomId, rubric.languageId, API.LVL_MODERATOR_RUBRIC))
             .add(R.string.app_change_naming) { _, _ -> edit(rubric) }.backgroundRes(R.color.blue_700).textColorRes(R.color.white)
             .add(R.string.app_remove) { _, _ -> removeRubric(rubric) }.backgroundRes(R.color.blue_700).textColorRes(R.color.white)
-            .add(R.string.rubric_change_owner) { _, _ -> changeOwner(rubric) }.condition(!ControllerApi.isCurrentAccount(rubric.ownerId)).backgroundRes(R.color.blue_700).textColorRes(R.color.white)
+            .add(R.string.rubric_change_owner) { _, _ -> changeOwner(rubric) }.backgroundRes(R.color.blue_700).textColorRes(R.color.white)
 
 
     private fun edit(rubric: Rubric) {

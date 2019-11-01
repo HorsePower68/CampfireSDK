@@ -41,6 +41,11 @@ class CardRateText(
     override fun onBind(vAvatar: ViewAvatarTitle) {
         xAccount.setView(vAvatar)
         vAvatar.setSubtitle(ToolsDate.dateToString(rate.date))
+
+        if(rate.accountId == 0L){
+            vAvatar.setTitle(R.string.rate_anon)
+            vAvatar.vAvatar.setImage(R.drawable.image_512x512)
+        }
     }
 
     override fun notifyItem() {

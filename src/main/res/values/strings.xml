@@ -198,6 +198,7 @@
     <string name="app_collection">Collection</string>
     <string name="app_reaction">Reaction</string>
     <string name="app_change_naming">Change name</string>
+    <string name="app_anonymous">Anonymous</string>
 
     <string name="he">He</string>
     <string name="she">She</string>
@@ -267,6 +268,8 @@
     <string name="she_reenter">Enter</string>
     <string name="he_assign">assign</string>
     <string name="she_assign">assign</string>
+    <string name="he_react">react</string>
+    <string name="she_react">react</string>
 
     <string name="filter_events">Events</string>
     <string name="filter_posts">Posts</string>
@@ -316,6 +319,7 @@
     <string name="notification_karma_stickers_pack">%s %s your stickers pack %s</string>
     <string name="notification_profile_follows_add">%s %s to you</string>
     <string name="notification_comments_answer">%s %s to your comment</string>
+    <string name="notification_reaction">%s %s to your comment</string>
     <string name="notification_chat_many">%s %s %s in chat</string>
     <string name="notification_chat_private_many">%s %s private %s</string>
     <string name="notification_comments_karma">%s %s  your comment for %s</string>
@@ -331,7 +335,9 @@
     <string name="notification_rubric_change_name">%s %s name of rubric from %s to %s</string>
     <string name="notification_rubric_change_owner">%s %s owner of rubric %s to %s</string>
     <string name="notification_rubric_make_owner">%s %s you owner of rubric %s</string>
-    <string name="notification_rubric_remove">>%s %s rubric %s</string>
+    <string name="notification_rubric_remove">%s %s rubric %s</string>
+    <string name="notification_rubric_cof_title">Coefficient of rubric %s was updated</string>
+    <string name="notification_rubric_cof_text">Coefficient was changed with %s, now is %s.</string>
 
     <string name="message_close_app">Close the app?</string>
     <string name="message_publication_rules">Using this application, you confirm that you are already 13 years old and you read %s. Any publications must meet all of %s and %s</string>
@@ -419,7 +425,7 @@
     <string name="moderation_rubric_change_name">%s name of rubric from %s to %s</string>
     <string name="moderation_rubric_change_owner">%s owner of rubric %s from %s to %s</string>
     <string name="moderation_rubric_crete">%s rubric %s and %s owner %s</string>
-    <string name="moderation_rubric_remove">>%s rubric %s</string>
+    <string name="moderation_rubric_remove">%s rubric %s</string>
 
     <string name="administration_fandoms_empty">No suggested fandoms yet</string>
 
@@ -572,6 +578,8 @@
     <string name="chat_create_allow_invites">Allow users to invite another users to chat</string>
     <string name="chat_create_allow_edit">Allow users to edit chat</string>
     <string name="chat_member_label_leave">%s chat</string>
+
+    <string name="rate_anon">Anonymous rate</string>
 
     <string name="comment_remove_confirm">Remove this comment?</string>
     <string name="comment_report_confirm">Report this comment?</string>
@@ -879,6 +887,7 @@
     <string name="settings_black_list">Black list</string>
     <string name="settings_fandom_background">Show background in chats</string>
     <string name="settings_language">Language</string>
+    <string name="settings_anon_rate">Rate anonymously</string>
     <string name="settings_actions">Actions</string>
     <string name="settings_rate">Rate application</string>
     <string name="settings_start_screen">Start screen</string>

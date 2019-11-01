@@ -220,6 +220,13 @@ object ControllerSettings {
             accountSettings.rulesIsShowed = b
         }
 
+    var anonRates: Boolean
+        get() = accountSettings.anonRates
+        set(b) {
+            if (b != accountSettings.anonRates) onSettingsUpdated()
+            accountSettings.anonRates = b
+        }
+
     var viewedForums: Array<Long>
         get() = accountSettings.viewedForums
         set(b) {

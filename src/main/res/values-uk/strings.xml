@@ -198,6 +198,7 @@
     <string name="app_collection">Коллекция</string>
     <string name="app_reaction">Реакция</string>
     <string name="app_change_naming">Изменить название</string>
+    <string name="app_anonymous">Аноним</string>
 
     <string name="he">Он</string>
     <string name="she">Она</string>
@@ -267,6 +268,8 @@
     <string name="she_reenter">вернулась</string>
     <string name="he_assign">назначил</string>
     <string name="she_assign">назначила</string>
+    <string name="he_react">отреагировал</string>
+    <string name="she_react">отреагировала</string>
 
     <string name="filter_events">События</string>
     <string name="filter_posts">Посты</string>
@@ -316,6 +319,7 @@
     <string name="notification_karma_stickers_pack">%s %s ваш набор стикеров на %s</string>
     <string name="notification_profile_follows_add">%s %s на вас</string>
     <string name="notification_comments_answer">%s %s на ваш комментарий</string>
+    <string name="notification_reaction">%s %s на ваш комментарий</string>
     <string name="notification_chat_many">%s %s %s в чате</string>
     <string name="notification_chat_private_many">%s %s %s %s</string>
     <string name="notification_comments_karma">%s %s ваш комментарий на %s</string>
@@ -331,7 +335,9 @@
     <string name="notification_rubric_change_name">%s %s название рубрики с %s на %s</string>
     <string name="notification_rubric_change_owner">%s %s владельца рубрики %s на %s</string>
     <string name="notification_rubric_make_owner">%s %s вас владельцем рубрики %s</string>
-    <string name="notification_rubric_remove">>%s %s рубрику %s</string>
+    <string name="notification_rubric_remove">%s %s рубрику %s</string>
+    <string name="notification_rubric_cof_title">Коэффициент рубрики %s обновлён</string>
+    <string name="notification_rubric_cof_text">Коэффициент изменился на %s, теперь он равен %s.</string>
 
     <string name="message_close_app">Закрыть приложение?</string>
     <string name="message_publication_rules">Используя данное приложение, вы подтверждаете что вам уже исполнилось 13 лет и вы ознакомлены с %s. Любые публикации должны соответстовать %s и %s</string>
@@ -421,7 +427,7 @@
     <string name="moderation_rubric_change_name">%s название рубрики с %s на %s</string>
     <string name="moderation_rubric_change_owner">%s владельца рубрики %s с %s на %s</string>
     <string name="moderation_rubric_crete">%s рубрику %s и s владельца %s</string>
-    <string name="moderation_rubric_remove">>%s рубрику %s</string>
+    <string name="moderation_rubric_remove">%s рубрику %s</string>
 
     <string name="administration_fandoms_empty">Никто не предлагал новые фэндомы</string>
 
@@ -567,6 +573,8 @@
     <string name="chat_create_allow_invites">Разрешить участникам приглашать пользователей в чат</string>
     <string name="chat_create_allow_edit">Разрешить участникам редактировать чат</string>
     <string name="chat_member_label_leave">%s чат</string>
+
+    <string name="rate_anon">Анонимная оценка</string>
 
     <string name="comment_remove_confirm">Удалить этот комментарий?</string>
     <string name="comment_report_confirm">Пожаловаться на этот комментарий?</string>
@@ -875,6 +883,7 @@
     <string name="settings_black_list">Черный список</string>
     <string name="settings_fandom_background">Отображать фон в чатах</string>
     <string name="settings_language">Язык</string>
+    <string name="settings_anon_rate">Ставить оценки анонимно</string>
     <string name="settings_actions">Действия</string>
     <string name="settings_rate">Оценить приложение</string>
     <string name="settings_start_screen">Стартовый экран</string>

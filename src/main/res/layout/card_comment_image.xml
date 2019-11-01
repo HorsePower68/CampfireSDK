@@ -170,7 +170,7 @@
                     android:layout_gravity="left|top"
                     android:orientation="horizontal"
                     android:layout_marginRight="100dp"
-                    android:layout_marginLeft="8dp"
+                    android:layout_marginLeft="12dp"
                     android:layout_marginTop="8dp"
                     app:LayoutFlow_horizontal="2dp"
                     app:LayoutFlow_vertical="2dp" />
