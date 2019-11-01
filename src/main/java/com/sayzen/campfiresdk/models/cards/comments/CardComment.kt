@@ -8,9 +8,9 @@ import android.view.ViewGroup
 import android.widget.TextView
 import com.dzen.campfire.api.API
 import com.dzen.campfire.api.models.UnitComment
-import com.dzen.campfire.api.models.notifications.NotificationComment
-import com.dzen.campfire.api.models.notifications.NotificationCommentAnswer
-import com.dzen.campfire.api.models.notifications.NotificationMention
+import com.dzen.campfire.api.models.notifications.comments.NotificationComment
+import com.dzen.campfire.api.models.notifications.comments.NotificationCommentAnswer
+import com.dzen.campfire.api.models.notifications.units.NotificationMention
 import com.dzen.campfire.api.requests.comments.RCommentReactionAdd
 import com.dzen.campfire.api.requests.comments.RCommentReactionRemove
 import com.sayzen.campfiresdk.R

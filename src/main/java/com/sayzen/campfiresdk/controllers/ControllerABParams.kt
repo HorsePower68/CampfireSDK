@@ -1,6 +1,6 @@
 package com.sayzen.campfiresdk.controllers
 
-import com.dzen.campfire.api.models.notifications.NotificationProjectABParamsChanged
+import com.dzen.campfire.api.models.notifications.project.NotificationProjectABParamsChanged
 import com.sayzen.campfiresdk.models.events.notifications.EventNotification
 import com.sup.dev.java.libs.eventBus.EventBus
 import com.sup.dev.java.libs.json.Json

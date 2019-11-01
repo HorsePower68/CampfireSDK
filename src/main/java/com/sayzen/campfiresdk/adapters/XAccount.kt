@@ -8,8 +8,8 @@ import com.dzen.campfire.api.models.EventUnitInstance
 import com.dzen.campfire.api.models.account.Account
 import com.dzen.campfire.api.models.lvl.LvlInfoAdmin
 import com.dzen.campfire.api.models.lvl.LvlInfoUser
-import com.dzen.campfire.api.models.notifications.NotificationChatTyping
-import com.dzen.campfire.api.models.notifications.NotificationProjectABParamsChanged
+import com.dzen.campfire.api.models.notifications.chat.NotificationChatTyping
+import com.dzen.campfire.api.models.notifications.project.NotificationProjectABParamsChanged
 import com.sayzen.campfiresdk.R
 import com.sayzen.campfiresdk.controllers.ControllerApi
 import com.sayzen.campfiresdk.controllers.ControllerCampfireSDK

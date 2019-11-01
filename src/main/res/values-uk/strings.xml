@@ -197,6 +197,7 @@
     <string name="app_feed_all">Бездна</string>
     <string name="app_collection">Коллекция</string>
     <string name="app_reaction">Реакция</string>
+    <string name="app_change_naming">Изменить название</string>
 
     <string name="he">Он</string>
     <string name="she">Она</string>
@@ -264,6 +265,8 @@
     <string name="she_leave">покинула</string>
     <string name="he_reenter">вернулся</string>
     <string name="she_reenter">вернулась</string>
+    <string name="he_assign">назначил</string>
+    <string name="she_assign">назначила</string>
 
     <string name="filter_events">События</string>
     <string name="filter_posts">Посты</string>
@@ -325,6 +328,10 @@
     <string name="notification_admin_post_fandom_change">Администартор %s %s ваш пост из фэндома %s в %s</string>
     <string name="notification_mention">%s %s вас</string>
     <string name="notification_quest_finish">Ежедневное задание завершено</string>
+    <string name="notification_rubric_change_name">%s %s название рубрики с %s на %s</string>
+    <string name="notification_rubric_change_owner">%s %s владельца рубрики %s на %s</string>
+    <string name="notification_rubric_make_owner">%s %s вас владельцем рубрики %s</string>
+    <string name="notification_rubric_remove">>%s %s рубрику %s</string>
 
     <string name="message_close_app">Закрыть приложение?</string>
     <string name="message_publication_rules">Используя данное приложение, вы подтверждаете что вам уже исполнилось 13 лет и вы ознакомлены с %s. Любые публикации должны соответстовать %s и %s</string>
@@ -411,6 +418,10 @@
     <string name="moderation_checked_empty">Не проверено</string>
     <string name="moderation_checked_no">Отклонено %s</string>
     <string name="moderation_checked_yes">Подтверждено %s</string>
+    <string name="moderation_rubric_change_name">%s название рубрики с %s на %s</string>
+    <string name="moderation_rubric_change_owner">%s владельца рубрики %s с %s на %s</string>
+    <string name="moderation_rubric_crete">%s рубрику %s и s владельца %s</string>
+    <string name="moderation_rubric_remove">>%s рубрику %s</string>
 
     <string name="administration_fandoms_empty">Никто не предлагал новые фэндомы</string>
 

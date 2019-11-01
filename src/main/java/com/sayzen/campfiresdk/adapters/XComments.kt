@@ -2,8 +2,8 @@ package com.sayzen.campfiresdk.adapters
 
 import android.widget.TextView
 import com.dzen.campfire.api.models.EventUnitInstance
-import com.dzen.campfire.api.models.notifications.NotificationComment
-import com.dzen.campfire.api.models.notifications.NotificationCommentAnswer
+import com.dzen.campfire.api.models.notifications.comments.NotificationComment
+import com.dzen.campfire.api.models.notifications.comments.NotificationCommentAnswer
 import com.dzen.campfire.api.models.units.Unit
 import com.sayzen.campfiresdk.models.events.notifications.EventNotification
 import com.sayzen.campfiresdk.models.events.units.EventCommentAdd

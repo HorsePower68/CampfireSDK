@@ -4,8 +4,8 @@ import android.text.TextUtils
 import android.view.View
 import android.widget.TextView
 import com.dzen.campfire.api.API
-import com.dzen.campfire.api.models.notifications.NotificationChatAnswer
-import com.dzen.campfire.api.models.notifications.NotificationChatMessage
+import com.dzen.campfire.api.models.notifications.chat.NotificationChatAnswer
+import com.dzen.campfire.api.models.notifications.chat.NotificationChatMessage
 import com.dzen.campfire.api.models.units.chat.UnitChat
 import com.dzen.campfire.api.models.units.chat.UnitChatMessage
 import com.sayzen.campfiresdk.R

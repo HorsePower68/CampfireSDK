@@ -7,9 +7,9 @@ import android.widget.FrameLayout
 import android.widget.LinearLayout
 import android.widget.TextView
 import com.dzen.campfire.api.API
-import com.dzen.campfire.api.models.notifications.NotificationChatMessageChange
-import com.dzen.campfire.api.models.notifications.NotificationChatMessageRemove
-import com.dzen.campfire.api.models.notifications.NotificationMention
+import com.dzen.campfire.api.models.notifications.chat.NotificationChatMessageChange
+import com.dzen.campfire.api.models.notifications.chat.NotificationChatMessageRemove
+import com.dzen.campfire.api.models.notifications.units.NotificationMention
 import com.dzen.campfire.api.models.units.chat.UnitChatMessage
 import com.google.android.material.card.MaterialCardView
 import com.sayzen.campfiresdk.R

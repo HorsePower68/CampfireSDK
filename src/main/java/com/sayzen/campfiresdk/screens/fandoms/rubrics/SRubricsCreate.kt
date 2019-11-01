@@ -3,11 +3,11 @@ package com.sayzen.campfiresdk.screens.fandoms.rubrics
 import android.widget.Button
 import android.widget.EditText
 import com.dzen.campfire.api.API
-import com.dzen.campfire.api.requests.rubrics.RRubricsCreate
+import com.dzen.campfire.api.requests.rubrics.RRubricsModerCreate
 import com.sayzen.campfiresdk.R
-import com.sayzen.campfiresdk.models.rubrics.EventRubricCreate
+import com.sayzen.campfiresdk.controllers.ControllerApi
+import com.sayzen.campfiresdk.models.events.rubrics.EventRubricCreate
 import com.sayzen.campfiresdk.screens.account.search.SAccountSearch
-import com.sup.dev.android.libs.api_simple.ApiRequestsSupporter
 import com.sup.dev.android.libs.screens.Screen
 import com.sup.dev.android.libs.screens.navigator.Navigator
 import com.sup.dev.android.tools.ToolsToast
@@ -46,11 +46,13 @@ class SRubricsCreate constructor(
 
     private fun create() {
         val name = vName.text.toString()
-        ApiRequestsSupporter.executeProgressDialog(RRubricsCreate(fandomId, languageId, name, ownerId)) { r ->
-            EventBus.post(EventRubricCreate(r.rubric))
-            Navigator.remove(this)
-            ToolsToast.show(R.string.app_done)
-        }
+
+        ControllerApi.moderation(R.string.rubric_creation, R.string.app_create, { RRubricsModerCreate(fandomId, languageId, name, ownerId, it) },
+                { r ->
+                    EventBus.post(EventRubricCreate(r.rubric))
+                    Navigator.remove(this)
+                    ToolsToast.show(R.string.app_done)
+                })
     }
 
 }

@@ -197,6 +197,7 @@
     <string name="app_feed_all">Anything</string>
     <string name="app_collection">Collection</string>
     <string name="app_reaction">Reaction</string>
+    <string name="app_change_naming">Change name</string>
 
     <string name="he">He</string>
     <string name="she">She</string>
@@ -264,6 +265,8 @@
     <string name="she_leave">leave</string>
     <string name="he_reenter">Enter</string>
     <string name="she_reenter">Enter</string>
+    <string name="he_assign">assign</string>
+    <string name="she_assign">assign</string>
 
     <string name="filter_events">Events</string>
     <string name="filter_posts">Posts</string>
@@ -325,6 +328,10 @@
     <string name="notification_admin_post_fandom_change">Administrator %s %s your post from fandom %s to %s</string>
     <string name="notification_mention">%s %s you</string>
     <string name="notification_quest_finish">Daily quest completed</string>
+    <string name="notification_rubric_change_name">%s %s name of rubric from %s to %s</string>
+    <string name="notification_rubric_change_owner">%s %s owner of rubric %s to %s</string>
+    <string name="notification_rubric_make_owner">%s %s you owner of rubric %s</string>
+    <string name="notification_rubric_remove">>%s %s rubric %s</string>
 
     <string name="message_close_app">Close the app?</string>
     <string name="message_publication_rules">Using this application, you confirm that you are already 13 years old and you read %s. Any publications must meet all of %s and %s</string>
@@ -409,6 +416,10 @@
     <string name="moderation_checked_empty">Not verified</string>
     <string name="moderation_checked_no">Rejected %s</string>
     <string name="moderation_checked_yes">Confirmed %s</string>
+    <string name="moderation_rubric_change_name">%s name of rubric from %s to %s</string>
+    <string name="moderation_rubric_change_owner">%s owner of rubric %s from %s to %s</string>
+    <string name="moderation_rubric_crete">%s rubric %s and %s owner %s</string>
+    <string name="moderation_rubric_remove">>%s rubric %s</string>
 
     <string name="administration_fandoms_empty">No suggested fandoms yet</string>
 

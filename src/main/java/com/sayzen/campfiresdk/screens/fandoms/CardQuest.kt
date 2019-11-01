@@ -3,7 +3,7 @@ package com.sayzen.campfiresdk.screens.fandoms
 import android.view.View
 import android.widget.Button
 import android.widget.TextView
-import com.dzen.campfire.api.models.notifications.NotificationQuestProgress
+import com.dzen.campfire.api.models.notifications.project.NotificationQuestProgress
 import com.dzen.campfire.api.requests.achievements.RAchievementsQuestInfo
 import com.sayzen.campfiresdk.R
 import com.sayzen.campfiresdk.app.CampfireConstants

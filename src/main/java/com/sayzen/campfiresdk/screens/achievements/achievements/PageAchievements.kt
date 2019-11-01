@@ -3,8 +3,7 @@ package com.sayzen.campfiresdk.screens.achievements.achievements
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import android.view.View
-import com.dzen.campfire.api.API
-import com.dzen.campfire.api.models.notifications.NotificationAchievement
+import com.dzen.campfire.api.models.notifications.account.NotificationAchievement
 import com.dzen.campfire.api.requests.achievements.RAchievementsInfo
 import com.dzen.campfire.api.requests.achievements.RAchievementsPack
 import com.sayzen.campfiresdk.R

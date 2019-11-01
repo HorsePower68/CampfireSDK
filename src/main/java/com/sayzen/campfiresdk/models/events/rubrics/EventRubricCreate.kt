@@ -1,4 +1,4 @@
-package com.sayzen.campfiresdk.models.rubrics
+package com.sayzen.campfiresdk.models.events.rubrics
 
 import com.dzen.campfire.api.models.fandoms.Rubric
 

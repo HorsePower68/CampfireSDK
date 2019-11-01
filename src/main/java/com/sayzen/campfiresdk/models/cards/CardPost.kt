@@ -1,9 +1,6 @@
 package com.sayzen.campfiresdk.models.cards
 
 import android.annotation.SuppressLint
-import android.text.Spannable
-import android.text.Spanned
-import android.text.style.ClickableSpan
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
@@ -29,7 +26,6 @@ import com.sup.dev.android.tools.ToolsView
 import com.sup.dev.android.views.views.ViewAvatarTitle
 import com.sup.dev.android.views.views.ViewChipMini
 import com.sup.dev.android.views.views.layouts.LayoutMaxSizes
-import com.sup.dev.java.libs.debug.log
 import com.sup.dev.java.libs.eventBus.EventBus
 import com.sup.dev.java.tools.ToolsDate
 import com.sup.dev.java.tools.ToolsText
@@ -257,7 +253,7 @@ class CardPost constructor(
         if (unit.status == API.STATUS_PENDING) vAvatar.setSubtitle(ToolsDate.dateToString(unit.tag_4))
         if (unit.rubricId > 0) {
             vAvatar.vSubtitle.text = vAvatar.getSubTitle() + "  " + unit.rubricName
-            ToolsView.setLink(vAvatar.vSubtitle, unit.rubricName) {
+            ToolsView.addLink(vAvatar.vSubtitle, unit.rubricName) {
                 Navigator.to(SRubricPosts(unit.rubricId, unit.rubricName))
             }
         }

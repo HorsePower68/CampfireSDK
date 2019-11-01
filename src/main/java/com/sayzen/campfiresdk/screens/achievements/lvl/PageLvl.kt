@@ -5,7 +5,7 @@ import androidx.recyclerview.widget.RecyclerView
 import android.view.View
 
 import com.dzen.campfire.api.API
-import com.dzen.campfire.api.models.notifications.NotificationAchievement
+import com.dzen.campfire.api.models.notifications.account.NotificationAchievement
 import com.sayzen.campfiresdk.R
 import com.sayzen.campfiresdk.screens.achievements.CardInfo
 import com.sayzen.campfiresdk.screens.achievements.achievements.CardAchievement

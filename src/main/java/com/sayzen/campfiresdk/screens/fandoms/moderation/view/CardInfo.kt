@@ -2,9 +2,9 @@ package com.sayzen.campfiresdk.screens.fandoms.moderation.view
 
 import android.view.View
 import android.widget.TextView
-import com.dzen.campfire.api.models.notifications.NotificationComment
-import com.dzen.campfire.api.models.notifications.NotificationCommentAnswer
-import com.dzen.campfire.api.models.units.moderations.ModerationBlock
+import com.dzen.campfire.api.models.notifications.comments.NotificationComment
+import com.dzen.campfire.api.models.notifications.comments.NotificationCommentAnswer
+import com.dzen.campfire.api.models.units.moderations.units.ModerationBlock
 import com.dzen.campfire.api.models.units.moderations.UnitModeration
 import com.sayzen.campfiresdk.R
 import com.sayzen.campfiresdk.adapters.XAccount

@@ -5,8 +5,8 @@ import android.view.View
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.dzen.campfire.api.API
-import com.dzen.campfire.api.models.notifications.NotificationFollowsPublication
-import com.dzen.campfire.api.models.notifications.NotificationUnitImportant
+import com.dzen.campfire.api.models.notifications.units.NotificationFollowsPublication
+import com.dzen.campfire.api.models.notifications.units.NotificationUnitImportant
 import com.dzen.campfire.api.models.units.post.UnitPost
 import com.dzen.campfire.api.models.units.tags.UnitTag
 import com.dzen.campfire.api.requests.post.RPostGet

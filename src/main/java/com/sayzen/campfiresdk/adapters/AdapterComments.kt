@@ -4,8 +4,8 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import android.view.View
 import com.dzen.campfire.api.models.UnitComment
-import com.dzen.campfire.api.models.notifications.NotificationComment
-import com.dzen.campfire.api.models.notifications.NotificationCommentAnswer
+import com.dzen.campfire.api.models.notifications.comments.NotificationComment
+import com.dzen.campfire.api.models.notifications.comments.NotificationCommentAnswer
 import com.dzen.campfire.api.requests.units.RCommentsGetAll
 import com.sayzen.campfiresdk.R
 import com.sayzen.campfiresdk.controllers.ControllerApi

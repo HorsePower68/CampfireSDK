@@ -9,8 +9,8 @@ import android.widget.ImageView
 import android.widget.TextView
 import com.dzen.campfire.api.API
 import com.dzen.campfire.api.models.chat.ChatTag
-import com.dzen.campfire.api.models.notifications.NotificationChatAnswer
-import com.dzen.campfire.api.models.notifications.NotificationChatMessage
+import com.dzen.campfire.api.models.notifications.chat.NotificationChatAnswer
+import com.dzen.campfire.api.models.notifications.chat.NotificationChatMessage
 import com.dzen.campfire.api.models.units.chat.UnitChatMessage
 import com.dzen.campfire.api.requests.chat.*
 import com.sayzen.campfiresdk.R

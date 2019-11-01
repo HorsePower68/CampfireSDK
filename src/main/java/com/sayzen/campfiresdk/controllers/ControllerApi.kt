@@ -35,6 +35,7 @@ import com.sup.dev.android.views.views.ViewTextLinkable
 import com.sup.dev.android.views.widgets.WidgetField
 import com.sup.dev.java.classes.items.Item3
 import com.sup.dev.java.classes.items.ItemNullable
+import com.sup.dev.java.libs.api_simple.client.Request
 import com.sup.dev.java.libs.api_simple.client.TokenProvider
 import com.sup.dev.java.libs.debug.err
 import com.sup.dev.java.libs.eventBus.EventBus
@@ -565,6 +566,23 @@ object ControllerApi {
         ApiRequestsSupporter.execute(RAccountsClearReports(accountId)) {
             EventBus.post(EventAccountReportsCleared(accountId))
         }
+    }
+
+    fun <K : Request.Response> moderation(title:Int, action:Int, instanceRequest: (String)->Request<K>, onComplete: (K) -> Unit){
+        WidgetField()
+                .setTitle(title)
+                .setHint(R.string.moderation_widget_comment)
+                .setOnCancel(R.string.app_cancel)
+                .setMin(API.MODERATION_COMMENT_MIN_L)
+                .setMax(API.MODERATION_COMMENT_MAX_L)
+                .setOnEnter(action) { w, comment ->
+                    ApiRequestsSupporter.executeProgressDialog(instanceRequest(comment)) { r ->
+                        onComplete.invoke(r)
+                    }
+                }
+                .asSheetShow()
+
+
     }
 
 

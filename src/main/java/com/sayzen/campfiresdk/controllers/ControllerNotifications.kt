@@ -5,6 +5,20 @@ import android.content.Intent
 import android.util.LongSparseArray
 import com.dzen.campfire.api.API
 import com.dzen.campfire.api.models.notifications.*
+import com.dzen.campfire.api.models.notifications.account.*
+import com.dzen.campfire.api.models.notifications.chat.*
+import com.dzen.campfire.api.models.notifications.comments.NotificationComment
+import com.dzen.campfire.api.models.notifications.comments.NotificationCommentAnswer
+import com.dzen.campfire.api.models.notifications.fanom.*
+import com.dzen.campfire.api.models.notifications.post.*
+import com.dzen.campfire.api.models.notifications.project.NotificationProjectABParamsChanged
+import com.dzen.campfire.api.models.notifications.project.NotificationQuestFinish
+import com.dzen.campfire.api.models.notifications.project.NotificationQuestProgress
+import com.dzen.campfire.api.models.notifications.rubrics.NotificationRubricsChangeName
+import com.dzen.campfire.api.models.notifications.rubrics.NotificationRubricsChangeOwner
+import com.dzen.campfire.api.models.notifications.rubrics.NotificationRubricsMakeOwner
+import com.dzen.campfire.api.models.notifications.rubrics.NotificationRubricsRemove
+import com.dzen.campfire.api.models.notifications.units.*
 import com.dzen.campfire.api.requests.accounts.RAccountsNotificationsRemoveToken
 import com.dzen.campfire.api.requests.accounts.RAccountsNotificationsView
 import com.google.firebase.messaging.RemoteMessage
@@ -320,6 +334,10 @@ object ControllerNotifications {
             is NotificationAdminStatusRemove -> NotificationAdminStatusRemoveParser(n)
             is NotificationModerationRejected -> NotificationModerationRejectedParser(n)
             is NotificationQuestFinish -> NotificationQuestFinishParser(n)
+            is NotificationRubricsMakeOwner -> NotificationRubricsMakeOwnerParser(n)
+            is NotificationRubricsChangeName -> NotificationRubricsChangeNameParser(n)
+            is NotificationRubricsChangeOwner -> NotificationRubricsChangeOwnerParser(n)
+            is NotificationRubricsRemove -> NotificationRubricsRemoveParser(n)
             is NotificationUnitRestore -> NotificationUnitRestoreParser(n)
             is NotificationAdminPostFandomChange -> NotificationAdminPostFandomChangeParser(n)
             is NotificationMention -> NotificationMentionParser(n)
@@ -1112,6 +1130,49 @@ object ControllerNotifications {
 
         override fun getIcon() = R.drawable.ic_security_white_24dp
 
+    }
+
+    private class NotificationRubricsMakeOwnerParser(override val n: NotificationRubricsMakeOwner) : Parser(n) {
+        override fun post(icon: Int, intent: Intent, text: String, title: String, tag: String, sound: Boolean) { (if (sound) chanelOther else chanelOther_salient).post(icon, getTitle(), text, intent, tag) }
+        override fun asString(html: Boolean): String {
+            val comment = if (!html) n.comment else ToolsHTML.i(n.comment)
+            return if (ToolsText.empty(n.comment)) "" else ToolsResources.s(R.string.moderation_notification_moderator_comment) + " " + comment
+        }
+
+        override fun getTitle(): String { return ToolsResources.sCap(R.string.notification_rubric_make_owner, n.adminName, ToolsResources.sex(n.adminSex, R.string.he_make, R.string.she_make), n.rubricName) }
+        override fun getIcon() = R.drawable.ic_security_white_24dp
+    }
+
+    private class NotificationRubricsChangeNameParser(override val n: NotificationRubricsChangeName) : Parser(n) {
+        override fun post(icon: Int, intent: Intent, text: String, title: String, tag: String, sound: Boolean) { (if (sound) chanelOther else chanelOther_salient).post(icon, getTitle(), text, intent, tag) }
+        override fun asString(html: Boolean): String {
+            val comment = if (!html) n.comment else ToolsHTML.i(n.comment)
+            return if (ToolsText.empty(n.comment)) "" else ToolsResources.s(R.string.moderation_notification_moderator_comment) + " " + comment
+        }
+
+        override fun getTitle(): String { return ToolsResources.sCap(R.string.notification_rubric_change_name, n.adminName, ToolsResources.sex(n.adminSex, R.string.he_changed, R.string.she_changed), n.rubricOldName, n.rubricNewName) }
+        override fun getIcon() = R.drawable.ic_security_white_24dp
+    }
+
+    private class NotificationRubricsChangeOwnerParser(override val n: NotificationRubricsChangeOwner) : Parser(n) {
+        override fun post(icon: Int, intent: Intent, text: String, title: String, tag: String, sound: Boolean) { (if (sound) chanelOther else chanelOther_salient).post(icon, getTitle(), text, intent, tag) }
+        override fun asString(html: Boolean): String {
+            val comment = if (!html) n.comment else ToolsHTML.i(n.comment)
+            return if (ToolsText.empty(n.comment)) "" else ToolsResources.s(R.string.moderation_notification_moderator_comment) + " " + comment
+        }
+
+        override fun getTitle(): String { return ToolsResources.sCap(R.string.notification_rubric_change_owner, n.adminName, ToolsResources.sex(n.adminSex, R.string.he_changed, R.string.she_changed), n.rubricName, n.newOwnerName) }
+        override fun getIcon() = R.drawable.ic_security_white_24dp
+    }
+
+    private class NotificationRubricsRemoveParser(override val n: NotificationRubricsRemove) : Parser(n) {
+        override fun post(icon: Int, intent: Intent, text: String, title: String, tag: String, sound: Boolean) { (if (sound) chanelOther else chanelOther_salient).post(icon, getTitle(), text, intent, tag) }
+        override fun asString(html: Boolean): String {
+            val comment = if (!html) n.comment else ToolsHTML.i(n.comment)
+            return if (ToolsText.empty(n.comment)) "" else ToolsResources.s(R.string.moderation_notification_moderator_comment) + " " + comment
+        }
+        override fun getTitle(): String { return ToolsResources.sCap(R.string.notification_rubric_remove, n.adminName, ToolsResources.sex(n.adminSex, R.string.he_remove, R.string.she_remove), n.rubricName) }
+        override fun getIcon() = R.drawable.ic_security_white_24dp
     }
 
     private class NotificationUnitRestoreParser(override val n: NotificationUnitRestore) : Parser(n) {

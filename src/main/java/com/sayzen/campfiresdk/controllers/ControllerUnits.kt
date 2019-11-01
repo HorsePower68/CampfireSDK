@@ -5,6 +5,18 @@ import com.dzen.campfire.api.API
 import com.dzen.campfire.api.models.units.Unit
 import com.dzen.campfire.api.models.units.UnitForum
 import com.dzen.campfire.api.models.units.moderations.*
+import com.dzen.campfire.api.models.units.moderations.fandom.*
+import com.dzen.campfire.api.models.units.moderations.forum.ModerationForumChange
+import com.dzen.campfire.api.models.units.moderations.forum.ModerationForumCreate
+import com.dzen.campfire.api.models.units.moderations.forum.ModerationForumRemove
+import com.dzen.campfire.api.models.units.moderations.posts.*
+import com.dzen.campfire.api.models.units.moderations.rubrics.ModerationRubricChangeName
+import com.dzen.campfire.api.models.units.moderations.rubrics.ModerationRubricChangeOwner
+import com.dzen.campfire.api.models.units.moderations.rubrics.ModerationRubricCreate
+import com.dzen.campfire.api.models.units.moderations.rubrics.ModerationRubricRemove
+import com.dzen.campfire.api.models.units.moderations.tags.*
+import com.dzen.campfire.api.models.units.moderations.units.ModerationBlock
+import com.dzen.campfire.api.models.units.moderations.units.ModerationForgive
 import com.dzen.campfire.api.models.units.tags.UnitTag
 import com.dzen.campfire.api.requests.fandoms.RFandomsModerationForumRemove
 import com.dzen.campfire.api.requests.post.RPostToDrafts
@@ -20,16 +32,19 @@ import com.sayzen.campfiresdk.models.events.units.*
 import com.sayzen.campfiresdk.models.objects.TagParent
 import com.sayzen.campfiresdk.models.widgets.WidgetCategoryCreate
 import com.sayzen.campfiresdk.models.widgets.WidgetModerationBlock
+import com.sayzen.campfiresdk.screens.account.profile.SAccount
 import com.sayzen.campfiresdk.screens.comments.SComments
 import com.sayzen.campfiresdk.screens.fandoms.tags.WidgetTagCreate
 import com.sayzen.campfiresdk.screens.fandoms.tags.WidgetTagRemove
 import com.sayzen.campfiresdk.screens.account.stickers.SStickersView
 import com.sayzen.campfiresdk.screens.chat.SChat
+import com.sayzen.campfiresdk.screens.fandoms.rubrics.SRubricPosts
 import com.sup.dev.android.libs.api_simple.ApiRequestsSupporter
 import com.sup.dev.android.libs.screens.navigator.Navigator
 import com.sup.dev.android.tools.ToolsAndroid
 import com.sup.dev.android.tools.ToolsResources
 import com.sup.dev.android.tools.ToolsToast
+import com.sup.dev.android.tools.ToolsView
 import com.sup.dev.android.views.views.ViewTextLinkable
 import com.sup.dev.android.views.widgets.WidgetField
 import com.sup.dev.android.views.widgets.WidgetMenu
@@ -427,12 +442,47 @@ object ControllerUnits {
             is ModerationPostCloseNo -> {
                 text = ToolsResources.sCap(R.string.moderation_post_close_no, ToolsResources.sex(unit.creatorSex, R.string.he_open, R.string.she_open), ControllerApi.linkToPost(m.postId))
             }
+
+
+            is ModerationRubricChangeName -> {
+                text = ToolsResources.sCap(R.string.moderation_rubric_change_name, ToolsResources.sex(unit.creatorSex, R.string.he_changed, R.string.she_changed), m.rubricOldName, m.rubricNewName)
+            }
+            is ModerationRubricChangeOwner -> {
+                text = ToolsResources.sCap(R.string.moderation_rubric_change_owner, ToolsResources.sex(unit.creatorSex, R.string.he_changed, R.string.she_changed), m.rubricName, m.oldOwnerName, m.newOwnerName)
+            }
+            is ModerationRubricCreate -> {
+                text = ToolsResources.sCap(R.string.moderation_rubric_crete, ToolsResources.sex(unit.creatorSex, R.string.he_created, R.string.she_created), m.rubricName, ToolsResources.sex(unit.creatorSex, R.string.he_assign, R.string.she_assign), m.ownerName)
+            }
+            is ModerationRubricRemove -> {
+                   text = ToolsResources.sCap(R.string.moderation_rubric_remove, ToolsResources.sex(unit.creatorSex, R.string.he_remove, R.string.she_remove), m.rubricName)
+            }
+
+
         }
 
         if (unit.moderation != null)
             if (!ToolsText.empty(unit.moderation!!.comment)) text += "\n" + ToolsResources.sCap(R.string.moderation_card_block_text_comment, unit.moderation!!.comment)
         vText.text = text
         ControllerApi.makeLinkable(vText)
+
+
+        when (m) {
+            is ModerationRubricChangeName -> {
+                ToolsView.addLink(vText, m.rubricNewName) { SRubricPosts.instance(m.rubricId, Navigator.TO) }
+            }
+            is ModerationRubricChangeOwner -> {
+                ToolsView.addLink(vText, m.rubricName) { SRubricPosts.instance(m.rubricId, Navigator.TO) }
+                ToolsView.addLink(vText, m.oldOwnerName) { SAccount.instance(m.oldOwnerId, Navigator.TO) }
+                ToolsView.addLink(vText, m.newOwnerName) { SAccount.instance(m.newOwnerId, Navigator.TO) }
+            }
+            is ModerationRubricCreate -> {
+                ToolsView.addLink(vText, m.rubricName) { SRubricPosts.instance(m.rubricId, Navigator.TO) }
+                ToolsView.addLink(vText, m.ownerName) { SAccount.instance(m.ownerId, Navigator.TO) }
+            }
+            is ModerationRubricRemove -> {
+                ToolsView.addLink(vText, m.rubricName) { SRubricPosts.instance(m.rubricId, Navigator.TO) }
+            }
+        }
     }
 
 }
