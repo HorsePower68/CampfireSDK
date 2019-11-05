@@ -91,8 +91,6 @@ Campfire has anime fandoms and gaming fandoms.</string>
     <string name="app_users">Users</string>
     <string name="app_chat">Chat</string>
     <string name="app_chats">Chats</string>
-    <string name="app_forum">Forum</string>
-    <string name="app_forums">Forums</string>
     <string name="app_create">Create</string>
     <string name="app_text">Text</string>
     <string name="app_got_it">Got it</string>
@@ -312,10 +310,8 @@ Campfire has anime fandoms and gaming fandoms.</string>
     <string name="notification_post_karma">%s %s your post for %s</string>
     <string name="notification_moderation_comment">%s %s your moderation action</string>
     <string name="notification_moderation_comment_watch">%s %s on moderation you follow</string>
-    <string name="notification_forum_comment_watch">%s %s on forum you follow</string>
     <string name="notification_moderation_karma">%s %s your moderation for %s</string>
     <string name="notification_karma_review">%s %s your review for %s</string>
-    <string name="notification_karma_forum">%s %s your forum for %s</string>
     <string name="notification_karma_stickers_pack">%s %s your stickers pack %s</string>
     <string name="notification_profile_follows_add">%s %s to you</string>
     <string name="notification_comments_answer">%s %s to your comment</string>
@@ -408,9 +404,9 @@ Campfire has anime fandoms and gaming fandoms.</string>
     <string name="moderation_text_to_drafts">%s post of user %s to drafts.</string>
     <string name="moderation_text_multilingual_not">%s post of user %s not multilingual</string>
     <string name="moderation_text_post_tags">%s tags of %s.</string>
-    <string name="moderation_text_forum_create">%s forum %s (%s).</string>
-    <string name="moderation_text_forum_change">%s forum %s (%s).</string>
-    <string name="moderation_text_forum_remove">%s forum %s (%s).</string>
+    <string name="moderation_text_chat_create">%s chat %s (%s).</string>
+    <string name="moderation_text_chat_change">%s chat %s (%s).</string>
+    <string name="moderation_text_chat_remove">%s chat %s (%s).</string>
     <string name="moderation_background_image">%s chat background image</string>
     <string name="moderation_text_names">%s fandom other names.</string>
     <string name="moderation_tag_move_tag">%s tag %s before %s.</string>
@@ -478,6 +474,7 @@ Campfire has anime fandoms and gaming fandoms.</string>
     <string name="feed_all">All publications</string>
     <string name="feed_subscribed">Subscribed only</string>
     <string name="feed_important">Important only</string>
+    <string name="feed_subscribes">Don\'t show subscriptions on All screen</string>
     <string name="feed_all_first">All on first screen</string>
     <string name="feed_language">Language</string>
     <string name="feed_categories">Categories</string>
@@ -579,15 +576,7 @@ Campfire has anime fandoms and gaming fandoms.</string>
     <string name="comment_clear_reports_confirm">Clear this comment reports?</string>
     <string name="comment_error_gone">Looks like someone deleted this comment</string>
 
-    <string name="forum_empty">There are no topic in this fandom yet</string>
-    <string name="forum_loading">Loading of forums list</string>
-    <string name="forum_empty_messages">There are no messages in this forum yet</string>
-    <string name="forum_loading_messages">Loading of forum\'s messages</string>
-    <string name="forum_creation_hint">Text of forum main page</string>
-    <string name="forum_error_gone">Looks like someone deleted this forum.</string>
-    <string name="forum_remove_confirm">Remove this forum?</string>
-    <string name="forum_clear_reports_confirm">Clear this forum reports?</string>
-    <string name="forum_report_confirm">Report this forum?</string>
+    <string name="fandom_chat_creation_hint">Text of chat main page</string>
 
     <string name="stickers_pack_view_empty">There are no stickers in this pack yet</string>
     <string name="stickers_packs_empty">There\'s not a single pack of stickers here.</string>
@@ -632,7 +621,7 @@ Campfire has anime fandoms and gaming fandoms.</string>
     <string name="achi_comments_karma_count">Publish a comment that will receive lots of karma.</string>
     <string name="achi_stickers_karma_count">Publish a sticker pack that will receive lots of karma.</string>
     <string name="achi_login">Change your default login.</string>
-    <string name="achi_chat">Say hi in chat :D</string>
+    <string name="achi_chat">Say hi in chat of any fandom :D</string>
     <string name="achi_comment">Leave first comment to any publication</string>
     <string name="achi_answer">Be social, answer to a comment</string>
     <string name="achi_rate">Rate a publication, press Up/Down arrows on a publication.</string>
@@ -653,7 +642,7 @@ Campfire has anime fandoms and gaming fandoms.</string>
     <string name="achi_moderators_tags">Change the post tags of another user.</string>
     <string name="achi_50">See the fireworks.</string>
     <string name="achi_51">Make the user fandom moderator.</string>
-    <string name="achi_52">Create a forum.</string>
+    <string name="achi_52">Create a fandom chat.</string>
     <string name="achi_53">Accept or reject moderation action.</string>
     <string name="achi_54">Accept a new fandom.</string>
     <string name="achi_55">Become a moderator in several fandoms.</string>
@@ -669,7 +658,7 @@ Campfire has anime fandoms and gaming fandoms.</string>
     <string name="lvl_ads_less">Twice less advertising</string>
     <string name="lvl_moderate_block">Moderator. Ability to block publications in fandom</string>
     <string name="lvl_moderate_to_drafts">Ability to return post to user drafts</string>
-    <string name="lvl_moderate_forums">Ability to create forums</string>
+    <string name="lvl_moderate_chats">Ability to create fandom chats</string>
     <string name="lvl_moderate_post_tags">Ability to change post tags</string>
     <string name="lvl_moderate_tags">Ability to change tags in fandom</string>
     <string name="lvl_moderate_image_title">Ability to change fandom title image</string>
@@ -816,9 +805,9 @@ Campfire has anime fandoms and gaming fandoms.</string>
     <string name="profile_rate_comment">%s comment %s</string>
     <string name="profile_rate_moderation">%s moderation %s</string>
     <string name="profile_rate_review">%s review %s</string>
-    <string name="profile_rate_forum">%s forum %s</string>
     <string name="profile_rate_stikers_pack">%s stickers pack %s</string>
     <string name="profile_rate_sticker">%s sticker %s</string>
+    <string name="profile_anonymous_text">This user wished to remain anonymous.</string>
     <string name="profile_subtitle_text_1">Campfire user</string>
     <string name="profile_subtitle_text_2">Best campfire user</string>
     <string name="profile_subtitle_text_3">Good boy</string>
@@ -990,7 +979,7 @@ Campfire has anime fandoms and gaming fandoms.</string>
     <string name="post_create_polling_hint">Option</string>
     <string name="post_create_images_empty">Add some pictures</string>
     <string name="post_create_notify_followers">Notify your followers</string>
-    <string name="post_create_objects_label">Supported links to the user, post, chat, forum, femdom, a stickers pack.</string>
+    <string name="post_create_objects_label">Supported links to the user, post, chat, femdom, a stickers pack.</string>
     <string name="post_create_pending">Pending publication</string>
     <string name="post_create_pending_error">Cannot be published in the past.</string>
     <string name="post_create_closed">Closed post</string>
@@ -1035,6 +1024,7 @@ Campfire has anime fandoms and gaming fandoms.</string>
     <string name="category_people">People</string>
     <string name="category_event">Event</string>
     <string name="category_plants">Plants</string>
+    <string name="category_places">Places</string>
     <string name="category_other">Other</string>
     <string name="category_memes">Memes</string>
 
@@ -1300,6 +1290,10 @@ Campfire has anime fandoms and gaming fandoms.</string>
     <string name="plants_1_6">Mushrooms</string>
     <string name="plants_1_7">House</string>
     <string name="plants_1_8">Wild</string>
+
+    <string name="places_1_1">Countries</string>
+    <string name="places_1_2">Cities</string>
+    <string name="places_1_3">Natural</string>
 
     <string name="unit_event_blocked">%s in fandom %s until %s by moderator %s</string>
     <string name="unit_event_blocked_admin">%s user %s in fandom %s until %s</string>

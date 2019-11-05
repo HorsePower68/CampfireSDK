@@ -65,7 +65,7 @@ object CampfireConstants {
             Achievement(API.ACHI_MODER_CHANGE_POST_TAGS, R.string.achi_moderators_tags, R.color.indigo_500, false, R.drawable.achi_5_3),
             Achievement(API.ACHI_FIREWORKS, R.string.achi_50, R.color.indigo_500, false, R.drawable.achi_23),
             Achievement(API.ACHI_MAKE_MODER, R.string.achi_51, R.color.orange_500, false, R.drawable.achi_21),
-            Achievement(API.ACHI_CREATE_FORUM, R.string.achi_52, R.color.pink_500, false, R.drawable.achi_13),
+            Achievement(API.ACHI_CREATE_CHAT, R.string.achi_52, R.color.pink_500, false, R.drawable.achi_13),
             Achievement(API.ACHI_REVIEW_MODER_ACTION, R.string.achi_53, R.color.cyan_900, false, R.drawable.achi_21),
             Achievement(API.ACHI_ACCEPT_FANDOM, R.string.achi_54, R.color.teal_500, false, R.drawable.achi_21),
             Achievement(API.ACHI_MODERATOR_COUNT, R.string.achi_55, R.color.teal_500, false, R.drawable.achi_21),
@@ -85,7 +85,7 @@ object CampfireConstants {
             AppLevel(API.LVL_CREATE_STICKERS, R.string.lvl_create_stickers),
             AppLevel(R.string.lvl_moderate_block, API.LVL_MODERATOR_BLOCK, R.color.blue_500),
             AppLevel(R.string.lvl_moderate_to_drafts, API.LVL_MODERATOR_TO_DRAFTS, R.color.blue_500),
-            AppLevel(R.string.lvl_moderate_forums, API.LVL_MODERATOR_FORUMS, R.color.blue_500),
+            AppLevel(R.string.lvl_moderate_chats, API.LVL_MODERATOR_CHATS, R.color.blue_500),
             AppLevel(R.string.lvl_moderate_post_tags, API.LVL_MODERATOR_POST_TAGS, R.color.blue_500),
             AppLevel(R.string.lvl_moderate_image_title, API.LVL_MODERATOR_FANDOM_IMAGE, R.color.blue_500),
             AppLevel(API.LVL_CAN_CHANGE_PROFILE_IMAGE_GIF, R.string.lvl_app_profile_image_gif, R.color.blue_500),
@@ -146,6 +146,7 @@ object CampfireConstants {
             FandomParam(API.CATEGORY_PEOPLE, R.string.category_people),
             FandomParam(API.CATEGORY_EVENT, R.string.category_event),
             FandomParam(API.CATEGORY_PLANTS, R.string.category_plants),
+            FandomParam(API.CATEGORY_PLACES, R.string.category_places),
             FandomParam(API.CATEGORY_OTHER, R.string.category_other)
     )
 
@@ -191,6 +192,8 @@ object CampfireConstants {
     val EVENT_1 = Array(EVENT_1_ARRAY.size) { FandomParam(it.toLong(), EVENT_1_ARRAY[it]) }
     private val PLANTS_1_ARRAY = ToolsResources.getStringIndexedArrayId("plants_1_")
     val PLANTS_1 = Array(PLANTS_1_ARRAY.size) { FandomParam(it.toLong(), PLANTS_1_ARRAY[it]) }
+    private val PLACES_1_ARRAY = ToolsResources.getStringIndexedArrayId("places_1_")
+    val PLACES_1 = Array(PLACES_1_ARRAY.size) { FandomParam(it.toLong(), PLACES_1_ARRAY[it]) }
 
     fun getAchievement(info: AchievementInfo): Achievement {
         return getAchievement(info.index)
@@ -238,6 +241,7 @@ object CampfireConstants {
                     API.CATEGORY_PEOPLE -> R.attr.ic_person_24dp
                     API.CATEGORY_EVENT -> R.attr.ic_access_time_24dp
                     API.CATEGORY_PLANTS -> R.attr.ic_spa_24dp
+                    API.CATEGORY_PLACES -> R.attr.ic_map_24dp
                     else -> R.attr.ic_clear_24dp
                 }
         )
@@ -313,6 +317,11 @@ object CampfireConstants {
                     else -> null
                 }
             API.CATEGORY_PLANTS ->
+                when (paramsPosition) {
+                    1 -> ToolsResources.s(R.string.app_type)
+                    else -> null
+                }
+            API.CATEGORY_PLACES ->
                 when (paramsPosition) {
                     1 -> ToolsResources.s(R.string.app_type)
                     else -> null
@@ -394,6 +403,11 @@ object CampfireConstants {
             API.CATEGORY_PLANTS ->
                 when (paramsPosition) {
                     1 -> PLANTS_1
+                    else -> null
+                }
+            API.CATEGORY_PLACES ->
+                when (paramsPosition) {
+                    1 -> PLACES_1
                     else -> null
                 }
             API.CATEGORY_OTHER -> null

@@ -92,7 +92,7 @@ class WidgetPageSpoiler(
 
     override fun onHide() {
         super.onHide()
-        ToolsThreads.main(500) { ToolsView.hideKeyboard() } //  Без задержки будет скрываться под клавиатуру и оставаться посреди экрана
+        ToolsView.hideKeyboard()
     }
 
     override fun onTryCancelOnTouchOutside(): Boolean {

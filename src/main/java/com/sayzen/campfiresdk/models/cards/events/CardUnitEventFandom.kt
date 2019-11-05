@@ -9,8 +9,10 @@ import com.sayzen.campfiresdk.app.CampfireConstants
 import com.sayzen.campfiresdk.controllers.ControllerApi
 import com.sayzen.campfiresdk.controllers.ControllerCampfireSDK
 import com.sayzen.campfiresdk.models.cards.CardUnit
+import com.sayzen.campfiresdk.screens.fandoms.view.SFandom
 import com.sup.dev.android.libs.screens.navigator.Navigator
 import com.sup.dev.android.tools.ToolsResources
+import com.sup.dev.android.tools.ToolsView
 import com.sup.dev.android.views.views.ViewAvatar
 import com.sup.dev.android.views.views.ViewTextLinkable
 import com.sup.dev.java.tools.ToolsDate
@@ -53,7 +55,7 @@ class CardUnitEventFandom(
                 text = ToolsResources.sCap(R.string.unit_event_fandom_suggested_accept, ToolsResources.sex(e.ownerAccountSex, R.string.he_accept, R.string.she_accept), e.fandomName)
             }
             is ApiEventFandomChangeAvatar -> {
-                text = ToolsResources.sCap(R.string.unit_event_fandom_avatar, ToolsResources.sex(e.ownerAccountSex, R.string.he_changed, R.string.she_changed), "" + e.fandomName + " (" + ControllerApi.linkToFandom(e.fandomId) + ")")
+                text = ToolsResources.sCap(R.string.unit_event_fandom_avatar, ToolsResources.sex(e.ownerAccountSex, R.string.he_changed, R.string.she_changed), "" + e.fandomName)
                 view.setOnClickListener { ControllerCampfireSDK.onToFandomClicked(e.fandomId, 0, Navigator.TO) }
             }
             is ApiEventFandomChangeCategory -> {
@@ -65,7 +67,7 @@ class CardUnitEventFandom(
                 view.setOnClickListener { ControllerCampfireSDK.onToFandomClicked(e.fandomId, 0, Navigator.TO) }
             }
             is ApiEventFandomChangeParams -> {
-                text = ToolsResources.sCap(R.string.unit_event_fandom_parameters, ToolsResources.sex(e.ownerAccountSex, R.string.he_changed, R.string.she_changed), "" + e.fandomName + " (" + ControllerApi.linkToFandom(e.fandomId) + ")")
+                text = ToolsResources.sCap(R.string.unit_event_fandom_parameters, ToolsResources.sex(e.ownerAccountSex, R.string.he_changed, R.string.she_changed), "" + e.fandomName)
 
                 if (e.newParams.isNotEmpty()) {
                     text += "\n" + ToolsResources.s(R.string.unit_event_fandom_genres_new) + " " + CampfireConstants.getParam(e.categoryId, e.paramsPosition, e.newParams[0]).name
@@ -82,32 +84,31 @@ class CardUnitEventFandom(
             is ApiEventFandomClose -> {
                 text = ToolsResources.sCap(
                         R.string.unit_event_fandom_close,
-                        if (e.closed) ToolsResources.sex(e.ownerAccountSex, R.string.he_close, R.string.she_close) else ToolsResources.sex(e.ownerAccountSex, R.string.he_open, R.string.she_open),
-                        e.fandomName + "(" + ControllerApi.linkToFandom(e.fandomId) + ")")
+                        if (e.closed) ToolsResources.sex(e.ownerAccountSex, R.string.he_close, R.string.she_close) else ToolsResources.sex(e.ownerAccountSex, R.string.he_open, R.string.she_open), e.fandomName)
 
                 view.setOnClickListener { ControllerCampfireSDK.onToFandomClicked(e.fandomId, 0, Navigator.TO) }
             }
             is ApiEventFandomCofChanged -> {
                 text = "" + ToolsResources.sCap(R.string.unit_event_fandom_karma_cof,
                         ToolsResources.sex(e.ownerAccountSex, R.string.he_changed, R.string.she_changed),
-                        e.fandomName + " (${ControllerApi.linkToFandom(e.fandomId)})",
+                        e.fandomName,
                         ToolsText.numToStringRound(e.oldCof / 100.0, 2),
                         ToolsText.numToStringRound(e.newCof / 100.0, 2)
                 )
             }
             is ApiEventFandomMakeModerator -> {
-                text = ToolsResources.sCap(R.string.unit_event_make_moderator_admin, ToolsResources.sex(e.ownerAccountSex, R.string.he_make, R.string.she_make), ControllerApi.linkToUser(e.targetAccountName), e.fandomName + " (${ControllerApi.linkToFandom(e.fandomId, e.fandomLanguageId)})")
+                text = ToolsResources.sCap(R.string.unit_event_make_moderator_admin, ToolsResources.sex(e.ownerAccountSex, R.string.he_make, R.string.she_make), ControllerApi.linkToUser(e.targetAccountName), e.fandomName)
                 view.setOnClickListener { ControllerCampfireSDK.onToAccountClicked(e.targetAccountId, Navigator.TO) }
             }
             is ApiEventFandomRemove -> {
                 text = "" + ToolsResources.sCap(R.string.unit_event_remove_fandom, ToolsResources.sex(e.ownerAccountSex, R.string.he_remove, R.string.she_remove), e.fandomName)
             }
             is ApiEventFandomRemoveModerator -> {
-                text = ToolsResources.sCap(R.string.unit_event_remove_moderator_admin, ToolsResources.sex(e.ownerAccountSex, R.string.he_deprived, R.string.she_deprived), ControllerApi.linkToUser(e.targetAccountName), e.fandomName + " (${ControllerApi.linkToFandom(e.fandomId, e.fandomLanguageId)})")
+                text = ToolsResources.sCap(R.string.unit_event_remove_moderator_admin, ToolsResources.sex(e.ownerAccountSex, R.string.he_deprived, R.string.she_deprived), ControllerApi.linkToUser(e.targetAccountName), e.fandomName)
                 view.setOnClickListener { ControllerCampfireSDK.onToAccountClicked(e.targetAccountId, Navigator.TO) }
             }
             is ApiEventFandomRename -> {
-                text = ToolsResources.sCap(R.string.unit_event_fandom_rename, ToolsResources.sex(e.ownerAccountSex, R.string.he_rename, R.string.she_rename), e.oldName, "" + e.fandomName + " (" + ControllerApi.linkToFandom(e.fandomId) + ")")
+                text = ToolsResources.sCap(R.string.unit_event_fandom_rename, ToolsResources.sex(e.ownerAccountSex, R.string.he_rename, R.string.she_rename), e.oldName, "" + e.fandomName)
                 view.setOnClickListener { ControllerCampfireSDK.onToFandomClicked(e.fandomId, 0, Navigator.TO) }
             }
         }
@@ -124,6 +125,18 @@ class CardUnitEventFandom(
             xAccount.setView(vAvatarTitle)
             vName.text = xAccount.name
         }
+
+
+        when (e) {
+            is ApiEventFandomChangeAvatar ->  ToolsView.addLink(vText, e.fandomName) { SFandom.instance(e.fandomId, Navigator.TO) }
+            is ApiEventFandomChangeParams ->  ToolsView.addLink(vText, e.fandomName) { SFandom.instance(e.fandomId, Navigator.TO) }
+            is ApiEventFandomClose ->  ToolsView.addLink(vText, e.fandomName) { SFandom.instance(e.fandomId, Navigator.TO) }
+            is ApiEventFandomCofChanged ->  ToolsView.addLink(vText, e.fandomName) { SFandom.instance(e.fandomId, Navigator.TO) }
+            is ApiEventFandomRename ->  ToolsView.addLink(vText, e.fandomName) { SFandom.instance(e.fandomId, Navigator.TO) }
+            is ApiEventFandomMakeModerator ->  ToolsView.addLink(vText, e.fandomName) { SFandom.instance(e.fandomId, Navigator.TO) }
+            is ApiEventFandomRemoveModerator ->  ToolsView.addLink(vText, e.fandomName) { SFandom.instance(e.fandomId, Navigator.TO) }
+        }
+
     }
 
     override fun updateComments() {

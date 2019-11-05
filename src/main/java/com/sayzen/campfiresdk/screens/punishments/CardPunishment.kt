@@ -9,11 +9,13 @@ import com.sayzen.campfiresdk.controllers.ControllerCampfireSDK
 import com.sayzen.campfiresdk.models.events.fandom.EventFandomAccountBaned
 import com.sayzen.campfiresdk.models.events.account.EventAccountBaned
 import com.sayzen.campfiresdk.models.events.account.EventAccountPunishmentRemove
+import com.sayzen.campfiresdk.screens.fandoms.view.SFandom
 import com.sup.dev.android.libs.api_simple.ApiRequestsSupporter
 import com.sup.dev.android.libs.screens.navigator.Navigator
 import com.sup.dev.android.tools.ToolsImagesLoader
 import com.sup.dev.android.tools.ToolsResources
 import com.sup.dev.android.tools.ToolsToast
+import com.sup.dev.android.tools.ToolsView
 import com.sup.dev.android.views.cards.CardAvatar
 import com.sup.dev.android.views.support.adapters.NotifyItem
 import com.sup.dev.android.views.views.ViewAvatarTitle
@@ -43,12 +45,12 @@ class CardPunishment(
             if (punishment.banDate > 0) text = ToolsResources.sCap(R.string.profile_punishment_card_ban,
                     ControllerApi.linkToUser(punishment.fromAccountName),
                     ToolsResources.sex(punishment.fromAccountSex, R.string.he_blocked, R.string.she_blocked),
-                    "" + punishment.fandomName + " (" + ControllerApi.linkToFandom(punishment.fandomId, punishment.languageId) + ")",
+                    "" + punishment.fandomName,
                     ToolsDate.dateToStringFull(punishment.banDate))
             else text = ToolsResources.sCap(R.string.profile_punishment_card_warn,
                     ControllerApi.linkToUser(punishment.fromAccountName),
                     ToolsResources.sex(punishment.fromAccountSex, R.string.he_warn, R.string.she_warn),
-                    "" + punishment.fandomName + " (" + ControllerApi.linkToFandom(punishment.fandomId, punishment.languageId) + ")")
+                    "" + punishment.fandomName)
             setOnClick { ControllerCampfireSDK.onToFandomClicked(punishment.fandomId, punishment.languageId, Navigator.TO) }
         }
 
@@ -76,6 +78,10 @@ class CardPunishment(
 
         if (punishment.fandomImageId > 0) ToolsImagesLoader.load(punishment.fandomImageId).into(vAvatar.vAvatar.vImageView)
         else ToolsImagesLoader.load(punishment.fromAccountImageId).into(vAvatar.vAvatar.vImageView)
+
+        if (punishment.fandomId != 0L) {
+            ToolsView.addLink(vAvatar.vTitle, punishment.fandomName) { SFandom.instance(punishment.fandomId, punishment.languageId, Navigator.TO) }
+        }
     }
 
     override fun notifyItem() {

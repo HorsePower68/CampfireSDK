@@ -1,16 +1,16 @@
-package com.sayzen.campfiresdk.screens.fandoms.forums.create
+package com.sayzen.campfiresdk.screens.fandoms.chats
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import android.view.Gravity
 import android.view.inputmethod.EditorInfo
 import android.widget.EditText
 import com.dzen.campfire.api.API
-import com.dzen.campfire.api.requests.fandoms.RFandomsModerationForumChange
-import com.dzen.campfire.api.requests.fandoms.RFandomsModerationForumCreate
+import com.dzen.campfire.api.requests.fandoms.RFandomsModerationChatChange
+import com.dzen.campfire.api.requests.fandoms.RFandomsModerationChatCreate
 import com.sayzen.campfiresdk.R
-import com.sayzen.campfiresdk.models.events.fandom.EventForumChanged
-import com.sayzen.campfiresdk.models.events.fandom.EventForumCreated
-import com.sayzen.campfiresdk.screens.fandoms.forums.view.SForumView
+import com.sayzen.campfiresdk.models.events.fandom.EventFandomChatChanged
+import com.sayzen.campfiresdk.models.events.fandom.EventFandomChatCreated
+import com.sayzen.campfiresdk.screens.chat.SChat
 import com.sup.dev.android.libs.api_simple.ApiRequestsSupporter
 import com.sup.dev.android.libs.screens.Screen
 import com.sup.dev.android.libs.screens.navigator.Navigator
@@ -27,12 +27,12 @@ import com.sup.dev.java.libs.eventBus.EventBus
 class SForumCreate(
         val fandomId: Long,
         val languageId: Long,
-        val forumId: Long,
+        val chatId: Long,
         val text: String?,
         val imageId: Long?,
         val name: String,
         val image: ByteArray?
-) : Screen(R.layout.screen_forums_create) {
+) : Screen(R.layout.screen_fandom_chat_create) {
 
     private val vField: EditText = findViewById(R.id.vField)
     private val vFab: FloatingActionButton = findViewById(R.id.vFab)
@@ -71,7 +71,7 @@ class SForumCreate(
 
         vField.textSize = if (s.length < 200) 22f else 16f
 
-        ToolsView.setFabEnabledR(vFab, !s.isEmpty() && s.length <= API.FORUM_TEXT_MAX_L, R.color.green_700)
+        ToolsView.setFabEnabledR(vFab, !s.isEmpty() && s.length <= API.FANDOM_CHAT_TEXT_MAX_L, R.color.green_700)
     }
 
     private fun onEnter() {
@@ -80,19 +80,19 @@ class SForumCreate(
                 .setOnCancel(R.string.app_cancel)
                 .setMin(API.MODERATION_COMMENT_MIN_L)
                 .setMax(API.MODERATION_COMMENT_MAX_L)
-                .setOnEnter(if (forumId == 0L) R.string.app_create else R.string.app_change) { _, comment ->
-                    if (forumId == 0L) {
-                        ApiRequestsSupporter.executeProgressDialog(RFandomsModerationForumCreate(fandomId, languageId, name, vField.text.toString(), comment, image)) { r ->
+                .setOnEnter(if (chatId == 0L) R.string.app_create else R.string.app_change) { _, comment ->
+                    if (chatId == 0L) {
+                        ApiRequestsSupporter.executeProgressDialog(RFandomsModerationChatCreate(fandomId, languageId, name, vField.text.toString(), comment, image)) { r ->
                             ToolsToast.show(R.string.app_done)
                             Navigator.remove(this)
-                            EventBus.post(EventForumCreated(fandomId, languageId, r.unitId))
-                            SForumView.instance(r.unitId, Navigator.TO)
+                            EventBus.post(EventFandomChatCreated(fandomId, languageId, r.chatId))
+                            SChat.instance(API.CHAT_TYPE_FANDOM_SUB, r.chatId, 0, false, Navigator.TO)
                         }
                     } else {
-                        ApiRequestsSupporter.executeProgressDialog(RFandomsModerationForumChange(forumId, name, vField.text.toString(), comment, image)) { _ ->
+                        ApiRequestsSupporter.executeProgressDialog(RFandomsModerationChatChange(chatId, name, vField.text.toString(), comment, image)) { _ ->
                             ToolsToast.show(R.string.app_done)
                             Navigator.remove(this)
-                            EventBus.post(EventForumChanged(forumId, name, vField.text.toString()))
+                            EventBus.post(EventFandomChatChanged(chatId, name, vField.text.toString()))
                         }
                     }
                 }

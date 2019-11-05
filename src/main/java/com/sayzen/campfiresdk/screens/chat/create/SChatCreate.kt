@@ -27,7 +27,6 @@ import com.sup.dev.android.views.cards.CardSpace
 import com.sup.dev.android.views.support.adapters.recycler_view.RecyclerCardAdapter
 import com.sup.dev.android.views.widgets.WidgetAlert
 import com.sup.dev.java.libs.eventBus.EventBus
-import com.sup.dev.java.tools.ToolsThreads
 
 class SChatCreate(
         var changeId: Long,
@@ -130,21 +129,23 @@ class SChatCreate(
         val changeAccountList = ArrayList<Long>()
         val changeAccountListLevels = ArrayList<Long>()
 
-        for (c in adapter.get(CardChatMember::class)) if (c.chatMember.accountId != ControllerApi.account.id && c.chatMember.memberStatus == 0L) {
-            accountsList.add(c.chatMember.accountId)
-            var foundLvl = c.newLevel
-            var found: ChatMember? = null
-            for (a in accounts) if (a.accountId == c.chatMember.accountId) found = a
+        for (c in adapter.get(CardChatMember::class)) {
+            if (c.chatMember.accountId != ControllerApi.account.id) {
+                accountsList.add(c.chatMember.accountId)
+                val foundLvl = c.newLevel
+                var found: ChatMember? = null
+                for (a in accounts) if (a.accountId == c.chatMember.accountId) found = a
 
-            if (found == null) {
-                if(foundLvl > 0 && foundLvl != API.CHAT_MEMBER_LVL_USER){
-                    changeAccountList.add(c.chatMember.accountId)
-                    changeAccountListLevels.add(foundLvl)
-                }
-            } else {
-                if(foundLvl > 0 && foundLvl != found.memberLvl) {
-                    changeAccountList.add(c.chatMember.accountId)
-                    changeAccountListLevels.add(foundLvl)
+                if (found == null) {
+                    if (foundLvl > 0 && foundLvl != API.CHAT_MEMBER_LVL_USER) {
+                        changeAccountList.add(c.chatMember.accountId)
+                        changeAccountListLevels.add(foundLvl)
+                    }
+                } else {
+                    if (foundLvl > 0 && foundLvl != found.memberLvl) {
+                        changeAccountList.add(c.chatMember.accountId)
+                        changeAccountListLevels.add(foundLvl)
+                    }
                 }
             }
         }

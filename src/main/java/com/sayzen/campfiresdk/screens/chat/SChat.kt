@@ -61,7 +61,7 @@ class SChat private constructor(
         }
 
         fun instance(chatType: Long, targetId: Long, targetSubId: Long, setStack: Boolean, action: NavigationAction) {
-            val targetSubIdV = if (chatType != API.CHAT_TYPE_FANDOM || targetSubId != 0L) targetSubId else ControllerApi.getLanguageId()
+            val targetSubIdV = if (chatType != API.CHAT_TYPE_FANDOM_ROOT || targetSubId != 0L) targetSubId else ControllerApi.getLanguageId()
             val tag = ChatTag(chatType, targetId, targetSubIdV)
             instance(tag, setStack, action)
         }
@@ -115,7 +115,7 @@ class SChat private constructor(
         vNotifications = addToolbarIcon(ToolsResources.getDrawableAttrId(R.attr.ic_notifications_24dp)) { sendSubscribe(!subscribed) }
 
         vNotifications.visibility = View.GONE
-        if (tag.chatType == API.CHAT_TYPE_FANDOM) vNotifications.visibility = View.VISIBLE
+        if (tag.chatType == API.CHAT_TYPE_FANDOM_ROOT) vNotifications.visibility = View.VISIBLE
         if (tag.chatType == API.CHAT_TYPE_CONFERENCE && memberStatus == 1L) vNotifications.visibility = View.VISIBLE
 
         if (tag.chatType == API.CHAT_TYPE_CONFERENCE) vAvatarTitle.setOnClickListener { SChatCreate.instance(tag.targetId, Navigator.TO) }
@@ -125,7 +125,7 @@ class SChat private constructor(
         }
 
         setBackgroundImage(R.drawable.bg_5)
-        setTextEmpty(if (tag.chatType == API.CHAT_TYPE_FANDOM) R.string.chat_empty_fandom else R.string.chat_empty_private)
+        setTextEmpty(if (tag.chatType == API.CHAT_TYPE_FANDOM_ROOT) R.string.chat_empty_fandom else R.string.chat_empty_private)
         setTextProgress(R.string.chat_loading)
 
         val layoutManager = LinearLayoutManager(context)
@@ -139,7 +139,7 @@ class SChat private constructor(
     }
 
     private fun update() {
-        if (tag.chatType == API.CHAT_TYPE_FANDOM) {
+        if (tag.chatType == API.CHAT_TYPE_FANDOM_ROOT) {
             val xFandom = XFandom(tag.targetId, tag.targetSubId, chatName, chatImageId) { update() }
             xFandom.setView(vAvatarTitle)
             vAvatarTitle.vSubtitle.setTextColor(ToolsResources.getColor(R.color.grey_500))
@@ -283,7 +283,7 @@ class SChat private constructor(
     }
 
     fun sendSubscribe(subscribed: Boolean) {
-        if (tag.chatType != API.CHAT_TYPE_FANDOM && tag.chatType != API.CHAT_TYPE_CONFERENCE) return
+        if (tag.chatType != API.CHAT_TYPE_FANDOM_ROOT && tag.chatType != API.CHAT_TYPE_CONFERENCE) return
         ApiRequestsSupporter.executeProgressDialog(RChatSubscribe(tag, subscribed)) { _ ->
             EventBus.post(EventChatSubscriptionChanged(tag, subscribed))
         }
@@ -384,7 +384,7 @@ class SChat private constructor(
     }
 
     private fun onEventFandomBackgroundImageChanged(e: EventFandomBackgroundImageChanged) {
-        if (tag.chatType == API.CHAT_TYPE_FANDOM) {
+        if (tag.chatType == API.CHAT_TYPE_FANDOM_ROOT) {
             if (tag.targetId == e.fandomId && tag.targetSubId == e.languageId) {
                 this.chatBackgroundImageId = e.imageId
                 updateBackground()

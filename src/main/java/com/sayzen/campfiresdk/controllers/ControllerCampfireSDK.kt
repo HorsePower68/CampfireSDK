@@ -5,7 +5,6 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.dzen.campfire.api.API
 import com.dzen.campfire.api.models.fandoms.Fandom
-import com.dzen.campfire.api.models.units.UnitForum
 import com.dzen.campfire.api.requests.accounts.RAccountsBioSetSex
 import com.dzen.campfire.api.requests.accounts.RAccountsBlackListAdd
 import com.dzen.campfire.api.requests.accounts.RAccountsBlackListRemove
@@ -65,9 +64,7 @@ object ControllerCampfireSDK {
     var ON_TO_DRAFTS_CLICKED: (action: NavigationAction) -> Unit = { }
     var ON_TO_DRAFT_CLICKED: (postId: Long, action: NavigationAction) -> Unit = { _, _ -> }
     var ON_TO_POST_TAGS_CLICKED: (postId: Long, isMyUnit: Boolean, action: NavigationAction) -> Unit = { _, _, _ -> }
-    var ON_TO_FORUM_CLICKED: (forumId: Long, commentId: Long, action: NavigationAction) -> Unit = { forumId, commentId, _ -> openLink(ControllerApi.linkToForumComment(forumId, commentId)) }
     var ON_TO_ACHIEVEMENT_CLICKED: (accountId: Long, accountName: String, achievementIndex: Long, toPrev: Boolean, action: NavigationAction) -> Unit = { _, _, _, _, _ -> }
-    var ON_CHANGE_FORUM_CLICKED: (unit: UnitForum) -> Unit = { }
     var ON_SCREEN_CHAT_START: () -> Unit = { }
 
     var SEARCH_FANDOM: (callback: (Fandom) -> Unit) -> Unit = { }
@@ -124,9 +121,6 @@ object ControllerCampfireSDK {
         ON_TO_POST_TAGS_CLICKED.invoke(postId, isMyUnit, action)
     }
 
-    fun onToForumClicked(forumId: Long, commentId: Long, action: NavigationAction) {
-        ON_TO_FORUM_CLICKED.invoke(forumId, commentId, action)
-    }
 
     fun onToAchievementClicked(accountId: Long, accountName: String, achievementIndex: Long, toPrev: Boolean, action: NavigationAction) {
         ON_TO_ACHIEVEMENT_CLICKED.invoke(accountId, accountName, achievementIndex, toPrev, action)

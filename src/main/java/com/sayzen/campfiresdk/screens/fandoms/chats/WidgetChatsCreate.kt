@@ -1,4 +1,4 @@
-package com.sayzen.campfiresdk.screens.fandoms.forums.create
+package com.sayzen.campfiresdk.screens.fandoms.chats
 
 import android.graphics.Bitmap
 import android.view.View
@@ -18,14 +18,14 @@ import com.sup.dev.java.tools.ToolsBytes
 import com.sup.dev.java.tools.ToolsText
 import com.sup.dev.java.tools.ToolsThreads
 
-class WidgetForumCreate constructor(
+class WidgetFandomChatCreate constructor(
         private val fandomId: Long,
         private val languageId: Long,
         private val forumId: Long,
         private val name: String?,
         private val text: String?,
         private val imageId: Long?
-) : Widget(R.layout.widget_forums_create) {
+) : Widget(R.layout.screen_fandom_chat_widget_create) {
 
     private val vName: SettingsField = findViewById(R.id.vName)
     private val vEnter: Button = findViewById(R.id.vEnter)
@@ -56,7 +56,7 @@ class WidgetForumCreate constructor(
     }
 
     private fun updateFinishEnabled() {
-        vEnter.isEnabled = ToolsText.inBounds(vName.getText(), API.FORUM_NAME_L_MIN, API.FORUM_NAME_L_MAX) && (forumId != 0L || image != null)
+        vEnter.isEnabled = ToolsText.inBounds(vName.getText(), API.FANDOM_CHAT_NAME_L_MIN, API.FANDOM_CHAT_NAME_L_MAX) && (forumId != 0L || image != null)
     }
 
     private fun chooseImage() {
@@ -76,18 +76,18 @@ class WidgetForumCreate constructor(
                         ToolsThreads.main {
 
                             val isGif = ToolsBytes.isGif(bytes)
-                            val cropSize = if (isGif) API.FORUM_IMG_SIDE_GIF else API.FORUM_IMG_SIDE
+                            val cropSize = if (isGif) API.FANDOM_CHAT_IMG_SIDE_GIF else API.FANDOM_CHAT_IMG_SIDE
 
                             Navigator.to(SCrop(bitmap, cropSize, cropSize) { _, b2, x, y, w, h ->
                                 if (isGif) {
 
                                     val d = ToolsView.showProgressDialog()
                                     ToolsThreads.thread {
-                                        val bytesSized = ToolsGif.resize(bytes, API.FORUM_IMG_SIDE_GIF, API.FORUM_IMG_SIDE_GIF, x, y, w, h)
+                                        val bytesSized = ToolsGif.resize(bytes, API.FANDOM_CHAT_IMG_SIDE_GIF, API.FANDOM_CHAT_IMG_SIDE_GIF, x, y, w, h)
 
                                         ToolsThreads.main {
                                             d.hide()
-                                            if (bytesSized.size > API.FORUM_IMG_WEIGHT_GIF) {
+                                            if (bytesSized.size > API.FANDOM_CHAT_IMG_WEIGHT_GIF) {
                                                 ToolsToast.show(R.string.error_too_long_file)
                                             } else {
                                                 afterSelectImage(bytesSized, b2)
@@ -97,7 +97,7 @@ class WidgetForumCreate constructor(
 
                                 } else {
                                     val d = ToolsView.showProgressDialog()
-                                    ControllerApi.toBytes(b2, API.FORUM_IMG_WEIGHT, API.FORUM_IMG_SIDE, API.FORUM_IMG_SIDE) {
+                                    ControllerApi.toBytes(b2, API.FANDOM_CHAT_IMG_WEIGHT, API.FANDOM_CHAT_IMG_SIDE, API.FANDOM_CHAT_IMG_SIDE) {
                                         d.hide()
                                         if(it == null) ToolsToast.show(R.string.error_cant_load_image)
                                         else afterSelectImage(it, b2)

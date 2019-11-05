@@ -90,7 +90,7 @@ class SPostCreationTags private constructor(
         vNotifyFollowers.isChecked = false
         vPending.isChecked = false
         vClose.isChecked = closed
-        vMenuContainer.visibility = if (vNotifyFollowers.isEnabled) View.VISIBLE else View.GONE
+        vMenuContainer.visibility = if (vNotifyFollowers.isEnabled && isMyUnit) View.VISIBLE else View.GONE
 
         isSingleInstanceInBackStack = true
 

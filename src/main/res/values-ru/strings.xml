@@ -91,8 +91,6 @@
     <string name="app_users">Пользователи</string>
     <string name="app_chat">Чат</string>
     <string name="app_chats">Чаты</string>
-    <string name="app_forum">Форум</string>
-    <string name="app_forums">Форумы</string>
     <string name="app_create">Создать</string>
     <string name="app_text">Текст</string>
     <string name="app_got_it">Понятно</string>
@@ -312,10 +310,8 @@
     <string name="notification_post_karma">%s %s ваш пост на %s</string>
     <string name="notification_moderation_comment">%s %s ваше модераторское действие</string>
     <string name="notification_moderation_comment_watch">%s %s модерацию, за которой вы следите</string>
-    <string name="notification_forum_comment_watch">%s %s форум, за которым вы следите</string>
     <string name="notification_moderation_karma">%s %s вашу модерацию на %s</string>
     <string name="notification_karma_review">%s %s ваш отзыв на %s</string>
-    <string name="notification_karma_forum">%s %s ваш форум на %s</string>
     <string name="notification_karma_stickers_pack">%s %s ваш набор стикеров на %s</string>
     <string name="notification_profile_follows_add">%s %s на вас</string>
     <string name="notification_comments_answer">%s %s на ваш комментарий</string>
@@ -410,9 +406,9 @@
     <string name="moderation_text_to_drafts">%s пост пользователя %s в черновики</string>
     <string name="moderation_text_multilingual_not">%s пост пользователя %s не мультиязычным</string>
     <string name="moderation_text_post_tags">%s теги %s.</string>
-    <string name="moderation_text_forum_create">%s форум %s (%s).</string>
-    <string name="moderation_text_forum_change">%s форум %s (%s).</string>
-    <string name="moderation_text_forum_remove">%s форум %s (%s).</string>
+    <string name="moderation_text_chat_create">%s чат %s.</string>
+    <string name="moderation_text_chat_change">%s чат %s.</string>
+    <string name="moderation_text_chat_remove">%s чат %s.</string>
     <string name="moderation_background_image">%s фоновую картинку в чате</string>
     <string name="moderation_text_names">%s дополнительные названия фэндома.</string>
     <string name="moderation_tag_move_tag">%s тег %s перед %s.</string>
@@ -480,6 +476,7 @@
     <string name="feed_all">Все побликации</string>
     <string name="feed_subscribed">Только подписки</string>
     <string name="feed_important">Только важные</string>
+    <string name="feed_subscribes">Не показывать подписки в бездне</string>
     <string name="feed_all_first">Бездна первым экраном</string>
     <string name="feed_language">Язык</string>
     <string name="feed_categories">Категории</string>
@@ -581,15 +578,7 @@
     <string name="comment_clear_reports_confirm">Удалить жалобы на этот комментарий?</string>
     <string name="comment_error_gone">Похоже кто-то удалил этот комментарий</string>
 
-    <string name="forum_empty">На форуме этого фэндома пока нет ни одной темы</string>
-    <string name="forum_loading">Загрузка списка форумов</string>
-    <string name="forum_empty_messages">На этом форуме еще нет сообщений</string>
-    <string name="forum_loading_messages">Загрузка сообщений форума</string>
-    <string name="forum_creation_hint">Текст главной страницы форума</string>
-    <string name="forum_error_gone">Похоже кто-то удалил этот форум</string>
-    <string name="forum_remove_confirm">Удалить этот форум?</string>
-    <string name="forum_clear_reports_confirm">Удалить жалобы на этот форум?</string>
-    <string name="forum_report_confirm">Пожаловаться на этот форум?</string>
+    <string name="fandom_chat_creation_hint">Текст главной страницы чата</string>
 
     <string name="stickers_pack_view_empty">В этом наборе еще нет стикеров</string>
     <string name="stickers_packs_empty">Здесь нет ни одного набора стикеров</string>
@@ -634,7 +623,7 @@
     <string name="achi_comments_karma_count">Опубликуйте комментарий, который наберет максимальное количество кармы.</string>
     <string name="achi_stickers_karma_count">Опубликуйте набор стикеров, который наберет максимальное количество кармы.</string>
     <string name="achi_login">Измените логин по умолчанию.</string>
-    <string name="achi_chat">Скажите привет в чате :D</string>
+    <string name="achi_chat">Скажите привет в чате любого фэндома :D</string>
     <string name="achi_comment">Оставьте первый комментарий к любой публикации.</string>
     <string name="achi_answer">Ответьте на любой комментарий.</string>
     <string name="achi_rate">Поставьте свою первую оценку, нажмите кнопку кармы в любой публикации.</string>
@@ -655,7 +644,7 @@
     <string name="achi_moderators_tags">Измените теги поста другого пользователя.</string>
     <string name="achi_50">Посмотрите фейерверк.</string>
     <string name="achi_51">Сделайте пользователя модератором фэндома.</string>
-    <string name="achi_52">Создайте форум.</string>
+    <string name="achi_52">Создайте чат фэндома.</string>
     <string name="achi_53">Подтвердите или отклоните модераторское действие.</string>
     <string name="achi_54">Примите новый фэндом.</string>
     <string name="achi_55">Станьте модератором в нескольких фэндомах.</string>
@@ -671,7 +660,7 @@
     <string name="lvl_app_profile_image">Возможность изменить фоновую картинку в профиле</string>
     <string name="lvl_moderate_block">Модератор. Возможность блокировать публикации в фэндоме</string>
     <string name="lvl_moderate_to_drafts">Возможность вернуть пост в черновики пользователя</string>
-    <string name="lvl_moderate_forums">Возможность создавать форумы</string>
+    <string name="lvl_moderate_chats">Возможность создавать чаты фэндома</string>
     <string name="lvl_moderate_post_tags">Возможность изменять теги статей</string>
     <string name="lvl_moderate_image_title">Возможность изменить фоновую картинку в фэндоме</string>
     <string name="lvl_moderate_description">Возможность изменить описание фэндома</string>
@@ -818,9 +807,9 @@
     <string name="profile_rate_comment">%s комментарий %s</string>
     <string name="profile_rate_moderation">%s модерацию %s</string>
     <string name="profile_rate_review">%s отзыв %s</string>
-    <string name="profile_rate_forum">%s форум %s</string>
     <string name="profile_rate_stikers_pack">%s набор стикеров %s</string>
     <string name="profile_rate_sticker">%s стикер %s</string>
+    <string name="profile_anonymous_text">Этот пользователь пожелал остаться неизвестным.</string>
     <string name="profile_subtitle_text_1">Пользователь Campfire</string>
     <string name="profile_subtitle_text_2">Лучший пользователь Campfire</string>
     <string name="profile_subtitle_text_3">Хороший мальчик</string>
@@ -1038,6 +1027,7 @@
     <string name="category_people">Люди</string>
     <string name="category_event">Событие</string>
     <string name="category_plants">Растения</string>
+    <string name="category_places">Места</string>
     <string name="category_other">Другое</string>
     <string name="category_memes">Мемы</string>
 
@@ -1303,6 +1293,10 @@
     <string name="plants_1_6">Грибы</string>
     <string name="plants_1_7">Домашние</string>
     <string name="plants_1_8">Дикие</string>
+
+    <string name="places_1_1">Страны</string>
+    <string name="places_1_2">Города</string>
+    <string name="places_1_3">Природные</string>
 
     <string name="unit_event_blocked">%s в фэндоме %s до %s модератором %s</string>
     <string name="unit_event_blocked_admin">%s пользователя %s в фандоме %s до %s</string>

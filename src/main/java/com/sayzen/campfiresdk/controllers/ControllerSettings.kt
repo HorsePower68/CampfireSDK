@@ -227,10 +227,10 @@ object ControllerSettings {
             accountSettings.anonRates = b
         }
 
-    var viewedForums: Array<Long>
-        get() = accountSettings.viewedForums
+    var viewedChats: Array<Long>
+        get() = accountSettings.viewedChats
         set(b) {
-            accountSettings.viewedForums = b
+            accountSettings.viewedChats = b
             onSettingsUpdated()
         }
 
@@ -403,6 +403,13 @@ object ControllerSettings {
             onSettingsUpdated()
         }
 
+    var feedNoSubscribes: Boolean
+        get() = accountSettings.feedNoSubscribes
+        set(b) {
+            accountSettings.feedNoSubscribes = b
+            onSettingsUpdated()
+        }
+
     var feedAllFirst: Boolean
         get() = accountSettings.feedAllFirst
         set(b) {
@@ -450,12 +457,7 @@ object ControllerSettings {
             accountSettings.profileFilterReviews = b
             onSettingsUpdated()
         }
-    var profileFilterForums: Boolean
-        get() = accountSettings.profileFilterForums
-        set(b) {
-            accountSettings.profileFilterForums = b
-            onSettingsUpdated()
-        }
+
     var profileFilterStickers: Boolean
         get() = accountSettings.profileFilterStickers
         set(b) {
@@ -484,7 +486,6 @@ object ControllerSettings {
         }
         if (profileFilterChatMessages) list.add(API.UNIT_TYPE_CHAT_MESSAGE)
         if (profileFilterReviews) list.add(API.UNIT_TYPE_REVIEW)
-        if (profileFilterForums) list.add(API.UNIT_TYPE_FORUM)
         if (profileFilterStickers) {
             list.add(API.UNIT_TYPE_STICKER)
             list.add(API.UNIT_TYPE_STICKERS_PACK)

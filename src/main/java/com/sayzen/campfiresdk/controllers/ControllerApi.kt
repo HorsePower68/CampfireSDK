@@ -376,16 +376,15 @@ object ControllerApi {
     fun linkToPost(postId: Long) = API.LINK_POST + postId
     fun linkToReview(reviewId: Long) = API.LINK_REVIEW + reviewId
     fun linkToModeration(moderationId: Long) = API.LINK_MODERATION + moderationId
-    fun linkToForum(forumId: Long) = API.LINK_FORUM + forumId
     fun linkToWikiFandomId(fandomId: Long) = API.LINK_WIKI_FANDOM + fandomId
     fun linkToWikiItemId(itemId: Long) = API.LINK_WIKI_SECTION + itemId
     fun linkToWikiArticle(itemId: Long) = API.LINK_WIKI_ARTICLE + itemId
+    fun linkToFandomChat(chatId: Long) = API.LINK_FANDOM_CHAT + chatId
     fun linkToRubric(rubricId: Long) = API.LINK_RUBRIC + rubricId
     fun linkToSticker(id: Long) = API.LINK_STICKER + id
     fun linkToStickersPack(id: Long) = API.LINK_STICKERS_PACK + id
     fun linkToPostComment(parentUnitId: Long, commentId: Long) = API.LINK_POST + parentUnitId + "_" + commentId
     fun linkToModerationComment(parentUnitId: Long, commentId: Long) = API.LINK_MODERATION + parentUnitId + "_" + commentId
-    fun linkToForumComment(parentUnitId: Long, commentId: Long) = API.LINK_FORUM + parentUnitId + "_" + commentId
     fun linkToStickersComment(parentUnitId: Long, commentId: Long) = API.LINK_STICKERS_PACK + parentUnitId + "_" + commentId
     fun linkToChat(fandomId: Long) = API.LINK_CHAT + fandomId
     fun linkToChat(fandomId: Long, languageId: Long) = API.LINK_CHAT + fandomId + "_" + languageId
@@ -399,7 +398,6 @@ object ControllerApi {
         return when (unitType) {
             API.UNIT_TYPE_POST -> linkToPostComment(unitId, commentId)
             API.UNIT_TYPE_MODERATION -> linkToModerationComment(unitId, commentId)
-            API.UNIT_TYPE_FORUM -> linkToForumComment(unitId, commentId)
             API.UNIT_TYPE_STICKERS_PACK -> linkToStickersComment(unitId, commentId)
             else -> ""
         }
@@ -413,7 +411,6 @@ object ControllerApi {
         replaceLinkable(vText, API.LINK_SHORT_FANDOM_ID, API.LINK_FANDOM)
         replaceLinkable(vText, API.LINK_SHORT_PROFILE_ID, API.LINK_PROFILE_ID)
         replaceLinkable(vText, API.LINK_SHORT_MODERATION_ID, API.LINK_MODERATION)
-        replaceLinkable(vText, API.LINK_SHORT_FORUM_ID, API.LINK_FORUM)
         replaceLinkable(vText, API.LINK_SHORT_STICKER, API.LINK_STICKER)
         replaceLinkable(vText, API.LINK_SHORT_STICKERS_PACK, API.LINK_STICKERS_PACK)
         replaceLinkable(vText, API.LINK_SHORT_EVENT, API.LINK_EVENT)
@@ -429,6 +426,7 @@ object ControllerApi {
         replaceLinkable(vText, API.LINK_SHORT_WIKI_FANDOM, API.LINK_WIKI_FANDOM)
         replaceLinkable(vText, API.LINK_SHORT_WIKI_SECTION, API.LINK_WIKI_SECTION)
         replaceLinkable(vText, API.LINK_SHORT_WIKI_ARTICLE, API.LINK_WIKI_ARTICLE)
+        replaceLinkable(vText, API.LINK_SHORT_FANDOM_CHAT, API.LINK_FANDOM_CHAT)
         replaceLinkable(vText, API.LINK_SHORT_RUBRIC, API.LINK_RUBRIC)
 
         onReplace.invoke()
@@ -441,10 +439,10 @@ object ControllerApi {
         makeLinkable(vText, API.LINK_SHORT_FANDOM_ID, API.LINK_FANDOM)
         makeLinkable(vText, API.LINK_SHORT_PROFILE_ID, API.LINK_PROFILE_ID)
         makeLinkable(vText, API.LINK_SHORT_MODERATION_ID, API.LINK_MODERATION)
-        makeLinkable(vText, API.LINK_SHORT_FORUM_ID, API.LINK_FORUM)
         makeLinkable(vText, API.LINK_SHORT_WIKI_FANDOM, API.LINK_WIKI_FANDOM)
         makeLinkable(vText, API.LINK_SHORT_WIKI_SECTION, API.LINK_WIKI_SECTION)
         makeLinkable(vText, API.LINK_SHORT_WIKI_ARTICLE, API.LINK_WIKI_ARTICLE)
+        makeLinkable(vText, API.LINK_SHORT_FANDOM_CHAT, API.LINK_FANDOM_CHAT)
         makeLinkable(vText, API.LINK_SHORT_RUBRIC, API.LINK_RUBRIC)
         makeLinkable(vText, API.LINK_SHORT_STICKER, API.LINK_STICKER)
         makeLinkable(vText, API.LINK_SHORT_STICKERS_PACK, API.LINK_STICKERS_PACK)
@@ -533,7 +531,6 @@ object ControllerApi {
             API.UNIT_TYPE_POST -> clearReportsUnit(unitId, R.string.post_clear_reports_confirm, R.string.post_error_gone)
             API.UNIT_TYPE_COMMENT -> clearReportsUnit(unitId, R.string.comment_clear_reports_confirm, R.string.comment_error_gone)
             API.UNIT_TYPE_REVIEW -> clearReportsUnit(unitId, R.string.review_clear_reports_confirm, R.string.review_error_gone)
-            API.UNIT_TYPE_FORUM -> clearReportsUnit(unitId, R.string.forum_clear_reports_confirm, R.string.forum_error_gone)
             API.UNIT_TYPE_STICKERS_PACK -> clearReportsUnit(unitId, R.string.stickers_packs_clear_reports_confirm, R.string.stickers_packs_error_gone)
         }
     }

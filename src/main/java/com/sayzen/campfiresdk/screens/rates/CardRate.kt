@@ -6,7 +6,6 @@ import com.dzen.campfire.api.models.Rate
 import com.sayzen.campfiresdk.R
 import com.sayzen.campfiresdk.controllers.ControllerApi
 import com.sayzen.campfiresdk.controllers.ControllerUnits
-import com.sayzen.campfiresdk.screens.fandoms.forums.view.SForumView
 import com.sayzen.campfiresdk.screens.fandoms.moderation.view.SModerationView
 import com.sayzen.campfiresdk.screens.fandoms.reviews.SReviews
 import com.sayzen.campfiresdk.screens.fandoms.view.SFandom
@@ -49,11 +48,6 @@ class CardRate(
                 textR = R.string.profile_rate_review
                 link = ControllerApi.linkToReview(rate.unitId)
                 setOnClick { SReviews.instance(rate.unitParentId, rate.unitId, Navigator.TO) }
-            }
-            API.UNIT_TYPE_FORUM -> {
-                textR = R.string.profile_rate_forum
-                link = ControllerApi.linkToForum(rate.unitId)
-                setOnClick { SForumView.instance(rate.unitId, Navigator.TO) }
             }
             API.UNIT_TYPE_STICKER -> {
                 textR = R.string.profile_rate_sticker

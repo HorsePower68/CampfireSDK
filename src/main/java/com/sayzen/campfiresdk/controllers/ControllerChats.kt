@@ -70,16 +70,16 @@ object ControllerChats {
 
     fun instanceChatPopup(tag: ChatTag, memberStatus: Long?, onRemove: () -> Unit = {}): WidgetMenu {
         return WidgetMenu()
-                .add(R.string.app_copy_link) { _, _ -> ToolsAndroid.setToClipboard(ControllerApi.linkToChat(tag.targetId));ToolsToast.show(R.string.app_copied) }.condition(tag.chatType == API.CHAT_TYPE_FANDOM)
-                .add(R.string.app_copy_link_with_language) { _, _ -> ToolsAndroid.setToClipboard(ControllerApi.linkToChat(tag.targetId, tag.targetSubId));ToolsToast.show(R.string.app_copied) }.condition(tag.chatType == API.CHAT_TYPE_FANDOM)
+                .add(R.string.app_copy_link) { _, _ -> ToolsAndroid.setToClipboard(ControllerApi.linkToChat(tag.targetId));ToolsToast.show(R.string.app_copied) }.condition(tag.chatType == API.CHAT_TYPE_FANDOM_ROOT)
+                .add(R.string.app_copy_link_with_language) { _, _ -> ToolsAndroid.setToClipboard(ControllerApi.linkToChat(tag.targetId, tag.targetSubId));ToolsToast.show(R.string.app_copied) }.condition(tag.chatType == API.CHAT_TYPE_FANDOM_ROOT)
                 .add(R.string.app_copy_link) { _, _ -> ToolsAndroid.setToClipboard(ControllerApi.linkToConf(tag.targetId));ToolsToast.show(R.string.app_copied) }.condition(tag.chatType == API.CHAT_TYPE_CONFERENCE)
                 .add(R.string.app_edit) { _, _ -> SChatCreate.instance(tag.targetId, Navigator.TO) }.condition(tag.chatType == API.CHAT_TYPE_CONFERENCE && memberStatus == API.CHAT_MEMBER_STATUS_ACTIVE)
-                .add(R.string.chat_remove) { _, _ -> chatRemove(tag, onRemove) }.condition(tag.chatType == API.CHAT_TYPE_FANDOM)
-                .add(R.string.chat_clear_history) { _, _ -> clearHistory(tag, onRemove) }.condition(tag.chatType != API.CHAT_TYPE_FANDOM)
+                .add(R.string.chat_remove) { _, _ -> chatRemove(tag, onRemove) }.condition(tag.chatType == API.CHAT_TYPE_FANDOM_ROOT)
+                .add(R.string.chat_clear_history) { _, _ -> clearHistory(tag, onRemove) }.condition(tag.chatType != API.CHAT_TYPE_FANDOM_ROOT)
                 .add(R.string.chat_leave) { _, _ -> leave(tag) }.condition(tag.chatType == API.CHAT_TYPE_CONFERENCE && memberStatus == API.CHAT_MEMBER_STATUS_ACTIVE)
                 .add(R.string.chat_enter) { _, _ -> enter(tag) }.condition(tag.chatType == API.CHAT_TYPE_CONFERENCE && memberStatus == API.CHAT_MEMBER_STATUS_LEAVE)
-                .add(R.string.fandoms_menu_background_change) { _, _ -> changeBackgroundImage(tag.targetId, tag.targetSubId) }.condition(tag.chatType == API.CHAT_TYPE_FANDOM && ControllerApi.can(tag.targetId, tag.targetSubId, API.LVL_MODERATOR_BACKGROUND_IMAGE)).backgroundRes(R.color.blue_700).textColorRes(R.color.white)
-                .add(R.string.fandoms_menu_background_remove) { _, _ -> removeBackgroundImage(tag.targetId, tag.targetSubId) }.condition(tag.chatType == API.CHAT_TYPE_FANDOM && ControllerApi.can(tag.targetId, tag.targetSubId, API.LVL_MODERATOR_BACKGROUND_IMAGE)).backgroundRes(R.color.blue_700).textColorRes(R.color.white)
+                .add(R.string.fandoms_menu_background_change) { _, _ -> changeBackgroundImage(tag.targetId, tag.targetSubId) }.condition(tag.chatType == API.CHAT_TYPE_FANDOM_ROOT && ControllerApi.can(tag.targetId, tag.targetSubId, API.LVL_MODERATOR_BACKGROUND_IMAGE)).backgroundRes(R.color.blue_700).textColorRes(R.color.white)
+                .add(R.string.fandoms_menu_background_remove) { _, _ -> removeBackgroundImage(tag.targetId, tag.targetSubId) }.condition(tag.chatType == API.CHAT_TYPE_FANDOM_ROOT && ControllerApi.can(tag.targetId, tag.targetSubId, API.LVL_MODERATOR_BACKGROUND_IMAGE)).backgroundRes(R.color.blue_700).textColorRes(R.color.white)
     }
 
     private fun changeBackgroundImage(fandomId:Long, languageId:Long) {

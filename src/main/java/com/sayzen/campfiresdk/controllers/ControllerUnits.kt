@@ -3,12 +3,11 @@ package com.sayzen.campfiresdk.controllers
 import android.view.View
 import com.dzen.campfire.api.API
 import com.dzen.campfire.api.models.units.Unit
-import com.dzen.campfire.api.models.units.UnitForum
 import com.dzen.campfire.api.models.units.moderations.*
 import com.dzen.campfire.api.models.units.moderations.fandom.*
-import com.dzen.campfire.api.models.units.moderations.forum.ModerationForumChange
-import com.dzen.campfire.api.models.units.moderations.forum.ModerationForumCreate
-import com.dzen.campfire.api.models.units.moderations.forum.ModerationForumRemove
+import com.dzen.campfire.api.models.units.moderations.chat.ModerationChatChange
+import com.dzen.campfire.api.models.units.moderations.chat.ModerationChatCreate
+import com.dzen.campfire.api.models.units.moderations.chat.ModerationChatRemove
 import com.dzen.campfire.api.models.units.moderations.posts.*
 import com.dzen.campfire.api.models.units.moderations.rubrics.ModerationRubricChangeName
 import com.dzen.campfire.api.models.units.moderations.rubrics.ModerationRubricChangeOwner
@@ -18,7 +17,6 @@ import com.dzen.campfire.api.models.units.moderations.tags.*
 import com.dzen.campfire.api.models.units.moderations.units.ModerationBlock
 import com.dzen.campfire.api.models.units.moderations.units.ModerationForgive
 import com.dzen.campfire.api.models.units.tags.UnitTag
-import com.dzen.campfire.api.requests.fandoms.RFandomsModerationForumRemove
 import com.dzen.campfire.api.requests.post.RPostToDrafts
 import com.dzen.campfire.api.requests.tags.RTagsMove
 import com.dzen.campfire.api.requests.tags.RTagsMoveCategory
@@ -63,7 +61,6 @@ object ControllerUnits {
             API.UNIT_TYPE_MODERATION -> ToolsResources.s(R.string.app_moderation)
             API.UNIT_TYPE_POST -> ToolsResources.s(R.string.app_post)
             API.UNIT_TYPE_REVIEW -> ToolsResources.s(R.string.app_review)
-            API.UNIT_TYPE_FORUM -> ToolsResources.s(R.string.app_forum)
             API.UNIT_TYPE_STICKERS_PACK -> ToolsResources.s(R.string.app_stickers_pack)
             API.UNIT_TYPE_STICKER -> ToolsResources.s(R.string.app_sticker)
             else -> "[unknown]"
@@ -74,7 +71,6 @@ object ControllerUnits {
 
         if (unitType == API.UNIT_TYPE_POST) ControllerCampfireSDK.onToPostClicked(unitId, commentId, Navigator.TO)
         if (unitType == API.UNIT_TYPE_MODERATION) ControllerCampfireSDK.onToModerationClicked(unitId, commentId, Navigator.TO)
-        if (unitType == API.UNIT_TYPE_FORUM) ControllerCampfireSDK.onToForumClicked(unitId, commentId, Navigator.TO)
         if (unitType == API.UNIT_TYPE_STICKER) SStickersView.instanceBySticker(unitId, Navigator.TO)
         if (unitType == API.UNIT_TYPE_CHAT_MESSAGE) SChat.instance(unitId, true, Navigator.TO)
         if (unitType == API.UNIT_TYPE_STICKERS_PACK) {
@@ -232,40 +228,6 @@ object ControllerUnits {
     }
 
     //
-    //  Forum
-    //
-
-    fun showForumPopup(unit: UnitForum) {
-        WidgetMenu()
-                .add(R.string.app_copy_link) { _, _ -> ToolsAndroid.setToClipboard(ControllerApi.linkToForum(unit.id));ToolsToast.show(R.string.app_copied) }.condition(unit.isPublic)
-                .add(R.string.unit_menu_comments_watch) { _, _ -> changeWatchComments(unit.id) }.condition(unit.isPublic)
-                .add(R.string.app_report) { _, _ -> ControllerApi.reportUnit(unit.id, R.string.forum_report_confirm, R.string.forum_error_gone) }.condition(unit.isPublic)
-                .add(R.string.app_clear_reports) { _, _ -> clearReports(unit) }.backgroundRes(R.color.blue_700).textColorRes(R.color.white).condition(ControllerPost.ENABLED_CLEAR_REPORTS && ControllerApi.can(unit.fandomId, unit.languageId, API.LVL_MODERATOR_BLOCK) && unit.reportsCount > 0)
-                .add(R.string.app_change) { _, _ -> changeForum(unit) }.condition(unit.isPublic && ControllerApi.can(unit.fandomId, unit.languageId, API.LVL_MODERATOR_FORUMS)).backgroundRes(R.color.blue_700).textColorRes(R.color.white)
-                .add(R.string.app_remove) { _, _ -> removeForum(unit.id) }.condition(unit.isPublic && ControllerApi.can(unit.fandomId, unit.languageId, API.LVL_MODERATOR_FORUMS)).backgroundRes(R.color.blue_700).textColorRes(R.color.white)
-                .asSheetShow()
-    }
-
-    fun removeForum(unitId: Long) {
-        WidgetField()
-                .setHint(R.string.moderation_widget_comment)
-                .setOnCancel(R.string.app_cancel)
-                .setMin(API.MODERATION_COMMENT_MIN_L)
-                .setMax(API.MODERATION_COMMENT_MAX_L)
-                .setOnEnter(R.string.app_remove) { _, comment ->
-                    ApiRequestsSupporter.executeProgressDialog(RFandomsModerationForumRemove(unitId, comment)) { _ ->
-                        EventBus.post(EventUnitRemove(unitId))
-                        ToolsToast.show(R.string.app_done)
-                    }
-                }
-                .asSheetShow()
-    }
-
-    fun changeForum(unit: UnitForum) {
-        ControllerCampfireSDK.ON_CHANGE_FORUM_CLICKED.invoke(unit)
-    }
-
-    //
     //  Requests
     //
 
@@ -417,14 +379,14 @@ object ControllerUnits {
             is ModerationForgive -> {
                 text = ToolsResources.sCap(R.string.moderation_text_forgive, ToolsResources.sex(unit.creatorSex, R.string.he_forgive, R.string.she_forgive), ControllerApi.linkToUser(m.accountName))
             }
-            is ModerationForumCreate -> {
-                text = ToolsResources.sCap(R.string.moderation_text_forum_create, ToolsResources.sex(unit.creatorSex, R.string.he_created, R.string.she_created), m.name, ControllerApi.linkToForum(m.forumId))
+            is ModerationChatCreate -> {
+                text = ToolsResources.sCap(R.string.moderation_text_chat_create, ToolsResources.sex(unit.creatorSex, R.string.he_created, R.string.she_created), m.name)
             }
-            is ModerationForumChange -> {
-                text = ToolsResources.sCap(R.string.moderation_text_forum_change, ToolsResources.sex(unit.creatorSex, R.string.he_changed, R.string.she_changed), m.name, ControllerApi.linkToForum(m.forumId))
+            is ModerationChatChange -> {
+                text = ToolsResources.sCap(R.string.moderation_text_chat_change, ToolsResources.sex(unit.creatorSex, R.string.he_changed, R.string.she_changed), m.name)
             }
-            is ModerationForumRemove -> {
-                text = ToolsResources.sCap(R.string.moderation_text_forum_remove, ToolsResources.sex(unit.creatorSex, R.string.he_remove, R.string.she_remove), m.name, ControllerApi.linkToForum(m.forumId))
+            is ModerationChatRemove -> {
+                text = ToolsResources.sCap(R.string.moderation_text_chat_remove, ToolsResources.sex(unit.creatorSex, R.string.he_remove, R.string.she_remove), m.name)
             }
             is ModerationTagMove -> {
                 if (m.tagParentId == 0L) text = ToolsResources.sCap(R.string.moderation_tag_move_category, ToolsResources.sex(unit.creatorSex, R.string.he_move, R.string.she_move), m.tagName, m.tagOtherName)

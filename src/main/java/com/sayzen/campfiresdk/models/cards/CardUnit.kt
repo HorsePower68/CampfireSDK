@@ -7,7 +7,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.dzen.campfire.api.models.UnitComment
 import com.dzen.campfire.api.models.UnitReview
 import com.dzen.campfire.api.models.units.Unit
-import com.dzen.campfire.api.models.units.UnitForum
 import com.dzen.campfire.api.models.units.post.UnitPost
 import com.dzen.campfire.api.models.units.chat.UnitChatMessage
 import com.dzen.campfire.api.models.units.events_admins.UnitEventAdmin
@@ -61,7 +60,6 @@ abstract class CardUnit(
                 is UnitEventAdmin -> CardUnitEventAdmin(unit)
                 is UnitEventFandom -> CardUnitEventFandom(unit)
                 is UnitReview -> CardReview(unit)
-                is UnitForum -> CardForum(unit)
                 is UnitSticker -> CardSticker(unit, isShowFullInfo, isShowReports)
                 is UnitStickersPack -> CardStickersPack(unit, isShowFullInfo, isShowReports)
                 else -> CardUnitUnknown(unit)

@@ -9,7 +9,6 @@ import com.sayzen.campfiresdk.R
 import com.sayzen.campfiresdk.controllers.ControllerCampfireObjects
 import com.sayzen.campfiresdk.screens.account.profile.SAccount
 import com.sayzen.campfiresdk.screens.chat.SChat
-import com.sayzen.campfiresdk.screens.fandoms.forums.view.SForumView
 import com.sayzen.campfiresdk.screens.fandoms.view.SFandom
 import com.sayzen.campfiresdk.screens.post.view.SPost
 import com.sayzen.campfiresdk.screens.account.stickers.SStickersView
@@ -54,8 +53,7 @@ class CardPageCampfireObject(
                 else SAccount.instance(name, Navigator.TO)
             }
             link.isLinkToPost() -> SPost.instance(link.getLongParamOrZero(0), Navigator.TO)
-            link.isLinkToChat() -> SChat.instance(API.CHAT_TYPE_FANDOM, link.getLongParamOrZero(0), link.getLongParamOrZero(1), false, Navigator.TO)
-            link.isLinkToForum() -> SForumView.instance(link.getLongParamOrZero(0), Navigator.TO)
+            link.isLinkToChat() -> SChat.instance(API.CHAT_TYPE_FANDOM_ROOT, link.getLongParamOrZero(0), link.getLongParamOrZero(1), false, Navigator.TO)
             link.isLinkToFandom() -> SFandom.instance(link.getLongParamOrZero(0), link.getLongParamOrZero(1), Navigator.TO)
             link.isLinkToStickersPack() -> SStickersView.instance(link.getLongParamOrZero(0), Navigator.TO)
         }}

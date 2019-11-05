@@ -23,7 +23,6 @@ class CardFilters(
             val chatMessagesOld = ControllerSettings.profileFilterChatMessages
             val moderationsOld = ControllerSettings.profileFilterModerations
             val reviewsOld = ControllerSettings.profileFilterReviews
-            val forumsOld = ControllerSettings.profileFilterForums
             val stickersOld = ControllerSettings.profileFilterStickers
 
             WidgetCheckBoxes()
@@ -33,7 +32,6 @@ class CardFilters(
                     .add(R.string.filter_chat_messages).checked(ControllerSettings.profileFilterChatMessages).onChange {_, _, b -> ControllerSettings.profileFilterChatMessages = b }
                     .add(R.string.filter_moderations).checked(ControllerSettings.profileFilterModerations).onChange {_, _, b -> ControllerSettings.profileFilterModerations = b }
                     .add(R.string.app_reviews).checked(ControllerSettings.profileFilterReviews).onChange {_, _, b -> ControllerSettings.profileFilterReviews = b }
-                    .add(R.string.app_forums).checked(ControllerSettings.profileFilterForums).onChange {_, _, b -> ControllerSettings.profileFilterForums = b }
                     .add(R.string.app_stickers).checked(ControllerSettings.profileFilterStickers).onChange { _, _, b -> ControllerSettings.profileFilterStickers = b }
                     .setOnHide {
                         if (eventsOld != ControllerSettings.profileFilterEvents
@@ -42,7 +40,6 @@ class CardFilters(
                                 || chatMessagesOld != ControllerSettings.profileFilterChatMessages
                                 || moderationsOld != ControllerSettings.profileFilterModerations
                                 || reviewsOld != ControllerSettings.profileFilterReviews
-                                || forumsOld != ControllerSettings.profileFilterForums
                                 || stickersOld != ControllerSettings.profileFilterStickers
                         ) {
                             if (!ControllerSettings.profileFilterEvents
@@ -51,7 +48,6 @@ class CardFilters(
                                     && !ControllerSettings.profileFilterChatMessages
                                     && !ControllerSettings.profileFilterModerations
                                     && !ControllerSettings.profileFilterReviews
-                                    && !ControllerSettings.profileFilterForums
                                     && !ControllerSettings.profileFilterStickers
                             ) {
                                 ControllerSettings.profileFilterEvents = true
@@ -60,7 +56,6 @@ class CardFilters(
                                 ControllerSettings.profileFilterChatMessages = true
                                 ControllerSettings.profileFilterModerations = true
                                 ControllerSettings.profileFilterReviews = true
-                                ControllerSettings.profileFilterForums = true
                                 ControllerSettings.profileFilterStickers = true
                             }
                             onChange.invoke()

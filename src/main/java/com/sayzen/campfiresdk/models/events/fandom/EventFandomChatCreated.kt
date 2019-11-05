@@ -1,7 +1,7 @@
 package com.sayzen.campfiresdk.models.events.fandom
 
-class EventForumCreated(
+class EventFandomChatCreated(
         var fandomId: Long,
         var languageId: Long,
-        var forumId:Long
+        var chatId:Long
 )

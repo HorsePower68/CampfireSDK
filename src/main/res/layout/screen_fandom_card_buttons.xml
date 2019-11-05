@@ -44,7 +44,7 @@
                     android:layout_gravity="center"
                     android:gravity="center"
                     android:lines="1"
-                    android:text="@string/app_chat" />
+                    android:text="@string/app_chats" />
 
             </LinearLayout>
 
@@ -204,7 +204,7 @@
             </LinearLayout>
 
             <LinearLayout
-                android:id="@+id/vForumsButton"
+                android:id="@+id/vRubricButton"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -215,7 +215,7 @@
                 android:padding="12dp">
 
                 <TextView
-                    android:id="@+id/vForumsText"
+                    android:id="@+id/vRubricText"
                     style="@style/TextAppearance.AppCompat.Body2"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -232,9 +232,10 @@
                     android:layout_gravity="center"
                     android:gravity="center"
                     android:lines="1"
-                    android:text="@string/app_forums" />
+                    android:text="@string/app_rubrics" />
 
             </LinearLayout>
+
 
         </LinearLayout>
 
@@ -275,40 +276,6 @@
                     android:text="@string/app_wiki" />
 
             </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/vRubricButton"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:background="?selectableItemBackground"
-                android:clickable="true"
-                android:focusable="true"
-                android:orientation="vertical"
-                android:padding="12dp">
-
-                <TextView
-                    android:id="@+id/vRubricText"
-                    style="@style/TextAppearance.AppCompat.Body2"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:gravity="center"
-                    android:lines="1"
-                    android:text="-"
-                    android:textStyle="bold" />
-
-                <TextView
-                    style="@style/TextAppearance.AppCompat.Body1"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:gravity="center"
-                    android:lines="1"
-                    android:text="@string/app_rubrics" />
-
-            </LinearLayout>
-
 
         </LinearLayout>
 

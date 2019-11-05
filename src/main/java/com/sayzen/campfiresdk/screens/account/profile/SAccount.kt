@@ -32,6 +32,7 @@ import com.sup.dev.android.libs.screens.navigator.NavigationAction
 import com.sup.dev.android.libs.screens.navigator.Navigator
 import com.sup.dev.android.tools.*
 import com.sup.dev.android.views.cards.CardSpace
+import com.sup.dev.android.views.screens.SAlert
 import com.sup.dev.android.views.screens.SCrop
 import com.sup.dev.android.views.screens.SImageView
 import com.sup.dev.android.views.support.adapters.recycler_view.RecyclerCardAdapterLoading
@@ -55,7 +56,16 @@ class SAccount private constructor(
         }
 
         fun instance(accountId: Long, action: NavigationAction) {
-            ApiRequestsSupporter.executeInterstitial(action, RAccountsGetProfile(accountId, "")) { r ->
+            if (accountId == 0L) {
+                val screen = SAlert(
+                        ToolsResources.s(R.string.app_anonymous),
+                        ToolsResources.s(R.string.profile_anonymous_text),
+                        ToolsResources.s(R.string.app_back), null)
+                screen.onAction = {Navigator.remove(screen)}
+                screen.isNavigationAllowed = false
+                screen.isNavigationAnimation = false
+                Navigator.to(screen)
+            } else ApiRequestsSupporter.executeInterstitial(action, RAccountsGetProfile(accountId, "")) { r ->
                 SAccount(r)
             }
         }

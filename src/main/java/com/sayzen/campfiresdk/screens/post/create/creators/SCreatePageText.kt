@@ -161,6 +161,8 @@ class SCreatePageText(
         vFab.isEnabled = enabled
         vField.isEnabled = enabled
         vTextTitle.isEnabled = enabled
+        vIconAttach.isEnabled = enabled
+        vLink.isEnabled = enabled
     }
 
 }

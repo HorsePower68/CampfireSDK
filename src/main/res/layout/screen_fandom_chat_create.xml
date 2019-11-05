@@ -42,7 +42,7 @@
             app:layout_behavior="@string/appbar_scrolling_view_behavior"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:hint="@string/forum_creation_hint"
+            android:hint="@string/fandom_chat_creation_hint"
             android:background="@null"
             android:inputType="textMultiLine|textCapSentences|textAutoCorrect"/>
 

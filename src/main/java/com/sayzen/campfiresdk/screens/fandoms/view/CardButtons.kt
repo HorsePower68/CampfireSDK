@@ -8,7 +8,6 @@ import com.sayzen.campfiresdk.adapters.XFandom
 import com.sayzen.campfiresdk.models.events.fandom.EventFandomRemoveModerator
 import com.sayzen.campfiresdk.models.events.fandom.EventFandomSubscribe
 import com.sayzen.campfiresdk.screens.chat.SChat
-import com.sayzen.campfiresdk.screens.fandoms.forums.SForums
 import com.sayzen.campfiresdk.screens.fandoms.moderation.moderators.SModeration
 import com.sayzen.campfiresdk.screens.fandoms.rating.SRating
 import com.sayzen.campfiresdk.screens.fandoms.subscribers.SSubscribers
@@ -23,8 +22,7 @@ import com.sup.dev.java.libs.eventBus.EventBus
 
 class CardButtons(
         private val xFandom: XFandom,
-        private val chatOnlineCount: Long,
-        private val forumsCount: Long,
+        private val chatsCount: Long,
         private val tagsCount: Long,
         private var subscribersCountLanguage: Long,
         private var subscribersCountTotal: Long,
@@ -48,8 +46,6 @@ class CardButtons(
         val vTagsText: TextView = view.findViewById(R.id.vTagsText)
         val vModerationButton: View = view.findViewById(R.id.vModerationButton)
         val vModerationText: TextView = view.findViewById(R.id.vModerationText)
-        val vForumsButton: View = view.findViewById(R.id.vForumsButton)
-        val vForumsText: TextView = view.findViewById(R.id.vForumsText)
         val vSubscribersButton: View = view.findViewById(R.id.vSubscribersButton)
         val vSubscribersText: TextView = view.findViewById(R.id.vSubscribersText)
         val vSubscribersTotalText: TextView = view.findViewById(R.id.vSubscribersTotalText)
@@ -58,8 +54,8 @@ class CardButtons(
         val vRubricButton: View = view.findViewById(R.id.vRubricButton)
         val vRubricText: TextView = view.findViewById(R.id.vRubricText)
 
-        vChatsButton.setOnClickListener { SChat.instance(API.CHAT_TYPE_FANDOM, xFandom.fandomId, xFandom.languageId, false, Navigator.REORDER) }
-        vChatsCount.text = "$chatOnlineCount"
+        vChatsButton.setOnClickListener { SChat.instance(API.CHAT_TYPE_FANDOM_ROOT, xFandom.fandomId, xFandom.languageId, false, Navigator.REORDER) }
+        vChatsCount.text = "$chatsCount"
 
         val karma30 = ControllerApi.getKarmaCount(xFandom.fandomId, xFandom.languageId) / 100
         vRatingsButton.setOnClickListener { SRating.instance(xFandom.fandomId, xFandom.languageId, Navigator.TO) }
@@ -71,9 +67,6 @@ class CardButtons(
 
         vModerationButton.setOnClickListener { Navigator.to(SModeration(xFandom.fandomId, xFandom.languageId)) }
         vModerationText.text = "$modersCount"
-
-        vForumsButton.setOnClickListener { Navigator.to(SForums(xFandom.fandomId, xFandom.languageId)) }
-        vForumsText.text = "$forumsCount"
 
         vSubscribersButton.setOnClickListener { SSubscribers.instance(xFandom.fandomId, xFandom.languageId, Navigator.TO) }
         vSubscribersText.text = "$subscribersCountLanguage"

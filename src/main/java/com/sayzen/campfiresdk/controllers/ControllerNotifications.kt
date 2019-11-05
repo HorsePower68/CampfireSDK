@@ -404,9 +404,6 @@ object ControllerNotifications {
                 )
                 )
             }
-            if (n.parentUnitType == API.UNIT_TYPE_FORUM) {
-                title = n.unitName
-            }
             return title
         }
 
@@ -480,7 +477,7 @@ object ControllerNotifications {
         }
 
         override fun asString(html: Boolean): String {
-            if (n.tag.chatType == API.CHAT_TYPE_FANDOM) {
+            if (n.tag.chatType == API.CHAT_TYPE_FANDOM_ROOT) {
                 return if (n.unitChatMessage.resourceId != 0L && n.unitChatMessage.text.isEmpty()) n.unitChatMessage.creatorName + ": " + ToolsResources.s(R.string.app_image)
                 else if (n.unitChatMessage.stickerId != 0L && n.unitChatMessage.text.isEmpty()) n.unitChatMessage.creatorName + ": " + ToolsResources.s(R.string.app_sticker)
                 else n.unitChatMessage.creatorName + ": " + n.unitChatMessage.text
@@ -656,12 +653,6 @@ object ControllerNotifications {
             ), karmsS)
             if (n.unitType == API.UNIT_TYPE_REVIEW) return ToolsResources.sCap(
                     R.string.notification_karma_review, name, ToolsResources.sex(
-                    n.accountSex,
-                    R.string.he_rate,
-                    R.string.she_rate
-            ), karmsS)
-            if (n.unitType == API.UNIT_TYPE_FORUM) return ToolsResources.sCap(
-                    R.string.notification_karma_forum, name, ToolsResources.sex(
                     n.accountSex,
                     R.string.he_rate,
                     R.string.she_rate

@@ -6,7 +6,7 @@ import android.widget.TextView
 import com.dzen.campfire.api.API
 import com.dzen.campfire.api.models.notifications.chat.NotificationChatAnswer
 import com.dzen.campfire.api.models.notifications.chat.NotificationChatMessage
-import com.dzen.campfire.api.models.units.chat.UnitChat
+import com.dzen.campfire.api.models.units.chat.Chat
 import com.dzen.campfire.api.models.units.chat.UnitChatMessage
 import com.sayzen.campfiresdk.R
 import com.sayzen.campfiresdk.adapters.XAccount
@@ -28,14 +28,14 @@ import com.sup.dev.java.libs.eventBus.EventBus
 import com.sup.dev.java.tools.ToolsDate
 
 class CardChat(
-        var unit: UnitChat,
+        var unit: Chat,
         messagesCount: Int,
         var subscribed: Boolean
 ) : Card(R.layout.card_chat) {
 
     private val xFandom: XFandom
     private val xAccount: XAccount
-    var onSelected: ((UnitChat) -> Unit)? = null
+    var onSelected: ((Chat) -> Unit)? = null
 
     private val eventBus = EventBus
             .subscribe(EventChatMessagesCountChanged::class) { this.onEventChatMessagesCountChanged(it) }
@@ -49,7 +49,7 @@ class CardChat(
     init {
         ControllerChats.putRead(unit.tag, unit.anotherAccountReadDate)
         unit.tag.setMyAccountId(ControllerApi.account.id)
-        xFandom = XFandom(if (unit.tag.chatType == API.CHAT_TYPE_FANDOM) unit.tag.targetId else 0, unit.tag.targetSubId, unit.unitChatMessage.fandomName, unit.unitChatMessage.fandomImageId) { update() }
+        xFandom = XFandom(if (unit.tag.chatType == API.CHAT_TYPE_FANDOM_ROOT) unit.tag.targetId else 0, unit.tag.targetSubId, unit.unitChatMessage.fandomName, unit.unitChatMessage.fandomImageId) { update() }
         xAccount = XAccount(if (unit.tag.chatType == API.CHAT_TYPE_PRIVATE) unit.tag.getAnotherId() else 0, unit.anotherAccountImageId, unit.anotherAccountLvl, unit.anotherAccountKarma30, unit.anotherAccountLastOnlineTime) { update() }
 
         ControllerChats.setMessagesCount(unit.tag, messagesCount, subscribed)
@@ -78,7 +78,7 @@ class CardChat(
         vSwipe.onLongClick = { _, _ -> ControllerChats.instanceChatPopup(unit.tag, null).asSheetShow() }
         vSwipe.onSwipe = { if (hasUnread) ControllerChats.readRequest(unit.tag) }
 
-        if (unit.tag.chatType == API.CHAT_TYPE_FANDOM) {
+        if (unit.tag.chatType == API.CHAT_TYPE_FANDOM_ROOT) {
             xFandom.setView(vAvatar.vAvatar)
             vAvatar.vAvatar.setChipBackground(if (subscribed) ToolsResources.getAccentColor(view.context) else ToolsResources.getColor(R.color.grey_600))
         } else if (unit.tag.chatType == API.CHAT_TYPE_PRIVATE) {
@@ -89,7 +89,7 @@ class CardChat(
             vAvatar.vAvatar.setOnClickListener { SChatCreate.instance(unit.tag.targetId, Navigator.TO) }
         }
 
-        if (unit.tag.chatType == API.CHAT_TYPE_FANDOM) vAvatar.setTitle(unit.unitChatMessage.fandomName)
+        if (unit.tag.chatType == API.CHAT_TYPE_FANDOM_ROOT) vAvatar.setTitle(unit.unitChatMessage.fandomName)
         else vAvatar.setTitle(unit.anotherAccountName)
 
         if (unit.unitChatMessage.id != 0L) {

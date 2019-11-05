@@ -10,6 +10,7 @@ import com.sayzen.campfiresdk.models.events.rubrics.EventRubricCreate
 import com.sayzen.campfiresdk.screens.account.search.SAccountSearch
 import com.sup.dev.android.libs.screens.Screen
 import com.sup.dev.android.libs.screens.navigator.Navigator
+import com.sup.dev.android.tools.ToolsResources
 import com.sup.dev.android.tools.ToolsToast
 import com.sup.dev.android.views.support.watchers.TextWatcherChanged
 import com.sup.dev.java.libs.eventBus.EventBus
@@ -26,6 +27,11 @@ class SRubricsCreate constructor(
     private var ownerId = 0L
 
     init {
+        isNavigationVisible = false
+        isNavigationAllowed = false
+        isNavigationAnimation = false
+        activityRootBackground = ToolsResources.getColorAttr(R.attr.colorPrimary)
+
         vName.addTextChangedListener(TextWatcherChanged { updateFinishEnabled() })
         vUser.setOnClickListener {
             Navigator.to(SAccountSearch(true, true) {

@@ -1,7 +1,7 @@
 package com.sayzen.campfiresdk.screens.chat
 
 import com.dzen.campfire.api.models.notifications.chat.NotificationChatMessage
-import com.dzen.campfire.api.models.units.chat.UnitChat
+import com.dzen.campfire.api.models.units.chat.Chat
 import com.dzen.campfire.api.requests.chat.RChatsGetAll
 import com.sayzen.campfiresdk.R
 import com.sayzen.campfiresdk.controllers.ControllerApi
@@ -19,8 +19,8 @@ import com.sup.dev.java.libs.eventBus.EventBus
 import com.sup.dev.java.tools.ToolsThreads
 
 class SChats constructor(
-        var onSelected: ((UnitChat) -> Unit)? = null
-) : SLoadingRecycler<CardChat, UnitChat>() {
+        var onSelected: ((Chat) -> Unit)? = null
+) : SLoadingRecycler<CardChat, Chat>() {
 
     companion object {
 
@@ -45,8 +45,8 @@ class SChats constructor(
         addToolbarIcon(R.drawable.ic_add_white_24dp) { Navigator.to(SChatCreate()) }
     }
 
-    override fun instanceAdapter(): RecyclerCardAdapterLoading<CardChat, UnitChat> {
-        return RecyclerCardAdapterLoading<CardChat, UnitChat>(CardChat::class)
+    override fun instanceAdapter(): RecyclerCardAdapterLoading<CardChat, Chat> {
+        return RecyclerCardAdapterLoading<CardChat, Chat>(CardChat::class)
         { unit ->
             val card = CardChat(unit, unit.unreadCount.toInt(), unit.subscribed)
             if (onSelected != null) card.onSelected = {
@@ -62,7 +62,7 @@ class SChats constructor(
 
     }
 
-    private fun sendRequest(onLoad: (Array<UnitChat>?) -> Unit, cards: ArrayList<CardChat>) {
+    private fun sendRequest(onLoad: (Array<Chat>?) -> Unit, cards: ArrayList<CardChat>) {
         RChatsGetAll(cards.size)
                 .onComplete { r ->
                     onLoad.invoke(r.units)

@@ -5,7 +5,6 @@ import com.dzen.campfire.api.models.CampfireLink
 import com.dzen.campfire.api.models.chat.ChatTag
 import com.dzen.campfire.api.requests.accounts.RAccountsGet
 import com.dzen.campfire.api.requests.chat.RChatGet
-import com.dzen.campfire.api.requests.fandoms.RFandomsForumGet
 import com.dzen.campfire.api.requests.fandoms.RFandomsGet
 import com.dzen.campfire.api.requests.post.RPostGet
 import com.dzen.campfire.api.requests.stickers.RStickersPacksGetInfo
@@ -40,7 +39,6 @@ object ControllerCampfireObjects {
             link.isLinkToAccount() -> loadAccount(link)
             link.isLinkToPost() -> loadPost(link)
             link.isLinkToChat() -> loadChat(link)
-            link.isLinkToForum() -> loadForum(link)
             link.isLinkToFandom() -> loadFandom(link)
             link.isLinkToStickersPack() -> loadStickersPack(link)
             else -> onError(link)
@@ -75,17 +73,8 @@ object ControllerCampfireObjects {
         val targetId = link.getLongParamOrZero(0)
         val targetSubId = link.getLongParamOrZero(1)
 
-        RChatGet(ChatTag(API.CHAT_TYPE_FANDOM, targetId, targetSubId), 0)
+        RChatGet(ChatTag(API.CHAT_TYPE_FANDOM_ROOT, targetId, targetSubId), 0)
                 .onComplete { onComplete(link, it.chatName, ToolsResources.s(R.string.app_chat), it.chatImageId) }
-                .onError { onError(link) }
-                .send(api)
-    }
-
-    private fun loadForum(link: CampfireLink) {
-        val id = link.getLongParamOrZero(0)
-
-        RFandomsForumGet(id)
-                .onComplete { onComplete(link, it.unit.fandomName, ToolsResources.s(R.string.app_post), it.unit.fandomImageId) }
                 .onError { onError(link) }
                 .send(api)
     }
