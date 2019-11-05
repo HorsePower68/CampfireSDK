@@ -197,6 +197,8 @@
     <string name="app_reaction">Реакция</string>
     <string name="app_change_naming">Изменить название</string>
     <string name="app_anonymous">Аноним</string>
+    <string name="app_anonymously">Анонимно</string>
+    <string name="app_limitations">Ограничения</string>
 
     <string name="he">Он</string>
     <string name="she">Она</string>
@@ -472,6 +474,17 @@
     <string name="feed_loading_42">Когда-то и меня вела дорога приключений...</string>
     <string name="feed_loading_43">Война. Война никогда не меняется</string>
     <string name="feed_loading_44">Блуждаем во тьме</string>
+    <string name="feed_loading_45">Второй год, полёт нормальный</string>
+    <string name="feed_loading_46">Пригласи друга, получи печеньку!</string>
+    <string name="feed_loading_47">У нас мало времени!</string>
+    <string name="feed_loading_48">Не кормите обезьян!</string>
+    <string name="feed_loading_49">В случае пожара разбить и бежать!</string>
+    <string name="feed_loading_50">Не подходит для детей старше 21.</string>
+    <string name="feed_loading_51">Здесь могла быть ваша фраза, просто напишите мне.</string>
+    <string name="feed_loading_52">Поприветствуйте новичков в Campfire Hello.</string>
+    <string name="feed_loading_53">Не заступайте за край земли.</string>
+    <string name="feed_loading_54">Пристегните ремни безопасности!</string>
+    <string name="feed_loading_55">Слава лунной королеве!</string>
     <string name="feed_loading_1000">Привет датамайнерам!</string>
     <string name="feed_all">Все побликации</string>
     <string name="feed_subscribed">Только подписки</string>
@@ -949,6 +962,8 @@
     <string name="post_page_spoiler">Спойлер</string>
     <string name="post_page_polling">Опрос</string>
     <string name="post_page_polling_options">Варианты:</string>
+    <string name="post_page_polling_lvl_title">Мнимальный уровень</string>
+    <string name="post_page_polling_karma_title">Мнимальная карма</string>
     <string name="post_page_table">Таблица</string>
     <string name="post_page_campfire_object">Объект Campfire</string>
     <string name="post_page_polling_change_alert">При изменении опроса все ответы будут потеряны.</string>

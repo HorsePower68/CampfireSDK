@@ -156,6 +156,10 @@ class SWikiArticleView(
     }
 
     override fun getPagesArray() = pages
+    override fun getSourceType() = API.PAGES_SOURCE_TYPE_WIKI
+    override fun getSourcId() = wikiTitle.id
+    override fun getSourceIdSub() = languageId
+
 
     //
     //  EventBus

@@ -24,9 +24,9 @@ object ControllerKarma {
         }
     }
 
-    fun rate(unitId: Long, up:Boolean) {
+    fun rate(unitId: Long, up:Boolean, anon:Boolean) {
         stop(unitId)
-        rates[unitId] = Rate(unitId, up)
+        rates[unitId] = Rate(unitId, up, anon)
         EventBus.post(EventUnitKarmaStateChanged(unitId))
     }
 
@@ -43,6 +43,7 @@ object ControllerKarma {
     private class Rate(
             val unitId: Long,
             val up: Boolean,
+            val anon:Boolean,
             val rateStartTime: Long = System.currentTimeMillis()
     ) {
 
@@ -50,7 +51,7 @@ object ControllerKarma {
 
         init {
             subscription = ToolsThreads.main(CampfireConstants.RATE_TIME) {
-                ApiRequestsSupporter.execute(RUnitsKarmaAdd(unitId, up, ControllerApi.getLanguageId(), ControllerSettings.anonRates)) { r ->
+                ApiRequestsSupporter.execute(RUnitsKarmaAdd(unitId, up, ControllerApi.getLanguageId(), anon)) { r ->
                     EventBus.post(EventUnitKarmaAdd(unitId, r.myKarmaCount))
                 }
                     .onApiError(RUnitsKarmaAdd.E_SELF_UNIT) { ToolsToast.show(R.string.error_rate_self_unit) }

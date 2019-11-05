@@ -4,6 +4,7 @@ import android.view.View
 import com.dzen.campfire.api.API
 import com.dzen.campfire.api.models.units.chat.Chat
 import com.dzen.campfire.api.requests.chat.RChatsFandomGetAll
+import com.dzen.campfire.api.requests.chat.RChatsFandomGetRoot
 import com.sayzen.campfiresdk.R
 import com.sayzen.campfiresdk.controllers.ControllerApi
 import com.sayzen.campfiresdk.controllers.api
@@ -14,7 +15,7 @@ import com.sup.dev.android.views.screens.SLoadingRecycler
 import com.sup.dev.android.views.support.adapters.recycler_view.RecyclerCardAdapterLoading
 import com.sup.dev.java.libs.eventBus.EventBus
 
-class SForums constructor(
+class SFandomChatsList constructor(
         val fandomId: Long,
         val languageId: Long
 ) : SLoadingRecycler<CardChat, Chat>() {
@@ -35,6 +36,22 @@ class SForums constructor(
                 ToolsToast.show(R.string.error_low_lvl_or_karma)
             }
         }
+
+        loadRoot()
+    }
+
+    private fun loadRoot(){
+        RChatsFandomGetRoot(fandomId, languageId)
+                .onComplete{r->
+                    adapter?.add(0, CardChat(r.chat, r.chat.unreadCount.toInt(), r.chat.subscribed))
+                }
+                .send(api)
+    }
+
+    override fun reload() {
+        adapter?.clear()
+        loadRoot()
+        super.reload()
     }
 
     override fun instanceAdapter(): RecyclerCardAdapterLoading<CardChat, Chat> {

@@ -197,6 +197,8 @@
     <string name="app_reaction">Reaction</string>
     <string name="app_change_naming">Change name</string>
     <string name="app_anonymous">Anonymous</string>
+    <string name="app_anonymously">Anonymously</string>
+    <string name="app_limitations">Limitations</string>
 
     <string name="he">He</string>
     <string name="she">She</string>
@@ -470,6 +472,17 @@
     <string name="feed_loading_42">I used to be an adventurer like you...</string>
     <string name="feed_loading_43">War. War never changes</string>
     <string name="feed_loading_44">Wandering in the dark</string>
+    <string name="feed_loading_45">Second year, normal flight</string>
+    <string name="feed_loading_46">Invite a friend, get a cookie!</string>
+    <string name="feed_loading_47">We have no time!</string>
+    <string name="feed_loading_48">Do not feed the monkeys!</string>
+    <string name="feed_loading_49">In case of fire, smash and run!</string>
+    <string name="feed_loading_50">Not suitable for children over 21.</string>
+    <string name="feed_loading_51">Your phrase could be here, just message to me.</string>
+    <string name="feed_loading_52">Greet newcomers in Campfire Hello.</string>
+    <string name="feed_loading_53">Do not step over the edge of the earth.</string>
+    <string name="feed_loading_54">Fasten your seat belts!</string>
+    <string name="feed_loading_55">Glory to the moon queen!</string>
     <string name="feed_loading_1000">Hello datamineers!</string>
     <string name="feed_all">All publications</string>
     <string name="feed_subscribed">Subscribed only</string>
@@ -954,6 +967,8 @@
     <string name="post_page_spoiler">Spoiler</string>
     <string name="post_page_polling">Polling</string>
     <string name="post_page_polling_options">Options:</string>
+    <string name="post_page_polling_lvl_title">Minimum level</string>
+    <string name="post_page_polling_karma_title">Minimum karma</string>
     <string name="post_page_table">Table</string>
     <string name="post_page_campfire_object">Campfire Object</string>
     <string name="post_page_polling_change_alert">If you change the polling, all responses will be lost.</string>

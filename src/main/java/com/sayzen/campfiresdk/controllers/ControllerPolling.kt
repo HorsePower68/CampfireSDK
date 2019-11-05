@@ -44,9 +44,9 @@ object ControllerPolling {
                 .send(api)
     }
 
-    fun vote(pollingId: Long, itemId: Long) {
+    fun vote(sourceType: Long, sourceId: Long, sourceIdSub: Long, pollingId: Long, itemId: Long) {
         get(pollingId) { result ->
-            ApiRequestsSupporter.executeProgressDialog(RPostPagePollingVote(pollingId, itemId)) { _ ->
+            ApiRequestsSupporter.executeProgressDialog(RPostPagePollingVote(sourceType, sourceId, sourceIdSub, pollingId, itemId)) { _ ->
 
                 result.totalVotes++
                 result.myVoteItemId = itemId

@@ -15,11 +15,14 @@ import com.sup.dev.android.libs.screens.Screen
 import com.sup.dev.android.libs.screens.navigator.Navigator
 import com.sup.dev.android.tools.ToolsResources
 import com.sup.dev.android.tools.ToolsView
+import com.sup.dev.android.views.settings.SettingsField
 import com.sup.dev.android.views.support.watchers.TextWatcherChanged
 import com.sup.dev.android.views.widgets.Widget
 import com.sup.dev.android.views.widgets.WidgetAlert
+import com.sup.dev.java.tools.ToolsText
 
 import com.sup.dev.java.tools.ToolsThreads
+import java.lang.Exception
 
 class SCreatePagePolling(
         private val requestPutPage:(page: Page, screen: Screen?, widget: Widget?, mapper: (Page) -> CardPage, onFinish: ((CardPage)->Unit))->Unit,
@@ -33,6 +36,8 @@ class SCreatePagePolling(
     private val vContainer: ViewGroup = findViewById(R.id.vContainer)
     private val vCreate: Button = findViewById(R.id.vCreate)
     private val vAdd: View = findViewById(R.id.vAdd)
+    private val vLvl: SettingsField = findViewById(R.id.vLvl)
+    private val vKarma: SettingsField = findViewById(R.id.vKarma)
 
     init {
         isNavigationVisible = false
@@ -56,9 +61,35 @@ class SCreatePagePolling(
                             .asSheetShow()
                 }
             vCreate.setText(R.string.app_change)
+            if(oldPage.minLevel > 0)vLvl.setText("${oldPage.minLevel/100}")
+            if(oldPage.minKarma > 0)vKarma.setText("${oldPage.minKarma/100}")
         } else {
             addItem("")
             addItem("")
+        }
+        vLvl.addOnTextChanged { update() }
+        vKarma.addOnTextChanged { update() }
+
+        vLvl.setErrorChecker {
+            try {
+                if(it.isEmpty())return@setErrorChecker true
+                if(!ToolsText.isOnly(it, ToolsText.NUMBERS_S))return@setErrorChecker false
+                val x = it.toInt()
+                return@setErrorChecker x >= 1
+            }catch (e:Exception){
+                return@setErrorChecker false
+            }
+        }
+
+        vKarma.setErrorChecker {
+            try {
+                if(it.isEmpty())return@setErrorChecker true
+                if(!ToolsText.isOnly(it, ToolsText.NUMBERS_S))return@setErrorChecker false
+                val x = it.toInt()
+                return@setErrorChecker x >= 0
+            }catch (e:Exception){
+                return@setErrorChecker false
+            }
         }
 
         vAdd.setOnClickListener { addItem("") }
@@ -120,13 +151,15 @@ class SCreatePagePolling(
                 break
             }
 
-        vCreate.isEnabled = enabled && vPageTitle.text.length <= API.PAGE_POLLING_TITLE_MAX
+        vCreate.isEnabled = enabled && vPageTitle.text.length <= API.PAGE_POLLING_TITLE_MAX && !vLvl.isError() && !vKarma.isError()
     }
 
     private fun onEnter() {
         val page = PagePolling()
         page.title = vPageTitle.text.toString()
         page.options = getOptions()
+        page.minLevel = if(vLvl.getText().isEmpty()) 0L else vLvl.getText().toLong() * 100
+        page.minKarma = if(vKarma.getText().isEmpty()) 0L else vKarma.getText().toLong() * 100
 
         Navigator.back()
         val w = ToolsView.showProgressDialog()

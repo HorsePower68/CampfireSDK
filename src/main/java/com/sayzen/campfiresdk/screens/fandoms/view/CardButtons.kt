@@ -13,6 +13,7 @@ import com.sayzen.campfiresdk.screens.fandoms.rating.SRating
 import com.sayzen.campfiresdk.screens.fandoms.subscribers.SSubscribers
 import com.sayzen.campfiresdk.controllers.ControllerApi
 import com.sayzen.campfiresdk.screens.fandoms.STags
+import com.sayzen.campfiresdk.screens.fandoms.chats.SFandomChatsList
 import com.sayzen.campfiresdk.screens.fandoms.rubrics.SRubricsList
 import com.sayzen.campfiresdk.screens.wiki.SWikiList
 import com.sup.dev.android.libs.screens.navigator.Navigator
@@ -54,7 +55,10 @@ class CardButtons(
         val vRubricButton: View = view.findViewById(R.id.vRubricButton)
         val vRubricText: TextView = view.findViewById(R.id.vRubricText)
 
-        vChatsButton.setOnClickListener { SChat.instance(API.CHAT_TYPE_FANDOM_ROOT, xFandom.fandomId, xFandom.languageId, false, Navigator.REORDER) }
+        vChatsButton.setOnClickListener {
+            Navigator.to(SFandomChatsList(xFandom.fandomId, xFandom.languageId))
+        }
+
         vChatsCount.text = "$chatsCount"
 
         val karma30 = ControllerApi.getKarmaCount(xFandom.fandomId, xFandom.languageId) / 100
