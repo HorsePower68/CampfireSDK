@@ -36,12 +36,14 @@ import com.sup.dev.android.views.support.adapters.recycler_view.RecyclerCardAdap
 import com.sup.dev.android.views.views.ViewAvatarTitle
 import com.sup.dev.android.views.views.ViewIcon
 import com.sup.dev.java.libs.eventBus.EventBus
+import com.sup.dev.java.libs.json.Json
 import com.sup.dev.java.tools.*
 
 class SChat private constructor(
         val tag: ChatTag,
         var subscribed: Boolean,
         var chatName: String,
+        var chatParams: Json,
         var chatImageId: Long,
         var chatBackgroundImageId: Long,
         var chatInfo_1: Long,
@@ -75,7 +77,7 @@ class SChat private constructor(
 
         private fun onChatLoaded(r: RChatGet.Response, onShow: (SChat) -> Unit): SChat {
             ControllerChats.putRead(r.tag, r.anotherReadDate)
-            val screen = SChat(r.tag, r.subscribed, r.chatName, r.chatImageId, r.chatBackgroundImageId, r.chatInfo_1, r.chatInfo_2, r.chatInfo_3, r.chatInfo_4, r.memberStatus)
+            val screen = SChat(r.tag, r.subscribed, r.chatName, r.chatParams, r.chatImageId, r.chatBackgroundImageId, r.chatInfo_1, r.chatInfo_2, r.chatInfo_3, r.chatInfo_4, r.memberStatus)
             onShow.invoke(screen)
             return screen
         }
@@ -121,7 +123,7 @@ class SChat private constructor(
         if (tag.chatType == API.CHAT_TYPE_CONFERENCE) vAvatarTitle.setOnClickListener { SChatCreate.instance(tag.targetId, Navigator.TO) }
 
         vMenu = addToolbarIcon(ToolsResources.getDrawableAttrId(R.attr.ic_more_vert_24dp)) {
-            ControllerChats.instanceChatPopup(tag, memberStatus) { Navigator.remove(this) }.asSheetShow()
+            ControllerChats.instanceChatPopup(tag, chatParams, chatImageId, memberStatus) { Navigator.remove(this) }.asSheetShow()
         }
 
         setBackgroundImage(R.drawable.bg_5)
@@ -136,6 +138,12 @@ class SChat private constructor(
         update()
         updateTyping()
         updateBackground()
+
+        if(tag.chatType == API.CHAT_TYPE_FANDOM_SUB){
+            if(!ControllerSettings.viewedChats.contains(tag.targetId)){
+                ToolsThreads.main(100) { ControllerChats.showFandomChatInfo(tag, chatParams, chatImageId) }
+            }
+        }
     }
 
     private fun update() {

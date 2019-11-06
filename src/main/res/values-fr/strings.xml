@@ -548,6 +548,7 @@ Campfire has anime fandoms and gaming fandoms.</string>
 
     <string name="chats_empty">You don\'t have chats</string>
     <string name="chats_loading">Loading your chats</string>
+    <string name="chats_loading_2">Loading chats list</string>
 
     <string name="chat_never">You won\'t receive any notifications</string>
     <string name="chat_time">You receive notifications until: %s</string>
@@ -589,6 +590,9 @@ Campfire has anime fandoms and gaming fandoms.</string>
     <string name="comment_error_gone">Looks like someone deleted this comment</string>
 
     <string name="fandom_chat_creation_hint">Text of chat main page</string>
+    <string name="fandom_chat_remove_alert">Remove this chat?</string>
+    <string name="fandom_chat_creation">Chat creation</string>
+    <string name="fandom_chat_show_info">Show info</string>
 
     <string name="stickers_pack_view_empty">There are no stickers in this pack yet</string>
     <string name="stickers_packs_empty">There\'s not a single pack of stickers here.</string>

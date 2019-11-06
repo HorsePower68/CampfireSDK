@@ -439,6 +439,12 @@ object ControllerUnits {
                 ToolsView.addLink(vText, m.rubricName) { SRubricPosts.instance(m.rubricId, Navigator.TO) }
                 ToolsView.addLink(vText, m.ownerName) { SAccount.instance(m.ownerId, Navigator.TO) }
             }
+            is ModerationChatCreate -> {
+                ToolsView.addLink(vText, m.name) { SChat.instance(API.CHAT_TYPE_FANDOM_SUB, m.chatId, 0, false, Navigator.TO) }
+            }
+            is ModerationChatChange -> {
+                ToolsView.addLink(vText, m.name) { SChat.instance(API.CHAT_TYPE_FANDOM_SUB, m.chatId, 0, false, Navigator.TO) }
+            }
         }
     }
 

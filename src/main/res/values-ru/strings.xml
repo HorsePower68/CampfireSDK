@@ -551,6 +551,7 @@
 
     <string name="chats_empty">У вас пока нет чатов</string>
     <string name="chats_loading">Загрузка ваших чатов</string>
+    <string name="chats_loading_2">Загрузка списка чатов</string>
 
     <string name="chat_never">Вы не получаете уведомлений</string>
     <string name="chat_time">Вы получаете уведомления до: %s</string>
@@ -592,6 +593,9 @@
     <string name="comment_error_gone">Похоже кто-то удалил этот комментарий</string>
 
     <string name="fandom_chat_creation_hint">Текст главной страницы чата</string>
+    <string name="fandom_chat_remove_alert">Удалить этот чат?</string>
+    <string name="fandom_chat_creation">Создание чата</string>
+    <string name="fandom_chat_show_info">Показать информацию</string>
 
     <string name="stickers_pack_view_empty">В этом наборе еще нет стикеров</string>
     <string name="stickers_packs_empty">Здесь нет ни одного набора стикеров</string>

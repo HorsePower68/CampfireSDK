@@ -4,6 +4,7 @@ import android.text.TextUtils
 import android.view.View
 import android.widget.TextView
 import com.dzen.campfire.api.API
+import com.dzen.campfire.api.models.chat.ChatParamsFandomSub
 import com.dzen.campfire.api.models.notifications.chat.NotificationChatAnswer
 import com.dzen.campfire.api.models.notifications.chat.NotificationChatMessage
 import com.dzen.campfire.api.models.units.chat.Chat
@@ -14,6 +15,8 @@ import com.sayzen.campfiresdk.adapters.XFandom
 import com.sayzen.campfiresdk.controllers.ControllerApi
 import com.sayzen.campfiresdk.controllers.ControllerChats
 import com.sayzen.campfiresdk.models.events.chat.*
+import com.sayzen.campfiresdk.models.events.fandom.EventFandomChatChanged
+import com.sayzen.campfiresdk.models.events.fandom.EventFandomChatRemove
 import com.sayzen.campfiresdk.models.events.notifications.EventNotification
 import com.sayzen.campfiresdk.screens.chat.SChat
 import com.sayzen.campfiresdk.screens.chat.create.SChatCreate
@@ -25,16 +28,18 @@ import com.sup.dev.android.views.views.ViewAvatarTitle
 import com.sup.dev.android.views.views.ViewChipMini
 import com.sup.dev.android.views.views.ViewSwipe
 import com.sup.dev.java.libs.eventBus.EventBus
+import com.sup.dev.java.libs.json.Json
 import com.sup.dev.java.tools.ToolsDate
 
 class CardChat(
-        var unit: Chat,
+        var chat: Chat,
         messagesCount: Int,
         var subscribed: Boolean
 ) : Card(R.layout.card_chat) {
 
     private val xFandom: XFandom
     private val xAccount: XAccount
+    var setStack = true
     var onSelected: ((Chat) -> Unit)? = null
 
     private val eventBus = EventBus
@@ -45,14 +50,16 @@ class CardChat(
             .subscribe(EventChatSubscriptionChanged::class) { this.onEventChatSubscriptionChanged(it) }
             .subscribe(EventChatRemoved::class) { this.onEventChatRemoved(it) }
             .subscribe(EventChatReadDateChanged::class) { this.onEventChatReadDateChanged(it) }
+            .subscribe(EventFandomChatRemove::class) { this.onEventFandomChatRemove(it) }
+            .subscribe(EventFandomChatChanged::class) { this.onEventFandomChatChanged(it) }
 
     init {
-        ControllerChats.putRead(unit.tag, unit.anotherAccountReadDate)
-        unit.tag.setMyAccountId(ControllerApi.account.id)
-        xFandom = XFandom(if (unit.tag.chatType == API.CHAT_TYPE_FANDOM_ROOT) unit.tag.targetId else 0, unit.tag.targetSubId, unit.unitChatMessage.fandomName, unit.unitChatMessage.fandomImageId) { update() }
-        xAccount = XAccount(if (unit.tag.chatType == API.CHAT_TYPE_PRIVATE) unit.tag.getAnotherId() else 0, unit.anotherAccountImageId, unit.anotherAccountLvl, unit.anotherAccountKarma30, unit.anotherAccountLastOnlineTime) { update() }
+        ControllerChats.putRead(chat.tag, chat.anotherAccountReadDate)
+        chat.tag.setMyAccountId(ControllerApi.account.id)
+        xFandom = XFandom(if (chat.tag.chatType == API.CHAT_TYPE_FANDOM_ROOT) chat.tag.targetId else 0, chat.tag.targetSubId, chat.unitChatMessage.fandomName, chat.unitChatMessage.fandomImageId) { update() }
+        xAccount = XAccount(if (chat.tag.chatType == API.CHAT_TYPE_PRIVATE) chat.tag.getAnotherId() else 0, chat.anotherAccountImageId, chat.anotherAccountLvl, chat.anotherAccountKarma30, chat.anotherAccountLastOnlineTime) { update() }
 
-        ControllerChats.setMessagesCount(unit.tag, messagesCount, subscribed)
+        ControllerChats.setMessagesCount(chat.tag, messagesCount, subscribed)
     }
 
     override fun bindView(view: View) {
@@ -68,53 +75,55 @@ class CardChat(
         vAvatar.vAvatar.vChip.setText("")
         vAvatar.vAvatar.setOnClickListener {  }
 
-        val hasUnread = !ControllerApi.isCurrentAccount(unit.unitChatMessage.creatorId)
-                || ControllerChats.isRead(unit.tag, unit.unitChatMessage.dateCreate)
-                || unit.tag.chatType != API.CHAT_TYPE_PRIVATE
+        val hasUnread = !ControllerApi.isCurrentAccount(chat.unitChatMessage.creatorId)
+                || ControllerChats.isRead(chat.tag, chat.unitChatMessage.dateCreate)
+                || chat.tag.chatType != API.CHAT_TYPE_PRIVATE
 
         vNotRead.visibility = if (hasUnread) View.GONE else View.VISIBLE
 
-        vSwipe.onClick =  { _, _ -> if (onSelected != null) onSelected!!.invoke(unit) else SChat.instance(unit.tag, true, Navigator.TO) }
-        vSwipe.onLongClick = { _, _ -> ControllerChats.instanceChatPopup(unit.tag, null).asSheetShow() }
-        vSwipe.onSwipe = { if (hasUnread) ControllerChats.readRequest(unit.tag) }
+        vSwipe.onClick =  { _, _ -> if (onSelected != null) onSelected!!.invoke(chat) else SChat.instance(chat.tag, setStack, Navigator.TO) }
+        vSwipe.onLongClick = { _, _ -> ControllerChats.instanceChatPopup(chat.tag, chat.params, chat.anotherAccountImageId, null).asSheetShow() }
+        vSwipe.onSwipe = { if (hasUnread) ControllerChats.readRequest(chat.tag) }
 
-        if (unit.tag.chatType == API.CHAT_TYPE_FANDOM_ROOT) {
+        if (chat.tag.chatType == API.CHAT_TYPE_FANDOM_ROOT) {
             xFandom.setView(vAvatar.vAvatar)
-            vAvatar.vAvatar.setChipBackground(if (subscribed) ToolsResources.getAccentColor(view.context) else ToolsResources.getColor(R.color.grey_600))
-        } else if (unit.tag.chatType == API.CHAT_TYPE_PRIVATE) {
+            vAvatar.vAvatar.vChip.visibility = View.VISIBLE
+        } else if (chat.tag.chatType == API.CHAT_TYPE_PRIVATE) {
             xAccount.setView(vAvatar.vAvatar)
+            vAvatar.vAvatar.vChip.visibility = View.VISIBLE
         } else {
-            ToolsImagesLoader.load(unit.anotherAccountImageId).into(vAvatar.vAvatar.vImageView)
-            vAvatar.setTitle(unit.anotherAccountName)
-            vAvatar.vAvatar.setOnClickListener { SChatCreate.instance(unit.tag.targetId, Navigator.TO) }
+            ToolsImagesLoader.load(chat.anotherAccountImageId).into(vAvatar.vAvatar.vImageView)
+            vAvatar.setTitle(chat.anotherAccountName)
+            vAvatar.vAvatar.setOnClickListener { SChatCreate.instance(chat.tag.targetId, Navigator.TO) }
+            vAvatar.vAvatar.vChip.visibility = View.GONE
         }
 
-        if (unit.tag.chatType == API.CHAT_TYPE_FANDOM_ROOT) vAvatar.setTitle(unit.unitChatMessage.fandomName)
-        else vAvatar.setTitle(unit.anotherAccountName)
+        if (chat.tag.chatType == API.CHAT_TYPE_FANDOM_ROOT) vAvatar.setTitle(chat.unitChatMessage.fandomName)
+        else vAvatar.setTitle(chat.anotherAccountName)
 
-        if (unit.unitChatMessage.id != 0L) {
-            val text = ControllerChats.getTypingText(unit.tag)
+        if (chat.unitChatMessage.id != 0L) {
+            val text = ControllerChats.getTypingText(chat.tag)
             if (text != null)
                 vAvatar.setSubtitle(text)
             else {
-                var t = if(unit.unitChatMessage.creatorName.isNotEmpty())unit.unitChatMessage.creatorName + ": " else ""
+                var t = if(chat.unitChatMessage.creatorName.isNotEmpty())chat.unitChatMessage.creatorName + ": " else ""
                 t += when {
-                    unit.unitChatMessage.resourceId > 0 -> ToolsResources.s(R.string.app_image)
-                    unit.unitChatMessage.voiceResourceId > 0 -> ToolsResources.s(R.string.app_voice_message)
-                    unit.unitChatMessage.stickerId > 0 -> ToolsResources.s(R.string.app_sticker)
-                    unit.unitChatMessage.imageIdArray.isNotEmpty() -> ToolsResources.s(R.string.app_image)
-                    unit.unitChatMessage.type == UnitChatMessage.TYPE_SYSTEM -> ControllerChats.getSystemText(unit.unitChatMessage)
-                    else -> unit.unitChatMessage.text
+                    chat.unitChatMessage.resourceId > 0 -> ToolsResources.s(R.string.app_image)
+                    chat.unitChatMessage.voiceResourceId > 0 -> ToolsResources.s(R.string.app_voice_message)
+                    chat.unitChatMessage.stickerId > 0 -> ToolsResources.s(R.string.app_sticker)
+                    chat.unitChatMessage.imageIdArray.isNotEmpty() -> ToolsResources.s(R.string.app_image)
+                    chat.unitChatMessage.type == UnitChatMessage.TYPE_SYSTEM -> ControllerChats.getSystemText(chat.unitChatMessage)
+                    else -> chat.unitChatMessage.text
                 }
                 vAvatar.setSubtitle(t)
             }
-            vMessageDate.text = ToolsDate.dateToString(unit.unitChatMessage.dateCreate)
+            vMessageDate.text = ToolsDate.dateToString(chat.unitChatMessage.dateCreate)
         } else {
             vMessageDate.text = ""
             vAvatar.setSubtitle(ToolsResources.s(R.string.app_empty))
         }
 
-        val messagesCount: Int = ControllerChats.getMessagesCount(unit.tag)
+        val messagesCount: Int = ControllerChats.getMessagesCount(chat.tag)
         if(messagesCount > 9) vMessagesCounter.setText("9+")
         else vMessagesCounter.setText("$messagesCount")
 
@@ -130,31 +139,43 @@ class CardChat(
     //
 
     private fun onEventChatRemoved(e: EventChatRemoved) {
-        if (e.tag == unit.tag) adapter?.remove(this)
+        if (e.tag == chat.tag) adapter?.remove(this)
     }
 
     private fun onEventChatReadDateChanged(e: EventChatReadDateChanged) {
-        if (e.tag == unit.tag) update()
+        if (e.tag == chat.tag) update()
+    }
+
+    private fun onEventFandomChatRemove(e: EventFandomChatRemove) {
+        if (e.chatId == chat.tag.targetId && chat.tag.chatType == API.CHAT_TYPE_FANDOM_SUB) adapter?.remove(this)
+    }
+
+    private fun onEventFandomChatChanged(e: EventFandomChatChanged) {
+        if (e.chatId == chat.tag.targetId && chat.tag.chatType == API.CHAT_TYPE_FANDOM_SUB) {
+            chat.anotherAccountName = e.name
+            chat.params = ChatParamsFandomSub(e.text).json(true, Json())
+            update()
+        }
     }
 
     private fun onEventChatMessagesCountChanged(e: EventChatMessagesCountChanged) {
-        if (e.tag == unit.tag) update()
+        if (e.tag == chat.tag) update()
     }
 
     private fun onEventOnChatTypingChanged(e: EventChatTypingChanged) {
-        if (e.tag == unit.tag) update()
+        if (e.tag == chat.tag) update()
 
     }
 
     private fun onEventChatNewBottomMessage(e: EventChatNewBottomMessage) {
-        if (e.tag == unit.tag) {
-            unit.unitChatMessage = e.unitChatMessage
+        if (e.tag == chat.tag) {
+            chat.unitChatMessage = e.unitChatMessage
             update()
         }
     }
 
     private fun onEventChatSubscriptionChanged(e: EventChatSubscriptionChanged) {
-        if (e.tag == unit.tag) {
+        if (e.tag == chat.tag) {
             subscribed = e.subscribed
             update()
         }
@@ -163,15 +184,15 @@ class CardChat(
     private fun onNotification(e: EventNotification) {
         if (e.notification is NotificationChatMessage) {
             val n = e.notification
-            if (n.tag == unit.tag) {
-                unit.unitChatMessage = n.unitChatMessage
+            if (n.tag == chat.tag) {
+                chat.unitChatMessage = n.unitChatMessage
                 update()
             }
         }
         if (e.notification is NotificationChatAnswer) {
             val n = e.notification
-            if (n.tag == unit.tag) {
-                unit.unitChatMessage = n.unitChatMessage
+            if (n.tag == chat.tag) {
+                chat.unitChatMessage = n.unitChatMessage
                 update()
             }
         }

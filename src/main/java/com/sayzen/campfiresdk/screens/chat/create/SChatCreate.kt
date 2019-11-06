@@ -4,7 +4,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.dzen.campfire.api.API
 import com.dzen.campfire.api.models.chat.ChatMember
-import com.dzen.campfire.api.models.chat.ChatParams
+import com.dzen.campfire.api.models.chat.ChatParamsConf
 import com.dzen.campfire.api.requests.chat.RChatChange
 import com.dzen.campfire.api.requests.chat.RChatCreate
 import com.dzen.campfire.api.requests.chat.RChatGetForChange
@@ -34,7 +34,7 @@ class SChatCreate(
         val changeImageId: Long,
         val accounts: Array<ChatMember>,
         val myLvl: Long,
-        val params: ChatParams
+        val params: ChatParamsConf
 ) : Screen(R.layout.screen_chat_create) {
 
     companion object {
@@ -57,7 +57,7 @@ class SChatCreate(
 
     private val cardTitle = CardCreateTitle(myLvl, changeName, changeImageId, params) { updateFinish() }
 
-    constructor() : this(0, "", 0, emptyArray(), API.CHAT_MEMBER_LVL_ADMIN, ChatParams())
+    constructor() : this(0, "", 0, emptyArray(), API.CHAT_MEMBER_LVL_ADMIN, ChatParamsConf())
 
     init {
         isNavigationVisible = false

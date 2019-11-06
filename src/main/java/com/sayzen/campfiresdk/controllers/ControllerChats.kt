@@ -1,33 +1,37 @@
 package com.sayzen.campfiresdk.controllers
 
 import com.dzen.campfire.api.API
+import com.dzen.campfire.api.models.chat.ChatParamsFandomSub
 import com.dzen.campfire.api.models.chat.ChatTag
 import com.dzen.campfire.api.models.notifications.chat.NotificationChatAnswer
 import com.dzen.campfire.api.models.notifications.chat.NotificationChatMessage
 import com.dzen.campfire.api.models.notifications.chat.NotificationChatRead
 import com.dzen.campfire.api.models.notifications.chat.NotificationChatTyping
+import com.dzen.campfire.api.models.units.chat.Chat
 import com.dzen.campfire.api.models.units.chat.UnitChatMessage
 import com.dzen.campfire.api.requests.chat.*
 import com.dzen.campfire.api.requests.fandoms.RFandomsModerationChangeImageBackground
+import com.dzen.campfire.api.requests.fandoms.RFandomsModerationChatRemove
 import com.sayzen.campfiresdk.R
 import com.sayzen.campfiresdk.models.events.chat.*
 import com.sayzen.campfiresdk.models.events.fandom.EventFandomBackgroundImageChanged
+import com.sayzen.campfiresdk.models.events.fandom.EventFandomChatCreated
+import com.sayzen.campfiresdk.models.events.fandom.EventFandomChatRemove
 import com.sayzen.campfiresdk.models.events.notifications.EventNotification
 import com.sayzen.campfiresdk.screens.chat.create.SChatCreate
+import com.sayzen.campfiresdk.screens.fandoms.chats.SFandomChatsCreate
 import com.sup.dev.android.libs.api_simple.ApiRequestsSupporter
 import com.sup.dev.android.libs.screens.navigator.Navigator
 import com.sup.dev.android.tools.*
 import com.sup.dev.android.views.screens.SCrop
-import com.sup.dev.android.views.widgets.Widget
-import com.sup.dev.android.views.widgets.WidgetChooseImage
-import com.sup.dev.android.views.widgets.WidgetField
-import com.sup.dev.android.views.widgets.WidgetMenu
+import com.sup.dev.android.views.widgets.*
 import com.sup.dev.java.classes.items.Item3
 import com.sup.dev.java.classes.items.ItemNullable2
 import com.sup.dev.java.libs.debug.err
 import com.sup.dev.java.libs.eventBus.EventBus
 import com.sup.dev.java.libs.json.Json
 import com.sup.dev.java.libs.json.JsonArray
+import com.sup.dev.java.tools.ToolsCollections
 import com.sup.dev.java.tools.ToolsThreads
 
 object ControllerChats {
@@ -62,27 +66,50 @@ object ControllerChats {
             unit.systemType == UnitChatMessage.SYSTEM_TYPE_LEAVE -> return "${ToolsResources.s(R.string.chat_system_leave, ControllerApi.linkToUser(unit.systemOwnerName), ToolsResources.sex(unit.systemOwnerSex, R.string.he_leave, R.string.she_leave))}"
             unit.systemType == UnitChatMessage.SYSTEM_TYPE_ENTER -> return "${ToolsResources.s(R.string.chat_system_enter, ControllerApi.linkToUser(unit.systemOwnerName), ToolsResources.sex(unit.systemOwnerSex, R.string.he_reenter, R.string.she_reenter))}"
             unit.systemType == UnitChatMessage.SYSTEM_TYPE_PARAMS -> return "${ToolsResources.s(R.string.chat_system_params, ControllerApi.linkToUser(unit.systemOwnerName), ToolsResources.sex(unit.systemOwnerSex, R.string.he_changed, R.string.he_changed))}"
-            unit.systemType == UnitChatMessage.SYSTEM_TYPE_LEVEL -> return "${ToolsResources.s(R.string.chat_system_level, ControllerApi.linkToUser(unit.systemOwnerName), ToolsResources.sex(unit.systemOwnerSex, R.string.he_changed, R.string.he_changed),  ControllerApi.linkToUser(unit.systemTargetName), ToolsResources.s(if(unit.systemTag == API.CHAT_MEMBER_LVL_USER) R.string.app_user else if(unit.systemTag == API.CHAT_MEMBER_LVL_MODERATOR) R.string.app_moderator else R.string.app_admin))}"
+            unit.systemType == UnitChatMessage.SYSTEM_TYPE_LEVEL -> return "${ToolsResources.s(R.string.chat_system_level, ControllerApi.linkToUser(unit.systemOwnerName), ToolsResources.sex(unit.systemOwnerSex, R.string.he_changed, R.string.he_changed), ControllerApi.linkToUser(unit.systemTargetName), ToolsResources.s(if (unit.systemTag == API.CHAT_MEMBER_LVL_USER) R.string.app_user else if (unit.systemTag == API.CHAT_MEMBER_LVL_MODERATOR) R.string.app_moderator else R.string.app_admin))}"
             else -> return ""
         }
 
     }
 
-    fun instanceChatPopup(tag: ChatTag, memberStatus: Long?, onRemove: () -> Unit = {}): WidgetMenu {
+    fun instanceChatPopup(tag: ChatTag, paramsJson:Json, imageId:Long, memberStatus: Long?,onRemove: () -> Unit = {}): WidgetMenu {
         return WidgetMenu()
                 .add(R.string.app_copy_link) { _, _ -> ToolsAndroid.setToClipboard(ControllerApi.linkToChat(tag.targetId));ToolsToast.show(R.string.app_copied) }.condition(tag.chatType == API.CHAT_TYPE_FANDOM_ROOT)
                 .add(R.string.app_copy_link_with_language) { _, _ -> ToolsAndroid.setToClipboard(ControllerApi.linkToChat(tag.targetId, tag.targetSubId));ToolsToast.show(R.string.app_copied) }.condition(tag.chatType == API.CHAT_TYPE_FANDOM_ROOT)
                 .add(R.string.app_copy_link) { _, _ -> ToolsAndroid.setToClipboard(ControllerApi.linkToConf(tag.targetId));ToolsToast.show(R.string.app_copied) }.condition(tag.chatType == API.CHAT_TYPE_CONFERENCE)
+                .add(R.string.app_copy_link) { _, _ -> ToolsAndroid.setToClipboard(ControllerApi.linkToFandomChat(tag.targetId));ToolsToast.show(R.string.app_copied) }.condition(tag.chatType == API.CHAT_TYPE_FANDOM_SUB)
                 .add(R.string.app_edit) { _, _ -> SChatCreate.instance(tag.targetId, Navigator.TO) }.condition(tag.chatType == API.CHAT_TYPE_CONFERENCE && memberStatus == API.CHAT_MEMBER_STATUS_ACTIVE)
                 .add(R.string.chat_remove) { _, _ -> chatRemove(tag, onRemove) }.condition(tag.chatType == API.CHAT_TYPE_FANDOM_ROOT)
                 .add(R.string.chat_clear_history) { _, _ -> clearHistory(tag, onRemove) }.condition(tag.chatType != API.CHAT_TYPE_FANDOM_ROOT)
                 .add(R.string.chat_leave) { _, _ -> leave(tag) }.condition(tag.chatType == API.CHAT_TYPE_CONFERENCE && memberStatus == API.CHAT_MEMBER_STATUS_ACTIVE)
                 .add(R.string.chat_enter) { _, _ -> enter(tag) }.condition(tag.chatType == API.CHAT_TYPE_CONFERENCE && memberStatus == API.CHAT_MEMBER_STATUS_LEAVE)
+                .add(R.string.fandom_chat_show_info) { _, _ -> showFandomChatInfo(tag, paramsJson, imageId) }.condition(tag.chatType == API.CHAT_TYPE_FANDOM_SUB)
                 .add(R.string.fandoms_menu_background_change) { _, _ -> changeBackgroundImage(tag.targetId, tag.targetSubId) }.condition(tag.chatType == API.CHAT_TYPE_FANDOM_ROOT && ControllerApi.can(tag.targetId, tag.targetSubId, API.LVL_MODERATOR_BACKGROUND_IMAGE)).backgroundRes(R.color.blue_700).textColorRes(R.color.white)
                 .add(R.string.fandoms_menu_background_remove) { _, _ -> removeBackgroundImage(tag.targetId, tag.targetSubId) }.condition(tag.chatType == API.CHAT_TYPE_FANDOM_ROOT && ControllerApi.can(tag.targetId, tag.targetSubId, API.LVL_MODERATOR_BACKGROUND_IMAGE)).backgroundRes(R.color.blue_700).textColorRes(R.color.white)
+                .add(R.string.app_edit) { _, _ -> SFandomChatsCreate.instance(tag.targetId, Navigator.TO) }.condition(tag.chatType == API.CHAT_TYPE_FANDOM_SUB && ControllerApi.can(tag.targetId, tag.targetSubId, API.LVL_MODERATOR_CHATS)).backgroundRes(R.color.blue_700).textColorRes(R.color.white)
+                .add(R.string.app_remove) { _, _ -> removeFandomChat(tag.targetId) }.condition(tag.chatType == API.CHAT_TYPE_FANDOM_SUB && ControllerApi.can(tag.targetId, tag.targetSubId, API.LVL_MODERATOR_CHATS)).backgroundRes(R.color.blue_700).textColorRes(R.color.white)
     }
 
-    private fun changeBackgroundImage(fandomId:Long, languageId:Long) {
+    fun showFandomChatInfo(tag: ChatTag, paramsJson:Json, imageId:Long){
+        val chatParams = ChatParamsFandomSub(paramsJson)
+        WidgetAlert()
+                .setTitleImage { ToolsImagesLoader.load(imageId).into(it) }
+                .setText(chatParams.text)
+                .setOnEnter(R.string.app_continue) {
+                    ControllerSettings.viewedChats = ToolsCollections.add(tag.targetId, ControllerSettings.viewedChats)
+                    if (ControllerSettings.viewedChats.size > 50) ControllerSettings.viewedChats = ToolsCollections.remove(0, ControllerSettings.viewedChats)
+                }
+                .asSheetShow()
+    }
+
+    private fun removeFandomChat(chatId: Long) {
+        ControllerApi.moderation(R.string.fandom_chat_remove_alert, R.string.app_remove, { RFandomsModerationChatRemove(chatId, it) }) {
+            EventBus.post(EventFandomChatRemove(chatId))
+            ToolsToast.show(R.string.app_done)
+        }
+    }
+
+    private fun changeBackgroundImage(fandomId: Long, languageId: Long) {
         WidgetChooseImage()
                 .setOnSelectedBitmap { _, bitmap ->
                     Navigator.to(SCrop(bitmap, API.FANDOM_IMG_BACKGROUND_W, API.FANDOM_IMG_BACKGROUND_H) { _, b, _, _, _, _ ->
@@ -101,7 +128,7 @@ object ControllerChats {
                 .asSheetShow()
     }
 
-    private fun removeBackgroundImage(fandomId:Long, languageId:Long) {
+    private fun removeBackgroundImage(fandomId: Long, languageId: Long) {
         WidgetField().setHint(R.string.moderation_widget_comment).setOnCancel(R.string.app_cancel)
                 .setMin(API.MODERATION_COMMENT_MIN_L)
                 .setMax(API.MODERATION_COMMENT_MAX_L)
@@ -111,7 +138,7 @@ object ControllerChats {
                 .asSheetShow()
     }
 
-    private fun changeBackgroundImageNow(fandomId:Long, languageId:Long, dialog: Widget, bytes: ByteArray?, comment: String) {
+    private fun changeBackgroundImageNow(fandomId: Long, languageId: Long, dialog: Widget, bytes: ByteArray?, comment: String) {
         ApiRequestsSupporter.executeProgressDialog(dialog, RFandomsModerationChangeImageBackground(fandomId, languageId, bytes, comment)) { r ->
             EventBus.post(EventFandomBackgroundImageChanged(fandomId, languageId, r.imageId))
             ToolsToast.show(R.string.app_done)

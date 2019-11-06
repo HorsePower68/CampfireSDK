@@ -2,12 +2,10 @@ package com.sayzen.campfiresdk.screens.chat.create
 
 import android.view.View
 import android.view.inputmethod.EditorInfo
-import android.widget.EditText
 import android.widget.ImageView
 import android.widget.TextView
 import com.dzen.campfire.api.API
-import com.dzen.campfire.api.models.chat.ChatParams
-import com.google.android.material.floatingactionbutton.FloatingActionButton
+import com.dzen.campfire.api.models.chat.ChatParamsConf
 import com.sayzen.campfiresdk.R
 import com.sup.dev.android.libs.screens.navigator.Navigator
 import com.sup.dev.android.tools.ToolsBitmap
@@ -19,13 +17,12 @@ import com.sup.dev.android.views.screens.SCrop
 import com.sup.dev.android.views.settings.SettingsCheckBox
 import com.sup.dev.android.views.settings.SettingsField
 import com.sup.dev.android.views.widgets.WidgetChooseImage
-import com.sup.dev.java.tools.ToolsThreads
 
 class CardCreateTitle(
         val myLvl: Long,
         val changeName: String,
         val changeImageId: Long,
-        val params: ChatParams,
+        val params: ChatParamsConf,
         val updateFinish: () -> Unit
 ) : Card(R.layout.screen_chat_create_card_title) {
 

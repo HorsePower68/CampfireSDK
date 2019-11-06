@@ -68,6 +68,7 @@ class CardPagePolling(
                 if (vContainer.tag != tag) return@get
 
                 val showResults = result.voted || !canVote()
+                log("showResults[$showResults] voted[${result.voted}] canVote[${canVote()}]")
 
                 var percentSum = 0
                 for (i in 0 until vContainer.childCount) {
@@ -119,7 +120,7 @@ class CardPagePolling(
 
     }
 
-    private fun canVote() = ControllerApi.account.lvl < (page as PagePolling).minLevel || ControllerApi.account.karma30 < (page as PagePolling).minKarma
+    private fun canVote() = ControllerApi.account.lvl >= (page as PagePolling).minLevel && ControllerApi.account.karma30 >= (page as PagePolling).minKarma
 
 
     override fun notifyItem() {}

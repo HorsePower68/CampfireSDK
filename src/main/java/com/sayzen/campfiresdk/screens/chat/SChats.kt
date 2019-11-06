@@ -92,7 +92,7 @@ class SChats constructor(
         if (e.notification is NotificationChatMessage) {
             if (adapter == null) return
             val cards = adapter!!.get(CardChat::class)
-            if (cards.isNotEmpty() && cards[0].unit.tag == e.notification.tag)
+            if (cards.isNotEmpty() && cards[0].chat.tag == e.notification.tag)
                 return
             reloadOrFlag()
         }
