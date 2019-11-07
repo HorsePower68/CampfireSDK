@@ -193,6 +193,8 @@
     <string name="app_coefficient_karma">Коэффициент кармы %s</string>
     <string name="app_history">История</string>
     <string name="app_feed_all">Бездна</string>
+    <string name="app_feed_good">Хорошее</string>
+    <string name="app_feed_best">Лучшее</string>
     <string name="app_collection">Коллекция</string>
     <string name="app_reaction">Реакция</string>
     <string name="app_change_naming">Изменить название</string>

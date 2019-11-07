@@ -55,6 +55,7 @@ open class WidgetStickers : WidgetRecycler(R.layout.widget_stickers) {
                         val card = CardSticker(i)
                         card.onClick = {
                             onSelected.invoke(it)
+                            onSelected = {}
                             hide()
                         }
                         myAdapter.add(card)

@@ -403,20 +403,6 @@ object ControllerSettings {
             onSettingsUpdated()
         }
 
-    var feedNoSubscribes: Boolean
-        get() = accountSettings.feedNoSubscribes
-        set(b) {
-            accountSettings.feedNoSubscribes = b
-            onSettingsUpdated()
-        }
-
-    var feedAllFirst: Boolean
-        get() = accountSettings.feedAllFirst
-        set(b) {
-            accountSettings.feedAllFirst = b
-            onSettingsUpdated()
-        }
-
     //
     //  Account
     //

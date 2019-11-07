@@ -192,6 +192,8 @@ Campfire has anime fandoms and gaming fandoms.</string>
     <string name="app_coefficient_karma">Karma coefficient %s</string>
     <string name="app_history">History</string>
     <string name="app_feed_all">Anything</string>
+    <string name="app_feed_good">Good</string>
+    <string name="app_feed_best">Best</string>
     <string name="app_collection">Collection</string>
     <string name="app_reaction">Reaction</string>
     <string name="app_change_naming">Change name</string>
