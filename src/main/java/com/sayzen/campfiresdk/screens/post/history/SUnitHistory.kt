@@ -1,6 +1,6 @@
 package com.sayzen.campfiresdk.screens.post.history
 
-import com.dzen.campfire.api.models.units.history.HistoryUnit
+import com.dzen.campfire.api.models.publications.history.HistoryUnit
 import com.dzen.campfire.api.requests.units.RUnitsHistoryGetAll
 import com.sayzen.campfiresdk.R
 import com.sayzen.campfiresdk.controllers.api

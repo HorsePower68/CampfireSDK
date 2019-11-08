@@ -462,19 +462,19 @@ object ControllerSettings {
     fun getProfileFilters(): Array<Long> {
         val list = ArrayList<Long>()
 
-        if (profileFilterComments) list.add(API.UNIT_TYPE_COMMENT)
-        if (profileFilterPosts) list.add(API.UNIT_TYPE_POST)
-        if (profileFilterModerations) list.add(API.UNIT_TYPE_MODERATION)
+        if (profileFilterComments) list.add(API.PUBLICATION_TYPE_COMMENT)
+        if (profileFilterPosts) list.add(API.PUBLICATION_TYPE_POST)
+        if (profileFilterModerations) list.add(API.PUBLICATION_TYPE_MODERATION)
         if (profileFilterEvents) {
-            list.add(API.UNIT_TYPE_EVENT_USER)
-            list.add(API.UNIT_TYPE_EVENT_MODER)
-            list.add(API.UNIT_TYPE_EVENT_ADMIN)
+            list.add(API.PUBLICATION_TYPE_EVENT_USER)
+            list.add(API.PUBLICATION_TYPE_EVENT_MODER)
+            list.add(API.PUBLICATION_TYPE_EVENT_ADMIN)
         }
-        if (profileFilterChatMessages) list.add(API.UNIT_TYPE_CHAT_MESSAGE)
-        if (profileFilterReviews) list.add(API.UNIT_TYPE_REVIEW)
+        if (profileFilterChatMessages) list.add(API.PUBLICATION_TYPE_CHAT_MESSAGE)
+        if (profileFilterReviews) list.add(API.PUBLICATION_TYPE_REVIEW)
         if (profileFilterStickers) {
-            list.add(API.UNIT_TYPE_STICKER)
-            list.add(API.UNIT_TYPE_STICKERS_PACK)
+            list.add(API.PUBLICATION_TYPE_STICKER)
+            list.add(API.PUBLICATION_TYPE_STICKERS_PACK)
         }
 
         return list.toTypedArray()
@@ -541,7 +541,7 @@ object ControllerSettings {
             API.NOTIF_COMMENT -> filterComments
             API.NOTIF_COMMENT_ANSWER -> filterAnswers
             API.NOTIF_KARMA_ADD -> filterKarma
-            API.NOTIF_UNIT_IMPORTANT -> filterImportant
+            API.NOTIF_PUBLICATION_IMPORTANT -> filterImportant
             else -> filterOther
         }
     }
@@ -595,9 +595,9 @@ object ControllerSettings {
     fun getFandomFilters(): Array<Long> {
         val list = ArrayList<Long>()
 
-        if (fandomFilterModerationsPosts) list.add(API.UNIT_TYPE_POST)
-        if (fandomFilterAdministrations) list.add(API.UNIT_TYPE_EVENT_FANDOM)
-        if (fandomFilterModerations || fandomFilterModerationsBlocks) list.add(API.UNIT_TYPE_MODERATION)
+        if (fandomFilterModerationsPosts) list.add(API.PUBLICATION_TYPE_POST)
+        if (fandomFilterAdministrations) list.add(API.PUBLICATION_TYPE_EVENT_FANDOM)
+        if (fandomFilterModerations || fandomFilterModerationsBlocks) list.add(API.PUBLICATION_TYPE_MODERATION)
 
         return list.toTypedArray()
     }

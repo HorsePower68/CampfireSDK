@@ -5,8 +5,8 @@ import android.view.Gravity
 import android.view.inputmethod.EditorInfo
 import android.widget.EditText
 import com.dzen.campfire.api.API
-import com.dzen.campfire.api.models.units.post.Page
-import com.dzen.campfire.api.models.units.post.PageText
+import com.dzen.campfire.api.models.publications.post.Page
+import com.dzen.campfire.api.models.publications.post.PageText
 import com.sayzen.campfiresdk.R
 import com.sayzen.campfiresdk.app.CampfireConstants
 import com.sayzen.campfiresdk.models.cards.post_pages.CardPage

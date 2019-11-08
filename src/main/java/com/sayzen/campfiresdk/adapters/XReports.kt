@@ -4,22 +4,22 @@ import android.view.View
 import android.widget.TextView
 import com.dzen.campfire.api.API
 import com.dzen.campfire.api.models.EventUnitInstance
-import com.dzen.campfire.api.models.units.Unit
+import com.dzen.campfire.api.models.publications.Publication
 import com.sayzen.campfiresdk.controllers.ControllerApi
-import com.sayzen.campfiresdk.models.events.units.*
+import com.sayzen.campfiresdk.models.events.publications.*
 import com.sup.dev.java.classes.items.Item2
 import com.sup.dev.java.libs.eventBus.EventBus
 
 class XReports(
-        private val unit: Unit,
+        private val unit: Publication,
         var onChanged: () -> kotlin.Unit
 ) {
 
     companion object {
         private val eventBus = EventBus
                 .subscribe(EventUnitInstance::class) { set(it.unit.id, it.unit.reportsCount, System.currentTimeMillis()) }
-                .subscribe(EventUnitReportsAdd::class) { set(it.unitId, get(it.unitId) + 1, System.currentTimeMillis()) }
-                .subscribe(EventUnitReportsClear::class) {  set(it.unitId, 0, System.currentTimeMillis()) }
+                .subscribe(EventPublicationReportsAdd::class) { set(it.unitId, get(it.unitId) + 1, System.currentTimeMillis()) }
+                .subscribe(EventPublicationReportsClear::class) {  set(it.unitId, 0, System.currentTimeMillis()) }
         private val reports = HashMap<Long, Item2<Long, Long>>()
 
         fun set(unitId: Long, reportsCount: Long, unitInstanceDate: Long) {

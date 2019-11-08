@@ -3,7 +3,7 @@ package com.sayzen.campfiresdk.screens.fandoms.reviews
 import android.view.View
 import com.dzen.campfire.api.API
 import com.dzen.campfire.api.models.UnitReview
-import com.dzen.campfire.api.models.units.Unit
+import com.dzen.campfire.api.models.publications.Publication
 import com.dzen.campfire.api.requests.fandoms.RFandomsReviewGet
 import com.dzen.campfire.api.requests.fandoms.RFandomsReviewGetInfo
 import com.dzen.campfire.api.requests.units.RUnitsGetAll
@@ -30,7 +30,7 @@ class SReviews private constructor(
         private var myReviewRate: Long?,
         private var myReviewText: String?,
         private var scrollToId: Long = 0
-) : SLoadingRecycler<CardReview, Unit>() {
+) : SLoadingRecycler<CardReview, Publication>() {
 
     companion object {
 
@@ -90,14 +90,14 @@ class SReviews private constructor(
 
     }
 
-    override fun instanceAdapter(): RecyclerCardAdapterLoading<CardReview, Unit> {
-        return RecyclerCardAdapterLoading<CardReview, Unit>(CardReview::class) { CardReview(it as UnitReview) }
+    override fun instanceAdapter(): RecyclerCardAdapterLoading<CardReview, Publication> {
+        return RecyclerCardAdapterLoading<CardReview, Publication>(CardReview::class) { CardReview(it as UnitReview) }
                 .setBottomLoader { onLoad, cards ->
                     val r = RUnitsGetAll()
                             .setCount(20)
                             .setFandomId(fandomId)
                             .setLanguageId(languageId)
-                            .setUnitTypes(API.UNIT_TYPE_REVIEW)
+                            .setUnitTypes(API.PUBLICATION_TYPE_REVIEW)
                             .setOffset(cards.size.toLong())
                             .setOrder(RUnitsGetAll.ORDER_NEW)
                             .onComplete { r ->

@@ -2,10 +2,9 @@ package com.sayzen.campfiresdk.screens.account.stickers
 
 
 import androidx.recyclerview.widget.GridLayoutManager
-import com.dzen.campfire.api.models.units.stickers.UnitSticker
+import com.dzen.campfire.api.models.publications.stickers.PublicationSticker
 import com.dzen.campfire.api.requests.stickers.RStickersGetAllFavorite
 import com.sayzen.campfiresdk.R
-import com.sayzen.campfiresdk.controllers.ControllerApi
 import com.sayzen.campfiresdk.controllers.api
 import com.sayzen.campfiresdk.models.cards.stickers.CardSticker
 import com.sayzen.campfiresdk.models.events.stickers.EventStickerCollectionChanged
@@ -17,7 +16,7 @@ import com.sup.dev.java.libs.eventBus.EventBus
 
 class SStickersViewFavorite(
         val accountId:Long
-) : SLoadingRecycler<CardSticker, UnitSticker>() {
+) : SLoadingRecycler<CardSticker, PublicationSticker>() {
 
     private val eventBus = EventBus
             .subscribe(EventStickerCollectionChanged::class){
@@ -45,8 +44,8 @@ class SStickersViewFavorite(
         ToolsView.setRecyclerAnimation(vRecycler)
     }
 
-    override fun instanceAdapter(): RecyclerCardAdapterLoading<CardSticker, UnitSticker> {
-        return RecyclerCardAdapterLoading<CardSticker, UnitSticker>(CardSticker::class) { CardSticker(it) }
+    override fun instanceAdapter(): RecyclerCardAdapterLoading<CardSticker, PublicationSticker> {
+        return RecyclerCardAdapterLoading<CardSticker, PublicationSticker>(CardSticker::class) { CardSticker(it) }
                 .setShowLoadingCardBottom(false)
                 .setBottomLoader { onLoad, _ ->
                     subscription = RStickersGetAllFavorite(accountId)

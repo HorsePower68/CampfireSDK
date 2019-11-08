@@ -29,31 +29,31 @@ internal class WidgetSubscription(
         vType.add(R.string.fandoms_subscription_none) {
             vNotifications.isEnabled = false
             vNotifications.setChecked(false)
-            type = API.UNIT_IMPORTANT_NONE
+            type = API.PUBLICATION_IMPORTANT_NONE
         }
         vType.add(R.string.fandoms_subscription_all) {
             vNotifications.isEnabled = true
             vNotifications.setChecked(true)
-            type = API.UNIT_IMPORTANT_DEFAULT
+            type = API.PUBLICATION_IMPORTANT_DEFAULT
         }
         vType.add(R.string.fandoms_subscription_important) {
             vNotifications.isEnabled = true
             vNotifications.setChecked(true)
-            type = API.UNIT_IMPORTANT_IMPORTANT
+            type = API.PUBLICATION_IMPORTANT_IMPORTANT
         }
 
         vNotifications.setChecked(notifyImportant)
 
         when (type) {
-            API.UNIT_IMPORTANT_NONE -> {
+            API.PUBLICATION_IMPORTANT_NONE -> {
                 vNotifications.isEnabled = false
                 vNotifications.setChecked(false)
                 vType.setSubtitle(R.string.fandoms_subscription_none)
             }
-            API.UNIT_IMPORTANT_DEFAULT -> {
+            API.PUBLICATION_IMPORTANT_DEFAULT -> {
                 vType.setSubtitle(R.string.fandoms_subscription_all)
             }
-            API.UNIT_IMPORTANT_IMPORTANT -> {
+            API.PUBLICATION_IMPORTANT_IMPORTANT -> {
                 vType.setSubtitle(R.string.fandoms_subscription_important)
             }
         }

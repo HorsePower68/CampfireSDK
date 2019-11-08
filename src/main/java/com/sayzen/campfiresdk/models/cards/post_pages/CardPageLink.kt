@@ -3,8 +3,7 @@ package com.sayzen.campfiresdk.models.cards.post_pages
 import android.view.View
 import com.dzen.campfire.api.models.PagesContainer
 
-import com.dzen.campfire.api.models.units.post.PageLink
-import com.dzen.campfire.api.models.units.post.UnitPost
+import com.dzen.campfire.api.models.publications.post.PageLink
 import com.sayzen.campfiresdk.R
 import com.sayzen.campfiresdk.controllers.ControllerApi
 import com.sayzen.campfiresdk.controllers.ControllerCampfireSDK

@@ -5,8 +5,8 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.sayzen.campfiresdk.R
 import com.sayzen.campfiresdk.adapters.AdapterComments
-import com.sayzen.campfiresdk.models.events.units.EventCommentsCountChanged
-import com.sayzen.campfiresdk.models.events.units.EventUnitRemove
+import com.sayzen.campfiresdk.models.events.publications.EventCommentsCountChanged
+import com.sayzen.campfiresdk.models.events.publications.EventPublicationRemove
 import com.sayzen.campfiresdk.models.widgets.WidgetComment
 import com.sup.dev.android.libs.screens.Screen
 import com.sup.dev.android.libs.screens.navigator.NavigationAction
@@ -15,7 +15,7 @@ import com.sup.dev.java.libs.eventBus.EventBus
 import com.sup.dev.java.libs.eventBus.EventBusSubscriber
 
 class SComments constructor(
-        val unitId: Long,
+        val publicationId: Long,
         commentId: Long
 ) : Screen(R.layout.screen_comments) {
 
@@ -28,7 +28,7 @@ class SComments constructor(
     }
 
     private val eventBus: EventBusSubscriber = EventBus
-            .subscribe(EventUnitRemove::class) { this.onEventUnitRemove(it) }
+            .subscribe(EventPublicationRemove::class) { this.onEventUnitRemove(it) }
             .subscribe(EventCommentsCountChanged::class) { this.onEventCommentsCountChanged(it) }
 
     private val vRecycler: RecyclerView = findViewById(R.id.vRecycler)
@@ -40,9 +40,9 @@ class SComments constructor(
 
         vRecycler.layoutManager = LinearLayoutManager(context)
 
-        adapter = AdapterComments(unitId, commentId, vRecycler)
+        adapter = AdapterComments(publicationId, commentId, vRecycler)
 
-        vFab.setOnClickListener { WidgetComment(unitId) { comment -> adapter.addComment(comment) }.asSheetShow() }
+        vFab.setOnClickListener { WidgetComment(publicationId) { comment -> adapter.addComment(comment) }.asSheetShow() }
         vRecycler.adapter = adapter
     }
 
@@ -52,11 +52,11 @@ class SComments constructor(
     //
 
     private fun onEventCommentsCountChanged(e: EventCommentsCountChanged) {
-        if (e.unitId == unitId) adapter.loadBottom()
+        if (e.unitId == publicationId) adapter.loadBottom()
     }
 
-    private fun onEventUnitRemove(e: EventUnitRemove) {
-        if (e.unitId == unitId) Navigator.remove(this)
+    private fun onEventUnitRemove(e: EventPublicationRemove) {
+        if (e.unitId == publicationId) Navigator.remove(this)
     }
 
 }

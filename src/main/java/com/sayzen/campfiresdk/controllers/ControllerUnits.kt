@@ -2,21 +2,21 @@ package com.sayzen.campfiresdk.controllers
 
 import android.view.View
 import com.dzen.campfire.api.API
-import com.dzen.campfire.api.models.units.Unit
-import com.dzen.campfire.api.models.units.moderations.*
-import com.dzen.campfire.api.models.units.moderations.fandom.*
-import com.dzen.campfire.api.models.units.moderations.chat.ModerationChatChange
-import com.dzen.campfire.api.models.units.moderations.chat.ModerationChatCreate
-import com.dzen.campfire.api.models.units.moderations.chat.ModerationChatRemove
-import com.dzen.campfire.api.models.units.moderations.posts.*
-import com.dzen.campfire.api.models.units.moderations.rubrics.ModerationRubricChangeName
-import com.dzen.campfire.api.models.units.moderations.rubrics.ModerationRubricChangeOwner
-import com.dzen.campfire.api.models.units.moderations.rubrics.ModerationRubricCreate
-import com.dzen.campfire.api.models.units.moderations.rubrics.ModerationRubricRemove
-import com.dzen.campfire.api.models.units.moderations.tags.*
-import com.dzen.campfire.api.models.units.moderations.units.ModerationBlock
-import com.dzen.campfire.api.models.units.moderations.units.ModerationForgive
-import com.dzen.campfire.api.models.units.tags.UnitTag
+import com.dzen.campfire.api.models.publications.Publication
+import com.dzen.campfire.api.models.publications.moderations.*
+import com.dzen.campfire.api.models.publications.moderations.fandom.*
+import com.dzen.campfire.api.models.publications.moderations.chat.ModerationChatChange
+import com.dzen.campfire.api.models.publications.moderations.chat.ModerationChatCreate
+import com.dzen.campfire.api.models.publications.moderations.chat.ModerationChatRemove
+import com.dzen.campfire.api.models.publications.moderations.posts.*
+import com.dzen.campfire.api.models.publications.moderations.rubrics.ModerationRubricChangeName
+import com.dzen.campfire.api.models.publications.moderations.rubrics.ModerationRubricChangeOwner
+import com.dzen.campfire.api.models.publications.moderations.rubrics.ModerationRubricCreate
+import com.dzen.campfire.api.models.publications.moderations.rubrics.ModerationRubricRemove
+import com.dzen.campfire.api.models.publications.moderations.tags.*
+import com.dzen.campfire.api.models.publications.moderations.units.ModerationBlock
+import com.dzen.campfire.api.models.publications.moderations.units.ModerationForgive
+import com.dzen.campfire.api.models.publications.tags.PublicationTag
 import com.dzen.campfire.api.requests.post.RPostToDrafts
 import com.dzen.campfire.api.requests.tags.RTagsMove
 import com.dzen.campfire.api.requests.tags.RTagsMoveCategory
@@ -26,7 +26,7 @@ import com.dzen.campfire.api.requests.units.RUnitsBookmarksChange
 import com.dzen.campfire.api.requests.units.RUnitsCommentsWatchChange
 import com.sayzen.campfiresdk.R
 import com.sayzen.campfiresdk.models.events.fandom.EventFandomTagMove
-import com.sayzen.campfiresdk.models.events.units.*
+import com.sayzen.campfiresdk.models.events.publications.*
 import com.sayzen.campfiresdk.models.objects.TagParent
 import com.sayzen.campfiresdk.models.widgets.WidgetCategoryCreate
 import com.sayzen.campfiresdk.models.widgets.WidgetModerationBlock
@@ -55,35 +55,35 @@ object ControllerUnits {
 
     fun getName(unitType: Long): String {
         return when (unitType) {
-            API.UNIT_TYPE_COMMENT -> ToolsResources.s(R.string.app_sticker)
-            API.UNIT_TYPE_CHAT_MESSAGE -> ToolsResources.s(R.string.app_message)
-            API.UNIT_TYPE_TAG -> ToolsResources.s(R.string.app_tag)
-            API.UNIT_TYPE_MODERATION -> ToolsResources.s(R.string.app_moderation)
-            API.UNIT_TYPE_POST -> ToolsResources.s(R.string.app_post)
-            API.UNIT_TYPE_REVIEW -> ToolsResources.s(R.string.app_review)
-            API.UNIT_TYPE_STICKERS_PACK -> ToolsResources.s(R.string.app_stickers_pack)
-            API.UNIT_TYPE_STICKER -> ToolsResources.s(R.string.app_sticker)
+            API.PUBLICATION_TYPE_COMMENT -> ToolsResources.s(R.string.app_sticker)
+            API.PUBLICATION_TYPE_CHAT_MESSAGE -> ToolsResources.s(R.string.app_message)
+            API.PUBLICATION_TYPE_TAG -> ToolsResources.s(R.string.app_tag)
+            API.PUBLICATION_TYPE_MODERATION -> ToolsResources.s(R.string.app_moderation)
+            API.PUBLICATION_TYPE_POST -> ToolsResources.s(R.string.app_post)
+            API.PUBLICATION_TYPE_REVIEW -> ToolsResources.s(R.string.app_review)
+            API.PUBLICATION_TYPE_STICKERS_PACK -> ToolsResources.s(R.string.app_stickers_pack)
+            API.PUBLICATION_TYPE_STICKER -> ToolsResources.s(R.string.app_sticker)
             else -> "[unknown]"
         }
     }
 
     fun toUnit(unitType: Long, unitId: Long, commentId: Long = 0) {
 
-        if (unitType == API.UNIT_TYPE_POST) ControllerCampfireSDK.onToPostClicked(unitId, commentId, Navigator.TO)
-        if (unitType == API.UNIT_TYPE_MODERATION) ControllerCampfireSDK.onToModerationClicked(unitId, commentId, Navigator.TO)
-        if (unitType == API.UNIT_TYPE_STICKER) SStickersView.instanceBySticker(unitId, Navigator.TO)
-        if (unitType == API.UNIT_TYPE_CHAT_MESSAGE) SChat.instance(unitId, true, Navigator.TO)
-        if (unitType == API.UNIT_TYPE_STICKERS_PACK) {
+        if (unitType == API.PUBLICATION_TYPE_POST) ControllerCampfireSDK.onToPostClicked(unitId, commentId, Navigator.TO)
+        if (unitType == API.PUBLICATION_TYPE_MODERATION) ControllerCampfireSDK.onToModerationClicked(unitId, commentId, Navigator.TO)
+        if (unitType == API.PUBLICATION_TYPE_STICKER) SStickersView.instanceBySticker(unitId, Navigator.TO)
+        if (unitType == API.PUBLICATION_TYPE_CHAT_MESSAGE) SChat.instance(unitId, true, Navigator.TO)
+        if (unitType == API.PUBLICATION_TYPE_STICKERS_PACK) {
             if (commentId == 0L) SStickersView.instance(unitId, Navigator.TO)
             else Navigator.to(SComments(unitId, commentId))
         }
     }
 
-    fun block(unit: Unit, onBlock: () -> kotlin.Unit = {}) {
+    fun block(unit: Publication, onBlock: () -> kotlin.Unit = {}) {
         WidgetModerationBlock.show(unit, onBlock)
     }
 
-    fun report(unit: Unit) {
+    fun report(unit: Publication) {
         ControllerApi.reportUnit(
                 unit.id,
                 R.string.post_report_confirm,
@@ -91,7 +91,7 @@ object ControllerUnits {
         )
     }
 
-    fun clearReports(unit: Unit) {
+    fun clearReports(unit: Publication) {
         ControllerApi.clearReportsUnit(unit.id, unit.unitType)
     }
 
@@ -100,9 +100,9 @@ object ControllerUnits {
     //  Tag
     //
 
-    fun createTagMenu(view: View, unit: UnitTag, tags: Array<TagParent> = emptyArray()) {
+    fun createTagMenu(view: View, unit: PublicationTag, tags: Array<TagParent> = emptyArray()) {
 
-        var parentTags = ArrayList<UnitTag>()
+        var parentTags = ArrayList<PublicationTag>()
         if (unit.parentUnitId > 0) for (t in tags) if (t.tag.id == unit.parentUnitId) parentTags = t.tags
 
         val w = WidgetMenu()
@@ -184,10 +184,10 @@ object ControllerUnits {
         }
     }
 
-    fun parseTags(tagsOriginal: Array<UnitTag>): Array<TagParent> {
+    fun parseTags(tagsOriginal: Array<PublicationTag>): Array<TagParent> {
 
 
-        val tags = ArrayList<UnitTag>()
+        val tags = ArrayList<PublicationTag>()
         Collections.addAll(tags, *tagsOriginal)
         val map = HashMap<Long, TagParent>()
 
@@ -210,7 +210,7 @@ object ControllerUnits {
         return resultTags
     }
 
-    fun tagsAsLongArray(tags: Array<UnitTag>) = Array(tags.size) { tags[it].id }
+    fun tagsAsLongArray(tags: Array<PublicationTag>) = Array(tags.size) { tags[it].id }
 
 
     //
@@ -218,7 +218,7 @@ object ControllerUnits {
     //
 
 
-    fun showModerationPopup(unit: UnitModeration) {
+    fun showModerationPopup(unit: PublicationModeration) {
         WidgetMenu()
                 .add(R.string.app_copy_link) { _, _ ->
                     ToolsAndroid.setToClipboard(ControllerApi.linkToModeration(unit.id))
@@ -233,7 +233,7 @@ object ControllerUnits {
 
     fun changeWatchComments(unitId: Long) {
         ApiRequestsSupporter.executeProgressDialog(RUnitsCommentsWatchChange(unitId)) { r ->
-            EventBus.post(EventUnitCommentWatchChange(unitId, r.follow))
+            EventBus.post(EventPublicationCommentWatchChange(unitId, r.follow))
             if (r.follow) ToolsToast.show(R.string.unit_menu_comments_watch_on)
             else ToolsToast.show(R.string.unit_menu_comments_watch_off)
         }
@@ -241,7 +241,7 @@ object ControllerUnits {
 
     fun changeBookmark(unitId: Long) {
         ApiRequestsSupporter.executeProgressDialog(RUnitsBookmarksChange(unitId)) { r ->
-            EventBus.post(EventUnitBookmarkChange(unitId, r.bookmark))
+            EventBus.post(EventPublicationBookmarkChange(unitId, r.bookmark))
             if (r.bookmark) ToolsToast.show(R.string.bookmarks_added)
             else ToolsToast.show(R.string.bookmarks_removed)
         }
@@ -263,7 +263,7 @@ object ControllerUnits {
                 .setMax(API.MODERATION_COMMENT_MAX_L)
                 .setOnEnter(R.string.app_restore) { w, comment ->
                     ApiRequestsSupporter.executeEnabled(w, RUnitsAdminRestoreDeepBlock(unitId, comment)) {
-                        EventBus.post(EventUnitDeepBlockRestore(unitId))
+                        EventBus.post(EventPublicationDeepBlockRestore(unitId))
                         ToolsToast.show(R.string.app_done)
                     }
                 }
@@ -274,15 +274,15 @@ object ControllerUnits {
     //  Moderation
     //
 
-    fun setModerationText(vText: ViewTextLinkable, unit: UnitModeration) {
+    fun setModerationText(vText: ViewTextLinkable, unit: PublicationModeration) {
         val m = unit.moderation
         var text = ""
         when (m) {
             is ModerationBlock -> {
-                if (m.unitType == API.UNIT_TYPE_REVIEW) {
+                if (m.unitType == API.PUBLICATION_TYPE_REVIEW) {
                     text = ToolsResources.sCap(R.string.moderation_card_block_text_main_review, ToolsResources.sex(unit.creatorSex, R.string.he_remove, R.string.she_remove), ControllerApi.linkToUser(m.accountName))
                 } else {
-                    val unitType = if (m.unitType == API.UNIT_TYPE_POST) ToolsResources.sCap(R.string.moderation_unit_post) else if (m.unitType == API.UNIT_TYPE_COMMENT) ToolsResources.sCap(R.string.moderation_unit_comment) else if (m.unitType == API.UNIT_TYPE_CHAT_MESSAGE) ToolsResources.s(R.string.moderation_unit_message) else "null"
+                    val unitType = if (m.unitType == API.PUBLICATION_TYPE_POST) ToolsResources.sCap(R.string.moderation_unit_post) else if (m.unitType == API.PUBLICATION_TYPE_COMMENT) ToolsResources.sCap(R.string.moderation_unit_comment) else if (m.unitType == API.PUBLICATION_TYPE_CHAT_MESSAGE) ToolsResources.s(R.string.moderation_unit_message) else "null"
                     text = ToolsResources.sCap(R.string.moderation_card_block_text_main, ToolsResources.sex(unit.creatorSex, R.string.he_blocked, R.string.she_blocked), unitType, ControllerApi.linkToUser(m.accountName))
                 }
                 if (m.accountBlockDate > 0) text += "\n" + ToolsResources.sCap(R.string.moderation_card_block_text_ban, ToolsDate.dateToString(m.accountBlockDate))

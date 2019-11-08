@@ -3,15 +3,15 @@ package com.sayzen.campfiresdk.models.widgets
 import android.view.View
 import android.widget.Button
 import com.dzen.campfire.api.API
-import com.dzen.campfire.api.models.units.chat.UnitChatMessage
+import com.dzen.campfire.api.models.publications.chat.PublicationChatMessage
 import com.dzen.campfire.api.requests.accounts.RAccountsPunishmentsGetInfo
 import com.dzen.campfire.api.requests.fandoms.RFandomsModerationBlock
 import com.sayzen.campfiresdk.R
 import com.sayzen.campfiresdk.models.events.fandom.EventFandomReviewTextRemoved
-import com.sayzen.campfiresdk.models.events.units.EventUnitRemove
+import com.sayzen.campfiresdk.models.events.publications.EventPublicationRemove
 import com.sayzen.campfiresdk.app.CampfireConstants
 import com.sayzen.campfiresdk.controllers.ControllerApi
-import com.sayzen.campfiresdk.models.events.units.EventUnitBlocked
+import com.sayzen.campfiresdk.models.events.publications.EventPublicationBlocked
 import com.sayzen.campfiresdk.screens.punishments.SPunishments
 import com.sup.dev.android.libs.api_simple.ApiRequestsSupporter
 import com.sup.dev.android.libs.screens.navigator.Navigator
@@ -28,7 +28,7 @@ import com.sup.dev.java.libs.eventBus.EventBus
 import com.sup.dev.java.tools.ToolsColor
 
 class WidgetModerationBlock(
-        private val unit: com.dzen.campfire.api.models.units.Unit,
+        private val unit: com.dzen.campfire.api.models.publications.Publication,
         private val bansCount: Long,
         private val warnsCount: Long,
         private val onBlock: () -> Unit = {}
@@ -51,7 +51,7 @@ class WidgetModerationBlock(
 
     companion object {
 
-        fun show(unit: com.dzen.campfire.api.models.units.Unit, onBlock: () -> Unit = {}, onShow: (WidgetModerationBlock) -> Unit = {}) {
+        fun show(unit: com.dzen.campfire.api.models.publications.Publication, onBlock: () -> Unit = {}, onShow: (WidgetModerationBlock) -> Unit = {}) {
 
             ApiRequestsSupporter.executeProgressDialog(RAccountsPunishmentsGetInfo(unit.creatorId)) { r ->
                 val w = WidgetModerationBlock(unit, r.bansCount, r.warnsCount, onBlock)
@@ -63,7 +63,7 @@ class WidgetModerationBlock(
     }
 
     init {
-        if (unit.unitType == API.UNIT_TYPE_REVIEW) vBlockLast.visibility = View.GONE
+        if (unit.unitType == API.PUBLICATION_TYPE_REVIEW) vBlockLast.visibility = View.GONE
 
         vComment.vField.addTextChangedListener(TextWatcherChanged { updateFinishEnabled() })
 
@@ -81,8 +81,8 @@ class WidgetModerationBlock(
         }
 
         vBlockInApp.visibility = if (ControllerApi.can(API.LVL_ADMIN_BAN)) View.VISIBLE else View.GONE
-        if(unit.unitType == API.UNIT_TYPE_STICKERS_PACK
-                ||unit.unitType == API.UNIT_TYPE_STICKER){
+        if(unit.unitType == API.PUBLICATION_TYPE_STICKERS_PACK
+                ||unit.unitType == API.PUBLICATION_TYPE_STICKER){
             vBlockInApp.visibility = View.GONE
             vBlockInApp.setChecked(true)
         }
@@ -171,12 +171,12 @@ class WidgetModerationBlock(
                 }
     }
 
-    private fun afterBlock(blockedUnitsIds: Array<Long>, unitChatMessage: UnitChatMessage?) {
-        if (unit.unitType == API.UNIT_TYPE_REVIEW) {
+    private fun afterBlock(blockedUnitsIds: Array<Long>, unitChatMessage: PublicationChatMessage?) {
+        if (unit.unitType == API.PUBLICATION_TYPE_REVIEW) {
             EventBus.post(EventFandomReviewTextRemoved(unit.id))
         } else {
-            for (id in blockedUnitsIds) EventBus.post(EventUnitRemove(id))
-            for (id in blockedUnitsIds) EventBus.post(EventUnitBlocked(id, unit.id, unitChatMessage))
+            for (id in blockedUnitsIds) EventBus.post(EventPublicationRemove(id))
+            for (id in blockedUnitsIds) EventBus.post(EventPublicationBlocked(id, unit.id, unitChatMessage))
         }
     }
 

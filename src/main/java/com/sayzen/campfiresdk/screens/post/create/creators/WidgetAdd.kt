@@ -1,6 +1,6 @@
 package com.sayzen.campfiresdk.screens.post.create.creators
 
-import com.dzen.campfire.api.models.units.post.*
+import com.dzen.campfire.api.models.publications.post.*
 import com.sayzen.campfiresdk.R
 import com.sayzen.campfiresdk.models.cards.post_pages.*
 import com.sup.dev.android.libs.screens.Screen

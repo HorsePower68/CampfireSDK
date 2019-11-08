@@ -4,8 +4,8 @@ import android.view.View
 import android.widget.TextView
 import androidx.recyclerview.widget.GridLayoutManager
 import com.dzen.campfire.api.API
-import com.dzen.campfire.api.models.units.stickers.UnitSticker
-import com.dzen.campfire.api.models.units.stickers.UnitStickersPack
+import com.dzen.campfire.api.models.publications.stickers.PublicationSticker
+import com.dzen.campfire.api.models.publications.stickers.PublicationStickersPack
 import com.dzen.campfire.api.requests.stickers.RStickersAdd
 import com.dzen.campfire.api.requests.stickers.RStickersGetAllByPackId
 import com.dzen.campfire.api.requests.stickers.RStickersPacksGetInfo
@@ -16,7 +16,7 @@ import com.sayzen.campfiresdk.controllers.*
 import com.sayzen.campfiresdk.models.cards.stickers.CardSticker
 import com.sayzen.campfiresdk.models.events.stickers.EventStickerCreate
 import com.sayzen.campfiresdk.models.events.stickers.EventStickersPackChanged
-import com.sayzen.campfiresdk.models.events.units.EventUnitRemove
+import com.sayzen.campfiresdk.models.events.publications.EventPublicationRemove
 import com.sayzen.campfiresdk.screens.account.profile.SAccount
 import com.sayzen.campfiresdk.screens.comments.SComments
 import com.sayzen.campfiresdk.views.ViewKarma
@@ -35,9 +35,9 @@ import com.sup.dev.java.tools.ToolsBytes
 import com.sup.dev.java.tools.ToolsThreads
 
 class SStickersView(
-        val stickersPack: UnitStickersPack,
+        val stickersPack: PublicationStickersPack,
         val stickerId: Long
-) : SLoadingRecycler<CardSticker, UnitSticker>(R.layout.screen_stickers_view) {
+) : SLoadingRecycler<CardSticker, PublicationSticker>(R.layout.screen_stickers_view) {
 
     companion object {
 
@@ -60,7 +60,7 @@ class SStickersView(
     private val eventBus = EventBus
             .subscribe(EventStickerCreate::class) { onEventStickerCreate(it) }
             .subscribe(EventStickersPackChanged::class) { onEventStickersPackChanged(it) }
-            .subscribe(EventUnitRemove::class) { if (it.unitId == stickersPack.id) Navigator.remove(this) }
+            .subscribe(EventPublicationRemove::class) { if (it.unitId == stickersPack.id) Navigator.remove(this) }
 
     private val vAvatarTitle: ViewAvatarTitle = findViewById(R.id.vAvatarTitle)
     private val vCommentsCount: TextView = findViewById(R.id.vCommentsCount)
@@ -115,8 +115,8 @@ class SStickersView(
 
     }
 
-    override fun instanceAdapter(): RecyclerCardAdapterLoading<CardSticker, UnitSticker> {
-        return RecyclerCardAdapterLoading<CardSticker, UnitSticker>(CardSticker::class) {
+    override fun instanceAdapter(): RecyclerCardAdapterLoading<CardSticker, PublicationSticker> {
+        return RecyclerCardAdapterLoading<CardSticker, PublicationSticker>(CardSticker::class) {
             val card = CardSticker(it)
             if (it.id == stickerId) card.flash()
             card

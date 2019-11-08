@@ -4,8 +4,8 @@ import android.view.View
 import android.widget.TextView
 import com.dzen.campfire.api.models.notifications.comments.NotificationComment
 import com.dzen.campfire.api.models.notifications.comments.NotificationCommentAnswer
-import com.dzen.campfire.api.models.units.moderations.units.ModerationBlock
-import com.dzen.campfire.api.models.units.moderations.UnitModeration
+import com.dzen.campfire.api.models.publications.moderations.units.ModerationBlock
+import com.dzen.campfire.api.models.publications.moderations.PublicationModeration
 import com.sayzen.campfiresdk.R
 import com.sayzen.campfiresdk.adapters.XAccount
 import com.sayzen.campfiresdk.adapters.XFandom
@@ -14,7 +14,7 @@ import com.sayzen.campfiresdk.controllers.ControllerApi
 import com.sayzen.campfiresdk.controllers.ControllerUnits
 import com.sayzen.campfiresdk.views.ViewKarma
 import com.sayzen.campfiresdk.models.events.notifications.EventNotification
-import com.sayzen.campfiresdk.models.events.units.EventCommentsCountChanged
+import com.sayzen.campfiresdk.models.events.publications.EventCommentsCountChanged
 import com.sup.dev.android.tools.ToolsResources
 import com.sup.dev.android.views.cards.Card
 import com.sup.dev.android.views.views.ViewAvatar
@@ -24,7 +24,7 @@ import com.sup.dev.java.libs.eventBus.EventBus
 import com.sup.dev.java.libs.eventBus.EventBusSubscriber
 
 class CardInfo(
-        private val unit: UnitModeration
+        private val unit: PublicationModeration
 ) : Card(R.layout.screen_moderation_card_info) {
 
     private val eventBus: EventBusSubscriber = EventBus

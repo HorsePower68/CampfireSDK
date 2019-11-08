@@ -5,7 +5,7 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.TextView
 import androidx.recyclerview.widget.GridLayoutManager
-import com.dzen.campfire.api.models.units.stickers.UnitSticker
+import com.dzen.campfire.api.models.publications.stickers.PublicationSticker
 import com.dzen.campfire.api.requests.stickers.RStickersGetAllByAccount
 import com.sayzen.campfiresdk.R
 import com.sayzen.campfiresdk.controllers.ControllerApi
@@ -28,7 +28,7 @@ open class WidgetStickers : WidgetRecycler(R.layout.widget_stickers) {
     private val vMessage: TextView = findViewById(R.id.vMessage)
     private val vProgress: View = findViewById(R.id.vProgress)
 
-    private var onSelected: (UnitSticker) -> Unit = { }
+    private var onSelected: (PublicationSticker) -> Unit = { }
     private var spanCount = 4
     private var hided = false
 
@@ -102,7 +102,7 @@ open class WidgetStickers : WidgetRecycler(R.layout.widget_stickers) {
     //  Setters
     //
 
-    fun onSelected(onSelected:(UnitSticker)->Unit): WidgetStickers{
+    fun onSelected(onSelected:(PublicationSticker)->Unit): WidgetStickers{
         this.onSelected = onSelected
         return this
     }

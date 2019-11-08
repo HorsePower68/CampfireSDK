@@ -1,7 +1,7 @@
 package com.sayzen.campfiresdk.screens.post.pending
 
 import android.view.View
-import com.dzen.campfire.api.models.units.post.UnitPost
+import com.dzen.campfire.api.models.publications.post.PublicationPost
 import com.dzen.campfire.api.requests.post.RPostPendingGetAll
 import com.sayzen.campfiresdk.R
 import com.sayzen.campfiresdk.controllers.api
@@ -13,7 +13,7 @@ import com.sup.dev.android.views.screens.SLoadingRecycler
 import com.sup.dev.android.views.support.adapters.recycler_view.RecyclerCardAdapterLoading
 import com.sup.dev.android.views.support.adapters.recycler_view.decorators.DecoratorVerticalSpace
 
-class SPending : SLoadingRecycler<CardPost, UnitPost>() {
+class SPending : SLoadingRecycler<CardPost, PublicationPost>() {
 
     init {
         setScreenColorBackground()
@@ -32,8 +32,8 @@ class SPending : SLoadingRecycler<CardPost, UnitPost>() {
         }
     }
 
-    override fun instanceAdapter(): RecyclerCardAdapterLoading<CardPost, UnitPost> {
-        return RecyclerCardAdapterLoading<CardPost, UnitPost>(CardPost::class) { unit ->
+    override fun instanceAdapter(): RecyclerCardAdapterLoading<CardPost, PublicationPost> {
+        return RecyclerCardAdapterLoading<CardPost, PublicationPost>(CardPost::class) { unit ->
             val card = CardPost(vRecycler, unit)
             card.showFandom = true
             card

@@ -2,20 +2,18 @@ package com.sayzen.campfiresdk.models.cards.events
 
 import android.view.View
 import android.widget.TextView
-import com.dzen.campfire.api.models.units.events_moderators.UnitEventModer
+import com.dzen.campfire.api.models.publications.events_moderators.PublicationEventModer
 import com.sayzen.campfiresdk.R
 import com.sayzen.campfiresdk.adapters.XAccount
 import com.sayzen.campfiresdk.controllers.ControllerApi
-import com.sayzen.campfiresdk.controllers.ControllerCampfireSDK
 import com.sayzen.campfiresdk.models.cards.CardUnit
-import com.sup.dev.android.libs.screens.navigator.Navigator
 import com.sup.dev.android.tools.ToolsResources
 import com.sup.dev.android.views.views.ViewAvatar
 import com.sup.dev.android.views.views.ViewTextLinkable
 import com.sup.dev.java.tools.ToolsDate
 
 class CardUnitEventModer(
-        unit: UnitEventModer
+        unit: PublicationEventModer
 ) : CardUnit(R.layout.card_event, unit) {
 
     private val xAccount: XAccount
@@ -28,7 +26,7 @@ class CardUnitEventModer(
     override fun bindView(view: View) {
         super.bindView(view)
 
-        val unit = xUnit.unit as UnitEventModer
+        val unit = xUnit.unit as PublicationEventModer
 
         val vAvatarTitle: ViewAvatar = view.findViewById(R.id.vAvatar)
         val vText: ViewTextLinkable = view.findViewById(R.id.vText)

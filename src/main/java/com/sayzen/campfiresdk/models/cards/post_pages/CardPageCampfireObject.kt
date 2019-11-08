@@ -4,7 +4,7 @@ import android.view.View
 import com.dzen.campfire.api.API
 import com.dzen.campfire.api.models.CampfireLink
 import com.dzen.campfire.api.models.PagesContainer
-import com.dzen.campfire.api.models.units.post.PageCampfireObject
+import com.dzen.campfire.api.models.publications.post.PageCampfireObject
 import com.sayzen.campfiresdk.R
 import com.sayzen.campfiresdk.controllers.ControllerCampfireObjects
 import com.sayzen.campfiresdk.screens.account.profile.SAccount

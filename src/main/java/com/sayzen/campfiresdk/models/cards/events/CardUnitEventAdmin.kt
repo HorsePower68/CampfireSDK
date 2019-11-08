@@ -2,8 +2,7 @@ package com.sayzen.campfiresdk.models.cards.events
 
 import android.view.View
 import android.widget.TextView
-import com.dzen.campfire.api.API
-import com.dzen.campfire.api.models.units.events_admins.*
+import com.dzen.campfire.api.models.publications.events_admins.*
 import com.sayzen.campfiresdk.R
 import com.sayzen.campfiresdk.adapters.XAccount
 import com.sayzen.campfiresdk.app.CampfireConstants
@@ -21,7 +20,7 @@ import com.sup.dev.java.tools.ToolsDate
 import com.sup.dev.java.tools.ToolsText
 
 class CardUnitEventAdmin(
-        unit: UnitEventAdmin
+        unit: PublicationEventAdmin
 ) : CardUnit(R.layout.card_event, unit) {
 
     private val xAccount: XAccount
@@ -34,7 +33,7 @@ class CardUnitEventAdmin(
     override fun bindView(view: View) {
         super.bindView(view)
 
-        val unit = xUnit.unit as UnitEventAdmin
+        val unit = xUnit.unit as PublicationEventAdmin
 
         val vAvatarTitle: ViewAvatar = view.findViewById(R.id.vAvatar)
         val vText: ViewTextLinkable = view.findViewById(R.id.vText)
@@ -131,7 +130,7 @@ class CardUnitEventAdmin(
                 text = ToolsResources.sCap(R.string.unit_event_remove_punishment_admin, ToolsResources.sex(e.ownerAccountSex, R.string.he_remove, R.string.she_remove), ControllerApi.linkToUser(e.targetAccountName))
                 view.setOnClickListener { ControllerCampfireSDK.onToAccountClicked(e.targetAccountId, Navigator.TO) }
             }
-            is ApiEventAdminUnitRestore -> {
+            is ApiEventAdminPublicationRestore -> {
                 text = ToolsResources.sCap(R.string.unit_event_unit_restore_admin, ToolsResources.sex(e.ownerAccountSex, R.string.he_restore, R.string.she_restore), ControllerApi.linkToUser(e.targetAccountName))
                 view.setOnClickListener { ControllerCampfireSDK.onToModerationClicked(e.moderationId, 0, Navigator.TO) }
             }

@@ -1,8 +1,7 @@
 package com.sayzen.campfiresdk.screens.wiki
 
 import androidx.recyclerview.widget.RecyclerView
-import com.dzen.campfire.api.API
-import com.dzen.campfire.api.models.units.post.Page
+import com.dzen.campfire.api.models.publications.post.Page
 import com.dzen.campfire.api.requests.wiki.*
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.sayzen.campfiresdk.R

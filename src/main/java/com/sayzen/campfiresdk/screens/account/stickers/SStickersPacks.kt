@@ -2,7 +2,7 @@ package com.sayzen.campfiresdk.screens.account.stickers
 
 import android.view.View
 import com.dzen.campfire.api.API
-import com.dzen.campfire.api.models.units.stickers.UnitStickersPack
+import com.dzen.campfire.api.models.publications.stickers.PublicationStickersPack
 import com.dzen.campfire.api.requests.stickers.RStickersPacksGetAllByAccount
 import com.sayzen.campfiresdk.R
 import com.sayzen.campfiresdk.controllers.ControllerApi
@@ -18,7 +18,7 @@ import com.sup.dev.java.libs.eventBus.EventBus
 
 class SStickersPacks(
         val accountId: Long
-) : SLoadingRecycler<CardStickersPack, UnitStickersPack>() {
+) : SLoadingRecycler<CardStickersPack, PublicationStickersPack>() {
 
     val eventBus = EventBus
             .subscribe(EventStickersPackCreate::class) { reload() }
@@ -48,8 +48,8 @@ class SStickersPacks(
         super.reload()
     }
 
-    override fun instanceAdapter(): RecyclerCardAdapterLoading<CardStickersPack, UnitStickersPack> {
-        val adapter = RecyclerCardAdapterLoading<CardStickersPack, UnitStickersPack>(CardStickersPack::class) { CardStickersPack(it) }
+    override fun instanceAdapter(): RecyclerCardAdapterLoading<CardStickersPack, PublicationStickersPack> {
+        val adapter = RecyclerCardAdapterLoading<CardStickersPack, PublicationStickersPack>(CardStickersPack::class) { CardStickersPack(it) }
                 .setBottomLoader { onLoad, cards ->
                     subscription = RStickersPacksGetAllByAccount(accountId, if(cards.isEmpty()) Long.MAX_VALUE else cards.get(cards.size-1).xUnit.unit.dateCreate)
                             .onComplete { r ->

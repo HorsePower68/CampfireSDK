@@ -2,7 +2,7 @@ package com.sayzen.campfiresdk.screens.fandoms.chats
 
 import android.view.View
 import com.dzen.campfire.api.API
-import com.dzen.campfire.api.models.units.chat.Chat
+import com.dzen.campfire.api.models.publications.chat.Chat
 import com.dzen.campfire.api.requests.chat.RChatsFandomGetAll
 import com.sayzen.campfiresdk.R
 import com.sayzen.campfiresdk.controllers.ControllerApi

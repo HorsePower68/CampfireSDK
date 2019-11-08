@@ -5,11 +5,11 @@ import android.view.ViewGroup
 import android.widget.LinearLayout
 import android.widget.TextView
 import com.dzen.campfire.api.models.PagesContainer
-import com.dzen.campfire.api.models.units.post.PagePolling
+import com.dzen.campfire.api.models.publications.post.PagePolling
 import com.sayzen.campfiresdk.R
 import com.sayzen.campfiresdk.controllers.ControllerApi
 import com.sayzen.campfiresdk.controllers.ControllerPolling
-import com.sayzen.campfiresdk.models.events.units.EventPollingChanged
+import com.sayzen.campfiresdk.models.events.publications.EventPollingChanged
 import com.sup.dev.android.tools.ToolsResources
 import com.sup.dev.android.tools.ToolsView
 import com.sup.dev.android.views.views.ViewTextLinkable

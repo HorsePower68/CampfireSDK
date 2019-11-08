@@ -4,16 +4,16 @@ import android.widget.TextView
 import com.dzen.campfire.api.models.EventUnitInstance
 import com.dzen.campfire.api.models.notifications.comments.NotificationComment
 import com.dzen.campfire.api.models.notifications.comments.NotificationCommentAnswer
-import com.dzen.campfire.api.models.units.Unit
+import com.dzen.campfire.api.models.publications.Publication
 import com.sayzen.campfiresdk.models.events.notifications.EventNotification
-import com.sayzen.campfiresdk.models.events.units.EventCommentAdd
-import com.sayzen.campfiresdk.models.events.units.EventCommentRemove
-import com.sayzen.campfiresdk.models.events.units.EventCommentsCountChanged
+import com.sayzen.campfiresdk.models.events.publications.EventCommentAdd
+import com.sayzen.campfiresdk.models.events.publications.EventCommentRemove
+import com.sayzen.campfiresdk.models.events.publications.EventCommentsCountChanged
 import com.sup.dev.java.classes.items.Item2
 import com.sup.dev.java.libs.eventBus.EventBus
 
 class XComments(
-        private val unit: Unit,
+        private val unit: Publication,
         var onChanged: () -> kotlin.Unit
 ) {
 

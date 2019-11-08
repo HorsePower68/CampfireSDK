@@ -7,15 +7,15 @@ import androidx.recyclerview.widget.RecyclerView
 import com.dzen.campfire.api.API
 import com.dzen.campfire.api.models.notifications.units.NotificationFollowsPublication
 import com.dzen.campfire.api.models.notifications.units.NotificationUnitImportant
-import com.dzen.campfire.api.models.units.post.UnitPost
-import com.dzen.campfire.api.models.units.tags.UnitTag
+import com.dzen.campfire.api.models.publications.post.PublicationPost
+import com.dzen.campfire.api.models.publications.tags.PublicationTag
 import com.dzen.campfire.api.requests.post.RPostGet
 import com.sayzen.campfiresdk.R
 import com.sayzen.campfiresdk.adapters.AdapterComments
 import com.sayzen.campfiresdk.adapters.XUnit
 import com.sayzen.campfiresdk.controllers.*
 import com.sayzen.campfiresdk.models.cards.post_pages.CardPage
-import com.sayzen.campfiresdk.models.events.units.*
+import com.sayzen.campfiresdk.models.events.publications.*
 import com.sup.dev.android.libs.api_simple.ApiRequestsSupporter
 import com.sup.dev.android.libs.screens.Screen
 import com.sup.dev.android.libs.screens.navigator.NavigationAction
@@ -26,8 +26,8 @@ import com.sup.dev.java.libs.eventBus.EventBusSubscriber
 import com.sup.dev.java.tools.ToolsThreads
 
 class SPost constructor(
-        unit: UnitPost,
-        val tags: Array<UnitTag>,
+        unit: PublicationPost,
+        val tags: Array<PublicationTag>,
         commentId: Long
 ) : Screen(R.layout.screen_post) {
 
@@ -98,7 +98,7 @@ class SPost constructor(
     private fun onPostChanged(e: EventPostChanged) {
         if (e.unitId == xUnit.unit.id) {
             adapter.remove(CardPage::class)
-            for (i in 0 until e.pages.size) adapter.add(i, CardPage.instance(xUnit.unit as UnitPost, e.pages[i]))
+            for (i in 0 until e.pages.size) adapter.add(i, CardPage.instance(xUnit.unit as PublicationPost, e.pages[i]))
         }
     }
 

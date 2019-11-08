@@ -6,7 +6,7 @@ import androidx.recyclerview.widget.RecyclerView
 import android.view.View
 import android.widget.ImageView
 import com.dzen.campfire.api.API
-import com.dzen.campfire.api.models.units.stickers.UnitSticker
+import com.dzen.campfire.api.models.publications.stickers.PublicationSticker
 import com.sayzen.campfiresdk.R
 import com.sayzen.campfiresdk.controllers.ControllerApi
 import com.sayzen.campfiresdk.views.WidgetStickers
@@ -32,7 +32,7 @@ class Attach(
         val vAttachRecycler: RecyclerView,
         val onUpdate: () -> Unit = {},
         val onSupportScreenHide: () -> Unit = {},
-        val onStickerSelected: (UnitSticker) -> Unit = {}
+        val onStickerSelected: (PublicationSticker) -> Unit = {}
 ) {
 
     private var adapter = RecyclerCardAdapter()

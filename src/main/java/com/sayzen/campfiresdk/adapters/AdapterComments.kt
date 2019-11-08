@@ -3,7 +3,7 @@ package com.sayzen.campfiresdk.adapters
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import android.view.View
-import com.dzen.campfire.api.models.UnitComment
+import com.dzen.campfire.api.models.PublicationComment
 import com.dzen.campfire.api.models.notifications.comments.NotificationComment
 import com.dzen.campfire.api.models.notifications.comments.NotificationCommentAnswer
 import com.dzen.campfire.api.requests.units.RCommentsGetAll
@@ -12,7 +12,7 @@ import com.sayzen.campfiresdk.controllers.ControllerApi
 import com.sayzen.campfiresdk.controllers.api
 import com.sayzen.campfiresdk.models.cards.comments.CardComment
 import com.sayzen.campfiresdk.models.events.notifications.EventNotification
-import com.sayzen.campfiresdk.models.events.units.EventCommentsCountChanged
+import com.sayzen.campfiresdk.models.events.publications.EventCommentsCountChanged
 import com.sayzen.campfiresdk.models.widgets.WidgetComment
 import com.sup.dev.android.tools.ToolsResources
 import com.sup.dev.android.tools.ToolsToast
@@ -26,7 +26,7 @@ class AdapterComments(
         private var scrollToCommentId: Long,
         private val vRecycler: RecyclerView,
         private val startFromBottom: Boolean = false
-) : RecyclerCardAdapterLoading<CardComment, UnitComment>(CardComment::class, null) {
+) : RecyclerCardAdapterLoading<CardComment, PublicationComment>(CardComment::class, null) {
 
 
     private val eventBus = EventBus
@@ -63,7 +63,7 @@ class AdapterComments(
         view.setOnClickListener { showCommentDialog() }
     }
 
-    fun showCommentDialog(comment: UnitComment? = null, changeComment: UnitComment? = null, quoteId: Long = 0, quoteText: String = "") {
+    fun showCommentDialog(comment: PublicationComment? = null, changeComment: PublicationComment? = null, quoteId: Long = 0, quoteText: String = "") {
         WidgetComment(unitId, comment, changeComment, quoteId, quoteText) {
             val card = addComment(it)
             vRecycler.scrollToPosition(indexOf(card) + 1)
@@ -112,7 +112,7 @@ class AdapterComments(
 
     }
 
-    fun addComment(unitComment: UnitComment): CardComment {
+    fun addComment(unitComment: PublicationComment): CardComment {
         val card = instanceCard(unitComment)
         addWithHash(card)
         card.flash()
@@ -124,7 +124,7 @@ class AdapterComments(
         loadBottom()
     }
 
-    private fun instanceCard(unit: UnitComment): CardComment {
+    private fun instanceCard(unit: PublicationComment): CardComment {
         return CardComment.instance(unit, true, false,
                 { comment ->
                     if (ControllerApi.isCurrentAccount(comment.creatorId)) return@instance false

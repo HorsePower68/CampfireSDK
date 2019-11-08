@@ -7,15 +7,13 @@ import com.dzen.campfire.api.models.notifications.chat.NotificationChatAnswer
 import com.dzen.campfire.api.models.notifications.chat.NotificationChatMessage
 import com.dzen.campfire.api.models.notifications.chat.NotificationChatRead
 import com.dzen.campfire.api.models.notifications.chat.NotificationChatTyping
-import com.dzen.campfire.api.models.units.chat.Chat
-import com.dzen.campfire.api.models.units.chat.UnitChatMessage
+import com.dzen.campfire.api.models.publications.chat.PublicationChatMessage
 import com.dzen.campfire.api.requests.chat.*
 import com.dzen.campfire.api.requests.fandoms.RFandomsModerationChangeImageBackground
 import com.dzen.campfire.api.requests.fandoms.RFandomsModerationChatRemove
 import com.sayzen.campfiresdk.R
 import com.sayzen.campfiresdk.models.events.chat.*
 import com.sayzen.campfiresdk.models.events.fandom.EventFandomBackgroundImageChanged
-import com.sayzen.campfiresdk.models.events.fandom.EventFandomChatCreated
 import com.sayzen.campfiresdk.models.events.fandom.EventFandomChatRemove
 import com.sayzen.campfiresdk.models.events.notifications.EventNotification
 import com.sayzen.campfiresdk.screens.chat.create.SChatCreate
@@ -50,23 +48,23 @@ object ControllerChats {
     //  Methods
     //
 
-    fun getSystemText(unit: UnitChatMessage): String {
+    fun getSystemText(unit: PublicationChatMessage): String {
 
         when {
-            unit.systemType == UnitChatMessage.SYSTEM_TYPE_BLOCK -> return if (unit.blockDate > 0) {
+            unit.systemType == PublicationChatMessage.SYSTEM_TYPE_BLOCK -> return if (unit.blockDate > 0) {
                 "${ToolsResources.s(R.string.chat_block_message, ControllerApi.linkToUser(unit.systemOwnerName), ToolsResources.sex(unit.systemOwnerSex, R.string.he_blocked, R.string.she_blocked), ControllerApi.linkToUser(unit.systemTargetName))} " + "\n ${ToolsResources.s(R.string.app_comment)}: ${unit.systemComment}"
             } else {
                 "${ToolsResources.s(R.string.chat_system_block, ControllerApi.linkToUser(unit.systemOwnerName), ToolsResources.sex(unit.systemOwnerSex, R.string.he_warn, R.string.she_warn), ControllerApi.linkToUser(unit.systemTargetName))} " + "\n ${ToolsResources.s(R.string.app_comment)}: ${unit.systemComment}"
             }
-            unit.systemType == UnitChatMessage.SYSTEM_TYPE_ADD_USER -> return "${ToolsResources.s(R.string.chat_system_add, ControllerApi.linkToUser(unit.systemOwnerName), ToolsResources.sex(unit.systemOwnerSex, R.string.he_add, R.string.she_add), ControllerApi.linkToUser(unit.systemTargetName))}"
-            unit.systemType == UnitChatMessage.SYSTEM_TYPE_CREATE -> return "${ToolsResources.s(R.string.chat_system_create, ControllerApi.linkToUser(unit.systemOwnerName), ToolsResources.sex(unit.systemOwnerSex, R.string.he_created, R.string.she_created))}"
-            unit.systemType == UnitChatMessage.SYSTEM_TYPE_REMOVE_USER -> return "${ToolsResources.s(R.string.chat_system_remove, ControllerApi.linkToUser(unit.systemOwnerName), ToolsResources.sex(unit.systemOwnerSex, R.string.he_remove, R.string.she_remove), ControllerApi.linkToUser(unit.systemTargetName))}"
-            unit.systemType == UnitChatMessage.SYSTEM_TYPE_CHANGE_IMAGE -> return "${ToolsResources.s(R.string.chat_system_change_image, ControllerApi.linkToUser(unit.systemOwnerName), ToolsResources.sex(unit.systemOwnerSex, R.string.he_changed, R.string.she_changed), unit.systemTargetName)}"
-            unit.systemType == UnitChatMessage.SYSTEM_TYPE_CHANGE_NAME -> return "${ToolsResources.s(R.string.chat_system_change_name, ControllerApi.linkToUser(unit.systemOwnerName), ToolsResources.sex(unit.systemOwnerSex, R.string.he_changed, R.string.she_changed), unit.systemTargetName)}"
-            unit.systemType == UnitChatMessage.SYSTEM_TYPE_LEAVE -> return "${ToolsResources.s(R.string.chat_system_leave, ControllerApi.linkToUser(unit.systemOwnerName), ToolsResources.sex(unit.systemOwnerSex, R.string.he_leave, R.string.she_leave))}"
-            unit.systemType == UnitChatMessage.SYSTEM_TYPE_ENTER -> return "${ToolsResources.s(R.string.chat_system_enter, ControllerApi.linkToUser(unit.systemOwnerName), ToolsResources.sex(unit.systemOwnerSex, R.string.he_reenter, R.string.she_reenter))}"
-            unit.systemType == UnitChatMessage.SYSTEM_TYPE_PARAMS -> return "${ToolsResources.s(R.string.chat_system_params, ControllerApi.linkToUser(unit.systemOwnerName), ToolsResources.sex(unit.systemOwnerSex, R.string.he_changed, R.string.he_changed))}"
-            unit.systemType == UnitChatMessage.SYSTEM_TYPE_LEVEL -> return "${ToolsResources.s(R.string.chat_system_level, ControllerApi.linkToUser(unit.systemOwnerName), ToolsResources.sex(unit.systemOwnerSex, R.string.he_changed, R.string.he_changed), ControllerApi.linkToUser(unit.systemTargetName), ToolsResources.s(if (unit.systemTag == API.CHAT_MEMBER_LVL_USER) R.string.app_user else if (unit.systemTag == API.CHAT_MEMBER_LVL_MODERATOR) R.string.app_moderator else R.string.app_admin))}"
+            unit.systemType == PublicationChatMessage.SYSTEM_TYPE_ADD_USER -> return "${ToolsResources.s(R.string.chat_system_add, ControllerApi.linkToUser(unit.systemOwnerName), ToolsResources.sex(unit.systemOwnerSex, R.string.he_add, R.string.she_add), ControllerApi.linkToUser(unit.systemTargetName))}"
+            unit.systemType == PublicationChatMessage.SYSTEM_TYPE_CREATE -> return "${ToolsResources.s(R.string.chat_system_create, ControllerApi.linkToUser(unit.systemOwnerName), ToolsResources.sex(unit.systemOwnerSex, R.string.he_created, R.string.she_created))}"
+            unit.systemType == PublicationChatMessage.SYSTEM_TYPE_REMOVE_USER -> return "${ToolsResources.s(R.string.chat_system_remove, ControllerApi.linkToUser(unit.systemOwnerName), ToolsResources.sex(unit.systemOwnerSex, R.string.he_remove, R.string.she_remove), ControllerApi.linkToUser(unit.systemTargetName))}"
+            unit.systemType == PublicationChatMessage.SYSTEM_TYPE_CHANGE_IMAGE -> return "${ToolsResources.s(R.string.chat_system_change_image, ControllerApi.linkToUser(unit.systemOwnerName), ToolsResources.sex(unit.systemOwnerSex, R.string.he_changed, R.string.she_changed), unit.systemTargetName)}"
+            unit.systemType == PublicationChatMessage.SYSTEM_TYPE_CHANGE_NAME -> return "${ToolsResources.s(R.string.chat_system_change_name, ControllerApi.linkToUser(unit.systemOwnerName), ToolsResources.sex(unit.systemOwnerSex, R.string.he_changed, R.string.she_changed), unit.systemTargetName)}"
+            unit.systemType == PublicationChatMessage.SYSTEM_TYPE_LEAVE -> return "${ToolsResources.s(R.string.chat_system_leave, ControllerApi.linkToUser(unit.systemOwnerName), ToolsResources.sex(unit.systemOwnerSex, R.string.he_leave, R.string.she_leave))}"
+            unit.systemType == PublicationChatMessage.SYSTEM_TYPE_ENTER -> return "${ToolsResources.s(R.string.chat_system_enter, ControllerApi.linkToUser(unit.systemOwnerName), ToolsResources.sex(unit.systemOwnerSex, R.string.he_reenter, R.string.she_reenter))}"
+            unit.systemType == PublicationChatMessage.SYSTEM_TYPE_PARAMS -> return "${ToolsResources.s(R.string.chat_system_params, ControllerApi.linkToUser(unit.systemOwnerName), ToolsResources.sex(unit.systemOwnerSex, R.string.he_changed, R.string.he_changed))}"
+            unit.systemType == PublicationChatMessage.SYSTEM_TYPE_LEVEL -> return "${ToolsResources.s(R.string.chat_system_level, ControllerApi.linkToUser(unit.systemOwnerName), ToolsResources.sex(unit.systemOwnerSex, R.string.he_changed, R.string.he_changed), ControllerApi.linkToUser(unit.systemTargetName), ToolsResources.s(if (unit.systemTag == API.CHAT_MEMBER_LVL_USER) R.string.app_user else if (unit.systemTag == API.CHAT_MEMBER_LVL_MODERATOR) R.string.app_moderator else R.string.app_admin))}"
             else -> return ""
         }
 

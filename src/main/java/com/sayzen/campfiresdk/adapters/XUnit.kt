@@ -1,11 +1,11 @@
 package com.sayzen.campfiresdk.adapters
 
-import com.dzen.campfire.api.models.units.Unit
-import com.sayzen.campfiresdk.models.events.units.*
+import com.dzen.campfire.api.models.publications.Publication
+import com.sayzen.campfiresdk.models.events.publications.*
 import com.sup.dev.java.libs.eventBus.EventBus
 
 class XUnit(
-        val unit: Unit,
+        val unit: Publication,
         val onChangedAccount: () -> kotlin.Unit,
         val onChangedFandom: () -> kotlin.Unit,
         val onChangedKarma: () -> kotlin.Unit,
@@ -18,7 +18,7 @@ class XUnit(
     val eventBus = EventBus
             .subscribe(EventPostCloseChange::class) { if (it.unitId == unit.id) unit.closed = it.closed }
             .subscribe(EventPostNotifyFollowers::class) { if (it.unitId == unit.id) unit.tag_3 = 1 }
-            .subscribe(EventUnitRemove::class) { if (it.unitId == unit.id) onRemove.invoke() }
+            .subscribe(EventPublicationRemove::class) { if (it.unitId == unit.id) onRemove.invoke() }
             .subscribe(EventPostMultilingualChange::class) {
                 if (it.unitId == unit.id) {
                     unit.languageId = it.languageId
@@ -27,7 +27,7 @@ class XUnit(
                     onChangedFandom.invoke()
                 }
             }
-            .subscribe(EventUnitImportantChange::class) {
+            .subscribe(EventPublicationImportantChange::class) {
                 if (it.unitId == unit.id) {
                     unit.important = it.important
                     onChangedImportance.invoke()

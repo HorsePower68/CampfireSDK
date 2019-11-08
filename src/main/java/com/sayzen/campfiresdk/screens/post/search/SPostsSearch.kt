@@ -3,8 +3,8 @@ package com.sayzen.campfiresdk.screens.post.search
 import android.view.View
 import com.dzen.campfire.api.requests.post.RPostGetAllByTag
 import com.sayzen.campfiresdk.models.cards.CardUnit
-import com.dzen.campfire.api.models.units.Unit
-import com.dzen.campfire.api.models.units.tags.UnitTag
+import com.dzen.campfire.api.models.publications.Publication
+import com.dzen.campfire.api.models.publications.tags.PublicationTag
 import com.dzen.campfire.api.requests.tags.RTagsGet
 import com.sayzen.campfiresdk.screens.post.create.SPostCreate
 import com.sayzen.campfiresdk.R
@@ -18,11 +18,11 @@ import com.sup.dev.android.views.support.adapters.recycler_view.RecyclerCardAdap
 import com.sup.dev.android.views.support.adapters.recycler_view.decorators.DecoratorVerticalSpace
 import com.sup.dev.android.views.screens.SLoadingRecycler
 
-class SPostsSearch(val tag: UnitTag) : SLoadingRecycler<CardUnit, Unit>() {
+class SPostsSearch(val tag: PublicationTag) : SLoadingRecycler<CardUnit, Publication>() {
 
     companion object {
 
-        fun instance(tag: UnitTag, action: NavigationAction) {
+        fun instance(tag: PublicationTag, action: NavigationAction) {
             Navigator.action(action, SPostsSearch(tag))
         }
 
@@ -51,8 +51,8 @@ class SPostsSearch(val tag: UnitTag) : SLoadingRecycler<CardUnit, Unit>() {
         }
     }
 
-    override fun instanceAdapter(): RecyclerCardAdapterLoading<CardUnit, Unit> {
-        return RecyclerCardAdapterLoading<CardUnit, Unit>(CardUnit::class) { unit -> CardUnit.instance(unit, vRecycler) }
+    override fun instanceAdapter(): RecyclerCardAdapterLoading<CardUnit, Publication> {
+        return RecyclerCardAdapterLoading<CardUnit, Publication>(CardUnit::class) { unit -> CardUnit.instance(unit, vRecycler) }
                 .setBottomLoader { onLoad, cards ->
                     RPostGetAllByTag(tag.id, cards.size.toLong())
                             .onComplete { r -> onLoad.invoke(r.units) }

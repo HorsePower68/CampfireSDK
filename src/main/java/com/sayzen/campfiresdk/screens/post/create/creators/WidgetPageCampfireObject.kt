@@ -4,8 +4,8 @@ import android.view.inputmethod.EditorInfo
 import android.widget.Button
 import com.dzen.campfire.api.API
 import com.dzen.campfire.api.models.CampfireLink
-import com.dzen.campfire.api.models.units.post.Page
-import com.dzen.campfire.api.models.units.post.PageCampfireObject
+import com.dzen.campfire.api.models.publications.post.Page
+import com.dzen.campfire.api.models.publications.post.PageCampfireObject
 import com.sayzen.campfiresdk.R
 import com.sayzen.campfiresdk.models.cards.post_pages.CardPage
 import com.sayzen.campfiresdk.models.cards.post_pages.CardPageCampfireObject
@@ -16,7 +16,6 @@ import com.sup.dev.android.views.settings.SettingsField
 import com.sup.dev.android.views.support.watchers.TextWatcherChanged
 import com.sup.dev.android.views.widgets.Widget
 import com.sup.dev.java.tools.ToolsText
-import com.sup.dev.java.tools.ToolsThreads
 
 class WidgetPageCampfireObject(
         private val requestPutPage:(page: Page, screen: Screen?, widget: Widget?, mapper: (Page) -> CardPage, onFinish: ((CardPage)->Unit))->Unit,

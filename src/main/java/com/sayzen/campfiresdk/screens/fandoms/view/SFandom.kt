@@ -8,8 +8,8 @@ import android.widget.TextView
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.dzen.campfire.api.API
-import com.dzen.campfire.api.models.units.Unit
-import com.dzen.campfire.api.models.units.post.UnitPost
+import com.dzen.campfire.api.models.publications.Publication
+import com.dzen.campfire.api.models.publications.post.PublicationPost
 import com.dzen.campfire.api.requests.fandoms.*
 import com.dzen.campfire.api.requests.units.RUnitsGetAll
 import com.sayzen.campfiresdk.R
@@ -21,15 +21,14 @@ import com.sayzen.campfiresdk.models.PostList
 import com.sayzen.campfiresdk.screens.post.create.SPostCreate
 import com.sayzen.campfiresdk.app.CampfireConstants
 import com.sayzen.campfiresdk.controllers.*
-import com.sayzen.campfiresdk.models.events.units.EventPostPinedFandom
-import com.sayzen.campfiresdk.models.events.units.EventPostStatusChange
+import com.sayzen.campfiresdk.models.events.publications.EventPostPinedFandom
+import com.sayzen.campfiresdk.models.events.publications.EventPostStatusChange
 import com.sayzen.campfiresdk.screens.fandoms.CardAd
 import com.sayzen.campfiresdk.screens.fandoms.CardQuest
 import com.sayzen.campfiresdk.screens.fandoms.CardUpdate
 import com.sup.dev.android.libs.api_simple.ApiRequestsSupporter
 import com.sup.dev.android.libs.image_loader.ImageLoaderId
 import com.sup.dev.android.libs.screens.Screen
-import com.sup.dev.android.libs.screens.activity.SActivityTypeBottomNavigation
 import com.sup.dev.android.libs.screens.navigator.NavigationAction
 import com.sup.dev.android.libs.screens.navigator.Navigator
 import com.sup.dev.android.tools.*
@@ -81,7 +80,7 @@ class SFandom private constructor(
     private val vFab: View = findViewById(R.id.vFab)
     private val vMore: ViewIcon = findViewById(R.id.vMore)
 
-    private val adapter: RecyclerCardAdapterLoading<CardUnit, Unit>
+    private val adapter: RecyclerCardAdapterLoading<CardUnit, Publication>
     private val xFandom = XFandom(r.fandom) { update() }
     private val spoiler = CardSpoiler()
     private val cardFilters: CardFilters
@@ -94,7 +93,7 @@ class SFandom private constructor(
     init {
         vToolbarCollapsingShadow.background = GradientDrawable(GradientDrawable.Orientation.TOP_BOTTOM, intArrayOf(0x60000000, 0x00000000))
 
-        adapter = RecyclerCardAdapterLoading<CardUnit, Unit>(CardUnit::class) { unit -> CardUnit.instance(unit, vRecycler, false, false, true) }
+        adapter = RecyclerCardAdapterLoading<CardUnit, Publication>(CardUnit::class) { unit -> CardUnit.instance(unit, vRecycler, false, false, true) }
                 .setBottomLoader { onLoad, cards ->
                     RUnitsGetAll()
                             .setOffset(cards.size)
@@ -102,7 +101,7 @@ class SFandom private constructor(
                             .setOrder(RUnitsGetAll.ORDER_NEW)
                             .setFandomId(xFandom.fandomId)
                             .setLanguageId(xFandom.languageId)
-                            .setImportant(if (ControllerSettings.fandomFilterOnlyImportant) API.UNIT_IMPORTANT_IMPORTANT else API.UNIT_IMPORTANT_NONE)
+                            .setImportant(if (ControllerSettings.fandomFilterOnlyImportant) API.PUBLICATION_IMPORTANT_IMPORTANT else API.PUBLICATION_IMPORTANT_NONE)
                             .setIncludeZeroLanguages(true)
                             .setIncludeMultilingual(true)
                             .setIncludeModerationsBlocks(ControllerSettings.fandomFilterModerationsBlocks)
@@ -120,7 +119,7 @@ class SFandom private constructor(
 
 
         cardFilters = CardFilters {
-            if (cardPinnedPost != null) setPinnedPost(cardPinnedPost!!.xUnit.unit as UnitPost)
+            if (cardPinnedPost != null) setPinnedPost(cardPinnedPost!!.xUnit.unit as PublicationPost)
             reload()
         }
 
@@ -137,7 +136,7 @@ class SFandom private constructor(
 
         adapter.add(CardSpace(56))
         adapter.add(cardTitle)
-        adapter.add(CardButtons(xFandom, r.chatsCount, r.tagsCount, r.subscribersCountLanguage, r.subscribersCountTotal, r.modersCount, r.subscriptionType != API.UNIT_IMPORTANT_NONE, r.wikiCount, r.rubricsCount))
+        adapter.add(CardButtons(xFandom, r.chatsCount, r.tagsCount, r.subscribersCountLanguage, r.subscribersCountTotal, r.modersCount, r.subscriptionType != API.PUBLICATION_IMPORTANT_NONE, r.wikiCount, r.rubricsCount))
         adapter.add(spoiler)
         adapter.add(cardFilters)
 
@@ -192,9 +191,9 @@ class SFandom private constructor(
     }
 
     private fun afterPackLoaded() {
-        if (cardPinnedPost != null && ControllerSettings.getFandomFilters().contains(API.UNIT_TYPE_POST))
+        if (cardPinnedPost != null && ControllerSettings.getFandomFilters().contains(API.PUBLICATION_TYPE_POST))
             for (c in adapter.get(CardPost::class))
-                if (c.xUnit.unit.id == cardPinnedPost!!.xUnit.unit.id && !(c.xUnit.unit as UnitPost).isPined)
+                if (c.xUnit.unit.id == cardPinnedPost!!.xUnit.unit.id && !(c.xUnit.unit as PublicationPost).isPined)
                     adapter.remove(c)
 
 
@@ -203,7 +202,7 @@ class SFandom private constructor(
         cardQuest?.show()
     }
 
-    private fun setPinnedPost(post: UnitPost?) {
+    private fun setPinnedPost(post: PublicationPost?) {
         if (cardPinnedPost != null) adapter.remove(cardPinnedPost!!)
         if (post == null) {
             cardPinnedPost = null
@@ -211,7 +210,7 @@ class SFandom private constructor(
             for (c in adapter.get(CardPost::class)) if (c.xUnit.unit.id == post.id) adapter.remove(c)
             post.isPined = true
             cardPinnedPost = CardPost(vRecycler, post)
-            if (ControllerSettings.getFandomFilters().contains(API.UNIT_TYPE_POST)) {
+            if (ControllerSettings.getFandomFilters().contains(API.PUBLICATION_TYPE_POST)) {
                 adapter.add(adapter.indexOf(cardFilters) + 1, cardPinnedPost!!)
             }
         }

@@ -2,7 +2,7 @@ package com.sayzen.campfiresdk.models.cards.history
 
 import android.view.View
 import com.dzen.campfire.api.API
-import com.dzen.campfire.api.models.units.history.*
+import com.dzen.campfire.api.models.publications.history.*
 import com.sayzen.campfiresdk.R
 import com.sayzen.campfiresdk.controllers.ControllerApi
 import com.sayzen.campfiresdk.controllers.ControllerCampfireSDK
@@ -12,7 +12,6 @@ import com.sup.dev.android.tools.ToolsResources
 import com.sup.dev.android.views.cards.Card
 import com.sup.dev.android.views.views.ViewAvatarTitle
 import com.sup.dev.java.tools.ToolsDate
-import com.sup.dev.java.tools.ToolsHTML
 
 class CardHistoryUnit(
         val historyUnit: HistoryUnit

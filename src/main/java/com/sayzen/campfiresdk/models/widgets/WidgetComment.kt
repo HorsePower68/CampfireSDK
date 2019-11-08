@@ -3,16 +3,16 @@ package com.sayzen.campfiresdk.models.widgets
 import androidx.recyclerview.widget.RecyclerView
 import android.view.View
 import com.dzen.campfire.api.API
-import com.dzen.campfire.api.models.UnitComment
-import com.dzen.campfire.api.models.units.stickers.UnitSticker
+import com.dzen.campfire.api.models.PublicationComment
+import com.dzen.campfire.api.models.publications.stickers.PublicationSticker
 import com.dzen.campfire.api.requests.units.RUnitsCommentChange
 import com.dzen.campfire.api.requests.units.RUnitsCommentCreate
 import com.sayzen.campfiresdk.R
 import com.sayzen.campfiresdk.controllers.ControllerApi
 import com.sayzen.campfiresdk.controllers.ControllerSettings
-import com.sayzen.campfiresdk.models.events.units.EventCommentAdd
-import com.sayzen.campfiresdk.models.events.units.EventCommentChange
-import com.sayzen.campfiresdk.models.events.units.EventUnitCommentWatchChange
+import com.sayzen.campfiresdk.models.events.publications.EventCommentAdd
+import com.sayzen.campfiresdk.models.events.publications.EventCommentChange
+import com.sayzen.campfiresdk.models.events.publications.EventPublicationCommentWatchChange
 import com.sayzen.campfiresdk.models.support.Attach
 import com.sayzen.campfiresdk.screens.other.rules.SGoogleRules
 import com.sup.dev.android.libs.api_simple.ApiRequestsSupporter
@@ -34,11 +34,11 @@ import com.sup.dev.java.tools.ToolsThreads
 
 class WidgetComment constructor(
         private val unitId: Long,
-        private val answer: UnitComment?,
-        private val changeComment: UnitComment?,
+        private val answer: PublicationComment?,
+        private val changeComment: PublicationComment?,
         private var quoteId: Long,
         private var quoteText: String,
-        private val onCreated: ((UnitComment) -> Unit)?
+        private val onCreated: ((PublicationComment) -> Unit)?
 ) : Widget(R.layout.widget_comment_input) {
 
     private val vSend: ViewIcon = findViewById(R.id.vSend)
@@ -52,11 +52,11 @@ class WidgetComment constructor(
             { ToolsThreads.main(100) { asSheetShow() } }, // Нужна задержка, иначе откроется и сразу закроется из-за смены экранов
             { sendSticker(it) })
 
-    constructor(changeComment: UnitComment) : this(0, null, changeComment, 0, "", null)
+    constructor(changeComment: PublicationComment) : this(0, null, changeComment, 0, "", null)
 
-    constructor(unitId: Long, onCreated: (UnitComment) -> Unit) : this(unitId, null, null, 0, "", onCreated)
+    constructor(unitId: Long, onCreated: (PublicationComment) -> Unit) : this(unitId, null, null, 0, "", onCreated)
 
-    constructor(unitId: Long, answer: UnitComment?, onCreated: (UnitComment) -> Unit) : this(unitId, answer, null, 0, "", onCreated)
+    constructor(unitId: Long, answer: PublicationComment?, onCreated: (PublicationComment) -> Unit) : this(unitId, answer, null, 0, "", onCreated)
 
     init {
 
@@ -124,11 +124,11 @@ class WidgetComment constructor(
     }
 
 
-    private fun afterSend(comment: UnitComment) {
+    private fun afterSend(comment: PublicationComment) {
         ToolsToast.show(R.string.app_published)
         onCreated?.invoke(comment)
         EventBus.post(EventCommentAdd(unitId, comment))
-        if (ControllerSettings.watchPost) EventBus.post(EventUnitCommentWatchChange(unitId, true))
+        if (ControllerSettings.watchPost) EventBus.post(EventPublicationCommentWatchChange(unitId, true))
         hide()
     }
 
@@ -237,14 +237,14 @@ class WidgetComment constructor(
                         0
                     )
                 ) { r -> afterSend(r.comment) }
-                    .onApiError(RUnitsCommentCreate.E_BAD_UNIT_STATUS) { ToolsToast.show(R.string.error_gone) }
+                    .onApiError(RUnitsCommentCreate.E_BAD_PUBLICATION_STATUS) { ToolsToast.show(R.string.error_gone) }
                     .onFinish { setEnabled(true) }
             }
 
         }
     }
 
-    private fun sendSticker(sticker: UnitSticker) {
+    private fun sendSticker(sticker: PublicationSticker) {
         SGoogleRules.acceptRulesDialog() {
             setEnabled(false)
 
@@ -260,7 +260,7 @@ class WidgetComment constructor(
                     sticker.id
                 )
             ) { r -> afterSend(r.comment) }
-                .onApiError(RUnitsCommentCreate.E_BAD_UNIT_STATUS) { ToolsToast.show(R.string.error_gone) }
+                .onApiError(RUnitsCommentCreate.E_BAD_PUBLICATION_STATUS) { ToolsToast.show(R.string.error_gone) }
                 .onFinish { setEnabled(true) }
         }
     }

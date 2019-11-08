@@ -11,7 +11,7 @@ import com.dzen.campfire.api.API
 import com.dzen.campfire.api.models.chat.ChatTag
 import com.dzen.campfire.api.models.notifications.chat.NotificationChatAnswer
 import com.dzen.campfire.api.models.notifications.chat.NotificationChatMessage
-import com.dzen.campfire.api.models.units.chat.UnitChatMessage
+import com.dzen.campfire.api.models.publications.chat.PublicationChatMessage
 import com.dzen.campfire.api.requests.chat.*
 import com.sayzen.campfiresdk.R
 import com.sayzen.campfiresdk.adapters.XAccount
@@ -51,7 +51,7 @@ class SChat private constructor(
         val chatInfo_3: Long,
         val chatInfo_4: Long,
         var memberStatus: Long?)
-    : SLoadingRecycler<CardChatMessage, UnitChatMessage>(R.layout.screen_chat), ScreenShare {
+    : SLoadingRecycler<CardChatMessage, PublicationChatMessage>(R.layout.screen_chat), ScreenShare {
 
     companion object {
 
@@ -117,7 +117,7 @@ class SChat private constructor(
     private val carSpace = CardSpace(16)
     private var needUpdate = false
     private var loaded = false
-    private val addAfterLoadList = ArrayList<UnitChatMessage>()
+    private val addAfterLoadList = ArrayList<PublicationChatMessage>()
 
     init {
         isNavigationShadowAvailable = false
@@ -209,8 +209,8 @@ class SChat private constructor(
         }
     }
 
-    override fun instanceAdapter(): RecyclerCardAdapterLoading<CardChatMessage, UnitChatMessage> {
-        val adapter = RecyclerCardAdapterLoading<CardChatMessage, UnitChatMessage>(CardChatMessage::class) { u -> instanceCard(u) }
+    override fun instanceAdapter(): RecyclerCardAdapterLoading<CardChatMessage, PublicationChatMessage> {
+        val adapter = RecyclerCardAdapterLoading<CardChatMessage, PublicationChatMessage>(CardChatMessage::class) { u -> instanceCard(u) }
                 .setBottomLoader { onLoad, cards ->
                     if (loaded) {
                         onLoad.invoke(emptyArray())
@@ -253,7 +253,7 @@ class SChat private constructor(
         return adapter
     }
 
-    private fun instanceCard(u: UnitChatMessage): CardChatMessage {
+    private fun instanceCard(u: PublicationChatMessage): CardChatMessage {
         return CardChatMessage.instance(u,
                 onClick = { unit ->
                     if (ControllerApi.isCurrentAccount(unit.creatorId)) {
@@ -332,7 +332,7 @@ class SChat private constructor(
         }
     }
 
-    fun addMessage(message: UnitChatMessage, forceScroll: Boolean, replaceCard: Card? = null) {
+    fun addMessage(message: PublicationChatMessage, forceScroll: Boolean, replaceCard: Card? = null) {
         if (!loaded) {
             addAfterLoadList.add(message)
             return

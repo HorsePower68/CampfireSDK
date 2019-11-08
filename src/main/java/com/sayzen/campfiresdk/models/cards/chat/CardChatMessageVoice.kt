@@ -2,7 +2,7 @@ package com.sayzen.campfiresdk.models.cards.chat
 
 import android.view.View
 import android.widget.TextView
-import com.dzen.campfire.api.models.units.chat.UnitChatMessage
+import com.dzen.campfire.api.models.publications.chat.PublicationChatMessage
 import com.sayzen.campfiresdk.R
 import com.sayzen.campfiresdk.controllers.ControllerVoiceMessages
 import com.sayzen.campfiresdk.models.events.chat.EventVoiceMessageStateChanged
@@ -13,12 +13,12 @@ import com.sup.dev.java.libs.eventBus.EventBus
 import com.sup.dev.java.tools.ToolsText
 
 class CardChatMessageVoice(
-        unit: UnitChatMessage,
-        onClick: ((UnitChatMessage) -> Boolean)? = null,
-        onChange: ((UnitChatMessage) -> Unit)? = null,
-        onQuote: ((UnitChatMessage) -> Unit)? = null,
+        unit: PublicationChatMessage,
+        onClick: ((PublicationChatMessage) -> Boolean)? = null,
+        onChange: ((PublicationChatMessage) -> Unit)? = null,
+        onQuote: ((PublicationChatMessage) -> Unit)? = null,
         onGoTo: ((Long) -> Unit)?,
-        onBlocked: ((UnitChatMessage) -> Unit)? = null
+        onBlocked: ((PublicationChatMessage) -> Unit)? = null
 ) : CardChatMessage(R.layout.card_chat_message_voice, unit, onClick, onChange, onQuote, onGoTo, onBlocked) {
 
     val eventBus = EventBus
@@ -32,7 +32,7 @@ class CardChatMessageVoice(
 
     override fun bindView(view: View) {
         super.bindView(view)
-        val unit = xUnit.unit as UnitChatMessage
+        val unit = xUnit.unit as PublicationChatMessage
 
         val vPlay: ViewIcon = view.findViewById(R.id.vPlay)
         val vSoundLine: ViewSoundLine = view.findViewById(R.id.vSoundLine)
@@ -65,7 +65,7 @@ class CardChatMessageVoice(
     private fun updatePlayTime() {
         val view = getView()
         if (view == null) return
-        val unit = xUnit.unit as UnitChatMessage
+        val unit = xUnit.unit as PublicationChatMessage
 
         val vTimeLabel: TextView = view.findViewById(R.id.vTimeLabel)
         val vSoundLine: ViewSoundLine = view.findViewById(R.id.vSoundLine)

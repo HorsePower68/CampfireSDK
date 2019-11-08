@@ -1,6 +1,6 @@
-package com.sayzen.campfiresdk.models.events.units
+package com.sayzen.campfiresdk.models.events.publications
 
-class EventUnitFandomChanged(
+class EventPublicationFandomChanged(
         val unitId: Long,
         val fandomId: Long,
         val languageId: Long,

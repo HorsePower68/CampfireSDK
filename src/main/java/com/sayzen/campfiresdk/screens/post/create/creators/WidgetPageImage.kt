@@ -1,11 +1,10 @@
 package com.sayzen.campfiresdk.screens.post.create.creators
 
 import android.graphics.Bitmap
-import android.view.View
 import com.dzen.campfire.api.API
-import com.dzen.campfire.api.models.units.post.Page
-import com.dzen.campfire.api.models.units.post.PageImage
-import com.dzen.campfire.api.models.units.post.PageImages
+import com.dzen.campfire.api.models.publications.post.Page
+import com.dzen.campfire.api.models.publications.post.PageImage
+import com.dzen.campfire.api.models.publications.post.PageImages
 import com.sayzen.campfiresdk.R
 import com.sayzen.campfiresdk.controllers.ControllerApi
 import com.sayzen.campfiresdk.models.cards.post_pages.CardPageImage

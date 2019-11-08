@@ -2,8 +2,8 @@ package com.sayzen.campfiresdk.models.cards
 
 import android.view.View
 import com.dzen.campfire.api.API
-import com.dzen.campfire.api.models.units.moderations.*
-import com.dzen.campfire.api.models.units.moderations.units.ModerationBlock
+import com.dzen.campfire.api.models.publications.moderations.*
+import com.dzen.campfire.api.models.publications.moderations.units.ModerationBlock
 import com.sayzen.campfiresdk.R
 import com.sayzen.campfiresdk.controllers.ControllerApi
 import com.sayzen.campfiresdk.controllers.ControllerCampfireSDK
@@ -14,7 +14,7 @@ import com.sup.dev.android.views.views.ViewAvatarTitle
 import com.sup.dev.android.views.views.ViewTextLinkable
 
 class CardModeration(
-        unit: UnitModeration
+        unit: PublicationModeration
 ) : CardUnit(R.layout.card_moderation, unit) {
 
     private var clickDisabled: Boolean = false
@@ -22,7 +22,7 @@ class CardModeration(
     override fun bindView(view: View) {
         super.bindView(view)
 
-        val unit = xUnit.unit as UnitModeration
+        val unit = xUnit.unit as PublicationModeration
 
         val vText: ViewTextLinkable = view.findViewById(R.id.vText)
         val vContainerInfo: View = view.findViewById(R.id.vInfoContainer)

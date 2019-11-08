@@ -5,7 +5,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import com.dzen.campfire.api.API
-import com.dzen.campfire.api.models.units.tags.UnitTag
+import com.dzen.campfire.api.models.publications.tags.PublicationTag
 import com.dzen.campfire.api.requests.tags.RTagsGetAll
 import com.sayzen.campfiresdk.screens.fandoms.tags.WidgetTagCreate
 import com.sayzen.campfiresdk.R
@@ -31,7 +31,7 @@ import com.sup.dev.java.libs.eventBus.EventBus
 class STags private constructor(
         private val fandomId: Long,
         private val languageId: Long,
-        tagsOriginal: Array<UnitTag>
+        tagsOriginal: Array<PublicationTag>
 ) : Screen(R.layout.screen_tags) {
 
 

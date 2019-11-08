@@ -3,8 +3,7 @@ package com.sayzen.campfiresdk.models.cards.post_pages
 import android.view.View
 import android.widget.ImageView
 import com.dzen.campfire.api.models.PagesContainer
-import com.dzen.campfire.api.models.units.post.PageImage
-import com.dzen.campfire.api.models.units.post.UnitPost
+import com.dzen.campfire.api.models.publications.post.PageImage
 import com.sayzen.campfiresdk.R
 import com.sup.dev.android.libs.screens.navigator.Navigator
 import com.sup.dev.android.tools.ToolsImagesLoader

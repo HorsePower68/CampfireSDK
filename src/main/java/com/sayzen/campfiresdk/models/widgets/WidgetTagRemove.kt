@@ -4,7 +4,7 @@ import android.widget.Button
 
 import com.dzen.campfire.api.requests.tags.RTagsRemove
 import com.sup.dev.android.libs.api_simple.ApiRequestsSupporter
-import com.dzen.campfire.api.models.units.tags.UnitTag
+import com.dzen.campfire.api.models.publications.tags.PublicationTag
 import com.sayzen.campfiresdk.R
 import com.sayzen.campfiresdk.screens.fandoms.STags
 import com.sup.dev.android.libs.screens.navigator.Navigator
@@ -14,7 +14,7 @@ import com.sup.dev.android.views.support.watchers.TextWatcherChanged
 import com.sup.dev.android.views.widgets.Widget
 
 class WidgetTagRemove(
-        private val tag: UnitTag
+        private val tag: PublicationTag
 ) : Widget(R.layout.widget_remove) {
 
     private val vComment: SettingsField = findViewById(R.id.vComment)

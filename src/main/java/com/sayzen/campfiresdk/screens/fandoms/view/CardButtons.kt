@@ -7,7 +7,6 @@ import com.sayzen.campfiresdk.R
 import com.sayzen.campfiresdk.adapters.XFandom
 import com.sayzen.campfiresdk.models.events.fandom.EventFandomRemoveModerator
 import com.sayzen.campfiresdk.models.events.fandom.EventFandomSubscribe
-import com.sayzen.campfiresdk.screens.chat.SChat
 import com.sayzen.campfiresdk.screens.fandoms.moderation.moderators.SModeration
 import com.sayzen.campfiresdk.screens.fandoms.rating.SRating
 import com.sayzen.campfiresdk.screens.fandoms.subscribers.SSubscribers
@@ -96,13 +95,13 @@ class CardButtons(
 
     private fun onEventFandomSubscribe(e: EventFandomSubscribe) {
         if (e.fandomId == xFandom.fandomId && e.languageId == xFandom.languageId) {
-            if (subscribed && e.subscriptionType == API.UNIT_IMPORTANT_NONE) {
+            if (subscribed && e.subscriptionType == API.PUBLICATION_IMPORTANT_NONE) {
                 subscribed = false
                 subscribersCountLanguage--
                 update()
                 return
             }
-            if (!subscribed && e.subscriptionType != API.UNIT_IMPORTANT_NONE) {
+            if (!subscribed && e.subscriptionType != API.PUBLICATION_IMPORTANT_NONE) {
                 subscribed = true
                 subscribersCountLanguage++
                 update()

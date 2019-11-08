@@ -5,8 +5,8 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.dzen.campfire.api.API
-import com.dzen.campfire.api.models.units.chat.UnitChatMessage
-import com.dzen.campfire.api.models.units.stickers.UnitSticker
+import com.dzen.campfire.api.models.publications.chat.PublicationChatMessage
+import com.dzen.campfire.api.models.publications.stickers.PublicationSticker
 import com.dzen.campfire.api.requests.chat.RChatMessageChange
 import com.dzen.campfire.api.requests.chat.RChatMessageCreate
 import com.dzen.campfire.api.requests.chat.RChatTyping
@@ -27,7 +27,6 @@ import com.sup.dev.android.views.support.watchers.TextWatcherChanged
 import com.sup.dev.android.views.views.ViewEditTextMedia
 import com.sup.dev.android.views.views.ViewIcon
 import com.sup.dev.android.views.views.ViewTextLinkable
-import com.sup.dev.java.libs.debug.Debug
 import com.sup.dev.java.libs.eventBus.EventBus
 import com.sup.dev.java.tools.ToolsBytes
 import com.sup.dev.java.tools.ToolsNetwork
@@ -57,8 +56,8 @@ class FieldLogic(
 
     private var lastTypingSent = 0L
     private var isRecording = false
-    private var unitAnswer: UnitChatMessage? = null
-    var unitChange: UnitChatMessage? = null
+    private var unitAnswer: PublicationChatMessage? = null
+    var unitChange: PublicationChatMessage? = null
     private var quoteText = ""
     private var quoteId = 0L
     private var voiceBytes: ByteArray? = null
@@ -112,7 +111,7 @@ class FieldLogic(
         vVoicePlay.setImageDrawable(ToolsResources.getDrawableAttr(R.attr.ic_pause_24dp))
     }
 
-    fun setQuote(unit: UnitChatMessage) {
+    fun setQuote(unit: PublicationChatMessage) {
         var text = unit.creatorName + ": "
         if (unit.text.isNotEmpty()) text += unit.text
         else if (unit.resourceId != 0L || unit.imageIdArray.isNotEmpty()) text += ToolsResources.s(R.string.app_image)
@@ -130,7 +129,7 @@ class FieldLogic(
         updateAction()
     }
 
-    fun setAnswer(unitAnswer: UnitChatMessage, withName: Boolean): Boolean {
+    fun setAnswer(unitAnswer: PublicationChatMessage, withName: Boolean): Boolean {
         setChange(null)
         if (ControllerApi.isCurrentAccount(unitAnswer.creatorId)) return false
         var text = vText.text!!.toString()
@@ -206,7 +205,7 @@ class FieldLogic(
         vText.setText(text)
     }
 
-    fun setChange(unitChange: UnitChatMessage?) {
+    fun setChange(unitChange: PublicationChatMessage?) {
         if (this.unitChange != null && unitChange == null) vText.setText(null)
         this.unitChange = unitChange
 
@@ -295,7 +294,7 @@ class FieldLogic(
         }
     }
 
-    private fun sendSticker(sticker: UnitSticker) {
+    private fun sendSticker(sticker: PublicationSticker) {
         val quoteIdV = quoteId
         val parentId = getParentId()
         beforeSend()

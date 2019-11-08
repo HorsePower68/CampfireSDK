@@ -2,11 +2,10 @@ package com.sayzen.campfiresdk.screens.post.drafts
 
 import android.view.View
 import com.dzen.campfire.api.API
-import com.dzen.campfire.api.models.units.Unit
-import com.dzen.campfire.api.models.units.post.UnitPost
+import com.dzen.campfire.api.models.publications.Publication
+import com.dzen.campfire.api.models.publications.post.PublicationPost
 import com.dzen.campfire.api.requests.fandoms.RFandomsGet
 import com.dzen.campfire.api.requests.units.RUnitsDraftsGetAll
-import com.dzen.campfire.api.requests.units.RUnitsGetAll
 import com.sayzen.campfiresdk.R
 import com.sayzen.campfiresdk.controllers.ControllerApi
 import com.sayzen.campfiresdk.controllers.ControllerCampfireSDK
@@ -14,8 +13,8 @@ import com.sayzen.campfiresdk.models.cards.CardPost
 import com.sayzen.campfiresdk.screens.fandoms.search.SFandomsSearch
 import com.sayzen.campfiresdk.screens.post.create.SPostCreate
 import com.sayzen.campfiresdk.controllers.api
-import com.sayzen.campfiresdk.models.events.units.EventPostDraftCreated
-import com.sayzen.campfiresdk.models.events.units.EventPostStatusChange
+import com.sayzen.campfiresdk.models.events.publications.EventPostDraftCreated
+import com.sayzen.campfiresdk.models.events.publications.EventPostStatusChange
 import com.sayzen.campfiresdk.screens.post.pending.SPending
 import com.sup.dev.android.libs.api_simple.ApiRequestsSupporter
 import com.sup.dev.android.libs.screens.navigator.Navigator
@@ -27,8 +26,8 @@ import com.sup.dev.android.views.widgets.WidgetMenu
 import com.sup.dev.java.libs.eventBus.EventBus
 
 class SDrafts constructor(
-        val onSelect: ((Unit) -> kotlin.Unit)? = null
-) : SLoadingRecycler<CardPost, Unit>() {
+        val onSelect: ((Publication) -> kotlin.Unit)? = null
+) : SLoadingRecycler<CardPost, Publication>() {
 
     private val eventBus = EventBus
             .subscribe(EventPostStatusChange::class) {this.onEventPostStatusChange(it) }
@@ -64,9 +63,9 @@ class SDrafts constructor(
         }
     }
 
-    override fun instanceAdapter(): RecyclerCardAdapterLoading<CardPost, Unit> {
-        return RecyclerCardAdapterLoading<CardPost, Unit>(CardPost::class) { unit ->
-            val card = CardPost(vRecycler, unit as UnitPost)
+    override fun instanceAdapter(): RecyclerCardAdapterLoading<CardPost, Publication> {
+        return RecyclerCardAdapterLoading<CardPost, Publication>(CardPost::class) { unit ->
+            val card = CardPost(vRecycler, unit as PublicationPost)
             if (onSelect != null) card.onClick = {
                 Navigator.remove(this)
                 onSelect.invoke(unit)

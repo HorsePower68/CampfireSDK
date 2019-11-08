@@ -1,11 +1,11 @@
 package com.sayzen.campfiresdk.models.cards
 
 import android.view.View
-import com.dzen.campfire.api.models.units.Unit
+import com.dzen.campfire.api.models.publications.Publication
 import com.sayzen.campfiresdk.R
 
 class CardUnitUnknown(
-        unit: Unit
+        unit: Publication
 ) : CardUnit(R.layout.card_unit_unknown, unit) {
 
     override fun bindView(view: View) {

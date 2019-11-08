@@ -2,10 +2,10 @@ package com.sayzen.campfiresdk.screens.post.bookmarks
 
 import com.dzen.campfire.api.requests.units.RUnitsBookmarksGetAll
 import com.sayzen.campfiresdk.models.cards.CardUnit
-import com.dzen.campfire.api.models.units.Unit
+import com.dzen.campfire.api.models.publications.Publication
 import com.sayzen.campfiresdk.R
 import com.sayzen.campfiresdk.controllers.ControllerCampfireSDK
-import com.sayzen.campfiresdk.models.events.units.EventUnitBookmarkChange
+import com.sayzen.campfiresdk.models.events.publications.EventPublicationBookmarkChange
 import com.sayzen.campfiresdk.controllers.api
 import com.sup.dev.android.libs.screens.navigator.NavigationAction
 import com.sup.dev.android.libs.screens.navigator.Navigator
@@ -15,7 +15,7 @@ import com.sup.dev.android.views.screens.SLoadingRecycler
 import com.sup.dev.android.views.support.adapters.recycler_view.decorators.DecoratorVerticalSpace
 import com.sup.dev.java.libs.eventBus.EventBus
 
-class SBookmarks private constructor() : SLoadingRecycler<CardUnit, Unit>() {
+class SBookmarks private constructor() : SLoadingRecycler<CardUnit, Publication>() {
 
     companion object {
 
@@ -25,7 +25,7 @@ class SBookmarks private constructor() : SLoadingRecycler<CardUnit, Unit>() {
     }
 
     private val eventBus = EventBus
-            .subscribe(EventUnitBookmarkChange::class) { this.onEventUnitBookmarkChange(it) }
+            .subscribe(EventPublicationBookmarkChange::class) { this.onEventUnitBookmarkChange(it) }
 
     init {
         vScreenRoot!!.setBackgroundColor(ToolsResources.getBackgroundColor(context))
@@ -36,8 +36,8 @@ class SBookmarks private constructor() : SLoadingRecycler<CardUnit, Unit>() {
         vRecycler.addItemDecoration(DecoratorVerticalSpace())
     }
 
-    override fun instanceAdapter(): RecyclerCardAdapterLoading<CardUnit, Unit> {
-        return RecyclerCardAdapterLoading<CardUnit, Unit>(CardUnit::class) { unit -> CardUnit.instance(unit, vRecycler) }
+    override fun instanceAdapter(): RecyclerCardAdapterLoading<CardUnit, Publication> {
+        return RecyclerCardAdapterLoading<CardUnit, Publication>(CardUnit::class) { unit -> CardUnit.instance(unit, vRecycler) }
                 .setBottomLoader { onLoad, cards ->
                     RUnitsBookmarksGetAll(cards.size.toLong(), "", ControllerCampfireSDK.ROOT_FANDOM_ID, 0)
                             .onComplete { r -> onLoad.invoke(r.units) }
@@ -50,7 +50,7 @@ class SBookmarks private constructor() : SLoadingRecycler<CardUnit, Unit>() {
     //  EventBus
     //
 
-    private fun onEventUnitBookmarkChange(e: EventUnitBookmarkChange) {
+    private fun onEventUnitBookmarkChange(e: EventPublicationBookmarkChange) {
         if(adapter == null) return
         for(c in adapter!!.get(CardUnit::class)) if(c.xUnit.unit.id == e.unitId) adapter!!.remove(c)
     }

@@ -7,7 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import com.dzen.campfire.api.API
-import com.dzen.campfire.api.models.UnitComment
+import com.dzen.campfire.api.models.PublicationComment
 import com.dzen.campfire.api.models.notifications.comments.NotificationComment
 import com.dzen.campfire.api.models.notifications.comments.NotificationCommentAnswer
 import com.dzen.campfire.api.models.notifications.units.NotificationMention
@@ -19,9 +19,9 @@ import com.sayzen.campfiresdk.controllers.ControllerNotifications
 import com.sayzen.campfiresdk.controllers.ControllerPost
 import com.sayzen.campfiresdk.controllers.ControllerUnits
 import com.sayzen.campfiresdk.models.cards.CardUnit
-import com.sayzen.campfiresdk.models.events.units.EventCommentChange
-import com.sayzen.campfiresdk.models.events.units.EventCommentRemove
-import com.sayzen.campfiresdk.models.events.units.EventUnitDeepBlockRestore
+import com.sayzen.campfiresdk.models.events.publications.EventCommentChange
+import com.sayzen.campfiresdk.models.events.publications.EventCommentRemove
+import com.sayzen.campfiresdk.models.events.publications.EventPublicationDeepBlockRestore
 import com.sayzen.campfiresdk.models.widgets.WidgetComment
 import com.sayzen.campfiresdk.screens.account.stickers.SStickersView
 import com.sayzen.campfiresdk.screens.post.history.SUnitHistory
@@ -40,22 +40,22 @@ import com.sup.dev.java.tools.ToolsHTML
 
 abstract class CardComment protected constructor(
         layout: Int,
-        unit: UnitComment,
+        unit: PublicationComment,
         private val dividers: Boolean,
         protected val miniSize: Boolean,
-        private val onClick: ((UnitComment) -> Boolean)? = null,
-        private val onQuote: ((UnitComment) -> Unit)? = null,
+        private val onClick: ((PublicationComment) -> Boolean)? = null,
+        private val onQuote: ((PublicationComment) -> Unit)? = null,
         var onGoTo: ((Long) -> Unit)? = null
 ) : CardUnit(layout, unit) {
 
     companion object {
 
-        fun instance(unit: UnitComment, dividers: Boolean, miniSize: Boolean, onClick: ((UnitComment) -> Boolean)? = null, onQuote: ((UnitComment) -> Unit)? = null, onGoTo: ((Long) -> Unit)? = null): CardComment {
+        fun instance(unit: PublicationComment, dividers: Boolean, miniSize: Boolean, onClick: ((PublicationComment) -> Boolean)? = null, onQuote: ((PublicationComment) -> Unit)? = null, onGoTo: ((Long) -> Unit)? = null): CardComment {
             when (unit.type) {
-                UnitComment.TYPE_TEXT -> return CardCommentText(unit, dividers, miniSize, onClick, onQuote, onGoTo)
-                UnitComment.TYPE_IMAGE, UnitComment.TYPE_GIF -> return CardCommentImage(unit, dividers, miniSize, onClick, onQuote, onGoTo)
-                UnitComment.TYPE_IMAGES -> return CardCommentImages(unit, dividers, miniSize, onClick, onQuote, onGoTo)
-                UnitComment.TYPE_STICKER -> return CardCommentSticker(unit, dividers, miniSize, onClick, onQuote, onGoTo)
+                PublicationComment.TYPE_TEXT -> return CardCommentText(unit, dividers, miniSize, onClick, onQuote, onGoTo)
+                PublicationComment.TYPE_IMAGE, PublicationComment.TYPE_GIF -> return CardCommentImage(unit, dividers, miniSize, onClick, onQuote, onGoTo)
+                PublicationComment.TYPE_IMAGES -> return CardCommentImages(unit, dividers, miniSize, onClick, onQuote, onGoTo)
+                PublicationComment.TYPE_STICKER -> return CardCommentSticker(unit, dividers, miniSize, onClick, onQuote, onGoTo)
                 else -> return CardCommentUnknown(unit, dividers, miniSize, onClick, onQuote, onGoTo)
             }
         }
@@ -64,7 +64,7 @@ abstract class CardComment protected constructor(
 
     private val eventBus = EventBus
             .subscribe(EventCommentChange::class) { e: EventCommentChange -> this.onCommentChange(e) }
-            .subscribe(EventUnitDeepBlockRestore::class) { onEventUnitDeepBlockRestore(it) }
+            .subscribe(EventPublicationDeepBlockRestore::class) { onEventUnitDeepBlockRestore(it) }
 
     var changeEnabled = true
     var quoteEnabled = true
@@ -80,7 +80,7 @@ abstract class CardComment protected constructor(
     @SuppressLint("SetTextI18n")
     override fun bindView(view: View) {
         super.bindView(view)
-        val unit = xUnit.unit as UnitComment
+        val unit = xUnit.unit as PublicationComment
 
         val vSwipe: ViewSwipe? = view.findViewById(R.id.vSwipe)
         val vLabel: TextView? = view.findViewById(R.id.vLabel)
@@ -156,7 +156,7 @@ abstract class CardComment protected constructor(
     }
 
     fun showMenu() {
-        val unit = xUnit.unit as UnitComment
+        val unit = xUnit.unit as PublicationComment
         WidgetMenu()
                 .add(R.string.app_copy_link) { _, _ ->
                     ToolsAndroid.setToClipboard(ControllerApi.linkToComment(unit))
@@ -172,7 +172,7 @@ abstract class CardComment protected constructor(
                 }.condition(copyEnabled)
                 .add(R.string.app_quote) { _, _ -> onQuote?.invoke(unit) }.condition(quoteEnabled && onQuote != null)
                 .add(R.string.app_history) { _, _ -> Navigator.to(SUnitHistory(unit.id)) }.condition(ControllerPost.ENABLED_HISTORY)
-                .add(R.string.app_reaction) { _, _ -> reaction() }.condition(unit.type == UnitComment.TYPE_GIF || unit.type == UnitComment.TYPE_IMAGE || unit.type == UnitComment.TYPE_IMAGES || unit.type == UnitComment.TYPE_TEXT)
+                .add(R.string.app_reaction) { _, _ -> reaction() }.condition(unit.type == PublicationComment.TYPE_GIF || unit.type == PublicationComment.TYPE_IMAGE || unit.type == PublicationComment.TYPE_IMAGES || unit.type == PublicationComment.TYPE_TEXT)
                 .groupCondition(!ControllerApi.isCurrentAccount(unit.creatorId))
                 .add(R.string.app_report) { _, _ -> ControllerApi.reportUnit(unit.id, R.string.comment_report_confirm, R.string.comment_error_gone) }
                 .add(R.string.app_clear_reports) { _, _ -> ControllerApi.clearReportsUnit(unit.id, unit.unitType) }.backgroundRes(R.color.blue_700).textColorRes(R.color.white).condition(ControllerApi.can(unit.fandomId, unit.languageId, API.LVL_MODERATOR_BLOCK) && unit.reportsCount > 0)
@@ -190,8 +190,8 @@ abstract class CardComment protected constructor(
 
     private fun sendReaction(reactionIndex: Long) {
         ApiRequestsSupporter.executeProgressDialog(RCommentReactionAdd(xUnit.unit.id, reactionIndex)) { _ ->
-            xUnit.unit as UnitComment
-            xUnit.unit.reactions = ToolsCollections.add(UnitComment.Reaction(ControllerApi.account.id, reactionIndex), xUnit.unit.reactions)
+            xUnit.unit as PublicationComment
+            xUnit.unit.reactions = ToolsCollections.add(PublicationComment.Reaction(ControllerApi.account.id, reactionIndex), xUnit.unit.reactions)
             updateReactions()
             ToolsToast.show(R.string.app_done)
         }
@@ -201,7 +201,7 @@ abstract class CardComment protected constructor(
 
     private fun removeReaction(reactionIndex: Long) {
         ApiRequestsSupporter.executeProgressDialog(RCommentReactionRemove(xUnit.unit.id, reactionIndex)) { _ ->
-            xUnit.unit as UnitComment
+            xUnit.unit as PublicationComment
             xUnit.unit.reactions = ToolsCollections.removeIf(xUnit.unit.reactions) { it.accountId == ControllerApi.account.id && it.reactionIndex == reactionIndex }
             updateReactions()
             ToolsToast.show(R.string.app_done)
@@ -216,7 +216,7 @@ abstract class CardComment protected constructor(
         val dp = ToolsView.dpToPx(8)
 
 
-        xUnit.unit as UnitComment
+        xUnit.unit as PublicationComment
         val map = LongSparseArray<ViewChip>()
         for (i in xUnit.unit.reactions) {
             var v: ViewChip? = map.get(i.reactionIndex)
@@ -275,7 +275,7 @@ abstract class CardComment protected constructor(
     }
 
     private fun onClick(): Boolean {
-        val unit = xUnit.unit as UnitComment
+        val unit = xUnit.unit as PublicationComment
         if (onClick == null) {
             if (unit.parentUnitType == 0L) {
                 ToolsToast.show(R.string.post_error_gone)
@@ -289,7 +289,7 @@ abstract class CardComment protected constructor(
     }
 
     override fun notifyItem() {
-        val unit = xUnit.unit as UnitComment
+        val unit = xUnit.unit as PublicationComment
         ToolsImagesLoader.load(unit.creatorImageId).intoCash()
     }
 
@@ -298,7 +298,7 @@ abstract class CardComment protected constructor(
     //
 
     override fun equals(other: Any?): Boolean {
-        val unit = xUnit.unit as UnitComment
+        val unit = xUnit.unit as PublicationComment
         if (other is CardComment) return other.xUnit.unit.id == unit.id
         return super.equals(other)
     }
@@ -307,14 +307,14 @@ abstract class CardComment protected constructor(
     //  Event Bus
     //
 
-    private fun onEventUnitDeepBlockRestore(e: EventUnitDeepBlockRestore) {
+    private fun onEventUnitDeepBlockRestore(e: EventPublicationDeepBlockRestore) {
         if (e.unitId == xUnit.unit.id && xUnit.unit.status == API.STATUS_DEEP_BLOCKED) {
             adapter?.remove(this)
         }
     }
 
     private fun onCommentChange(e: EventCommentChange) {
-        val unit = xUnit.unit as UnitComment
+        val unit = xUnit.unit as PublicationComment
         if (e.unitId == unit.id) {
             unit.text = e.text
             unit.quoteId = e.quoteId

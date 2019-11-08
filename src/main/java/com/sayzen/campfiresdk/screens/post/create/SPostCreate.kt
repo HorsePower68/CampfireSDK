@@ -5,7 +5,7 @@ import android.net.Uri
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.dzen.campfire.api.API
-import com.dzen.campfire.api.models.units.post.*
+import com.dzen.campfire.api.models.publications.post.*
 import com.dzen.campfire.api.requests.fandoms.RFandomsGet
 import com.dzen.campfire.api.requests.post.*
 import com.sayzen.campfiresdk.models.ScreenShare
@@ -13,9 +13,9 @@ import com.sayzen.campfiresdk.R
 import com.sayzen.campfiresdk.adapters.XFandom
 import com.sayzen.campfiresdk.controllers.ControllerApi
 import com.sayzen.campfiresdk.controllers.ControllerCampfireSDK
-import com.sayzen.campfiresdk.models.events.units.EventPostChanged
-import com.sayzen.campfiresdk.models.events.units.EventPostDraftCreated
-import com.sayzen.campfiresdk.models.events.units.EventUnitRemove
+import com.sayzen.campfiresdk.models.events.publications.EventPostChanged
+import com.sayzen.campfiresdk.models.events.publications.EventPostDraftCreated
+import com.sayzen.campfiresdk.models.events.publications.EventPublicationRemove
 import com.sayzen.campfiresdk.screens.post.view.SPost
 import com.sup.dev.android.libs.api_simple.ApiRequestsSupporter
 import com.sup.dev.android.libs.screens.Screen
@@ -33,7 +33,7 @@ class SPostCreate constructor(
         val languageId: Long,
         val fandomName: String,
         val fandomImageId: Long,
-        changePost: UnitPost?,
+        changePost: PublicationPost?,
         private val tags: Array<Long>,
         showMenu: Boolean
 ) : Screen(R.layout.screen_post_create), ScreenShare {
@@ -140,7 +140,7 @@ class SPostCreate constructor(
             onFinish.invoke()
             EventBus.post(EventPostChanged(unitId, xPostCreator.pages))
             if (xPostCreator.pages.isEmpty()) {
-                EventBus.post(EventUnitRemove(unitId))
+                EventBus.post(EventPublicationRemove(unitId))
                 unitId = 0
             }
         }

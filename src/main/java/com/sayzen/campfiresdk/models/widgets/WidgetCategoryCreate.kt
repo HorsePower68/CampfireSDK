@@ -6,9 +6,8 @@ import com.dzen.campfire.api.API
 import com.dzen.campfire.api.requests.tags.RTagsChange
 import com.dzen.campfire.api.requests.tags.RTagsCreate
 import com.sup.dev.android.libs.api_simple.ApiRequestsSupporter
-import com.dzen.campfire.api.models.units.tags.UnitTag
+import com.dzen.campfire.api.models.publications.tags.PublicationTag
 import com.sayzen.campfiresdk.R
-import com.sayzen.campfiresdk.controllers.ControllerCampfireSDK
 import com.sayzen.campfiresdk.screens.fandoms.STags
 import com.sup.dev.android.libs.screens.navigator.Navigator
 import com.sup.dev.android.tools.ToolsToast
@@ -18,7 +17,7 @@ import com.sup.dev.android.views.widgets.Widget
 import com.sup.dev.java.tools.ToolsText
 
 class WidgetCategoryCreate(
-        private val tag: UnitTag?,
+        private val tag: PublicationTag?,
         private val fandomId: Long,
         private val languageId: Long
 ) : Widget(R.layout.widget_category_create) {
@@ -28,7 +27,7 @@ class WidgetCategoryCreate(
     private val vEnter: Button = findViewById(R.id.vEnter)
     private val vCancel: Button = findViewById(R.id.vCancel)
 
-    constructor(tag: UnitTag) : this(tag, tag.fandomId, tag.languageId)
+    constructor(tag: PublicationTag) : this(tag, tag.fandomId, tag.languageId)
 
     constructor(fandomId: Long, languageId: Long) : this(null, fandomId, languageId)
 

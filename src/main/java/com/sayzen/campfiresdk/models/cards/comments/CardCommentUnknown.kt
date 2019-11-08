@@ -1,15 +1,15 @@
 package com.sayzen.campfiresdk.models.cards.comments
 
 import android.view.View
-import com.dzen.campfire.api.models.UnitComment
+import com.dzen.campfire.api.models.PublicationComment
 import com.sayzen.campfiresdk.R
 
 class CardCommentUnknown(
-        unit: UnitComment,
+        unit: PublicationComment,
         dividers: Boolean,
         miniSize: Boolean,
-        onClick: ((UnitComment) -> Boolean)? = null,
-        onQuote: ((UnitComment) -> Unit)? = null,
+        onClick: ((PublicationComment) -> Boolean)? = null,
+        onQuote: ((PublicationComment) -> Unit)? = null,
         onGoTo: ((Long) -> Unit)?
 ) : CardComment(R.layout.card_comment_unknown, unit, dividers, miniSize, onClick, onQuote, onGoTo) {
 

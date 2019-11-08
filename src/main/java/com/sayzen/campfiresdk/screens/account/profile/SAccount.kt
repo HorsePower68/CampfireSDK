@@ -7,8 +7,8 @@ import android.widget.TextView
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.dzen.campfire.api.API
-import com.dzen.campfire.api.models.units.Unit
-import com.dzen.campfire.api.models.units.post.UnitPost
+import com.dzen.campfire.api.models.publications.Publication
+import com.dzen.campfire.api.models.publications.post.PublicationPost
 import com.dzen.campfire.api.requests.accounts.*
 import com.dzen.campfire.api.requests.units.RUnitsGetAll
 import com.sayzen.campfiresdk.R
@@ -24,7 +24,7 @@ import com.sayzen.campfiresdk.controllers.ControllerCampfireSDK
 import com.sayzen.campfiresdk.controllers.ControllerSettings
 import com.sayzen.campfiresdk.controllers.api
 import com.sayzen.campfiresdk.models.events.account.*
-import com.sayzen.campfiresdk.models.events.units.EventPostPinedProfile
+import com.sayzen.campfiresdk.models.events.publications.EventPostPinedProfile
 import com.sayzen.campfiresdk.screens.administation.SAdministrationDeepBlocked
 import com.sup.dev.android.libs.api_simple.ApiRequestsSupporter
 import com.sup.dev.android.libs.screens.Screen
@@ -83,7 +83,7 @@ class SAccount private constructor(
     private val vImage: ImageView = findViewById(R.id.vImage)
     private val vAvatar: ImageView = findViewById(R.id.vAvatar)
     val xAccount = XAccount(r.account, 0, r.titleImageId, r.titleImageGifId) { update() }
-    private val adapter: RecyclerCardAdapterLoading<CardUnit, Unit>
+    private val adapter: RecyclerCardAdapterLoading<CardUnit, Publication>
     private val cardInfo: CardInfo
     private val cardBio: CardBio
     private val cardFilters: CardFilters
@@ -120,7 +120,7 @@ class SAccount private constructor(
         vTitle.text = r.account.name
 
 
-        adapter = RecyclerCardAdapterLoading<CardUnit, Unit>(CardUnit::class) { unit -> CardUnit.instance(unit, vRecycler, true, isShowFullInfo = true) }
+        adapter = RecyclerCardAdapterLoading<CardUnit, Publication>(CardUnit::class) { unit -> CardUnit.instance(unit, vRecycler, true, isShowFullInfo = true) }
                 .setBottomLoader { onLoad, cards ->
                     val r = RUnitsGetAll()
                             .setAccountId(r.account.id)
@@ -144,7 +144,7 @@ class SAccount private constructor(
                 r.banDate, r.isFollow, r.followsCount, r.followersCount, r.moderateFandomsCount, r.status,
                 r.ratesCount, r.bansCount, r.warnsCount, r.note, r.fandomsCount, r.blackFandomsCount, r.blackAccountCount, r.stickersCount)
         cardFilters = CardFilters {
-            if (cardPinnedPost != null) setPinnedPost(cardPinnedPost!!.xUnit.unit as UnitPost)
+            if (cardPinnedPost != null) setPinnedPost(cardPinnedPost!!.xUnit.unit as PublicationPost)
             adapter.reloadBottom()
         }
 
@@ -162,13 +162,13 @@ class SAccount private constructor(
     }
 
     private fun afterPackLoaded() {
-        if (cardPinnedPost != null && ControllerSettings.getProfileFilters().contains(API.UNIT_TYPE_POST))
+        if (cardPinnedPost != null && ControllerSettings.getProfileFilters().contains(API.PUBLICATION_TYPE_POST))
             for (c in adapter.get(CardPost::class))
-                if (c.xUnit.unit.id == cardPinnedPost!!.xUnit.unit.id && !(c.xUnit.unit as UnitPost).isPined)
+                if (c.xUnit.unit.id == cardPinnedPost!!.xUnit.unit.id && !(c.xUnit.unit as PublicationPost).isPined)
                     adapter.remove(c)
     }
 
-    private fun setPinnedPost(post: UnitPost?) {
+    private fun setPinnedPost(post: PublicationPost?) {
         if (cardPinnedPost != null) adapter.remove(cardPinnedPost!!)
         if (post == null) {
             cardPinnedPost = null
@@ -177,7 +177,7 @@ class SAccount private constructor(
             post.isPined = true
             cardPinnedPost = CardPost(vRecycler, post)
             cardPinnedPost?.showFandom = true
-            if (ControllerSettings.getProfileFilters().contains(API.UNIT_TYPE_POST)) {
+            if (ControllerSettings.getProfileFilters().contains(API.PUBLICATION_TYPE_POST)) {
                 adapter.add(adapter.indexOf(cardFilters) + 1, cardPinnedPost!!)
             }
         }

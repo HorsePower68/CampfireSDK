@@ -2,14 +2,14 @@ package com.sayzen.campfiresdk.controllers
 
 import android.view.View
 import com.dzen.campfire.api.API
-import com.dzen.campfire.api.models.units.stickers.UnitSticker
-import com.dzen.campfire.api.models.units.stickers.UnitStickersPack
+import com.dzen.campfire.api.models.publications.stickers.PublicationSticker
+import com.dzen.campfire.api.models.publications.stickers.PublicationStickersPack
 import com.dzen.campfire.api.requests.stickers.*
 import com.dzen.campfire.api.requests.units.RUnitsRemove
 import com.sayzen.campfiresdk.R
 import com.sayzen.campfiresdk.models.events.stickers.EventStickerCollectionChanged
 import com.sayzen.campfiresdk.models.events.stickers.EventStickersPackCollectionChanged
-import com.sayzen.campfiresdk.models.events.units.EventUnitRemove
+import com.sayzen.campfiresdk.models.events.publications.EventPublicationRemove
 import com.sayzen.campfiresdk.screens.account.stickers.SStickersPackCreate
 import com.sup.dev.android.libs.api_simple.ApiRequestsSupporter
 import com.sup.dev.android.libs.screens.navigator.Navigator
@@ -24,7 +24,7 @@ object ControllerStickers {
     //  Stickers
     //
 
-    fun showStickerPackPopup(unit: UnitStickersPack) {
+    fun showStickerPackPopup(unit: PublicationStickersPack) {
         WidgetMenu()
                 .add(R.string.app_copy_link) { _, _ -> ToolsAndroid.setToClipboard(ControllerApi.linkToStickersPack(unit.id)); ToolsToast.show(R.string.app_copied) }
                 .add(R.string.unit_menu_comments_watch) { _, _ -> ControllerUnits.changeWatchComments(unit.id) }.condition(unit.isPublic)
@@ -37,7 +37,7 @@ object ControllerStickers {
                 .asSheetShow()
     }
 
-    fun switchStickerPackCollection(unit: UnitStickersPack) {
+    fun switchStickerPackCollection(unit: PublicationStickersPack) {
         ApiRequestsSupporter.executeProgressDialog(RStickersPackCollectionCheck(unit.id)){ r->
             if(r.inCollection) {
                 ApiRequestsSupporter.executeEnabledConfirm(R.string.sticker_remove, R.string.app_remove, RStickersPackCollectionRemove(unit.id)) {
@@ -56,12 +56,12 @@ object ControllerStickers {
 
     fun removeStickersPack(unitId: Long) {
         ApiRequestsSupporter.executeEnabledConfirm(R.string.stickers_packs_remove_confirm, R.string.app_remove, RUnitsRemove(unitId)) {
-            EventBus.post(EventUnitRemove(unitId))
+            EventBus.post(EventPublicationRemove(unitId))
             ToolsToast.show(R.string.app_done)
         }
     }
 
-    fun showStickerPopup(view: View, x: Int, y: Int, unit: UnitSticker) {
+    fun showStickerPopup(view: View, x: Int, y: Int, unit: PublicationSticker) {
         WidgetMenu()
                 .add(R.string.app_copy_link) { _, _ -> ToolsAndroid.setToClipboard(ControllerApi.linkToSticker(unit.id)); ToolsToast.show(R.string.app_copied) }
                 .add(R.string.app_remove) { _, _ -> removeSticker(unit.id) }.condition(unit.creatorId == ControllerApi.account.id)
@@ -72,7 +72,7 @@ object ControllerStickers {
                 .asPopupShow(view, x, y)
     }
 
-    fun switchStickerCollection(unit: UnitSticker) {
+    fun switchStickerCollection(unit: PublicationSticker) {
         ApiRequestsSupporter.executeProgressDialog(RStickerCollectionCheck(unit.id)){ r->
             if(r.inCollection) {
                 ApiRequestsSupporter.executeEnabledConfirm(R.string.sticker_remove_favorites, R.string.app_remove, RStickerCollectionRemove(unit.id)) {
@@ -91,7 +91,7 @@ object ControllerStickers {
 
     fun removeSticker(unitId: Long) {
         ApiRequestsSupporter.executeEnabledConfirm(R.string.stickers_remove_confirm, R.string.app_remove, RUnitsRemove(unitId)) {
-            EventBus.post(EventUnitRemove(unitId))
+            EventBus.post(EventPublicationRemove(unitId))
             ToolsToast.show(R.string.app_done)
         }
     }

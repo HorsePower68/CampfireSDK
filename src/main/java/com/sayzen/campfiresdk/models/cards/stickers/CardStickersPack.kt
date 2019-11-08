@@ -2,7 +2,7 @@ package com.sayzen.campfiresdk.models.cards.stickers
 
 import android.view.View
 import android.widget.TextView
-import com.dzen.campfire.api.models.units.stickers.UnitStickersPack
+import com.dzen.campfire.api.models.publications.stickers.PublicationStickersPack
 import com.sayzen.campfiresdk.R
 import com.sayzen.campfiresdk.controllers.ControllerStickers
 import com.sayzen.campfiresdk.models.cards.CardUnit
@@ -18,7 +18,7 @@ import com.sup.dev.android.views.views.ViewAvatarTitle
 import com.sup.dev.java.libs.eventBus.EventBus
 
 class CardStickersPack(
-        unit: UnitStickersPack,
+        unit: PublicationStickersPack,
         val isShowFullInfo: Boolean = false,
         val isShowReports: Boolean = true
 ) : CardUnit(R.layout.card_stickers_pack, unit) {
@@ -34,7 +34,7 @@ class CardStickersPack(
 
     override fun bindView(view: View) {
         super.bindView(view)
-        val unit = xUnit.unit as UnitStickersPack
+        val unit = xUnit.unit as PublicationStickersPack
 
         val vAvatar: ViewAvatarTitle = view.findViewById(R.id.vAvatar)
         val vMenu: View = view.findViewById(R.id.vMenu)
@@ -87,7 +87,7 @@ class CardStickersPack(
     }
 
     override fun notifyItem() {
-        val unit = xUnit.unit as UnitStickersPack
+        val unit = xUnit.unit as PublicationStickersPack
         ToolsImagesLoader.load(unit.imageId).intoCash()
     }
 

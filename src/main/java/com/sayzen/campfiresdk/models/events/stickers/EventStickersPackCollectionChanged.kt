@@ -1,8 +1,8 @@
 package com.sayzen.campfiresdk.models.events.stickers
 
-import com.dzen.campfire.api.models.units.stickers.UnitStickersPack
+import com.dzen.campfire.api.models.publications.stickers.PublicationStickersPack
 
 class EventStickersPackCollectionChanged(
-        val stickersPack: UnitStickersPack,
+        val stickersPack: PublicationStickersPack,
         val inCollection:Boolean
 )

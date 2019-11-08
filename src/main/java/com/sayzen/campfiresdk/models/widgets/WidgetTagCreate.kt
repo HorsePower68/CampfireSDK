@@ -8,7 +8,7 @@ import com.dzen.campfire.api.API
 import com.dzen.campfire.api.requests.tags.RTagsChange
 import com.dzen.campfire.api.requests.tags.RTagsCreate
 import com.sup.dev.android.libs.api_simple.ApiRequestsSupporter
-import com.dzen.campfire.api.models.units.tags.UnitTag
+import com.dzen.campfire.api.models.publications.tags.PublicationTag
 import com.sayzen.campfiresdk.R
 import com.sayzen.campfiresdk.screens.fandoms.STags
 import com.sup.dev.android.libs.screens.navigator.Navigator
@@ -24,7 +24,7 @@ import com.sup.dev.java.tools.ToolsText
 import com.sup.dev.java.tools.ToolsThreads
 
 class WidgetTagCreate private constructor(
-        private val tag: UnitTag?,
+        private val tag: PublicationTag?,
         private val parentId: Long,
         private val fandomId: Long,
         private val languageId: Long
@@ -40,7 +40,7 @@ class WidgetTagCreate private constructor(
     private var removeImage: Boolean = false
     private var image: ByteArray? = null
 
-    constructor(tag: UnitTag) : this(tag, tag.parentUnitId, tag.fandomId, tag.languageId) {}
+    constructor(tag: PublicationTag) : this(tag, tag.parentUnitId, tag.fandomId, tag.languageId) {}
 
     constructor(parentId: Long, fandomId: Long, languageId: Long) : this(null, parentId, fandomId, languageId) {}
 

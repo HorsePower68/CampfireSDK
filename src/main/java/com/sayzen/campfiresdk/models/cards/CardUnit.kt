@@ -4,18 +4,18 @@ import android.graphics.drawable.ColorDrawable
 import android.os.Build
 import android.view.View
 import androidx.recyclerview.widget.RecyclerView
-import com.dzen.campfire.api.models.UnitComment
+import com.dzen.campfire.api.models.PublicationComment
 import com.dzen.campfire.api.models.UnitReview
-import com.dzen.campfire.api.models.units.Unit
-import com.dzen.campfire.api.models.units.post.UnitPost
-import com.dzen.campfire.api.models.units.chat.UnitChatMessage
-import com.dzen.campfire.api.models.units.events_admins.UnitEventAdmin
-import com.dzen.campfire.api.models.units.events_fandoms.UnitEventFandom
-import com.dzen.campfire.api.models.units.events_moderators.UnitEventModer
-import com.dzen.campfire.api.models.units.events_user.UnitEventUser
-import com.dzen.campfire.api.models.units.moderations.UnitModeration
-import com.dzen.campfire.api.models.units.stickers.UnitSticker
-import com.dzen.campfire.api.models.units.stickers.UnitStickersPack
+import com.dzen.campfire.api.models.publications.Publication
+import com.dzen.campfire.api.models.publications.post.PublicationPost
+import com.dzen.campfire.api.models.publications.chat.PublicationChatMessage
+import com.dzen.campfire.api.models.publications.events_admins.PublicationEventAdmin
+import com.dzen.campfire.api.models.publications.events_fandoms.PublicationEventFandom
+import com.dzen.campfire.api.models.publications.events_moderators.PublicationEventModer
+import com.dzen.campfire.api.models.publications.events_user.PublicationEventUser
+import com.dzen.campfire.api.models.publications.moderations.PublicationModeration
+import com.dzen.campfire.api.models.publications.stickers.PublicationSticker
+import com.dzen.campfire.api.models.publications.stickers.PublicationStickersPack
 import com.sayzen.campfiresdk.R
 import com.sayzen.campfiresdk.adapters.*
 import com.sayzen.campfiresdk.models.cards.chat.CardChatMessage
@@ -37,12 +37,12 @@ import com.sup.dev.java.tools.ToolsThreads
 
 abstract class CardUnit(
         layout: Int,
-        unit: Unit
+        unit: Publication
 ) : Card(layout), NotifyItem {
 
     companion object {
         fun instance(
-                unit: Unit,
+                unit: Publication,
                 vRecycler: RecyclerView? = null,
                 showFandom: Boolean = false,
                 dividers: Boolean = false,
@@ -51,17 +51,17 @@ abstract class CardUnit(
         ): CardUnit {
 
             val cardUnit = when (unit) {
-                is UnitComment -> CardComment.instance(unit, dividers, false)
-                is UnitPost -> CardPost(vRecycler, unit)
-                is UnitChatMessage -> CardChatMessage.instance(unit)
-                is UnitModeration -> CardModeration(unit)
-                is UnitEventUser -> CardUnitEventUser(unit)
-                is UnitEventModer -> CardUnitEventModer(unit)
-                is UnitEventAdmin -> CardUnitEventAdmin(unit)
-                is UnitEventFandom -> CardUnitEventFandom(unit)
+                is PublicationComment -> CardComment.instance(unit, dividers, false)
+                is PublicationPost -> CardPost(vRecycler, unit)
+                is PublicationChatMessage -> CardChatMessage.instance(unit)
+                is PublicationModeration -> CardModeration(unit)
+                is PublicationEventUser -> CardUnitEventUser(unit)
+                is PublicationEventModer -> CardUnitEventModer(unit)
+                is PublicationEventAdmin -> CardUnitEventAdmin(unit)
+                is PublicationEventFandom -> CardUnitEventFandom(unit)
                 is UnitReview -> CardReview(unit)
-                is UnitSticker -> CardSticker(unit, isShowFullInfo, isShowReports)
-                is UnitStickersPack -> CardStickersPack(unit, isShowFullInfo, isShowReports)
+                is PublicationSticker -> CardSticker(unit, isShowFullInfo, isShowReports)
+                is PublicationStickersPack -> CardStickersPack(unit, isShowFullInfo, isShowReports)
                 else -> CardUnitUnknown(unit)
             }
 

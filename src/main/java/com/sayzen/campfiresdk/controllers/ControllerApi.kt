@@ -5,7 +5,7 @@ import android.text.Html
 import android.text.util.Linkify
 import android.widget.TextView
 import com.dzen.campfire.api.API
-import com.dzen.campfire.api.models.UnitComment
+import com.dzen.campfire.api.models.PublicationComment
 import com.dzen.campfire.api.models.account.Account
 import com.dzen.campfire.api.models.lvl.LvlInfo
 import com.dzen.campfire.api.models.lvl.LvlInfoAdmin
@@ -23,9 +23,9 @@ import com.dzen.campfire.api_media.requests.RResourcesGet
 import com.sayzen.campfiresdk.R
 import com.sayzen.campfiresdk.models.events.account.EventAccountReportsCleared
 import com.sayzen.campfiresdk.models.events.project.EventApiVersionChanged
-import com.sayzen.campfiresdk.models.events.units.EventUnitRemove
-import com.sayzen.campfiresdk.models.events.units.EventUnitReportsAdd
-import com.sayzen.campfiresdk.models.events.units.EventUnitReportsClear
+import com.sayzen.campfiresdk.models.events.publications.EventPublicationRemove
+import com.sayzen.campfiresdk.models.events.publications.EventPublicationReportsAdd
+import com.sayzen.campfiresdk.models.events.publications.EventPublicationReportsClear
 import com.sup.dev.java.libs.text_format.TextFormater
 import com.sayzen.devsupandroidgoogle.ControllerGoogleAuth
 import com.sup.dev.android.libs.api_simple.ApiRequestsSupporter
@@ -393,12 +393,12 @@ object ControllerApi {
     fun linkToConfMessage(messageId: Long, chatId: Long) = API.LINK_CONF + chatId + "_" + messageId
     fun linkToEvent(eventId: Long) = API.LINK_EVENT + eventId
     fun linkToTag(tagId: Long) = API.LINK_TAG + tagId
-    fun linkToComment(comment: UnitComment) = linkToComment(comment.id, comment.parentUnitType, comment.parentUnitId)
+    fun linkToComment(comment: PublicationComment) = linkToComment(comment.id, comment.parentUnitType, comment.parentUnitId)
     fun linkToComment(commentId: Long, unitType: Long, unitId: Long): String {
         return when (unitType) {
-            API.UNIT_TYPE_POST -> linkToPostComment(unitId, commentId)
-            API.UNIT_TYPE_MODERATION -> linkToModerationComment(unitId, commentId)
-            API.UNIT_TYPE_STICKERS_PACK -> linkToStickersComment(unitId, commentId)
+            API.PUBLICATION_TYPE_POST -> linkToPostComment(unitId, commentId)
+            API.PUBLICATION_TYPE_MODERATION -> linkToModerationComment(unitId, commentId)
+            API.PUBLICATION_TYPE_STICKERS_PACK -> linkToStickersComment(unitId, commentId)
             else -> ""
         }
     }
@@ -511,7 +511,7 @@ object ControllerApi {
     fun reportUnit(unitId: Long, stringRes: Int, stringResGone: Int) {
         ApiRequestsSupporter.executeEnabledConfirm(stringRes, R.string.app_report, RUnitsReport(unitId)) {
             ToolsToast.show(R.string.app_reported)
-            EventBus.post(EventUnitReportsAdd(unitId))
+            EventBus.post(EventPublicationReportsAdd(unitId))
         }
                 .onApiError(RUnitsReport.E_ALREADY_EXIST) { ToolsToast.show(R.string.app_report_already_exist) }
                 .onApiError(API.ERROR_GONE) { ToolsToast.show(stringResGone) }
@@ -519,7 +519,7 @@ object ControllerApi {
 
     fun removeUnit(unitId: Long, stringRes: Int, stringResGone: Int, onRemove: () -> Unit = {}) {
         ApiRequestsSupporter.executeEnabledConfirm(stringRes, R.string.app_remove, RUnitsRemove(unitId)) {
-            EventBus.post(EventUnitRemove(unitId))
+            EventBus.post(EventPublicationRemove(unitId))
             ToolsToast.show(R.string.app_removed)
             onRemove.invoke()
         }.onApiError(API.ERROR_GONE) { ToolsToast.show(stringResGone) }
@@ -527,11 +527,11 @@ object ControllerApi {
 
     fun clearReportsUnit(unitId: Long, unitType: Long) {
         when (unitType) {
-            API.UNIT_TYPE_CHAT_MESSAGE -> clearReportsUnit(unitId, R.string.chat_clear_reports_confirm, R.string.chat_error_gone)
-            API.UNIT_TYPE_POST -> clearReportsUnit(unitId, R.string.post_clear_reports_confirm, R.string.post_error_gone)
-            API.UNIT_TYPE_COMMENT -> clearReportsUnit(unitId, R.string.comment_clear_reports_confirm, R.string.comment_error_gone)
-            API.UNIT_TYPE_REVIEW -> clearReportsUnit(unitId, R.string.review_clear_reports_confirm, R.string.review_error_gone)
-            API.UNIT_TYPE_STICKERS_PACK -> clearReportsUnit(unitId, R.string.stickers_packs_clear_reports_confirm, R.string.stickers_packs_error_gone)
+            API.PUBLICATION_TYPE_CHAT_MESSAGE -> clearReportsUnit(unitId, R.string.chat_clear_reports_confirm, R.string.chat_error_gone)
+            API.PUBLICATION_TYPE_POST -> clearReportsUnit(unitId, R.string.post_clear_reports_confirm, R.string.post_error_gone)
+            API.PUBLICATION_TYPE_COMMENT -> clearReportsUnit(unitId, R.string.comment_clear_reports_confirm, R.string.comment_error_gone)
+            API.PUBLICATION_TYPE_REVIEW -> clearReportsUnit(unitId, R.string.review_clear_reports_confirm, R.string.review_error_gone)
+            API.PUBLICATION_TYPE_STICKERS_PACK -> clearReportsUnit(unitId, R.string.stickers_packs_clear_reports_confirm, R.string.stickers_packs_error_gone)
         }
     }
 
@@ -542,13 +542,13 @@ object ControllerApi {
                 RUnitsAdminClearReports(unitId)
         ) {
             ToolsToast.show(R.string.app_done)
-            EventBus.post(EventUnitReportsClear(unitId))
+            EventBus.post(EventPublicationReportsClear(unitId))
         }.onApiError(API.ERROR_GONE) { ToolsToast.show(stringResGone) }
     }
 
     fun clearReportsUnitNow(unitId: Long) {
         ApiRequestsSupporter.execute(RUnitsAdminClearReports(unitId)) {
-            EventBus.post(EventUnitReportsClear(unitId))
+            EventBus.post(EventPublicationReportsClear(unitId))
         }
     }
 

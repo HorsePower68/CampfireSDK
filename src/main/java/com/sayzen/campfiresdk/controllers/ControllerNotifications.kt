@@ -380,15 +380,15 @@ object ControllerNotifications {
 
         override fun getTitle(): String {
             var title = ""
-            if (n.parentUnitType == API.UNIT_TYPE_POST) {
+            if (n.parentUnitType == API.PUBLICATION_TYPE_POST) {
                 title = if (ControllerApi.getLastAccount().id == n.unitCreatorId) ToolsResources.sCap(R.string.notification_post_comment, n.accountName, ToolsResources.sex(n.accountSex, R.string.he_comment, R.string.she_comment))
                 else ToolsResources.sCap(R.string.notification_post_comment_watch, n.accountName, ToolsResources.sex(n.accountSex, R.string.he_comment, R.string.she_comment))
             }
-            if (n.parentUnitType == API.UNIT_TYPE_STICKERS_PACK) {
+            if (n.parentUnitType == API.PUBLICATION_TYPE_STICKERS_PACK) {
                 title = if (ControllerApi.getLastAccount().id == n.unitCreatorId) ToolsResources.sCap(R.string.notification_stickers_pack_comment, n.accountName, ToolsResources.sex(n.accountSex, R.string.he_comment, R.string.she_comment))
                 else ToolsResources.sCap(R.string.notification_stickers_pack_comment_watch, n.accountName, ToolsResources.sex(n.accountSex, R.string.he_comment, R.string.she_comment))
             }
-            if (n.parentUnitType == API.UNIT_TYPE_MODERATION) {
+            if (n.parentUnitType == API.PUBLICATION_TYPE_MODERATION) {
                 title = if (ControllerApi.getLastAccount().id == n.unitCreatorId) ToolsResources.sCap(
                         R.string.notification_moderation_comment, n.accountName, ToolsResources.sex(
                         n.accountSex,
@@ -594,7 +594,7 @@ object ControllerNotifications {
         }
 
         override fun getTitle(): String {
-            return ToolsResources.sCap(if (n.blockLastUnits) R.string.moderation_notification_publications_is_blocked else if (n.blockUnitType == API.UNIT_TYPE_REVIEW) R.string.moderation_notification_review_is_blocked else R.string.moderation_notification_publication_is_blocked)
+            return ToolsResources.sCap(if (n.blockLastUnits) R.string.moderation_notification_publications_is_blocked else if (n.blockUnitType == API.PUBLICATION_TYPE_REVIEW) R.string.moderation_notification_review_is_blocked else R.string.moderation_notification_publication_is_blocked)
         }
 
     }
@@ -633,31 +633,31 @@ object ControllerNotifications {
                     "" + (n.karmaCount / 100),
                     if (n.karmaCount < 0) ToolsHTML.color_red else ToolsHTML.color_green
             )
-            if (n.unitType == API.UNIT_TYPE_POST) return ToolsResources.sCap(
+            if (n.unitType == API.PUBLICATION_TYPE_POST) return ToolsResources.sCap(
                     R.string.notification_post_karma, name, ToolsResources.sex(
                     n.accountSex,
                     R.string.he_rate,
                     R.string.she_rate
             ), karmsS)
-            if (n.unitType == API.UNIT_TYPE_COMMENT) return ToolsResources.sCap(
+            if (n.unitType == API.PUBLICATION_TYPE_COMMENT) return ToolsResources.sCap(
                     R.string.notification_comments_karma, name, ToolsResources.sex(
                     n.accountSex,
                     R.string.he_rate,
                     R.string.she_rate
             ), karmsS)
-            if (n.unitType == API.UNIT_TYPE_MODERATION) return ToolsResources.sCap(
+            if (n.unitType == API.PUBLICATION_TYPE_MODERATION) return ToolsResources.sCap(
                     R.string.notification_moderation_karma, name, ToolsResources.sex(
                     n.accountSex,
                     R.string.he_rate,
                     R.string.she_rate
             ), karmsS)
-            if (n.unitType == API.UNIT_TYPE_REVIEW) return ToolsResources.sCap(
+            if (n.unitType == API.PUBLICATION_TYPE_REVIEW) return ToolsResources.sCap(
                     R.string.notification_karma_review, name, ToolsResources.sex(
                     n.accountSex,
                     R.string.he_rate,
                     R.string.she_rate
             ), karmsS)
-            if (n.unitType == API.UNIT_TYPE_STICKERS_PACK) return ToolsResources.sCap(
+            if (n.unitType == API.PUBLICATION_TYPE_STICKERS_PACK) return ToolsResources.sCap(
                     R.string.notification_karma_stickers_pack, name, ToolsResources.sex(
                     n.accountSex,
                     R.string.he_rate,

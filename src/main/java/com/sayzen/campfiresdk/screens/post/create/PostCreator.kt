@@ -5,19 +5,15 @@ import android.net.Uri
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.dzen.campfire.api.API
-import com.dzen.campfire.api.models.units.post.Page
-import com.dzen.campfire.api.models.units.post.PageImage
-import com.dzen.campfire.api.models.units.post.PageText
-import com.dzen.campfire.api.models.units.post.UnitPost
+import com.dzen.campfire.api.models.publications.post.Page
+import com.dzen.campfire.api.models.publications.post.PageImage
+import com.dzen.campfire.api.models.publications.post.PageText
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.sayzen.campfiresdk.R
 import com.sayzen.campfiresdk.controllers.ControllerPost
 import com.sayzen.campfiresdk.models.cards.post_pages.CardPage
 import com.sayzen.campfiresdk.models.cards.post_pages.CardPageImage
 import com.sayzen.campfiresdk.models.cards.post_pages.CardPageText
-import com.sayzen.campfiresdk.models.events.units.EventPostChanged
-import com.sayzen.campfiresdk.models.events.units.EventPostDraftCreated
-import com.sayzen.campfiresdk.models.events.units.EventUnitRemove
 import com.sayzen.campfiresdk.screens.post.create.creators.CardMove
 import com.sayzen.campfiresdk.screens.post.create.creators.WidgetAdd
 import com.sup.dev.android.libs.screens.Screen
@@ -25,11 +21,9 @@ import com.sup.dev.android.libs.screens.navigator.Navigator
 import com.sup.dev.android.tools.ToolsBitmap
 import com.sup.dev.android.tools.ToolsToast
 import com.sup.dev.android.tools.ToolsView
-import com.sup.dev.android.views.cards.Card
 import com.sup.dev.android.views.cards.CardSpace
 import com.sup.dev.android.views.support.adapters.recycler_view.RecyclerCardAdapter
 import com.sup.dev.android.views.widgets.Widget
-import com.sup.dev.java.libs.eventBus.EventBus
 import com.sup.dev.java.tools.ToolsMapper
 import com.sup.dev.java.tools.ToolsThreads
 

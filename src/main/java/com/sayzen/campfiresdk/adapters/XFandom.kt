@@ -6,7 +6,7 @@ import com.dzen.campfire.api.models.fandoms.Fandom
 import com.sayzen.campfiresdk.controllers.ControllerApi
 import com.sayzen.campfiresdk.controllers.ControllerCampfireSDK
 import com.sayzen.campfiresdk.models.events.fandom.EventFandomChanged
-import com.sayzen.campfiresdk.models.events.units.EventUnitFandomChanged
+import com.sayzen.campfiresdk.models.events.publications.EventPublicationFandomChanged
 import com.sup.dev.android.libs.screens.navigator.Navigator
 import com.sup.dev.android.tools.ToolsImagesLoader
 import com.sup.dev.android.tools.ToolsResources
@@ -31,13 +31,13 @@ class XFandom(
     var allViewIsClickable = false
 
     private val eventBus = EventBus
-            .subscribe(EventUnitFandomChanged::class) { onEventUnitFandomChanged(it) }
+            .subscribe(EventPublicationFandomChanged::class) { onEventUnitFandomChanged(it) }
             .subscribe(EventFandomChanged::class) { onEventFandomChanged(it) }
 
     constructor(fandom: Fandom, date: Long = 0, onChanged: () -> Unit)
             : this(0, fandom.id, fandom.languageId, fandom.name, fandom.imageId, fandom.imageTitleId, fandom.imageTitleGifId, date, onChanged)
 
-    constructor(unit: com.dzen.campfire.api.models.units.Unit, date: Long = 0, onChanged: () -> Unit)
+    constructor(unit: com.dzen.campfire.api.models.publications.Publication, date: Long = 0, onChanged: () -> Unit)
             : this(unit.id, unit.fandomId, unit.languageId, unit.fandomName, unit.fandomImageId, 0, 0, date, onChanged)
 
     constructor(fandomId: Long, languageId: Long, name: String = "", imageId: Long = 0L, onChanged: () -> Unit)
@@ -102,7 +102,7 @@ class XFandom(
         }
     }
 
-    private fun onEventUnitFandomChanged(e: EventUnitFandomChanged) {
+    private fun onEventUnitFandomChanged(e: EventPublicationFandomChanged) {
         if (e.unitId == unitId) {
             fandomId = e.fandomId
             languageId = e.languageId

@@ -29,32 +29,32 @@ class CardRate(
         var link: String
 
         when (rate.unitType) {
-            API.UNIT_TYPE_POST -> {
+            API.PUBLICATION_TYPE_POST -> {
                 textR = R.string.profile_rate_post
                 link = ControllerApi.linkToPost(rate.unitId)
                 setOnClick { SPost.instance(rate.unitId, Navigator.TO) }
             }
-            API.UNIT_TYPE_COMMENT -> {
+            API.PUBLICATION_TYPE_COMMENT -> {
                 textR = R.string.profile_rate_comment
                 link = ControllerApi.linkToComment(rate.unitId, rate.unitParentType, rate.unitParentId)
                 setOnClick { ControllerUnits.toUnit(rate.unitParentType, rate.unitParentId, rate.unitId) }
             }
-            API.UNIT_TYPE_MODERATION -> {
+            API.PUBLICATION_TYPE_MODERATION -> {
                 textR = R.string.profile_rate_moderation
                 link = ControllerApi.linkToModeration(rate.unitId)
                 setOnClick { SModerationView.instance(rate.unitId, Navigator.TO) }
             }
-            API.UNIT_TYPE_REVIEW -> {
+            API.PUBLICATION_TYPE_REVIEW -> {
                 textR = R.string.profile_rate_review
                 link = ControllerApi.linkToReview(rate.unitId)
                 setOnClick { SReviews.instance(rate.unitParentId, rate.unitId, Navigator.TO) }
             }
-            API.UNIT_TYPE_STICKER -> {
+            API.PUBLICATION_TYPE_STICKER -> {
                 textR = R.string.profile_rate_sticker
                 link = ControllerApi.linkToSticker(rate.unitId)
                 setOnClick { SStickersView.instanceBySticker(rate.unitId, Navigator.TO) }
             }
-            API.UNIT_TYPE_STICKERS_PACK -> {
+            API.PUBLICATION_TYPE_STICKERS_PACK -> {
                 textR = R.string.profile_rate_stikers_pack
                 link = ControllerApi.linkToStickersPack(rate.unitId)
                 setOnClick { SStickersView.instance(rate.unitId, Navigator.TO) }

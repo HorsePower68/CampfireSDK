@@ -6,8 +6,7 @@ import android.widget.LinearLayout
 import com.dzen.campfire.api.models.PagesContainer
 import com.dzen.campfire.api.models.notifications.units.NotificationMention
 
-import com.dzen.campfire.api.models.units.post.PageText
-import com.dzen.campfire.api.models.units.post.UnitPost
+import com.dzen.campfire.api.models.publications.post.PageText
 import com.sayzen.campfiresdk.R
 import com.sayzen.campfiresdk.app.CampfireConstants
 import com.sayzen.campfiresdk.controllers.ControllerApi

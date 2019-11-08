@@ -1,6 +1,6 @@
-package com.sayzen.campfiresdk.models.events.units
+package com.sayzen.campfiresdk.models.events.publications
 
-class EventUnitRemove {
+class EventPublicationRemove {
 
     val parentUnitId: Long
     val unitId: Long

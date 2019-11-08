@@ -1,6 +1,6 @@
 package com.sayzen.campfiresdk.models.events.wiki
 
-import com.dzen.campfire.api.models.units.post.Page
+import com.dzen.campfire.api.models.publications.post.Page
 
 class EventWikiPagesChanged(
         var itemId: Long,

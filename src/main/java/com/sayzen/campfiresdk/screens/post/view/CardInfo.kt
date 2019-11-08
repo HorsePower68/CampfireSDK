@@ -1,8 +1,8 @@
 package com.sayzen.campfiresdk.screens.post.view
 
 import android.view.View
-import com.dzen.campfire.api.models.units.post.UnitPost
-import com.dzen.campfire.api.models.units.tags.UnitTag
+import com.dzen.campfire.api.models.publications.post.PublicationPost
+import com.dzen.campfire.api.models.publications.tags.PublicationTag
 import com.sayzen.campfiresdk.R
 import com.sayzen.campfiresdk.adapters.*
 import com.sayzen.campfiresdk.controllers.ControllerUnits
@@ -21,7 +21,7 @@ import com.sup.dev.android.views.views.layouts.LayoutFlow
 
 class CardInfo(
         private val xUnit: XUnit,
-        private val tags: Array<UnitTag>
+        private val tags: Array<PublicationTag>
 ) : Card(R.layout.screen_post_card_info) {
 
     init {
@@ -65,7 +65,7 @@ class CardInfo(
         if (getView() == null) return
         val vAvatar: ViewAvatarTitle = getView()!!.findViewById(R.id.vAvatar)
         xUnit.xAccount.setView(vAvatar)
-        val unit = xUnit.unit as UnitPost
+        val unit = xUnit.unit as PublicationPost
         if (unit.rubricId > 0) {
             vAvatar.vSubtitle.text = vAvatar.getSubTitle() + "  " + unit.rubricName
             ToolsView.addLink(vAvatar.vSubtitle, unit.rubricName) {
@@ -89,7 +89,7 @@ class CardInfo(
         xUnit.xReports.setView(getView()!!.findViewById(R.id.vReports))
     }
 
-    private fun addTag(t: UnitTag, vFlow: LayoutFlow) {
+    private fun addTag(t: PublicationTag, vFlow: LayoutFlow) {
         val vChip = if (t.parentUnitId == 0L) ViewChip.instance(vFlow.context) else ViewChip.instanceOutline(vFlow.context)
         vChip.text = t.name
         vChip.setOnClickListener { SPostsSearch.instance(t, Navigator.TO) }

@@ -1,11 +1,11 @@
 package com.sayzen.campfiresdk.models.objects
 
-import com.dzen.campfire.api.models.units.tags.UnitTag
+import com.dzen.campfire.api.models.publications.tags.PublicationTag
 
 import java.util.ArrayList
 
-class TagParent(val tag: UnitTag) {
+class TagParent(val tag: PublicationTag) {
 
-    val tags = ArrayList<UnitTag>()
+    val tags = ArrayList<PublicationTag>()
 
 }

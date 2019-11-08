@@ -7,8 +7,8 @@ import com.dzen.campfire.api.API
 import com.dzen.campfire.api.models.chat.ChatParamsFandomSub
 import com.dzen.campfire.api.models.notifications.chat.NotificationChatAnswer
 import com.dzen.campfire.api.models.notifications.chat.NotificationChatMessage
-import com.dzen.campfire.api.models.units.chat.Chat
-import com.dzen.campfire.api.models.units.chat.UnitChatMessage
+import com.dzen.campfire.api.models.publications.chat.Chat
+import com.dzen.campfire.api.models.publications.chat.PublicationChatMessage
 import com.sayzen.campfiresdk.R
 import com.sayzen.campfiresdk.adapters.XAccount
 import com.sayzen.campfiresdk.adapters.XFandom
@@ -112,7 +112,7 @@ class CardChat(
                     chat.unitChatMessage.voiceResourceId > 0 -> ToolsResources.s(R.string.app_voice_message)
                     chat.unitChatMessage.stickerId > 0 -> ToolsResources.s(R.string.app_sticker)
                     chat.unitChatMessage.imageIdArray.isNotEmpty() -> ToolsResources.s(R.string.app_image)
-                    chat.unitChatMessage.type == UnitChatMessage.TYPE_SYSTEM -> ControllerChats.getSystemText(chat.unitChatMessage)
+                    chat.unitChatMessage.type == PublicationChatMessage.TYPE_SYSTEM -> ControllerChats.getSystemText(chat.unitChatMessage)
                     else -> chat.unitChatMessage.text
                 }
                 vAvatar.setSubtitle(t)

@@ -1,3 +1,3 @@
-package com.sayzen.campfiresdk.models.events.units
+package com.sayzen.campfiresdk.models.events.publications
 
 class EventCommentRemove(val commentId: Long, val parentUnitId:Long)

@@ -4,12 +4,10 @@ import android.view.View
 import android.widget.ImageView
 import com.dzen.campfire.api.models.PagesContainer
 
-import com.dzen.campfire.api.models.units.post.PageSpoiler
-import com.dzen.campfire.api.models.units.post.UnitPost
+import com.dzen.campfire.api.models.publications.post.PageSpoiler
 import com.sayzen.campfiresdk.R
 import com.sayzen.campfiresdk.controllers.ControllerApi
 import com.sayzen.campfiresdk.controllers.ControllerPost
-import com.sayzen.campfiresdk.controllers.ControllerUnits
 import com.sup.dev.android.tools.ToolsResources
 import com.sup.dev.android.views.support.adapters.recycler_view.RecyclerCardAdapter
 import com.sup.dev.android.views.views.ViewTextLinkable

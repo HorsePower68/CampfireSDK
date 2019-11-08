@@ -10,7 +10,7 @@ import com.dzen.campfire.api.API
 import com.dzen.campfire.api.models.notifications.chat.NotificationChatMessageChange
 import com.dzen.campfire.api.models.notifications.chat.NotificationChatMessageRemove
 import com.dzen.campfire.api.models.notifications.units.NotificationMention
-import com.dzen.campfire.api.models.units.chat.UnitChatMessage
+import com.dzen.campfire.api.models.publications.chat.PublicationChatMessage
 import com.google.android.material.card.MaterialCardView
 import com.sayzen.campfiresdk.R
 import com.sayzen.campfiresdk.controllers.*
@@ -19,8 +19,8 @@ import com.sayzen.campfiresdk.models.events.chat.EventChatMessageChanged
 import com.sayzen.campfiresdk.models.events.chat.EventChatReadDateChanged
 import com.sayzen.campfiresdk.models.events.chat.EventUpdateChats
 import com.sayzen.campfiresdk.models.events.notifications.EventNotification
-import com.sayzen.campfiresdk.models.events.units.EventUnitBlocked
-import com.sayzen.campfiresdk.models.events.units.EventUnitDeepBlockRestore
+import com.sayzen.campfiresdk.models.events.publications.EventPublicationBlocked
+import com.sayzen.campfiresdk.models.events.publications.EventPublicationDeepBlockRestore
 import com.sayzen.campfiresdk.screens.account.stickers.SStickersView
 import com.sayzen.campfiresdk.screens.chat.SChat
 import com.sayzen.campfiresdk.screens.post.history.SUnitHistory
@@ -40,30 +40,30 @@ import com.sup.dev.java.tools.ToolsDate
 
 abstract class CardChatMessage constructor(
         layout: Int,
-        unit: UnitChatMessage,
-        var onClick: ((UnitChatMessage) -> Boolean)? = null,
-        var onChange: ((UnitChatMessage) -> Unit)? = null,
-        var onQuote: ((UnitChatMessage) -> Unit)? = null,
+        unit: PublicationChatMessage,
+        var onClick: ((PublicationChatMessage) -> Boolean)? = null,
+        var onChange: ((PublicationChatMessage) -> Unit)? = null,
+        var onQuote: ((PublicationChatMessage) -> Unit)? = null,
         var onGoTo: ((Long) -> Unit)? = null,
-        var onBlocked: ((UnitChatMessage) -> Unit)? = null
+        var onBlocked: ((PublicationChatMessage) -> Unit)? = null
 ) : CardUnit(layout, unit) {
 
     companion object {
 
-        fun instance(unit: UnitChatMessage,
-                     onClick: ((UnitChatMessage) -> Boolean)? = null,
-                     onChange: ((UnitChatMessage) -> Unit)? = null,
-                     onQuote: ((UnitChatMessage) -> Unit)? = null,
+        fun instance(unit: PublicationChatMessage,
+                     onClick: ((PublicationChatMessage) -> Boolean)? = null,
+                     onChange: ((PublicationChatMessage) -> Unit)? = null,
+                     onQuote: ((PublicationChatMessage) -> Unit)? = null,
                      onGoTo: ((Long) -> Unit)? = null,
-                     onBlocked: ((UnitChatMessage) -> Unit)? = null
+                     onBlocked: ((PublicationChatMessage) -> Unit)? = null
         ): CardChatMessage {
             when (unit.type) {
-                UnitChatMessage.TYPE_TEXT -> return CardChatMessageText(unit, onClick, onChange, onQuote, onGoTo, onBlocked)
-                UnitChatMessage.TYPE_IMAGE, UnitChatMessage.TYPE_GIF -> return CardChatMessageImage(unit, onClick, onChange, onQuote, onGoTo, onBlocked)
-                UnitChatMessage.TYPE_IMAGES -> return CardChatMessageImages(unit, onClick, onChange, onQuote, onGoTo, onBlocked)
-                UnitChatMessage.TYPE_SYSTEM -> return CardChatMessageSystem(unit, onClick, onChange, onQuote, onGoTo, onBlocked)
-                UnitChatMessage.TYPE_VOICE -> return CardChatMessageVoice(unit, onClick, onChange, onQuote, onGoTo, onBlocked)
-                UnitChatMessage.TYPE_STICKER -> return CardChatMessageSticker(unit, onClick, onChange, onQuote, onGoTo, onBlocked)
+                PublicationChatMessage.TYPE_TEXT -> return CardChatMessageText(unit, onClick, onChange, onQuote, onGoTo, onBlocked)
+                PublicationChatMessage.TYPE_IMAGE, PublicationChatMessage.TYPE_GIF -> return CardChatMessageImage(unit, onClick, onChange, onQuote, onGoTo, onBlocked)
+                PublicationChatMessage.TYPE_IMAGES -> return CardChatMessageImages(unit, onClick, onChange, onQuote, onGoTo, onBlocked)
+                PublicationChatMessage.TYPE_SYSTEM -> return CardChatMessageSystem(unit, onClick, onChange, onQuote, onGoTo, onBlocked)
+                PublicationChatMessage.TYPE_VOICE -> return CardChatMessageVoice(unit, onClick, onChange, onQuote, onGoTo, onBlocked)
+                PublicationChatMessage.TYPE_STICKER -> return CardChatMessageSticker(unit, onClick, onChange, onQuote, onGoTo, onBlocked)
                 else -> return CardChatMessageUnknowm(unit, onClick, onChange, onQuote, onGoTo, onBlocked)
             }
         }
@@ -75,8 +75,8 @@ abstract class CardChatMessage constructor(
             .subscribe(EventChatMessageChanged::class) { onEventChanged(it) }
             .subscribe(EventChatReadDateChanged::class) { onEventChatReadDateChanged(it) }
             .subscribe(EventStyleChanged::class) { update() }
-            .subscribe(EventUnitBlocked::class) { onEventUnitBlocked(it) }
-            .subscribe(EventUnitDeepBlockRestore::class) { onEventUnitDeepBlockRestore(it) }
+            .subscribe(EventPublicationBlocked::class) { onEventUnitBlocked(it) }
+            .subscribe(EventPublicationDeepBlockRestore::class) { onEventUnitDeepBlockRestore(it) }
 
     var changeEnabled = true
     var useMessageContainerBackground = true
@@ -92,7 +92,7 @@ abstract class CardChatMessage constructor(
     override fun bindView(view: View) {
         super.bindView(view)
 
-        val unit = xUnit.unit as UnitChatMessage
+        val unit = xUnit.unit as PublicationChatMessage
 
         val vSwipe: ViewSwipe? = view.findViewById(R.id.vSwipe)
         val vText: ViewTextLinkable? = view.findViewById(R.id.vCommentText)
@@ -272,20 +272,20 @@ abstract class CardChatMessage constructor(
         return u != null && u.creatorId == xUnit.unit.creatorId
     }
 
-    fun getBottomUnit(): UnitChatMessage? {
+    fun getBottomUnit(): PublicationChatMessage? {
         if (adapter != null) {
             var myIndex = adapter!!.indexOf(this)
             myIndex++
             if (myIndex < adapter!!.size()) {
                 val card = adapter!!.get(myIndex)
-                if (card is CardChatMessage) return card.xUnit.unit as UnitChatMessage
+                if (card is CardChatMessage) return card.xUnit.unit as PublicationChatMessage
             }
         }
         return null
     }
 
     fun updateRead() {
-        val unit = xUnit.unit as UnitChatMessage
+        val unit = xUnit.unit as PublicationChatMessage
         if (getView() == null) return
         val vNotRead: View? = getView()!!.findViewById(R.id.vNotRead)
         if (vNotRead != null) {
@@ -302,7 +302,7 @@ abstract class CardChatMessage constructor(
     }
 
     fun showMenu() {
-        val unit = xUnit.unit as UnitChatMessage
+        val unit = xUnit.unit as PublicationChatMessage
         WidgetMenu()
                 .groupCondition(ControllerApi.isCurrentAccount(unit.creatorId))
                 .add(R.string.app_remove) { _, _ ->
@@ -329,7 +329,7 @@ abstract class CardChatMessage constructor(
 
     override fun updateAccount() {
         if (getView() == null) return
-        val unit = xUnit.unit as UnitChatMessage
+        val unit = xUnit.unit as PublicationChatMessage
 
         val vAvatar: ViewAvatar? = getView()!!.findViewById(R.id.vAvatar)
         val vLabel: TextView? = getView()!!.findViewById(R.id.vLabel)
@@ -377,8 +377,8 @@ abstract class CardChatMessage constructor(
     }
 
     fun onClick(): Boolean {
-        val unit = xUnit.unit as UnitChatMessage
-        if (unit.type == UnitChatMessage.TYPE_SYSTEM && unit.systemType == UnitChatMessage.SYSTEM_TYPE_BLOCK) {
+        val unit = xUnit.unit as PublicationChatMessage
+        if (unit.type == PublicationChatMessage.TYPE_SYSTEM && unit.systemType == PublicationChatMessage.SYSTEM_TYPE_BLOCK) {
             ControllerCampfireSDK.onToModerationClicked(unit.blockModerationEventId, 0, Navigator.TO)
             return true
         }
@@ -392,7 +392,7 @@ abstract class CardChatMessage constructor(
     }
 
     override fun notifyItem() {
-        val unit = xUnit.unit as UnitChatMessage
+        val unit = xUnit.unit as PublicationChatMessage
         ToolsImagesLoader.load(unit.creatorImageId).intoCash()
     }
 
@@ -400,14 +400,14 @@ abstract class CardChatMessage constructor(
     //  Event Bus
     //
 
-    private fun onEventUnitDeepBlockRestore(e: EventUnitDeepBlockRestore) {
+    private fun onEventUnitDeepBlockRestore(e: EventPublicationDeepBlockRestore) {
         if (e.unitId == xUnit.unit.id && xUnit.unit.status == API.STATUS_DEEP_BLOCKED) {
             adapter?.remove(this)
         }
     }
 
     private fun onNotification(e: EventNotification) {
-        val unit = xUnit.unit as UnitChatMessage
+        val unit = xUnit.unit as PublicationChatMessage
         if (e.notification is NotificationChatMessageChange) {
             val n = e.notification
             if (n.unitId == unit.id) {
@@ -422,7 +422,7 @@ abstract class CardChatMessage constructor(
     }
 
     private fun onEventChanged(e: EventChatMessageChanged) {
-        val unit = xUnit.unit as UnitChatMessage
+        val unit = xUnit.unit as PublicationChatMessage
         if (e.unitId == unit.id) {
             unit.text = e.text
             unit.quoteId = e.quoteId
@@ -434,14 +434,14 @@ abstract class CardChatMessage constructor(
     }
 
     private fun onEventChatReadDateChanged(e: EventChatReadDateChanged) {
-        val unit = xUnit.unit as UnitChatMessage
+        val unit = xUnit.unit as PublicationChatMessage
         if (e.tag == unit.chatTag()) {
             updateRead()
         }
     }
 
-    private fun onEventUnitBlocked(e: EventUnitBlocked) {
-        val unit = xUnit.unit as UnitChatMessage
+    private fun onEventUnitBlocked(e: EventPublicationBlocked) {
+        val unit = xUnit.unit as PublicationChatMessage
         if (!wasBlocked && e.firstBlockUnitId == unit.id) {
             wasBlocked = true
             if (onBlocked != null && e.unitChatMessage != null) onBlocked!!.invoke(e.unitChatMessage)
@@ -449,7 +449,7 @@ abstract class CardChatMessage constructor(
     }
 
     override fun equals(other: Any?): Boolean {
-        val unit = xUnit.unit as UnitChatMessage
+        val unit = xUnit.unit as PublicationChatMessage
         return if (other is CardChatMessage) unit.id == other.xUnit.unit.id
         else super.equals(other)
     }

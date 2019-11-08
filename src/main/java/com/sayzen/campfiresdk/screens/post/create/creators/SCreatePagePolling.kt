@@ -6,8 +6,8 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
 import com.dzen.campfire.api.API
-import com.dzen.campfire.api.models.units.post.Page
-import com.dzen.campfire.api.models.units.post.PagePolling
+import com.dzen.campfire.api.models.publications.post.Page
+import com.dzen.campfire.api.models.publications.post.PagePolling
 import com.sayzen.campfiresdk.R
 import com.sayzen.campfiresdk.models.cards.post_pages.CardPage
 import com.sayzen.campfiresdk.models.cards.post_pages.CardPagePolling

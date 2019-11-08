@@ -1,7 +1,7 @@
 package com.sayzen.campfiresdk.screens.fandoms.rubrics
 
 import com.dzen.campfire.api.models.fandoms.Rubric
-import com.dzen.campfire.api.models.units.Unit
+import com.dzen.campfire.api.models.publications.Publication
 import com.dzen.campfire.api.requests.post.RPostGetAllByRubric
 import com.dzen.campfire.api.requests.rubrics.RRubricGet
 import com.sayzen.campfiresdk.R
@@ -22,7 +22,7 @@ import com.sup.dev.java.libs.eventBus.EventBus
 
 class SRubricPosts(
         val rubric: Rubric
-) : SLoadingRecycler<CardUnit, Unit>() {
+) : SLoadingRecycler<CardUnit, Publication>() {
 
     companion object{
 
@@ -72,8 +72,8 @@ class SRubricPosts(
         }
     }
 
-    override fun instanceAdapter(): RecyclerCardAdapterLoading<CardUnit, Unit> {
-        return RecyclerCardAdapterLoading<CardUnit, Unit>(CardUnit::class) { unit -> CardUnit.instance(unit, vRecycler) }
+    override fun instanceAdapter(): RecyclerCardAdapterLoading<CardUnit, Publication> {
+        return RecyclerCardAdapterLoading<CardUnit, Publication>(CardUnit::class) { unit -> CardUnit.instance(unit, vRecycler) }
                 .setBottomLoader { onLoad, cards ->
                     RPostGetAllByRubric(rubric.id, cards.size.toLong())
                             .onComplete { r -> onLoad.invoke(r.units) }

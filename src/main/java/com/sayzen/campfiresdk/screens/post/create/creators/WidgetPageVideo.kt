@@ -3,8 +3,8 @@ package com.sayzen.campfiresdk.screens.post.create.creators
 import android.view.View
 import android.view.inputmethod.EditorInfo
 import android.widget.Button
-import com.dzen.campfire.api.models.units.post.Page
-import com.dzen.campfire.api.models.units.post.PageVideo
+import com.dzen.campfire.api.models.publications.post.Page
+import com.dzen.campfire.api.models.publications.post.PageVideo
 import com.sayzen.campfiresdk.R
 import com.sayzen.campfiresdk.controllers.ControllerYoutube
 import com.sayzen.campfiresdk.models.cards.post_pages.CardPage
@@ -17,7 +17,6 @@ import com.sup.dev.android.views.settings.SettingsField
 import com.sup.dev.android.views.support.watchers.TextWatcherChanged
 import com.sup.dev.android.views.widgets.Widget
 import com.sup.dev.java.tools.ToolsText
-import com.sup.dev.java.tools.ToolsThreads
 
 class WidgetPageVideo(
         private val requestPutPage:(page: Page, screen: Screen?, widget: Widget?, mapper: (Page) -> CardPage, onFinish: ((CardPage)->Unit))->Unit,

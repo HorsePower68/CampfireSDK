@@ -1,7 +1,7 @@
 package com.sayzen.campfiresdk.screens.chat
 
 import com.dzen.campfire.api.models.notifications.chat.NotificationChatMessage
-import com.dzen.campfire.api.models.units.chat.Chat
+import com.dzen.campfire.api.models.publications.chat.Chat
 import com.dzen.campfire.api.requests.chat.RChatsGetAll
 import com.sayzen.campfiresdk.R
 import com.sayzen.campfiresdk.controllers.ControllerApi

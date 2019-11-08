@@ -3,7 +3,7 @@ package com.sayzen.campfiresdk.screens.chat
 import android.view.View
 import android.widget.Button
 import com.dzen.campfire.api.API
-import com.dzen.campfire.api.models.units.chat.UnitChatMessage
+import com.dzen.campfire.api.models.publications.chat.PublicationChatMessage
 import com.dzen.campfire.api.requests.chat.RChatMessageCreate
 import com.sayzen.campfiresdk.R
 import com.sayzen.campfiresdk.controllers.ControllerApi
@@ -62,7 +62,7 @@ class CardSending(
     }
 
 
-    private fun afterSend(message: UnitChatMessage) {
+    private fun afterSend(message: PublicationChatMessage) {
         EventBus.post(EventUpdateChats())
         screen.addMessage(message, true, this)
     }

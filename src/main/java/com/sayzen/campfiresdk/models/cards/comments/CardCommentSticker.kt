@@ -3,7 +3,7 @@ package com.sayzen.campfiresdk.models.cards.comments
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
-import com.dzen.campfire.api.models.UnitComment
+import com.dzen.campfire.api.models.PublicationComment
 import com.sayzen.campfiresdk.R
 import com.sayzen.campfiresdk.controllers.ControllerApi
 import com.sayzen.campfiresdk.screens.account.stickers.SStickersView
@@ -13,11 +13,11 @@ import com.sup.dev.android.tools.ToolsView
 import com.sup.dev.java.tools.ToolsHTML
 
 class CardCommentSticker(
-        unit: UnitComment,
+        unit: PublicationComment,
         dividers: Boolean,
         miniSize: Boolean,
-        onClick: ((UnitComment) -> Boolean)? = null,
-        onQuote: ((UnitComment) -> Unit)? = null,
+        onClick: ((PublicationComment) -> Boolean)? = null,
+        onQuote: ((PublicationComment) -> Unit)? = null,
         onGoTo: ((Long) -> Unit)?
 ) : CardComment( if (miniSize) R.layout.card_comment_sticker_mini else R.layout.card_comment_sticker, unit, dividers, miniSize, onClick, onQuote, onGoTo) {
 
@@ -27,7 +27,7 @@ class CardCommentSticker(
     }
 
     override fun bind(view: View) {
-        val unit = xUnit.unit as UnitComment
+        val unit = xUnit.unit as PublicationComment
 
         val vImage: ImageView = view.findViewById(R.id.vImage)
         val vGifProgressBar: View = view.findViewById(R.id.vGifProgressBar)

@@ -1,5 +1,5 @@
 package com.sayzen.campfiresdk.models.events.stickers
 
-import com.dzen.campfire.api.models.units.stickers.UnitSticker
+import com.dzen.campfire.api.models.publications.stickers.PublicationSticker
 
-class EventStickerCreate(val sticker: UnitSticker)
+class EventStickerCreate(val sticker: PublicationSticker)

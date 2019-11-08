@@ -1,10 +1,9 @@
 package com.sayzen.campfiresdk.controllers
 
-import com.dzen.campfire.api.models.units.post.PagePolling
+import com.dzen.campfire.api.models.publications.post.PagePolling
 import com.dzen.campfire.api.requests.post.RPostPagePollingGet
 import com.dzen.campfire.api.requests.post.RPostPagePollingVote
-import com.sayzen.campfiresdk.models.events.units.EventPollingChanged
-import com.sayzen.campfiresdk.controllers.api
+import com.sayzen.campfiresdk.models.events.publications.EventPollingChanged
 import com.sup.dev.android.libs.api_simple.ApiRequestsSupporter
 import com.sup.dev.java.libs.eventBus.EventBus
 import com.sup.dev.java.tools.ToolsThreads

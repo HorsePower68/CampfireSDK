@@ -1,10 +1,9 @@
 package com.sayzen.campfiresdk.models.cards.stickers
 
 import android.view.View
-import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
-import com.dzen.campfire.api.models.units.stickers.UnitSticker
+import com.dzen.campfire.api.models.publications.stickers.PublicationSticker
 import com.sayzen.campfiresdk.R
 import com.sayzen.campfiresdk.controllers.ControllerStickers
 import com.sayzen.campfiresdk.models.cards.CardUnit
@@ -15,16 +14,16 @@ import com.sup.dev.android.tools.ToolsResources
 import com.sup.dev.android.tools.ToolsView
 
 class CardSticker(
-        unit: UnitSticker,
+        unit: PublicationSticker,
         val isShowFullInfo: Boolean = false,
         val isShowReports: Boolean = false
 ) : CardUnit(if (isShowFullInfo) R.layout.card_sticker_info else R.layout.card_sticker, unit) {
 
-    var onClick: (UnitSticker) -> Unit = {}
+    var onClick: (PublicationSticker) -> Unit = {}
 
     override fun bindView(view: View) {
         super.bindView(view)
-        val unit = xUnit.unit as UnitSticker
+        val unit = xUnit.unit as PublicationSticker
 
         val vImage: ImageView = view.findViewById(R.id.vImage)
         val vProgress: View = view.findViewById(R.id.vProgress)
@@ -76,7 +75,7 @@ class CardSticker(
     }
 
     override fun notifyItem() {
-        val unit = xUnit.unit as UnitSticker
+        val unit = xUnit.unit as PublicationSticker
         ToolsImagesLoader.load(unit.imageId).intoCash()
     }
 

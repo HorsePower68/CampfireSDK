@@ -6,17 +6,17 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.dzen.campfire.api.API
-import com.dzen.campfire.api.models.units.post.Page
-import com.dzen.campfire.api.models.units.post.PagePolling
-import com.dzen.campfire.api.models.units.post.PageSpoiler
-import com.dzen.campfire.api.models.units.post.UnitPost
+import com.dzen.campfire.api.models.publications.post.Page
+import com.dzen.campfire.api.models.publications.post.PagePolling
+import com.dzen.campfire.api.models.publications.post.PageSpoiler
+import com.dzen.campfire.api.models.publications.post.PublicationPost
 import com.sayzen.campfiresdk.R
 import com.sayzen.campfiresdk.controllers.ControllerCampfireSDK
 import com.sayzen.campfiresdk.controllers.ControllerPost
 import com.sayzen.campfiresdk.models.PostList
 import com.sayzen.campfiresdk.models.cards.comments.CardComment
 import com.sayzen.campfiresdk.models.cards.post_pages.*
-import com.sayzen.campfiresdk.models.events.units.*
+import com.sayzen.campfiresdk.models.events.publications.*
 import com.sayzen.campfiresdk.models.widgets.WidgetComment
 import com.sayzen.campfiresdk.screens.fandoms.rubrics.SRubricPosts
 import com.sayzen.campfiresdk.views.ViewKarma
@@ -35,8 +35,8 @@ import kotlin.collections.HashMap
 
 class CardPost constructor(
         private val vRecycler: RecyclerView?,
-        unit: UnitPost,
-        var onClick: ((UnitPost) -> Unit)? = null
+        unit: PublicationPost,
+        var onClick: ((PublicationPost) -> Unit)? = null
 ) : CardUnit(R.layout.card_unit_post, unit) {
 
     companion object {
@@ -80,8 +80,8 @@ class CardPost constructor(
             .subscribe(EventPostStatusChange::class) { onEventPostStatusChange(it) }
             .subscribe(EventPollingChanged::class) { onEventPollingChanged(it) }
             .subscribe(EventCommentRemove::class) { onEventCommentRemove2(it) }
-            .subscribe(EventUnitBlockedRemove::class) { onEventUnitBlockedRemove(it) }
-            .subscribe(EventUnitDeepBlockRestore::class) { onEventUnitDeepBlockRestore(it) }
+            .subscribe(EventPublicationBlockedRemove::class) { onEventUnitBlockedRemove(it) }
+            .subscribe(EventPublicationDeepBlockRestore::class) { onEventUnitDeepBlockRestore(it) }
 
     private val pages = ArrayList<CardPage>()
     private var isShowFull = false
@@ -107,7 +107,7 @@ class CardPost constructor(
     }
 
     private fun updatePages() {
-        val unit = xUnit.unit as UnitPost
+        val unit = xUnit.unit as PublicationPost
 
         pages.clear()
 
@@ -150,7 +150,7 @@ class CardPost constructor(
     }
 
     private fun addPage(page: Page) {
-        val unit = xUnit.unit as UnitPost
+        val unit = xUnit.unit as PublicationPost
 
         val card = CardPage.instance(unit, page)
         if (card is CardPageSpoiler && !isShowFull) {
@@ -170,7 +170,7 @@ class CardPost constructor(
 
     override fun bindView(view: View) {
         super.bindView(view)
-        val unit = xUnit.unit as UnitPost
+        val unit = xUnit.unit as PublicationPost
 
         val vPagesContainer: ViewGroup = view.findViewById(R.id.vPagesContainer)
         val vTitleContainer: ViewGroup = view.findViewById(R.id.vTitleContainer)
@@ -205,7 +205,7 @@ class CardPost constructor(
         }
 
         if (unit.isPined) vTitleContainer.setBackgroundColor(ToolsResources.getColor(R.color.lime_700))
-        else if (unit.important == API.UNIT_IMPORTANT_IMPORTANT) vTitleContainer.setBackgroundColor(ToolsResources.getColor(R.color.blue_700))
+        else if (unit.important == API.PUBLICATION_IMPORTANT_IMPORTANT) vTitleContainer.setBackgroundColor(ToolsResources.getColor(R.color.blue_700))
         else vTitleContainer.setBackgroundColor(0x00000000)
 
         vPagesCount.setOnClickListener { toggleShowFull() }
@@ -237,7 +237,7 @@ class CardPost constructor(
 
     override fun updateAccount() {
         if (getView() == null) return
-        val unit = xUnit.unit as UnitPost
+        val unit = xUnit.unit as PublicationPost
         val vAvatar: ViewAvatarTitle = getView()!!.findViewById(R.id.vAvatar)
         val vKarmaCof: ViewChipMini = getView()!!.findViewById(R.id.vKarmaCof)
 
@@ -294,7 +294,7 @@ class CardPost constructor(
     @SuppressLint("SetTextI18n")
     private fun updateShowAll() {
         if (getView() == null) return
-        val unit = xUnit.unit as UnitPost
+        val unit = xUnit.unit as PublicationPost
 
         val vPagesCount: TextView = getView()!!.findViewById(R.id.vPagesCount)
         val vMaxSizes: LayoutMaxSizes = getView()!!.findViewById(R.id.vMaxSizes)
@@ -327,7 +327,7 @@ class CardPost constructor(
 
 
     private fun updateShowAll(vPagesCount: TextView, vMaxSizes: LayoutMaxSizes, vPagesContainer: ViewGroup) {
-        val unit = xUnit.unit as UnitPost
+        val unit = xUnit.unit as PublicationPost
         vPagesCount.visibility = if (unit.pages.size > 2 || vMaxSizes.isCroppedH() || vPagesContainer.measuredHeight > ToolsView.dpToPx(300)) View.VISIBLE else View.INVISIBLE
     }
 
@@ -341,29 +341,29 @@ class CardPost constructor(
     //
 
     private fun onPostChange(e: EventPostChanged) {
-        val unit = xUnit.unit as UnitPost
+        val unit = xUnit.unit as PublicationPost
         if (e.unitId == unit.id) {
             unit.pages = e.pages
             updatePages()
         }
     }
 
-    private fun onEventUnitBlockedRemove(e: EventUnitBlockedRemove) {
-        val unit = xUnit.unit as UnitPost
+    private fun onEventUnitBlockedRemove(e: EventPublicationBlockedRemove) {
+        val unit = xUnit.unit as PublicationPost
         if (unit.bestComment != null && e.unitId == unit.bestComment!!.id) {
             unit.bestComment = null
             update()
         }
     }
 
-    private fun onEventUnitDeepBlockRestore(e: EventUnitDeepBlockRestore) {
+    private fun onEventUnitDeepBlockRestore(e: EventPublicationDeepBlockRestore) {
         if (e.unitId == xUnit.unit.id && xUnit.unit.status == API.STATUS_DEEP_BLOCKED) {
             adapter?.remove(this)
         }
     }
 
     private fun onEventCommentRemove2(e: EventCommentRemove) {
-        val unit = xUnit.unit as UnitPost
+        val unit = xUnit.unit as PublicationPost
         if (e.parentUnitId == unit.id && unit.bestComment != null && unit.bestComment!!.id == e.commentId) {
             unit.bestComment = null
             update()
@@ -371,7 +371,7 @@ class CardPost constructor(
     }
 
     private fun onEventPostStatusChange(e: EventPostStatusChange) {
-        val unit = xUnit.unit as UnitPost
+        val unit = xUnit.unit as PublicationPost
         if (e.unitId == unit.id) {
             if (e.status != API.STATUS_DRAFT && unit.status == API.STATUS_DRAFT && adapter != null) adapter!!.remove(this)
             if (e.status != API.STATUS_PUBLIC && unit.status == API.STATUS_PUBLIC && adapter != null) adapter!!.remove(this)

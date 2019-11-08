@@ -5,7 +5,7 @@ import android.view.ViewGroup
 import android.widget.CheckBox
 import android.widget.TextView
 import com.dzen.campfire.api.API
-import com.dzen.campfire.api.models.units.tags.UnitTag
+import com.dzen.campfire.api.models.publications.tags.PublicationTag
 import com.dzen.campfire.api.requests.post.RPostGet
 import com.dzen.campfire.api.requests.post.RPostPublication
 import com.dzen.campfire.api.requests.tags.RTagsGetAll
@@ -13,7 +13,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.sayzen.campfiresdk.R
 import com.sayzen.campfiresdk.controllers.ControllerApi
 import com.sayzen.campfiresdk.controllers.ControllerUnits
-import com.sayzen.campfiresdk.models.events.units.EventPostStatusChange
+import com.sayzen.campfiresdk.models.events.publications.EventPostStatusChange
 import com.sayzen.campfiresdk.screens.fandoms.rubrics.SRubricsList
 import com.sayzen.campfiresdk.screens.other.rules.SGoogleRules
 import com.sayzen.campfiresdk.screens.post.pending.SPending
@@ -41,7 +41,7 @@ class SPostCreationTags private constructor(
         private val unitTag3: Long,
         private val isMyUnit: Boolean,
         private val presetTags: Array<Long>,
-        tags: Array<UnitTag>
+        tags: Array<PublicationTag>
 ) : Screen(R.layout.screen_post_create_tags) {
 
     companion object {
@@ -153,8 +153,8 @@ class SPostCreationTags private constructor(
 
     private fun sendPublication() {
 
-        val selectedTags = ArrayList<UnitTag>()
-        for (v in chips) if (v.isChecked) selectedTags.add(v.tag as UnitTag)
+        val selectedTags = ArrayList<PublicationTag>()
+        for (v in chips) if (v.isChecked) selectedTags.add(v.tag as PublicationTag)
 
 
         val tags = Array(selectedTags.size) { selectedTags[it].id }
@@ -183,7 +183,7 @@ class SPostCreationTags private constructor(
     }
 
 
-    fun setTags(tagsOriginal: Array<UnitTag>) {
+    fun setTags(tagsOriginal: Array<PublicationTag>) {
 
         vContainer.removeAllViews()
 

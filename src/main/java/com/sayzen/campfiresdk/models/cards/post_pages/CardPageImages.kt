@@ -4,8 +4,7 @@ import android.view.View
 import android.widget.TextView
 import com.dzen.campfire.api.models.PagesContainer
 
-import com.dzen.campfire.api.models.units.post.PageImages
-import com.dzen.campfire.api.models.units.post.UnitPost
+import com.dzen.campfire.api.models.publications.post.PageImages
 import com.sayzen.campfiresdk.R
 import com.sayzen.campfiresdk.controllers.ControllerApi
 import com.sup.dev.android.tools.ToolsImagesLoader

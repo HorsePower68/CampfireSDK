@@ -3,7 +3,7 @@ package com.sayzen.campfiresdk.models.cards.events
 import android.view.View
 import android.widget.TextView
 import com.dzen.campfire.api.API
-import com.dzen.campfire.api.models.units.events_user.*
+import com.dzen.campfire.api.models.publications.events_user.*
 import com.sayzen.campfiresdk.R
 import com.sayzen.campfiresdk.adapters.XAccount
 import com.sayzen.campfiresdk.app.CampfireConstants
@@ -20,7 +20,7 @@ import com.sup.dev.android.views.views.ViewTextLinkable
 import com.sup.dev.java.tools.ToolsDate
 
 class CardUnitEventUser(
-        unit: UnitEventUser
+        unit: PublicationEventUser
 ) : CardUnit(R.layout.card_event, unit) {
 
     private val xAccount: XAccount
@@ -35,7 +35,7 @@ class CardUnitEventUser(
     override fun bindView(view: View) {
         super.bindView(view)
 
-        val unit = xUnit.unit as UnitEventUser
+        val unit = xUnit.unit as PublicationEventUser
 
         val vAvatarTitle: ViewAvatar = view.findViewById(R.id.vAvatar)
         val vText: ViewTextLinkable = view.findViewById(R.id.vText)
