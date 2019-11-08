@@ -10,7 +10,6 @@ import com.sayzen.campfiresdk.controllers.api
 import com.sayzen.campfiresdk.views.ViewKarma
 import com.sup.dev.android.views.screens.SLoadingRecycler
 import com.sup.dev.android.views.support.adapters.recycler_view.RecyclerCardAdapterLoading
-import com.sup.dev.java.libs.debug.log
 
 class SUnitRates(
         val unitId: Long,
@@ -43,7 +42,6 @@ class SUnitRates(
         if (xKarma.myKarma == 0L) {
             xKarma.setView(vKarma)
             vAnon.setOnClickListener {
-                log(vAnon.isChecked)
                 xKarma.anon = vAnon.isChecked
             }
             vAnon.isChecked = xKarma.anon

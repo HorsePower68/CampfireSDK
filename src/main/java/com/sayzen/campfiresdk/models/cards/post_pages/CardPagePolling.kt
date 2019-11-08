@@ -6,7 +6,6 @@ import android.widget.LinearLayout
 import android.widget.TextView
 import com.dzen.campfire.api.models.PagesContainer
 import com.dzen.campfire.api.models.units.post.PagePolling
-import com.dzen.campfire.api.models.units.post.UnitPost
 import com.sayzen.campfiresdk.R
 import com.sayzen.campfiresdk.controllers.ControllerApi
 import com.sayzen.campfiresdk.controllers.ControllerPolling
@@ -14,7 +13,6 @@ import com.sayzen.campfiresdk.models.events.units.EventPollingChanged
 import com.sup.dev.android.tools.ToolsResources
 import com.sup.dev.android.tools.ToolsView
 import com.sup.dev.android.views.views.ViewTextLinkable
-import com.sup.dev.java.libs.debug.log
 
 import com.sup.dev.java.libs.eventBus.EventBus
 
@@ -68,7 +66,6 @@ class CardPagePolling(
                 if (vContainer.tag != tag) return@get
 
                 val showResults = result.voted || !canVote()
-                log("showResults[$showResults] voted[${result.voted}] canVote[${canVote()}]")
 
                 var percentSum = 0
                 for (i in 0 until vContainer.childCount) {

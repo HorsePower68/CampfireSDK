@@ -183,9 +183,9 @@ class XAccount(
 
     fun getLastOnlineTime() = get(accountId)
 
-    fun isModerator() = ControllerApi.isModerator(accountId, lvl) && karma30 >= API.LVL_MODERATOR_BLOCK.karmaCount
+    fun isModerator() = ControllerApi.isModerator(lvl) && karma30 >= API.LVL_MODERATOR_BLOCK.karmaCount
 
-    fun isAdmin() = ControllerApi.isAdmin(accountId, lvl) && karma30 >= API.LVL_ADMIN_MODER.karmaCount
+    fun isAdmin() = ControllerApi.isAdmin(lvl) && karma30 >= API.LVL_ADMIN_MODER.karmaCount
 
     fun isProtoadmin() = ControllerApi.isProtoadmin(accountId, lvl)
 

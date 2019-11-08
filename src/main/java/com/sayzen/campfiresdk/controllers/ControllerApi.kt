@@ -26,7 +26,7 @@ import com.sayzen.campfiresdk.models.events.project.EventApiVersionChanged
 import com.sayzen.campfiresdk.models.events.units.EventUnitRemove
 import com.sayzen.campfiresdk.models.events.units.EventUnitReportsAdd
 import com.sayzen.campfiresdk.models.events.units.EventUnitReportsClear
-import com.sayzen.campfiresdk.models.support.TextParser
+import com.sup.dev.java.libs.text_format.TextFormater
 import com.sayzen.devsupandroidgoogle.ControllerGoogleAuth
 import com.sup.dev.android.libs.api_simple.ApiRequestsSupporter
 import com.sup.dev.android.libs.image_loader.ImageLoaderId
@@ -161,7 +161,7 @@ object ControllerApi {
     @Suppress("DEPRECATION")
     fun makeTextHtml(vText: TextView) {
         val text = vText.text.toString().replace("<", "&#60;")
-        vText.text = Html.fromHtml(TextParser(text).parse().replace("\n", "<br />"))
+        vText.text = Html.fromHtml(TextFormater(text).parse().replace("\n", "<br />"))
     }
 
     fun toBytes(bitmap: Bitmap?, size: Int, w: Int = 0, h: Int = 0, weakSizesMode: Boolean = false, callback: (ByteArray?) -> Unit) {
@@ -329,17 +329,17 @@ object ControllerApi {
         return 0
     }
 
-    fun isModerator(accountId: Long, lvl: Long) = !isProtoadmin(accountId, lvl) && !isAdmin(accountId, lvl) && lvl >= API.LVL_MODERATOR_BLOCK.lvl
+    fun isModerator(lvl: Long) = lvl >= API.LVL_MODERATOR_BLOCK.lvl
 
-    fun isAdmin(accountId: Long, lvl: Long) = !isProtoadmin(accountId, lvl) && lvl >= API.LVL_ADMIN_MODER.lvl
+    fun isAdmin(lvl: Long) = lvl >= API.LVL_ADMIN_MODER.lvl
 
     fun isProtoadmin(accountId: Long, lvl: Long) = protoadmins.contains(accountId) || lvl >= API.LVL_PROTOADMIN.lvl
 
     fun isBot(accountName: String) = accountName.startsWith("Bot#")
 
-    fun isModerator(account: Account) = isModerator(account.id, account.lvl)
+    fun isModerator(account: Account) = isModerator(account.lvl)
 
-    fun isAdmin(account: Account) = isAdmin(account.id, account.lvl)
+    fun isAdmin(account: Account) = isAdmin(account.lvl)
 
     fun isProtoadmin(account: Account) = isProtoadmin(account.id, account.lvl)
 

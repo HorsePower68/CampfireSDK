@@ -65,14 +65,26 @@ class SChat private constructor(
         fun instance(chatType: Long, targetId: Long, targetSubId: Long, setStack: Boolean, action: NavigationAction) {
             val targetSubIdV = if (chatType != API.CHAT_TYPE_FANDOM_ROOT || targetSubId != 0L) targetSubId else ControllerApi.getLanguageId()
             val tag = ChatTag(chatType, targetId, targetSubIdV)
+            if(tryOpenFromBackStack(tag)) return
             instance(tag, setStack, action)
         }
 
         fun instance(tag: ChatTag, setStack: Boolean, action: NavigationAction, onShow: (SChat) -> Unit = {}) {
             if (setStack) ControllerCampfireSDK.ON_SCREEN_CHAT_START.invoke()
+            if(tryOpenFromBackStack(tag)) return
             ApiRequestsSupporter.executeInterstitial(action, RChatGet(tag, 0)) { r ->
                 onChatLoaded(r, onShow)
             }
+        }
+
+        private fun tryOpenFromBackStack(tag: ChatTag):Boolean{
+            for(i in Navigator.currentStack.stack){
+                if(i is SChat && i.tag==tag){
+                    Navigator.reorder(i)
+                    return true
+                }
+            }
+            return false
         }
 
         private fun onChatLoaded(r: RChatGet.Response, onShow: (SChat) -> Unit): SChat {

@@ -206,6 +206,9 @@ object ControllerCampfireSDK {
         }.onApiError(RAccountsChangeName.E_LOGIN_IS_NOT_DEFAULT) {
             ToolsToast.show(R.string.error_login_cant_change)
             onComplete.invoke()
+        }.onApiError(API.ERROR_ACCOUNT_IS_BANED) {
+            ToolsToast.show(R.string.error_login_cant_change)
+            onComplete.invoke()
         }
     }
 
