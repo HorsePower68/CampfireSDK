@@ -30,6 +30,7 @@ import com.sup.dev.java.libs.text_format.TextFormater
 import com.sayzen.devsupandroidgoogle.ControllerGoogleAuth
 import com.sup.dev.android.libs.api_simple.ApiRequestsSupporter
 import com.sup.dev.android.libs.image_loader.ImageLoaderId
+import com.sup.dev.android.libs.image_loader.ImageLoaderTag
 import com.sup.dev.android.tools.*
 import com.sup.dev.android.views.views.ViewTextLinkable
 import com.sup.dev.android.views.widgets.WidgetField
@@ -99,6 +100,14 @@ object ControllerApi {
             val item = ItemNullable<ByteArray>(null)
             if (imageId > 0)
                 RResourcesGet(imageId)
+                        .onComplete { r -> item.a = r.bytes }
+                        .sendNow(apiMedia)
+            item.a
+        }
+        ImageLoaderTag.loader = { imageTag ->
+            val item = ItemNullable<ByteArray>(null)
+            if (imageTag.isNotEmpty())
+                RResourcesGet(imageTag)
                         .onComplete { r -> item.a = r.bytes }
                         .sendNow(apiMedia)
             item.a
