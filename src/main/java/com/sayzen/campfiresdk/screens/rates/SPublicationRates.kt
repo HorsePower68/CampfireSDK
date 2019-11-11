@@ -6,16 +6,17 @@ import com.dzen.campfire.api.models.Rate
 import com.dzen.campfire.api.requests.post.RPostRatesGetAll
 import com.sayzen.campfiresdk.R
 import com.sayzen.campfiresdk.adapters.XKarma
+import com.sayzen.campfiresdk.controllers.ControllerApi
 import com.sayzen.campfiresdk.controllers.api
 import com.sayzen.campfiresdk.views.ViewKarma
 import com.sup.dev.android.views.screens.SLoadingRecycler
 import com.sup.dev.android.views.support.adapters.recycler_view.RecyclerCardAdapterLoading
 
-class SUnitRates(
-        val unitId: Long,
+class SPublicationRates(
+        val publicationId: Long,
         karmaCount: Long,
         myKarma: Long,
-        creatorId: Long,
+        val creatorId: Long,
         unitStatus: Long
 
 ) : SLoadingRecycler<CardRateText, Rate>(R.layout.screen_unit_rates) {
@@ -24,7 +25,7 @@ class SUnitRates(
     val vAnon: CheckBox = findViewById(R.id.vAnon)
     val vKarma: ViewKarma = findViewById(R.id.vKarma)
 
-    val xKarma = XKarma(unitId, karmaCount, myKarma, creatorId, unitStatus) { updateKarma() }
+    val xKarma = XKarma(publicationId, karmaCount, myKarma, creatorId, unitStatus) { updateKarma() }
     var lastReloadKarma = xKarma.karmaCount
 
     init {
@@ -39,7 +40,7 @@ class SUnitRates(
             lastReloadKarma = xKarma.karmaCount
             reload()
         }
-        if (xKarma.myKarma == 0L) {
+        if (xKarma.myKarma == 0L && !ControllerApi.isCurrentAccount(creatorId)) {
             xKarma.setView(vKarma)
             vAnon.setOnClickListener {
                 xKarma.anon = vAnon.isChecked
@@ -53,7 +54,7 @@ class SUnitRates(
     override fun instanceAdapter(): RecyclerCardAdapterLoading<CardRateText, Rate> {
         return RecyclerCardAdapterLoading<CardRateText, Rate>(CardRateText::class) { ac -> CardRateText(ac) }
                 .setBottomLoader { onLoad, cards ->
-                    subscription = RPostRatesGetAll(unitId, cards.size.toLong())
+                    subscription = RPostRatesGetAll(publicationId, cards.size.toLong())
                             .onComplete { r -> onLoad.invoke(r.rates) }
                             .onNetworkError { onLoad.invoke(null) }
                             .send(api)

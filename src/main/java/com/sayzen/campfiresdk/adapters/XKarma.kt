@@ -5,7 +5,7 @@ import com.sayzen.campfiresdk.controllers.ControllerKarma
 import com.sayzen.campfiresdk.controllers.ControllerSettings
 import com.sayzen.campfiresdk.models.events.publications.EventPublicationKarmaAdd
 import com.sayzen.campfiresdk.models.events.publications.EventPublicationKarmaStateChanged
-import com.sayzen.campfiresdk.screens.rates.SUnitRates
+import com.sayzen.campfiresdk.screens.rates.SPublicationRates
 import com.sayzen.campfiresdk.views.ViewKarma
 import com.sup.dev.android.libs.screens.navigator.Navigator
 import com.sup.dev.java.libs.eventBus.EventBus
@@ -36,7 +36,7 @@ class XKarma(
     fun setView(view: ViewKarma) {
         view.update(unitId, karmaCount, myKarma, creatorId, unitStatus,
                 { b -> rate(b) },
-                { Navigator.to(SUnitRates(unitId, karmaCount, myKarma, creatorId, unitStatus)) }
+                { Navigator.to(SPublicationRates(unitId, karmaCount, myKarma, creatorId, unitStatus)) }
         )
     }
 

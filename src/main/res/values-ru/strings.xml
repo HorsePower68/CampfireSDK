@@ -851,7 +851,7 @@
     <string name="rubric_empty">В этом фэндоме еще нет рубрик</string>
     <string name="rubric_empty_my">У вас еще нет рубрик</string>
     <string name="rubric_empty_other">У этого пользователя еще нет рубрик</string>
-    <string name="rubric_loading">Загрузка спсика рубрик</string>
+    <string name="rubric_loading">Загрузка списка рубрик</string>
     <string name="rubric_creation">Создание рубрики</string>
     <string name="rubric_change_owner">Изменить владельца</string>
     <string name="rubric_posts_empty">В этой рубрики еще нет постов</string>
@@ -968,8 +968,8 @@
     <string name="post_page_spoiler">Спойлер</string>
     <string name="post_page_polling">Опрос</string>
     <string name="post_page_polling_options">Варианты:</string>
-    <string name="post_page_polling_lvl_title">Мнимальный уровень</string>
-    <string name="post_page_polling_karma_title">Мнимальная карма</string>
+    <string name="post_page_polling_lvl_title">Минимальный уровень</string>
+    <string name="post_page_polling_karma_title">Минимальная карма</string>
     <string name="post_page_table">Таблица</string>
     <string name="post_page_campfire_object">Объект Campfire</string>
     <string name="post_page_polling_change_alert">При изменении опроса все ответы будут потеряны.</string>

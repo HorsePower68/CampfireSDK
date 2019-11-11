@@ -23,6 +23,7 @@ import com.dzen.campfire.api_media.requests.RResourcesGet
 import com.sayzen.campfiresdk.R
 import com.sayzen.campfiresdk.models.events.account.EventAccountReportsCleared
 import com.sayzen.campfiresdk.models.events.project.EventApiVersionChanged
+import com.sayzen.campfiresdk.models.events.project.EventSalientTimeChanged
 import com.sayzen.campfiresdk.models.events.publications.EventPublicationRemove
 import com.sayzen.campfiresdk.models.events.publications.EventPublicationReportsAdd
 import com.sayzen.campfiresdk.models.events.publications.EventPublicationReportsClear
@@ -33,6 +34,7 @@ import com.sup.dev.android.libs.image_loader.ImageLoaderId
 import com.sup.dev.android.tools.*
 import com.sup.dev.android.views.views.ViewTextLinkable
 import com.sup.dev.android.views.widgets.WidgetField
+import com.sup.dev.android.views.widgets.WidgetMenu
 import com.sup.dev.java.classes.items.Item3
 import com.sup.dev.java.classes.items.ItemNullable
 import com.sup.dev.java.libs.api_simple.client.Request
@@ -580,6 +582,22 @@ object ControllerApi {
                 .asSheetShow()
 
 
+    }
+
+    fun showSalientDialog() {
+        WidgetMenu()
+                .add(R.string.settings_notifications_none) { _, _ -> setSalientTime(0) }
+                .add(R.string.time_hour) { _, _ -> setSalientTime(1000L * 60 * 60) }
+                .add(R.string.time_2_hour) { _, _ -> setSalientTime(1000L * 60 * 60 * 2) }
+                .add(R.string.time_8_hour) { _, _ -> setSalientTime(1000L * 60 * 60 * 8) }
+                .add(R.string.time_day) { _, _ -> setSalientTime(1000L * 60 * 60 * 24) }
+                .asSheetShow()
+    }
+
+    private fun setSalientTime(time: Long) {
+        ToolsToast.show(R.string.app_done)
+        ControllerSettings.salientTime = System.currentTimeMillis() + time
+        EventBus.post(EventSalientTimeChanged())
     }
 
 
