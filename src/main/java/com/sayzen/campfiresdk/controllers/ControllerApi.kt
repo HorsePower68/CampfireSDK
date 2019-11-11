@@ -20,6 +20,7 @@ import com.dzen.campfire.api.requests.units.RUnitsRemove
 import com.dzen.campfire.api.requests.units.RUnitsReport
 import com.dzen.campfire.api_media.APIMedia
 import com.dzen.campfire.api_media.requests.RResourcesGet
+import com.dzen.campfire.api_media.requests.RResourcesGetByTag
 import com.sayzen.campfiresdk.R
 import com.sayzen.campfiresdk.models.events.account.EventAccountReportsCleared
 import com.sayzen.campfiresdk.models.events.project.EventApiVersionChanged
@@ -31,6 +32,7 @@ import com.sup.dev.java.libs.text_format.TextFormater
 import com.sayzen.devsupandroidgoogle.ControllerGoogleAuth
 import com.sup.dev.android.libs.api_simple.ApiRequestsSupporter
 import com.sup.dev.android.libs.image_loader.ImageLoaderId
+import com.sup.dev.android.libs.image_loader.ImageLoaderTag
 import com.sup.dev.android.tools.*
 import com.sup.dev.android.views.views.ViewTextLinkable
 import com.sup.dev.android.views.widgets.WidgetField
@@ -40,6 +42,7 @@ import com.sup.dev.java.classes.items.ItemNullable
 import com.sup.dev.java.libs.api_simple.client.Request
 import com.sup.dev.java.libs.api_simple.client.TokenProvider
 import com.sup.dev.java.libs.debug.err
+import com.sup.dev.java.libs.debug.log
 import com.sup.dev.java.libs.eventBus.EventBus
 import com.sup.dev.java.libs.json.Json
 import com.sup.dev.java.libs.json.JsonArray
@@ -102,6 +105,15 @@ object ControllerApi {
             if (imageId > 0)
                 RResourcesGet(imageId)
                         .onComplete { r -> item.a = r.bytes }
+                        .sendNow(apiMedia)
+            item.a
+        }
+        ImageLoaderTag.loader = { imageTag ->
+            val item = ItemNullable<ByteArray>(null)
+            if (imageTag.isNotEmpty())
+                RResourcesGetByTag(imageTag)
+                        .onComplete { r -> item.a = r.bytes }
+                        .onError { log(it) }
                         .sendNow(apiMedia)
             item.a
         }
