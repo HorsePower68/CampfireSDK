@@ -2,6 +2,8 @@ package com.sayzen.campfiresdk.app.develop
 
 /*
 
+        Редизайн поста
+        Редизайн иконок
 
         -   ключ рекламы
 

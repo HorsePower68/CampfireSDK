@@ -43,6 +43,8 @@
     <attr name="ic_insert_photo_24dp" format="reference"/>
     <attr name="ic_keyboard_arrow_down_24dp" format="reference"/>
     <attr name="ic_keyboard_arrow_up_24dp" format="reference"/>
+    <attr name="ic_keyboard_arrow_down_18dp" format="reference"/>
+    <attr name="ic_keyboard_arrow_up_18dp" format="reference"/>
     <attr name="ic_landscape_24dp" format="reference"/>
     <attr name="ic_language_24dp" format="reference"/>
     <attr name="ic_memory_18dp" format="reference"/>
@@ -142,6 +144,8 @@
         <item name="ic_insert_photo_24dp">@drawable/ic_insert_photo_white_24dp</item>
         <item name="ic_keyboard_arrow_down_24dp">@drawable/ic_keyboard_arrow_down_white_24dp</item>
         <item name="ic_keyboard_arrow_up_24dp">@drawable/ic_keyboard_arrow_up_white_24dp</item>
+        <item name="ic_keyboard_arrow_down_18dp">@drawable/ic_keyboard_arrow_down_white_18dp</item>
+        <item name="ic_keyboard_arrow_up_18dp">@drawable/ic_keyboard_arrow_up_white_18dp</item>
         <item name="ic_landscape_24dp">@drawable/ic_landscape_white_24dp</item>
         <item name="ic_language_24dp">@drawable/ic_language_white_24dp</item>
         <item name="ic_memory_18dp">@drawable/ic_memory_white_18dp</item>
@@ -242,6 +246,8 @@
         <item name="ic_insert_photo_24dp">@drawable/ic_insert_photo_grey_700_24dp</item>
         <item name="ic_keyboard_arrow_down_24dp">@drawable/ic_keyboard_arrow_down_grey_700_24dp</item>
         <item name="ic_keyboard_arrow_up_24dp">@drawable/ic_keyboard_arrow_up_grey_700_24dp</item>
+        <item name="ic_keyboard_arrow_down_18dp">@drawable/ic_keyboard_arrow_down_grey_700_18dp</item>
+        <item name="ic_keyboard_arrow_up_18dp">@drawable/ic_keyboard_arrow_up_grey_700_18dp</item>
         <item name="ic_landscape_24dp">@drawable/ic_landscape_grey_700_24dp</item>
         <item name="ic_language_24dp">@drawable/ic_language_grey_700_24dp</item>
         <item name="ic_memory_18dp">@drawable/ic_memory_grey_700_18dp</item>
