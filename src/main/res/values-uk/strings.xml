@@ -622,6 +622,8 @@
     <string name="sticker_event_create_stickers_pack">%s набор стикеров</string>
 
     <string name="achi_click">(нажмите)</string>
+    <string name="achi_video_not_loaded">Видео еще не загружено</string>
+    <string name="achi_video_not_available">Вы больше не можете посмотреть видео сегодня</string>
     <string name="achi_you_are_here">Вы здесь</string>
     <string name="achi_spoiler_instruction">Обучение</string>
     <string name="achi_spoiler_sharing">Шаринг</string>
@@ -672,6 +674,7 @@
     <string name="achi_58">Получите положительные оценки.</string>
     <string name="achi_59">У вас должно быть больше положительных оценок, чем отрицательных.</string>
     <string name="achi_60">Подпишитесь на любой чат.</string>
+    <string name="achi_61">Посмотрите рекламу чтобы поддержать проект.</string>
 
     <string name="lvl_app_access">Возможность пользоваться приложением</string>
     <string name="lvl_app_status">Возможность изменять статус профиля</string>

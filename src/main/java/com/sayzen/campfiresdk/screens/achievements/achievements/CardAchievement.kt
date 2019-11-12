@@ -8,6 +8,8 @@ import com.dzen.campfire.api.API
 import com.dzen.campfire.api.requests.accounts.RAccountsSetRecruiter
 import com.dzen.campfire.api.models.AchievementInfo
 import com.dzen.campfire.api.requests.achievements.RAchievementsOnFinish
+import com.dzen.campfire.api.requests.project.RVideoAdGetCount
+import com.dzen.campfire.api.requests.project.RVideoAdView
 import com.sayzen.campfiresdk.R
 import com.sayzen.campfiresdk.models.widgets.WidgetRules
 import com.sayzen.campfiresdk.screens.account.search.SAccountSearch
@@ -16,14 +18,17 @@ import com.sayzen.campfiresdk.app.CampfireConstants
 import com.sayzen.campfiresdk.controllers.ControllerApi
 import com.sayzen.campfiresdk.controllers.ControllerCampfireSDK
 import com.sayzen.campfiresdk.controllers.api
+import com.sayzen.devsupandroidgoogle.ControllerAdsVideoReward
 import com.sup.dev.android.libs.api_simple.ApiRequestsSupporter
 import com.sup.dev.android.libs.screens.navigator.Navigator
 import com.sup.dev.android.tools.ToolsResources
 import com.sup.dev.android.tools.ToolsToast
+import com.sup.dev.android.tools.ToolsView
 import com.sup.dev.android.views.cards.Card
 import com.sup.dev.android.views.views.ViewAvatar
 import com.sup.dev.android.views.views.ViewChipMini
 import com.sup.dev.android.views.views.ViewProgressLine
+import com.sup.dev.android.views.widgets.Widget
 import com.sup.dev.java.classes.Subscription
 import com.sup.dev.java.classes.animation.AnimationPendulum
 import com.sup.dev.java.classes.animation.AnimationPendulumColor
@@ -48,7 +53,7 @@ class CardAchievement(
     }
 
     fun getLvl() = if(forcedLvl == -1)achievement.getLvl(getProgress()) else forcedLvl
-    fun getProgress() = screen.achiProgress(achievement.index)
+    fun getProgress() = screen.getAchiProgress(achievement.index)
     fun setForcedLvl(lvl:Int){
         forcedLvl = lvl
         update()
@@ -145,6 +150,10 @@ class CardAchievement(
                     })
         }
 
+        if(achievement.index == API.ACHI_VIDEO_AD.index){
+            ControllerAdsVideoReward.loadAd()
+        }
+
     }
 
     fun flash() {
@@ -163,6 +172,7 @@ class CardAchievement(
             ach.info.index == API.ACHI_ADD_RECRUITER.index -> onRecruiterClicked()
             ach.info.index == API.ACHI_LOGIN.index -> ControllerCampfireSDK.changeLogin()
             ach.info.index == API.ACHI_FANDOMS.index -> SFandomSuggest.instance(Navigator.TO)
+            ach.info.index == API.ACHI_VIDEO_AD.index -> onVideoAdClicked()
             ach.info.index == API.ACHI_RULES_USER.index ->
                 WidgetRules(R.string.rules_users_info, Array(CampfireConstants.RULES_USER.size) { CampfireConstants.RULES_USER[it].text })
                         .onFinish { ApiRequestsSupporter.executeProgressDialog(RAchievementsOnFinish(API.ACHI_RULES_USER.index)) { _ -> } }
@@ -173,6 +183,32 @@ class CardAchievement(
                         .asSheetShow()
         }
 
+    }
+
+    private fun onVideoAdClicked(){
+        ControllerAdsVideoReward.loadAd()
+        ApiRequestsSupporter.executeProgressDialog(RVideoAdGetCount()){ w,r->
+            if(r.count < 1){
+                ToolsToast.show(R.string.achi_video_not_available)
+            }else{
+                showVideoAdNow(10, w)
+            }
+        }
+    }
+
+    private fun showVideoAdNow(tryCount:Int, vDialog:Widget){
+        if(ControllerAdsVideoReward.isCahShow()){
+            vDialog.hide()
+            ControllerAdsVideoReward.show {
+                screen.setAchiProgress(achievement.index, getProgress()+1)
+                RVideoAdView().send(api)
+                update()
+            }
+        } else if(tryCount > 0 && ControllerAdsVideoReward.isLoading()){
+            ToolsThreads.main(1000) { showVideoAdNow(tryCount-1, vDialog) }
+        } else {
+            ToolsToast.show(R.string.achi_video_not_loaded)
+        }
     }
 
     private fun onRecruiterClicked() {

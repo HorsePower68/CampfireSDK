@@ -79,7 +79,11 @@ class PageAchievements(
                 .send(api)
     }
 
-    fun achiProgress(index: Long): Long {
+    fun setAchiProgress(index: Long, prog: Long) {
+        for (i in 0 until indexes.size) if (indexes[i] == index) progress[i] = prog
+    }
+
+    fun getAchiProgress(index: Long): Long {
         for (i in 0 until indexes.size) if (indexes[i] == index) return progress[i]
         return 0
     }
