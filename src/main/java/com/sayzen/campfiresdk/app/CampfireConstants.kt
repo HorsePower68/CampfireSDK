@@ -130,7 +130,15 @@ object CampfireConstants {
             Quest(API.QUEST_COMMENTS, R.string.quests_text_comments),
             Quest(API.QUEST_CHAT, R.string.quests_text_chat),
             Quest(API.QUEST_POST_KARMA, R.string.quests_text_posts_karma),
-            Quest(API.QUEST_COMMENTS_KARMA, R.string.quests_text_comments_karma))
+            Quest(API.QUEST_COMMENTS_KARMA, R.string.quests_text_comments_karma),
+            Quest(API.QUEST_STORY_START, R.string.quests_story_1),
+            Quest(API.QUEST_STORY_KARMA, R.string.quests_story_2),
+            Quest(API.QUEST_STORY_ACHI_SCREEN, R.string.quests_story_3),
+            Quest(API.QUEST_STORY_CHAT, R.string.quests_story_4),
+            Quest(API.QUEST_STORY_ALL_SCREEN, R.string.quests_story_5),
+            Quest(API.QUEST_STORY_FILTERS, R.string.quests_story_6),
+            Quest(API.QUEST_STORY_POST, R.string.quests_story_7)
+    )
 
     val CATEGORIES = arrayOf(
             FandomParam(API.CATEGORY_GAMES, R.string.category_games),

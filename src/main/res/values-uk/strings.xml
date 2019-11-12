@@ -1012,6 +1012,7 @@
     <string name="post_close_confirm">Закрыть этот пост?</string>
     <string name="post_open_confirm">Открыть этот пост?</string>
 
+    <string name="quests_story_title">Эпический квест</string>
     <string name="quests_next">Следующее задание будет доступно завтра.</string>
     <string name="quests_text_rates">Поставьте оценки публикациям других пользователей.</string>
     <string name="quests_text_karma">Наберите карму на любой публикации.</string>
@@ -1020,6 +1021,13 @@
     <string name="quests_text_chat">Напишите несколько сообщений в чате.</string>
     <string name="quests_text_posts_karma">Опубликуйте пост, который наберет большое количество кармы.</string>
     <string name="quests_text_comments_karma">Опубликуйте комментарий, который наберет большое количество кармы.</string>
+    <string name="quests_story_1">Начните квест.</string>
+    <string name="quests_story_2">Оцените несколько публикаций.</string>
+    <string name="quests_story_3">Откройте экран достижений.</string>
+    <string name="quests_story_4">Напишите чтонибудь в чате.</string>
+    <string name="quests_story_5">Откройте экран бездны.</string>
+    <string name="quests_story_6">Откройте фильтры категорий.</string>
+    <string name="quests_story_7">Создайте пост.</string>
 
     <string name="wiki_list_empty">В этой вики еще нет элементов</string>
     <string name="wiki_item_create_name">Название (%s)</string>
