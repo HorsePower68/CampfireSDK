@@ -5,7 +5,7 @@ package com.sayzen.campfiresdk.app.develop
         Редизайн поста
         Редизайн иконок
 
-        -   ключ рекламы
+        -   ключ рекламы ca-app-pub-5463072271586627/9725034327
 
 
 
