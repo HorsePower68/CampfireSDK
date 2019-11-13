@@ -32,7 +32,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:cardCornerRadius="12dp"
-                app:contentPadding="16dp">
+                app:contentPadding="16dp"
+                app:cardBackgroundColor="?content_background">
 
                 <TextView
                     android:id="@+id/vVersion"
@@ -54,6 +55,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
                 app:cardCornerRadius="12dp"
+                app:cardBackgroundColor="?content_background"
                 app:contentPadding="16dp">
 
 
@@ -78,6 +80,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
                 app:cardCornerRadius="12dp"
+                app:cardBackgroundColor="?content_background"
                 app:contentPadding="16dp">
 
                 <TextView
@@ -100,6 +103,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
                 app:cardCornerRadius="12dp"
+                app:cardBackgroundColor="?content_background"
                 app:contentPadding="16dp">
 
                 <TextView
@@ -121,6 +125,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
                 app:cardCornerRadius="12dp"
+                app:cardBackgroundColor="?content_background"
                 app:contentPadding="16dp">
 
                 <TextView
@@ -142,6 +147,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
                 app:cardCornerRadius="12dp"
+                app:cardBackgroundColor="?content_background"
                 app:contentPadding="16dp">
 
                 <TextView
@@ -162,6 +168,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
+                app:cardBackgroundColor="?content_background"
                 app:cardCornerRadius="12dp"
                 app:contentPadding="16dp">
 

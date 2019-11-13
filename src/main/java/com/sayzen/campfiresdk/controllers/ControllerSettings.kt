@@ -96,14 +96,6 @@ object ControllerSettings {
             onSettingsUpdated()
         }
 
-
-    var styleTheme: Int
-        get() = accountSettings.theme
-        set(b) {
-            accountSettings.theme = b
-            onSettingsUpdated()
-        }
-
     var interfaceType: Int
         get() = accountSettings.interfaceType
         set(b) {

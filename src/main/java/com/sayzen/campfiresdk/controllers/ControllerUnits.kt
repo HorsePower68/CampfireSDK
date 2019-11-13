@@ -46,6 +46,7 @@ import com.sup.dev.android.tools.ToolsView
 import com.sup.dev.android.views.views.ViewTextLinkable
 import com.sup.dev.android.views.widgets.WidgetField
 import com.sup.dev.android.views.widgets.WidgetMenu
+import com.sup.dev.java.libs.debug.log
 import com.sup.dev.java.libs.eventBus.EventBus
 import com.sup.dev.java.tools.ToolsDate
 import com.sup.dev.java.tools.ToolsText
@@ -69,10 +70,15 @@ object ControllerUnits {
 
     fun toUnit(unitType: Long, unitId: Long, commentId: Long = 0) {
 
+        log("toUnit unitType[$unitType] unitId[$unitId] commentId[$commentId]")
+
         if (unitType == API.PUBLICATION_TYPE_POST) ControllerCampfireSDK.onToPostClicked(unitId, commentId, Navigator.TO)
         if (unitType == API.PUBLICATION_TYPE_MODERATION) ControllerCampfireSDK.onToModerationClicked(unitId, commentId, Navigator.TO)
         if (unitType == API.PUBLICATION_TYPE_STICKER) SStickersView.instanceBySticker(unitId, Navigator.TO)
-        if (unitType == API.PUBLICATION_TYPE_CHAT_MESSAGE) SChat.instance(unitId, true, Navigator.TO)
+        if (unitType == API.PUBLICATION_TYPE_CHAT_MESSAGE) {
+            log("TO CHAT MESSAGE")
+            SChat.instance(unitId, true, Navigator.TO)
+        }
         if (unitType == API.PUBLICATION_TYPE_STICKERS_PACK) {
             if (commentId == 0L) SStickersView.instance(unitId, Navigator.TO)
             else Navigator.to(SComments(unitId, commentId))

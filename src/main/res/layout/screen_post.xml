@@ -34,8 +34,7 @@
     </com.google.android.material.appbar.AppBarLayout>
 
     <androidx.recyclerview.widget.RecyclerView
-        style="@style/Recycler"
-        android:background="?content_background"/>
+        style="@style/Recycler"/>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         style="@style/Fab"

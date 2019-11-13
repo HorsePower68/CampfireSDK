@@ -35,6 +35,7 @@ import com.sup.dev.android.views.screens.SLoadingRecycler
 import com.sup.dev.android.views.support.adapters.recycler_view.RecyclerCardAdapterLoading
 import com.sup.dev.android.views.views.ViewAvatarTitle
 import com.sup.dev.android.views.views.ViewIcon
+import com.sup.dev.java.libs.debug.log
 import com.sup.dev.java.libs.eventBus.EventBus
 import com.sup.dev.java.libs.json.Json
 import com.sup.dev.java.tools.*
@@ -50,6 +51,8 @@ class SChat private constructor(
         val chatInfo_2: Long,
         val chatInfo_3: Long,
         val chatInfo_4: Long,
+        val messageId: Long,
+        var startOffsetDate: Long,
         var memberStatus: Long?)
     : SLoadingRecycler<CardChatMessage, PublicationChatMessage>(R.layout.screen_chat), ScreenShare {
 
@@ -58,28 +61,29 @@ class SChat private constructor(
         fun instance(messageId: Long, setStack: Boolean, action: NavigationAction) {
             if (setStack) ControllerCampfireSDK.ON_SCREEN_CHAT_START.invoke()
             ApiRequestsSupporter.executeInterstitial(action, RChatGet(ChatTag(), messageId)) { r ->
-                onChatLoaded(r, {})
+                for (i in Navigator.currentStack.stack) if (i is SChat && i.tag == r.tag) Navigator.remove(i)
+                onChatLoaded(r, messageId, {})
             }
         }
 
         fun instance(chatType: Long, targetId: Long, targetSubId: Long, setStack: Boolean, action: NavigationAction) {
             val targetSubIdV = if (chatType != API.CHAT_TYPE_FANDOM_ROOT || targetSubId != 0L) targetSubId else ControllerApi.getLanguageId()
             val tag = ChatTag(chatType, targetId, targetSubIdV)
-            if(tryOpenFromBackStack(tag)) return
+            if (tryOpenFromBackStack(tag)) return
             instance(tag, setStack, action)
         }
 
         fun instance(tag: ChatTag, setStack: Boolean, action: NavigationAction, onShow: (SChat) -> Unit = {}) {
             if (setStack) ControllerCampfireSDK.ON_SCREEN_CHAT_START.invoke()
-            if(tryOpenFromBackStack(tag)) return
+            if (tryOpenFromBackStack(tag)) return
             ApiRequestsSupporter.executeInterstitial(action, RChatGet(tag, 0)) { r ->
-                onChatLoaded(r, onShow)
+                onChatLoaded(r, 0, onShow)
             }
         }
 
-        private fun tryOpenFromBackStack(tag: ChatTag):Boolean{
-            for(i in Navigator.currentStack.stack){
-                if(i is SChat && i.tag==tag){
+        private fun tryOpenFromBackStack(tag: ChatTag): Boolean {
+            for (i in Navigator.currentStack.stack) {
+                if (i is SChat && i.tag == tag) {
                     Navigator.reorder(i)
                     return true
                 }
@@ -87,9 +91,10 @@ class SChat private constructor(
             return false
         }
 
-        private fun onChatLoaded(r: RChatGet.Response, onShow: (SChat) -> Unit): SChat {
+        private fun onChatLoaded(r: RChatGet.Response, messageId: Long, onShow: (SChat) -> Unit): SChat {
+            log("onChatLoaded messageId[$messageId] r[${r.startOffsetDate}]")
             ControllerChats.putRead(r.tag, r.anotherReadDate)
-            val screen = SChat(r.tag, r.subscribed, r.chatName, r.chatParams, r.chatImageId, r.chatBackgroundImageId, r.chatInfo_1, r.chatInfo_2, r.chatInfo_3, r.chatInfo_4, r.memberStatus)
+            val screen = SChat(r.tag, r.subscribed, r.chatName, r.chatParams, r.chatImageId, r.chatBackgroundImageId, r.chatInfo_1, r.chatInfo_2, r.chatInfo_3, r.chatInfo_4, messageId, r.startOffsetDate, r.memberStatus)
             onShow.invoke(screen)
             return screen
         }
@@ -151,8 +156,8 @@ class SChat private constructor(
         updateTyping()
         updateBackground()
 
-        if(tag.chatType == API.CHAT_TYPE_FANDOM_SUB){
-            if(!ControllerSettings.viewedChats.contains(tag.targetId)){
+        if (tag.chatType == API.CHAT_TYPE_FANDOM_SUB) {
+            if (!ControllerSettings.viewedChats.contains(tag.targetId)) {
                 ToolsThreads.main(100) { ControllerChats.showFandomChatInfo(tag, chatParams, chatImageId) }
             }
         }
@@ -210,39 +215,49 @@ class SChat private constructor(
     }
 
     override fun instanceAdapter(): RecyclerCardAdapterLoading<CardChatMessage, PublicationChatMessage> {
-        val adapter = RecyclerCardAdapterLoading<CardChatMessage, PublicationChatMessage>(CardChatMessage::class) { u -> instanceCard(u) }
+        val adapter = RecyclerCardAdapterLoading<CardChatMessage, PublicationChatMessage>(CardChatMessage::class) { u ->
+            val card = instanceCard(u)
+            if (u.id == messageId) ToolsThreads.main(500) { card.flash() }
+            card
+        }
                 .setBottomLoader { onLoad, cards ->
                     if (loaded) {
                         onLoad.invoke(emptyArray())
                     } else {
-                        subscription = RChatMessageGetAll(tag, if (cards.isEmpty()) 0 else cards[cards.size - 1].xUnit.unit.dateCreate, false)
+                        val isLoadTargetDate = cards.isEmpty() && startOffsetDate > 0
+                        subscription = RChatMessageGetAll(tag, if (cards.isEmpty()) startOffsetDate else cards[cards.size - 1].xUnit.unit.dateCreate, false, isLoadTargetDate)
                                 .onComplete { r ->
-                                    if (loaded) {
-                                        onLoad.invoke(emptyArray())
-                                        return@onComplete
+                                    if(isLoadTargetDate){
+                                        startOffsetDate = 0
+                                        onLoad.invoke(r.units)
+                                        adapter!!.loadBottom()
+                                    }else {
+                                        if (loaded) {
+                                            onLoad.invoke(emptyArray())
+                                            return@onComplete
+                                        }
+                                        loaded = true
+                                        adapter!!.remove(carSpace)
+                                        onLoad.invoke(r.units)
+                                        adapter!!.add(carSpace)
+                                        if (scrollAfterLoad) {
+                                            scrollAfterLoad = false
+                                            vRecycler.smoothScrollToPosition(vRecycler.adapter!!.itemCount)
+                                        }
+                                        EventBus.post(EventChatRead(tag))
+                                        if (r.units.isNotEmpty()) EventBus.post(EventChatNewBottomMessage(tag, r.units[r.units.size - 1]))
+                                        ToolsThreads.main(true) {
+                                            for (c in addAfterLoadList) addMessage(c, true)
+                                        }
+                                        adapter!!.lockBottom()
                                     }
-                                    loaded = true
-                                    adapter!!.remove(carSpace)
-                                    onLoad.invoke(r.units)
-                                    adapter!!.add(carSpace)
-                                    if (scrollAfterLoad) {
-                                        scrollAfterLoad = false
-                                        vRecycler.smoothScrollToPosition(vRecycler.adapter!!.itemCount)
-                                    }
-                                    EventBus.post(EventChatRead(tag))
-                                    if (r.units.isNotEmpty())
-                                        EventBus.post(EventChatNewBottomMessage(tag, r.units[r.units.size - 1]))
-                                    ToolsThreads.main(true) {
-                                        for (c in addAfterLoadList) addMessage(c, true)
-                                    }
-                                    adapter!!.lockBottom()
                                 }
                                 .onNetworkError { onLoad.invoke(null) }
                                 .send(api)
                     }
                 }
                 .setTopLoader { onLoad, cards ->
-                    subscription = RChatMessageGetAll(tag, if (cards.isEmpty()) 0 else cards[0].xUnit.unit.dateCreate, true)
+                    subscription = RChatMessageGetAll(tag, if (cards.isEmpty()) 0 else cards[0].xUnit.unit.dateCreate, true, false)
                             .onComplete { r -> onLoad.invoke(r.units) }
                             .onNetworkError { onLoad.invoke(null) }
                             .send(api)

@@ -92,6 +92,7 @@ abstract class CardComment protected constructor(
         val vQuoteText: ViewTextLinkable? = view.findViewById(R.id.vQuoteText)
         val vQuoteImage: ViewImagesSwipe? = view.findViewById(R.id.vQuoteImage)
 
+
         if (SupAndroid.activityIsVisible) {
             ControllerNotifications.removeNotificationFromNew(NotificationComment::class, unit.id)
             ControllerNotifications.removeNotificationFromNew(NotificationCommentAnswer::class, unit.id)
@@ -99,6 +100,10 @@ abstract class CardComment protected constructor(
         }
 
         if (vSwipe != null) {
+            if(dividers) {
+                vSwipe.setDefaultColor(ToolsResources.getColorAttr(R.attr.content_background_screen))
+                vSwipe.setBackgroundColor(ToolsResources.getColorAttr(R.attr.content_background_screen))
+            }
             vSwipe.onClick = { _, _ -> if (onClick()) showMenu() }
             vSwipe.onLongClick = { _, _ -> showMenu() }
             vSwipe.swipeEnabled = quoteEnabled && onQuote != null

@@ -59,6 +59,7 @@
             <com.google.android.material.card.MaterialCardView
                 android:id="@+id/vMessageContainer"
                 android:layout_width="160dp"
+                app:cardBackgroundColor="?content_background"
                 android:layout_height="160dp"
                 app:cardCornerRadius="8dp"
                 app:cardElevation="0dp">

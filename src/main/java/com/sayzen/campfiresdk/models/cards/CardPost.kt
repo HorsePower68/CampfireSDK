@@ -239,11 +239,10 @@ class CardPost constructor(
         if (getView() == null) return
         val unit = xUnit.unit as PublicationPost
         val vAvatar: ViewAvatarTitle = getView()!!.findViewById(R.id.vAvatar)
-        val vKarmaCof: ViewChipMini = getView()!!.findViewById(R.id.vKarmaCof)
+        val vKarmaCof: TextView = getView()!!.findViewById(R.id.vKarmaCof)
 
         if (showFandom) {
             vKarmaCof.setText("x${ToolsText.numToStringRoundAndTrim(unit.fandomKarmaCof / 100.0, 2)}")
-            vKarmaCof.setBackgroundRes(if (unit.fandomKarmaCof < 100L) R.color.red_700 else R.color.green_700)
             vKarmaCof.visibility = if (unit.fandomKarmaCof > 0 && unit.fandomKarmaCof != 100L) View.VISIBLE else View.GONE
             xUnit.xFandom.setView(vAvatar)
         } else {
