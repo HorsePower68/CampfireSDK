@@ -192,7 +192,7 @@ Campfire has anime fandoms and gaming fandoms.</string>
     <string name="app_coefficient">Coefficient</string>
     <string name="app_coefficient_karma">Karma coefficient %s</string>
     <string name="app_history">History</string>
-    <string name="app_feed_all">Anything</string>
+    <string name="app_feed_abyss">Abyss</string>
     <string name="app_feed_good">Good</string>
     <string name="app_feed_best">Best</string>
     <string name="app_collection">Collection</string>
@@ -201,6 +201,7 @@ Campfire has anime fandoms and gaming fandoms.</string>
     <string name="app_anonymous">Anonymous</string>
     <string name="app_anonymously">Anonymously</string>
     <string name="app_limitations">Limitations</string>
+    <string name="app_order">Order</string>
 
     <string name="he">He</string>
     <string name="she">She</string>

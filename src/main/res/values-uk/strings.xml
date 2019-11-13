@@ -192,7 +192,7 @@
     <string name="app_coefficient">Коэффициент</string>
     <string name="app_coefficient_karma">Коэффициент кармы %s</string>
     <string name="app_history">История</string>
-    <string name="app_feed_all">Бездна</string>
+    <string name="app_feed_abyss">Бездна</string>
     <string name="app_feed_good">Хорошее</string>
     <string name="app_feed_best">Лучшее</string>
     <string name="app_collection">Коллекция</string>
@@ -201,6 +201,7 @@
     <string name="app_anonymous">Аноним</string>
     <string name="app_anonymously">Анонимно</string>
     <string name="app_limitations">Ограничения</string>
+    <string name="app_order">Порядок</string>
 
     <string name="he">Он</string>
     <string name="she">Она</string>

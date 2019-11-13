@@ -201,5 +201,275 @@
         <item name="ic_map_24dp">@drawable/ic_map_white_24dp</item>
     </style>
 
+    <style name="CampfireRootThemeWhite" parent="AppThemeLight">
+        <item name="them_use_navigation_icons_filters">true</item>
+        <item name="icon_games">@drawable/icon_games_black</item>
+        <item name="icon_anime">@drawable/icon_anime_black</item>
+        <item name="icon_youtube">@drawable/icon_youtube_black</item>
+        <item name="icon_discord">@drawable/icon_discord_black</item>
+        <item name="icon_wiki">@drawable/icon_wiki_black</item>
+        <item name="icon_twitter">@drawable/icon_twitter_black</item>
+        <item name="icon_vk">@drawable/icon_vk_black</item>
+        <item name="icon_steam">@drawable/icon_steam_black</item>
+        <item name="icon_gp">@drawable/icon_gp_black</item>
+        <item name="icon_app_store">@drawable/icon_app_store_black</item>
+        <item name="ic_access_time_24dp">@drawable/ic_access_time_grey_700_24dp</item>
+        <item name="ic_account_balance_24dp">@drawable/ic_account_balance_grey_700_24dp</item>
+        <item name="ic_account_box_24dp">@drawable/ic_account_box_grey_700_24dp</item>
+        <item name="ic_account_circle_24dp">@drawable/ic_account_circle_grey_700_24dp</item>
+        <item name="ic_add_18dp">@drawable/ic_add_grey_700_18dp</item>
+        <item name="ic_add_24dp">@drawable/ic_add_grey_700_24dp</item>
+        <item name="ic_alarm_24dp">@drawable/ic_alarm_grey_700_24dp</item>
+        <item name="ic_all_inclusive_24dp">@drawable/ic_all_inclusive_grey_700_24dp</item>
+        <item name="ic_attach_file_24dp">@drawable/ic_attach_file_grey_700_24dp</item>
+        <item name="ic_bookmark_24dp">@drawable/ic_bookmark_grey_700_24dp</item>
+        <item name="ic_brush_24dp">@drawable/ic_brush_grey_700_24dp</item>
+        <item name="ic_burst_mode_24dp">@drawable/ic_burst_mode_grey_700_24dp</item>
+        <item name="ic_cached_24dp">@drawable/ic_cached_grey_700_24dp</item>
+        <item name="ic_check_box_24dp">@drawable/ic_check_box_grey_700_24dp</item>
+        <item name="ic_clear_18dp">@drawable/ic_clear_grey_700_18dp</item>
+        <item name="ic_clear_24dp">@drawable/ic_clear_grey_700_24dp</item>
+        <item name="ic_code_24dp">@drawable/ic_code_grey_700_24dp</item>
+        <item name="ic_crop_18dp">@drawable/ic_crop_grey_700_18dp</item>
+        <item name="ic_done_all_24dp">@drawable/ic_done_all_grey_700_24dp</item>
+        <item name="ic_done_24dp">@drawable/ic_done_grey_700_24dp</item>
+        <item name="ic_email_24dp">@drawable/ic_email_grey_700_24dp</item>
+        <item name="ic_exit_to_app_24dp">@drawable/ic_exit_to_app_grey_700_24dp</item>
+        <item name="ic_favorite_24dp">@drawable/ic_favorite_grey_700_24dp</item>
+        <item name="ic_format_quote_24dp">@drawable/ic_format_quote_grey_700_24dp</item>
+        <item name="ic_gavel_24dp">@drawable/ic_gavel_grey_700_24dp</item>
+        <item name="ic_group_24dp">@drawable/ic_group_grey_700_24dp</item>
+        <item name="ic_help_24dp">@drawable/ic_help_grey_700_24dp</item>
+        <item name="ic_info_outline_24dp">@drawable/ic_info_outline_grey_700_24dp</item>
+        <item name="ic_insert_link_24dp">@drawable/ic_insert_link_grey_700_24dp</item>
+        <item name="ic_insert_link_36dp">@drawable/ic_insert_link_grey_700_36dp</item>
+        <item name="ic_insert_photo_24dp">@drawable/ic_insert_photo_grey_700_24dp</item>
+        <item name="ic_keyboard_arrow_down_24dp">@drawable/ic_keyboard_arrow_down_grey_700_24dp</item>
+        <item name="ic_keyboard_arrow_up_24dp">@drawable/ic_keyboard_arrow_up_grey_700_24dp</item>
+        <item name="ic_keyboard_arrow_down_18dp">@drawable/ic_keyboard_arrow_down_grey_700_18dp</item>
+        <item name="ic_keyboard_arrow_up_18dp">@drawable/ic_keyboard_arrow_up_grey_700_18dp</item>
+        <item name="ic_landscape_24dp">@drawable/ic_landscape_grey_700_24dp</item>
+        <item name="ic_language_24dp">@drawable/ic_language_grey_700_24dp</item>
+        <item name="ic_memory_18dp">@drawable/ic_memory_grey_700_18dp</item>
+        <item name="ic_mode_comment_18dp">@drawable/ic_mode_comment_grey_700_18dp</item>
+        <item name="ic_mode_comment_24dp">@drawable/ic_mode_comment_grey_700_24dp</item>
+        <item name="ic_mode_edit_24dp">@drawable/ic_mode_edit_grey_700_24dp</item>
+        <item name="ic_more_vert_grey_18dp">@drawable/ic_more_vert_grey_800_18dp</item>
+        <item name="ic_more_vert_18dp">@drawable/ic_more_vert_grey_700_18dp</item>
+        <item name="ic_more_vert_24dp">@drawable/ic_more_vert_grey_700_24dp</item>
+        <item name="ic_movie_creation_18dp">@drawable/ic_movie_creation_grey_700_18dp</item>
+        <item name="ic_music_note_18dp">@drawable/ic_music_note_grey_700_18dp</item>
+        <item name="ic_notifications_24dp">@drawable/ic_notifications_grey_700_24dp</item>
+        <item name="ic_person_18dp">@drawable/ic_person_grey_700_18dp</item>
+        <item name="ic_person_24dp">@drawable/ic_person_grey_700_24dp</item>
+        <item name="ic_play_arrow_24dp">@drawable/ic_play_arrow_grey_700_24dp</item>
+        <item name="ic_pause_24dp">@drawable/ic_pause_grey_700_24dp</item>
+        <item name="ic_play_arrow_48dp">@drawable/ic_play_arrow_grey_700_48dp</item>
+        <item name="ic_reply_24dp">@drawable/ic_reply_grey_700_24dp</item>
+        <item name="ic_rowing_24dp">@drawable/ic_rowing_grey_700_24dp</item>
+        <item name="ic_search_24dp">@drawable/ic_search_grey_700_24dp</item>
+        <item name="ic_security_18dp">@drawable/ic_security_grey_700_18dp</item>
+        <item name="ic_security_24dp">@drawable/ic_security_grey_700_24dp</item>
+        <item name="ic_security_48dp">@drawable/ic_security_grey_700_48dp</item>
+        <item name="ic_send_24dp">@drawable/ic_send_grey_700_24dp</item>
+        <item name="ic_settings_24dp">@drawable/ic_settings_grey_700_24dp</item>
+        <item name="ic_share_24dp">@drawable/ic_share_grey_700_24dp</item>
+        <item name="ic_star_border_24dp">@drawable/ic_star_border_grey_700_24dp</item>
+        <item name="ic_star_border_36dp">@drawable/ic_star_border_grey_700_36dp</item>
+        <item name="ic_star_24dp">@drawable/ic_star_grey_700_24dp</item>
+        <item name="ic_star_36dp">@drawable/ic_star_grey_700_36dp</item>
+        <item name="ic_text_fields_24dp">@drawable/ic_text_fields_grey_700_24dp</item>
+        <item name="ic_thumbs_up_down_24dp">@drawable/ic_thumbs_up_down_grey_700_24dp</item>
+        <item name="ic_translate_24dp">@drawable/ic_translate_grey_700_24dp</item>
+        <item name="ic_trending_down_18dp">@drawable/ic_trending_down_grey_700_18dp</item>
+        <item name="ic_trending_flat_24dp">@drawable/ic_trending_flat_grey_700_24dp</item>
+        <item name="ic_trending_up_18dp">@drawable/ic_trending_up_grey_700_18dp</item>
+        <item name="ic_trending_up_24dp">@drawable/ic_trending_up_grey_700_24dp</item>
+        <item name="ic_tune_24dp">@drawable/ic_tune_grey_700_24dp</item>
+        <item name="ic_widgets_24dp">@drawable/ic_widgets_grey_700_24dp</item>
+        <item name="ic_book_24dp">@drawable/ic_book_grey_700_24dp</item>
+        <item name="ic_pets_24dp">@drawable/ic_pets_grey_700_24dp</item>
+        <item name="ic_directions_bike_24dp">@drawable/ic_directions_bike_grey_700_24dp</item>
+        <item name="ic_border_all_24dp">@drawable/ic_border_all_grey_700_24dp</item>
+        <item name="ic_border_left_24dp">@drawable/ic_border_left_grey_700_24dp</item>
+        <item name="ic_border_top_24dp">@drawable/ic_border_top_grey_700_24dp</item>
+        <item name="ic_border_right_24dp">@drawable/ic_border_right_grey_700_24dp</item>
+        <item name="ic_border_bottom_24dp">@drawable/ic_border_bottom_grey_700_24dp</item>
+        <item name="ic_not_interested_24dp">@drawable/ic_not_interested_grey_700_24dp</item>
+        <item name="ic_wb_incandescent_24dp">@drawable/ic_wb_incandescent_grey_700_24dp</item>
+        <item name="ic_whatshot_24dp">@drawable/ic_whatshot_grey_700_24dp</item>
+        <item name="ic_mood_24dp">@drawable/ic_mood_grey_700_24dp</item>
+        <item name="ic_spa_24dp">@drawable/ic_spa_grey_700_24dp</item>
+        <item name="ic_map_24dp">@drawable/ic_map_grey_700_24dp</item>
+    </style>
+
+    <style name="CampfireRootThemeWhiteColored" parent="CampfireRootThemeWhite">
+        <item name="toolbar_content_color">@color/white</item>
+        <item name="them_status_bar_is_light">false</item>
+        <item name="toolbar_content_color_secondary">@color/grey_700</item>
+        <item name="revers_color">@color/white</item>
+        <item name="revers_color_lighted">@color/grey_200</item>
+    </style>
+
+    <style name="CampfireThemeDarkGrey" parent="CampfireRootThemeBlack">
+        <item name="window_background">@color/grey_850</item>
+        <item name="android:windowBackground">?window_background</item>
+        <item name="content_background">@color/grey_800</item>
+        <item name="widget_background">@color/grey_825</item>
+        <item name="colorPrimaryDark">@color/grey_825</item>
+        <item name="colorPrimary">@color/grey_825</item>
+    </style>
+
+    <style name="CampfireThemeWhite_Red" parent="CampfireRootThemeWhiteColored">
+        <item name="colorPrimaryDark">@color/red_700</item>
+        <item name="colorPrimary">@color/red_700</item>
+    </style>
+
+    <style name="CampfireThemeWhite_Pink" parent="CampfireRootThemeWhiteColored">
+        <item name="colorPrimaryDark">@color/pink_700</item>
+        <item name="colorPrimary">@color/pink_700</item>
+    </style>
+
+    <style name="CampfireThemeWhite_Purple" parent="CampfireRootThemeWhiteColored">
+        <item name="colorPrimaryDark">@color/purple_700</item>
+        <item name="colorPrimary">@color/purple_700</item>
+    </style>
+
+    <style name="CampfireThemeWhite_DeepPurple" parent="CampfireRootThemeWhiteColored">
+        <item name="colorPrimaryDark">@color/deep_purple_700</item>
+        <item name="colorPrimary">@color/deep_purple_700</item>
+    </style>
+
+    <style name="CampfireThemeWhite_Indigo" parent="CampfireRootThemeWhiteColored">
+        <item name="colorPrimaryDark">@color/indigo_700</item>
+        <item name="colorPrimary">@color/indigo_700</item>
+    </style>
+
+    <style name="CampfireThemeWhite_Blue" parent="CampfireRootThemeWhiteColored">
+        <item name="colorPrimaryDark">@color/blue_700</item>
+        <item name="colorPrimary">@color/blue_700</item>
+    </style>
+
+    <style name="CampfireThemeWhite_LightBlue" parent="CampfireRootThemeWhiteColored">
+        <item name="colorPrimaryDark">@color/light_blue_700</item>
+        <item name="colorPrimary">@color/light_blue_700</item>
+    </style>
+
+    <style name="CampfireThemeWhite_Cyan" parent="CampfireRootThemeWhiteColored">
+        <item name="colorPrimaryDark">@color/cyan_700</item>
+        <item name="colorPrimary">@color/cyan_700</item>
+    </style>
+
+    <style name="CampfireThemeWhite_Teal" parent="CampfireRootThemeWhiteColored">
+        <item name="colorPrimaryDark">@color/teal_700</item>
+        <item name="colorPrimary">@color/teal_700</item>
+    </style>
+
+    <style name="CampfireThemeWhite_Green" parent="CampfireRootThemeWhiteColored">
+        <item name="colorPrimaryDark">@color/green_700</item>
+        <item name="colorPrimary">@color/green_700</item>
+    </style>
+
+    <style name="CampfireThemeWhite_LightGreen" parent="CampfireRootThemeWhiteColored">
+        <item name="colorPrimaryDark">@color/light_green_700</item>
+        <item name="colorPrimary">@color/light_green_700</item>
+    </style>
+
+    <style name="CampfireThemeWhite_Lime" parent="CampfireRootThemeWhiteColored">
+        <item name="colorPrimaryDark">@color/lime_700</item>
+        <item name="colorPrimary">@color/lime_700</item>
+    </style>
+
+    <style name="CampfireThemeWhite_DeepOrange" parent="CampfireRootThemeWhiteColored">
+        <item name="colorPrimaryDark">@color/deep_orange_700</item>
+        <item name="colorPrimary">@color/deep_orange_700</item>
+    </style>
+
+    <style name="CampfireThemeWhite_Brown" parent="CampfireRootThemeWhiteColored">
+        <item name="colorPrimaryDark">@color/brown_700</item>
+        <item name="colorPrimary">@color/brown_700</item>
+    </style>
+
+    <style name="CampfireThemeWhite_BlueGrey" parent="CampfireRootThemeWhiteColored">
+        <item name="colorPrimaryDark">@color/blue_grey_700</item>
+        <item name="colorPrimary">@color/blue_grey_700</item>
+    </style>
+
+
+
+    <style name="CampfireThemeBlack_Red" parent="CampfireRootThemeBlack">
+        <item name="colorPrimaryDark">@color/red_900</item>
+        <item name="colorPrimary">@color/red_900</item>
+    </style>
+
+    <style name="CampfireThemeBlack_Pink" parent="CampfireRootThemeBlack">
+        <item name="colorPrimaryDark">@color/pink_900</item>
+        <item name="colorPrimary">@color/pink_900</item>
+    </style>
+
+    <style name="CampfireThemeBlack_Purple" parent="CampfireRootThemeBlack">
+        <item name="colorPrimaryDark">@color/purple_900</item>
+        <item name="colorPrimary">@color/purple_900</item>
+    </style>
+
+    <style name="CampfireThemeBlack_DeepPurple" parent="CampfireRootThemeBlack">
+        <item name="colorPrimaryDark">@color/deep_purple_900</item>
+        <item name="colorPrimary">@color/deep_purple_900</item>
+    </style>
+
+    <style name="CampfireThemeBlack_Indigo" parent="CampfireRootThemeBlack">
+        <item name="colorPrimaryDark">@color/indigo_900</item>
+        <item name="colorPrimary">@color/indigo_900</item>
+    </style>
+
+    <style name="CampfireThemeBlack_Blue" parent="CampfireRootThemeBlack">
+        <item name="colorPrimaryDark">@color/blue_900</item>
+        <item name="colorPrimary">@color/blue_900</item>
+    </style>
+
+    <style name="CampfireThemeBlack_LightBlue" parent="CampfireRootThemeBlack">
+        <item name="colorPrimaryDark">@color/light_blue_900</item>
+        <item name="colorPrimary">@color/light_blue_900</item>
+    </style>
+
+    <style name="CampfireThemeBlack_Cyan" parent="CampfireRootThemeBlack">
+        <item name="colorPrimaryDark">@color/cyan_900</item>
+        <item name="colorPrimary">@color/cyan_900</item>
+    </style>
+
+    <style name="CampfireThemeBlack_Teal" parent="CampfireRootThemeBlack">
+        <item name="colorPrimaryDark">@color/teal_900</item>
+        <item name="colorPrimary">@color/teal_900</item>
+    </style>
+
+    <style name="CampfireThemeBlack_Green" parent="CampfireRootThemeBlack">
+        <item name="colorPrimaryDark">@color/green_900</item>
+        <item name="colorPrimary">@color/green_900</item>
+    </style>
+
+    <style name="CampfireThemeBlack_LightGreen" parent="CampfireRootThemeBlack">
+        <item name="colorPrimaryDark">@color/light_green_900</item>
+        <item name="colorPrimary">@color/light_green_900</item>
+    </style>
+
+    <style name="CampfireThemeBlack_Lime" parent="CampfireRootThemeBlack">
+        <item name="colorPrimaryDark">@color/lime_900</item>
+        <item name="colorPrimary">@color/lime_900</item>
+    </style>
+
+    <style name="CampfireThemeBlack_DeepOrange" parent="CampfireRootThemeBlack">
+        <item name="colorPrimaryDark">@color/deep_orange_900</item>
+        <item name="colorPrimary">@color/deep_orange_900</item>
+    </style>
+
+    <style name="CampfireThemeBlack_Brown" parent="CampfireRootThemeBlack">
+        <item name="colorPrimaryDark">@color/brown_900</item>
+        <item name="colorPrimary">@color/brown_900</item>
+    </style>
+
+    <style name="CampfireThemeBlack_BlueGrey" parent="CampfireRootThemeBlack">
+        <item name="colorPrimaryDark">@color/blue_grey_900</item>
+        <item name="colorPrimary">@color/blue_grey_900</item>
+    </style>
 
 </resources>

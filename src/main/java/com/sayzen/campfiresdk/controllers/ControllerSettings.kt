@@ -96,6 +96,14 @@ object ControllerSettings {
             onSettingsUpdated()
         }
 
+
+    var styleTheme: Int
+        get() = accountSettings.theme
+        set(b) {
+            accountSettings.theme = b
+            onSettingsUpdated()
+        }
+
     var interfaceType: Int
         get() = accountSettings.interfaceType
         set(b) {
@@ -392,6 +400,13 @@ object ControllerSettings {
         get() = accountSettings.feedImportant
         set(b) {
             accountSettings.feedImportant = b
+            onSettingsUpdated()
+        }
+
+    var feedOrder: Array<Long>
+        get() =if (accountSettings.feedOrder.isEmpty()) arrayOf(1L, 3L, 4L, 5L) else  accountSettings.feedOrder
+        set(b) {
+            accountSettings.feedOrder = b
             onSettingsUpdated()
         }
 
