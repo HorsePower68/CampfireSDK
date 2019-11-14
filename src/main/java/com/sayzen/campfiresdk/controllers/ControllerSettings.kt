@@ -234,6 +234,27 @@ object ControllerSettings {
             onSettingsUpdated()
         }
 
+    var storyQuestIndex: Long
+        get() = accountSettings.storyQuestIndex
+        set(b) {
+            accountSettings.storyQuestIndex = b
+            onSettingsUpdated()
+        }
+
+    var storyQuestProgress: Long
+        get() = accountSettings.storyQuestProgress
+        set(b) {
+            accountSettings.storyQuestProgress = b
+            onSettingsUpdated()
+        }
+
+    var storyQuestProgressNeed: Long
+        get() = accountSettings.storyQuestProgressNeed
+        set(b) {
+            accountSettings.storyQuestProgressNeed = b
+            onSettingsUpdated()
+        }
+
     //
     //  Notifications Settings
     //

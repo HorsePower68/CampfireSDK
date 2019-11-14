@@ -13,16 +13,13 @@ import com.dzen.campfire.api.requests.accounts.*
 import com.dzen.campfire.api.requests.units.RUnitsGetAll
 import com.sayzen.campfiresdk.R
 import com.sayzen.campfiresdk.adapters.XAccount
+import com.sayzen.campfiresdk.controllers.*
 import com.sayzen.campfiresdk.models.cards.CardPost
 import com.sayzen.campfiresdk.models.cards.CardUnit
 import com.sayzen.campfiresdk.models.PostList
 import com.sup.dev.android.tools.ToolsGif
 import com.sayzen.campfiresdk.models.widgets.WidgetAdminBlock
 import com.sayzen.campfiresdk.screens.account.search.SAccountSearch
-import com.sayzen.campfiresdk.controllers.ControllerApi
-import com.sayzen.campfiresdk.controllers.ControllerCampfireSDK
-import com.sayzen.campfiresdk.controllers.ControllerSettings
-import com.sayzen.campfiresdk.controllers.api
 import com.sayzen.campfiresdk.models.events.account.*
 import com.sayzen.campfiresdk.models.events.publications.EventPostPinedProfile
 import com.sayzen.campfiresdk.screens.administation.SAdministrationDeepBlocked
@@ -90,6 +87,9 @@ class SAccount private constructor(
     private var cardPinnedPost: CardPost? = null
 
     init {
+
+        if(xAccount.isCurrentAccount())ControllerStoryQuest.incrQuest(API.QUEST_STORY_PROFILE)
+
         vToolbarCollapsingShadow.background = GradientDrawable(GradientDrawable.Orientation.TOP_BOTTOM, intArrayOf(0x60000000, 0x00000000))
 
         vMore.setOnClickListener { showDialog() }

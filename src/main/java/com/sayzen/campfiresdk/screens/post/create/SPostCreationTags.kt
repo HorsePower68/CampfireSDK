@@ -12,6 +12,7 @@ import com.dzen.campfire.api.requests.tags.RTagsGetAll
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.sayzen.campfiresdk.R
 import com.sayzen.campfiresdk.controllers.ControllerApi
+import com.sayzen.campfiresdk.controllers.ControllerStoryQuest
 import com.sayzen.campfiresdk.controllers.ControllerUnits
 import com.sayzen.campfiresdk.models.events.publications.EventPostStatusChange
 import com.sayzen.campfiresdk.screens.fandoms.rubrics.SRubricsList
@@ -61,6 +62,7 @@ class SPostCreationTags private constructor(
                 ApiRequestsSupporter.executeProgressDialog(RPostPublication(unitId, tags, "", notifyFollowers, pendingTime, closed, rubricId)) { _ ->
                     EventBus.post(EventPostStatusChange(unitId, API.STATUS_PUBLIC))
                     onCreate.invoke()
+                    ControllerStoryQuest.incrQuest(API.QUEST_STORY_POST)
                 }
             }
         }

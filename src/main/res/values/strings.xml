@@ -1030,12 +1030,14 @@
     <string name="quests_text_posts_karma">Publish an post that will get large amount of karma.</string>
     <string name="quests_text_comments_karma">Post a comment that will get a lot of karma.</string>
     <string name="quests_story_1">Start the quest.</string>
+    <string name="quests_story_1_button">I\'m ready!</string>
     <string name="quests_story_2">Rate some posts.</string>
     <string name="quests_story_3">Open achievements screen.</string>
     <string name="quests_story_4">Send something to chat.</string>
     <string name="quests_story_5">Open "All" tab in feed</string>
     <string name="quests_story_6">Open category filters.</string>
     <string name="quests_story_7">Create the post.</string>
+    <string name="quests_story_8">Finish</string>
 
     <string name="wiki_list_empty">There are no items in this wiki yet.</string>
     <string name="wiki_item_create_name">Name (%s)</string>

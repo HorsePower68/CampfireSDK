@@ -3,19 +3,14 @@ package com.sayzen.campfiresdk.screens.fandoms
 import android.view.View
 import android.widget.Button
 import android.widget.TextView
-import com.dzen.campfire.api.API
 import com.dzen.campfire.api.models.notifications.project.NotificationQuestProgress
 import com.dzen.campfire.api.requests.achievements.RAchievementsQuestInfo
 import com.sayzen.campfiresdk.R
 import com.sayzen.campfiresdk.app.CampfireConstants
 import com.sayzen.campfiresdk.controllers.ControllerApi
-import com.sayzen.campfiresdk.controllers.ControllerCampfireSDK
 import com.sayzen.campfiresdk.controllers.api
 import com.sayzen.campfiresdk.models.events.account.EventAccountChanged
 import com.sayzen.campfiresdk.models.events.notifications.EventNotification
-import com.sayzen.campfiresdk.screens.fandoms.story_quest.SStoryQuest
-import com.sayzen.campfiresdk.screens.fandoms.view.SFandom
-import com.sup.dev.android.libs.screens.navigator.Navigator
 import com.sup.dev.android.views.cards.Card
 import com.sup.dev.android.views.views.ViewProgressLine
 import com.sup.dev.java.libs.eventBus.EventBus
@@ -43,7 +38,6 @@ class CardQuest : Card(R.layout.screen_fandom_card_quest) {
         val vQuestLine: ViewProgressLine = view.findViewById(R.id.vQuestLine)
         val vQuestProgress: TextView = view.findViewById(R.id.vQuestProgress)
         val vRetry: Button = view.findViewById(R.id.vRetry)
-        val vQuestTitle: TextView = view.findViewById(R.id.vQuestTitle)
 
         vRetry.setOnClickListener {
             load()
@@ -54,17 +48,6 @@ class CardQuest : Card(R.layout.screen_fandom_card_quest) {
         if (questIndex > 0 && ControllerApi.account.lvl > 0) {
             val quest = CampfireConstants.getQuest(questIndex)
             vRetry.visibility = View.GONE
-
-            if(questIndex >= API.QUEST_STORY_START.index){
-                vQuestTitle.visibility = View.VISIBLE
-                view.setOnClickListener { SStoryQuest.to(questIndex) }
-                view.isClickable = true
-            }else{
-                vQuestTitle.visibility = View.GONE
-                view.setOnClickListener(null)
-                view.isClickable = false
-            }
-
             if (questFinished || questProgress >= quest.quest.getTarget(ControllerApi.account.lvl)) {
                 vQuestText.setText(R.string.quests_next)
                 vQuestLine.visibility = View.GONE
@@ -81,14 +64,12 @@ class CardQuest : Card(R.layout.screen_fandom_card_quest) {
             vRetry.visibility = View.VISIBLE
             vQuestLine.visibility = View.GONE
             vQuestProgress.visibility = View.GONE
-            vQuestTitle.visibility = View.GONE
 
         } else {
             vQuestText.setText(R.string.app_loading_dots)
             vQuestLine.visibility = View.GONE
             vRetry.visibility = View.GONE
             vQuestProgress.visibility = View.GONE
-            vQuestTitle.visibility = View.GONE
         }
 
     }
@@ -96,7 +77,7 @@ class CardQuest : Card(R.layout.screen_fandom_card_quest) {
     private fun load() {
         error = false
         update()
-        RAchievementsQuestInfo(!SFandom.INCLUDE_SPECIAL_CARDS)
+        RAchievementsQuestInfo()
                 .onComplete {
                     questIndex = it.questIndex
                     questProgress = it.questProgress
@@ -112,8 +93,8 @@ class CardQuest : Card(R.layout.screen_fandom_card_quest) {
     }
 
     private fun onEventNotification(e: EventNotification) {
-        if (e.notification is NotificationQuestProgress && e.notification.questIndex == questIndex) {
-            questProgress = e.notification.progress
+        if (e.notification is NotificationQuestProgress) {
+            questProgress = (e.notification as NotificationQuestProgress).progress
             update()
         }
     }
@@ -125,6 +106,10 @@ class CardQuest : Card(R.layout.screen_fandom_card_quest) {
         update()
     }
 
+    fun hide() {
+        if (!visible) return
+        visible = false
+        update()
+    }
+
 }
-
-

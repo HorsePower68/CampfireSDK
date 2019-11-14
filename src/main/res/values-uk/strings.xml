@@ -1026,12 +1026,14 @@
     <string name="quests_text_posts_karma">Опубликуйте пост, который наберет большое количество кармы.</string>
     <string name="quests_text_comments_karma">Опубликуйте комментарий, который наберет большое количество кармы.</string>
     <string name="quests_story_1">Начните квест.</string>
+    <string name="quests_story_1_button">Я готов!</string>
     <string name="quests_story_2">Оцените несколько публикаций.</string>
     <string name="quests_story_3">Откройте экран достижений.</string>
     <string name="quests_story_4">Напишите чтонибудь в чате.</string>
     <string name="quests_story_5">Откройте экран бездны.</string>
     <string name="quests_story_6">Откройте фильтры категорий.</string>
     <string name="quests_story_7">Создайте пост.</string>
+    <string name="quests_story_8">Всё</string>
 
     <string name="wiki_list_empty">В этой вики еще нет элементов</string>
     <string name="wiki_item_create_name">Название (%s)</string>

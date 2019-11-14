@@ -131,14 +131,18 @@ object CampfireConstants {
             Quest(API.QUEST_COMMENTS, R.string.quests_text_comments),
             Quest(API.QUEST_CHAT, R.string.quests_text_chat),
             Quest(API.QUEST_POST_KARMA, R.string.quests_text_posts_karma),
-            Quest(API.QUEST_COMMENTS_KARMA, R.string.quests_text_comments_karma),
-            Quest(API.QUEST_STORY_START, R.string.quests_story_1),
-            Quest(API.QUEST_STORY_KARMA, R.string.quests_story_2),
-            Quest(API.QUEST_STORY_ACHI_SCREEN, R.string.quests_story_3),
-            Quest(API.QUEST_STORY_CHAT, R.string.quests_story_4),
-            Quest(API.QUEST_STORY_ALL_SCREEN, R.string.quests_story_5),
-            Quest(API.QUEST_STORY_FILTERS, R.string.quests_story_6),
-            Quest(API.QUEST_STORY_POST, R.string.quests_story_7)
+            Quest(API.QUEST_COMMENTS_KARMA, R.string.quests_text_comments_karma)
+    )
+
+    val QUESTS_STORY = arrayOf(
+            QuestStory(API.QUEST_STORY_START, R.string.quests_story_1, R.string.quests_story_1_button, false),
+            QuestStory(API.QUEST_STORY_KARMA, R.string.quests_story_2),
+            QuestStory(API.QUEST_STORY_ACHI_SCREEN, R.string.quests_story_3),
+            QuestStory(API.QUEST_STORY_CHAT, R.string.quests_story_4),
+            QuestStory(API.QUEST_STORY_PROFILE, R.string.quests_story_5),
+            QuestStory(API.QUEST_STORY_FILTERS, R.string.quests_story_6),
+            QuestStory(API.QUEST_STORY_POST, R.string.quests_story_7),
+            QuestStory(API.QUEST_STORY_FINISH, R.string.quests_story_8)
     )
 
     val CATEGORIES = arrayOf(
@@ -224,6 +228,13 @@ object CampfireConstants {
             if (a.quest.index == index)
                 return a
         return Quest(API.QUEST_UNKNOWN, R.string.error_unknown)
+    }
+
+    fun getStoryQuest(index: Long): QuestStory? {
+        for (a in QUESTS_STORY)
+            if (a.index == index)
+                return a
+        return null
     }
 
     fun getCategory(index: Long): FandomParam {

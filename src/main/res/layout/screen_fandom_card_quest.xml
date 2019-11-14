@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/vTouch"
     style="@style/Touchable"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="?content_background"
     android:orientation="vertical"
+    android:background="?content_background"
     android:paddingLeft="16dp"
-    android:paddingTop="8dp"
     android:paddingRight="16dp"
+    android:paddingTop="8dp"
     android:paddingBottom="8dp">
-
 
     <FrameLayout
         android:layout_width="match_parent"
@@ -18,37 +18,20 @@
         android:minHeight="48dp"
         android:paddingLeft="16dp">
 
-        <LinearLayout
+        <TextView
+            android:id="@+id/vQuestText"
+            style="@style/Base.TextAppearance.AppCompat.Body1"
+            android:layout_gravity="left|center"
             android:layout_width="wrap_content"
-            android:orientation="vertical"
-            android:layout_height="wrap_content"
-            android:layout_gravity="left|center">
-
-            <TextView
-                android:id="@+id/vQuestTitle"
-                style="@style/TextAppearance.AppCompat.Title"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/quests_story_title"
-                android:textColor="@color/orange_700" />
-
-            <TextView
-                android:id="@+id/vQuestText"
-                android:layout_marginTop="4dp"
-                android:layout_marginBottom="4dp"
-                style="@style/Base.TextAppearance.AppCompat.Body1"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-
-        </LinearLayout>
+            android:layout_height="wrap_content"/>
 
         <Button
             android:id="@+id/vRetry"
-            style="@style/Button.Text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="right|center"
-            android:text="@string/app_retry" />
+            style="@style/Button.Text"
+            android:text="@string/app_retry"/>
 
     </FrameLayout>
 
@@ -56,7 +39,6 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="4dp"
         android:orientation="horizontal">
 
         <com.sup.dev.android.views.views.ViewProgressLine
@@ -66,7 +48,7 @@
             android:layout_gravity="center"
             android:layout_marginLeft="16dp"
             android:layout_marginRight="16dp"
-            android:layout_weight="1" />
+            android:layout_weight="1"/>
 
         <TextView
             android:id="@+id/vQuestProgress"
@@ -74,7 +56,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="right|center"
-            android:text="10/10" />
+            android:text="10/10"/>
 
     </LinearLayout>
 

@@ -1,5 +1,6 @@
 package com.sayzen.campfiresdk.controllers
 
+import com.dzen.campfire.api.API
 import com.dzen.campfire.api.requests.units.RUnitsKarmaAdd
 import com.sayzen.campfiresdk.R
 import com.sayzen.campfiresdk.app.CampfireConstants
@@ -53,6 +54,7 @@ object ControllerKarma {
             subscription = ToolsThreads.main(CampfireConstants.RATE_TIME) {
                 ApiRequestsSupporter.execute(RUnitsKarmaAdd(unitId, up, ControllerApi.getLanguageId(), anon)) { r ->
                     EventBus.post(EventPublicationKarmaAdd(unitId, r.myKarmaCount))
+                    ControllerStoryQuest.incrQuest(API.QUEST_STORY_KARMA)
                 }
                     .onApiError(RUnitsKarmaAdd.E_SELF_PUBLICATION) { ToolsToast.show(R.string.error_rate_self_unit) }
                     .onApiError(RUnitsKarmaAdd.E_CANT_DOWN) { ToolsToast.show(R.string.error_rate_cant_down) }

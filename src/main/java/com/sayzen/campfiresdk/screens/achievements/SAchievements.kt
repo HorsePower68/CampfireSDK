@@ -3,6 +3,7 @@ package com.sayzen.campfiresdk.screens.achievements
 import androidx.appcompat.widget.Toolbar
 import android.view.View
 import androidx.viewpager.widget.ViewPager
+import com.dzen.campfire.api.API
 
 import com.dzen.campfire.api.requests.achievements.RAchievementsInfo
 import com.sayzen.campfiresdk.R
@@ -10,6 +11,7 @@ import com.sayzen.campfiresdk.adapters.XAccount
 import com.sayzen.campfiresdk.screens.achievements.achievements.PageAchievements
 import com.sayzen.campfiresdk.screens.achievements.lvl.PageLvl
 import com.sayzen.campfiresdk.controllers.ControllerApi
+import com.sayzen.campfiresdk.controllers.ControllerStoryQuest
 import com.sayzen.devsupandroidgoogle.ControllerFirebaseAnalytics
 import com.sup.dev.android.libs.api_simple.ApiRequestsSupporter
 import com.sup.dev.android.libs.screens.navigator.NavigationAction
@@ -70,6 +72,8 @@ class SAchievements private constructor(
         })
 
         update()
+
+        ControllerStoryQuest.incrQuest(API.QUEST_STORY_ACHI_SCREEN)
     }
 
     private fun update(){

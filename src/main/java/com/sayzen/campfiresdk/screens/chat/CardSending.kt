@@ -7,6 +7,7 @@ import com.dzen.campfire.api.models.publications.chat.PublicationChatMessage
 import com.dzen.campfire.api.requests.chat.RChatMessageCreate
 import com.sayzen.campfiresdk.R
 import com.sayzen.campfiresdk.controllers.ControllerApi
+import com.sayzen.campfiresdk.controllers.ControllerStoryQuest
 import com.sayzen.campfiresdk.models.events.chat.EventChatMemberStatusChanged
 import com.sayzen.campfiresdk.models.events.chat.EventUpdateChats
 import com.sup.dev.android.libs.api_simple.ApiRequestsSupporter
@@ -38,6 +39,7 @@ class CardSending(
             sendingDone = true
             afterSend(r.message)
             EventBus.post(EventChatMemberStatusChanged(screen.tag, ControllerApi.account.id, API.CHAT_MEMBER_STATUS_ACTIVE))
+            if(request.tag.chatType == API.CHAT_TYPE_FANDOM_ROOT || request.tag.chatType == API.CHAT_TYPE_FANDOM_SUB) ControllerStoryQuest.incrQuest(API.QUEST_STORY_CHAT)
         }
                 .onApiError(RChatMessageCreate.E_BLACK_LIST) {
                     ToolsToast.show(R.string.error_black_list)
