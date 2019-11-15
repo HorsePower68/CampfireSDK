@@ -5,7 +5,7 @@ import android.widget.TextView
 import com.dzen.campfire.api.models.publications.stickers.PublicationStickersPack
 import com.sayzen.campfiresdk.R
 import com.sayzen.campfiresdk.controllers.ControllerStickers
-import com.sayzen.campfiresdk.models.cards.CardUnit
+import com.sayzen.campfiresdk.models.cards.CardPublication
 import com.sayzen.campfiresdk.models.events.stickers.EventStickersPackChanged
 import com.sayzen.campfiresdk.models.widgets.WidgetComment
 import com.sayzen.campfiresdk.screens.comments.SComments
@@ -21,7 +21,7 @@ class CardStickersPack(
         unit: PublicationStickersPack,
         val isShowFullInfo: Boolean = false,
         val isShowReports: Boolean = true
-) : CardUnit(R.layout.card_stickers_pack, unit) {
+) : CardPublication(R.layout.card_stickers_pack, unit) {
 
     private val eventBus = EventBus
             .subscribe(EventStickersPackChanged::class) {
@@ -34,7 +34,7 @@ class CardStickersPack(
 
     override fun bindView(view: View) {
         super.bindView(view)
-        val unit = xUnit.unit as PublicationStickersPack
+        val unit = xPublication.publication as PublicationStickersPack
 
         val vAvatar: ViewAvatarTitle = view.findViewById(R.id.vAvatar)
         val vMenu: View = view.findViewById(R.id.vMenu)
@@ -77,17 +77,17 @@ class CardStickersPack(
 
     override fun updateReports() {
         if(getView() == null) return
-        xUnit.xReports.setView(getView()!!.findViewById(R.id.vReports))
+        xPublication.xReports.setView(getView()!!.findViewById(R.id.vReports))
     }
 
     override fun updateKarma() {
         if (getView() == null) return
         val viewKarma: ViewKarma = getView()!!.findViewById(R.id.vKarma)
-        xUnit.xKarma.setView(viewKarma)
+        xPublication.xKarma.setView(viewKarma)
     }
 
     override fun notifyItem() {
-        val unit = xUnit.unit as PublicationStickersPack
+        val unit = xPublication.publication as PublicationStickersPack
         ToolsImagesLoader.load(unit.imageId).intoCash()
     }
 

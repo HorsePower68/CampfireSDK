@@ -14,10 +14,10 @@ import com.sup.dev.android.views.views.ViewAvatarTitle
 import com.sup.dev.java.tools.ToolsDate
 
 class CardHistoryUnit(
-        val historyUnit: HistoryUnit
+        val historyPublication: HistoryPublication
 ) : Card(R.layout.card_history_unit) {
 
-    val history = historyUnit.history
+    val history = historyPublication.history
 
 
     override fun bindView(view: View) {
@@ -27,7 +27,7 @@ class CardHistoryUnit(
 
         ToolsImagesLoader.load(history.userImageId).into(vAvatar.vAvatar.vImageView)
         vAvatar.vAvatar.setOnClickListener { ControllerCampfireSDK.onToAccountClicked(history.userId, Navigator.TO) }
-        vAvatar.setTitle(history.userName + " " + ToolsDate.dateToString(historyUnit.date))
+        vAvatar.setTitle(history.userName + " " + ToolsDate.dateToString(historyPublication.date))
         vAvatar.setSubtitle("")
 
         when (history) {

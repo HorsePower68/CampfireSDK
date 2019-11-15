@@ -5,14 +5,14 @@ import android.view.View
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.dzen.campfire.api.API
-import com.dzen.campfire.api.models.notifications.units.NotificationFollowsPublication
-import com.dzen.campfire.api.models.notifications.units.NotificationUnitImportant
+import com.dzen.campfire.api.models.notifications.publications.NotificationFollowsPublication
+import com.dzen.campfire.api.models.notifications.publications.NotificationPublicationImportant
 import com.dzen.campfire.api.models.publications.post.PublicationPost
 import com.dzen.campfire.api.models.publications.tags.PublicationTag
 import com.dzen.campfire.api.requests.post.RPostGet
 import com.sayzen.campfiresdk.R
 import com.sayzen.campfiresdk.adapters.AdapterComments
-import com.sayzen.campfiresdk.adapters.XUnit
+import com.sayzen.campfiresdk.adapters.XPublication
 import com.sayzen.campfiresdk.controllers.*
 import com.sayzen.campfiresdk.models.cards.post_pages.CardPage
 import com.sayzen.campfiresdk.models.events.publications.*
@@ -55,7 +55,7 @@ class SPost constructor(
     private val vShare: View = findViewById(R.id.vShare)
 
     private val adapter: AdapterComments = AdapterComments(unit.id, commentId, vRecycler)
-    private val xUnit = XUnit(unit,
+    private val xUnit = XPublication(unit,
             onChangedAccount = { cardInfo.updateAccount() },
             onChangedFandom = { cardInfo.updateFandom() },
             onChangedKarma = { cardInfo.updateKarma() },
@@ -84,7 +84,7 @@ class SPost constructor(
         vRecycler.adapter = adapter
 
         ControllerNotifications.removeNotificationFromNew(NotificationFollowsPublication::class, unit.id)
-        ControllerNotifications.removeNotificationFromNew(NotificationUnitImportant::class, unit.id)
+        ControllerNotifications.removeNotificationFromNew(NotificationPublicationImportant::class, unit.id)
 
         if (unit.fandomClosed) ToolsThreads.main(true) { ControllerClosedFandoms.showAlertIfNeed(this, unit.fandomId, true) }
 
@@ -96,14 +96,14 @@ class SPost constructor(
     //
 
     private fun onPostChanged(e: EventPostChanged) {
-        if (e.unitId == xUnit.unit.id) {
+        if (e.publicationId == xUnit.publication.id) {
             adapter.remove(CardPage::class)
-            for (i in 0 until e.pages.size) adapter.add(i, CardPage.instance(xUnit.unit as PublicationPost, e.pages[i]))
+            for (i in 0 until e.pages.size) adapter.add(i, CardPage.instance(xUnit.publication as PublicationPost, e.pages[i]))
         }
     }
 
     private fun onEventPostStatusChange(e: EventPostStatusChange) {
-        if (e.unitId == xUnit.unit.id && e.status != API.STATUS_PUBLIC) Navigator.remove(this)
+        if (e.publicationId == xUnit.publication.id && e.status != API.STATUS_PUBLIC) Navigator.remove(this)
     }
 
 }

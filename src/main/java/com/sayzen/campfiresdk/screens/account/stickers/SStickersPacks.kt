@@ -51,7 +51,7 @@ class SStickersPacks(
     override fun instanceAdapter(): RecyclerCardAdapterLoading<CardStickersPack, PublicationStickersPack> {
         val adapter = RecyclerCardAdapterLoading<CardStickersPack, PublicationStickersPack>(CardStickersPack::class) { CardStickersPack(it) }
                 .setBottomLoader { onLoad, cards ->
-                    subscription = RStickersPacksGetAllByAccount(accountId, if(cards.isEmpty()) Long.MAX_VALUE else cards.get(cards.size-1).xUnit.unit.dateCreate)
+                    subscription = RStickersPacksGetAllByAccount(accountId, if(cards.isEmpty()) Long.MAX_VALUE else cards.get(cards.size-1).xPublication.publication.dateCreate)
                             .onComplete { r ->
                                 if (loaded) {
                                     onLoad.invoke(emptyArray())

@@ -1,6 +1,6 @@
 package com.sayzen.campfiresdk.models.events.publications
 
 class EventPostCloseChange(
-        val unitId: Long,
+        val publicationId: Long,
         val closed: Boolean
 )

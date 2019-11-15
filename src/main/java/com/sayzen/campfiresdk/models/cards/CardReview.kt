@@ -2,9 +2,8 @@ package com.sayzen.campfiresdk.models.cards
 
 import android.view.View
 import android.widget.ImageView
-import android.widget.TextView
 import com.dzen.campfire.api.API
-import com.dzen.campfire.api.models.UnitReview
+import com.dzen.campfire.api.models.PublicationReview
 import com.sayzen.campfiresdk.R
 import com.sayzen.campfiresdk.controllers.ControllerApi
 import com.sayzen.campfiresdk.models.events.fandom.EventFandomReviewChanged
@@ -22,8 +21,8 @@ import com.sup.dev.java.libs.eventBus.EventBus
 import com.sup.dev.java.tools.ToolsColor
 
 class CardReview(
-        unit: UnitReview
-) : CardUnit(R.layout.card_unit_review, unit) {
+        publication: PublicationReview
+) : CardPublication(R.layout.card_unit_review, publication) {
 
     private val eventBus = EventBus
             .subscribe(EventFandomReviewChanged::class) { this.onEventFandomReviewChanged(it) }
@@ -32,7 +31,7 @@ class CardReview(
 
     override fun bindView(view: View) {
         super.bindView(view)
-        val unit = xUnit.unit as UnitReview
+        val unit = xPublication.publication as PublicationReview
 
         val vText: ViewTextLinkable = view.findViewById(R.id.vText)
         val vMenu: View = view.findViewById(R.id.vMenu)
@@ -64,8 +63,8 @@ class CardReview(
     override fun updateAccount() {
         if (getView() == null) return
         val vAvatarTitle: ViewAvatarTitle = getView()!!.findViewById(R.id.vAvatarTitle)
-        if (showFandom) xUnit.xFandom.setView(vAvatarTitle)
-        else xUnit.xAccount.setView(vAvatarTitle)
+        if (showFandom) xPublication.xFandom.setView(vAvatarTitle)
+        else xPublication.xAccount.setView(vAvatarTitle)
     }
 
     override fun updateComments() {
@@ -78,31 +77,31 @@ class CardReview(
 
     override fun updateKarma() {
         if (getView() == null) return
-        xUnit.xKarma.setView(getView()!!.findViewById(R.id.vKarma))
+        xPublication.xKarma.setView(getView()!!.findViewById(R.id.vKarma))
     }
 
     override fun updateReports() {
         if(getView() == null) return
-        xUnit.xReports.setView(getView()!!.findViewById(R.id.vReports))
+        xPublication.xReports.setView(getView()!!.findViewById(R.id.vReports))
     }
 
     private fun onMenuClicked() {
-        val unit = xUnit.unit as UnitReview
+        val publication = xPublication.publication as PublicationReview
 
         WidgetMenu()
-                .groupCondition(ControllerApi.isCurrentAccount(unit.creatorId))
-                .add(R.string.app_change) { _, _ -> WidgetReview(unit.fandomId, unit.languageId, unit.rate, unit.text) {}.asSheetShow() }.condition(unit.isPublic)
-                .add(R.string.app_remove) { _, _ -> ControllerApi.removeUnit(unit.id, R.string.review_remove_confirm, R.string.review_error_gone) { EventBus.post(EventFandomReviewRemoved(unit.fandomId, unit.languageId, unit.id, unit.rate)) } }
-                .groupCondition(!ControllerApi.isCurrentAccount(unit.creatorId) && unit.isPublic)
-                .add(R.string.app_report) { _, _ -> ControllerApi.reportUnit(unit.id, R.string.review_report_confirm, R.string.review_error_gone) }
+                .groupCondition(ControllerApi.isCurrentAccount(publication.creatorId))
+                .add(R.string.app_change) { _, _ -> WidgetReview(publication.fandomId, publication.languageId, publication.rate, publication.text) {}.asSheetShow() }.condition(publication.isPublic)
+                .add(R.string.app_remove) { _, _ -> ControllerApi.removePublication(publication.id, R.string.review_remove_confirm, R.string.review_error_gone) { EventBus.post(EventFandomReviewRemoved(publication.fandomId, publication.languageId, publication.id, publication.rate)) } }
+                .groupCondition(!ControllerApi.isCurrentAccount(publication.creatorId) && publication.isPublic)
+                .add(R.string.app_report) { _, _ -> ControllerApi.reportPublication(publication.id, R.string.review_report_confirm, R.string.review_error_gone) }
                 .clearGroupCondition()
-                .add(R.string.app_share) { _, _ -> ControllerApi.shareReview(unit.id) }.condition(unit.isPublic)
+                .add(R.string.app_share) { _, _ -> ControllerApi.shareReview(publication.id) }.condition(publication.isPublic)
                 .add(R.string.app_copy_link) { _, _ ->
-                    ToolsAndroid.setToClipboard(ControllerApi.linkToReview(unit.id))
+                    ToolsAndroid.setToClipboard(ControllerApi.linkToReview(publication.id))
                     ToolsToast.show(R.string.app_copied)
                 }
-                .add(R.string.app_clear_reports) { _, _ -> ControllerApi.clearReportsUnit(unit.id, unit.unitType) }.backgroundRes(R.color.blue_700).textColorRes(R.color.white).condition(ControllerApi.can(unit.fandomId, unit.languageId, API.LVL_MODERATOR_BLOCK) && unit.reportsCount > 0)
-                .add(R.string.app_remove_text) { _, _ -> WidgetModerationBlock.show(unit, {}) { it.setActionText(R.string.app_remove).setAlertText(R.string.review_remove_text_confirm, R.string.app_remove).setToastText(R.string.app_removed) } }.backgroundRes(R.color.blue_700).textColorRes(R.color.white).condition(ControllerApi.can(unit.fandomId, unit.languageId, API.LVL_MODERATOR_REVIEW_REMOVE_TEXT) && !ControllerApi.isCurrentAccount(unit.creatorId))
+                .add(R.string.app_clear_reports) { _, _ -> ControllerApi.clearReportsPublication(publication.id, publication.publicationType) }.backgroundRes(R.color.blue_700).textColorRes(R.color.white).condition(ControllerApi.can(publication.fandomId, publication.languageId, API.LVL_MODERATOR_BLOCK) && publication.reportsCount > 0)
+                .add(R.string.app_remove_text) { _, _ -> WidgetModerationBlock.show(publication, {}) { it.setActionText(R.string.app_remove).setAlertText(R.string.review_remove_text_confirm, R.string.app_remove).setToastText(R.string.app_removed) } }.backgroundRes(R.color.blue_700).textColorRes(R.color.white).condition(ControllerApi.can(publication.fandomId, publication.languageId, API.LVL_MODERATOR_REVIEW_REMOVE_TEXT) && !ControllerApi.isCurrentAccount(publication.creatorId))
                 .asSheetShow()
     }
 
@@ -117,18 +116,18 @@ class CardReview(
 
 
     private fun onEventFandomReviewChanged(e: EventFandomReviewChanged) {
-        val unit = xUnit.unit as UnitReview
-        if (e.fandomId == unit.fandomId && e.languageId == unit.languageId && ControllerApi.isCurrentAccount(unit.creatorId)) {
-            unit.rate = e.rateNew
-            unit.text = e.text
+        val publication = xPublication.publication as PublicationReview
+        if (e.fandomId == publication.fandomId && e.languageId == publication.languageId && ControllerApi.isCurrentAccount(publication.creatorId)) {
+            publication.rate = e.rateNew
+            publication.text = e.text
             update()
         }
     }
 
     private fun onEventFandomReviewTextRemoved(e: EventFandomReviewTextRemoved) {
-        val unit = xUnit.unit as UnitReview
-        if (e.unitId == unit.id) {
-            unit.text = ""
+        val publication = xPublication.publication as PublicationReview
+        if (e.publicationId == publication.id) {
+            publication.text = ""
             update()
         }
     }

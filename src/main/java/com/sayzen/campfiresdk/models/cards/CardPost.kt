@@ -24,7 +24,6 @@ import com.sup.dev.android.libs.screens.navigator.Navigator
 import com.sup.dev.android.tools.ToolsResources
 import com.sup.dev.android.tools.ToolsView
 import com.sup.dev.android.views.views.ViewAvatarTitle
-import com.sup.dev.android.views.views.ViewChipMini
 import com.sup.dev.android.views.views.layouts.LayoutMaxSizes
 import com.sup.dev.java.libs.eventBus.EventBus
 import com.sup.dev.java.tools.ToolsDate
@@ -35,9 +34,9 @@ import kotlin.collections.HashMap
 
 class CardPost constructor(
         private val vRecycler: RecyclerView?,
-        unit: PublicationPost,
+        publication: PublicationPost,
         var onClick: ((PublicationPost) -> Unit)? = null
-) : CardUnit(R.layout.card_unit_post, unit) {
+) : CardPublication(R.layout.card_publication_post, publication) {
 
     companion object {
 
@@ -80,15 +79,15 @@ class CardPost constructor(
             .subscribe(EventPostStatusChange::class) { onEventPostStatusChange(it) }
             .subscribe(EventPollingChanged::class) { onEventPollingChanged(it) }
             .subscribe(EventCommentRemove::class) { onEventCommentRemove2(it) }
-            .subscribe(EventPublicationBlockedRemove::class) { onEventUnitBlockedRemove(it) }
-            .subscribe(EventPublicationDeepBlockRestore::class) { onEventUnitDeepBlockRestore(it) }
+            .subscribe(EventPublicationBlockedRemove::class) { onEventPublicationBlockedRemove(it) }
+            .subscribe(EventPublicationDeepBlockRestore::class) { onEventPublicationDeepBlockRestore(it) }
 
     private val pages = ArrayList<CardPage>()
     private var isShowFull = false
     private var onBack: () -> Boolean = { false }
 
     init {
-        xUnit.xFandom.allViewIsClickable = true
+        xPublication.xFandom.allViewIsClickable = true
         updateFandomOnBind = false
         updatePages()
         onBack = {
@@ -107,16 +106,16 @@ class CardPost constructor(
     }
 
     private fun updatePages() {
-        val unit = xUnit.unit as PublicationPost
+        val publication = xPublication.publication as PublicationPost
 
         pages.clear()
 
-        if (unit.pages.isNotEmpty()) {
+        if (publication.pages.isNotEmpty()) {
 
             if (isShowFull) {
                 var i = 0
-                while (i < unit.pages.size) {
-                    val pageView = CardPage.instance(unit, unit.pages[i])
+                while (i < publication.pages.size) {
+                    val pageView = CardPage.instance(publication, publication.pages[i])
                     pages.add(pageView)
                     if (pageView is CardPageSpoiler) {
                         pageView.pages = pages
@@ -127,18 +126,18 @@ class CardPost constructor(
                 ControllerPost.updateSpoilers(pages)
             } else {
 
-                addPage(unit.pages[0])
-                if (unit.pages.size > 1)
-                    if (unit.pages[0].getType() != API.PAGE_TYPE_SPOILER)
-                        addPage(unit.pages[1])
+                addPage(publication.pages[0])
+                if (publication.pages.size > 1)
+                    if (publication.pages[0].getType() != API.PAGE_TYPE_SPOILER)
+                        addPage(publication.pages[1])
                     else {
-                        var leftCount = (unit.pages[0] as PageSpoiler).count
-                        for (i in 1 until unit.pages.size) {
+                        var leftCount = (publication.pages[0] as PageSpoiler).count
+                        for (i in 1 until publication.pages.size) {
                             if (leftCount == 0) {
-                                if (unit.pages.size > i) addPage(unit.pages[i])
+                                if (publication.pages.size > i) addPage(publication.pages[i])
                                 break
                             }
-                            if (unit.pages[i].getType() == API.PAGE_TYPE_SPOILER) leftCount += (unit.pages[i] as PageSpoiler).count
+                            if (publication.pages[i].getType() == API.PAGE_TYPE_SPOILER) leftCount += (publication.pages[i] as PageSpoiler).count
                             leftCount--
                         }
 
@@ -150,9 +149,9 @@ class CardPost constructor(
     }
 
     private fun addPage(page: Page) {
-        val unit = xUnit.unit as PublicationPost
+        val publication = xPublication.publication as PublicationPost
 
-        val card = CardPage.instance(unit, page)
+        val card = CardPage.instance(publication, page)
         if (card is CardPageSpoiler && !isShowFull) {
             card.onClick = {
                 toggleShowFull()
@@ -170,7 +169,7 @@ class CardPost constructor(
 
     override fun bindView(view: View) {
         super.bindView(view)
-        val unit = xUnit.unit as PublicationPost
+        val publication = xPublication.publication as PublicationPost
 
         val vPagesContainer: ViewGroup = view.findViewById(R.id.vPagesContainer)
         val vTitleContainer: ViewGroup = view.findViewById(R.id.vTitleContainer)
@@ -183,48 +182,48 @@ class CardPost constructor(
 
         vPagesContainer.removeAllViews()
 
-        vContainerInfo.visibility = if (unit.status == API.STATUS_DRAFT) View.GONE else View.VISIBLE
+        vContainerInfo.visibility = if (publication.status == API.STATUS_DRAFT) View.GONE else View.VISIBLE
 
-        vMenu.setOnClickListener { ControllerPost.showPostMenu(unit) }
+        vMenu.setOnClickListener { ControllerPost.showPostMenu(publication) }
 
         view.setOnClickListener {
             if (onClick != null)
-                onClick!!.invoke(unit)
-            else if (unit.status == API.STATUS_DRAFT)
-                ControllerCampfireSDK.onToDraftClicked(unit.id, Navigator.TO)
-            else if (unit.status == API.STATUS_PUBLIC)
-                ControllerCampfireSDK.onToPostClicked(unit.id, 0, Navigator.TO)
+                onClick!!.invoke(publication)
+            else if (publication.status == API.STATUS_DRAFT)
+                ControllerCampfireSDK.onToDraftClicked(publication.id, Navigator.TO)
+            else if (publication.status == API.STATUS_PUBLIC)
+                ControllerCampfireSDK.onToPostClicked(publication.id, 0, Navigator.TO)
         }
 
         for (page in pages) {
             page.clickable = isShowFull || (page is CardPageSpoiler) || (page is CardPageImage) || (page is CardPageImages)
-            page.postIsDraft = unit.isDraft
+            page.postIsDraft = publication.isDraft
             val v = Companion.getView(page, vPagesContainer)
             page.bindCardView(v)
             vPagesContainer.addView(v)
         }
 
-        if (unit.isPined) vTitleContainer.setBackgroundColor(ToolsResources.getColor(R.color.lime_700))
-        else if (unit.important == API.PUBLICATION_IMPORTANT_IMPORTANT) vTitleContainer.setBackgroundColor(ToolsResources.getColor(R.color.blue_700))
+        if (publication.isPined) vTitleContainer.setBackgroundColor(ToolsResources.getColor(R.color.lime_700))
+        else if (publication.important == API.PUBLICATION_IMPORTANT_IMPORTANT) vTitleContainer.setBackgroundColor(ToolsResources.getColor(R.color.blue_700))
         else vTitleContainer.setBackgroundColor(0x00000000)
 
         vPagesCount.setOnClickListener { toggleShowFull() }
 
         vBestCommentContainer.removeAllViews()
-        vBestCommentRootContainer.visibility = if (unit.bestComment == null) View.GONE else View.VISIBLE
+        vBestCommentRootContainer.visibility = if (publication.bestComment == null) View.GONE else View.VISIBLE
 
-        if (unit.bestComment != null) {
-            val cardComment = CardComment.instance(unit.bestComment!!, false, true)
+        if (publication.bestComment != null) {
+            val cardComment = CardComment.instance(publication.bestComment!!, false, true)
             val cardCommentView = cardComment.instanceView(vBestCommentContainer)
             cardComment.bindCardView(cardCommentView)
             vBestCommentContainer.addView(cardCommentView)
         }
         vComments.setOnClickListener {
-            if (onClick == null && unit.status == API.STATUS_PUBLIC)
-                ControllerCampfireSDK.onToPostClicked(unit.id, -1, Navigator.TO)
+            if (onClick == null && publication.status == API.STATUS_PUBLIC)
+                ControllerCampfireSDK.onToPostClicked(publication.id, -1, Navigator.TO)
         }
         vComments.setOnLongClickListener {
-            WidgetComment(unit.id, null) { }.asSheetShow()
+            WidgetComment(publication.id, null) { }.asSheetShow()
             true
         }
 
@@ -237,23 +236,23 @@ class CardPost constructor(
 
     override fun updateAccount() {
         if (getView() == null) return
-        val unit = xUnit.unit as PublicationPost
+        val publication = xPublication.publication as PublicationPost
         val vAvatar: ViewAvatarTitle = getView()!!.findViewById(R.id.vAvatar)
         val vKarmaCof: TextView = getView()!!.findViewById(R.id.vKarmaCof)
 
         if (showFandom) {
-            vKarmaCof.setText("x${ToolsText.numToStringRoundAndTrim(unit.fandomKarmaCof / 100.0, 2)}")
-            vKarmaCof.visibility = if (unit.fandomKarmaCof > 0 && unit.fandomKarmaCof != 100L) View.VISIBLE else View.GONE
-            xUnit.xFandom.setView(vAvatar)
+            vKarmaCof.setText("x${ToolsText.numToStringRoundAndTrim(publication.fandomKarmaCof / 100.0, 2)}")
+            vKarmaCof.visibility = if (publication.fandomKarmaCof > 0 && publication.fandomKarmaCof != 100L) View.VISIBLE else View.GONE
+            xPublication.xFandom.setView(vAvatar)
         } else {
             vKarmaCof.visibility = View.GONE
-            xUnit.xAccount.setView(vAvatar)
+            xPublication.xAccount.setView(vAvatar)
         }
-        if (unit.status == API.STATUS_PENDING) vAvatar.setSubtitle(ToolsDate.dateToString(unit.tag_4))
-        if (unit.rubricId > 0) {
-            vAvatar.vSubtitle.text = vAvatar.getSubTitle() + "  " + unit.rubricName
-            ToolsView.addLink(vAvatar.vSubtitle, unit.rubricName) {
-                SRubricPosts.instance(unit.rubricId, Navigator.TO)
+        if (publication.status == API.STATUS_PENDING) vAvatar.setSubtitle(ToolsDate.dateToString(publication.tag_4))
+        if (publication.rubricId > 0) {
+            vAvatar.vSubtitle.text = vAvatar.getSubTitle() + "  " + publication.rubricName
+            ToolsView.addLink(vAvatar.vSubtitle, publication.rubricName) {
+                SRubricPosts.instance(publication.rubricId, Navigator.TO)
             }
         }
 
@@ -261,18 +260,18 @@ class CardPost constructor(
 
     override fun updateComments() {
         if (getView() == null) return
-        xUnit.xComments.setView(getView()!!.findViewById(R.id.vComments))
+        xPublication.xComments.setView(getView()!!.findViewById(R.id.vComments))
     }
 
     override fun updateKarma() {
         if (getView() == null) return
         val viewKarma: ViewKarma = getView()!!.findViewById(R.id.vKarma)
-        xUnit.xKarma.setView(viewKarma)
+        xPublication.xKarma.setView(viewKarma)
     }
 
     override fun updateReports() {
         if (getView() == null) return
-        xUnit.xReports.setView(getView()!!.findViewById(R.id.vReports))
+        xPublication.xReports.setView(getView()!!.findViewById(R.id.vReports))
     }
 
     private fun toggleShowFull() {
@@ -293,14 +292,14 @@ class CardPost constructor(
     @SuppressLint("SetTextI18n")
     private fun updateShowAll() {
         if (getView() == null) return
-        val unit = xUnit.unit as PublicationPost
+        val publication = xPublication.publication as PublicationPost
 
         val vPagesCount: TextView = getView()!!.findViewById(R.id.vPagesCount)
         val vMaxSizes: LayoutMaxSizes = getView()!!.findViewById(R.id.vMaxSizes)
         val vPagesContainer: ViewGroup = getView()!!.findViewById(R.id.vPagesContainer)
 
         if (isShowFull) vPagesCount.text = ToolsResources.s(R.string.app_hide)
-        else vPagesCount.text = "${ToolsResources.s(R.string.app_show_all)} (${unit.pages.size})"
+        else vPagesCount.text = "${ToolsResources.s(R.string.app_show_all)} (${publication.pages.size})"
 
         vMaxSizes.setMaxHeight(if (isShowFull) 50000 else 300)
 
@@ -326,8 +325,8 @@ class CardPost constructor(
 
 
     private fun updateShowAll(vPagesCount: TextView, vMaxSizes: LayoutMaxSizes, vPagesContainer: ViewGroup) {
-        val unit = xUnit.unit as PublicationPost
-        vPagesCount.visibility = if (unit.pages.size > 2 || vMaxSizes.isCroppedH() || vPagesContainer.measuredHeight > ToolsView.dpToPx(300)) View.VISIBLE else View.INVISIBLE
+        val publication = xPublication.publication as PublicationPost
+        vPagesCount.visibility = if (publication.pages.size > 2 || vMaxSizes.isCroppedH() || vPagesContainer.measuredHeight > ToolsView.dpToPx(300)) View.VISIBLE else View.INVISIBLE
     }
 
     override fun notifyItem() {
@@ -340,41 +339,41 @@ class CardPost constructor(
     //
 
     private fun onPostChange(e: EventPostChanged) {
-        val unit = xUnit.unit as PublicationPost
-        if (e.unitId == unit.id) {
-            unit.pages = e.pages
+        val publication = xPublication.publication as PublicationPost
+        if (e.publicationId == publication.id) {
+            publication.pages = e.pages
             updatePages()
         }
     }
 
-    private fun onEventUnitBlockedRemove(e: EventPublicationBlockedRemove) {
-        val unit = xUnit.unit as PublicationPost
-        if (unit.bestComment != null && e.unitId == unit.bestComment!!.id) {
-            unit.bestComment = null
+    private fun onEventPublicationBlockedRemove(e: EventPublicationBlockedRemove) {
+        val publication = xPublication.publication as PublicationPost
+        if (publication.bestComment != null && e.publicationId == publication.bestComment!!.id) {
+            publication.bestComment = null
             update()
         }
     }
 
-    private fun onEventUnitDeepBlockRestore(e: EventPublicationDeepBlockRestore) {
-        if (e.unitId == xUnit.unit.id && xUnit.unit.status == API.STATUS_DEEP_BLOCKED) {
+    private fun onEventPublicationDeepBlockRestore(e: EventPublicationDeepBlockRestore) {
+        if (e.publicationId == xPublication.publication.id && xPublication.publication.status == API.STATUS_DEEP_BLOCKED) {
             adapter?.remove(this)
         }
     }
 
     private fun onEventCommentRemove2(e: EventCommentRemove) {
-        val unit = xUnit.unit as PublicationPost
-        if (e.parentUnitId == unit.id && unit.bestComment != null && unit.bestComment!!.id == e.commentId) {
-            unit.bestComment = null
+        val publication = xPublication.publication as PublicationPost
+        if (e.parentPublicationId == publication.id && publication.bestComment != null && publication.bestComment!!.id == e.commentId) {
+            publication.bestComment = null
             update()
         }
     }
 
     private fun onEventPostStatusChange(e: EventPostStatusChange) {
-        val unit = xUnit.unit as PublicationPost
-        if (e.unitId == unit.id) {
-            if (e.status != API.STATUS_DRAFT && unit.status == API.STATUS_DRAFT && adapter != null) adapter!!.remove(this)
-            if (e.status != API.STATUS_PUBLIC && unit.status == API.STATUS_PUBLIC && adapter != null) adapter!!.remove(this)
-            if (e.status != API.STATUS_PENDING && unit.status == API.STATUS_PENDING && adapter != null) adapter!!.remove(this)
+        val publication = xPublication.publication as PublicationPost
+        if (e.publicationId == publication.id) {
+            if (e.status != API.STATUS_DRAFT && publication.status == API.STATUS_DRAFT && adapter != null) adapter!!.remove(this)
+            if (e.status != API.STATUS_PUBLIC && publication.status == API.STATUS_PUBLIC && adapter != null) adapter!!.remove(this)
+            if (e.status != API.STATUS_PENDING && publication.status == API.STATUS_PENDING && adapter != null) adapter!!.remove(this)
         }
     }
 

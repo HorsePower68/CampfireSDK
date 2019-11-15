@@ -10,21 +10,21 @@ import com.dzen.campfire.api.API
 import com.dzen.campfire.api.models.PublicationComment
 import com.dzen.campfire.api.models.notifications.comments.NotificationComment
 import com.dzen.campfire.api.models.notifications.comments.NotificationCommentAnswer
-import com.dzen.campfire.api.models.notifications.units.NotificationMention
+import com.dzen.campfire.api.models.notifications.publications.NotificationMention
 import com.dzen.campfire.api.requests.comments.RCommentReactionAdd
 import com.dzen.campfire.api.requests.comments.RCommentReactionRemove
 import com.sayzen.campfiresdk.R
 import com.sayzen.campfiresdk.controllers.ControllerApi
 import com.sayzen.campfiresdk.controllers.ControllerNotifications
 import com.sayzen.campfiresdk.controllers.ControllerPost
-import com.sayzen.campfiresdk.controllers.ControllerUnits
-import com.sayzen.campfiresdk.models.cards.CardUnit
+import com.sayzen.campfiresdk.controllers.ControllerPublications
+import com.sayzen.campfiresdk.models.cards.CardPublication
 import com.sayzen.campfiresdk.models.events.publications.EventCommentChange
 import com.sayzen.campfiresdk.models.events.publications.EventCommentRemove
 import com.sayzen.campfiresdk.models.events.publications.EventPublicationDeepBlockRestore
 import com.sayzen.campfiresdk.models.widgets.WidgetComment
 import com.sayzen.campfiresdk.screens.account.stickers.SStickersView
-import com.sayzen.campfiresdk.screens.post.history.SUnitHistory
+import com.sayzen.campfiresdk.screens.post.history.SPublicationHistory
 import com.sayzen.campfiresdk.views.ViewKarma
 import com.sayzen.campfiresdk.views.WidgetReactions
 import com.sup.dev.android.app.SupAndroid
@@ -40,23 +40,23 @@ import com.sup.dev.java.tools.ToolsHTML
 
 abstract class CardComment protected constructor(
         layout: Int,
-        unit: PublicationComment,
+        publication: PublicationComment,
         private val dividers: Boolean,
         protected val miniSize: Boolean,
         private val onClick: ((PublicationComment) -> Boolean)? = null,
         private val onQuote: ((PublicationComment) -> Unit)? = null,
         var onGoTo: ((Long) -> Unit)? = null
-) : CardUnit(layout, unit) {
+) : CardPublication(layout, publication) {
 
     companion object {
 
-        fun instance(unit: PublicationComment, dividers: Boolean, miniSize: Boolean, onClick: ((PublicationComment) -> Boolean)? = null, onQuote: ((PublicationComment) -> Unit)? = null, onGoTo: ((Long) -> Unit)? = null): CardComment {
-            when (unit.type) {
-                PublicationComment.TYPE_TEXT -> return CardCommentText(unit, dividers, miniSize, onClick, onQuote, onGoTo)
-                PublicationComment.TYPE_IMAGE, PublicationComment.TYPE_GIF -> return CardCommentImage(unit, dividers, miniSize, onClick, onQuote, onGoTo)
-                PublicationComment.TYPE_IMAGES -> return CardCommentImages(unit, dividers, miniSize, onClick, onQuote, onGoTo)
-                PublicationComment.TYPE_STICKER -> return CardCommentSticker(unit, dividers, miniSize, onClick, onQuote, onGoTo)
-                else -> return CardCommentUnknown(unit, dividers, miniSize, onClick, onQuote, onGoTo)
+        fun instance(publication: PublicationComment, dividers: Boolean, miniSize: Boolean, onClick: ((PublicationComment) -> Boolean)? = null, onQuote: ((PublicationComment) -> Unit)? = null, onGoTo: ((Long) -> Unit)? = null): CardComment {
+            when (publication.type) {
+                PublicationComment.TYPE_TEXT -> return CardCommentText(publication, dividers, miniSize, onClick, onQuote, onGoTo)
+                PublicationComment.TYPE_IMAGE, PublicationComment.TYPE_GIF -> return CardCommentImage(publication, dividers, miniSize, onClick, onQuote, onGoTo)
+                PublicationComment.TYPE_IMAGES -> return CardCommentImages(publication, dividers, miniSize, onClick, onQuote, onGoTo)
+                PublicationComment.TYPE_STICKER -> return CardCommentSticker(publication, dividers, miniSize, onClick, onQuote, onGoTo)
+                else -> return CardCommentUnknown(publication, dividers, miniSize, onClick, onQuote, onGoTo)
             }
         }
 
@@ -64,7 +64,7 @@ abstract class CardComment protected constructor(
 
     private val eventBus = EventBus
             .subscribe(EventCommentChange::class) { e: EventCommentChange -> this.onCommentChange(e) }
-            .subscribe(EventPublicationDeepBlockRestore::class) { onEventUnitDeepBlockRestore(it) }
+            .subscribe(EventPublicationDeepBlockRestore::class) { onEventPublicationDeepBlockRestore(it) }
 
     var changeEnabled = true
     var quoteEnabled = true
@@ -80,7 +80,7 @@ abstract class CardComment protected constructor(
     @SuppressLint("SetTextI18n")
     override fun bindView(view: View) {
         super.bindView(view)
-        val unit = xUnit.unit as PublicationComment
+        val publication = xPublication.publication as PublicationComment
 
         val vSwipe: ViewSwipe? = view.findViewById(R.id.vSwipe)
         val vLabel: TextView? = view.findViewById(R.id.vLabel)
@@ -94,9 +94,9 @@ abstract class CardComment protected constructor(
 
 
         if (SupAndroid.activityIsVisible) {
-            ControllerNotifications.removeNotificationFromNew(NotificationComment::class, unit.id)
-            ControllerNotifications.removeNotificationFromNew(NotificationCommentAnswer::class, unit.id)
-            ControllerNotifications.removeNotificationFromNew(NotificationMention::class, unit.id)
+            ControllerNotifications.removeNotificationFromNew(NotificationComment::class, publication.id)
+            ControllerNotifications.removeNotificationFromNew(NotificationCommentAnswer::class, publication.id)
+            ControllerNotifications.removeNotificationFromNew(NotificationMention::class, publication.id)
         }
 
         if (vSwipe != null) {
@@ -105,50 +105,50 @@ abstract class CardComment protected constructor(
             vSwipe.swipeEnabled = quoteEnabled && onQuote != null
             if (onQuote != null) {
                 vSwipe.onClick = { _, _ ->
-                    if (ControllerApi.isCurrentAccount(unit.creatorId)) showMenu()
+                    if (ControllerApi.isCurrentAccount(publication.creatorId)) showMenu()
                     else onClick()
                 }
-                vSwipe.onSwipe = { onQuote.invoke(unit) }
+                vSwipe.onSwipe = { onQuote.invoke(publication) }
             }
         }
 
         if (vQuoteContainer != null) {
-            vQuoteContainer.visibility = if (unit.quoteText.isEmpty() && unit.quoteImages.isEmpty()) View.GONE else View.VISIBLE
+            vQuoteContainer.visibility = if (publication.quoteText.isEmpty() && publication.quoteImages.isEmpty()) View.GONE else View.VISIBLE
             vQuoteContainer.setOnClickListener {
-                if (onGoTo != null) onGoTo!!.invoke(unit.quoteId)
+                if (onGoTo != null) onGoTo!!.invoke(publication.quoteId)
             }
         }
 
         if (vQuoteText != null) {
-            vQuoteText.text = unit.quoteText
+            vQuoteText.text = publication.quoteText
             ControllerApi.makeLinkable(vQuoteText)
         }
 
         if (vQuoteImage != null) {
             vQuoteImage.clear()
             vQuoteImage.visibility = View.VISIBLE
-            if (unit.quoteStickerId != 0L) {
-                vQuoteImage.add(unit.quoteStickerImageId, onClick = { SStickersView.instanceBySticker(unit.quoteStickerId, Navigator.TO) })
-            } else if (unit.quoteImages.isNotEmpty()) {
-                for (i in unit.quoteImages) vQuoteImage.add(i)
+            if (publication.quoteStickerId != 0L) {
+                vQuoteImage.add(publication.quoteStickerImageId, onClick = { SStickersView.instanceBySticker(publication.quoteStickerId, Navigator.TO) })
+            } else if (publication.quoteImages.isNotEmpty()) {
+                for (i in publication.quoteImages) vQuoteImage.add(i)
             } else {
                 vQuoteImage.visibility = View.GONE
             }
         }
 
         if (vText != null) {
-            vText.text = unit.text
+            vText.text = publication.text
             ControllerApi.makeLinkable(vText) {
                 val myName = ControllerApi.account.name + ","
-                if (unit.text.startsWith(myName)) vText.text = Html.fromHtml(ToolsHTML.font_color(myName, "#FF6D00") + unit.text.substring(myName.length))
+                if (publication.text.startsWith(myName)) vText.text = Html.fromHtml(ToolsHTML.font_color(myName, "#FF6D00") + publication.text.substring(myName.length))
             }
         }
 
 
 
-        if (vLabelName != null) vLabelName.text = unit.creatorName
-        if (vLabelDate != null) vLabelDate.text = "${ToolsDate.dateToString(unit.dateCreate)}${if (unit.changed) " " + ToolsResources.s(R.string.app_edited) else ""}"
-        if (vLabel != null) vLabel.text = unit.creatorName + "   " + ToolsDate.dateToString(unit.dateCreate) + (if (unit.changed) " " + ToolsResources.s(R.string.app_edited) else "")
+        if (vLabelName != null) vLabelName.text = publication.creatorName
+        if (vLabelDate != null) vLabelDate.text = "${ToolsDate.dateToString(publication.dateCreate)}${if (publication.changed) " " + ToolsResources.s(R.string.app_edited) else ""}"
+        if (vLabel != null) vLabel.text = publication.creatorName + "   " + ToolsDate.dateToString(publication.dateCreate) + (if (publication.changed) " " + ToolsResources.s(R.string.app_edited) else "")
         if (vDivider != null) vDivider.visibility = if (dividers) View.VISIBLE else View.GONE
 
         updateReactions()
@@ -157,29 +157,29 @@ abstract class CardComment protected constructor(
     }
 
     fun showMenu() {
-        val unit = xUnit.unit as PublicationComment
+        val publication = xPublication.publication as PublicationComment
         WidgetMenu()
                 .add(R.string.app_copy_link) { _, _ ->
-                    ToolsAndroid.setToClipboard(ControllerApi.linkToComment(unit))
+                    ToolsAndroid.setToClipboard(ControllerApi.linkToComment(publication))
                     ToolsToast.show(R.string.app_copied)
                 }
-                .groupCondition(ControllerApi.isCurrentAccount(unit.creatorId))
-                .add(R.string.app_remove) { _, _ -> ControllerApi.removeUnit(unit.id, R.string.comment_remove_confirm, R.string.comment_error_gone) { EventBus.post(EventCommentRemove(unit.id, unit.parentUnitId)) } }
-                .add(R.string.app_change) { _, _ -> WidgetComment(unit).asSheetShow() }.condition(changeEnabled)
+                .groupCondition(ControllerApi.isCurrentAccount(publication.creatorId))
+                .add(R.string.app_remove) { _, _ -> ControllerApi.removePublication(publication.id, R.string.comment_remove_confirm, R.string.comment_error_gone) { EventBus.post(EventCommentRemove(publication.id, publication.parentPublicationId)) } }
+                .add(R.string.app_change) { _, _ -> WidgetComment(publication).asSheetShow() }.condition(changeEnabled)
                 .clearGroupCondition()
                 .add(R.string.app_copy) { _, _ ->
-                    ToolsAndroid.setToClipboard(unit.text)
+                    ToolsAndroid.setToClipboard(publication.text)
                     ToolsToast.show(R.string.app_copied)
                 }.condition(copyEnabled)
-                .add(R.string.app_quote) { _, _ -> onQuote?.invoke(unit) }.condition(quoteEnabled && onQuote != null)
-                .add(R.string.app_history) { _, _ -> Navigator.to(SUnitHistory(unit.id)) }.condition(ControllerPost.ENABLED_HISTORY)
-                .add(R.string.app_reaction) { _, _ -> reaction() }.condition(unit.type == PublicationComment.TYPE_GIF || unit.type == PublicationComment.TYPE_IMAGE || unit.type == PublicationComment.TYPE_IMAGES || unit.type == PublicationComment.TYPE_TEXT)
-                .groupCondition(!ControllerApi.isCurrentAccount(unit.creatorId))
-                .add(R.string.app_report) { _, _ -> ControllerApi.reportUnit(unit.id, R.string.comment_report_confirm, R.string.comment_error_gone) }
-                .add(R.string.app_clear_reports) { _, _ -> ControllerApi.clearReportsUnit(unit.id, unit.unitType) }.backgroundRes(R.color.blue_700).textColorRes(R.color.white).condition(ControllerApi.can(unit.fandomId, unit.languageId, API.LVL_MODERATOR_BLOCK) && unit.reportsCount > 0)
-                .add(R.string.app_block) { _, _ -> ControllerUnits.block(unit) }.backgroundRes(R.color.blue_700).textColorRes(R.color.white).condition(ControllerApi.can(unit.fandomId, unit.languageId, API.LVL_MODERATOR_BLOCK))
+                .add(R.string.app_quote) { _, _ -> onQuote?.invoke(publication) }.condition(quoteEnabled && onQuote != null)
+                .add(R.string.app_history) { _, _ -> Navigator.to(SPublicationHistory(publication.id)) }.condition(ControllerPost.ENABLED_HISTORY)
+                .add(R.string.app_reaction) { _, _ -> reaction() }.condition(publication.type == PublicationComment.TYPE_GIF || publication.type == PublicationComment.TYPE_IMAGE || publication.type == PublicationComment.TYPE_IMAGES || publication.type == PublicationComment.TYPE_TEXT)
+                .groupCondition(!ControllerApi.isCurrentAccount(publication.creatorId))
+                .add(R.string.app_report) { _, _ -> ControllerApi.reportPublication(publication.id, R.string.comment_report_confirm, R.string.comment_error_gone) }
+                .add(R.string.app_clear_reports) { _, _ -> ControllerApi.clearReportsPublication(publication.id, publication.publicationType) }.backgroundRes(R.color.blue_700).textColorRes(R.color.white).condition(ControllerApi.can(publication.fandomId, publication.languageId, API.LVL_MODERATOR_BLOCK) && publication.reportsCount > 0)
+                .add(R.string.app_block) { _, _ -> ControllerPublications.block(publication) }.backgroundRes(R.color.blue_700).textColorRes(R.color.white).condition(ControllerApi.can(publication.fandomId, publication.languageId, API.LVL_MODERATOR_BLOCK))
                 .clearGroupCondition()
-                .add("Востановить") { _, _ -> ControllerUnits.restoreDeepBlock(unit.id) }.backgroundRes(R.color.orange_700).textColorRes(R.color.white).condition(ControllerApi.can(API.LVL_PROTOADMIN) && unit.status == API.STATUS_DEEP_BLOCKED)
+                .add("Востановить") { _, _ -> ControllerPublications.restoreDeepBlock(publication.id) }.backgroundRes(R.color.orange_700).textColorRes(R.color.white).condition(ControllerApi.can(API.LVL_PROTOADMIN) && publication.status == API.STATUS_DEEP_BLOCKED)
                 .asSheetShow()
     }
 
@@ -190,9 +190,9 @@ abstract class CardComment protected constructor(
     }
 
     private fun sendReaction(reactionIndex: Long) {
-        ApiRequestsSupporter.executeProgressDialog(RCommentReactionAdd(xUnit.unit.id, reactionIndex)) { _ ->
-            xUnit.unit as PublicationComment
-            xUnit.unit.reactions = ToolsCollections.add(PublicationComment.Reaction(ControllerApi.account.id, reactionIndex), xUnit.unit.reactions)
+        ApiRequestsSupporter.executeProgressDialog(RCommentReactionAdd(xPublication.publication.id, reactionIndex)) { _ ->
+            xPublication.publication as PublicationComment
+            xPublication.publication.reactions = ToolsCollections.add(PublicationComment.Reaction(ControllerApi.account.id, reactionIndex), xPublication.publication.reactions)
             updateReactions()
             ToolsToast.show(R.string.app_done)
         }
@@ -201,9 +201,9 @@ abstract class CardComment protected constructor(
     }
 
     private fun removeReaction(reactionIndex: Long) {
-        ApiRequestsSupporter.executeProgressDialog(RCommentReactionRemove(xUnit.unit.id, reactionIndex)) { _ ->
-            xUnit.unit as PublicationComment
-            xUnit.unit.reactions = ToolsCollections.removeIf(xUnit.unit.reactions) { it.accountId == ControllerApi.account.id && it.reactionIndex == reactionIndex }
+        ApiRequestsSupporter.executeProgressDialog(RCommentReactionRemove(xPublication.publication.id, reactionIndex)) { _ ->
+            xPublication.publication as PublicationComment
+            xPublication.publication.reactions = ToolsCollections.removeIf(xPublication.publication.reactions) { it.accountId == ControllerApi.account.id && it.reactionIndex == reactionIndex }
             updateReactions()
             ToolsToast.show(R.string.app_done)
         }
@@ -217,9 +217,9 @@ abstract class CardComment protected constructor(
         val dp = ToolsView.dpToPx(8)
 
 
-        xUnit.unit as PublicationComment
+        xPublication.publication as PublicationComment
         val map = LongSparseArray<ViewChip>()
-        for (i in xUnit.unit.reactions) {
+        for (i in xPublication.publication.reactions) {
             var v: ViewChip? = map.get(i.reactionIndex)
             if (v == null) {
                 v = ToolsView.inflate(R.layout.z_chip)
@@ -250,15 +250,15 @@ abstract class CardComment protected constructor(
     override fun updateKarma() {
         if (getView() == null) return
         val vKarma: ViewKarma? = getView()!!.findViewById(R.id.vKarma)
-        if (vKarma != null) xUnit.xKarma.setView(vKarma)
+        if (vKarma != null) xPublication.xKarma.setView(vKarma)
     }
 
     override fun updateAccount() {
         if (getView() == null) return
-        if (showFandom && xUnit.xFandom.imageId == 0L) xUnit.xFandom.imageId = xUnit.xAccount.imageId
+        if (showFandom && xPublication.xFandom.imageId == 0L) xPublication.xFandom.imageId = xPublication.xAccount.imageId
         val vAvatar: ViewAvatar = getView()!!.findViewById(R.id.vAvatar)
-        if (!showFandom) xUnit.xAccount.setView(vAvatar)
-        else xUnit.xFandom.setView(vAvatar)
+        if (!showFandom) xPublication.xAccount.setView(vAvatar)
+        else xPublication.xFandom.setView(vAvatar)
     }
 
     override fun updateComments() {
@@ -272,26 +272,26 @@ abstract class CardComment protected constructor(
     override fun updateReports() {
         if (getView() == null) return
         val vReports: TextView? = getView()!!.findViewById(R.id.vReports)
-        if (vReports != null) xUnit.xReports.setView(vReports)
+        if (vReports != null) xPublication.xReports.setView(vReports)
     }
 
     private fun onClick(): Boolean {
-        val unit = xUnit.unit as PublicationComment
+        val publication = xPublication.publication as PublicationComment
         if (onClick == null) {
-            if (unit.parentUnitType == 0L) {
+            if (publication.parentPublicationType == 0L) {
                 ToolsToast.show(R.string.post_error_gone)
             } else {
-                ControllerUnits.toUnit(unit.parentUnitType, unit.parentUnitId, unit.id)
+                ControllerPublications.toPublication(publication.parentPublicationType, publication.parentPublicationId, publication.id)
             }
             return false
         } else {
-            return !onClick.invoke(unit)
+            return !onClick.invoke(publication)
         }
     }
 
     override fun notifyItem() {
-        val unit = xUnit.unit as PublicationComment
-        ToolsImagesLoader.load(unit.creatorImageId).intoCash()
+        val publication = xPublication.publication as PublicationComment
+        ToolsImagesLoader.load(publication.creatorImageId).intoCash()
     }
 
     //
@@ -299,8 +299,8 @@ abstract class CardComment protected constructor(
     //
 
     override fun equals(other: Any?): Boolean {
-        val unit = xUnit.unit as PublicationComment
-        if (other is CardComment) return other.xUnit.unit.id == unit.id
+        val publication = xPublication.publication as PublicationComment
+        if (other is CardComment) return other.xPublication.publication.id == publication.id
         return super.equals(other)
     }
 
@@ -308,19 +308,19 @@ abstract class CardComment protected constructor(
     //  Event Bus
     //
 
-    private fun onEventUnitDeepBlockRestore(e: EventPublicationDeepBlockRestore) {
-        if (e.unitId == xUnit.unit.id && xUnit.unit.status == API.STATUS_DEEP_BLOCKED) {
+    private fun onEventPublicationDeepBlockRestore(e: EventPublicationDeepBlockRestore) {
+        if (e.publicationId == xPublication.publication.id && xPublication.publication.status == API.STATUS_DEEP_BLOCKED) {
             adapter?.remove(this)
         }
     }
 
     private fun onCommentChange(e: EventCommentChange) {
-        val unit = xUnit.unit as PublicationComment
-        if (e.unitId == unit.id) {
-            unit.text = e.text
-            unit.quoteId = e.quoteId
-            unit.quoteText = e.quoteText
-            unit.changed = true
+        val publication = xPublication.publication as PublicationComment
+        if (e.publicationId == publication.id) {
+            publication.text = e.text
+            publication.quoteId = e.quoteId
+            publication.quoteText = e.quoteText
+            publication.changed = true
             update()
         }
     }

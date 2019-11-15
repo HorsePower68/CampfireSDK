@@ -15,7 +15,7 @@ import com.sayzen.campfiresdk.R
 import com.sayzen.campfiresdk.adapters.XAccount
 import com.sayzen.campfiresdk.controllers.*
 import com.sayzen.campfiresdk.models.cards.CardPost
-import com.sayzen.campfiresdk.models.cards.CardUnit
+import com.sayzen.campfiresdk.models.cards.CardPublication
 import com.sayzen.campfiresdk.models.PostList
 import com.sup.dev.android.tools.ToolsGif
 import com.sayzen.campfiresdk.models.widgets.WidgetAdminBlock
@@ -80,7 +80,7 @@ class SAccount private constructor(
     private val vImage: ImageView = findViewById(R.id.vImage)
     private val vAvatar: ImageView = findViewById(R.id.vAvatar)
     val xAccount = XAccount(r.account, 0, r.titleImageId, r.titleImageGifId) { update() }
-    private val adapter: RecyclerCardAdapterLoading<CardUnit, Publication>
+    private val adapter: RecyclerCardAdapterLoading<CardPublication, Publication>
     private val cardInfo: CardInfo
     private val cardBio: CardBio
     private val cardFilters: CardFilters
@@ -120,14 +120,14 @@ class SAccount private constructor(
         vTitle.text = r.account.name
 
 
-        adapter = RecyclerCardAdapterLoading<CardUnit, Publication>(CardUnit::class) { unit -> CardUnit.instance(unit, vRecycler, true, isShowFullInfo = true) }
+        adapter = RecyclerCardAdapterLoading<CardPublication, Publication>(CardPublication::class) { unit -> CardPublication.instance(unit, vRecycler, true, isShowFullInfo = true) }
                 .setBottomLoader { onLoad, cards ->
                     val r = RUnitsGetAll()
                             .setAccountId(r.account.id)
                             .setOffset(cards.size)
-                            .setUnitTypes(ControllerSettings.getProfileFilters())
+                            .setPublicationTypes(ControllerSettings.getProfileFilters())
                             .onComplete { r ->
-                                onLoad.invoke(r.units)
+                                onLoad.invoke(r.publications)
                                 afterPackLoaded()
                             }
                             .onNetworkError { onLoad.invoke(null) }
@@ -144,7 +144,7 @@ class SAccount private constructor(
                 r.banDate, r.isFollow, r.followsCount, r.followersCount, r.moderateFandomsCount, r.status,
                 r.ratesCount, r.bansCount, r.warnsCount, r.note, r.fandomsCount, r.blackFandomsCount, r.blackAccountCount, r.stickersCount)
         cardFilters = CardFilters {
-            if (cardPinnedPost != null) setPinnedPost(cardPinnedPost!!.xUnit.unit as PublicationPost)
+            if (cardPinnedPost != null) setPinnedPost(cardPinnedPost!!.xPublication.publication as PublicationPost)
             adapter.reloadBottom()
         }
 
@@ -164,7 +164,7 @@ class SAccount private constructor(
     private fun afterPackLoaded() {
         if (cardPinnedPost != null && ControllerSettings.getProfileFilters().contains(API.PUBLICATION_TYPE_POST))
             for (c in adapter.get(CardPost::class))
-                if (c.xUnit.unit.id == cardPinnedPost!!.xUnit.unit.id && !(c.xUnit.unit as PublicationPost).isPined)
+                if (c.xPublication.publication.id == cardPinnedPost!!.xPublication.publication.id && !(c.xPublication.publication as PublicationPost).isPined)
                     adapter.remove(c)
     }
 
@@ -173,7 +173,7 @@ class SAccount private constructor(
         if (post == null) {
             cardPinnedPost = null
         } else {
-            for (c in adapter.get(CardPost::class)) if (c.xUnit.unit.id == post.id) adapter.remove(c)
+            for (c in adapter.get(CardPost::class)) if (c.xPublication.publication.id == post.id) adapter.remove(c)
             post.isPined = true
             cardPinnedPost = CardPost(vRecycler, post)
             cardPinnedPost?.showFandom = true

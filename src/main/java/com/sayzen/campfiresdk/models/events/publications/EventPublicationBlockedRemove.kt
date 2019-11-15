@@ -2,5 +2,5 @@ package com.sayzen.campfiresdk.models.events.publications
 
 class EventPublicationBlockedRemove(
         val moderationId:Long,
-        val unitId:Long
+        val publicationId:Long
 )

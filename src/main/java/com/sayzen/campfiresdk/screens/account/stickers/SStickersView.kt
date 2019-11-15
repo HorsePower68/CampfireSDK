@@ -60,7 +60,7 @@ class SStickersView(
     private val eventBus = EventBus
             .subscribe(EventStickerCreate::class) { onEventStickerCreate(it) }
             .subscribe(EventStickersPackChanged::class) { onEventStickersPackChanged(it) }
-            .subscribe(EventPublicationRemove::class) { if (it.unitId == stickersPack.id) Navigator.remove(this) }
+            .subscribe(EventPublicationRemove::class) { if (it.publicationId == stickersPack.id) Navigator.remove(this) }
 
     private val vAvatarTitle: ViewAvatarTitle = findViewById(R.id.vAvatarTitle)
     private val vCommentsCount: TextView = findViewById(R.id.vCommentsCount)

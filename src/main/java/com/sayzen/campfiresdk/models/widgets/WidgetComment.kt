@@ -33,7 +33,7 @@ import com.sup.dev.java.tools.ToolsText
 import com.sup.dev.java.tools.ToolsThreads
 
 class WidgetComment constructor(
-        private val unitId: Long,
+        private val publicationId: Long,
         private val answer: PublicationComment?,
         private val changeComment: PublicationComment?,
         private var quoteId: Long,
@@ -54,9 +54,9 @@ class WidgetComment constructor(
 
     constructor(changeComment: PublicationComment) : this(0, null, changeComment, 0, "", null)
 
-    constructor(unitId: Long, onCreated: (PublicationComment) -> Unit) : this(unitId, null, null, 0, "", onCreated)
+    constructor(publicationId: Long, onCreated: (PublicationComment) -> Unit) : this(publicationId, null, null, 0, "", onCreated)
 
-    constructor(unitId: Long, answer: PublicationComment?, onCreated: (PublicationComment) -> Unit) : this(unitId, answer, null, 0, "", onCreated)
+    constructor(publicationId: Long, answer: PublicationComment?, onCreated: (PublicationComment) -> Unit) : this(publicationId, answer, null, 0, "", onCreated)
 
     init {
 
@@ -127,8 +127,8 @@ class WidgetComment constructor(
     private fun afterSend(comment: PublicationComment) {
         ToolsToast.show(R.string.app_published)
         onCreated?.invoke(comment)
-        EventBus.post(EventCommentAdd(unitId, comment))
-        if (ControllerSettings.watchPost) EventBus.post(EventPublicationCommentWatchChange(unitId, true))
+        EventBus.post(EventCommentAdd(publicationId, comment))
+        if (ControllerSettings.watchPost) EventBus.post(EventPublicationCommentWatchChange(publicationId, true))
         hide()
     }
 
@@ -161,7 +161,7 @@ class WidgetComment constructor(
 
     private fun sendText(text: String, parentId: Long) {
         SGoogleRules.acceptRulesDialog() {
-            ApiRequestsSupporter.executeEnabled(this, RUnitsCommentCreate(unitId, text, null, null, parentId, ControllerSettings.watchPost, quoteId, 0)) { r ->
+            ApiRequestsSupporter.executeEnabled(this, RUnitsCommentCreate(publicationId, text, null, null, parentId, ControllerSettings.watchPost, quoteId, 0)) { r ->
                 afterSend(r.comment)
             }
         }
@@ -227,7 +227,7 @@ class WidgetComment constructor(
                 }
                 ApiRequestsSupporter.executeProgressDialog(
                     RUnitsCommentCreate(
-                        unitId,
+                        publicationId,
                         text,
                         bytes,
                         gif,
@@ -250,7 +250,7 @@ class WidgetComment constructor(
 
             ApiRequestsSupporter.executeProgressDialog(
                 RUnitsCommentCreate(
-                    unitId,
+                    publicationId,
                     "",
                     null,
                     null,

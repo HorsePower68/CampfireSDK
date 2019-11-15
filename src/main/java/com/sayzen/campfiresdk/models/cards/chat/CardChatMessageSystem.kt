@@ -26,7 +26,7 @@ class CardChatMessageSystem(
 
     override fun bindView(view: View) {
         super.bindView(view)
-        val unit = xUnit.unit as PublicationChatMessage
+        val unit = xPublication.publication as PublicationChatMessage
 
         val vSystemMessage: ViewTextLinkable = view.findViewById(R.id.vSystemMessage)
         val vTouchModeration: ViewGroup = view.findViewById(R.id.vTouchModeration)

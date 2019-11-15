@@ -24,74 +24,74 @@ object ControllerStickers {
     //  Stickers
     //
 
-    fun showStickerPackPopup(unit: PublicationStickersPack) {
+    fun showStickerPackPopup(publication: PublicationStickersPack) {
         WidgetMenu()
-                .add(R.string.app_copy_link) { _, _ -> ToolsAndroid.setToClipboard(ControllerApi.linkToStickersPack(unit.id)); ToolsToast.show(R.string.app_copied) }
-                .add(R.string.unit_menu_comments_watch) { _, _ -> ControllerUnits.changeWatchComments(unit.id) }.condition(unit.isPublic)
-                .add(R.string.app_change) { _, _ -> Navigator.to(SStickersPackCreate(unit)) }.condition(unit.creatorId == ControllerApi.account.id)
-                .add(R.string.app_remove) { _, _ -> removeStickersPack(unit.id) }.condition(unit.creatorId == ControllerApi.account.id)
-                .add(R.string.app_report) { _, _ -> ControllerApi.reportUnit(unit.id, R.string.stickers_packs_report_confirm, R.string.stickers_packs_error_gone) }.condition(unit.creatorId != ControllerApi.account.id)
-                .add(R.string.app_collection) { _, _ -> switchStickerPackCollection(unit) }.condition(unit.status == API.STATUS_PUBLIC)
-                .add(R.string.app_clear_reports) { _, _ -> ControllerUnits.clearReports(unit) }.backgroundRes(R.color.red_700).textColorRes(R.color.white).condition(ControllerPost.ENABLED_CLEAR_REPORTS && ControllerApi.can(API.LVL_ADMIN_MODER) && unit.reportsCount > 0 && unit.creatorId != ControllerApi.account.id)
-                .add(R.string.app_block) { _, _ -> ControllerUnits.block(unit) }.backgroundRes(R.color.red_700).textColorRes(R.color.white).condition(ControllerPost.ENABLED_BLOCK && ControllerApi.can(API.LVL_ADMIN_MODER) && unit.creatorId != ControllerApi.account.id)
+                .add(R.string.app_copy_link) { _, _ -> ToolsAndroid.setToClipboard(ControllerApi.linkToStickersPack(publication.id)); ToolsToast.show(R.string.app_copied) }
+                .add(R.string.publication_menu_comments_watch) { _, _ -> ControllerPublications.changeWatchComments(publication.id) }.condition(publication.isPublic)
+                .add(R.string.app_change) { _, _ -> Navigator.to(SStickersPackCreate(publication)) }.condition(publication.creatorId == ControllerApi.account.id)
+                .add(R.string.app_remove) { _, _ -> removeStickersPack(publication.id) }.condition(publication.creatorId == ControllerApi.account.id)
+                .add(R.string.app_report) { _, _ -> ControllerApi.reportPublication(publication.id, R.string.stickers_packs_report_confirm, R.string.stickers_packs_error_gone) }.condition(publication.creatorId != ControllerApi.account.id)
+                .add(R.string.app_collection) { _, _ -> switchStickerPackCollection(publication) }.condition(publication.status == API.STATUS_PUBLIC)
+                .add(R.string.app_clear_reports) { _, _ -> ControllerPublications.clearReports(publication) }.backgroundRes(R.color.red_700).textColorRes(R.color.white).condition(ControllerPost.ENABLED_CLEAR_REPORTS && ControllerApi.can(API.LVL_ADMIN_MODER) && publication.reportsCount > 0 && publication.creatorId != ControllerApi.account.id)
+                .add(R.string.app_block) { _, _ -> ControllerPublications.block(publication) }.backgroundRes(R.color.red_700).textColorRes(R.color.white).condition(ControllerPost.ENABLED_BLOCK && ControllerApi.can(API.LVL_ADMIN_MODER) && publication.creatorId != ControllerApi.account.id)
                 .asSheetShow()
     }
 
-    fun switchStickerPackCollection(unit: PublicationStickersPack) {
-        ApiRequestsSupporter.executeProgressDialog(RStickersPackCollectionCheck(unit.id)){ r->
+    fun switchStickerPackCollection(publication: PublicationStickersPack) {
+        ApiRequestsSupporter.executeProgressDialog(RStickersPackCollectionCheck(publication.id)){ r->
             if(r.inCollection) {
-                ApiRequestsSupporter.executeEnabledConfirm(R.string.sticker_remove, R.string.app_remove, RStickersPackCollectionRemove(unit.id)) {
-                    EventBus.post(EventStickersPackCollectionChanged(unit, false))
+                ApiRequestsSupporter.executeEnabledConfirm(R.string.sticker_remove, R.string.app_remove, RStickersPackCollectionRemove(publication.id)) {
+                    EventBus.post(EventStickersPackCollectionChanged(publication, false))
                     ToolsToast.show(R.string.stickers_message_remove_from_collection_pack)
                 }
             }
             else {
-                ApiRequestsSupporter.executeEnabledConfirm(R.string.sticker_add, R.string.app_add, RStickersPackCollectionAdd(unit.id)) {
-                    EventBus.post(EventStickersPackCollectionChanged(unit, true))
+                ApiRequestsSupporter.executeEnabledConfirm(R.string.sticker_add, R.string.app_add, RStickersPackCollectionAdd(publication.id)) {
+                    EventBus.post(EventStickersPackCollectionChanged(publication, true))
                     ToolsToast.show(R.string.stickers_message_add_to_collection_pack)
                 }
             }
         }
     }
 
-    fun removeStickersPack(unitId: Long) {
-        ApiRequestsSupporter.executeEnabledConfirm(R.string.stickers_packs_remove_confirm, R.string.app_remove, RUnitsRemove(unitId)) {
-            EventBus.post(EventPublicationRemove(unitId))
+    fun removeStickersPack(publicationId: Long) {
+        ApiRequestsSupporter.executeEnabledConfirm(R.string.stickers_packs_remove_confirm, R.string.app_remove, RUnitsRemove(publicationId)) {
+            EventBus.post(EventPublicationRemove(publicationId))
             ToolsToast.show(R.string.app_done)
         }
     }
 
-    fun showStickerPopup(view: View, x: Int, y: Int, unit: PublicationSticker) {
+    fun showStickerPopup(view: View, x: Int, y: Int, publication: PublicationSticker) {
         WidgetMenu()
-                .add(R.string.app_copy_link) { _, _ -> ToolsAndroid.setToClipboard(ControllerApi.linkToSticker(unit.id)); ToolsToast.show(R.string.app_copied) }
-                .add(R.string.app_remove) { _, _ -> removeSticker(unit.id) }.condition(unit.creatorId == ControllerApi.account.id)
-                .add(R.string.app_report) { _, _ -> ControllerApi.reportUnit(unit.id, R.string.stickers_report_confirm, R.string.sticker_error_gone) }
-                .add(R.string.app_favorite) { _, _ -> switchStickerCollection(unit) }.condition(unit.status == API.STATUS_PUBLIC)
-                .add(R.string.app_clear_reports) { _, _ -> ControllerUnits.clearReports(unit) }.backgroundRes(R.color.red_700).textColorRes(R.color.white).condition(ControllerPost.ENABLED_CLEAR_REPORTS && ControllerApi.can(API.LVL_ADMIN_MODER) && unit.reportsCount > 0 && unit.creatorId != ControllerApi.account.id)
-                .add(R.string.app_block) { _, _ -> ControllerUnits.block(unit) }.backgroundRes(R.color.red_700).textColorRes(R.color.white).condition(ControllerPost.ENABLED_BLOCK && ControllerApi.can(API.LVL_ADMIN_MODER) && unit.creatorId != ControllerApi.account.id)
+                .add(R.string.app_copy_link) { _, _ -> ToolsAndroid.setToClipboard(ControllerApi.linkToSticker(publication.id)); ToolsToast.show(R.string.app_copied) }
+                .add(R.string.app_remove) { _, _ -> removeSticker(publication.id) }.condition(publication.creatorId == ControllerApi.account.id)
+                .add(R.string.app_report) { _, _ -> ControllerApi.reportPublication(publication.id, R.string.stickers_report_confirm, R.string.sticker_error_gone) }
+                .add(R.string.app_favorite) { _, _ -> switchStickerCollection(publication) }.condition(publication.status == API.STATUS_PUBLIC)
+                .add(R.string.app_clear_reports) { _, _ -> ControllerPublications.clearReports(publication) }.backgroundRes(R.color.red_700).textColorRes(R.color.white).condition(ControllerPost.ENABLED_CLEAR_REPORTS && ControllerApi.can(API.LVL_ADMIN_MODER) && publication.reportsCount > 0 && publication.creatorId != ControllerApi.account.id)
+                .add(R.string.app_block) { _, _ -> ControllerPublications.block(publication) }.backgroundRes(R.color.red_700).textColorRes(R.color.white).condition(ControllerPost.ENABLED_BLOCK && ControllerApi.can(API.LVL_ADMIN_MODER) && publication.creatorId != ControllerApi.account.id)
                 .asPopupShow(view, x, y)
     }
 
-    fun switchStickerCollection(unit: PublicationSticker) {
-        ApiRequestsSupporter.executeProgressDialog(RStickerCollectionCheck(unit.id)){ r->
+    fun switchStickerCollection(publication: PublicationSticker) {
+        ApiRequestsSupporter.executeProgressDialog(RStickerCollectionCheck(publication.id)){ r->
             if(r.inCollection) {
-                ApiRequestsSupporter.executeEnabledConfirm(R.string.sticker_remove_favorites, R.string.app_remove, RStickerCollectionRemove(unit.id)) {
-                    EventBus.post(EventStickerCollectionChanged(unit, false))
+                ApiRequestsSupporter.executeEnabledConfirm(R.string.sticker_remove_favorites, R.string.app_remove, RStickerCollectionRemove(publication.id)) {
+                    EventBus.post(EventStickerCollectionChanged(publication, false))
                     ToolsToast.show(R.string.stickers_message_remove_from_collection)
                 }
             }
             else {
-                ApiRequestsSupporter.executeEnabledConfirm(R.string.sticker_add_favorites, R.string.app_add, RStickerCollectionAdd(unit.id)) {
-                    EventBus.post(EventStickerCollectionChanged(unit, true))
+                ApiRequestsSupporter.executeEnabledConfirm(R.string.sticker_add_favorites, R.string.app_add, RStickerCollectionAdd(publication.id)) {
+                    EventBus.post(EventStickerCollectionChanged(publication, true))
                     ToolsToast.show(R.string.stickers_message_add_to_collection)
                 }
             }
         }
     }
 
-    fun removeSticker(unitId: Long) {
-        ApiRequestsSupporter.executeEnabledConfirm(R.string.stickers_remove_confirm, R.string.app_remove, RUnitsRemove(unitId)) {
-            EventBus.post(EventPublicationRemove(unitId))
+    fun removeSticker(publicationId: Long) {
+        ApiRequestsSupporter.executeEnabledConfirm(R.string.stickers_remove_confirm, R.string.app_remove, RUnitsRemove(publicationId)) {
+            EventBus.post(EventPublicationRemove(publicationId))
             ToolsToast.show(R.string.app_done)
         }
     }

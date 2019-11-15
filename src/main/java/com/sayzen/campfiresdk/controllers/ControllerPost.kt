@@ -12,7 +12,7 @@ import com.sayzen.campfiresdk.R
 import com.sayzen.campfiresdk.models.cards.post_pages.CardPage
 import com.sayzen.campfiresdk.models.cards.post_pages.CardPageSpoiler
 import com.sayzen.campfiresdk.models.events.publications.*
-import com.sayzen.campfiresdk.screens.post.history.SUnitHistory
+import com.sayzen.campfiresdk.screens.post.history.SPublicationHistory
 import com.sup.dev.android.libs.api_simple.ApiRequestsSupporter
 import com.sup.dev.android.libs.screens.navigator.Navigator
 import com.sup.dev.android.tools.ToolsAndroid
@@ -25,7 +25,7 @@ import java.util.*
 
 object ControllerPost {
 
-    var ON_PRE_SHOW_MENU: (Publication, WidgetMenu) -> kotlin.Unit = { _, _ -> }
+    var ON_PRE_SHOW_MENU: (Publication, WidgetMenu) -> Unit = { _, _ -> }
 
 
     var ENABLED_BOOKMARK = false
@@ -52,73 +52,73 @@ object ControllerPost {
     var ENABLED_HISTORY = false
     var ENABLED_CLOSE = false
 
-    fun showPostMenu(unit: PublicationPost) {
+    fun showPostMenu(post: PublicationPost) {
 
         val w = WidgetMenu()
-                .add(R.string.bookmark) { _, _ -> ControllerUnits.changeBookmark(unit.id) }.condition(ENABLED_BOOKMARK && unit.isPublic)
-                .add(R.string.unit_menu_comments_watch) { _, _ -> ControllerUnits.changeWatchComments(unit.id) }.condition(ENABLED_WATCH && unit.isPublic)
-                .add(R.string.app_share) { _, _ -> ControllerApi.sharePost(unit.id) }.condition(ENABLED_SHARE && unit.isPublic)
-                .add(R.string.app_copy_link) { _, _ -> copyLink(unit) }.condition(ENABLED_COPY_LINK && unit.isPublic)
-                .add(R.string.app_history) { _, _ -> Navigator.to(SUnitHistory(unit.id)) }.condition(ENABLED_HISTORY)
-                .groupCondition(ControllerApi.isCurrentAccount(unit.creatorId))
-                .add(R.string.post_create_notify_followers) { _, _ -> notifyFollowers(unit.id) }.condition(ENABLED_NOTIFY_FOLLOWERS && unit.isPublic && unit.tag_3 == 0L)
-                .add(R.string.app_change) { _, _ -> ControllerCampfireSDK.onToDraftClicked(unit.id, Navigator.TO) }.condition(ENABLED_CHANGE && unit.isPublic)
-                .add(R.string.post_menu_change_tags) { _, _ -> changeTags(unit) }.condition(ENABLED_CHANGE_TAGS && unit.isPublic && unit.languageId != -1L)
-                .add(R.string.app_remove) { _, _ -> remove(unit) }.condition(ENABLED_REMOVE)
-                .add(R.string.app_to_drafts) { _, _ -> toDrafts(unit) }.condition(ENABLED_TO_DRAFTS && (unit.isPublic || unit.status == API.STATUS_PENDING))
-                .add(R.string.unit_menu_change_fandom) { _, _ -> changeFandom(unit.id) }.condition(ENABLED_CHANGE_FANDOM && unit.languageId != -1L && (unit.status == API.STATUS_PUBLIC || unit.status == API.STATUS_DRAFT))
-                .add(R.string.unit_menu_pin_in_profile) { _, _ -> pinInProfile(unit) }.condition(ENABLED_PIN_PROFILE && ControllerApi.can(API.LVL_CAN_PIN_POST) && unit.isPublic && !unit.isPined)
-                .add(R.string.unit_menu_unpin_in_profile) { _, _ -> unpinInProfile(unit) }.condition(ENABLED_PIN_PROFILE && unit.isPined)
-                .add(R.string.unit_menu_multilingual) { _, _ -> multilingual(unit) }.condition(ENABLED_MAKE_MULTILINGUAL && unit.languageId != -1L && unit.status == API.STATUS_PUBLIC)
-                .add(R.string.unit_menu_multilingual_not) { _, _ -> multilingualNot(unit) }.condition(ENABLED_MAKE_MULTILINGUAL && unit.languageId == -1L && unit.status == API.STATUS_PUBLIC)
-                .add(R.string.app_publish) { _, _ -> publishPending(unit) }.condition(unit.status == API.STATUS_PENDING)
-                .add(R.string.app_close) { _, _ -> close(unit) }.condition(!unit.closed)
-                .add(R.string.app_open) { _, _ -> open(unit) }.condition(unit.closed)
-                .groupCondition(!ControllerApi.isCurrentAccount(unit.creatorId) && unit.isPublic)
-                .add(R.string.app_report) { _, _ -> ControllerUnits.report(unit) }.condition(ENABLED_REPORT)
-                .add(R.string.app_clear_reports) { _, _ -> ControllerUnits.clearReports(unit) }.backgroundRes(R.color.blue_700).textColorRes(R.color.white).condition(ENABLED_CLEAR_REPORTS && ControllerApi.can(unit.fandomId, unit.languageId, API.LVL_MODERATOR_BLOCK) && unit.reportsCount > 0)
-                .add(R.string.app_block) { _, _ -> ControllerUnits.block(unit) }.backgroundRes(R.color.blue_700).textColorRes(R.color.white).condition(ENABLED_BLOCK && ControllerApi.can(unit.fandomId, unit.languageId, API.LVL_MODERATOR_BLOCK))
-                .add(R.string.unit_menu_moderator_to_drafts) { _, _ -> moderatorToDrafts(unit.id) }.backgroundRes(R.color.blue_700).textColorRes(R.color.white).condition(ENABLED_MODER_TO_DRAFT && ControllerApi.can(unit.fandomId, unit.languageId, API.LVL_MODERATOR_TO_DRAFTS))
-                .add(R.string.unit_menu_multilingual_not) { _, _ -> moderatorMakeMultilingualNot(unit) }.backgroundRes(R.color.blue_700).condition(ENABLED_MAKE_MULTILINGUAL && ControllerApi.can(unit.fandomId, unit.languageId, API.LVL_MODERATOR_TO_DRAFTS) && unit.languageId == -1L && unit.status == API.STATUS_PUBLIC)
-                .add(R.string.post_menu_change_tags) { _, _ -> changeTagsModer(unit) }.backgroundRes(R.color.blue_700).textColorRes(R.color.white).condition(ENABLED_MODER_CHANGE_TAGS && ControllerApi.can(unit.fandomId, unit.languageId, API.LVL_MODERATOR_POST_TAGS) && unit.languageId != -1L)
-                .add(R.string.unit_menu_pin_in_fandom) { _, _ -> pinInFandom(unit) }.backgroundRes(R.color.blue_700).textColorRes(R.color.white).condition(ENABLED_PIN_FANDOM && ControllerApi.can(unit.fandomId, unit.languageId, API.LVL_MODERATOR_PIN_POST) && unit.isPublic && !unit.isPined)
-                .add(R.string.unit_menu_unpin_in_fandom) { _, _ -> unpinInFandom(unit) }.backgroundRes(R.color.blue_700).textColorRes(R.color.white).condition(ENABLED_PIN_FANDOM && ControllerApi.can(unit.fandomId, unit.languageId, API.LVL_MODERATOR_PIN_POST) && unit.isPined)
-                .add(R.string.app_close) { _, _ -> closeAdmin(unit) }.backgroundRes(R.color.blue_700).textColorRes(R.color.white).condition(ENABLED_CLOSE && ControllerApi.can(unit.fandomId, unit.languageId, API.LVL_MODERATOR_CLOSE_POST) && !unit.closed)
-                .add(R.string.app_open) { _, _ -> openAdmin(unit) }.backgroundRes(R.color.blue_700).textColorRes(R.color.white).condition(ENABLED_CLOSE && ControllerApi.can(unit.fandomId, unit.languageId, API.LVL_MODERATOR_CLOSE_POST) && unit.closed)
+                .add(R.string.bookmark) { _, _ -> ControllerPublications.changeBookmark(post.id) }.condition(ENABLED_BOOKMARK && post.isPublic)
+                .add(R.string.publication_menu_comments_watch) { _, _ -> ControllerPublications.changeWatchComments(post.id) }.condition(ENABLED_WATCH && post.isPublic)
+                .add(R.string.app_share) { _, _ -> ControllerApi.sharePost(post.id) }.condition(ENABLED_SHARE && post.isPublic)
+                .add(R.string.app_copy_link) { _, _ -> copyLink(post) }.condition(ENABLED_COPY_LINK && post.isPublic)
+                .add(R.string.app_history) { _, _ -> Navigator.to(SPublicationHistory(post.id)) }.condition(ENABLED_HISTORY)
+                .groupCondition(ControllerApi.isCurrentAccount(post.creatorId))
+                .add(R.string.post_create_notify_followers) { _, _ -> notifyFollowers(post.id) }.condition(ENABLED_NOTIFY_FOLLOWERS && post.isPublic && post.tag_3 == 0L)
+                .add(R.string.app_change) { _, _ -> ControllerCampfireSDK.onToDraftClicked(post.id, Navigator.TO) }.condition(ENABLED_CHANGE && post.isPublic)
+                .add(R.string.post_menu_change_tags) { _, _ -> changeTags(post) }.condition(ENABLED_CHANGE_TAGS && post.isPublic && post.languageId != -1L)
+                .add(R.string.app_remove) { _, _ -> remove(post) }.condition(ENABLED_REMOVE)
+                .add(R.string.app_to_drafts) { _, _ -> toDrafts(post) }.condition(ENABLED_TO_DRAFTS && (post.isPublic || post.status == API.STATUS_PENDING))
+                .add(R.string.publication_menu_change_fandom) { _, _ -> changeFandom(post.id) }.condition(ENABLED_CHANGE_FANDOM && post.languageId != -1L && (post.status == API.STATUS_PUBLIC || post.status == API.STATUS_DRAFT))
+                .add(R.string.publication_menu_pin_in_profile) { _, _ -> pinInProfile(post) }.condition(ENABLED_PIN_PROFILE && ControllerApi.can(API.LVL_CAN_PIN_POST) && post.isPublic && !post.isPined)
+                .add(R.string.publication_menu_unpin_in_profile) { _, _ -> unpinInProfile(post) }.condition(ENABLED_PIN_PROFILE && post.isPined)
+                .add(R.string.publication_menu_multilingual) { _, _ -> multilingual(post) }.condition(ENABLED_MAKE_MULTILINGUAL && post.languageId != -1L && post.status == API.STATUS_PUBLIC)
+                .add(R.string.publication_menu_multilingual_not) { _, _ -> multilingualNot(post) }.condition(ENABLED_MAKE_MULTILINGUAL && post.languageId == -1L && post.status == API.STATUS_PUBLIC)
+                .add(R.string.app_publish) { _, _ -> publishPending(post) }.condition(post.status == API.STATUS_PENDING)
+                .add(R.string.app_close) { _, _ -> close(post) }.condition(!post.closed)
+                .add(R.string.app_open) { _, _ -> open(post) }.condition(post.closed)
+                .groupCondition(!ControllerApi.isCurrentAccount(post.creatorId) && post.isPublic)
+                .add(R.string.app_report) { _, _ -> ControllerPublications.report(post) }.condition(ENABLED_REPORT)
+                .add(R.string.app_clear_reports) { _, _ -> ControllerPublications.clearReports(post) }.backgroundRes(R.color.blue_700).textColorRes(R.color.white).condition(ENABLED_CLEAR_REPORTS && ControllerApi.can(post.fandomId, post.languageId, API.LVL_MODERATOR_BLOCK) && post.reportsCount > 0)
+                .add(R.string.app_block) { _, _ -> ControllerPublications.block(post) }.backgroundRes(R.color.blue_700).textColorRes(R.color.white).condition(ENABLED_BLOCK && ControllerApi.can(post.fandomId, post.languageId, API.LVL_MODERATOR_BLOCK))
+                .add(R.string.publication_menu_moderator_to_drafts) { _, _ -> moderatorToDrafts(post.id) }.backgroundRes(R.color.blue_700).textColorRes(R.color.white).condition(ENABLED_MODER_TO_DRAFT && ControllerApi.can(post.fandomId, post.languageId, API.LVL_MODERATOR_TO_DRAFTS))
+                .add(R.string.publication_menu_multilingual_not) { _, _ -> moderatorMakeMultilingualNot(post) }.backgroundRes(R.color.blue_700).condition(ENABLED_MAKE_MULTILINGUAL && ControllerApi.can(post.fandomId, post.languageId, API.LVL_MODERATOR_TO_DRAFTS) && post.languageId == -1L && post.status == API.STATUS_PUBLIC)
+                .add(R.string.post_menu_change_tags) { _, _ -> changeTagsModer(post) }.backgroundRes(R.color.blue_700).textColorRes(R.color.white).condition(ENABLED_MODER_CHANGE_TAGS && ControllerApi.can(post.fandomId, post.languageId, API.LVL_MODERATOR_POST_TAGS) && post.languageId != -1L)
+                .add(R.string.publication_menu_pin_in_fandom) { _, _ -> pinInFandom(post) }.backgroundRes(R.color.blue_700).textColorRes(R.color.white).condition(ENABLED_PIN_FANDOM && ControllerApi.can(post.fandomId, post.languageId, API.LVL_MODERATOR_PIN_POST) && post.isPublic && !post.isPined)
+                .add(R.string.publication_menu_unpin_in_fandom) { _, _ -> unpinInFandom(post) }.backgroundRes(R.color.blue_700).textColorRes(R.color.white).condition(ENABLED_PIN_FANDOM && ControllerApi.can(post.fandomId, post.languageId, API.LVL_MODERATOR_PIN_POST) && post.isPined)
+                .add(R.string.app_close) { _, _ -> closeAdmin(post) }.backgroundRes(R.color.blue_700).textColorRes(R.color.white).condition(ENABLED_CLOSE && ControllerApi.can(post.fandomId, post.languageId, API.LVL_MODERATOR_CLOSE_POST) && !post.closed)
+                .add(R.string.app_open) { _, _ -> openAdmin(post) }.backgroundRes(R.color.blue_700).textColorRes(R.color.white).condition(ENABLED_CLOSE && ControllerApi.can(post.fandomId, post.languageId, API.LVL_MODERATOR_CLOSE_POST) && post.closed)
                 .clearGroupCondition()
-                .add(if (unit.important == API.PUBLICATION_IMPORTANT_IMPORTANT) R.string.unit_menu_important_unmark else R.string.unit_menu_important_mark) { _, _ -> markAsImportant(unit.id, !(unit.important == API.PUBLICATION_IMPORTANT_IMPORTANT)) }.backgroundRes(R.color.blue_700).textColorRes(R.color.white).condition(ENABLED_INPORTANT && ControllerApi.can(unit.fandomId, unit.languageId, API.LVL_MODERATOR_IMPORTANT) && unit.isPublic && unit.languageId != -1L)
-                .groupCondition(!ControllerApi.isCurrentAccount(unit.creatorId) && unit.isPublic)
-                .add(R.string.admin_make_moder) { _, _ -> makeModerator(unit) }.backgroundRes(R.color.red_700).textColorRes(R.color.white).condition(ENABLED_MAKE_MODER && ControllerApi.can(API.LVL_ADMIN_MAKE_MODERATOR) && unit.languageId != -1L)
-                .add(R.string.unit_menu_change_fandom) { _, _ -> changeFandomAdmin(unit.id) }.backgroundRes(R.color.red_700).textColorRes(R.color.white).condition(ENABLED_MODER_CHANGE_FANDOM && ControllerApi.can(API.LVL_ADMIN_POST_CHANGE_FANDOM) && unit.languageId != -1L)
+                .add(if (post.important == API.PUBLICATION_IMPORTANT_IMPORTANT) R.string.publication_menu_important_unmark else R.string.publication_menu_important_mark) { _, _ -> markAsImportant(post.id, !(post.important == API.PUBLICATION_IMPORTANT_IMPORTANT)) }.backgroundRes(R.color.blue_700).textColorRes(R.color.white).condition(ENABLED_INPORTANT && ControllerApi.can(post.fandomId, post.languageId, API.LVL_MODERATOR_IMPORTANT) && post.isPublic && post.languageId != -1L)
+                .groupCondition(!ControllerApi.isCurrentAccount(post.creatorId) && post.isPublic)
+                .add(R.string.admin_make_moder) { _, _ -> makeModerator(post) }.backgroundRes(R.color.red_700).textColorRes(R.color.white).condition(ENABLED_MAKE_MODER && ControllerApi.can(API.LVL_ADMIN_MAKE_MODERATOR) && post.languageId != -1L)
+                .add(R.string.publication_menu_change_fandom) { _, _ -> changeFandomAdmin(post.id) }.backgroundRes(R.color.red_700).textColorRes(R.color.white).condition(ENABLED_MODER_CHANGE_FANDOM && ControllerApi.can(API.LVL_ADMIN_POST_CHANGE_FANDOM) && post.languageId != -1L)
                 .clearGroupCondition()
-                .add("Востановить") { _, _ -> ControllerUnits.restoreDeepBlock(unit.id) }.backgroundRes(R.color.orange_700).textColorRes(R.color.white).condition(ControllerApi.can(API.LVL_PROTOADMIN) && unit.status == API.STATUS_DEEP_BLOCKED)
+                .add("Востановить") { _, _ -> ControllerPublications.restoreDeepBlock(post.id) }.backgroundRes(R.color.orange_700).textColorRes(R.color.white).condition(ControllerApi.can(API.LVL_PROTOADMIN) && post.status == API.STATUS_DEEP_BLOCKED)
 
-        ON_PRE_SHOW_MENU.invoke(unit, w)
+        ON_PRE_SHOW_MENU.invoke(post, w)
         w.asSheetShow()
     }
 
-    fun close(unit: PublicationPost){
+    fun close(publications: PublicationPost){
         ApiRequestsSupporter.executeEnabledConfirm(
                 R.string.post_close_confirm,
                 R.string.app_close,
-                RPostClose(unit.id)
+                RPostClose(publications.id)
         ) {
-            EventBus.post(EventPostCloseChange(unit.id, true))
+            EventBus.post(EventPostCloseChange(publications.id, true))
             ToolsToast.show(R.string.app_done)
         }
     }
 
-    fun open(unit: PublicationPost){
+    fun open(publications: PublicationPost){
         ApiRequestsSupporter.executeEnabledConfirm(
                 R.string.post_open_confirm,
                 R.string.app_open,
-                RPostCloseNo(unit.id)
+                RPostCloseNo(publications.id)
         ) {
-            EventBus.post(EventPostCloseChange(unit.id, false))
+            EventBus.post(EventPostCloseChange(publications.id, false))
             ToolsToast.show(R.string.app_done)
         }
     }
-    fun closeAdmin(unit: PublicationPost){
+    fun closeAdmin(publications: PublicationPost){
         WidgetField()
                 .setTitle(R.string.post_close_confirm)
                 .setHint(R.string.comments_hint)
@@ -126,15 +126,15 @@ object ControllerPost {
                 .setMin(API.MODERATION_COMMENT_MIN_L)
                 .setMax(API.MODERATION_COMMENT_MAX_L)
                 .setOnEnter(R.string.app_close) { w, comment ->
-                    ApiRequestsSupporter.executeEnabled(w, RPostCloseModerator(unit.id, comment)) {
-                        EventBus.post(EventPostCloseChange(unit.id, true))
+                    ApiRequestsSupporter.executeEnabled(w, RPostCloseModerator(publications.id, comment)) {
+                        EventBus.post(EventPostCloseChange(publications.id, true))
                         ToolsToast.show(R.string.app_done)
                     }
                 }
                 .asSheetShow()
     }
 
-    fun openAdmin(unit: PublicationPost){
+    fun openAdmin(publications: PublicationPost){
         WidgetField()
                 .setTitle(R.string.post_open_confirm)
                 .setHint(R.string.comments_hint)
@@ -142,108 +142,108 @@ object ControllerPost {
                 .setMin(API.MODERATION_COMMENT_MIN_L)
                 .setMax(API.MODERATION_COMMENT_MAX_L)
                 .setOnEnter(R.string.app_open) { w, comment ->
-                    ApiRequestsSupporter.executeEnabled(w, RPostCloseNoModerator(unit.id, comment)) {
-                        EventBus.post(EventPostCloseChange(unit.id, false))
+                    ApiRequestsSupporter.executeEnabled(w, RPostCloseNoModerator(publications.id, comment)) {
+                        EventBus.post(EventPostCloseChange(publications.id, false))
                         ToolsToast.show(R.string.app_done)
                     }
                 }
                 .asSheetShow()
     }
 
-    fun publishPending(unit: PublicationPost) {
+    fun publishPending(publications: PublicationPost) {
         ApiRequestsSupporter.executeEnabledConfirm(
                 R.string.post_pending_publish,
                 R.string.app_publish,
-                RPostPendingPublish(unit.id)
+                RPostPendingPublish(publications.id)
         ) {
-            EventBus.post(EventPostStatusChange(unit.id, API.STATUS_PUBLIC))
+            EventBus.post(EventPostStatusChange(publications.id, API.STATUS_PUBLIC))
             ToolsToast.show(R.string.app_done)
         }
     }
 
-    fun multilingual(unit: PublicationPost) {
+    fun multilingual(publications: PublicationPost) {
         ApiRequestsSupporter.executeEnabledConfirm(
-                R.string.unit_menu_multilingual_confirm,
+                R.string.publication_menu_multilingual_confirm,
                 R.string.app_continue,
-                RPostMakeMultilingual(unit.id)
+                RPostMakeMultilingual(publications.id)
         ) {
-            EventBus.post(EventPostMultilingualChange(unit.id, -1L, unit.languageId))
+            EventBus.post(EventPostMultilingualChange(publications.id, -1L, publications.languageId))
             ToolsToast.show(R.string.app_done)
         }
     }
 
-    fun multilingualNot(unit: PublicationPost) {
+    fun multilingualNot(publications: PublicationPost) {
         ApiRequestsSupporter.executeEnabledConfirm(
-                R.string.unit_menu_multilingual_not,
+                R.string.publication_menu_multilingual_not,
                 R.string.app_continue,
-                RPostMakeMultilingualNot(unit.id)
+                RPostMakeMultilingualNot(publications.id)
         ) {
-            EventBus.post(EventPostMultilingualChange(unit.id, unit.tag_5, -1L))
+            EventBus.post(EventPostMultilingualChange(publications.id, publications.tag_5, -1L))
             ToolsToast.show(R.string.app_done)
         }
     }
 
-    fun pinInFandom(unit: PublicationPost) {
+    fun pinInFandom(publications: PublicationPost) {
         WidgetField()
-                .setTitle(R.string.unit_menu_pin_in_fandom)
+                .setTitle(R.string.publication_menu_pin_in_fandom)
                 .setHint(R.string.comments_hint)
                 .setOnCancel(R.string.app_cancel)
                 .setMin(API.MODERATION_COMMENT_MIN_L)
                 .setMax(API.MODERATION_COMMENT_MAX_L)
                 .setOnEnter(R.string.app_pin) { w, comment ->
-                    ApiRequestsSupporter.executeEnabled(w, RPostPinFandom(unit.id, unit.fandomId, unit.languageId, comment)) {
-                        EventBus.post(EventPostPinedFandom(unit.fandomId, unit.languageId, unit))
+                    ApiRequestsSupporter.executeEnabled(w, RPostPinFandom(publications.id, publications.fandomId, publications.languageId, comment)) {
+                        EventBus.post(EventPostPinedFandom(publications.fandomId, publications.languageId, publications))
                         ToolsToast.show(R.string.app_done)
                     }
                 }
                 .asSheetShow()
     }
 
-    fun unpinInFandom(unit: PublicationPost) {
+    fun unpinInFandom(publications: PublicationPost) {
         WidgetField()
-                .setTitle(R.string.unit_menu_unpin_in_fandom)
+                .setTitle(R.string.publication_menu_unpin_in_fandom)
                 .setHint(R.string.comments_hint)
                 .setOnCancel(R.string.app_cancel)
                 .setMin(API.MODERATION_COMMENT_MIN_L)
                 .setMax(API.MODERATION_COMMENT_MAX_L)
                 .setOnEnter(R.string.app_unpin) { w, comment ->
-                    ApiRequestsSupporter.executeEnabled(w, RPostPinFandom(0, unit.fandomId, unit.languageId, comment)) {
-                        EventBus.post(EventPostPinedFandom(unit.fandomId, unit.languageId, null))
+                    ApiRequestsSupporter.executeEnabled(w, RPostPinFandom(0, publications.fandomId, publications.languageId, comment)) {
+                        EventBus.post(EventPostPinedFandom(publications.fandomId, publications.languageId, null))
                         ToolsToast.show(R.string.app_done)
                     }
                 }
                 .asSheetShow()
     }
 
-    fun pinInProfile(unit: PublicationPost) {
+    fun pinInProfile(publications: PublicationPost) {
         ApiRequestsSupporter.executeEnabledConfirm(
-                R.string.unit_menu_pin_profile_confirm,
+                R.string.publication_menu_pin_profile_confirm,
                 R.string.app_pin,
-                RPostPinAccount(unit.id)
+                RPostPinAccount(publications.id)
         ) {
-            EventBus.post(EventPostPinedProfile(unit.creatorId, unit))
+            EventBus.post(EventPostPinedProfile(publications.creatorId, publications))
             ToolsToast.show(R.string.app_done)
         }
     }
 
-    fun unpinInProfile(unit: PublicationPost) {
+    fun unpinInProfile(publication: PublicationPost) {
         ApiRequestsSupporter.executeEnabledConfirm(
-                R.string.unit_menu_unpin_profile_confirm,
+                R.string.publication_menu_unpin_profile_confirm,
                 R.string.app_unpin,
                 RPostPinAccount(0)
         ) {
-            EventBus.post(EventPostPinedProfile(unit.creatorId, null))
+            EventBus.post(EventPostPinedProfile(publication.creatorId, null))
             ToolsToast.show(R.string.app_done)
         }
     }
 
-    fun notifyFollowers(unitId: Long) {
+    fun notifyFollowers(publicationId: Long) {
         ApiRequestsSupporter.executeEnabledConfirm(
                 R.string.post_create_notify_followers,
                 R.string.app_notify,
-                RPostNotifyFollowers(unitId)
+                RPostNotifyFollowers(publicationId)
         ) {
-            EventBus.post(EventPostNotifyFollowers(unitId))
+            EventBus.post(EventPostNotifyFollowers(publicationId))
             ToolsToast.show(R.string.app_done)
         }
     }
@@ -306,24 +306,24 @@ object ControllerPost {
         }
     }
 
-    fun changeFandom(unitId: Long) {
+    fun changeFandom(publicationId: Long) {
         ControllerCampfireSDK.SEARCH_FANDOM.invoke { fandom ->
             ApiRequestsSupporter.executeEnabledConfirm(
-                    R.string.unit_menu_change_fandom_confirm,
+                    R.string.publication_menu_change_fandom_confirm,
                     R.string.app_change,
-                    RPostChangeFandom(unitId, fandom.id, fandom.languageId, "")
+                    RPostChangeFandom(publicationId, fandom.id, fandom.languageId, "")
             ) {
                 ToolsToast.show(R.string.app_done)
-                EventBus.post(EventPublicationFandomChanged(unitId, fandom.id, fandom.languageId, fandom.name, fandom.imageId))
+                EventBus.post(EventPublicationFandomChanged(publicationId, fandom.id, fandom.languageId, fandom.name, fandom.imageId))
             }
                     .onApiError(RPostChangeFandom.E_SAME_FANDOM) { ToolsToast.show(R.string.error_same_fandom) }
         }
     }
 
-    fun changeFandomAdmin(unitId: Long) {
+    fun changeFandomAdmin(publicationId: Long) {
         ControllerCampfireSDK.SEARCH_FANDOM.invoke { fandom ->
             WidgetField()
-                    .setTitle(R.string.unit_menu_change_fandom_confirm)
+                    .setTitle(R.string.publication_menu_change_fandom_confirm)
                     .setHint(R.string.moderation_widget_comment)
                     .setOnCancel(R.string.app_cancel)
                     .setMin(API.MODERATION_COMMENT_MIN_L)
@@ -331,12 +331,12 @@ object ControllerPost {
                     .setOnEnter(R.string.app_change) { w, comment ->
                         ApiRequestsSupporter.executeEnabled(
                                 w,
-                                RPostChangeFandom(unitId, fandom.id, fandom.languageId, comment)
+                                RPostChangeFandom(publicationId, fandom.id, fandom.languageId, comment)
                         ) {
                             ToolsToast.show(R.string.app_done)
                             EventBus.post(
                                     EventPublicationFandomChanged(
-                                            unitId,
+                                            publicationId,
                                             fandom.id,
                                             fandom.languageId,
                                             fandom.name,
@@ -350,23 +350,23 @@ object ControllerPost {
         }
     }
 
-    fun markAsImportant(unitId: Long, important: Boolean) {
+    fun markAsImportant(publicationId: Long, important: Boolean) {
         WidgetField()
-                .setTitle(if (!important) R.string.unit_menu_important_unmark else R.string.unit_menu_important_mark)
+                .setTitle(if (!important) R.string.publication_menu_important_unmark else R.string.publication_menu_important_mark)
                 .setHint(R.string.comments_hint)
                 .setOnCancel(R.string.app_cancel)
                 .setMin(API.MODERATION_COMMENT_MIN_L)
                 .setMax(API.MODERATION_COMMENT_MAX_L)
                 .setOnEnter(if (!important) R.string.app_do_unmark else R.string.app_do_mark) { _, comment ->
                     ApiRequestsSupporter.executeEnabledConfirm(
-                            if (!important) R.string.unit_menu_important_unmark_confirm else R.string.unit_menu_important_mark_confirm,
+                            if (!important) R.string.publication_menu_important_unmark_confirm else R.string.publication_menu_important_mark_confirm,
                             if (!important) R.string.app_do_unmark else R.string.app_do_mark,
-                            RFandomsModerationImportant(unitId, important, comment)
+                            RFandomsModerationImportant(publicationId, important, comment)
                     ) {
                         ToolsToast.show(R.string.app_done)
                         EventBus.post(
                                 EventPublicationImportantChange(
-                                        unitId,
+                                        publicationId,
                                         if (important) API.PUBLICATION_IMPORTANT_IMPORTANT else API.PUBLICATION_IMPORTANT_DEFAULT
                                 )
                         )
@@ -375,49 +375,49 @@ object ControllerPost {
                 .asSheetShow()
     }
 
-    fun moderatorToDrafts(unitId: Long) {
+    fun moderatorToDrafts(publicationId: Long) {
         WidgetField()
-                .setTitle(R.string.unit_menu_moderator_to_drafts)
+                .setTitle(R.string.publication_menu_moderator_to_drafts)
                 .setHint(R.string.moderation_widget_comment)
                 .setOnCancel(R.string.app_cancel)
                 .setMin(API.MODERATION_COMMENT_MIN_L)
                 .setMax(API.MODERATION_COMMENT_MAX_L)
                 .setOnEnter(R.string.app_to_return) { w, comment ->
-                    ApiRequestsSupporter.executeEnabled(w, RFandomsModerationToDrafts(unitId, comment)) {
+                    ApiRequestsSupporter.executeEnabled(w, RFandomsModerationToDrafts(publicationId, comment)) {
                         ToolsToast.show(R.string.app_done)
-                        EventBus.post(EventPublicationRemove(unitId))
+                        EventBus.post(EventPublicationRemove(publicationId))
                     }
                             .onApiError(RFandomsModerationToDrafts.E_ALREADY) {
                                 ToolsToast.show(R.string.error_already_returned_to_drafts)
-                                EventBus.post(EventPublicationRemove(unitId))
+                                EventBus.post(EventPublicationRemove(publicationId))
                             }
                             .onApiError(RFandomsModerationToDrafts.E_BLOCKED) {
                                 ToolsToast.show(R.string.error_already_blocked)
-                                EventBus.post(EventPublicationRemove(unitId))
+                                EventBus.post(EventPublicationRemove(publicationId))
                             }
                             .onApiError(RFandomsModerationToDrafts.E_LOW_KARMA_FORCE) { ToolsToast.show(R.string.moderation_low_karma) }
                 }
                 .asSheetShow()
     }
 
-    fun moderatorMakeMultilingualNot(unit: Publication) {
+    fun moderatorMakeMultilingualNot(publication: Publication) {
         WidgetField()
-                .setTitle(R.string.unit_menu_multilingual_not)
+                .setTitle(R.string.publication_menu_multilingual_not)
                 .setHint(R.string.moderation_widget_comment)
                 .setOnCancel(R.string.app_cancel)
                 .setMin(API.MODERATION_COMMENT_MIN_L)
                 .setMax(API.MODERATION_COMMENT_MAX_L)
                 .setOnEnter(R.string.app_make) { w, comment ->
-                    ApiRequestsSupporter.executeEnabled(w, RPostMakeMultilingualModeratorNot(unit.id, comment)) {
+                    ApiRequestsSupporter.executeEnabled(w, RPostMakeMultilingualModeratorNot(publication.id, comment)) {
                         ToolsToast.show(R.string.app_done)
-                        EventBus.post(EventPostMultilingualChange(unit.id, unit.tag_5, -1L))
+                        EventBus.post(EventPostMultilingualChange(publication.id, publication.tag_5, -1L))
                     }
                             .onApiError(RPostMakeMultilingualModeratorNot.E_LOW_KARMA_FORCE) { ToolsToast.show(R.string.moderation_low_karma) }
                 }
                 .asSheetShow()
     }
 
-    fun makeModerator(unit: Publication) {
+    fun makeModerator(publication: Publication) {
         WidgetField()
                 .setTitle(R.string.admin_make_moder)
                 .setHint(R.string.moderation_widget_comment)
@@ -425,8 +425,8 @@ object ControllerPost {
                 .setMin(API.MODERATION_COMMENT_MIN_L)
                 .setMax(API.MODERATION_COMMENT_MAX_L)
                 .setOnEnter(R.string.app_make) { w, comment ->
-                    ApiRequestsSupporter.executeEnabled(w, RFandomsAdminMakeModerator(unit.id, comment)) { r ->
-                        EventBus.post(EventPublicationKarmaAdd(unit.id, r.myKarmaCount))
+                    ApiRequestsSupporter.executeEnabled(w, RFandomsAdminMakeModerator(publication.id, comment)) { r ->
+                        EventBus.post(EventPublicationKarmaAdd(publication.id, r.myKarmaCount))
                     }
                             .onApiError(RFandomsAdminMakeModerator.E_ALREADY) { ToolsToast.show(R.string.error_moderator_already) }
                             .onApiError(RFandomsAdminMakeModerator.E_TOO_MANY) { ToolsToast.show(R.string.error_moderator_too_many) }
@@ -437,37 +437,37 @@ object ControllerPost {
 
     }
 
-    private fun copyLink(unit: Publication) {
-        ToolsAndroid.setToClipboard(ControllerApi.linkToPost(unit.id))
+    private fun copyLink(publication: Publication) {
+        ToolsAndroid.setToClipboard(ControllerApi.linkToPost(publication.id))
         ToolsToast.show(R.string.app_copied)
     }
 
-    private fun changeTags(unit: Publication) {
+    private fun changeTags(publication: Publication) {
         ControllerCampfireSDK.onToPostTagsClicked(
-                unit.id,
+                publication.id,
                 true,
                 Navigator.TO
         )
     }
 
-    private fun changeTagsModer(unit: Publication) {
+    private fun changeTagsModer(publication: Publication) {
         ControllerCampfireSDK.onToPostTagsClicked(
-                unit.id,
+                publication.id,
                 false,
                 Navigator.TO
         )
     }
 
-    private fun remove(unit: Publication) {
-        ControllerApi.removeUnit(
-                unit.id,
+    private fun remove(publication: Publication) {
+        ControllerApi.removePublication(
+                publication.id,
                 R.string.post_remove_confirm,
                 R.string.post_error_gone
         )
     }
 
-    private fun toDrafts(unit: Publication) {
-        ControllerUnits.toDrafts(unit.id) {
+    private fun toDrafts(publication: Publication) {
+        ControllerPublications.toDrafts(publication.id) {
             ControllerCampfireSDK.onToDraftsClicked(
                     Navigator.REPLACE
             )

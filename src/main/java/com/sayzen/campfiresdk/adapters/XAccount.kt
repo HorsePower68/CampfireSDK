@@ -4,7 +4,7 @@ import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
 import com.dzen.campfire.api.API
-import com.dzen.campfire.api.models.EventUnitInstance
+import com.dzen.campfire.api.models.EventPublicationInstance
 import com.dzen.campfire.api.models.account.Account
 import com.dzen.campfire.api.models.lvl.LvlInfoAdmin
 import com.dzen.campfire.api.models.lvl.LvlInfoUser
@@ -40,7 +40,7 @@ class XAccount(
         var online = HashMap<Long, Long>()
 
         private val eventBus = EventBus
-                .subscribe(EventUnitInstance::class) { this.set(it.unit.creatorId, it.unit.creatorLastOnlineTime) }
+                .subscribe(EventPublicationInstance::class) { this.set(it.publication.creatorId, it.publication.creatorLastOnlineTime) }
                 .subscribe(EventNotification::class) {
                     if (it.notification is NotificationChatTyping) set(it.notification.accountId, System.currentTimeMillis())
                 }

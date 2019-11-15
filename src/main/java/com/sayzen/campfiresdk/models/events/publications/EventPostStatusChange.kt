@@ -1,6 +1,6 @@
 package com.sayzen.campfiresdk.models.events.publications
 
 class EventPostStatusChange(
-        var unitId: Long,
+        var publicationId: Long,
         var status: Long
 )

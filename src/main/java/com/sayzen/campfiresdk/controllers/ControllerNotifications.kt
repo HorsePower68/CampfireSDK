@@ -19,7 +19,7 @@ import com.dzen.campfire.api.models.notifications.rubrics.NotificationRubricsCha
 import com.dzen.campfire.api.models.notifications.rubrics.NotificationRubricsKarmaCofChanged
 import com.dzen.campfire.api.models.notifications.rubrics.NotificationRubricsMakeOwner
 import com.dzen.campfire.api.models.notifications.rubrics.NotificationRubricsRemove
-import com.dzen.campfire.api.models.notifications.units.*
+import com.dzen.campfire.api.models.notifications.publications.*
 import com.dzen.campfire.api.requests.accounts.RAccountsNotificationsRemoveToken
 import com.dzen.campfire.api.requests.accounts.RAccountsNotificationsView
 import com.google.firebase.messaging.RemoteMessage
@@ -257,11 +257,11 @@ object ControllerNotifications {
     private fun willKill(k: NewNotificationKiller, n: Notification): Boolean {
         if (n::class == k.nClass) {
             when (n) {
-                is NotificationFollowsPublication -> if (n.unitId == k.arg1) return true
-                is NotificationUnitImportant -> if (n.publicationId == k.arg1) return true
+                is NotificationFollowsPublication -> if (n.publicationId == k.arg1) return true
+                is NotificationPublicationImportant -> if (n.publicationId == k.arg1) return true
                 is NotificationComment -> if (n.commentId == k.arg1) return true
                 is NotificationCommentAnswer -> if (n.commentId == k.arg1) return true
-                is NotificationMention -> if (n.unitId == k.arg1) return true
+                is NotificationMention -> if (n.publicationId == k.arg1) return true
             }
         }
         return false
@@ -315,7 +315,7 @@ object ControllerNotifications {
             is NotificationUnitBlockAfterReport -> NotificationUnitBlockAfterReportParser(n)
             is NotificationKarmaAdd -> NotificationKarmaAddParser(n)
             is NotificationUnitReaction -> NotificationUnitReactionParser(n)
-            is NotificationUnitImportant -> NotificationUnitImportantParser(n)
+            is NotificationPublicationImportant -> NotificationUnitImportantParser(n)
             is NotificationModerationToDraft -> NotificationModerationToDraftParser(n)
             is NotificationModerationMultilingualNot -> NotificationModerationMultilingualNotParser(n)
             is NotificationModerationPostClosed -> NotificationModerationPostClosedParser(n)
@@ -341,7 +341,7 @@ object ControllerNotifications {
             is NotificationRubricsChangeOwner -> NotificationRubricsChangeOwnerParser(n)
             is NotificationRubricsKarmaCofChanged -> NotificationRubricsKarmaCofChangedParser(n)
             is NotificationRubricsRemove -> NotificationRubricsRemoveParser(n)
-            is NotificationUnitRestore -> NotificationUnitRestoreParser(n)
+            is NotificationPublicationRestore -> NotificationUnitRestoreParser(n)
             is NotificationAdminPostFandomChange -> NotificationAdminPostFandomChangeParser(n)
             is NotificationMention -> NotificationMentionParser(n)
             else -> NotificationUnknownParserParser(n)
@@ -686,7 +686,7 @@ object ControllerNotifications {
 
     }
 
-    private class NotificationUnitImportantParser(override val n: NotificationUnitImportant) : Parser(n) {
+    private class NotificationUnitImportantParser(override val n: NotificationPublicationImportant) : Parser(n) {
 
         override fun post(icon: Int, intent: Intent, text: String, title: String, tag: String, sound: Boolean) {
             (if (sound) chanelOther else chanelOther_salient).post(icon, title, text, intent, tag)
@@ -1150,7 +1150,7 @@ object ControllerNotifications {
         }
     }
 
-    private class NotificationUnitRestoreParser(override val n: NotificationUnitRestore) : Parser(n) {
+    private class NotificationUnitRestoreParser(override val n: NotificationPublicationRestore) : Parser(n) {
 
         override fun post(icon: Int, intent: Intent, text: String, title: String, tag: String, sound: Boolean) {
             (if (sound) chanelOther else chanelOther_salient).post(icon, getTitle(), text, intent, tag)

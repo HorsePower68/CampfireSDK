@@ -38,7 +38,7 @@ class AdapterComments(
 
     init {
         setBottomLoader { onLoad, cards ->
-            RCommentsGetAll(unitId, if (cards.isEmpty()) 0 else cards.get(cards.size - 1).xUnit.unit.dateCreate, false, startFromBottom)
+            RCommentsGetAll(unitId, if (cards.isEmpty()) 0 else cards.get(cards.size - 1).xPublication.publication.dateCreate, false, startFromBottom)
                     .onComplete { r ->
                         onLoad.invoke(r.units)
                         remove(CardSpace::class)
@@ -73,7 +73,7 @@ class AdapterComments(
 
     fun enableTopLoader() {
         setTopLoader { onLoad, cards ->
-            RCommentsGetAll(unitId, if (cards.isEmpty()) 0 else cards.get(0).xUnit.unit.dateCreate, true, startFromBottom)
+            RCommentsGetAll(unitId, if (cards.isEmpty()) 0 else cards.get(0).xPublication.publication.dateCreate, true, startFromBottom)
                     .onComplete { r ->
                         onLoad.invoke(r.units)
                     }
@@ -92,7 +92,7 @@ class AdapterComments(
             }
         } else if (scrollToCommentId != 0L) {
             for (c in get(CardComment::class)) {
-                if (c.xUnit.unit.id == scrollToCommentId) {
+                if (c.xPublication.publication.id == scrollToCommentId) {
                     scrollToCommentId = 0
                     ToolsThreads.main(600) {
                         vRecycler.scrollToPosition(indexOf(c) + extraScroll)
@@ -141,7 +141,7 @@ class AdapterComments(
                 },
                 { id ->
                     for (i in get(CardComment::class)) {
-                        if (i.xUnit.unit.id == id) {
+                        if (i.xPublication.publication.id == id) {
                             i.flash()
                             vRecycler.scrollToPosition(indexOf(i))
                             break
@@ -160,7 +160,7 @@ class AdapterComments(
     //
 
     private fun onEventCommentsCountChanged(e: EventCommentsCountChanged) {
-        if (e.unitId == unitId && e.change < 0) {
+        if (e.publicationId == unitId && e.change < 0) {
             if (get(CardComment::class).size == 0) {
                 reloadBottom()
             }
@@ -169,13 +169,13 @@ class AdapterComments(
 
     private fun onNotification(e: EventNotification) {
         if (e.notification is NotificationComment)
-            if (e.notification.unitId == unitId) {
+            if (e.notification.publicationId == unitId) {
                 needScrollToBottom = (vRecycler.layoutManager as LinearLayoutManager).findLastCompletelyVisibleItemPosition() == itemCount - 1
                 loadBottom()
             }
 
         if (e.notification is NotificationCommentAnswer)
-            if (e.notification.unitId == unitId) {
+            if (e.notification.publicationId == unitId) {
                 needScrollToBottom = (vRecycler.layoutManager as LinearLayoutManager).findLastCompletelyVisibleItemPosition() == itemCount - 1
                 loadBottom()
             }

@@ -63,7 +63,7 @@ class WidgetModerationBlock(
     }
 
     init {
-        if (unit.unitType == API.PUBLICATION_TYPE_REVIEW) vBlockLast.visibility = View.GONE
+        if (unit.publicationType == API.PUBLICATION_TYPE_REVIEW) vBlockLast.visibility = View.GONE
 
         vComment.vField.addTextChangedListener(TextWatcherChanged { updateFinishEnabled() })
 
@@ -81,8 +81,8 @@ class WidgetModerationBlock(
         }
 
         vBlockInApp.visibility = if (ControllerApi.can(API.LVL_ADMIN_BAN)) View.VISIBLE else View.GONE
-        if(unit.unitType == API.PUBLICATION_TYPE_STICKERS_PACK
-                ||unit.unitType == API.PUBLICATION_TYPE_STICKER){
+        if(unit.publicationType == API.PUBLICATION_TYPE_STICKERS_PACK
+                ||unit.publicationType == API.PUBLICATION_TYPE_STICKER){
             vBlockInApp.visibility = View.GONE
             vBlockInApp.setChecked(true)
         }
@@ -172,7 +172,7 @@ class WidgetModerationBlock(
     }
 
     private fun afterBlock(blockedUnitsIds: Array<Long>, unitChatMessage: PublicationChatMessage?) {
-        if (unit.unitType == API.PUBLICATION_TYPE_REVIEW) {
+        if (unit.publicationType == API.PUBLICATION_TYPE_REVIEW) {
             EventBus.post(EventFandomReviewTextRemoved(unit.id))
         } else {
             for (id in blockedUnitsIds) EventBus.post(EventPublicationRemove(id))

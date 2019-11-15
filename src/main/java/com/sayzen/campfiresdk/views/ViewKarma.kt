@@ -64,7 +64,7 @@ abstract class ViewKarma(
         update(0,0,0,0,0)
     }
 
-    fun update(unitId: Long,
+    fun update(publicationId: Long,
                karmaCount: Long,
                myKarma: Long,
                creatorId: Long,
@@ -72,8 +72,8 @@ abstract class ViewKarma(
                onRate: ((Boolean) -> Unit) = {},
                onRateClicked: (() -> Unit) = {}
     ) {
-        this.rateStartTime = ControllerKarma.getStartTime(unitId)
-        this.rateIsUp = ControllerKarma.getIsUp(unitId)
+        this.rateStartTime = ControllerKarma.getStartTime(publicationId)
+        this.rateIsUp = ControllerKarma.getIsUp(publicationId)
 
         vDown.setFilter(if (myKarma < 0 || (rateStartTime != 0L && !rateIsUp)) red else ToolsResources.getColorAttr(R.attr.revers_color))
         vUp.setFilter(if (myKarma > 0 || (rateStartTime != 0L && rateIsUp)) green else ToolsResources.getColorAttr(R.attr.revers_color))

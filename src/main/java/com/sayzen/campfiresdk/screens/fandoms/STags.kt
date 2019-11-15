@@ -11,7 +11,7 @@ import com.sayzen.campfiresdk.screens.fandoms.tags.WidgetTagCreate
 import com.sayzen.campfiresdk.R
 import com.sayzen.campfiresdk.models.events.fandom.EventFandomTagMove
 import com.sayzen.campfiresdk.controllers.ControllerApi
-import com.sayzen.campfiresdk.controllers.ControllerUnits
+import com.sayzen.campfiresdk.controllers.ControllerPublications
 import com.sayzen.campfiresdk.models.objects.TagParent
 import com.sayzen.campfiresdk.models.widgets.WidgetCategoryCreate
 import com.sayzen.campfiresdk.screens.post.search.SPostsSearch
@@ -60,7 +60,7 @@ class STags private constructor(
         vFab.setOnClickListener { onActionClicked() }
         (vFab as View).visibility = if (ControllerApi.can(fandomId, languageId, API.LVL_MODERATOR_TAGS)) View.VISIBLE else View.GONE
 
-        tags = ControllerUnits.parseTags(tagsOriginal)
+        tags = ControllerPublications.parseTags(tagsOriginal)
 
         if (tags.isNotEmpty()) vMessageContainer.visibility = View.GONE
         else vMessageContainer.visibility = View.VISIBLE
@@ -73,7 +73,7 @@ class STags private constructor(
             vText.setOnClickListener { SPostsSearch.instance(tag.tag, Navigator.TO) }
 
             vContainer.addView(vText, vContainer.childCount - 1)
-            ControllerUnits.createTagMenu(vText, tag.tag, tags)
+            ControllerPublications.createTagMenu(vText, tag.tag, tags)
 
             val vFlow = LayoutFlow(context)
 
@@ -83,7 +83,7 @@ class STags private constructor(
                 v.setOnClickListener { SPostsSearch.instance(t, Navigator.TO) }
                 v.tag = t.id
                 vFlow.addView(v)
-                ControllerUnits.createTagMenu(v, t, tags)
+                ControllerPublications.createTagMenu(v, t, tags)
                 if (t.imageId != 0L) {
                     v.setIcon(R.color.focus)
                     ToolsImagesLoader.load(t.imageId).into { bytes -> v.setIcon(ToolsBitmap.resize(ToolsBitmap.decode(bytes)!!, 32, 32)) }

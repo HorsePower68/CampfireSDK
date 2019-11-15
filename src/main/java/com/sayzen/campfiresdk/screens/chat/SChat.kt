@@ -225,7 +225,7 @@ class SChat private constructor(
                         onLoad.invoke(emptyArray())
                     } else {
                         val isLoadTargetDate = cards.isEmpty() && startOffsetDate > 0
-                        subscription = RChatMessageGetAll(tag, if (cards.isEmpty()) startOffsetDate else cards[cards.size - 1].xUnit.unit.dateCreate, false, isLoadTargetDate)
+                        subscription = RChatMessageGetAll(tag, if (cards.isEmpty()) startOffsetDate else cards[cards.size - 1].xPublication.publication.dateCreate, false, isLoadTargetDate)
                                 .onComplete { r ->
                                     if(isLoadTargetDate){
                                         startOffsetDate = 0
@@ -257,7 +257,7 @@ class SChat private constructor(
                     }
                 }
                 .setTopLoader { onLoad, cards ->
-                    subscription = RChatMessageGetAll(tag, if (cards.isEmpty()) 0 else cards[0].xUnit.unit.dateCreate, true, false)
+                    subscription = RChatMessageGetAll(tag, if (cards.isEmpty()) 0 else cards[0].xPublication.publication.dateCreate, true, false)
                             .onComplete { r -> onLoad.invoke(r.units) }
                             .onNetworkError { onLoad.invoke(null) }
                             .send(api)
@@ -287,7 +287,7 @@ class SChat private constructor(
                 onGoTo = { id ->
                     if (adapter == null) return@instance
                     for (i in adapter!!.get(CardChatMessage::class)) {
-                        if (i.xUnit.unit.id == id) {
+                        if (i.xPublication.publication.id == id) {
                             i.flash()
                             vRecycler.scrollToPosition(adapter!!.indexOf(i))
                             break

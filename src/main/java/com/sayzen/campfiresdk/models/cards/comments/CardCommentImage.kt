@@ -20,7 +20,7 @@ class CardCommentImage(
 ) : CardComment(if (miniSize) R.layout.card_comment_image_mini else R.layout.card_comment_image, unit, dividers, miniSize, onClick, onQuote, onGoTo) {
 
     override fun bind(view: View) {
-        val unit = xUnit.unit as PublicationComment
+        val unit = xPublication.publication as PublicationComment
 
         val vImage: ImageView = view.findViewById(R.id.vImage)
         val vGifProgressBar: View = view.findViewById(R.id.vGifProgressBar)

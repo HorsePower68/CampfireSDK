@@ -2,7 +2,7 @@ package com.sayzen.campfiresdk.screens.fandoms.reviews
 
 import android.view.View
 import com.dzen.campfire.api.API
-import com.dzen.campfire.api.models.UnitReview
+import com.dzen.campfire.api.models.PublicationReview
 import com.dzen.campfire.api.models.publications.Publication
 import com.dzen.campfire.api.requests.fandoms.RFandomsReviewGet
 import com.dzen.campfire.api.requests.fandoms.RFandomsReviewGetInfo
@@ -34,8 +34,8 @@ class SReviews private constructor(
 
     companion object {
 
-        fun instance(unitId: Long, action: NavigationAction) {
-            ApiRequestsSupporter.executeInterstitial(action, RFandomsReviewGet(unitId)) { r -> SReviews(r.unit.fandomId, r.unit.languageId, if (r.myReview == null) null else r.myReview!!.rate, if (r.myReview == null) null else r.myReview!!.text, r.unit.id) }
+        fun instance(publicationId: Long, action: NavigationAction) {
+            ApiRequestsSupporter.executeInterstitial(action, RFandomsReviewGet(publicationId)) { r -> SReviews(r.publication.fandomId, r.publication.languageId, if (r.myReview == null) null else r.myReview!!.rate, if (r.myReview == null) null else r.myReview!!.text, r.publication.id) }
         }
 
         fun instance(fandomId: Long, languageId: Long, action: NavigationAction) {
@@ -91,19 +91,19 @@ class SReviews private constructor(
     }
 
     override fun instanceAdapter(): RecyclerCardAdapterLoading<CardReview, Publication> {
-        return RecyclerCardAdapterLoading<CardReview, Publication>(CardReview::class) { CardReview(it as UnitReview) }
+        return RecyclerCardAdapterLoading<CardReview, Publication>(CardReview::class) { CardReview(it as PublicationReview) }
                 .setBottomLoader { onLoad, cards ->
                     val r = RUnitsGetAll()
                             .setCount(20)
                             .setFandomId(fandomId)
                             .setLanguageId(languageId)
-                            .setUnitTypes(API.PUBLICATION_TYPE_REVIEW)
+                            .setPublicationTypes(API.PUBLICATION_TYPE_REVIEW)
                             .setOffset(cards.size.toLong())
                             .setOrder(RUnitsGetAll.ORDER_NEW)
                             .onComplete { r ->
                                 var b = false
-                                for (u in r.units) b = b || ControllerApi.isCurrentAccount(u.creatorId)
-                                onLoad.invoke(r.units)
+                                for (u in r.publications) b = b || ControllerApi.isCurrentAccount(u.creatorId)
+                                onLoad.invoke(r.publications)
                                 onPackLoaded()
                             }
                             .onNetworkError { onLoad.invoke(null) }
@@ -119,7 +119,7 @@ class SReviews private constructor(
 
         if (scrollToId != 0L) {
             for (c in adapter!!.get(CardReview::class)) {
-                if (c.xUnit.unit.id == scrollToId) {
+                if (c.xPublication.publication.id == scrollToId) {
                     scrollToId = 0
                     ToolsThreads.main(600) {
                         vRecycler.scrollToPosition(adapter!!.indexOf(c) + 1)

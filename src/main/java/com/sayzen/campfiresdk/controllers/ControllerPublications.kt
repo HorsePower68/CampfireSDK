@@ -51,7 +51,7 @@ import com.sup.dev.java.tools.ToolsDate
 import com.sup.dev.java.tools.ToolsText
 import java.util.*
 
-object ControllerUnits {
+object ControllerPublications {
 
     fun getName(unitType: Long): String {
         return when (unitType) {
@@ -67,7 +67,7 @@ object ControllerUnits {
         }
     }
 
-    fun toUnit(unitType: Long, unitId: Long, commentId: Long = 0) {
+    fun toPublication(unitType: Long, unitId: Long, commentId: Long = 0) {
 
         if (unitType == API.PUBLICATION_TYPE_POST) ControllerCampfireSDK.onToPostClicked(unitId, commentId, Navigator.TO)
         if (unitType == API.PUBLICATION_TYPE_MODERATION) ControllerCampfireSDK.onToModerationClicked(unitId, commentId, Navigator.TO)
@@ -86,7 +86,7 @@ object ControllerUnits {
     }
 
     fun report(unit: Publication) {
-        ControllerApi.reportUnit(
+        ControllerApi.reportPublication(
                 unit.id,
                 R.string.post_report_confirm,
                 R.string.post_error_gone
@@ -94,7 +94,7 @@ object ControllerUnits {
     }
 
     fun clearReports(unit: Publication) {
-        ControllerApi.clearReportsUnit(unit.id, unit.unitType)
+        ControllerApi.clearReportsPublication(unit.id, unit.publicationType)
     }
 
 
@@ -105,7 +105,7 @@ object ControllerUnits {
     fun createTagMenu(view: View, unit: PublicationTag, tags: Array<TagParent> = emptyArray()) {
 
         var parentTags = ArrayList<PublicationTag>()
-        if (unit.parentUnitId > 0) for (t in tags) if (t.tag.id == unit.parentUnitId) parentTags = t.tags
+        if (unit.parentPublicationId > 0) for (t in tags) if (t.tag.id == unit.parentPublicationId) parentTags = t.tags
 
         val w = WidgetMenu()
                 .add(R.string.app_copy_link) { _, _ ->
@@ -114,13 +114,13 @@ object ControllerUnits {
                 }
                 .groupCondition(ControllerApi.can(unit.fandomId, unit.languageId, API.LVL_MODERATOR_TAGS))
                 .add(R.string.app_change) { _, _ ->
-                    if (unit.parentUnitId == 0L) WidgetCategoryCreate(unit)
+                    if (unit.parentPublicationId == 0L) WidgetCategoryCreate(unit)
                     else WidgetTagCreate(unit)
                 }
                 .add(R.string.app_move) { _, _ ->
                     val menu = WidgetMenu()
                     for (tag in tags) {
-                        if (unit.parentUnitId != tag.tag.id) menu.add(tag.tag.name) { _, _ ->
+                        if (unit.parentPublicationId != tag.tag.id) menu.add(tag.tag.name) { _, _ ->
                             WidgetField()
                                     .setHint(R.string.moderation_widget_comment)
                                     .setOnCancel(R.string.app_cancel)
@@ -128,7 +128,7 @@ object ControllerUnits {
                                     .setMax(API.MODERATION_COMMENT_MAX_L)
                                     .setOnEnter(R.string.app_move) { w, comment ->
                                         ApiRequestsSupporter.executeEnabled(w, RTagsMove(unit.id, tag.tag.id, comment)) {
-                                            EventBus.post(EventFandomTagMove(unit.fandomId, unit.languageId, unit.id, unit.parentUnitId, tag.tag.id))
+                                            EventBus.post(EventFandomTagMove(unit.fandomId, unit.languageId, unit.id, unit.parentPublicationId, tag.tag.id))
                                             ToolsToast.show(R.string.app_done)
                                         }
                                     }
@@ -136,7 +136,7 @@ object ControllerUnits {
                         }
                     }
                     menu.asSheetShow()
-                }.condition(tags.size > 1 && unit.parentUnitId > 0)
+                }.condition(tags.size > 1 && unit.parentPublicationId > 0)
                 .add(R.string.app_display_before) { _, _ ->
                     val menu = WidgetMenu()
                     for (t in parentTags) {
@@ -149,7 +149,7 @@ object ControllerUnits {
                                         .setMax(API.MODERATION_COMMENT_MAX_L)
                                         .setOnEnter(R.string.app_move) { w, comment ->
                                             ApiRequestsSupporter.executeEnabled(w, RTagsMoveTag(unit.id, t.id, comment)) {
-                                                EventBus.post(EventFandomTagMove(unit.fandomId, unit.languageId, unit.id, unit.parentUnitId, t.id))
+                                                EventBus.post(EventFandomTagMove(unit.fandomId, unit.languageId, unit.id, unit.parentPublicationId, t.id))
                                                 ToolsToast.show(R.string.app_done)
                                             }
                                         }
@@ -157,7 +157,7 @@ object ControllerUnits {
                             }
                     }
                     menu.asSheetShow()
-                }.condition(parentTags.size > 1 && unit.parentUnitId > 0)
+                }.condition(parentTags.size > 1 && unit.parentPublicationId > 0)
                 .add(R.string.app_display_above) { _, _ ->
                     val menu = WidgetMenu()
                     for (tag in tags) {
@@ -169,7 +169,7 @@ object ControllerUnits {
                                     .setMax(API.MODERATION_COMMENT_MAX_L)
                                     .setOnEnter(R.string.app_move) { w, comment ->
                                         ApiRequestsSupporter.executeEnabled(w, RTagsMoveCategory(unit.id, tag.tag.id, comment)) {
-                                            EventBus.post(EventFandomTagMove(unit.fandomId, unit.languageId, unit.id, unit.parentUnitId, tag.tag.id))
+                                            EventBus.post(EventFandomTagMove(unit.fandomId, unit.languageId, unit.id, unit.parentPublicationId, tag.tag.id))
                                             ToolsToast.show(R.string.app_done)
                                         }
                                     }
@@ -177,7 +177,7 @@ object ControllerUnits {
                         }
                     }
                     menu.asSheetShow()
-                }.condition(tags.size > 1 && unit.parentUnitId == 0L)
+                }.condition(tags.size > 1 && unit.parentPublicationId == 0L)
                 .add(R.string.app_remove) { _, _ -> WidgetTagRemove(unit) }
 
         view.setOnLongClickListener {
@@ -195,12 +195,12 @@ object ControllerUnits {
 
         var i = 0
         while (i < tags.size) {
-            if (tags[i].parentUnitId == 0L && !map.containsKey(tags[i].id)) map[tags[i].id] = TagParent(tags.removeAt(i--))
+            if (tags[i].parentPublicationId == 0L && !map.containsKey(tags[i].id)) map[tags[i].id] = TagParent(tags.removeAt(i--))
             i++
         }
 
         for (u in tags) {
-            val tagParent = map[u.parentUnitId] ?: continue
+            val tagParent = map[u.parentPublicationId] ?: continue
             tagParent.tags.add(u)
         }
 
@@ -236,8 +236,8 @@ object ControllerUnits {
     fun changeWatchComments(unitId: Long) {
         ApiRequestsSupporter.executeProgressDialog(RUnitsCommentsWatchChange(unitId)) { r ->
             EventBus.post(EventPublicationCommentWatchChange(unitId, r.follow))
-            if (r.follow) ToolsToast.show(R.string.unit_menu_comments_watch_on)
-            else ToolsToast.show(R.string.unit_menu_comments_watch_off)
+            if (r.follow) ToolsToast.show(R.string.publication_menu_comments_watch_on)
+            else ToolsToast.show(R.string.publication_menu_comments_watch_off)
         }
     }
 
@@ -281,10 +281,10 @@ object ControllerUnits {
         var text = ""
         when (m) {
             is ModerationBlock -> {
-                if (m.unitType == API.PUBLICATION_TYPE_REVIEW) {
+                if (m.publicationType == API.PUBLICATION_TYPE_REVIEW) {
                     text = ToolsResources.sCap(R.string.moderation_card_block_text_main_review, ToolsResources.sex(unit.creatorSex, R.string.he_remove, R.string.she_remove), ControllerApi.linkToUser(m.accountName))
                 } else {
-                    val unitType = if (m.unitType == API.PUBLICATION_TYPE_POST) ToolsResources.sCap(R.string.moderation_unit_post) else if (m.unitType == API.PUBLICATION_TYPE_COMMENT) ToolsResources.sCap(R.string.moderation_unit_comment) else if (m.unitType == API.PUBLICATION_TYPE_CHAT_MESSAGE) ToolsResources.s(R.string.moderation_unit_message) else "null"
+                    val unitType = if (m.publicationType == API.PUBLICATION_TYPE_POST) ToolsResources.sCap(R.string.moderation_publication_post) else if (m.publicationType == API.PUBLICATION_TYPE_COMMENT) ToolsResources.sCap(R.string.moderation_publication_comment) else if (m.publicationType == API.PUBLICATION_TYPE_CHAT_MESSAGE) ToolsResources.s(R.string.moderation_publication_message) else "null"
                     text = ToolsResources.sCap(R.string.moderation_card_block_text_main, ToolsResources.sex(unit.creatorSex, R.string.he_blocked, R.string.she_blocked), unitType, ControllerApi.linkToUser(m.accountName))
                 }
                 if (m.accountBlockDate > 0) text += "\n" + ToolsResources.sCap(R.string.moderation_card_block_text_ban, ToolsDate.dateToString(m.accountBlockDate))
@@ -359,15 +359,15 @@ object ControllerUnits {
                     text = ToolsResources.sCap(R.string.moderation_background_image_sub, ToolsResources.sex(unit.creatorSex, R.string.he_remove, R.string.she_remove), m.chatName)
             }
             is ModerationPostTags -> {
-                text = ToolsResources.sCap(R.string.moderation_text_post_tags, ToolsResources.sex(unit.creatorSex, R.string.he_changed, R.string.she_changed), ControllerApi.linkToPost(m.unitId))
+                text = ToolsResources.sCap(R.string.moderation_text_post_tags, ToolsResources.sex(unit.creatorSex, R.string.he_changed, R.string.she_changed), ControllerApi.linkToPost(m.publicationId))
 
                 if (m.newTags.isNotEmpty()) {
-                    text += "\n" + ToolsResources.sCap(R.string.unit_event_fandom_genres_new) + " " + m.newTags[0]
+                    text += "\n" + ToolsResources.sCap(R.string.publication_event_fandom_genres_new) + " " + m.newTags[0]
                     for (i in 1 until m.newTags.size) text += ", " + m.newTags[i]
                 }
 
                 if (m.removedTags.isNotEmpty()) {
-                    text += "\n" + ToolsResources.sCap(R.string.unit_event_fandom_genres_remove) + " " + m.removedTags[0]
+                    text += "\n" + ToolsResources.sCap(R.string.publication_event_fandom_genres_remove) + " " + m.removedTags[0]
                     for (i in 1 until m.removedTags.size) text += ", " + m.removedTags[i]
                 }
             }
@@ -375,12 +375,12 @@ object ControllerUnits {
                 text = ToolsResources.sCap(R.string.moderation_text_names, ToolsResources.sex(unit.creatorSex, R.string.he_changed, R.string.she_changed))
 
                 if (m.newNames.isNotEmpty()) {
-                    text += "\n" + ToolsResources.sCap(R.string.unit_event_fandom_genres_new) + " " + m.newNames[0]
+                    text += "\n" + ToolsResources.sCap(R.string.publication_event_fandom_genres_new) + " " + m.newNames[0]
                     for (i in 1 until m.newNames.size) text += ", " + m.newNames[i]
                 }
 
                 if (m.removedNames.isNotEmpty()) {
-                    text += "\n" + ToolsResources.sCap(R.string.unit_event_fandom_genres_remove) + " " + m.removedNames[0]
+                    text += "\n" + ToolsResources.sCap(R.string.publication_event_fandom_genres_remove) + " " + m.removedNames[0]
                     for (i in 1 until m.removedNames.size) text += ", " + m.removedNames[i]
                 }
             }

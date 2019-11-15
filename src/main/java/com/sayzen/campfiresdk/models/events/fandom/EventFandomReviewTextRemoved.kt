@@ -1,5 +1,5 @@
 package com.sayzen.campfiresdk.models.events.fandom
 
 class EventFandomReviewTextRemoved(
-        var unitId: Long
+        var publicationId: Long
 )

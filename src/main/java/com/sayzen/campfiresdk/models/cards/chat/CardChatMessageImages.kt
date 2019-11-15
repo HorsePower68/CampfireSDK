@@ -19,7 +19,7 @@ class CardChatMessageImages(
 
     override fun bindView(view: View) {
         super.bindView(view)
-        val unit = xUnit.unit as PublicationChatMessage
+        val unit = xPublication.publication as PublicationChatMessage
 
         val vImages: ViewImagesContainer = view.findViewById(R.id.vImages)
 

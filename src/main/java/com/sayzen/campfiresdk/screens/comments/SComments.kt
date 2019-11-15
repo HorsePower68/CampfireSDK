@@ -52,11 +52,11 @@ class SComments constructor(
     //
 
     private fun onEventCommentsCountChanged(e: EventCommentsCountChanged) {
-        if (e.unitId == publicationId) adapter.loadBottom()
+        if (e.publicationId == publicationId) adapter.loadBottom()
     }
 
     private fun onEventUnitRemove(e: EventPublicationRemove) {
-        if (e.unitId == publicationId) Navigator.remove(this)
+        if (e.publicationId == publicationId) Navigator.remove(this)
     }
 
 }

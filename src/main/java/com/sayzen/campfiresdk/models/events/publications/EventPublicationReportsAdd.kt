@@ -1,3 +1,3 @@
 package com.sayzen.campfiresdk.models.events.publications
 
-class EventPublicationReportsAdd(val unitId: Long)
+class EventPublicationReportsAdd(val publicationId: Long)

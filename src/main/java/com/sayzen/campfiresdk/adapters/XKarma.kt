@@ -22,9 +22,9 @@ class XKarma(
     var anon =  ControllerSettings.anonRates
 
     private val eventBus = EventBus
-            .subscribe(EventPublicationKarmaStateChanged::class) { if (it.unitId == unitId) onChanged.invoke() }
+            .subscribe(EventPublicationKarmaStateChanged::class) { if (it.publicationId == unitId) onChanged.invoke() }
             .subscribe(EventPublicationKarmaAdd::class) {
-                if (it.unitId == unitId) {
+                if (it.publicationId == unitId) {
                     myKarma = it.myKarma
                     karmaCount += it.myKarma
                     onChanged.invoke()

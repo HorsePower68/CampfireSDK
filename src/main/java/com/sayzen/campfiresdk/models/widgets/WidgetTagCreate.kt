@@ -40,7 +40,7 @@ class WidgetTagCreate private constructor(
     private var removeImage: Boolean = false
     private var image: ByteArray? = null
 
-    constructor(tag: PublicationTag) : this(tag, tag.parentUnitId, tag.fandomId, tag.languageId) {}
+    constructor(tag: PublicationTag) : this(tag, tag.parentPublicationId, tag.fandomId, tag.languageId) {}
 
     constructor(parentId: Long, fandomId: Long, languageId: Long) : this(null, parentId, fandomId, languageId) {}
 

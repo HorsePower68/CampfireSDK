@@ -103,7 +103,7 @@ class XFandom(
     }
 
     private fun onEventUnitFandomChanged(e: EventPublicationFandomChanged) {
-        if (e.unitId == unitId) {
+        if (e.publicationId == unitId) {
             fandomId = e.fandomId
             languageId = e.languageId
             name = e.fandomName

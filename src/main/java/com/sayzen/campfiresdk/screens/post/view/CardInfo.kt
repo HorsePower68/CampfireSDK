@@ -5,7 +5,7 @@ import com.dzen.campfire.api.models.publications.post.PublicationPost
 import com.dzen.campfire.api.models.publications.tags.PublicationTag
 import com.sayzen.campfiresdk.R
 import com.sayzen.campfiresdk.adapters.*
-import com.sayzen.campfiresdk.controllers.ControllerUnits
+import com.sayzen.campfiresdk.controllers.ControllerPublications
 import com.sayzen.campfiresdk.screens.fandoms.rubrics.SRubricPosts
 import com.sayzen.campfiresdk.screens.post.search.SPostsSearch
 import com.sup.dev.android.libs.screens.navigator.Navigator
@@ -20,12 +20,12 @@ import com.sup.dev.android.views.views.ViewSpace
 import com.sup.dev.android.views.views.layouts.LayoutFlow
 
 class CardInfo(
-        private val xUnit: XUnit,
+        private val xPublication: XPublication,
         private val tags: Array<PublicationTag>
 ) : Card(R.layout.screen_post_card_info) {
 
     init {
-        xUnit.xFandom.showLanguage = false
+        xPublication.xFandom.showLanguage = false
     }
 
     override fun bindView(view: View) {
@@ -33,7 +33,7 @@ class CardInfo(
         val vFlow: LayoutFlow = view.findViewById(R.id.vFlow)
         val vMiddleDivider: View = view.findViewById(R.id.vMiddleDivider)
 
-        val tags = ControllerUnits.parseTags(this.tags)
+        val tags = ControllerPublications.parseTags(this.tags)
 
         if (tags.isEmpty()) {
             vMiddleDivider.visibility = View.GONE
@@ -58,14 +58,14 @@ class CardInfo(
 
     fun updateFandom() {
         if (getView() == null) return
-        xUnit.xFandom.setView(getView()!!.findViewById<ViewAvatar>(R.id.vFandom))
+        xPublication.xFandom.setView(getView()!!.findViewById<ViewAvatar>(R.id.vFandom))
     }
 
     fun updateAccount() {
         if (getView() == null) return
         val vAvatar: ViewAvatarTitle = getView()!!.findViewById(R.id.vAvatar)
-        xUnit.xAccount.setView(vAvatar)
-        val unit = xUnit.unit as PublicationPost
+        xPublication.xAccount.setView(vAvatar)
+        val unit = xPublication.publication as PublicationPost
         if (unit.rubricId > 0) {
             vAvatar.vSubtitle.text = vAvatar.getSubTitle() + "  " + unit.rubricName
             ToolsView.addLink(vAvatar.vSubtitle, unit.rubricName) {
@@ -76,25 +76,25 @@ class CardInfo(
 
     fun updateKarma() {
         if (getView() == null) return
-        xUnit.xKarma.setView(getView()!!.findViewById(R.id.vKarma))
+        xPublication.xKarma.setView(getView()!!.findViewById(R.id.vKarma))
     }
 
     fun updateComments() {
         if (getView() == null) return
-        xUnit.xComments.setView(getView()!!.findViewById(R.id.vComments))
+        xPublication.xComments.setView(getView()!!.findViewById(R.id.vComments))
     }
 
     fun updateReports() {
         if (getView() == null) return
-        xUnit.xReports.setView(getView()!!.findViewById(R.id.vReports))
+        xPublication.xReports.setView(getView()!!.findViewById(R.id.vReports))
     }
 
     private fun addTag(t: PublicationTag, vFlow: LayoutFlow) {
-        val vChip = if (t.parentUnitId == 0L) ViewChip.instance(vFlow.context) else ViewChip.instanceOutline(vFlow.context)
+        val vChip = if (t.parentPublicationId == 0L) ViewChip.instance(vFlow.context) else ViewChip.instanceOutline(vFlow.context)
         vChip.text = t.name
         vChip.setOnClickListener { SPostsSearch.instance(t, Navigator.TO) }
-        ControllerUnits.createTagMenu(vChip, t)
-        if (vFlow.childCount != 0 && t.parentUnitId == 0L) vFlow.addView(ViewSpace(vFlow.context, ToolsView.dpToPx(1).toInt(), 0))
+        ControllerPublications.createTagMenu(vChip, t)
+        if (vFlow.childCount != 0 && t.parentPublicationId == 0L) vFlow.addView(ViewSpace(vFlow.context, ToolsView.dpToPx(1).toInt(), 0))
         vFlow.addView(vChip)
         if (t.imageId != 0L) ToolsImagesLoader.load(t.imageId).into { bytes -> vChip.setIcon(ToolsBitmap.decode(bytes)) }
     }

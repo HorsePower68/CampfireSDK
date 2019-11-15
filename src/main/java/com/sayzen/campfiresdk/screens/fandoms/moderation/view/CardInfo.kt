@@ -11,7 +11,7 @@ import com.sayzen.campfiresdk.adapters.XAccount
 import com.sayzen.campfiresdk.adapters.XFandom
 import com.sayzen.campfiresdk.adapters.XKarma
 import com.sayzen.campfiresdk.controllers.ControllerApi
-import com.sayzen.campfiresdk.controllers.ControllerUnits
+import com.sayzen.campfiresdk.controllers.ControllerPublications
 import com.sayzen.campfiresdk.views.ViewKarma
 import com.sayzen.campfiresdk.models.events.notifications.EventNotification
 import com.sayzen.campfiresdk.models.events.publications.EventCommentsCountChanged
@@ -75,7 +75,7 @@ class CardInfo(
         xKarma.setView(vKarma)
         vComments.text = "" + unit.subUnitsCount
 
-        ControllerUnits.setModerationText(vText, unit)
+        ControllerPublications.setModerationText(vText, unit)
     }
 
     //
@@ -83,7 +83,7 @@ class CardInfo(
     //
 
     private fun onEventCommentsCountChanged(e: EventCommentsCountChanged) {
-        if (e.unitId == unit.id) {
+        if (e.publicationId == unit.id) {
             unit.subUnitsCount = e.commentsCount
             update()
         }
@@ -91,13 +91,13 @@ class CardInfo(
 
     private fun onNotification(e: EventNotification) {
         if (e.notification is NotificationComment)
-            if (e.notification.unitId == unit.id) {
+            if (e.notification.publicationId == unit.id) {
                 unit.subUnitsCount++
                 update()
             }
 
         if (e.notification is NotificationCommentAnswer)
-            if (e.notification.unitId == unit.id) {
+            if (e.notification.publicationId == unit.id) {
                 unit.subUnitsCount++
                 update()
             }

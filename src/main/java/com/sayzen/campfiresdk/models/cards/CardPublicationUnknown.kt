@@ -4,9 +4,9 @@ import android.view.View
 import com.dzen.campfire.api.models.publications.Publication
 import com.sayzen.campfiresdk.R
 
-class CardUnitUnknown(
+class CardPublicationUnknown(
         unit: Publication
-) : CardUnit(R.layout.card_unit_unknown, unit) {
+) : CardPublication(R.layout.card_unit_unknown, unit) {
 
     override fun bindView(view: View) {
         super.bindView(view)

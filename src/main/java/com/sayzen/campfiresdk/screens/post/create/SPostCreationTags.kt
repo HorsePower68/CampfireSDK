@@ -13,7 +13,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.sayzen.campfiresdk.R
 import com.sayzen.campfiresdk.controllers.ControllerApi
 import com.sayzen.campfiresdk.controllers.ControllerStoryQuest
-import com.sayzen.campfiresdk.controllers.ControllerUnits
+import com.sayzen.campfiresdk.controllers.ControllerPublications
 import com.sayzen.campfiresdk.models.events.publications.EventPostStatusChange
 import com.sayzen.campfiresdk.screens.fandoms.rubrics.SRubricsList
 import com.sayzen.campfiresdk.screens.other.rules.SGoogleRules
@@ -49,7 +49,7 @@ class SPostCreationTags private constructor(
 
         fun instance(unitId: Long, isMyUnit: Boolean, action: NavigationAction) {
             ApiRequestsSupporter.executeProgressDialog(RPostGet(unitId)) { r ->
-                instance(r.unit.id, r.unit.closed, r.unit.tag_3, isMyUnit, r.unit.fandomId, r.unit.languageId, ControllerUnits.tagsAsLongArray(r.tags), action)
+                instance(r.unit.id, r.unit.closed, r.unit.tag_3, isMyUnit, r.unit.fandomId, r.unit.languageId, ControllerPublications.tagsAsLongArray(r.tags), action)
             }
         }
 
@@ -189,7 +189,7 @@ class SPostCreationTags private constructor(
 
         vContainer.removeAllViews()
 
-        val tags = ControllerUnits.parseTags(tagsOriginal)
+        val tags = ControllerPublications.parseTags(tagsOriginal)
 
         for (tag in tags) {
 

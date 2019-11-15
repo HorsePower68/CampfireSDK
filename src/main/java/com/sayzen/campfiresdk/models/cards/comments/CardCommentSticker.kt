@@ -27,7 +27,7 @@ class CardCommentSticker(
     }
 
     override fun bind(view: View) {
-        val unit = xUnit.unit as PublicationComment
+        val unit = xPublication.publication as PublicationComment
 
         val vImage: ImageView = view.findViewById(R.id.vImage)
         val vGifProgressBar: View = view.findViewById(R.id.vGifProgressBar)
@@ -42,7 +42,7 @@ class CardCommentSticker(
         vLabelImageAnswer.setOnClickListener {
             if (onGoTo != null) {
                 if (unit.quoteId > 0) onGoTo!!.invoke(unit.quoteId)
-                else if (unit.parentUnitId > 0) onGoTo!!.invoke(unit.parentUnitId)
+                else if (unit.parentPublicationId > 0) onGoTo!!.invoke(unit.parentPublicationId)
             }
         }
 

@@ -24,7 +24,7 @@ class CardChatMessageImage(
 
     override fun bindView(view: View) {
         super.bindView(view)
-        val unit = xUnit.unit as PublicationChatMessage
+        val unit = xPublication.publication as PublicationChatMessage
 
         val vImage: ImageView = view.findViewById(R.id.vImage)
         val vGifProgressBar: View = view.findViewById(R.id.vGifProgressBar)

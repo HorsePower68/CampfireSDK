@@ -92,7 +92,7 @@ class SDrafts constructor(
 
     private fun onEventPostDraftCreated(e: EventPostDraftCreated) {
         if(adapter != null) {
-            for (c in adapter!!.get(CardPost::class)) if (c.xUnit.unit.id == e.unitId) return
+            for (c in adapter!!.get(CardPost::class)) if (c.xPublication.publication.id == e.publicationId) return
             adapter!!.reloadBottom()
         }
     }

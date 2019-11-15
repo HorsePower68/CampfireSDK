@@ -33,7 +33,7 @@ class CardChatMessageSticker(
 
     override fun bindView(view: View) {
         super.bindView(view)
-        val unit = xUnit.unit as PublicationChatMessage
+        val unit = xPublication.publication as PublicationChatMessage
 
         val vImage: ImageView = view.findViewById(R.id.vImage)
         val vGifProgressBar: View = view.findViewById(R.id.vGifProgressBar)
@@ -48,7 +48,7 @@ class CardChatMessageSticker(
         vLabelImageAnswer.setOnClickListener {
             if (onGoTo != null) {
                 if (unit.quoteId > 0) onGoTo!!.invoke(unit.quoteId)
-                else if (unit.parentUnitId > 0) onGoTo!!.invoke(unit.parentUnitId)
+                else if (unit.parentPublicationId > 0) onGoTo!!.invoke(unit.parentPublicationId)
             }
         }
 

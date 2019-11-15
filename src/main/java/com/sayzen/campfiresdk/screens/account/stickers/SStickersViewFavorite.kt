@@ -23,11 +23,11 @@ class SStickersViewFavorite(
                 if(adapter != null) {
                     if (it.inCollection) {
                         var found = false
-                        for (c in adapter!!.get(CardSticker::class)) if (c.xUnit.unit.id == it.sticker.id) found = true
+                        for (c in adapter!!.get(CardSticker::class)) if (c.xPublication.publication.id == it.sticker.id) found = true
                         if (!found) adapter!!.add(0, CardSticker(it.sticker))
                         setState(State.NONE)
                     } else {
-                        for (c in adapter!!.get(CardSticker::class)) if (c.xUnit.unit.id == it.sticker.id) adapter!!.remove(c)
+                        for (c in adapter!!.get(CardSticker::class)) if (c.xPublication.publication.id == it.sticker.id) adapter!!.remove(c)
                     }
                 }
             }

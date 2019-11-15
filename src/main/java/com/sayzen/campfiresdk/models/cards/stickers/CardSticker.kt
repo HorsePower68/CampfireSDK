@@ -6,7 +6,7 @@ import android.widget.TextView
 import com.dzen.campfire.api.models.publications.stickers.PublicationSticker
 import com.sayzen.campfiresdk.R
 import com.sayzen.campfiresdk.controllers.ControllerStickers
-import com.sayzen.campfiresdk.models.cards.CardUnit
+import com.sayzen.campfiresdk.models.cards.CardPublication
 import com.sayzen.campfiresdk.screens.account.stickers.SStickersView
 import com.sup.dev.android.libs.screens.navigator.Navigator
 import com.sup.dev.android.tools.ToolsImagesLoader
@@ -17,13 +17,13 @@ class CardSticker(
         unit: PublicationSticker,
         val isShowFullInfo: Boolean = false,
         val isShowReports: Boolean = false
-) : CardUnit(if (isShowFullInfo) R.layout.card_sticker_info else R.layout.card_sticker, unit) {
+) : CardPublication(if (isShowFullInfo) R.layout.card_sticker_info else R.layout.card_sticker, unit) {
 
     var onClick: (PublicationSticker) -> Unit = {}
 
     override fun bindView(view: View) {
         super.bindView(view)
-        val unit = xUnit.unit as PublicationSticker
+        val unit = xPublication.publication as PublicationSticker
 
         val vImage: ImageView = view.findViewById(R.id.vImage)
         val vProgress: View = view.findViewById(R.id.vProgress)
@@ -71,11 +71,11 @@ class CardSticker(
 
     override fun updateReports() {
         if (getView() == null) return
-        xUnit.xReports.setView(getView()!!.findViewById(R.id.vReports))
+        xPublication.xReports.setView(getView()!!.findViewById(R.id.vReports))
     }
 
     override fun notifyItem() {
-        val unit = xUnit.unit as PublicationSticker
+        val unit = xPublication.publication as PublicationSticker
         ToolsImagesLoader.load(unit.imageId).intoCash()
     }
 

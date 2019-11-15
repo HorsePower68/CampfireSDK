@@ -15,7 +15,7 @@ import com.dzen.campfire.api.requests.units.RUnitsGetAll
 import com.sayzen.campfiresdk.R
 import com.sayzen.campfiresdk.adapters.XFandom
 import com.sayzen.campfiresdk.models.cards.CardPost
-import com.sayzen.campfiresdk.models.cards.CardUnit
+import com.sayzen.campfiresdk.models.cards.CardPublication
 import com.sayzen.campfiresdk.models.events.fandom.*
 import com.sayzen.campfiresdk.models.PostList
 import com.sayzen.campfiresdk.screens.post.create.SPostCreate
@@ -80,7 +80,7 @@ class SFandom private constructor(
     private val vFab: View = findViewById(R.id.vFab)
     private val vMore: ViewIcon = findViewById(R.id.vMore)
 
-    private val adapter: RecyclerCardAdapterLoading<CardUnit, Publication>
+    private val adapter: RecyclerCardAdapterLoading<CardPublication, Publication>
     private val xFandom = XFandom(r.fandom) { update() }
     private val spoiler = CardSpoiler()
     private val cardFilters: CardFilters
@@ -93,11 +93,11 @@ class SFandom private constructor(
     init {
         vToolbarCollapsingShadow.background = GradientDrawable(GradientDrawable.Orientation.TOP_BOTTOM, intArrayOf(0x60000000, 0x00000000))
 
-        adapter = RecyclerCardAdapterLoading<CardUnit, Publication>(CardUnit::class) { unit -> CardUnit.instance(unit, vRecycler, false, false, true) }
+        adapter = RecyclerCardAdapterLoading<CardPublication, Publication>(CardPublication::class) { unit -> CardPublication.instance(unit, vRecycler, false, false, true) }
                 .setBottomLoader { onLoad, cards ->
                     RUnitsGetAll()
                             .setOffset(cards.size)
-                            .setUnitTypes(ControllerSettings.getFandomFilters())
+                            .setPublicationTypes(ControllerSettings.getFandomFilters())
                             .setOrder(RUnitsGetAll.ORDER_NEW)
                             .setFandomId(xFandom.fandomId)
                             .setLanguageId(xFandom.languageId)
@@ -107,7 +107,7 @@ class SFandom private constructor(
                             .setIncludeModerationsBlocks(ControllerSettings.fandomFilterModerationsBlocks)
                             .setIncludeModerationsOther(ControllerSettings.fandomFilterModerations)
                             .onComplete { rr ->
-                                onLoad.invoke(rr.units)
+                                onLoad.invoke(rr.publications)
                                 afterPackLoaded()
                             }
                             .onNetworkError { onLoad.invoke(null) }
@@ -119,7 +119,7 @@ class SFandom private constructor(
 
 
         cardFilters = CardFilters {
-            if (cardPinnedPost != null) setPinnedPost(cardPinnedPost!!.xUnit.unit as PublicationPost)
+            if (cardPinnedPost != null) setPinnedPost(cardPinnedPost!!.xPublication.publication as PublicationPost)
             reload()
         }
 
@@ -193,7 +193,7 @@ class SFandom private constructor(
     private fun afterPackLoaded() {
         if (cardPinnedPost != null && ControllerSettings.getFandomFilters().contains(API.PUBLICATION_TYPE_POST))
             for (c in adapter.get(CardPost::class))
-                if (c.xUnit.unit.id == cardPinnedPost!!.xUnit.unit.id && !(c.xUnit.unit as PublicationPost).isPined)
+                if (c.xPublication.publication.id == cardPinnedPost!!.xPublication.publication.id && !(c.xPublication.publication as PublicationPost).isPined)
                     adapter.remove(c)
 
 
@@ -207,7 +207,7 @@ class SFandom private constructor(
         if (post == null) {
             cardPinnedPost = null
         } else {
-            for (c in adapter.get(CardPost::class)) if (c.xUnit.unit.id == post.id) adapter.remove(c)
+            for (c in adapter.get(CardPost::class)) if (c.xPublication.publication.id == post.id) adapter.remove(c)
             post.isPined = true
             cardPinnedPost = CardPost(vRecycler, post)
             if (ControllerSettings.getFandomFilters().contains(API.PUBLICATION_TYPE_POST)) {

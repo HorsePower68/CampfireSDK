@@ -406,7 +406,7 @@ object ControllerApi {
     fun linkToConfMessage(messageId: Long, chatId: Long) = API.LINK_CONF + chatId + "_" + messageId
     fun linkToEvent(eventId: Long) = API.LINK_EVENT + eventId
     fun linkToTag(tagId: Long) = API.LINK_TAG + tagId
-    fun linkToComment(comment: PublicationComment) = linkToComment(comment.id, comment.parentUnitType, comment.parentUnitId)
+    fun linkToComment(comment: PublicationComment) = linkToComment(comment.id, comment.parentPublicationType, comment.parentPublicationId)
     fun linkToComment(commentId: Long, unitType: Long, unitId: Long): String {
         return when (unitType) {
             API.PUBLICATION_TYPE_POST -> linkToPostComment(unitId, commentId)
@@ -521,7 +521,7 @@ object ControllerApi {
     //  Requests
     //
 
-    fun reportUnit(unitId: Long, stringRes: Int, stringResGone: Int) {
+    fun reportPublication(unitId: Long, stringRes: Int, stringResGone: Int) {
         ApiRequestsSupporter.executeEnabledConfirm(stringRes, R.string.app_report, RUnitsReport(unitId)) {
             ToolsToast.show(R.string.app_reported)
             EventBus.post(EventPublicationReportsAdd(unitId))
@@ -530,7 +530,7 @@ object ControllerApi {
                 .onApiError(API.ERROR_GONE) { ToolsToast.show(stringResGone) }
     }
 
-    fun removeUnit(unitId: Long, stringRes: Int, stringResGone: Int, onRemove: () -> Unit = {}) {
+    fun removePublication(unitId: Long, stringRes: Int, stringResGone: Int, onRemove: () -> Unit = {}) {
         ApiRequestsSupporter.executeEnabledConfirm(stringRes, R.string.app_remove, RUnitsRemove(unitId)) {
             EventBus.post(EventPublicationRemove(unitId))
             ToolsToast.show(R.string.app_removed)
@@ -538,17 +538,17 @@ object ControllerApi {
         }.onApiError(API.ERROR_GONE) { ToolsToast.show(stringResGone) }
     }
 
-    fun clearReportsUnit(unitId: Long, unitType: Long) {
+    fun clearReportsPublication(unitId: Long, unitType: Long) {
         when (unitType) {
-            API.PUBLICATION_TYPE_CHAT_MESSAGE -> clearReportsUnit(unitId, R.string.chat_clear_reports_confirm, R.string.chat_error_gone)
-            API.PUBLICATION_TYPE_POST -> clearReportsUnit(unitId, R.string.post_clear_reports_confirm, R.string.post_error_gone)
-            API.PUBLICATION_TYPE_COMMENT -> clearReportsUnit(unitId, R.string.comment_clear_reports_confirm, R.string.comment_error_gone)
-            API.PUBLICATION_TYPE_REVIEW -> clearReportsUnit(unitId, R.string.review_clear_reports_confirm, R.string.review_error_gone)
-            API.PUBLICATION_TYPE_STICKERS_PACK -> clearReportsUnit(unitId, R.string.stickers_packs_clear_reports_confirm, R.string.stickers_packs_error_gone)
+            API.PUBLICATION_TYPE_CHAT_MESSAGE -> clearReportsPublication(unitId, R.string.chat_clear_reports_confirm, R.string.chat_error_gone)
+            API.PUBLICATION_TYPE_POST -> clearReportsPublication(unitId, R.string.post_clear_reports_confirm, R.string.post_error_gone)
+            API.PUBLICATION_TYPE_COMMENT -> clearReportsPublication(unitId, R.string.comment_clear_reports_confirm, R.string.comment_error_gone)
+            API.PUBLICATION_TYPE_REVIEW -> clearReportsPublication(unitId, R.string.review_clear_reports_confirm, R.string.review_error_gone)
+            API.PUBLICATION_TYPE_STICKERS_PACK -> clearReportsPublication(unitId, R.string.stickers_packs_clear_reports_confirm, R.string.stickers_packs_error_gone)
         }
     }
 
-    private fun clearReportsUnit(unitId: Long, stringRes: Int, stringResGone: Int) {
+    private fun clearReportsPublication(unitId: Long, stringRes: Int, stringResGone: Int) {
         ApiRequestsSupporter.executeEnabledConfirm(
                 stringRes,
                 R.string.app_clear,

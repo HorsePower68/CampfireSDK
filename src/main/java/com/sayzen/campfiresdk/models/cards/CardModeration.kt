@@ -7,7 +7,7 @@ import com.dzen.campfire.api.models.publications.moderations.units.ModerationBlo
 import com.sayzen.campfiresdk.R
 import com.sayzen.campfiresdk.controllers.ControllerApi
 import com.sayzen.campfiresdk.controllers.ControllerCampfireSDK
-import com.sayzen.campfiresdk.controllers.ControllerUnits
+import com.sayzen.campfiresdk.controllers.ControllerPublications
 import com.sup.dev.android.libs.screens.navigator.Navigator
 import com.sup.dev.android.tools.ToolsResources
 import com.sup.dev.android.views.views.ViewAvatarTitle
@@ -15,14 +15,14 @@ import com.sup.dev.android.views.views.ViewTextLinkable
 
 class CardModeration(
         unit: PublicationModeration
-) : CardUnit(R.layout.card_moderation, unit) {
+) : CardPublication(R.layout.card_moderation, unit) {
 
     private var clickDisabled: Boolean = false
 
     override fun bindView(view: View) {
         super.bindView(view)
 
-        val unit = xUnit.unit as PublicationModeration
+        val unit = xPublication.publication as PublicationModeration
 
         val vText: ViewTextLinkable = view.findViewById(R.id.vText)
         val vContainerInfo: View = view.findViewById(R.id.vInfoContainer)
@@ -54,7 +54,7 @@ class CardModeration(
 
         vContainerInfo.visibility = if (unit.status == API.STATUS_DRAFT) View.GONE else View.VISIBLE
 
-        ControllerUnits.setModerationText(vText, unit)
+        ControllerPublications.setModerationText(vText, unit)
 
         if (clickDisabled) view.setOnClickListener(null)
         else view.setOnClickListener { ControllerCampfireSDK.onToModerationClicked(unit.id, 0, Navigator.TO) }
@@ -62,7 +62,7 @@ class CardModeration(
 
     override fun updateComments() {
         if (getView() == null) return
-        xUnit.xComments.setView(getView()!!.findViewById(R.id.vComments))
+        xPublication.xComments.setView(getView()!!.findViewById(R.id.vComments))
     }
 
     override fun updateFandom() {
@@ -73,15 +73,15 @@ class CardModeration(
         if (getView() == null) return
         val vAvatar: ViewAvatarTitle = getView()!!.findViewById(R.id.vAvatar)
         if (!showFandom)
-            xUnit.xAccount.setView(vAvatar)
+            xPublication.xAccount.setView(vAvatar)
         else
-            xUnit.xFandom.setView(vAvatar)
-        vAvatar.visibility = if (xUnit.unit.status == API.STATUS_DRAFT) View.GONE else View.VISIBLE
+            xPublication.xFandom.setView(vAvatar)
+        vAvatar.visibility = if (xPublication.publication.status == API.STATUS_DRAFT) View.GONE else View.VISIBLE
     }
 
     override fun updateKarma() {
         if (getView() == null) return
-        xUnit.xKarma.setView(getView()!!.findViewById(R.id.vKarma))
+        xPublication.xKarma.setView(getView()!!.findViewById(R.id.vKarma))
     }
 
     override fun updateReports() {

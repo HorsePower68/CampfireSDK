@@ -5,7 +5,7 @@ import android.os.Build
 import android.view.View
 import androidx.recyclerview.widget.RecyclerView
 import com.dzen.campfire.api.models.PublicationComment
-import com.dzen.campfire.api.models.UnitReview
+import com.dzen.campfire.api.models.PublicationReview
 import com.dzen.campfire.api.models.publications.Publication
 import com.dzen.campfire.api.models.publications.post.PublicationPost
 import com.dzen.campfire.api.models.publications.chat.PublicationChatMessage
@@ -20,10 +20,10 @@ import com.sayzen.campfiresdk.R
 import com.sayzen.campfiresdk.adapters.*
 import com.sayzen.campfiresdk.models.cards.chat.CardChatMessage
 import com.sayzen.campfiresdk.models.cards.comments.CardComment
-import com.sayzen.campfiresdk.models.cards.events.CardUnitEventAdmin
-import com.sayzen.campfiresdk.models.cards.events.CardUnitEventFandom
-import com.sayzen.campfiresdk.models.cards.events.CardUnitEventModer
-import com.sayzen.campfiresdk.models.cards.events.CardUnitEventUser
+import com.sayzen.campfiresdk.models.cards.events.CardPublicationEventAdmin
+import com.sayzen.campfiresdk.models.cards.events.CardPublicationEventFandom
+import com.sayzen.campfiresdk.models.cards.events.CardPublicationEventModer
+import com.sayzen.campfiresdk.models.cards.events.CardPublicationEventUser
 import com.sayzen.campfiresdk.models.cards.stickers.CardSticker
 import com.sayzen.campfiresdk.models.cards.stickers.CardStickersPack
 import com.sup.dev.android.tools.ToolsResources
@@ -35,44 +35,44 @@ import com.sup.dev.java.classes.animation.AnimationPendulumColor
 import com.sup.dev.java.tools.ToolsColor
 import com.sup.dev.java.tools.ToolsThreads
 
-abstract class CardUnit(
+abstract class CardPublication(
         layout: Int,
-        unit: Publication
+        publication: Publication
 ) : Card(layout), NotifyItem {
 
     companion object {
         fun instance(
-                unit: Publication,
+                publication: Publication,
                 vRecycler: RecyclerView? = null,
                 showFandom: Boolean = false,
                 dividers: Boolean = false,
                 isShowFullInfo: Boolean = false,
                 isShowReports: Boolean = true
-        ): CardUnit {
+        ): CardPublication {
 
-            val cardUnit = when (unit) {
-                is PublicationComment -> CardComment.instance(unit, dividers, false)
-                is PublicationPost -> CardPost(vRecycler, unit)
-                is PublicationChatMessage -> CardChatMessage.instance(unit)
-                is PublicationModeration -> CardModeration(unit)
-                is PublicationEventUser -> CardUnitEventUser(unit)
-                is PublicationEventModer -> CardUnitEventModer(unit)
-                is PublicationEventAdmin -> CardUnitEventAdmin(unit)
-                is PublicationEventFandom -> CardUnitEventFandom(unit)
-                is UnitReview -> CardReview(unit)
-                is PublicationSticker -> CardSticker(unit, isShowFullInfo, isShowReports)
-                is PublicationStickersPack -> CardStickersPack(unit, isShowFullInfo, isShowReports)
-                else -> CardUnitUnknown(unit)
+            val cardPublication = when (publication) {
+                is PublicationComment -> CardComment.instance(publication, dividers, false)
+                is PublicationPost -> CardPost(vRecycler, publication)
+                is PublicationChatMessage -> CardChatMessage.instance(publication)
+                is PublicationModeration -> CardModeration(publication)
+                is PublicationEventUser -> CardPublicationEventUser(publication)
+                is PublicationEventModer -> CardPublicationEventModer(publication)
+                is PublicationEventAdmin -> CardPublicationEventAdmin(publication)
+                is PublicationEventFandom -> CardPublicationEventFandom(publication)
+                is PublicationReview -> CardReview(publication)
+                is PublicationSticker -> CardSticker(publication, isShowFullInfo, isShowReports)
+                is PublicationStickersPack -> CardStickersPack(publication, isShowFullInfo, isShowReports)
+                else -> CardPublicationUnknown(publication)
             }
 
-            cardUnit.showFandom = showFandom
+            cardPublication.showFandom = showFandom
 
-            return cardUnit
+            return cardPublication
 
         }
     }
 
-    val xUnit = XUnit(unit,
+    val xPublication = XPublication(publication,
             onChangedAccount = { updateAccount() },
             onChangedFandom = { updateFandom() },
             onChangedKarma = { updateKarma() },

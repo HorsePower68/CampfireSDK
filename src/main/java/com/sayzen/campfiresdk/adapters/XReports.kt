@@ -3,7 +3,7 @@ package com.sayzen.campfiresdk.adapters
 import android.view.View
 import android.widget.TextView
 import com.dzen.campfire.api.API
-import com.dzen.campfire.api.models.EventUnitInstance
+import com.dzen.campfire.api.models.EventPublicationInstance
 import com.dzen.campfire.api.models.publications.Publication
 import com.sayzen.campfiresdk.controllers.ControllerApi
 import com.sayzen.campfiresdk.models.events.publications.*
@@ -11,44 +11,44 @@ import com.sup.dev.java.classes.items.Item2
 import com.sup.dev.java.libs.eventBus.EventBus
 
 class XReports(
-        private val unit: Publication,
-        var onChanged: () -> kotlin.Unit
+        private val publication: Publication,
+        var onChanged: () -> Unit
 ) {
 
     companion object {
         private val eventBus = EventBus
-                .subscribe(EventUnitInstance::class) { set(it.unit.id, it.unit.reportsCount, System.currentTimeMillis()) }
-                .subscribe(EventPublicationReportsAdd::class) { set(it.unitId, get(it.unitId) + 1, System.currentTimeMillis()) }
-                .subscribe(EventPublicationReportsClear::class) {  set(it.unitId, 0, System.currentTimeMillis()) }
+                .subscribe(EventPublicationInstance::class) { set(it.publication.id, it.publication.reportsCount, System.currentTimeMillis()) }
+                .subscribe(EventPublicationReportsAdd::class) { set(it.publicationId, get(it.publicationId) + 1, System.currentTimeMillis()) }
+                .subscribe(EventPublicationReportsClear::class) {  set(it.publicationId, 0, System.currentTimeMillis()) }
         private val reports = HashMap<Long, Item2<Long, Long>>()
 
-        fun set(unitId: Long, reportsCount: Long, unitInstanceDate: Long) {
-            if (!reports.containsKey(unitId)) {
-                reports[unitId] = Item2(reportsCount, unitInstanceDate)
-                EventBus.post(EventReportsCountChanged(unitId, reportsCount, reportsCount))
+        fun set(publicationId: Long, reportsCount: Long, publicationInstanceDate: Long) {
+            if (!reports.containsKey(publicationId)) {
+                reports[publicationId] = Item2(reportsCount, publicationInstanceDate)
+                EventBus.post(EventReportsCountChanged(publicationId, reportsCount, reportsCount))
             } else {
-                if (reports[unitId]!!.a2 < unitInstanceDate && reports[unitId]!!.a1 != reportsCount) {
-                    val old = reports[unitId]!!.a1
-                    reports[unitId] = Item2(reportsCount, unitInstanceDate)
-                    EventBus.post(EventReportsCountChanged(unitId, reportsCount, reportsCount - old))
+                if (reports[publicationId]!!.a2 < publicationInstanceDate && reports[publicationId]!!.a1 != reportsCount) {
+                    val old = reports[publicationId]!!.a1
+                    reports[publicationId] = Item2(reportsCount, publicationInstanceDate)
+                    EventBus.post(EventReportsCountChanged(publicationId, reportsCount, reportsCount - old))
                 }
             }
         }
 
-        fun get(unitId: Long) = if (reports.containsKey(unitId)) reports[unitId]!!.a1 else 0L
+        fun get(publicationId: Long) = if (reports.containsKey(publicationId)) reports[publicationId]!!.a1 else 0L
 
     }
 
     private val eventBus = EventBus.subscribe(EventReportsCountChanged::class) {
-        if (it.unitId == unit.id) {
-            unit.reportsCount = get(unit.id)
+        if (it.publicationId == publication.id) {
+            publication.reportsCount = get(publication.id)
             onChanged.invoke()
         }
     }
 
     fun setView(view: TextView) {
-        view.text = "${unit.reportsCount}"
-        view.visibility = if (unit.reportsCount > 0 && ControllerApi.can(unit.fandomId, unit.languageId, API.LVL_MODERATOR_BLOCK)) View.VISIBLE else View.GONE
+        view.text = "${publication.reportsCount}"
+        view.visibility = if (publication.reportsCount > 0 && ControllerApi.can(publication.fandomId, publication.languageId, API.LVL_MODERATOR_BLOCK)) View.VISIBLE else View.GONE
     }
 
 

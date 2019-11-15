@@ -7,7 +7,7 @@ import com.dzen.campfire.api.requests.rubrics.RRubricGet
 import com.sayzen.campfiresdk.R
 import com.sayzen.campfiresdk.controllers.ControllerRubrics
 import com.sayzen.campfiresdk.controllers.api
-import com.sayzen.campfiresdk.models.cards.CardUnit
+import com.sayzen.campfiresdk.models.cards.CardPublication
 import com.sayzen.campfiresdk.models.events.rubrics.EventRubricChangeName
 import com.sayzen.campfiresdk.models.events.rubrics.EventRubricChangeOwner
 import com.sayzen.campfiresdk.models.events.rubrics.EventRubricRemove
@@ -22,7 +22,7 @@ import com.sup.dev.java.libs.eventBus.EventBus
 
 class SRubricPosts(
         val rubric: Rubric
-) : SLoadingRecycler<CardUnit, Publication>() {
+) : SLoadingRecycler<CardPublication, Publication>() {
 
     companion object{
 
@@ -72,8 +72,8 @@ class SRubricPosts(
         }
     }
 
-    override fun instanceAdapter(): RecyclerCardAdapterLoading<CardUnit, Publication> {
-        return RecyclerCardAdapterLoading<CardUnit, Publication>(CardUnit::class) { unit -> CardUnit.instance(unit, vRecycler) }
+    override fun instanceAdapter(): RecyclerCardAdapterLoading<CardPublication, Publication> {
+        return RecyclerCardAdapterLoading<CardPublication, Publication>(CardPublication::class) { unit -> CardPublication.instance(unit, vRecycler) }
                 .setBottomLoader { onLoad, cards ->
                     RPostGetAllByRubric(rubric.id, cards.size.toLong())
                             .onComplete { r -> onLoad.invoke(r.units) }

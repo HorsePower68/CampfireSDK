@@ -4,7 +4,7 @@ import android.view.View
 import android.widget.ImageView
 import android.widget.LinearLayout
 import com.dzen.campfire.api.models.PagesContainer
-import com.dzen.campfire.api.models.notifications.units.NotificationMention
+import com.dzen.campfire.api.models.notifications.publications.NotificationMention
 
 import com.dzen.campfire.api.models.publications.post.PageText
 import com.sayzen.campfiresdk.R
