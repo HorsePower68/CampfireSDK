@@ -412,7 +412,8 @@
     <string name="moderation_text_chat_create">%s chat %s (%s).</string>
     <string name="moderation_text_chat_change">%s chat %s (%s).</string>
     <string name="moderation_text_chat_remove">%s chat %s (%s).</string>
-    <string name="moderation_background_image">%s chat background image</string>
+    <string name="moderation_background_image">%s main chat background image</string>
+    <string name="moderation_background_image_sub">%s background image in chat %s</string>
     <string name="moderation_text_names">%s fandom other names.</string>
     <string name="moderation_tag_move_tag">%s tag %s before %s.</string>
     <string name="moderation_tag_move_category">%s category %s before %s.</string>
@@ -574,6 +575,7 @@
     <string name="chat_system_enter">%s %s in chat</string>
     <string name="chat_system_params">%s %s chat settings</string>
     <string name="chat_system_level">%s %s role of %s to %s</string>
+    <string name="chat_system_background">%s %s chat background</string>
     <string name="chat_system_create">%s %s chat</string>
     <string name="chat_empty_fandom">There are no messages here yet. Be the first.</string>
     <string name="chat_empty_private">There are no messages here yet</string>

@@ -18,9 +18,10 @@ import com.sayzen.campfiresdk.adapters.XAccount
 import com.sayzen.campfiresdk.adapters.XFandom
 import com.sayzen.campfiresdk.controllers.*
 import com.sayzen.campfiresdk.models.cards.chat.CardChatMessage
-import com.sayzen.campfiresdk.models.events.fandom.EventFandomBackgroundImageChanged
+import com.sayzen.campfiresdk.models.events.fandom.EventFandomBackgroundImageChangedModeration
 import com.sayzen.campfiresdk.models.ScreenShare
 import com.sayzen.campfiresdk.models.events.chat.*
+import com.sayzen.campfiresdk.models.events.fandom.EventFandomBackgroundImageChanged
 import com.sayzen.campfiresdk.models.events.notifications.EventNotification
 import com.sayzen.campfiresdk.screens.chat.create.SChatCreate
 import com.sup.dev.android.app.SupAndroid
@@ -35,7 +36,6 @@ import com.sup.dev.android.views.screens.SLoadingRecycler
 import com.sup.dev.android.views.support.adapters.recycler_view.RecyclerCardAdapterLoading
 import com.sup.dev.android.views.views.ViewAvatarTitle
 import com.sup.dev.android.views.views.ViewIcon
-import com.sup.dev.java.libs.debug.log
 import com.sup.dev.java.libs.eventBus.EventBus
 import com.sup.dev.java.libs.json.Json
 import com.sup.dev.java.tools.*
@@ -92,7 +92,6 @@ class SChat private constructor(
         }
 
         private fun onChatLoaded(r: RChatGet.Response, messageId: Long, onShow: (SChat) -> Unit): SChat {
-            log("onChatLoaded messageId[$messageId] r[${r.startOffsetDate}]")
             ControllerChats.putRead(r.tag, r.anotherReadDate)
             val screen = SChat(r.tag, r.subscribed, r.chatName, r.chatParams, r.chatImageId, r.chatBackgroundImageId, r.chatInfo_1, r.chatInfo_2, r.chatInfo_3, r.chatInfo_4, messageId, r.startOffsetDate, r.memberStatus)
             onShow.invoke(screen)
@@ -105,6 +104,7 @@ class SChat private constructor(
             .subscribe(EventNotification::class) { this.onNotification(it) }
             .subscribe(EventChatTypingChanged::class) { this.eventOnChatTypingChanged(it) }
             .subscribe(EventChatSubscriptionChanged::class) { this.onEventChatSubscriptionChanged(it) }
+            .subscribe(EventFandomBackgroundImageChangedModeration::class) { this.onEventFandomBackgroundImageChangedModeration(it) }
             .subscribe(EventFandomBackgroundImageChanged::class) { this.onEventFandomBackgroundImageChanged(it) }
             .subscribe(EventChatChanged::class) { this.onEventChatChanged(it) }
             .subscribe(EventChatMemberStatusChanged::class) { this.onEventChatMemberStatusChanged(it) }
@@ -418,9 +418,21 @@ class SChat private constructor(
         }
     }
 
-    private fun onEventFandomBackgroundImageChanged(e: EventFandomBackgroundImageChanged) {
+    private fun onEventFandomBackgroundImageChangedModeration(e: EventFandomBackgroundImageChangedModeration) {
         if (tag.chatType == API.CHAT_TYPE_FANDOM_ROOT) {
             if (tag.targetId == e.fandomId && tag.targetSubId == e.languageId) {
+                this.chatBackgroundImageId = e.imageId
+                updateBackground()
+            }
+            if (tag.targetId == 0L && tag.targetSubId == 0L) {
+                updateBackground()
+            }
+        }
+    }
+
+    private fun onEventFandomBackgroundImageChanged(e: EventFandomBackgroundImageChanged) {
+        if (tag.chatType == API.CHAT_TYPE_FANDOM_SUB || tag.chatType == API.CHAT_TYPE_CONFERENCE) {
+            if (tag.targetId == e.chatId) {
                 this.chatBackgroundImageId = e.imageId
                 updateBackground()
             }

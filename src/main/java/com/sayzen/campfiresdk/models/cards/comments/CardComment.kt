@@ -100,10 +100,6 @@ abstract class CardComment protected constructor(
         }
 
         if (vSwipe != null) {
-            if(dividers) {
-                vSwipe.setDefaultColor(ToolsResources.getColorAttr(R.attr.content_background_screen))
-                vSwipe.setBackgroundColor(ToolsResources.getColorAttr(R.attr.content_background_screen))
-            }
             vSwipe.onClick = { _, _ -> if (onClick()) showMenu() }
             vSwipe.onLongClick = { _, _ -> showMenu() }
             vSwipe.swipeEnabled = quoteEnabled && onQuote != null

@@ -12,7 +12,6 @@ import com.sayzen.campfiresdk.models.events.project.EventStoryQuestUpdated
 import com.sayzen.campfiresdk.models.objects.QuestStory
 import com.sup.dev.android.views.cards.Card
 import com.sup.dev.android.views.views.ViewProgressLine
-import com.sup.dev.java.libs.debug.log
 import com.sup.dev.java.libs.eventBus.EventBus
 
 class CardStoryQuest : Card(R.layout.screen_fandom_card_story_quest) {

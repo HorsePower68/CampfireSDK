@@ -46,7 +46,6 @@ import com.sup.dev.android.tools.ToolsView
 import com.sup.dev.android.views.views.ViewTextLinkable
 import com.sup.dev.android.views.widgets.WidgetField
 import com.sup.dev.android.views.widgets.WidgetMenu
-import com.sup.dev.java.libs.debug.log
 import com.sup.dev.java.libs.eventBus.EventBus
 import com.sup.dev.java.tools.ToolsDate
 import com.sup.dev.java.tools.ToolsText
@@ -70,13 +69,10 @@ object ControllerUnits {
 
     fun toUnit(unitType: Long, unitId: Long, commentId: Long = 0) {
 
-        log("toUnit unitType[$unitType] unitId[$unitId] commentId[$commentId]")
-
         if (unitType == API.PUBLICATION_TYPE_POST) ControllerCampfireSDK.onToPostClicked(unitId, commentId, Navigator.TO)
         if (unitType == API.PUBLICATION_TYPE_MODERATION) ControllerCampfireSDK.onToModerationClicked(unitId, commentId, Navigator.TO)
         if (unitType == API.PUBLICATION_TYPE_STICKER) SStickersView.instanceBySticker(unitId, Navigator.TO)
         if (unitType == API.PUBLICATION_TYPE_CHAT_MESSAGE) {
-            log("TO CHAT MESSAGE")
             SChat.instance(unitId, true, Navigator.TO)
         }
         if (unitType == API.PUBLICATION_TYPE_STICKERS_PACK) {
@@ -356,6 +352,12 @@ object ControllerUnits {
                 else
                     text = ToolsResources.sCap(R.string.moderation_background_image, ToolsResources.sex(unit.creatorSex, R.string.he_remove, R.string.she_remove))
             }
+            is ModerationBackgroundImageSub -> {
+                if (m.imageId > 0)
+                    text = ToolsResources.sCap(R.string.moderation_background_image_sub, ToolsResources.sex(unit.creatorSex, R.string.he_changed, R.string.she_changed), m.chatName)
+                else
+                    text = ToolsResources.sCap(R.string.moderation_background_image_sub, ToolsResources.sex(unit.creatorSex, R.string.he_remove, R.string.she_remove), m.chatName)
+            }
             is ModerationPostTags -> {
                 text = ToolsResources.sCap(R.string.moderation_text_post_tags, ToolsResources.sex(unit.creatorSex, R.string.he_changed, R.string.she_changed), ControllerApi.linkToPost(m.unitId))
 
@@ -450,6 +452,9 @@ object ControllerUnits {
             }
             is ModerationChatChange -> {
                 ToolsView.addLink(vText, m.name) { SChat.instance(API.CHAT_TYPE_FANDOM_SUB, m.chatId, 0, false, Navigator.TO) }
+            }
+            is ModerationBackgroundImageSub -> {
+                ToolsView.addLink(vText, m.chatName) { SChat.instance(API.CHAT_TYPE_FANDOM_SUB, m.chatId, 0, false, Navigator.TO) }
             }
         }
     }

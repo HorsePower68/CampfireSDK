@@ -42,7 +42,6 @@ import com.sup.dev.java.classes.items.ItemNullable
 import com.sup.dev.java.libs.api_simple.client.Request
 import com.sup.dev.java.libs.api_simple.client.TokenProvider
 import com.sup.dev.java.libs.debug.err
-import com.sup.dev.java.libs.debug.log
 import com.sup.dev.java.libs.eventBus.EventBus
 import com.sup.dev.java.libs.json.Json
 import com.sup.dev.java.libs.json.JsonArray
@@ -113,7 +112,7 @@ object ControllerApi {
             if (imageTag.isNotEmpty())
                 RResourcesGetByTag(imageTag)
                         .onComplete { r -> item.a = r.bytes }
-                        .onError { log(it) }
+                        .onError { err(it) }
                         .sendNow(apiMedia)
             item.a
         }

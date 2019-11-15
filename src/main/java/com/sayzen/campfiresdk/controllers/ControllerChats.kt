@@ -14,6 +14,7 @@ import com.dzen.campfire.api.requests.fandoms.RFandomsModerationChatRemove
 import com.sayzen.campfiresdk.R
 import com.sayzen.campfiresdk.models.events.chat.*
 import com.sayzen.campfiresdk.models.events.fandom.EventFandomBackgroundImageChanged
+import com.sayzen.campfiresdk.models.events.fandom.EventFandomBackgroundImageChangedModeration
 import com.sayzen.campfiresdk.models.events.fandom.EventFandomChatRemove
 import com.sayzen.campfiresdk.models.events.notifications.EventNotification
 import com.sayzen.campfiresdk.screens.chat.create.SChatCreate
@@ -65,6 +66,7 @@ object ControllerChats {
             unit.systemType == PublicationChatMessage.SYSTEM_TYPE_ENTER -> return "${ToolsResources.s(R.string.chat_system_enter, ControllerApi.linkToUser(unit.systemOwnerName), ToolsResources.sex(unit.systemOwnerSex, R.string.he_reenter, R.string.she_reenter))}"
             unit.systemType == PublicationChatMessage.SYSTEM_TYPE_PARAMS -> return "${ToolsResources.s(R.string.chat_system_params, ControllerApi.linkToUser(unit.systemOwnerName), ToolsResources.sex(unit.systemOwnerSex, R.string.he_changed, R.string.he_changed))}"
             unit.systemType == PublicationChatMessage.SYSTEM_TYPE_LEVEL -> return "${ToolsResources.s(R.string.chat_system_level, ControllerApi.linkToUser(unit.systemOwnerName), ToolsResources.sex(unit.systemOwnerSex, R.string.he_changed, R.string.he_changed), ControllerApi.linkToUser(unit.systemTargetName), ToolsResources.s(if (unit.systemTag == API.CHAT_MEMBER_LVL_USER) R.string.app_user else if (unit.systemTag == API.CHAT_MEMBER_LVL_MODERATOR) R.string.app_moderator else R.string.app_admin))}"
+            unit.systemType == PublicationChatMessage.SYSTEM_TYPE_CHANGE_BACKGROUND -> return "${ToolsResources.s(R.string.chat_system_background, ControllerApi.linkToUser(unit.systemOwnerName), ToolsResources.sex(unit.systemOwnerSex, R.string.he_changed, R.string.he_changed))}"
             else -> return ""
         }
 
@@ -82,8 +84,10 @@ object ControllerChats {
                 .add(R.string.chat_leave) { _, _ -> leave(tag) }.condition(tag.chatType == API.CHAT_TYPE_CONFERENCE && memberStatus == API.CHAT_MEMBER_STATUS_ACTIVE)
                 .add(R.string.chat_enter) { _, _ -> enter(tag) }.condition(tag.chatType == API.CHAT_TYPE_CONFERENCE && memberStatus == API.CHAT_MEMBER_STATUS_LEAVE)
                 .add(R.string.fandom_chat_show_info) { _, _ -> showFandomChatInfo(tag, paramsJson, imageId) }.condition(tag.chatType == API.CHAT_TYPE_FANDOM_SUB)
-                .add(R.string.fandoms_menu_background_change) { _, _ -> changeBackgroundImage(tag.targetId, tag.targetSubId) }.condition(tag.chatType == API.CHAT_TYPE_FANDOM_ROOT && ControllerApi.can(tag.targetId, tag.targetSubId, API.LVL_MODERATOR_BACKGROUND_IMAGE)).backgroundRes(R.color.blue_700).textColorRes(R.color.white)
-                .add(R.string.fandoms_menu_background_remove) { _, _ -> removeBackgroundImage(tag.targetId, tag.targetSubId) }.condition(tag.chatType == API.CHAT_TYPE_FANDOM_ROOT && ControllerApi.can(tag.targetId, tag.targetSubId, API.LVL_MODERATOR_BACKGROUND_IMAGE)).backgroundRes(R.color.blue_700).textColorRes(R.color.white)
+                .add(R.string.fandoms_menu_background_change) { _, _ -> changeBackgroundImage(tag.targetId) }.condition(tag.chatType == API.CHAT_TYPE_FANDOM_SUB || tag.chatType == API.CHAT_TYPE_CONFERENCE)
+                .add(R.string.fandoms_menu_background_remove) { _, _ -> removeBackgroundImage(tag.targetId) }.condition(tag.chatType == API.CHAT_TYPE_FANDOM_SUB || tag.chatType == API.CHAT_TYPE_CONFERENCE)
+                .add(R.string.fandoms_menu_background_change) { _, _ -> changeBackgroundImageModeration(tag.targetId, tag.targetSubId) }.condition(tag.chatType == API.CHAT_TYPE_FANDOM_ROOT && ControllerApi.can(tag.targetId, tag.targetSubId, API.LVL_MODERATOR_BACKGROUND_IMAGE)).backgroundRes(R.color.blue_700).textColorRes(R.color.white)
+                .add(R.string.fandoms_menu_background_remove) { _, _ -> removeBackgroundImageModeration(tag.targetId, tag.targetSubId) }.condition(tag.chatType == API.CHAT_TYPE_FANDOM_ROOT && ControllerApi.can(tag.targetId, tag.targetSubId, API.LVL_MODERATOR_BACKGROUND_IMAGE)).backgroundRes(R.color.blue_700).textColorRes(R.color.white)
                 .add(R.string.app_edit) { _, _ -> SFandomChatsCreate.instance(tag.targetId, Navigator.TO) }.condition(tag.chatType == API.CHAT_TYPE_FANDOM_SUB && ControllerApi.can(tag.targetId, tag.targetSubId, API.LVL_MODERATOR_CHATS)).backgroundRes(R.color.blue_700).textColorRes(R.color.white)
                 .add(R.string.app_remove) { _, _ -> removeFandomChat(tag.targetId) }.condition(tag.chatType == API.CHAT_TYPE_FANDOM_SUB && ControllerApi.can(tag.targetId, tag.targetSubId, API.LVL_MODERATOR_CHATS)).backgroundRes(R.color.blue_700).textColorRes(R.color.white)
     }
@@ -107,7 +111,32 @@ object ControllerChats {
         }
     }
 
-    private fun changeBackgroundImage(fandomId: Long, languageId: Long) {
+    private fun changeBackgroundImage(chatId: Long) {
+        WidgetChooseImage()
+                .setOnSelectedBitmap { _, bitmap ->
+                    Navigator.to(SCrop(bitmap, API.FANDOM_IMG_BACKGROUND_W, API.FANDOM_IMG_BACKGROUND_H) { _, b, _, _, _, _ ->
+                        val dialog = ToolsView.showProgressDialog()
+                        ToolsThreads.thread {
+                            val image = ToolsBitmap.toBytes(ToolsBitmap.resize(b, API.FANDOM_IMG_BACKGROUND_W, API.FANDOM_IMG_BACKGROUND_H), API.FANDOM_IMG_BACKGROUND_WEIGHT)
+                            changeBackgroundImageNow(chatId, dialog, image)
+                        }
+                    })
+                }
+                .asSheetShow()
+    }
+
+    private fun removeBackgroundImage(chatId: Long) {
+        changeBackgroundImageNow(chatId, ToolsView.showProgressDialog(), null)
+    }
+
+    private fun changeBackgroundImageNow(chatId: Long, dialog: Widget, bytes: ByteArray?) {
+        ApiRequestsSupporter.executeProgressDialog(dialog, RChatSetBackgroundImage(chatId, bytes)) { r ->
+            EventBus.post(EventFandomBackgroundImageChanged(chatId, r.imageId))
+            ToolsToast.show(R.string.app_done)
+        }.onApiError { ToolsToast.show(R.string.error_low_lvl_or_karma) }
+    }
+
+    private fun changeBackgroundImageModeration(fandomId: Long, languageId: Long) {
         WidgetChooseImage()
                 .setOnSelectedBitmap { _, bitmap ->
                     Navigator.to(SCrop(bitmap, API.FANDOM_IMG_BACKGROUND_W, API.FANDOM_IMG_BACKGROUND_H) { _, b, _, _, _, _ ->
@@ -117,7 +146,7 @@ object ControllerChats {
                                     val dialog = ToolsView.showProgressDialog()
                                     ToolsThreads.thread {
                                         val image = ToolsBitmap.toBytes(ToolsBitmap.resize(b, API.FANDOM_IMG_BACKGROUND_W, API.FANDOM_IMG_BACKGROUND_H), API.FANDOM_IMG_BACKGROUND_WEIGHT)
-                                        changeBackgroundImageNow(fandomId, languageId, dialog, image, comment)
+                                        changeBackgroundImageNowModeration(fandomId, languageId, dialog, image, comment)
                                     }
                                 }
                                 .asSheetShow()
@@ -126,19 +155,19 @@ object ControllerChats {
                 .asSheetShow()
     }
 
-    private fun removeBackgroundImage(fandomId: Long, languageId: Long) {
+    private fun removeBackgroundImageModeration(fandomId: Long, languageId: Long) {
         WidgetField().setHint(R.string.moderation_widget_comment).setOnCancel(R.string.app_cancel)
                 .setMin(API.MODERATION_COMMENT_MIN_L)
                 .setMax(API.MODERATION_COMMENT_MAX_L)
                 .setOnEnter(R.string.app_change) { _, comment ->
-                    changeBackgroundImageNow(fandomId, languageId, ToolsView.showProgressDialog(), null, comment)
+                    changeBackgroundImageNowModeration(fandomId, languageId, ToolsView.showProgressDialog(), null, comment)
                 }
                 .asSheetShow()
     }
 
-    private fun changeBackgroundImageNow(fandomId: Long, languageId: Long, dialog: Widget, bytes: ByteArray?, comment: String) {
+    private fun changeBackgroundImageNowModeration(fandomId: Long, languageId: Long, dialog: Widget, bytes: ByteArray?, comment: String) {
         ApiRequestsSupporter.executeProgressDialog(dialog, RFandomsModerationChangeImageBackground(fandomId, languageId, bytes, comment)) { r ->
-            EventBus.post(EventFandomBackgroundImageChanged(fandomId, languageId, r.imageId))
+            EventBus.post(EventFandomBackgroundImageChangedModeration(fandomId, languageId, r.imageId))
             ToolsToast.show(R.string.app_done)
         }
     }

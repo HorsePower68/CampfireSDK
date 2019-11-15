@@ -414,7 +414,8 @@
     <string name="moderation_text_chat_create">%s чат %s (%s).</string>
     <string name="moderation_text_chat_change">%s чат %s (%s).</string>
     <string name="moderation_text_chat_remove">%s чат %s (%s).</string>
-    <string name="moderation_background_image">%s фоновую картинку в чате</string>
+    <string name="moderation_background_image">%s фоновую картинку в основном чате</string>
+    <string name="moderation_background_image_sub">%s фоновую картинку в чате %s</string>
     <string name="moderation_text_names">%s дополнительные названия фэндома.</string>
     <string name="moderation_tag_move_tag">%s тег %s перед %s.</string>
     <string name="moderation_tag_move_category">%s категорию %s перед %s.</string>
@@ -569,6 +570,7 @@
     <string name="chat_system_enter">%s %s в чат</string>
     <string name="chat_system_params">%s %s настройки чата</string>
     <string name="chat_system_level">%s %s роль %s на %s</string>
+    <string name="chat_system_background">%s %s фон чата</string>
     <string name="chat_system_create">%s %s чат</string>
     <string name="chat_empty_fandom">Здесь еще нет сообщений. Будьте первым.</string>
     <string name="chat_empty_private">Здесь еще нет сообщений</string>
