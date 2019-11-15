@@ -23,7 +23,7 @@ import com.sup.dev.java.libs.eventBus.EventBus
 import com.sup.dev.java.tools.ToolsText
 
 class SStickersPackCreate(
-        val unit: PublicationStickersPack?
+        val publication: PublicationStickersPack?
 ) : Screen(R.layout.screen_stickers_pack_create) {
 
     private val vImage: ImageView = findViewById(R.id.vImage)
@@ -38,9 +38,9 @@ class SStickersPackCreate(
         vImage.setOnClickListener { chooseImage() }
         vCreate.setOnClickListener { create() }
 
-        if(unit != null){
-            vName.setText(unit.name)
-            ToolsImagesLoader.load(unit.imageId).into(vImage)
+        if(publication != null){
+            vName.setText(publication.name)
+            ToolsImagesLoader.load(publication.imageId).into(vImage)
             vImageIcon.visibility = View.GONE
             vCreate.text = ToolsResources.s(R.string.app_change)
         }
@@ -55,7 +55,7 @@ class SStickersPackCreate(
         }
 
         vCreate.isEnabled = textCheck && ToolsText.inBounds(vName.getText(), API.STICKERS_PACK_NAME_L_MIN, API.STICKERS_PACK_NAME_L_MAX)
-                && (image != null || unit != null)
+                && (image != null || publication != null)
     }
 
     private fun chooseImage() {
@@ -75,14 +75,14 @@ class SStickersPackCreate(
     private fun create() {
         val name = vName.getText()
 
-        if(unit == null) {
+        if(publication == null) {
             ApiRequestsSupporter.executeProgressDialog(RStickersPackCreate(name, image)) { r ->
                 Navigator.to(SStickersView(r.stickersPack, 0))
                 Navigator.remove(this)
                 EventBus.post(EventStickersPackCreate(r.stickersPack))
             }
         }else{
-            ApiRequestsSupporter.executeProgressDialog(RStickersPackChange(unit.id, name, image)) { r ->
+            ApiRequestsSupporter.executeProgressDialog(RStickersPackChange(publication.id, name, image)) { r ->
                 Navigator.remove(this)
                 EventBus.post(EventStickersPackChanged(r.stickersPack))
             }

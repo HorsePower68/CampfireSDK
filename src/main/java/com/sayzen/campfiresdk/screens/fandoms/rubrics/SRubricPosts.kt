@@ -73,10 +73,10 @@ class SRubricPosts(
     }
 
     override fun instanceAdapter(): RecyclerCardAdapterLoading<CardPublication, Publication> {
-        return RecyclerCardAdapterLoading<CardPublication, Publication>(CardPublication::class) { unit -> CardPublication.instance(unit, vRecycler) }
+        return RecyclerCardAdapterLoading<CardPublication, Publication>(CardPublication::class) { publication -> CardPublication.instance(publication, vRecycler) }
                 .setBottomLoader { onLoad, cards ->
                     RPostGetAllByRubric(rubric.id, cards.size.toLong())
-                            .onComplete { r -> onLoad.invoke(r.units) }
+                            .onComplete { r -> onLoad.invoke(r.publications) }
                             .onNetworkError { onLoad.invoke(null) }
                             .send(api)
                 }

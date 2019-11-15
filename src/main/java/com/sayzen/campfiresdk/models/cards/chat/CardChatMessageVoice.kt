@@ -13,17 +13,17 @@ import com.sup.dev.java.libs.eventBus.EventBus
 import com.sup.dev.java.tools.ToolsText
 
 class CardChatMessageVoice(
-        unit: PublicationChatMessage,
+        publication: PublicationChatMessage,
         onClick: ((PublicationChatMessage) -> Boolean)? = null,
         onChange: ((PublicationChatMessage) -> Unit)? = null,
         onQuote: ((PublicationChatMessage) -> Unit)? = null,
         onGoTo: ((Long) -> Unit)?,
         onBlocked: ((PublicationChatMessage) -> Unit)? = null
-) : CardChatMessage(R.layout.card_chat_message_voice, unit, onClick, onChange, onQuote, onGoTo, onBlocked) {
+) : CardChatMessage(R.layout.card_chat_message_voice, publication, onClick, onChange, onQuote, onGoTo, onBlocked) {
 
     val eventBus = EventBus
             .subscribe(EventVoiceMessageStateChanged::class) { update() }
-            .subscribe(EventVoiceMessageStep::class) { if (it.id == unit.voiceResourceId) updatePlayTime() }
+            .subscribe(EventVoiceMessageStep::class) { if (it.id == publication.voiceResourceId) updatePlayTime() }
 
     init {
         changeEnabled = false
@@ -32,18 +32,18 @@ class CardChatMessageVoice(
 
     override fun bindView(view: View) {
         super.bindView(view)
-        val unit = xPublication.publication as PublicationChatMessage
+        val publication = xPublication.publication as PublicationChatMessage
 
         val vPlay: ViewIcon = view.findViewById(R.id.vPlay)
         val vSoundLine: ViewSoundLine = view.findViewById(R.id.vSoundLine)
 
-        vSoundLine.setSoundMask(unit.voiceMask)
+        vSoundLine.setSoundMask(publication.voiceMask)
 
 
-        if (ControllerVoiceMessages.isLoading(unit.voiceResourceId)) {
+        if (ControllerVoiceMessages.isLoading(publication.voiceResourceId)) {
             vPlay.isEnabled = false
             vPlay.setImageResource(R.drawable.ic_play_arrow_white_24dp)
-        } else if (ControllerVoiceMessages.isPlay(unit.voiceResourceId)) {
+        } else if (ControllerVoiceMessages.isPlay(publication.voiceResourceId)) {
             vPlay.isEnabled = true
             vPlay.setImageResource(R.drawable.ic_pause_white_24dp)
         } else {
@@ -52,10 +52,10 @@ class CardChatMessageVoice(
         }
 
         vPlay.setOnClickListener {
-            if (ControllerVoiceMessages.isPlay(unit.voiceResourceId))
-                ControllerVoiceMessages.pause(unit.voiceResourceId)
+            if (ControllerVoiceMessages.isPlay(publication.voiceResourceId))
+                ControllerVoiceMessages.pause(publication.voiceResourceId)
             else
-                ControllerVoiceMessages.play(unit.voiceResourceId)
+                ControllerVoiceMessages.play(publication.voiceResourceId)
         }
 
         updatePlayTime()
@@ -65,18 +65,18 @@ class CardChatMessageVoice(
     private fun updatePlayTime() {
         val view = getView()
         if (view == null) return
-        val unit = xPublication.publication as PublicationChatMessage
+        val publication = xPublication.publication as PublicationChatMessage
 
         val vTimeLabel: TextView = view.findViewById(R.id.vTimeLabel)
         val vSoundLine: ViewSoundLine = view.findViewById(R.id.vSoundLine)
 
-        val time = ControllerVoiceMessages.getPlayTimeMs(unit.voiceResourceId)
-        if (time < unit.voiceMs && ControllerVoiceMessages.isPlay(unit.voiceResourceId) || ControllerVoiceMessages.isPause(unit.voiceResourceId)) {
-            vTimeLabel.text = ToolsText.toTime(unit.voiceMs - time)
-            vSoundLine.setProgress(time.toFloat(), unit.voiceMs.toFloat())
+        val time = ControllerVoiceMessages.getPlayTimeMs(publication.voiceResourceId)
+        if (time < publication.voiceMs && ControllerVoiceMessages.isPlay(publication.voiceResourceId) || ControllerVoiceMessages.isPause(publication.voiceResourceId)) {
+            vTimeLabel.text = ToolsText.toTime(publication.voiceMs - time)
+            vSoundLine.setProgress(time.toFloat(), publication.voiceMs.toFloat())
         } else {
-            vTimeLabel.text = ToolsText.toTime(unit.voiceMs)
-            vSoundLine.setProgress(0f, unit.voiceMs.toFloat())
+            vTimeLabel.text = ToolsText.toTime(publication.voiceMs)
+            vSoundLine.setProgress(0f, publication.voiceMs.toFloat())
         }
     }
 

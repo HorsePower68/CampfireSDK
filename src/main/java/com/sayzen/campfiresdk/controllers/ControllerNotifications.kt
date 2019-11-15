@@ -311,10 +311,10 @@ object ControllerNotifications {
             is NotificationFandomMakeModerator -> NotificationFandomMakeModeratorParser(n)
             is NotificationAchievement -> NotificationAchievementParser(n)
             is NotificationFandomAccepted -> NotificationFandomAcceptedParser(n)
-            is NotificationUnitBlock -> NotificationUnitBlockParser(n)
-            is NotificationUnitBlockAfterReport -> NotificationUnitBlockAfterReportParser(n)
+            is NotificationPublicationBlock -> NotificationUnitBlockParser(n)
+            is NotificationPublicationBlockAfterReport -> NotificationUnitBlockAfterReportParser(n)
             is NotificationKarmaAdd -> NotificationKarmaAddParser(n)
-            is NotificationUnitReaction -> NotificationUnitReactionParser(n)
+            is NotificationPublicationReaction -> NotificationUnitReactionParser(n)
             is NotificationPublicationImportant -> NotificationUnitImportantParser(n)
             is NotificationModerationToDraft -> NotificationModerationToDraftParser(n)
             is NotificationModerationMultilingualNot -> NotificationModerationMultilingualNotParser(n)
@@ -380,16 +380,16 @@ object ControllerNotifications {
 
         override fun getTitle(): String {
             var title = ""
-            if (n.parentUnitType == API.PUBLICATION_TYPE_POST) {
-                title = if (ControllerApi.getLastAccount().id == n.unitCreatorId) ToolsResources.sCap(R.string.notification_post_comment, n.accountName, ToolsResources.sex(n.accountSex, R.string.he_comment, R.string.she_comment))
+            if (n.parentPublicationType == API.PUBLICATION_TYPE_POST) {
+                title = if (ControllerApi.getLastAccount().id == n.publicationCreatorId) ToolsResources.sCap(R.string.notification_post_comment, n.accountName, ToolsResources.sex(n.accountSex, R.string.he_comment, R.string.she_comment))
                 else ToolsResources.sCap(R.string.notification_post_comment_watch, n.accountName, ToolsResources.sex(n.accountSex, R.string.he_comment, R.string.she_comment))
             }
-            if (n.parentUnitType == API.PUBLICATION_TYPE_STICKERS_PACK) {
-                title = if (ControllerApi.getLastAccount().id == n.unitCreatorId) ToolsResources.sCap(R.string.notification_stickers_pack_comment, n.accountName, ToolsResources.sex(n.accountSex, R.string.he_comment, R.string.she_comment))
+            if (n.parentPublicationType == API.PUBLICATION_TYPE_STICKERS_PACK) {
+                title = if (ControllerApi.getLastAccount().id == n.publicationCreatorId) ToolsResources.sCap(R.string.notification_stickers_pack_comment, n.accountName, ToolsResources.sex(n.accountSex, R.string.he_comment, R.string.she_comment))
                 else ToolsResources.sCap(R.string.notification_stickers_pack_comment_watch, n.accountName, ToolsResources.sex(n.accountSex, R.string.he_comment, R.string.she_comment))
             }
-            if (n.parentUnitType == API.PUBLICATION_TYPE_MODERATION) {
-                title = if (ControllerApi.getLastAccount().id == n.unitCreatorId) ToolsResources.sCap(
+            if (n.parentPublicationType == API.PUBLICATION_TYPE_MODERATION) {
+                title = if (ControllerApi.getLastAccount().id == n.publicationCreatorId) ToolsResources.sCap(
                         R.string.notification_moderation_comment, n.accountName, ToolsResources.sex(
                         n.accountSex,
                         R.string.he_comment,
@@ -451,12 +451,12 @@ object ControllerNotifications {
         override fun post(icon: Int, intent: Intent, text: String, title: String, tag: String, sound: Boolean) {
             val titleV: String
             var textV = text
-            val unit = n.unitChatMessage
+            val publication = n.publicationChatMessage
             val tagV = n.tag.asTag()
 
             val chatMessagesCount = ControllerChats.getMessagesCount(n.tag)
             if (n.tag.chatType == API.CHAT_TYPE_PRIVATE) {
-                titleV = unit.creatorName
+                titleV = publication.creatorName
                 if (chatMessagesCount > 1) textV = ToolsResources.s(
                         R.string.notification_chat_private_many, chatMessagesCount, ToolsResources.getPlural(
                         R.plurals.new_fem, chatMessagesCount
@@ -465,7 +465,7 @@ object ControllerNotifications {
                 )
                 )
             } else {
-                titleV = unit.fandomName
+                titleV = publication.fandomName
                 if (chatMessagesCount > 1) textV = ToolsResources.s(
                         R.string.notification_chat_many, chatMessagesCount, ToolsResources.getPlural(
                         R.plurals.new_fem, chatMessagesCount
@@ -478,13 +478,13 @@ object ControllerNotifications {
 
         override fun asString(html: Boolean): String {
             if (n.tag.chatType == API.CHAT_TYPE_FANDOM_ROOT) {
-                return if (n.unitChatMessage.resourceId != 0L && n.unitChatMessage.text.isEmpty()) n.unitChatMessage.creatorName + ": " + ToolsResources.s(R.string.app_image)
-                else if (n.unitChatMessage.stickerId != 0L && n.unitChatMessage.text.isEmpty()) n.unitChatMessage.creatorName + ": " + ToolsResources.s(R.string.app_sticker)
-                else n.unitChatMessage.creatorName + ": " + n.unitChatMessage.text
+                return if (n.publicationChatMessage.resourceId != 0L && n.publicationChatMessage.text.isEmpty()) n.publicationChatMessage.creatorName + ": " + ToolsResources.s(R.string.app_image)
+                else if (n.publicationChatMessage.stickerId != 0L && n.publicationChatMessage.text.isEmpty()) n.publicationChatMessage.creatorName + ": " + ToolsResources.s(R.string.app_sticker)
+                else n.publicationChatMessage.creatorName + ": " + n.publicationChatMessage.text
             } else {
-                return if (n.unitChatMessage.resourceId != 0L && n.unitChatMessage.text.isEmpty()) ToolsResources.s(R.string.app_image)
-                else if (n.unitChatMessage.stickerId != 0L && n.unitChatMessage.text.isEmpty()) ToolsResources.s(R.string.app_sticker)
-                else n.unitChatMessage.text
+                return if (n.publicationChatMessage.resourceId != 0L && n.publicationChatMessage.text.isEmpty()) ToolsResources.s(R.string.app_image)
+                else if (n.publicationChatMessage.stickerId != 0L && n.publicationChatMessage.text.isEmpty()) ToolsResources.s(R.string.app_sticker)
+                else n.publicationChatMessage.text
             }
         }
 
@@ -493,16 +493,16 @@ object ControllerNotifications {
     private class NotificationChatAnswerParser(override val n: NotificationChatAnswer) : Parser(n) {
 
         override fun post(icon: Int, intent: Intent, text: String, title: String, tag: String, sound: Boolean) {
-            val unit = n.unitChatMessage
+            val publication = n.publicationChatMessage
             val tagV = n.tag.asTag()
 
-            (if (sound) chanelChatMessages else chanelChatMessages_salient).post(icon, unit.fandomName, text, intent, tagV)
+            (if (sound) chanelChatMessages else chanelChatMessages_salient).post(icon, publication.fandomName, text, intent, tagV)
         }
 
         override fun asString(html: Boolean): String {
-            return if (n.unitChatMessage.resourceId != 0L && n.unitChatMessage.text.isEmpty()) n.unitChatMessage.creatorName + ": " + ToolsResources.s(R.string.app_image)
-            else if (n.unitChatMessage.stickerId != 0L && n.unitChatMessage.text.isEmpty()) n.unitChatMessage.creatorName + ": " + ToolsResources.s(R.string.app_sticker)
-            else n.unitChatMessage.creatorName + ": " + n.unitChatMessage.text
+            return if (n.publicationChatMessage.resourceId != 0L && n.publicationChatMessage.text.isEmpty()) n.publicationChatMessage.creatorName + ": " + ToolsResources.s(R.string.app_image)
+            else if (n.publicationChatMessage.stickerId != 0L && n.publicationChatMessage.text.isEmpty()) n.publicationChatMessage.creatorName + ": " + ToolsResources.s(R.string.app_sticker)
+            else n.publicationChatMessage.creatorName + ": " + n.publicationChatMessage.text
         }
 
     }
@@ -577,7 +577,7 @@ object ControllerNotifications {
 
     }
 
-    private class NotificationUnitBlockParser(override val n: NotificationUnitBlock) : Parser(n) {
+    private class NotificationUnitBlockParser(override val n: NotificationPublicationBlock) : Parser(n) {
 
         override fun post(icon: Int, intent: Intent, text: String, title: String, tag: String, sound: Boolean) {
             (if (sound) chanelOther else chanelOther_salient).post(icon, getTitle(), text, intent, tag)
@@ -599,7 +599,7 @@ object ControllerNotifications {
 
     }
 
-    private class NotificationUnitBlockAfterReportParser(override val n: NotificationUnitBlockAfterReport) : Parser(n) {
+    private class NotificationUnitBlockAfterReportParser(override val n: NotificationPublicationBlockAfterReport) : Parser(n) {
 
         override fun post(icon: Int, intent: Intent, text: String, title: String, tag: String, sound: Boolean) {
             (if (sound) chanelOther else chanelOther_salient).post(icon, getTitle(), text, intent, tag)
@@ -633,31 +633,31 @@ object ControllerNotifications {
                     "" + (n.karmaCount / 100),
                     if (n.karmaCount < 0) ToolsHTML.color_red else ToolsHTML.color_green
             )
-            if (n.unitType == API.PUBLICATION_TYPE_POST) return ToolsResources.sCap(
+            if (n.publicationType == API.PUBLICATION_TYPE_POST) return ToolsResources.sCap(
                     R.string.notification_post_karma, name, ToolsResources.sex(
                     n.accountSex,
                     R.string.he_rate,
                     R.string.she_rate
             ), karmsS)
-            if (n.unitType == API.PUBLICATION_TYPE_COMMENT) return ToolsResources.sCap(
+            if (n.publicationType == API.PUBLICATION_TYPE_COMMENT) return ToolsResources.sCap(
                     R.string.notification_comments_karma, name, ToolsResources.sex(
                     n.accountSex,
                     R.string.he_rate,
                     R.string.she_rate
             ), karmsS)
-            if (n.unitType == API.PUBLICATION_TYPE_MODERATION) return ToolsResources.sCap(
+            if (n.publicationType == API.PUBLICATION_TYPE_MODERATION) return ToolsResources.sCap(
                     R.string.notification_moderation_karma, name, ToolsResources.sex(
                     n.accountSex,
                     R.string.he_rate,
                     R.string.she_rate
             ), karmsS)
-            if (n.unitType == API.PUBLICATION_TYPE_REVIEW) return ToolsResources.sCap(
+            if (n.publicationType == API.PUBLICATION_TYPE_REVIEW) return ToolsResources.sCap(
                     R.string.notification_karma_review, name, ToolsResources.sex(
                     n.accountSex,
                     R.string.he_rate,
                     R.string.she_rate
             ), karmsS)
-            if (n.unitType == API.PUBLICATION_TYPE_STICKERS_PACK) return ToolsResources.sCap(
+            if (n.publicationType == API.PUBLICATION_TYPE_STICKERS_PACK) return ToolsResources.sCap(
                     R.string.notification_karma_stickers_pack, name, ToolsResources.sex(
                     n.accountSex,
                     R.string.he_rate,
@@ -668,7 +668,7 @@ object ControllerNotifications {
 
     }
 
-    private class NotificationUnitReactionParser(override val n: NotificationUnitReaction) : Parser(n) {
+    private class NotificationUnitReactionParser(override val n: NotificationPublicationReaction) : Parser(n) {
 
         override fun post(icon: Int, intent: Intent, text: String, title: String, tag: String, sound: Boolean) {
             (if (sound) chanelOther else chanelOther_salient).post(icon, getTitle(), text, intent, tag)

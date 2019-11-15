@@ -22,7 +22,7 @@ import com.sup.dev.java.libs.eventBus.EventBus
 import com.sup.dev.java.tools.ToolsThreads
 
 class AdapterComments(
-        private val unitId: Long,
+        private val publicationId: Long,
         private var scrollToCommentId: Long,
         private val vRecycler: RecyclerView,
         private val startFromBottom: Boolean = false
@@ -38,9 +38,9 @@ class AdapterComments(
 
     init {
         setBottomLoader { onLoad, cards ->
-            RCommentsGetAll(unitId, if (cards.isEmpty()) 0 else cards.get(cards.size - 1).xPublication.publication.dateCreate, false, startFromBottom)
+            RCommentsGetAll(publicationId, if (cards.isEmpty()) 0 else cards.get(cards.size - 1).xPublication.publication.dateCreate, false, startFromBottom)
                     .onComplete { r ->
-                        onLoad.invoke(r.units)
+                        onLoad.invoke(r.publications)
                         remove(CardSpace::class)
                         if(!isEmpty)add(CardSpace(124))
                     }
@@ -48,7 +48,7 @@ class AdapterComments(
                     .send(api)
         }
         setAddToSameCards(true)
-        setMapper { unit -> instanceCard(unit) }
+        setMapper { instanceCard(it) }
         setShowLoadingCardBottom(false)
         setShowLoadingCardTop(true)
         setRemoveSame(true)
@@ -64,7 +64,7 @@ class AdapterComments(
     }
 
     fun showCommentDialog(comment: PublicationComment? = null, changeComment: PublicationComment? = null, quoteId: Long = 0, quoteText: String = "") {
-        WidgetComment(unitId, comment, changeComment, quoteId, quoteText) {
+        WidgetComment(publicationId, comment, changeComment, quoteId, quoteText) {
             val card = addComment(it)
             vRecycler.scrollToPosition(indexOf(card) + 1)
             card.flash()
@@ -73,9 +73,9 @@ class AdapterComments(
 
     fun enableTopLoader() {
         setTopLoader { onLoad, cards ->
-            RCommentsGetAll(unitId, if (cards.isEmpty()) 0 else cards.get(0).xPublication.publication.dateCreate, true, startFromBottom)
+            RCommentsGetAll(publicationId, if (cards.isEmpty()) 0 else cards.get(0).xPublication.publication.dateCreate, true, startFromBottom)
                     .onComplete { r ->
-                        onLoad.invoke(r.units)
+                        onLoad.invoke(r.publications)
                     }
                     .onNetworkError { onLoad.invoke(null) }
                     .send(api)
@@ -112,8 +112,8 @@ class AdapterComments(
 
     }
 
-    fun addComment(unitComment: PublicationComment): CardComment {
-        val card = instanceCard(unitComment)
+    fun addComment(publicationComment: PublicationComment): CardComment {
+        val card = instanceCard(publicationComment)
         addWithHash(card)
         card.flash()
         return card
@@ -124,8 +124,8 @@ class AdapterComments(
         loadBottom()
     }
 
-    private fun instanceCard(unit: PublicationComment): CardComment {
-        return CardComment.instance(unit, true, false,
+    private fun instanceCard(publication: PublicationComment): CardComment {
+        return CardComment.instance(publication, true, false,
                 { comment ->
                     if (ControllerApi.isCurrentAccount(comment.creatorId)) return@instance false
                     showCommentDialog(comment)
@@ -160,7 +160,7 @@ class AdapterComments(
     //
 
     private fun onEventCommentsCountChanged(e: EventCommentsCountChanged) {
-        if (e.publicationId == unitId && e.change < 0) {
+        if (e.publicationId == publicationId && e.change < 0) {
             if (get(CardComment::class).size == 0) {
                 reloadBottom()
             }
@@ -169,13 +169,13 @@ class AdapterComments(
 
     private fun onNotification(e: EventNotification) {
         if (e.notification is NotificationComment)
-            if (e.notification.publicationId == unitId) {
+            if (e.notification.publicationId == publicationId) {
                 needScrollToBottom = (vRecycler.layoutManager as LinearLayoutManager).findLastCompletelyVisibleItemPosition() == itemCount - 1
                 loadBottom()
             }
 
         if (e.notification is NotificationCommentAnswer)
-            if (e.notification.publicationId == unitId) {
+            if (e.notification.publicationId == publicationId) {
                 needScrollToBottom = (vRecycler.layoutManager as LinearLayoutManager).findLastCompletelyVisibleItemPosition() == itemCount - 1
                 loadBottom()
             }

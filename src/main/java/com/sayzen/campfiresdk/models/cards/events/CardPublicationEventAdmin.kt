@@ -20,32 +20,32 @@ import com.sup.dev.java.tools.ToolsDate
 import com.sup.dev.java.tools.ToolsText
 
 class CardPublicationEventAdmin(
-        unit: PublicationEventAdmin
-) : CardPublication(R.layout.card_event, unit) {
+        publication: PublicationEventAdmin
+) : CardPublication(R.layout.card_event, publication) {
 
     private val xAccount: XAccount
 
     init {
-        val e = unit.event!!
+        val e = publication.event!!
         xAccount = XAccount(e.ownerAccountId, e.ownerAccountName, e.ownerAccountImageId, 0, 0) { update() }
     }
 
     override fun bindView(view: View) {
         super.bindView(view)
 
-        val unit = xPublication.publication as PublicationEventAdmin
+        val publication = xPublication.publication as PublicationEventAdmin
 
         val vAvatarTitle: ViewAvatar = view.findViewById(R.id.vAvatar)
         val vText: ViewTextLinkable = view.findViewById(R.id.vText)
         val vDate: TextView = view.findViewById(R.id.vDate)
         val vName: TextView = view.findViewById(R.id.vName)
 
-        vDate.text = ToolsDate.dateToString(unit.dateCreate)
+        vDate.text = ToolsDate.dateToString(publication.dateCreate)
         vName.text = ""
         vAvatarTitle.vImageView.setBackgroundColor(0x00000000)  //  For achievements background
         view.setOnClickListener { }
 
-        val e = unit.event!!
+        val e = publication.event!!
         var text = ""
 
         xPublication.xAccount.lvl = 0    //  Чтоб везде небыло уровней а не на 90% крточек
@@ -56,13 +56,13 @@ class CardPublicationEventAdmin(
                 text = ToolsResources.sCap(R.string.publication_event_blocked_app_admin, ToolsResources.sex(e.ownerAccountSex, R.string.he_blocked, R.string.she_blocked), ControllerApi.linkToUser(e.targetAccountName), ToolsDate.dateToStringFull(e.blockDate))
                 view.setOnClickListener { ControllerCampfireSDK.onToAccountClicked(e.targetAccountId, Navigator.TO) }
             }
-            is ApiEventAdminBlockUnit -> {
-                val unitName = ControllerPublications.getName(e.unitType)
-                text = ToolsResources.sCap(R.string.publication_event_admin_blocked_publication, ToolsResources.sex(e.ownerAccountSex, R.string.he_blocked, R.string.she_blocked), unitName, ControllerApi.linkToUser(e.targetAccountName))
+            is ApiEventAdminBlockPublication -> {
+                val publicationName = ControllerPublications.getName(e.publicationType)
+                text = ToolsResources.sCap(R.string.publication_event_admin_blocked_publication, ToolsResources.sex(e.ownerAccountSex, R.string.he_blocked, R.string.she_blocked), publicationName, ControllerApi.linkToUser(e.targetAccountName))
                 if (e.blockAccountDate > 0 && e.blockedInApp && e.blockFandomId < 1) text += "\n" + ToolsResources.s(R.string.publication_event_account_blocked_date, ToolsDate.dateToStringFull(e.blockAccountDate))
                 if (e.blockAccountDate > 0 && !e.blockedInApp && e.blockFandomId > 0) text += "\n" + ToolsResources.s(R.string.publication_event_account_blocked_date_fandom, ToolsDate.dateToStringFull(e.blockAccountDate), "${e.blockFandomName}")
                 if (e.warned) text += "\n" + ToolsResources.s(R.string.publication_event_account_blocked_warn)
-                if (e.lastUnitsBlocked) text += "\n" + ToolsResources.s(R.string.publication_event_account_blocked_last_publications)
+                if (e.lastPublicationsBlocked) text += "\n" + ToolsResources.s(R.string.publication_event_account_blocked_last_publications)
                 view.setOnClickListener { ControllerCampfireSDK.onToAccountClicked(e.targetAccountId, Navigator.TO) }
             }
             is ApiEventAdminChangeName -> {
@@ -173,7 +173,7 @@ class CardPublicationEventAdmin(
         vText.text = text
         ControllerApi.makeLinkable(vText)
 
-        if (showFandom && unit.fandomId > 0) {
+        if (showFandom && publication.fandomId > 0) {
             xPublication.xFandom.setView(vAvatarTitle)
             vName.text = xPublication.xFandom.name
         } else {
@@ -184,7 +184,7 @@ class CardPublicationEventAdmin(
 
         when (e) {
             is ApiEventAdminFandomClose -> ToolsView.addLink(vText, e.fandomName) { SFandom.instance(e.fandomId, Navigator.TO) }
-            is ApiEventAdminBlockUnit -> ToolsView.addLink(vText, e.blockFandomName) { SFandom.instance(e.blockFandomId, Navigator.TO) }
+            is ApiEventAdminBlockPublication -> ToolsView.addLink(vText, e.blockFandomName) { SFandom.instance(e.blockFandomId, Navigator.TO) }
             is ApiEventAdminFandomChangeAvatar -> ToolsView.addLink(vText, e.fandomName) { SFandom.instance(e.fandomId, Navigator.TO) }
             is ApiEventAdminFandomChangeParams -> ToolsView.addLink(vText, e.fandomName) { SFandom.instance(e.fandomId, Navigator.TO) }
             is ApiEventAdminFandomKarmaCofChanged -> ToolsView.addLink(vText, e.fandomName) { SFandom.instance(e.fandomId, Navigator.TO) }

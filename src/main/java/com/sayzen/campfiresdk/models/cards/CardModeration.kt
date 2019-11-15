@@ -14,15 +14,15 @@ import com.sup.dev.android.views.views.ViewAvatarTitle
 import com.sup.dev.android.views.views.ViewTextLinkable
 
 class CardModeration(
-        unit: PublicationModeration
-) : CardPublication(R.layout.card_moderation, unit) {
+        publication: PublicationModeration
+) : CardPublication(R.layout.card_moderation, publication) {
 
     private var clickDisabled: Boolean = false
 
     override fun bindView(view: View) {
         super.bindView(view)
 
-        val unit = xPublication.publication as PublicationModeration
+        val publication = xPublication.publication as PublicationModeration
 
         val vText: ViewTextLinkable = view.findViewById(R.id.vText)
         val vContainerInfo: View = view.findViewById(R.id.vInfoContainer)
@@ -31,33 +31,33 @@ class CardModeration(
 
         vStatusComment.visibility = View.GONE
 
-        if (unit.moderation is ModerationBlock) {
+        if (publication.moderation is ModerationBlock) {
             vStatus.visibility = View.VISIBLE
-            if (unit.tag_2 == 0L) {
+            if (publication.tag_2 == 0L) {
                 vStatus.setText(R.string.moderation_checked_empty)
                 vStatus.setTextColor(ToolsResources.getColor(R.color.grey_500))
             }
-            if (unit.tag_2 == 1L) {
+            if (publication.tag_2 == 1L) {
                 vStatus.setTextColor(ToolsResources.getColor(R.color.green_700))
-                vStatus.text = ToolsResources.s(R.string.moderation_checked_yes, ControllerApi.linkToUser((unit.moderation!! as ModerationBlock).checkAdminName))
+                vStatus.text = ToolsResources.s(R.string.moderation_checked_yes, ControllerApi.linkToUser((publication.moderation!! as ModerationBlock).checkAdminName))
             }
-            if (unit.tag_2 == 2L) {
+            if (publication.tag_2 == 2L) {
                 vStatus.setTextColor(ToolsResources.getColor(R.color.red_700))
-                vStatus.text = ToolsResources.s(R.string.moderation_checked_no, ControllerApi.linkToUser((unit.moderation!! as ModerationBlock).checkAdminName))
+                vStatus.text = ToolsResources.s(R.string.moderation_checked_no, ControllerApi.linkToUser((publication.moderation!! as ModerationBlock).checkAdminName))
                 vStatusComment.visibility = View.VISIBLE
-                vStatusComment.text = (unit.moderation!! as ModerationBlock).checkAdminComment
+                vStatusComment.text = (publication.moderation!! as ModerationBlock).checkAdminComment
             }
             ControllerApi.makeLinkable(vStatus)
         } else {
             vStatus.visibility = View.GONE
         }
 
-        vContainerInfo.visibility = if (unit.status == API.STATUS_DRAFT) View.GONE else View.VISIBLE
+        vContainerInfo.visibility = if (publication.status == API.STATUS_DRAFT) View.GONE else View.VISIBLE
 
-        ControllerPublications.setModerationText(vText, unit)
+        ControllerPublications.setModerationText(vText, publication)
 
         if (clickDisabled) view.setOnClickListener(null)
-        else view.setOnClickListener { ControllerCampfireSDK.onToModerationClicked(unit.id, 0, Navigator.TO) }
+        else view.setOnClickListener { ControllerCampfireSDK.onToModerationClicked(publication.id, 0, Navigator.TO) }
     }
 
     override fun updateComments() {

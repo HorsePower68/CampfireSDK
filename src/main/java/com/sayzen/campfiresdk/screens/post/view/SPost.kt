@@ -26,21 +26,21 @@ import com.sup.dev.java.libs.eventBus.EventBusSubscriber
 import com.sup.dev.java.tools.ToolsThreads
 
 class SPost constructor(
-        unit: PublicationPost,
+        publication: PublicationPost,
         val tags: Array<PublicationTag>,
         commentId: Long
 ) : Screen(R.layout.screen_post) {
 
     companion object {
 
-        fun instance(unitId: Long, action: NavigationAction) {
-            instance(unitId, 0, action)
+        fun instance(publicationId: Long, action: NavigationAction) {
+            instance(publicationId, 0, action)
         }
 
-        fun instance(unitId: Long, commentId: Long, action: NavigationAction) {
+        fun instance(publicationId: Long, commentId: Long, action: NavigationAction) {
             ApiRequestsSupporter.executeInterstitial(action,
-                    RPostGet(unitId)) { r ->
-                SPost(r.unit, r.tags, commentId)
+                    RPostGet(publicationId)) { r ->
+                SPost(r.publication, r.tags, commentId)
             }
         }
     }
@@ -54,8 +54,8 @@ class SPost constructor(
     private val vFab: FloatingActionButton = findViewById(R.id.vFab)
     private val vShare: View = findViewById(R.id.vShare)
 
-    private val adapter: AdapterComments = AdapterComments(unit.id, commentId, vRecycler)
-    private val xUnit = XPublication(unit,
+    private val adapter: AdapterComments = AdapterComments(publication.id, commentId, vRecycler)
+    private val xPublication = XPublication(publication,
             onChangedAccount = { cardInfo.updateAccount() },
             onChangedFandom = { cardInfo.updateFandom() },
             onChangedKarma = { cardInfo.updateKarma() },
@@ -67,26 +67,26 @@ class SPost constructor(
             onChangedImportance = {},
             onRemove = { Navigator.remove(this) }
     )
-    private val cardInfo: CardInfo = CardInfo(xUnit, tags)
+    private val cardInfo: CardInfo = CardInfo(xPublication, tags)
 
     init {
 
         vRecycler.layoutManager = LinearLayoutManager(context)
         ToolsView.setRecyclerAnimation(vRecycler)
 
-        for (page in unit.pages) adapter.add(CardPage.instance(unit, page))
+        for (page in publication.pages) adapter.add(CardPage.instance(publication, page))
         ControllerPost.updateSpoilers(adapter)
         adapter.add(cardInfo)
         adapter.setCommentButton(vFab)
 
-        vShare.setOnClickListener { ControllerApi.sharePost(unit.id) }
-        vMenu.setOnClickListener { ControllerPost.showPostMenu(unit) }
+        vShare.setOnClickListener { ControllerApi.sharePost(publication.id) }
+        vMenu.setOnClickListener { ControllerPost.showPostMenu(publication) }
         vRecycler.adapter = adapter
 
-        ControllerNotifications.removeNotificationFromNew(NotificationFollowsPublication::class, unit.id)
-        ControllerNotifications.removeNotificationFromNew(NotificationPublicationImportant::class, unit.id)
+        ControllerNotifications.removeNotificationFromNew(NotificationFollowsPublication::class, publication.id)
+        ControllerNotifications.removeNotificationFromNew(NotificationPublicationImportant::class, publication.id)
 
-        if (unit.fandomClosed) ToolsThreads.main(true) { ControllerClosedFandoms.showAlertIfNeed(this, unit.fandomId, true) }
+        if (publication.fandomClosed) ToolsThreads.main(true) { ControllerClosedFandoms.showAlertIfNeed(this, publication.fandomId, true) }
 
     }
 
@@ -96,14 +96,14 @@ class SPost constructor(
     //
 
     private fun onPostChanged(e: EventPostChanged) {
-        if (e.publicationId == xUnit.publication.id) {
+        if (e.publicationId == xPublication.publication.id) {
             adapter.remove(CardPage::class)
-            for (i in 0 until e.pages.size) adapter.add(i, CardPage.instance(xUnit.publication as PublicationPost, e.pages[i]))
+            for (i in 0 until e.pages.size) adapter.add(i, CardPage.instance(xPublication.publication as PublicationPost, e.pages[i]))
         }
     }
 
     private fun onEventPostStatusChange(e: EventPostStatusChange) {
-        if (e.publicationId == xUnit.publication.id && e.status != API.STATUS_PUBLIC) Navigator.remove(this)
+        if (e.publicationId == xPublication.publication.id && e.status != API.STATUS_PUBLIC) Navigator.remove(this)
     }
 
 }

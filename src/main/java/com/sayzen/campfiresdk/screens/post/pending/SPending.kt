@@ -40,7 +40,7 @@ class SPending : SLoadingRecycler<CardPost, PublicationPost>() {
         }
                 .setBottomLoader { onLoad, cards ->
                     val r = RPostPendingGetAll(cards.size.toLong())
-                            .onComplete { r -> onLoad.invoke(r.units) }
+                            .onComplete { r -> onLoad.invoke(r.publications) }
                             .onNetworkError { onLoad.invoke(null) }
                     r.tokenRequired = true
                     r.send(api)

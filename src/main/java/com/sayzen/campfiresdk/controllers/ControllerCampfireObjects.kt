@@ -64,7 +64,7 @@ object ControllerCampfireObjects {
         val id = link.getLongParamOrZero(0)
 
         RPostGet(id)
-                .onComplete { onComplete(link, it.unit.fandomName, ToolsResources.s(R.string.app_post), it.unit.fandomImageId) }
+                .onComplete { onComplete(link, it.publication.fandomName, ToolsResources.s(R.string.app_post), it.publication.fandomImageId) }
                 .onError { onError(link) }
                 .send(api)
     }

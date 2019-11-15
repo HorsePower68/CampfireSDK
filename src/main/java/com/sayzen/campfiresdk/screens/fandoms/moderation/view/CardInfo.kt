@@ -24,16 +24,16 @@ import com.sup.dev.java.libs.eventBus.EventBus
 import com.sup.dev.java.libs.eventBus.EventBusSubscriber
 
 class CardInfo(
-        private val unit: PublicationModeration
+        private val publication: PublicationModeration
 ) : Card(R.layout.screen_moderation_card_info) {
 
     private val eventBus: EventBusSubscriber = EventBus
             .subscribe(EventCommentsCountChanged::class) { this.onEventCommentsCountChanged(it) }
             .subscribe(EventNotification::class) { this.onNotification(it) }
 
-    private val xFandom = XFandom(unit, unit.dateCreate) { update() }
-    private val xAccount = XAccount(unit, unit.dateCreate) { update() }
-    private val xKarma = XKarma(unit) { update() }
+    private val xFandom = XFandom(publication, publication.dateCreate) { update() }
+    private val xAccount = XAccount(publication, publication.dateCreate) { update() }
+    private val xKarma = XKarma(publication) { update() }
 
     init {
         xFandom.showLanguage = false
@@ -49,21 +49,21 @@ class CardInfo(
         val vStatus:ViewTextLinkable = view.findViewById(R.id.vStatus)
         val vStatusComment: ViewTextLinkable = view.findViewById(R.id.vStatusComment)
 
-        if(unit.moderation is ModerationBlock){
+        if(publication.moderation is ModerationBlock){
             vStatus.visibility = View.VISIBLE
-            if(unit.tag_2 == 0L) {
+            if(publication.tag_2 == 0L) {
                 vStatus.setText(R.string.moderation_checked_empty)
                 vStatus.setTextColor(ToolsResources.getColor(R.color.grey_500))
             }
-            if (unit.tag_2 == 1L) {
+            if (publication.tag_2 == 1L) {
                 vStatus.setTextColor(ToolsResources.getColor(R.color.green_700))
-                vStatus.text = ToolsResources.s(R.string.moderation_checked_yes, ControllerApi.linkToUser((unit.moderation!! as ModerationBlock).checkAdminName))
+                vStatus.text = ToolsResources.s(R.string.moderation_checked_yes, ControllerApi.linkToUser((publication.moderation!! as ModerationBlock).checkAdminName))
             }
-            if (unit.tag_2 == 2L) {
+            if (publication.tag_2 == 2L) {
                 vStatus.setTextColor(ToolsResources.getColor(R.color.red_700))
-                vStatus.text = ToolsResources.s(R.string.moderation_checked_no, ControllerApi.linkToUser((unit.moderation!! as ModerationBlock).checkAdminName))
+                vStatus.text = ToolsResources.s(R.string.moderation_checked_no, ControllerApi.linkToUser((publication.moderation!! as ModerationBlock).checkAdminName))
                 vStatusComment.visibility = View.VISIBLE
-                vStatusComment.text = (unit.moderation!! as ModerationBlock).checkAdminComment
+                vStatusComment.text = (publication.moderation!! as ModerationBlock).checkAdminComment
             }
             ControllerApi.makeLinkable(vStatus)
         }else{
@@ -73,9 +73,9 @@ class CardInfo(
         xFandom.setView(vFandom)
         xAccount.setView(vAvatar)
         xKarma.setView(vKarma)
-        vComments.text = "" + unit.subUnitsCount
+        vComments.text = "" + publication.subPublicationsCount
 
-        ControllerPublications.setModerationText(vText, unit)
+        ControllerPublications.setModerationText(vText, publication)
     }
 
     //
@@ -83,22 +83,22 @@ class CardInfo(
     //
 
     private fun onEventCommentsCountChanged(e: EventCommentsCountChanged) {
-        if (e.publicationId == unit.id) {
-            unit.subUnitsCount = e.commentsCount
+        if (e.publicationId == publication.id) {
+            publication.subPublicationsCount = e.commentsCount
             update()
         }
     }
 
     private fun onNotification(e: EventNotification) {
         if (e.notification is NotificationComment)
-            if (e.notification.publicationId == unit.id) {
-                unit.subUnitsCount++
+            if (e.notification.publicationId == publication.id) {
+                publication.subPublicationsCount++
                 update()
             }
 
         if (e.notification is NotificationCommentAnswer)
-            if (e.notification.publicationId == unit.id) {
-                unit.subUnitsCount++
+            if (e.notification.publicationId == publication.id) {
+                publication.subPublicationsCount++
                 update()
             }
 

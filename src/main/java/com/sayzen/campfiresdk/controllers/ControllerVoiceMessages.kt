@@ -15,13 +15,13 @@ object ControllerVoiceMessages {
         NONE, LOADING, PLAY, PAUSE
     }
 
-    private val unitsAudioPlayer = UtilsAudioPlayer()
+    private val utilsAudioPlayer = UtilsAudioPlayer()
     private var currentId = 0L
     private var state = State.NONE
     private var playTimeMs = 0L
 
     init {
-        unitsAudioPlayer.useProximity = true
+        utilsAudioPlayer.useProximity = true
         Navigator.addOnScreenChanged {
             stop(currentId)
             false
@@ -56,18 +56,18 @@ object ControllerVoiceMessages {
     fun stop(id: Long) {
         if (currentId != id) return
         setState(id, State.NONE)
-        unitsAudioPlayer.stop()
+        utilsAudioPlayer.stop()
     }
 
     private fun startPlay(id: Long, bytes: ByteArray) {
         if (currentId != id) return
         setState(id, State.PLAY)
         playTimeMs = 0L
-        unitsAudioPlayer.onStep = {
+        utilsAudioPlayer.onStep = {
             if (currentId == id) playTimeMs = it
             EventBus.post(EventVoiceMessageStep(currentId))
         }
-        unitsAudioPlayer.play(bytes) {
+        utilsAudioPlayer.play(bytes) {
             setState(id, State.NONE)
             if (currentId == id) currentId = 0L
         }
@@ -77,14 +77,14 @@ object ControllerVoiceMessages {
         if (currentId != id) return
 
         setState(id, State.PAUSE)
-        unitsAudioPlayer.pause()
+        utilsAudioPlayer.pause()
     }
 
     fun resume(id: Long) {
         if (currentId != id) return
 
         setState(id, State.PLAY)
-        unitsAudioPlayer.resume()
+        utilsAudioPlayer.resume()
     }
 
     private fun setState(id: Long, state: State) {

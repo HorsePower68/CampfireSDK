@@ -12,13 +12,13 @@ import com.sup.dev.android.tools.ToolsResources
 import com.sup.dev.android.views.views.ViewTextLinkable
 
 class CardChatMessageSystem(
-        unit: PublicationChatMessage,
+        publication: PublicationChatMessage,
         onClick: ((PublicationChatMessage) -> Boolean)? = null,
         onChange: ((PublicationChatMessage) -> Unit)? = null,
         onQuote: ((PublicationChatMessage) -> Unit)? = null,
         onGoTo: ((Long) -> Unit)?,
         onBlocked: ((PublicationChatMessage) -> Unit)? = null
-) : CardChatMessage(R.layout.card_chat_message_moderation, unit, onClick, onChange, onQuote, onGoTo, onBlocked) {
+) : CardChatMessage(R.layout.card_chat_message_moderation, publication, onClick, onChange, onQuote, onGoTo, onBlocked) {
 
     init {
         quoteEnabled = false
@@ -26,21 +26,21 @@ class CardChatMessageSystem(
 
     override fun bindView(view: View) {
         super.bindView(view)
-        val unit = xPublication.publication as PublicationChatMessage
+        val publication = xPublication.publication as PublicationChatMessage
 
         val vSystemMessage: ViewTextLinkable = view.findViewById(R.id.vSystemMessage)
         val vTouchModeration: ViewGroup = view.findViewById(R.id.vTouchModeration)
 
-        vTouchModeration.setOnClickListener { ControllerCampfireSDK.onToModerationClicked(unit.blockModerationEventId, 0, Navigator.TO) }
-        vTouchModeration.isClickable = unit.blockModerationEventId != 0L
+        vTouchModeration.setOnClickListener { ControllerCampfireSDK.onToModerationClicked(publication.blockModerationEventId, 0, Navigator.TO) }
+        vTouchModeration.isClickable = publication.blockModerationEventId != 0L
 
         vSystemMessage.visibility = View.VISIBLE
         vSystemMessage.setTextColor(ToolsResources.getColorAttr(R.attr.toolbar_content_color_secondary))
 
-        if (unit.systemType == PublicationChatMessage.SYSTEM_TYPE_BLOCK) vSystemMessage.setTextColor(ToolsResources.getColor(R.color.red_600))
+        if (publication.systemType == PublicationChatMessage.SYSTEM_TYPE_BLOCK) vSystemMessage.setTextColor(ToolsResources.getColor(R.color.red_600))
 
 
-        vSystemMessage.text = ControllerChats.getSystemText(unit)
+        vSystemMessage.text = ControllerChats.getSystemText(publication)
 
         ControllerApi.makeLinkable(vSystemMessage)
     }

@@ -18,49 +18,49 @@ import com.sup.dev.android.views.views.ViewAvatarTitle
 import com.sup.dev.java.libs.eventBus.EventBus
 
 class CardStickersPack(
-        unit: PublicationStickersPack,
+        publication: PublicationStickersPack,
         val isShowFullInfo: Boolean = false,
         val isShowReports: Boolean = true
-) : CardPublication(R.layout.card_stickers_pack, unit) {
+) : CardPublication(R.layout.card_stickers_pack, publication) {
 
     private val eventBus = EventBus
             .subscribe(EventStickersPackChanged::class) {
-                if (it.stickersPack.id == unit.id) {
-                    unit.imageId = it.stickersPack.imageId
-                    unit.name = it.stickersPack.name
+                if (it.stickersPack.id == publication.id) {
+                    publication.imageId = it.stickersPack.imageId
+                    publication.name = it.stickersPack.name
                     update()
                 }
             }
 
     override fun bindView(view: View) {
         super.bindView(view)
-        val unit = xPublication.publication as PublicationStickersPack
+        val publication = xPublication.publication as PublicationStickersPack
 
         val vAvatar: ViewAvatarTitle = view.findViewById(R.id.vAvatar)
         val vMenu: View = view.findViewById(R.id.vMenu)
         val vTitle: TextView = view.findViewById(R.id.vTitle)
         val vComments: TextView = view.findViewById(R.id.vComments)
 
-        vComments.text = unit.subUnitsCount.toString() + ""
+        vComments.text = publication.subPublicationsCount.toString() + ""
 
         vTitle.visibility = if(isShowFullInfo) View.VISIBLE else View.GONE
-        vTitle.text = ToolsResources.sCap(R.string.sticker_event_create_stickers_pack, ToolsResources.sex(unit.creatorSex, R.string.he_created, R.string.she_created))
+        vTitle.text = ToolsResources.sCap(R.string.sticker_event_create_stickers_pack, ToolsResources.sex(publication.creatorSex, R.string.he_created, R.string.she_created))
 
-        ToolsImagesLoader.load(unit.imageId).into(vAvatar.vAvatar.vImageView)
-        vAvatar.setTitle(unit.name)
-        vAvatar.setSubtitle(unit.creatorName)
+        ToolsImagesLoader.load(publication.imageId).into(vAvatar.vAvatar.vImageView)
+        vAvatar.setTitle(publication.name)
+        vAvatar.setSubtitle(publication.creatorName)
 
         vComments.setOnClickListener {
-            SComments.instance(unit.id, 0, Navigator.TO)
+            SComments.instance(publication.id, 0, Navigator.TO)
         }
         vComments.setOnLongClickListener {
-            WidgetComment(unit.id, null) { }.asSheetShow()
+            WidgetComment(publication.id, null) { }.asSheetShow()
             true
         }
 
-        vMenu.setOnClickListener { ControllerStickers.showStickerPackPopup(unit) }
+        vMenu.setOnClickListener { ControllerStickers.showStickerPackPopup(publication) }
 
-        view.setOnClickListener { Navigator.to(SStickersView(unit, 0)) }
+        view.setOnClickListener { Navigator.to(SStickersView(publication, 0)) }
     }
 
     override fun updateAccount() {
@@ -87,8 +87,8 @@ class CardStickersPack(
     }
 
     override fun notifyItem() {
-        val unit = xPublication.publication as PublicationStickersPack
-        ToolsImagesLoader.load(unit.imageId).intoCash()
+        val publication = xPublication.publication as PublicationStickersPack
+        ToolsImagesLoader.load(publication.imageId).intoCash()
     }
 
 

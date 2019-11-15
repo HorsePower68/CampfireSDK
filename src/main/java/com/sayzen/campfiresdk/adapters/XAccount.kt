@@ -79,9 +79,9 @@ class XAccount(
         inited = true
     }
 
-    constructor(unit: com.dzen.campfire.api.models.publications.Publication, date: Long = 0, onNameChanged: () -> Unit)
-            : this(unit.creatorId, unit.creatorImageId, unit.creatorLvl, unit.creatorKarma30, unit.creatorName, date, 0L, 0L, onNameChanged) {
-        set(unit.creatorId, unit.creatorLastOnlineTime)
+    constructor(publication: com.dzen.campfire.api.models.publications.Publication, date: Long = 0, onNameChanged: () -> Unit)
+            : this(publication.creatorId, publication.creatorImageId, publication.creatorLvl, publication.creatorKarma30, publication.creatorName, date, 0L, 0L, onNameChanged) {
+        set(publication.creatorId, publication.creatorLastOnlineTime)
         inited = true
     }
 

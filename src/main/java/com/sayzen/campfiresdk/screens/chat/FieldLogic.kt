@@ -56,8 +56,8 @@ class FieldLogic(
 
     private var lastTypingSent = 0L
     private var isRecording = false
-    private var unitAnswer: PublicationChatMessage? = null
-    var unitChange: PublicationChatMessage? = null
+    private var publicationAnswer: PublicationChatMessage? = null
+    var publivationChange: PublicationChatMessage? = null
     private var quoteText = ""
     private var quoteId = 0L
     private var voiceBytes: ByteArray? = null
@@ -111,12 +111,12 @@ class FieldLogic(
         vVoicePlay.setImageDrawable(ToolsResources.getDrawableAttr(R.attr.ic_pause_24dp))
     }
 
-    fun setQuote(unit: PublicationChatMessage) {
-        var text = unit.creatorName + ": "
-        if (unit.text.isNotEmpty()) text += unit.text
-        else if (unit.resourceId != 0L || unit.imageIdArray.isNotEmpty()) text += ToolsResources.s(R.string.app_image)
-        else if (unit.stickerId != 0L) text += ToolsResources.s(R.string.app_sticker)
-        setQuote(text, unit.id)
+    fun setQuote(publication: PublicationChatMessage) {
+        var text = publication.creatorName + ": "
+        if (publication.text.isNotEmpty()) text += publication.text
+        else if (publication.resourceId != 0L || publication.imageIdArray.isNotEmpty()) text += ToolsResources.s(R.string.app_image)
+        else if (publication.stickerId != 0L) text += ToolsResources.s(R.string.app_sticker)
+        setQuote(text, publication.id)
     }
 
     fun setQuote(quoteText: String, quoteId: Long = 0) {
@@ -129,15 +129,15 @@ class FieldLogic(
         updateAction()
     }
 
-    fun setAnswer(unitAnswer: PublicationChatMessage, withName: Boolean): Boolean {
+    fun setAnswer(publicationAnswer: PublicationChatMessage, withName: Boolean): Boolean {
         setChange(null)
-        if (ControllerApi.isCurrentAccount(unitAnswer.creatorId)) return false
+        if (ControllerApi.isCurrentAccount(publicationAnswer.creatorId)) return false
         var text = vText.text!!.toString()
-        if (this.unitAnswer != null && text.startsWith(this.unitAnswer!!.creatorName + ", ")) {
-            text = text.substring((this.unitAnswer!!.creatorName + ", ").length)
+        if (this.publicationAnswer != null && text.startsWith(this.publicationAnswer!!.creatorName + ", ")) {
+            text = text.substring((this.publicationAnswer!!.creatorName + ", ").length)
         }
-        this.unitAnswer = unitAnswer
-        if (withName) vText.setText(unitAnswer.creatorName + ", " + text)
+        this.publicationAnswer = publicationAnswer
+        if (withName) vText.setText(publicationAnswer.creatorName + ", " + text)
         vText.setSelection(vText.text!!.length)
         ToolsView.showKeyboard(vText)
         return true
@@ -149,8 +149,8 @@ class FieldLogic(
     }
 
     private fun updateAction() {
-        vSend.visibility = if (vText.text.toString().isNotEmpty() || attach.isHasContent() || quoteId != 0L || unitChange != null || voiceBytes != null) View.VISIBLE else View.GONE
-        vVoiceRecorder.visibility = if (vText.text.toString().isNotEmpty() || attach.isHasContent() || quoteId != 0L || unitChange != null || voiceBytes != null) View.GONE else View.VISIBLE
+        vSend.visibility = if (vText.text.toString().isNotEmpty() || attach.isHasContent() || quoteId != 0L || publivationChange != null || voiceBytes != null) View.VISIBLE else View.GONE
+        vVoiceRecorder.visibility = if (vText.text.toString().isNotEmpty() || attach.isHasContent() || quoteId != 0L || publivationChange != null || voiceBytes != null) View.GONE else View.VISIBLE
 
         if (isRecording || voiceBytes != null) vFieldContainer.visibility = View.GONE
         else vFieldContainer.visibility = View.VISIBLE
@@ -168,7 +168,7 @@ class FieldLogic(
 
     private fun getParentId(): Long {
         if (quoteId != 0L) return quoteId
-        if (unitAnswer != null && getText().startsWith(unitAnswer!!.creatorName + ", ")) return unitAnswer!!.id
+        if (publicationAnswer != null && getText().startsWith(publicationAnswer!!.creatorName + ", ")) return publicationAnswer!!.id
         return 0L
 
     }
@@ -185,7 +185,7 @@ class FieldLogic(
 
         if (text.isEmpty() && !attach.isHasContent()) return
 
-        if (unitChange == null) {
+        if (publivationChange == null) {
             if (attach.isHasContent()) sendImage(text, parentId)
             else if (ToolsText.isWebLink(text)) sendLink(text, parentId, true)
             else sendText(text, parentId)
@@ -205,24 +205,24 @@ class FieldLogic(
         vText.setText(text)
     }
 
-    fun setChange(unitChange: PublicationChatMessage?) {
-        if (this.unitChange != null && unitChange == null) vText.setText(null)
-        this.unitChange = unitChange
+    fun setChange(publicationChange: PublicationChatMessage?) {
+        if (this.publivationChange != null && publicationChange == null) vText.setText(null)
+        this.publivationChange = publicationChange
 
         updateMedieEditText()
 
-        vSend.setImageResource(ToolsResources.getDrawableAttrId(if (unitChange == null) R.attr.ic_send_24dp else R.attr.ic_done_24dp))
-        vAttach.visibility = if (unitChange == null) View.VISIBLE else View.GONE
-        if (unitChange != null) {
-            vText.setText(unitChange.text)
+        vSend.setImageResource(ToolsResources.getDrawableAttrId(if (publicationChange == null) R.attr.ic_send_24dp else R.attr.ic_done_24dp))
+        vAttach.visibility = if (publicationChange == null) View.VISIBLE else View.GONE
+        if (publicationChange != null) {
+            vText.setText(publicationChange.text)
             vText.setSelection(vText.text!!.length)
             ToolsView.showKeyboard(vText)
-            setQuote(unitChange.quoteText, unitChange.quoteId)
+            setQuote(publicationChange.quoteText, publicationChange.quoteId)
         }
     }
 
     fun updateMedieEditText() {
-        if (unitChange == null) vText.setCallback { link -> sendLink(link, getParentId(), false) }
+        if (publivationChange == null) vText.setCallback { link -> sendLink(link, getParentId(), false) }
         else vText.setCallback(null)
     }
 
@@ -242,11 +242,11 @@ class FieldLogic(
     private fun sendChange(text: String) {
         val quoteIdV = quoteId
         val quoteTextV = quoteText
-        val unitChangeId = unitChange!!.id
+        val publicationChangeId = publivationChange!!.id
         beforeSend()
         ToolsToast.show(R.string.app_changed)
-        ApiRequestsSupporter.execute(RChatMessageChange(unitChangeId, quoteIdV, text)) {
-            EventBus.post(EventChatMessageChanged(unitChangeId, text, quoteIdV, quoteTextV))
+        ApiRequestsSupporter.execute(RChatMessageChange(publicationChangeId, quoteIdV, text)) {
+            EventBus.post(EventChatMessageChanged(publicationChangeId, text, quoteIdV, quoteTextV))
         }
                 .onApiError(API.ERROR_ACCESS) { ToolsToast.show(R.string.error_chat_access) }
 

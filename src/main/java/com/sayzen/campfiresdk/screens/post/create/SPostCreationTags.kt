@@ -35,32 +35,32 @@ import com.sup.dev.java.tools.ToolsDate
 import java.util.*
 
 class SPostCreationTags private constructor(
-        private val unitId: Long,
+        private val publicationId: Long,
         private val fandomId: Long,
         private val language: Long,
         private val closed: Boolean,
-        private val unitTag3: Long,
-        private val isMyUnit: Boolean,
+        private val publicationTag3: Long,
+        private val isMyPublication: Boolean,
         private val presetTags: Array<Long>,
         tags: Array<PublicationTag>
 ) : Screen(R.layout.screen_post_create_tags) {
 
     companion object {
 
-        fun instance(unitId: Long, isMyUnit: Boolean, action: NavigationAction) {
-            ApiRequestsSupporter.executeProgressDialog(RPostGet(unitId)) { r ->
-                instance(r.unit.id, r.unit.closed, r.unit.tag_3, isMyUnit, r.unit.fandomId, r.unit.languageId, ControllerPublications.tagsAsLongArray(r.tags), action)
+        fun instance(publicationId: Long, isMyPublication: Boolean, action: NavigationAction) {
+            ApiRequestsSupporter.executeProgressDialog(RPostGet(publicationId)) { r ->
+                instance(r.publication.id, r.publication.closed, r.publication.tag_3, isMyPublication, r.publication.fandomId, r.publication.languageId, ControllerPublications.tagsAsLongArray(r.tags), action)
             }
         }
 
-        fun instance(unitId: Long, closed: Boolean, unitTag3: Long, isMyUnit: Boolean, fandomId: Long, languageId: Long, presetTags: Array<Long>, action: NavigationAction) {
-            ApiRequestsSupporter.executeInterstitial(action, RTagsGetAll(fandomId, languageId)) { r -> SPostCreationTags(unitId, fandomId, languageId, closed, unitTag3, isMyUnit, presetTags, r.tags) }
+        fun instance(publicationId: Long, closed: Boolean, publicationTag3: Long, isMyPublication: Boolean, fandomId: Long, languageId: Long, presetTags: Array<Long>, action: NavigationAction) {
+            ApiRequestsSupporter.executeInterstitial(action, RTagsGetAll(fandomId, languageId)) { r -> SPostCreationTags(publicationId, fandomId, languageId, closed, publicationTag3, isMyPublication, presetTags, r.tags) }
         }
 
-        fun create(unitId: Long, tags: Array<Long>, notifyFollowers: Boolean, pendingTime: Long, closed: Boolean, rubricId: Long, onCreate: () -> Unit) {
+        fun create(publicationId: Long, tags: Array<Long>, notifyFollowers: Boolean, pendingTime: Long, closed: Boolean, rubricId: Long, onCreate: () -> Unit) {
             SGoogleRules.acceptRulesDialog {
-                ApiRequestsSupporter.executeProgressDialog(RPostPublication(unitId, tags, "", notifyFollowers, pendingTime, closed, rubricId)) { _ ->
-                    EventBus.post(EventPostStatusChange(unitId, API.STATUS_PUBLIC))
+                ApiRequestsSupporter.executeProgressDialog(RPostPublication(publicationId, tags, "", notifyFollowers, pendingTime, closed, rubricId)) { _ ->
+                    EventBus.post(EventPostStatusChange(publicationId, API.STATUS_PUBLIC))
                     onCreate.invoke()
                     ControllerStoryQuest.incrQuest(API.QUEST_STORY_POST)
                 }
@@ -88,11 +88,11 @@ class SPostCreationTags private constructor(
         isNavigationShadowAvailable = false
         SActivityTypeBottomNavigation.setShadow(vLine)
 
-        vNotifyFollowers.isEnabled = unitTag3 == 0L
+        vNotifyFollowers.isEnabled = publicationTag3 == 0L
         vNotifyFollowers.isChecked = false
         vPending.isChecked = false
         vClose.isChecked = closed
-        vMenuContainer.visibility = if (vNotifyFollowers.isEnabled && isMyUnit) View.VISIBLE else View.GONE
+        vMenuContainer.visibility = if (vNotifyFollowers.isEnabled && isMyPublication) View.VISIBLE else View.GONE
 
         isSingleInstanceInBackStack = true
 
@@ -161,11 +161,11 @@ class SPostCreationTags private constructor(
 
         val tags = Array(selectedTags.size) { selectedTags[it].id }
 
-        if (isMyUnit) {
-            create(unitId, tags, vNotifyFollowers.isChecked, pendingDate, vClose.isChecked, rubricId) {
+        if (isMyPublication) {
+            create(publicationId, tags, vNotifyFollowers.isChecked, pendingDate, vClose.isChecked, rubricId) {
                 Navigator.removeAll(SPostCreate::class)
                 if (pendingDate > 0) Navigator.replace(SPending())
-                else SPost.instance(unitId, 0, NavigationAction.replace())
+                else SPost.instance(publicationId, 0, NavigationAction.replace())
             }
         } else {
             WidgetField()
@@ -174,10 +174,10 @@ class SPostCreationTags private constructor(
                     .setMin(API.MODERATION_COMMENT_MIN_L)
                     .setMax(API.MODERATION_COMMENT_MAX_L)
                     .setOnEnter(R.string.app_change) { w, comment ->
-                        ApiRequestsSupporter.executeEnabled(w, RPostPublication(unitId, tags, comment, false, 0, false, 0)) {
+                        ApiRequestsSupporter.executeEnabled(w, RPostPublication(publicationId, tags, comment, false, 0, false, 0)) {
                             Navigator.removeAll(SPostCreate::class)
-                            EventBus.post(EventPostStatusChange(unitId, API.STATUS_PUBLIC))
-                            SPost.instance(unitId, 0, NavigationAction.replace())
+                            EventBus.post(EventPostStatusChange(publicationId, API.STATUS_PUBLIC))
+                            SPost.instance(publicationId, 0, NavigationAction.replace())
                         }
                     }.asSheetShow()
         }

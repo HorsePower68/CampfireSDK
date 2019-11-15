@@ -93,7 +93,7 @@ class SFandom private constructor(
     init {
         vToolbarCollapsingShadow.background = GradientDrawable(GradientDrawable.Orientation.TOP_BOTTOM, intArrayOf(0x60000000, 0x00000000))
 
-        adapter = RecyclerCardAdapterLoading<CardPublication, Publication>(CardPublication::class) { unit -> CardPublication.instance(unit, vRecycler, false, false, true) }
+        adapter = RecyclerCardAdapterLoading<CardPublication, Publication>(CardPublication::class) { publication -> CardPublication.instance(publication, vRecycler, false, false, true) }
                 .setBottomLoader { onLoad, cards ->
                     RUnitsGetAll()
                             .setOffset(cards.size)

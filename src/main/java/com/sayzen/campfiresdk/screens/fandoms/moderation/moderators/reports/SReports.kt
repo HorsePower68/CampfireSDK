@@ -32,7 +32,7 @@ class SReports(
         return RecyclerCardAdapterLoading<CardPublication, Publication>(CardPublication::class) { CardPublication.instance(it, null, false, false) }
                 .setBottomLoader { onLoad, cards ->
                     RUnitsReportedGetAll(fandomId, arrayOf(languageId), cards.size.toLong())
-                            .onComplete { r -> onLoad.invoke(r.units) }
+                            .onComplete { r -> onLoad.invoke(r.publications) }
                             .onNetworkError { onLoad.invoke(null) }
                             .send(api)
                 }

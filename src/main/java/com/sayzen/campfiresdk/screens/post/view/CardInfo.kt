@@ -65,11 +65,11 @@ class CardInfo(
         if (getView() == null) return
         val vAvatar: ViewAvatarTitle = getView()!!.findViewById(R.id.vAvatar)
         xPublication.xAccount.setView(vAvatar)
-        val unit = xPublication.publication as PublicationPost
-        if (unit.rubricId > 0) {
-            vAvatar.vSubtitle.text = vAvatar.getSubTitle() + "  " + unit.rubricName
-            ToolsView.addLink(vAvatar.vSubtitle, unit.rubricName) {
-                SRubricPosts.instance(unit.rubricId, Navigator.TO)
+        val publication = xPublication.publication as PublicationPost
+        if (publication.rubricId > 0) {
+            vAvatar.vSubtitle.text = vAvatar.getSubTitle() + "  " + publication.rubricName
+            ToolsView.addLink(vAvatar.vSubtitle, publication.rubricName) {
+                SRubricPosts.instance(publication.rubricId, Navigator.TO)
             }
         }
     }

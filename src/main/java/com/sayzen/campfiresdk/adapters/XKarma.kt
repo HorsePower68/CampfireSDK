@@ -11,38 +11,38 @@ import com.sup.dev.android.libs.screens.navigator.Navigator
 import com.sup.dev.java.libs.eventBus.EventBus
 
 class XKarma(
-        val unitId: Long,
+        val publicationId: Long,
         var karmaCount: Long,
         var myKarma: Long,
         val creatorId: Long,
-        val unitStatus: Long,
-        var onChanged: () -> kotlin.Unit
+        val publicationStatus: Long,
+        var onChanged: () -> Unit
 ) {
 
     var anon =  ControllerSettings.anonRates
 
     private val eventBus = EventBus
-            .subscribe(EventPublicationKarmaStateChanged::class) { if (it.publicationId == unitId) onChanged.invoke() }
+            .subscribe(EventPublicationKarmaStateChanged::class) { if (it.publicationId == publicationId) onChanged.invoke() }
             .subscribe(EventPublicationKarmaAdd::class) {
-                if (it.publicationId == unitId) {
+                if (it.publicationId == publicationId) {
                     myKarma = it.myKarma
                     karmaCount += it.myKarma
                     onChanged.invoke()
                 }
             }
 
-    constructor(unit: Publication, onChanged: () -> kotlin.Unit) : this(unit.id, unit.karmaCount, unit.myKarma, unit.creatorId, unit.status, onChanged) {}
+    constructor(publication: Publication, onChanged: () -> Unit) : this(publication.id, publication.karmaCount, publication.myKarma, publication.creatorId, publication.status, onChanged) {}
 
     fun setView(view: ViewKarma) {
-        view.update(unitId, karmaCount, myKarma, creatorId, unitStatus,
+        view.update(publicationId, karmaCount, myKarma, creatorId, publicationStatus,
                 { b -> rate(b) },
-                { Navigator.to(SPublicationRates(unitId, karmaCount, myKarma, creatorId, unitStatus)) }
+                { Navigator.to(SPublicationRates(publicationId, karmaCount, myKarma, creatorId, publicationStatus)) }
         )
     }
 
     fun rate(up: Boolean) {
-        if (ControllerKarma.getStartTime(unitId) > 0) ControllerKarma.stop(unitId)
-        else ControllerKarma.rate(unitId, up, anon)
+        if (ControllerKarma.getStartTime(publicationId) > 0) ControllerKarma.stop(publicationId)
+        else ControllerKarma.rate(publicationId, up, anon)
     }
 
 

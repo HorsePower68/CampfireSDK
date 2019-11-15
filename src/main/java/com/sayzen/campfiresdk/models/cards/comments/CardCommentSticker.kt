@@ -13,13 +13,13 @@ import com.sup.dev.android.tools.ToolsView
 import com.sup.dev.java.tools.ToolsHTML
 
 class CardCommentSticker(
-        unit: PublicationComment,
+        publication: PublicationComment,
         dividers: Boolean,
         miniSize: Boolean,
         onClick: ((PublicationComment) -> Boolean)? = null,
         onQuote: ((PublicationComment) -> Unit)? = null,
         onGoTo: ((Long) -> Unit)?
-) : CardComment( if (miniSize) R.layout.card_comment_sticker_mini else R.layout.card_comment_sticker, unit, dividers, miniSize, onClick, onQuote, onGoTo) {
+) : CardComment( if (miniSize) R.layout.card_comment_sticker_mini else R.layout.card_comment_sticker, publication, dividers, miniSize, onClick, onQuote, onGoTo) {
 
     init {
         changeEnabled = false
@@ -27,29 +27,29 @@ class CardCommentSticker(
     }
 
     override fun bind(view: View) {
-        val unit = xPublication.publication as PublicationComment
+        val publication = xPublication.publication as PublicationComment
 
         val vImage: ImageView = view.findViewById(R.id.vImage)
         val vGifProgressBar: View = view.findViewById(R.id.vGifProgressBar)
         val vLabelImageAnswer: TextView = view.findViewById(R.id.vLabelImageAnswer)
 
         val myName = ControllerApi.account.name
-        if (unit.text.startsWith(myName)) vLabelImageAnswer.text = ToolsHTML.font_color(myName, "#ff6d00")
-        else vLabelImageAnswer.text = unit.text
+        if (publication.text.startsWith(myName)) vLabelImageAnswer.text = ToolsHTML.font_color(myName, "#ff6d00")
+        else vLabelImageAnswer.text = publication.text
         ToolsView.makeTextHtml(vLabelImageAnswer)
 
-        vLabelImageAnswer.visibility = if (unit.text.isEmpty()) View.GONE else View.VISIBLE
+        vLabelImageAnswer.visibility = if (publication.text.isEmpty()) View.GONE else View.VISIBLE
         vLabelImageAnswer.setOnClickListener {
             if (onGoTo != null) {
-                if (unit.quoteId > 0) onGoTo!!.invoke(unit.quoteId)
-                else if (unit.parentPublicationId > 0) onGoTo!!.invoke(unit.parentPublicationId)
+                if (publication.quoteId > 0) onGoTo!!.invoke(publication.quoteId)
+                else if (publication.parentPublicationId > 0) onGoTo!!.invoke(publication.parentPublicationId)
             }
         }
 
         ToolsView.setOnLongClickCoordinates(vImage) { _, _, _ -> showMenu() }
 
-        vImage.setOnClickListener { SStickersView.instanceBySticker(unit.stickerId, Navigator.TO) }
+        vImage.setOnClickListener { SStickersView.instanceBySticker(publication.stickerId, Navigator.TO) }
 
-        ToolsImagesLoader.loadGif(unit.stickerImageId, unit.stickerGifId, unit.imageW, unit.imageH, vImage, vGifProgressBar, 1.7f)
+        ToolsImagesLoader.loadGif(publication.stickerImageId, publication.stickerGifId, publication.imageW, publication.imageH, vImage, vGifProgressBar, 1.7f)
     }
 }

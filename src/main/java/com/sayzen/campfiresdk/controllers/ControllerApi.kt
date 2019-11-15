@@ -396,9 +396,9 @@ object ControllerApi {
     fun linkToRubric(rubricId: Long) = API.LINK_RUBRIC + rubricId
     fun linkToSticker(id: Long) = API.LINK_STICKER + id
     fun linkToStickersPack(id: Long) = API.LINK_STICKERS_PACK + id
-    fun linkToPostComment(parentUnitId: Long, commentId: Long) = API.LINK_POST + parentUnitId + "_" + commentId
-    fun linkToModerationComment(parentUnitId: Long, commentId: Long) = API.LINK_MODERATION + parentUnitId + "_" + commentId
-    fun linkToStickersComment(parentUnitId: Long, commentId: Long) = API.LINK_STICKERS_PACK + parentUnitId + "_" + commentId
+    fun linkToPostComment(parentPublicationId: Long, commentId: Long) = API.LINK_POST + parentPublicationId + "_" + commentId
+    fun linkToModerationComment(parentPublicationId: Long, commentId: Long) = API.LINK_MODERATION + parentPublicationId + "_" + commentId
+    fun linkToStickersComment(parentPublicationId: Long, commentId: Long) = API.LINK_STICKERS_PACK + parentPublicationId + "_" + commentId
     fun linkToChat(fandomId: Long) = API.LINK_CHAT + fandomId
     fun linkToChat(fandomId: Long, languageId: Long) = API.LINK_CHAT + fandomId + "_" + languageId
     fun linkToChatMessage(messageId: Long, fandomId: Long, languageId: Long) = API.LINK_CHAT + fandomId + "_" + languageId + "_" + messageId
@@ -407,11 +407,11 @@ object ControllerApi {
     fun linkToEvent(eventId: Long) = API.LINK_EVENT + eventId
     fun linkToTag(tagId: Long) = API.LINK_TAG + tagId
     fun linkToComment(comment: PublicationComment) = linkToComment(comment.id, comment.parentPublicationType, comment.parentPublicationId)
-    fun linkToComment(commentId: Long, unitType: Long, unitId: Long): String {
-        return when (unitType) {
-            API.PUBLICATION_TYPE_POST -> linkToPostComment(unitId, commentId)
-            API.PUBLICATION_TYPE_MODERATION -> linkToModerationComment(unitId, commentId)
-            API.PUBLICATION_TYPE_STICKERS_PACK -> linkToStickersComment(unitId, commentId)
+    fun linkToComment(commentId: Long, publicationType: Long, publicationId: Long): String {
+        return when (publicationType) {
+            API.PUBLICATION_TYPE_POST -> linkToPostComment(publicationId, commentId)
+            API.PUBLICATION_TYPE_MODERATION -> linkToModerationComment(publicationId, commentId)
+            API.PUBLICATION_TYPE_STICKERS_PACK -> linkToStickersComment(publicationId, commentId)
             else -> ""
         }
     }
@@ -496,23 +496,23 @@ object ControllerApi {
     //  Share
     //
 
-    fun sharePost(unitId: Long) {
+    fun sharePost(publicationId: Long) {
         WidgetField()
                 .setHint(R.string.app_message)
                 .setOnCancel(R.string.app_cancel)
                 .setOnEnter(R.string.app_share) { _, text ->
-                    ToolsIntent.shareText(text + "\n\r" + linkToPost(unitId))
-                    ToolsThreads.main(10000) { RUnitsOnShare(unitId).send(api) }
+                    ToolsIntent.shareText(text + "\n\r" + linkToPost(publicationId))
+                    ToolsThreads.main(10000) { RUnitsOnShare(publicationId).send(api) }
                 }
                 .asSheetShow()
     }
 
-    fun shareReview(unitId: Long) {
+    fun shareReview(publicationId: Long) {
         WidgetField()
                 .setHint(R.string.app_message)
                 .setOnCancel(R.string.app_cancel)
                 .setOnEnter(R.string.app_share) { _, text ->
-                    ToolsIntent.shareText(text + "\n\r" + linkToReview(unitId))
+                    ToolsIntent.shareText(text + "\n\r" + linkToReview(publicationId))
                 }
                 .asSheetShow()
     }
@@ -521,47 +521,47 @@ object ControllerApi {
     //  Requests
     //
 
-    fun reportPublication(unitId: Long, stringRes: Int, stringResGone: Int) {
-        ApiRequestsSupporter.executeEnabledConfirm(stringRes, R.string.app_report, RUnitsReport(unitId)) {
+    fun reportPublication(publicationId: Long, stringRes: Int, stringResGone: Int) {
+        ApiRequestsSupporter.executeEnabledConfirm(stringRes, R.string.app_report, RUnitsReport(publicationId)) {
             ToolsToast.show(R.string.app_reported)
-            EventBus.post(EventPublicationReportsAdd(unitId))
+            EventBus.post(EventPublicationReportsAdd(publicationId))
         }
                 .onApiError(RUnitsReport.E_ALREADY_EXIST) { ToolsToast.show(R.string.app_report_already_exist) }
                 .onApiError(API.ERROR_GONE) { ToolsToast.show(stringResGone) }
     }
 
-    fun removePublication(unitId: Long, stringRes: Int, stringResGone: Int, onRemove: () -> Unit = {}) {
-        ApiRequestsSupporter.executeEnabledConfirm(stringRes, R.string.app_remove, RUnitsRemove(unitId)) {
-            EventBus.post(EventPublicationRemove(unitId))
+    fun removePublication(publicationId: Long, stringRes: Int, stringResGone: Int, onRemove: () -> Unit = {}) {
+        ApiRequestsSupporter.executeEnabledConfirm(stringRes, R.string.app_remove, RUnitsRemove(publicationId)) {
+            EventBus.post(EventPublicationRemove(publicationId))
             ToolsToast.show(R.string.app_removed)
             onRemove.invoke()
         }.onApiError(API.ERROR_GONE) { ToolsToast.show(stringResGone) }
     }
 
-    fun clearReportsPublication(unitId: Long, unitType: Long) {
-        when (unitType) {
-            API.PUBLICATION_TYPE_CHAT_MESSAGE -> clearReportsPublication(unitId, R.string.chat_clear_reports_confirm, R.string.chat_error_gone)
-            API.PUBLICATION_TYPE_POST -> clearReportsPublication(unitId, R.string.post_clear_reports_confirm, R.string.post_error_gone)
-            API.PUBLICATION_TYPE_COMMENT -> clearReportsPublication(unitId, R.string.comment_clear_reports_confirm, R.string.comment_error_gone)
-            API.PUBLICATION_TYPE_REVIEW -> clearReportsPublication(unitId, R.string.review_clear_reports_confirm, R.string.review_error_gone)
-            API.PUBLICATION_TYPE_STICKERS_PACK -> clearReportsPublication(unitId, R.string.stickers_packs_clear_reports_confirm, R.string.stickers_packs_error_gone)
+    fun clearReportsPublication(publicationId: Long, publicationType: Long) {
+        when (publicationType) {
+            API.PUBLICATION_TYPE_CHAT_MESSAGE -> clearReportsPublication(publicationId, R.string.chat_clear_reports_confirm, R.string.chat_error_gone)
+            API.PUBLICATION_TYPE_POST -> clearReportsPublication(publicationId, R.string.post_clear_reports_confirm, R.string.post_error_gone)
+            API.PUBLICATION_TYPE_COMMENT -> clearReportsPublication(publicationId, R.string.comment_clear_reports_confirm, R.string.comment_error_gone)
+            API.PUBLICATION_TYPE_REVIEW -> clearReportsPublication(publicationId, R.string.review_clear_reports_confirm, R.string.review_error_gone)
+            API.PUBLICATION_TYPE_STICKERS_PACK -> clearReportsPublication(publicationId, R.string.stickers_packs_clear_reports_confirm, R.string.stickers_packs_error_gone)
         }
     }
 
-    private fun clearReportsPublication(unitId: Long, stringRes: Int, stringResGone: Int) {
+    private fun clearReportsPublication(publicationId: Long, stringRes: Int, stringResGone: Int) {
         ApiRequestsSupporter.executeEnabledConfirm(
                 stringRes,
                 R.string.app_clear,
-                RUnitsAdminClearReports(unitId)
+                RUnitsAdminClearReports(publicationId)
         ) {
             ToolsToast.show(R.string.app_done)
-            EventBus.post(EventPublicationReportsClear(unitId))
+            EventBus.post(EventPublicationReportsClear(publicationId))
         }.onApiError(API.ERROR_GONE) { ToolsToast.show(stringResGone) }
     }
 
-    fun clearReportsUnitNow(unitId: Long) {
-        ApiRequestsSupporter.execute(RUnitsAdminClearReports(unitId)) {
-            EventBus.post(EventPublicationReportsClear(unitId))
+    fun clearReportsPublicationNow(publicationId: Long) {
+        ApiRequestsSupporter.execute(RUnitsAdminClearReports(publicationId)) {
+            EventBus.post(EventPublicationReportsClear(publicationId))
         }
     }
 

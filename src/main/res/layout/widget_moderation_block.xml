@@ -21,7 +21,7 @@
                 app:Settings_title="@string/moderation_widget_block_user_punishments"/>
 
             <com.sup.dev.android.views.settings.SettingsCheckBox
-                android:id="@+id/vRemoveUnits"
+                android:id="@+id/vRemovePublications"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:Settings_title="@string/moderation_widget_block_publications"/>

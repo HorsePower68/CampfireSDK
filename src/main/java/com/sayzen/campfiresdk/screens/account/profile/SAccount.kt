@@ -120,7 +120,7 @@ class SAccount private constructor(
         vTitle.text = r.account.name
 
 
-        adapter = RecyclerCardAdapterLoading<CardPublication, Publication>(CardPublication::class) { unit -> CardPublication.instance(unit, vRecycler, true, isShowFullInfo = true) }
+        adapter = RecyclerCardAdapterLoading<CardPublication, Publication>(CardPublication::class) { publication -> CardPublication.instance(publication, vRecycler, true, isShowFullInfo = true) }
                 .setBottomLoader { onLoad, cards ->
                     val r = RUnitsGetAll()
                             .setAccountId(r.account.id)

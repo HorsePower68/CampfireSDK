@@ -20,14 +20,14 @@ import com.sup.dev.android.views.views.ViewTextLinkable
 import com.sup.dev.java.tools.ToolsDate
 
 class CardPublicationEventUser(
-        unit: PublicationEventUser
-) : CardPublication(R.layout.card_event, unit) {
+        publication: PublicationEventUser
+) : CardPublication(R.layout.card_event, publication) {
 
     private val xAccount: XAccount
     private val xAccountAdmin: XAccount
 
     init {
-        val e = unit.event!!
+        val e = publication.event!!
         xAccount = XAccount(e.ownerAccountId, e.ownerAccountName, e.ownerAccountImageId, 0, 0) { update() }
         xAccountAdmin = XAccount(e.adminAccountId, e.adminAccountName, e.adminAccountImageId, 0, 0) { update() }
     }
@@ -35,19 +35,19 @@ class CardPublicationEventUser(
     override fun bindView(view: View) {
         super.bindView(view)
 
-        val unit = xPublication.publication as PublicationEventUser
+        val publication = xPublication.publication as PublicationEventUser
 
         val vAvatarTitle: ViewAvatar = view.findViewById(R.id.vAvatar)
         val vText: ViewTextLinkable = view.findViewById(R.id.vText)
         val vDate: TextView = view.findViewById(R.id.vDate)
         val vName: TextView = view.findViewById(R.id.vName)
 
-        vDate.text = ToolsDate.dateToString(unit.dateCreate)
+        vDate.text = ToolsDate.dateToString(publication.dateCreate)
         vName.text = ""
         vAvatarTitle.vImageView.setBackgroundColor(0x00000000)  //  For achievements background
         view.setOnClickListener { }
 
-        val e = unit.event!!
+        val e = publication.event!!
         var text = ""
         var imageRedId = 0
 
@@ -59,8 +59,8 @@ class CardPublicationEventUser(
                 imageRedId = CampfireConstants.getAchievement(e.achievementIndex).image
                 vAvatarTitle.vImageView.tag = null
                 vAvatarTitle.vImageView.setBackgroundColor(ToolsResources.getColor(CampfireConstants.getAchievement(e.achievementIndex).colorRes))
-                vAvatarTitle.setOnClickListener { ControllerCampfireSDK.onToAchievementClicked(unit.creatorId, unit.creatorName, e.achievementIndex, false, Navigator.TO) }
-                view.setOnClickListener { ControllerCampfireSDK.onToAchievementClicked(unit.creatorId, unit.creatorName, e.achievementIndex, false, Navigator.TO) }
+                vAvatarTitle.setOnClickListener { ControllerCampfireSDK.onToAchievementClicked(publication.creatorId, publication.creatorName, e.achievementIndex, false, Navigator.TO) }
+                view.setOnClickListener { ControllerCampfireSDK.onToAchievementClicked(publication.creatorId, publication.creatorName, e.achievementIndex, false, Navigator.TO) }
             }
             is ApiEventUserQuestFinish -> {
                 text = ToolsResources.sCap(R.string.publication_event_quest_finish, ToolsResources.sex(e.ownerAccountSex, R.string.he_finished, R.string.she_finished)) +":"
@@ -68,20 +68,20 @@ class CardPublicationEventUser(
                 imageRedId = CampfireConstants.getAchievement(API.ACHI_QUESTS).image
                 vAvatarTitle.vImageView.tag = null
                 vAvatarTitle.vImageView.setBackgroundColor(ToolsResources.getColor(CampfireConstants.getAchievement(API.ACHI_QUESTS).colorRes))
-                vAvatarTitle.setOnClickListener { ControllerCampfireSDK.onToAchievementClicked(unit.creatorId, unit.creatorName, API.ACHI_QUESTS.index, false, Navigator.TO) }
-                view.setOnClickListener { ControllerCampfireSDK.onToAchievementClicked(unit.creatorId, unit.creatorName, API.ACHI_QUESTS.index, false, Navigator.TO) }
+                vAvatarTitle.setOnClickListener { ControllerCampfireSDK.onToAchievementClicked(publication.creatorId, publication.creatorName, API.ACHI_QUESTS.index, false, Navigator.TO) }
+                view.setOnClickListener { ControllerCampfireSDK.onToAchievementClicked(publication.creatorId, publication.creatorName, API.ACHI_QUESTS.index, false, Navigator.TO) }
             }
             is ApiEventUserAdminBaned -> {
                 text = ToolsResources.sCap(R.string.publication_event_blocked_app, ToolsResources.sex(e.adminAccountSex, R.string.he_baned, R.string.she_baned), ToolsDate.dateToStringFull(e.blockDate), ControllerApi.linkToUser(e.adminAccountName))
                 view.setOnClickListener { ControllerCampfireSDK.onToAccountClicked(e.ownerAccountId, Navigator.TO) }
             }
-            is ApiEventUserAdminUnitBlocked -> {
-                val unitName = ControllerPublications.getName(e.unitType)
-                text = ToolsResources.sCap(R.string.publication_event_blocked_publication, ControllerApi.linkToUser(e.adminAccountName), ToolsResources.sex(e.adminAccountSex, R.string.he_blocked, R.string.she_blocked), unitName)
+            is ApiEventUserAdminPublicationBlocked -> {
+                val publicationName = ControllerPublications.getName(e.publicationType)
+                text = ToolsResources.sCap(R.string.publication_event_blocked_publication, ControllerApi.linkToUser(e.adminAccountName), ToolsResources.sex(e.adminAccountSex, R.string.he_blocked, R.string.she_blocked), publicationName)
                 if (e.blockAccountDate > 0 && e.blockFandomId < 1) text += "\n" + ToolsResources.s(R.string.publication_event_account_blocked_date, ToolsDate.dateToStringFull(e.blockAccountDate))
                 if (e.blockAccountDate > 0 && e.blockFandomId > 0) text += "\n" + ToolsResources.s(R.string.publication_event_account_blocked_date_fandom, ToolsDate.dateToStringFull(e.blockAccountDate), "${e.blockFandomName}")
                 if (e.warned) text += "\n" + ToolsResources.s(R.string.publication_event_account_blocked_warn)
-                if (e.lastUnitsBlocked) text += "\n" + ToolsResources.s(R.string.publication_event_account_blocked_last_publications)
+                if (e.lastPublicationsBlocked) text += "\n" + ToolsResources.s(R.string.publication_event_account_blocked_last_publications)
                 view.setOnClickListener {
                     if(e.moderationId > 0) ControllerCampfireSDK.onToModerationClicked(e.moderationId, 0L, Navigator.TO)
                     else ControllerCampfireSDK.onToAccountClicked(e.ownerAccountId, Navigator.TO)
@@ -123,7 +123,7 @@ class CardPublicationEventUser(
                 text = ToolsResources.sCap(R.string.publication_event_remove_titile_image, ControllerApi.linkToUser(e.adminAccountName), ToolsResources.sex(e.ownerAccountSex, R.string.he_remove, R.string.she_remove))
                 view.setOnClickListener { ControllerCampfireSDK.onToAccountClicked(e.ownerAccountId, Navigator.TO) }
             }
-            is ApiEventUserAdminUnitRestored -> {
+            is ApiEventUserAdminPublicationRestored -> {
                 text = ToolsResources.sCap(R.string.publication_event_publication_restore, ControllerApi.linkToUser(e.adminAccountName), ToolsResources.sex(e.ownerAccountSex, R.string.he_restore, R.string.she_restore))
                 view.setOnClickListener { ControllerCampfireSDK.onToFandomClicked(e.moderationId, 0, Navigator.TO) }
             }
@@ -158,7 +158,7 @@ class CardPublicationEventUser(
         if (imageRedId != 0) {
             vAvatarTitle.vImageView.tag = null
             vAvatarTitle.vImageView.setImageResource(imageRedId)
-        } else if (showFandom && unit.fandomId > 0) {
+        } else if (showFandom && publication.fandomId > 0) {
             xPublication.xFandom.setView(vAvatarTitle)
             vName.text = xPublication.xFandom.name
         } else if(e.adminAccountId > 0){
@@ -172,7 +172,7 @@ class CardPublicationEventUser(
         when (e) {
             is ApiEventUserFandomMakeModerator -> ToolsView.addLink(vText, e.fandomName) { SFandom.instance(e.fandomId, Navigator.TO) }
             is ApiEventUserFandomRemoveModerator -> ToolsView.addLink(vText, e.fandomName) { SFandom.instance(e.fandomId, Navigator.TO) }
-            is ApiEventUserAdminUnitBlocked -> ToolsView.addLink(vText, e.blockFandomName) { SFandom.instance(e.blockFandomId, Navigator.TO) }
+            is ApiEventUserAdminPublicationBlocked -> ToolsView.addLink(vText, e.blockFandomName) { SFandom.instance(e.blockFandomId, Navigator.TO) }
         }
     }
 

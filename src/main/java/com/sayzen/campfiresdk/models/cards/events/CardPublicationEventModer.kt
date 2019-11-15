@@ -13,32 +13,32 @@ import com.sup.dev.android.views.views.ViewTextLinkable
 import com.sup.dev.java.tools.ToolsDate
 
 class CardPublicationEventModer(
-        unit: PublicationEventModer
-) : CardPublication(R.layout.card_event, unit) {
+        publication: PublicationEventModer
+) : CardPublication(R.layout.card_event, publication) {
 
     private val xAccount: XAccount
 
     init {
-        val e = unit.event!!
+        val e = publication.event!!
         xAccount = XAccount(e.ownerAccountId, e.ownerAccountName, e.ownerAccountImageId, 0, 0) { update() }
     }
 
     override fun bindView(view: View) {
         super.bindView(view)
 
-        val unit = xPublication.publication as PublicationEventModer
+        val publication = xPublication.publication as PublicationEventModer
 
         val vAvatarTitle: ViewAvatar = view.findViewById(R.id.vAvatar)
         val vText: ViewTextLinkable = view.findViewById(R.id.vText)
         val vDate: TextView = view.findViewById(R.id.vDate)
         val vName: TextView = view.findViewById(R.id.vName)
 
-        vDate.text = ToolsDate.dateToString(unit.dateCreate)
+        vDate.text = ToolsDate.dateToString(publication.dateCreate)
         vName.text = ""
         vAvatarTitle.vImageView.setBackgroundColor(0x00000000)  //  For achievements background
         view.setOnClickListener { }
 
-        val e = unit.event!!
+        val e = publication.event!!
         var text = ""
 
         xPublication.xAccount.lvl = 0    //  Чтоб везде небыло уровней а не на 90% крточек
@@ -52,7 +52,7 @@ class CardPublicationEventModer(
         vText.text = text
         ControllerApi.makeLinkable(vText)
 
-        if (showFandom && unit.fandomId > 0) {
+        if (showFandom && publication.fandomId > 0) {
             xPublication.xFandom.setView(vAvatarTitle)
             vName.text = xPublication.xFandom.name
         } else {

@@ -9,7 +9,7 @@ import com.sup.dev.android.views.screens.SLoadingRecycler
 import com.sup.dev.android.views.support.adapters.recycler_view.RecyclerCardAdapterLoading
 
 class SPublicationHistory(
-        val unitId: Long
+        val publicationId: Long
 ) : SLoadingRecycler<CardHistoryUnit, HistoryPublication>() {
 
     init {
@@ -21,7 +21,7 @@ class SPublicationHistory(
     override fun instanceAdapter(): RecyclerCardAdapterLoading<CardHistoryUnit, HistoryPublication> {
         return RecyclerCardAdapterLoading<CardHistoryUnit, HistoryPublication>(CardHistoryUnit::class) { CardHistoryUnit(it) }
                 .setBottomLoader { onLoad, cards ->
-                    RUnitsHistoryGetAll(unitId, cards.size.toLong())
+                    RUnitsHistoryGetAll(publicationId, cards.size.toLong())
                             .onComplete { r ->
                                 onLoad.invoke(r.history)
                             }

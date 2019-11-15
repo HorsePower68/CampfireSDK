@@ -28,7 +28,7 @@ import com.sup.dev.java.libs.eventBus.EventBus
 import com.sup.dev.java.tools.ToolsColor
 
 class WidgetModerationBlock(
-        private val unit: com.dzen.campfire.api.models.publications.Publication,
+        private val publication: com.dzen.campfire.api.models.publications.Publication,
         private val bansCount: Long,
         private val warnsCount: Long,
         private val onBlock: () -> Unit = {}
@@ -40,7 +40,7 @@ class WidgetModerationBlock(
 
     private val vTemplate: Button = findViewById(R.id.vTemplate)
     private val vComment: SettingsField = findViewById(R.id.vComment)
-    private val vBlockLast: SettingsCheckBox = findViewById(R.id.vRemoveUnits)
+    private val vBlockLast: SettingsCheckBox = findViewById(R.id.vRemovePublications)
     private val vBlockUser: SettingsSelection = findViewById(R.id.vBlockUser)
     private val vPunishments: SettingsArrow = findViewById(R.id.vPunishments)
     private val vBlockInApp: SettingsCheckBox = findViewById(R.id.vBlockInApp)
@@ -51,10 +51,10 @@ class WidgetModerationBlock(
 
     companion object {
 
-        fun show(unit: com.dzen.campfire.api.models.publications.Publication, onBlock: () -> Unit = {}, onShow: (WidgetModerationBlock) -> Unit = {}) {
+        fun show(publications: com.dzen.campfire.api.models.publications.Publication, onBlock: () -> Unit = {}, onShow: (WidgetModerationBlock) -> Unit = {}) {
 
-            ApiRequestsSupporter.executeProgressDialog(RAccountsPunishmentsGetInfo(unit.creatorId)) { r ->
-                val w = WidgetModerationBlock(unit, r.bansCount, r.warnsCount, onBlock)
+            ApiRequestsSupporter.executeProgressDialog(RAccountsPunishmentsGetInfo(publications.creatorId)) { r ->
+                val w = WidgetModerationBlock(publications, r.bansCount, r.warnsCount, onBlock)
                 onShow.invoke(w)
                 w.asSheetShow()
             }
@@ -63,14 +63,14 @@ class WidgetModerationBlock(
     }
 
     init {
-        if (unit.publicationType == API.PUBLICATION_TYPE_REVIEW) vBlockLast.visibility = View.GONE
+        if (publication.publicationType == API.PUBLICATION_TYPE_REVIEW) vBlockLast.visibility = View.GONE
 
         vComment.vField.addTextChangedListener(TextWatcherChanged { updateFinishEnabled() })
 
         if (bansCount > 0 || warnsCount > 2) vPunishments.setBackgroundColor(ToolsColor.setAlpha(100, ToolsResources.getColor(R.color.red_700)))
         vPunishments.setTitle(ToolsResources.s(R.string.moderation_widget_block_user_punishments, bansCount, warnsCount))
         vPunishments.setOnClickListener {
-            val screen = SPunishments(unit.creatorId, unit.creatorName)
+            val screen = SPunishments(publication.creatorId, publication.creatorName)
             screen.setOnBackPressed {
                 Navigator.back()
                 asSheetShow()
@@ -81,8 +81,8 @@ class WidgetModerationBlock(
         }
 
         vBlockInApp.visibility = if (ControllerApi.can(API.LVL_ADMIN_BAN)) View.VISIBLE else View.GONE
-        if(unit.publicationType == API.PUBLICATION_TYPE_STICKERS_PACK
-                ||unit.publicationType == API.PUBLICATION_TYPE_STICKER){
+        if(publication.publicationType == API.PUBLICATION_TYPE_STICKERS_PACK
+                ||publication.publicationType == API.PUBLICATION_TYPE_STICKER){
             vBlockInApp.visibility = View.GONE
             vBlockInApp.setChecked(true)
         }
@@ -107,8 +107,8 @@ class WidgetModerationBlock(
             val w = WidgetMenu()
             CampfireConstants.RULES_USER
             for (i in CampfireConstants.RULES_USER)
-                w.add(ToolsResources.sLang(ControllerApi.getLanguage(unit.languageId).code, i.title))
-                { _, _ -> vComment.setText(ToolsResources.sLang(ControllerApi.getLanguage(unit.languageId).code, i.text)) }
+                w.add(ToolsResources.sLang(ControllerApi.getLanguage(publication.languageId).code, i.title))
+                { _, _ -> vComment.setText(ToolsResources.sLang(ControllerApi.getLanguage(publication.languageId).code, i.text)) }
             w.asSheetShow()
         }
 
@@ -149,9 +149,9 @@ class WidgetModerationBlock(
         val blockInApp = if (ControllerApi.can(API.LVL_ADMIN_BAN)) vBlockInApp.isChecked() else false
 
         ApiRequestsSupporter.executeEnabledConfirm(alertText, alertAction,
-                RFandomsModerationBlock(unit.id, banTime, vBlockLast.isChecked(), vComment.getText().trim { it <= ' ' }, blockInApp, ControllerApi.getLanguageId())) { r ->
+                RFandomsModerationBlock(publication.id, banTime, vBlockLast.isChecked(), vComment.getText().trim { it <= ' ' }, blockInApp, ControllerApi.getLanguageId())) { r ->
             onBlock.invoke()
-            afterBlock(r.blockedUnitsIds, r.unitChatMessage)
+            afterBlock(r.blockedPublicationsIds, r.publicationChatMessage)
             ToolsToast.show(finishToast)
             hide()
         }
@@ -171,12 +171,12 @@ class WidgetModerationBlock(
                 }
     }
 
-    private fun afterBlock(blockedUnitsIds: Array<Long>, unitChatMessage: PublicationChatMessage?) {
-        if (unit.publicationType == API.PUBLICATION_TYPE_REVIEW) {
-            EventBus.post(EventFandomReviewTextRemoved(unit.id))
+    private fun afterBlock(blockedPublicationsIds: Array<Long>, publicationChatMessage: PublicationChatMessage?) {
+        if (publication.publicationType == API.PUBLICATION_TYPE_REVIEW) {
+            EventBus.post(EventFandomReviewTextRemoved(publication.id))
         } else {
-            for (id in blockedUnitsIds) EventBus.post(EventPublicationRemove(id))
-            for (id in blockedUnitsIds) EventBus.post(EventPublicationBlocked(id, unit.id, unitChatMessage))
+            for (id in blockedPublicationsIds) EventBus.post(EventPublicationRemove(id))
+            for (id in blockedPublicationsIds) EventBus.post(EventPublicationBlocked(id, publication.id, publicationChatMessage))
         }
     }
 

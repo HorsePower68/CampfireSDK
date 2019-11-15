@@ -229,7 +229,7 @@ class SChat private constructor(
                                 .onComplete { r ->
                                     if(isLoadTargetDate){
                                         startOffsetDate = 0
-                                        onLoad.invoke(r.units)
+                                        onLoad.invoke(r.publications)
                                         adapter!!.loadBottom()
                                     }else {
                                         if (loaded) {
@@ -238,14 +238,14 @@ class SChat private constructor(
                                         }
                                         loaded = true
                                         adapter!!.remove(carSpace)
-                                        onLoad.invoke(r.units)
+                                        onLoad.invoke(r.publications)
                                         adapter!!.add(carSpace)
                                         if (scrollAfterLoad) {
                                             scrollAfterLoad = false
                                             vRecycler.smoothScrollToPosition(vRecycler.adapter!!.itemCount)
                                         }
                                         EventBus.post(EventChatRead(tag))
-                                        if (r.units.isNotEmpty()) EventBus.post(EventChatNewBottomMessage(tag, r.units[r.units.size - 1]))
+                                        if (r.publications.isNotEmpty()) EventBus.post(EventChatNewBottomMessage(tag, r.publications[r.publications.size - 1]))
                                         ToolsThreads.main(true) {
                                             for (c in addAfterLoadList) addMessage(c, true)
                                         }
@@ -258,7 +258,7 @@ class SChat private constructor(
                 }
                 .setTopLoader { onLoad, cards ->
                     subscription = RChatMessageGetAll(tag, if (cards.isEmpty()) 0 else cards[0].xPublication.publication.dateCreate, true, false)
-                            .onComplete { r -> onLoad.invoke(r.units) }
+                            .onComplete { r -> onLoad.invoke(r.publications) }
                             .onNetworkError { onLoad.invoke(null) }
                             .send(api)
                 }
@@ -270,18 +270,18 @@ class SChat private constructor(
 
     private fun instanceCard(u: PublicationChatMessage): CardChatMessage {
         return CardChatMessage.instance(u,
-                onClick = { unit ->
-                    if (ControllerApi.isCurrentAccount(unit.creatorId)) {
+                onClick = { publication ->
+                    if (ControllerApi.isCurrentAccount(publication.creatorId)) {
                         false
                     } else {
-                        fieldLogic.setAnswer(unit, true)
+                        fieldLogic.setAnswer(publication, true)
                         true
                     }
                 },
-                onChange = { unit -> fieldLogic.setChange(unit) },
-                onQuote = { unit ->
-                    if (!ControllerApi.isCurrentAccount(unit.creatorId)) fieldLogic.setAnswer(unit, false)
-                    fieldLogic.setQuote(unit)
+                onChange = { publication -> fieldLogic.setChange(publication) },
+                onQuote = { publication ->
+                    if (!ControllerApi.isCurrentAccount(publication.creatorId)) fieldLogic.setAnswer(publication, false)
+                    fieldLogic.setQuote(publication)
                     ToolsView.showKeyboard(fieldLogic.vText)
                 },
                 onGoTo = { id ->
@@ -331,7 +331,7 @@ class SChat private constructor(
 
 
     override fun onBackPressed(): Boolean {
-        if (fieldLogic.unitChange != null) {
+        if (fieldLogic.publivationChange != null) {
             fieldLogic.setChange(null)
             return true
         }
@@ -389,8 +389,8 @@ class SChat private constructor(
     private fun onNotification(e: EventNotification) {
         if (e.notification is NotificationChatMessage) {
             val n = e.notification
-            if (tag == n.tag && !ControllerApi.isCurrentAccount(n.unitChatMessage.creatorId)) {
-                addMessage(n.unitChatMessage, false)
+            if (tag == n.tag && !ControllerApi.isCurrentAccount(n.publicationChatMessage.creatorId)) {
+                addMessage(n.publicationChatMessage, false)
 
                 if (Navigator.getCurrent() == this && SupAndroid.activityIsVisible) ControllerChats.readRequest(tag)
                 else needUpdate = true
@@ -401,7 +401,7 @@ class SChat private constructor(
         if (e.notification is NotificationChatAnswer) {
             val n = e.notification
             if (tag == n.tag) {
-                addMessage(n.unitChatMessage, false)
+                addMessage(n.publicationChatMessage, false)
                 ControllerChats.readRequest(tag)
 
                 if (Navigator.getCurrent() == this && SupAndroid.activityIsVisible) ControllerChats.readRequest(tag)

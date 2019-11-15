@@ -19,10 +19,10 @@ class SAdministrationDeepBlocked(val accountId: Long) : SLoadingRecycler<CardPub
     }
 
     override fun instanceAdapter(): RecyclerCardAdapterLoading<CardPublication, Publication> {
-        return RecyclerCardAdapterLoading<CardPublication, Publication>(CardPublication::class) { unit -> CardPublication.instance(unit, vRecycler, true, false, true, true) }
+        return RecyclerCardAdapterLoading<CardPublication, Publication>(CardPublication::class) { publication -> CardPublication.instance(publication, vRecycler, true, false, true, true) }
                 .setBottomLoader { onLoad, cards ->
                     RUnitsGetAllDeepBlocked(accountId, cards.size.toLong())
-                            .onComplete { r -> onLoad.invoke(r.units) }
+                            .onComplete { r -> onLoad.invoke(r.publications) }
                             .onNetworkError { onLoad.invoke(null) }
                             .send(api)
                 }

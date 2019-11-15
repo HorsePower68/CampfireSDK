@@ -43,8 +43,8 @@ class SFandomChatsList constructor(
     }
 
     override fun instanceAdapter(): RecyclerCardAdapterLoading<CardChat, Chat> {
-        return RecyclerCardAdapterLoading<CardChat, Chat>(CardChat::class) { unit ->
-            val card = CardChat(unit, unit.unreadCount.toInt(), unit.subscribed)
+        return RecyclerCardAdapterLoading<CardChat, Chat>(CardChat::class) { publication ->
+            val card = CardChat(publication, publication.unreadCount.toInt(), publication.subscribed)
             card.setStack = false
             card
         }

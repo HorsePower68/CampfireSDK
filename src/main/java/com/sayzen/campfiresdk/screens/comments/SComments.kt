@@ -21,14 +21,14 @@ class SComments constructor(
 
     companion object {
 
-        fun instance(unitId: Long, commentId: Long, action: NavigationAction) {
-            Navigator.action(action, SComments(unitId, commentId))
+        fun instance(publicationId: Long, commentId: Long, action: NavigationAction) {
+            Navigator.action(action, SComments(publicationId, commentId))
         }
 
     }
 
     private val eventBus: EventBusSubscriber = EventBus
-            .subscribe(EventPublicationRemove::class) { this.onEventUnitRemove(it) }
+            .subscribe(EventPublicationRemove::class) { this.onEventPublicationRemove(it) }
             .subscribe(EventCommentsCountChanged::class) { this.onEventCommentsCountChanged(it) }
 
     private val vRecycler: RecyclerView = findViewById(R.id.vRecycler)
@@ -55,7 +55,7 @@ class SComments constructor(
         if (e.publicationId == publicationId) adapter.loadBottom()
     }
 
-    private fun onEventUnitRemove(e: EventPublicationRemove) {
+    private fun onEventPublicationRemove(e: EventPublicationRemove) {
         if (e.publicationId == publicationId) Navigator.remove(this)
     }
 

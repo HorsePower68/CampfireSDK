@@ -37,10 +37,10 @@ class SBookmarks private constructor() : SLoadingRecycler<CardPublication, Publi
     }
 
     override fun instanceAdapter(): RecyclerCardAdapterLoading<CardPublication, Publication> {
-        return RecyclerCardAdapterLoading<CardPublication, Publication>(CardPublication::class) { unit -> CardPublication.instance(unit, vRecycler) }
+        return RecyclerCardAdapterLoading<CardPublication, Publication>(CardPublication::class) { publication -> CardPublication.instance(publication, vRecycler) }
                 .setBottomLoader { onLoad, cards ->
                     RUnitsBookmarksGetAll(cards.size.toLong(), "", ControllerCampfireSDK.ROOT_FANDOM_ID, 0)
-                            .onComplete { r -> onLoad.invoke(r.units) }
+                            .onComplete { r -> onLoad.invoke(r.publications) }
                             .onNetworkError { onLoad.invoke(null) }
                             .send(api)
                 }

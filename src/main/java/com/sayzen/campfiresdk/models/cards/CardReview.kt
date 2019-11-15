@@ -31,7 +31,7 @@ class CardReview(
 
     override fun bindView(view: View) {
         super.bindView(view)
-        val unit = xPublication.publication as PublicationReview
+        val publication = xPublication.publication as PublicationReview
 
         val vText: ViewTextLinkable = view.findViewById(R.id.vText)
         val vMenu: View = view.findViewById(R.id.vMenu)
@@ -42,22 +42,22 @@ class CardReview(
         val vStar4: ImageView = view.findViewById(R.id.vStar4)
         val vStar5: ImageView = view.findViewById(R.id.vStar5)
 
-        if (unit.rate == 5L) vTopContainer.setBackgroundColor(ToolsColor.setAlpha(60, ToolsResources.getColor(R.color.green_700)))
-        if (unit.rate == 4L) vTopContainer.setBackgroundColor(ToolsColor.setAlpha(30, ToolsResources.getColor(R.color.green_700)))
-        if (unit.rate == 3L) vTopContainer.setBackgroundColor(ToolsColor.setAlpha(60, ToolsResources.getColor(R.color.yellow_700)))
-        if (unit.rate == 2L) vTopContainer.setBackgroundColor(ToolsColor.setAlpha(30, ToolsResources.getColor(R.color.red_700)))
-        if (unit.rate == 1L) vTopContainer.setBackgroundColor(ToolsColor.setAlpha(60, ToolsResources.getColor(R.color.red_700)))
+        if (publication.rate == 5L) vTopContainer.setBackgroundColor(ToolsColor.setAlpha(60, ToolsResources.getColor(R.color.green_700)))
+        if (publication.rate == 4L) vTopContainer.setBackgroundColor(ToolsColor.setAlpha(30, ToolsResources.getColor(R.color.green_700)))
+        if (publication.rate == 3L) vTopContainer.setBackgroundColor(ToolsColor.setAlpha(60, ToolsResources.getColor(R.color.yellow_700)))
+        if (publication.rate == 2L) vTopContainer.setBackgroundColor(ToolsColor.setAlpha(30, ToolsResources.getColor(R.color.red_700)))
+        if (publication.rate == 1L) vTopContainer.setBackgroundColor(ToolsColor.setAlpha(60, ToolsResources.getColor(R.color.red_700)))
 
         vMenu.setOnClickListener { onMenuClicked() }
 
-        vText.text = unit.text
-        vText.visibility = if (unit.text.isEmpty()) View.GONE else View.VISIBLE
+        vText.text = publication.text
+        vText.visibility = if (publication.text.isEmpty()) View.GONE else View.VISIBLE
 
-        vStar1.setImageResource(ToolsResources.getDrawableAttrId(if (unit.rate >= 1) R.attr.ic_star_24dp else R.attr.ic_star_border_24dp))
-        vStar2.setImageResource(ToolsResources.getDrawableAttrId(if (unit.rate >= 2) R.attr.ic_star_24dp else R.attr.ic_star_border_24dp))
-        vStar3.setImageResource(ToolsResources.getDrawableAttrId(if (unit.rate >= 3) R.attr.ic_star_24dp else R.attr.ic_star_border_24dp))
-        vStar4.setImageResource(ToolsResources.getDrawableAttrId(if (unit.rate >= 4) R.attr.ic_star_24dp else R.attr.ic_star_border_24dp))
-        vStar5.setImageResource(ToolsResources.getDrawableAttrId(if (unit.rate >= 5) R.attr.ic_star_24dp else R.attr.ic_star_border_24dp))
+        vStar1.setImageResource(ToolsResources.getDrawableAttrId(if (publication.rate >= 1) R.attr.ic_star_24dp else R.attr.ic_star_border_24dp))
+        vStar2.setImageResource(ToolsResources.getDrawableAttrId(if (publication.rate >= 2) R.attr.ic_star_24dp else R.attr.ic_star_border_24dp))
+        vStar3.setImageResource(ToolsResources.getDrawableAttrId(if (publication.rate >= 3) R.attr.ic_star_24dp else R.attr.ic_star_border_24dp))
+        vStar4.setImageResource(ToolsResources.getDrawableAttrId(if (publication.rate >= 4) R.attr.ic_star_24dp else R.attr.ic_star_border_24dp))
+        vStar5.setImageResource(ToolsResources.getDrawableAttrId(if (publication.rate >= 5) R.attr.ic_star_24dp else R.attr.ic_star_border_24dp))
     }
 
     override fun updateAccount() {

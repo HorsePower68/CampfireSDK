@@ -63,7 +63,7 @@ object ControllerCampfireSDK {
     var ON_TO_POST_CLICKED: (postId: Long, commentId: Long, action: NavigationAction) -> Unit = { postId, commentId, _ -> openLink(ControllerApi.linkToPostComment(postId, commentId)) }
     var ON_TO_DRAFTS_CLICKED: (action: NavigationAction) -> Unit = { }
     var ON_TO_DRAFT_CLICKED: (postId: Long, action: NavigationAction) -> Unit = { _, _ -> }
-    var ON_TO_POST_TAGS_CLICKED: (postId: Long, isMyUnit: Boolean, action: NavigationAction) -> Unit = { _, _, _ -> }
+    var ON_TO_POST_TAGS_CLICKED: (postId: Long, isMyPublication: Boolean, action: NavigationAction) -> Unit = { _, _, _ -> }
     var ON_TO_ACHIEVEMENT_CLICKED: (accountId: Long, accountName: String, achievementIndex: Long, toPrev: Boolean, action: NavigationAction) -> Unit = { _, _, _, _, _ -> }
     var ON_SCREEN_CHAT_START: () -> Unit = { }
 
@@ -117,8 +117,8 @@ object ControllerCampfireSDK {
         ON_TO_DRAFTS_CLICKED.invoke(action)
     }
 
-    fun onToPostTagsClicked(postId: Long, isMyUnit: Boolean, action: NavigationAction) {
-        ON_TO_POST_TAGS_CLICKED.invoke(postId, isMyUnit, action)
+    fun onToPostTagsClicked(postId: Long, isMyPublication: Boolean, action: NavigationAction) {
+        ON_TO_POST_TAGS_CLICKED.invoke(postId, isMyPublication, action)
     }
 
 

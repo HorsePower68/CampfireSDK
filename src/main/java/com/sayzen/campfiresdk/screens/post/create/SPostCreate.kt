@@ -40,9 +40,9 @@ class SPostCreate constructor(
 
     companion object {
 
-        fun instance(unitId: Long, action: NavigationAction, onOpen: (SPostCreate) -> Unit = {}) {
-            ApiRequestsSupporter.executeInterstitial(action, RPostGetDraft(unitId)) { r ->
-                val screen = SPostCreate(r.unit.fandomId, r.unit.languageId, r.unit.fandomName, r.unit.fandomImageId, r.unit, Array(r.tags.size) { r.tags[it].id }, true)
+        fun instance(publicationId: Long, action: NavigationAction, onOpen: (SPostCreate) -> Unit = {}) {
+            ApiRequestsSupporter.executeInterstitial(action, RPostGetDraft(publicationId)) { r ->
+                val screen = SPostCreate(r.publication.fandomId, r.publication.languageId, r.publication.fandomName, r.publication.fandomImageId, r.publication, Array(r.tags.size) { r.tags[it].id }, true)
                 onOpen.invoke(screen)
                 screen
             }
@@ -71,23 +71,23 @@ class SPostCreate constructor(
     private val xPostCreator = PostCreator(changePost?.pages?: emptyArray(), vRecycler, vAdd, vFinish, { backIfEmptyAndNewerAdd() }, requestPutPage(), requestRemovePage(), requestChangePage(), requestMovePage())
     private val xFandom = XFandom(fandomId, languageId, fandomName, fandomImageId) { updateTitle() }
 
-    private var unitId = 0L
-    private var unitTag3 = 0L
+    private var publicationId = 0L
+    private var publicationTag3 = 0L
     private var closed = false
 
     init {
         isSingleInstanceInBackStack = true
 
-        this.unitId = changePost?.id ?: 0
-        this.unitTag3 = changePost?.tag_3 ?: 0
+        this.publicationId = changePost?.id ?: 0
+        this.publicationTag3 = changePost?.tag_3 ?: 0
         this.closed = changePost?.closed ?: false
 
         vFinish.setOnClickListener {
-            if (changePost == null || changePost.isDraft) SPostCreationTags.instance(unitId, closed, unitTag3, true, fandomId, languageId, tags, Navigator.TO)
+            if (changePost == null || changePost.isDraft) SPostCreationTags.instance(publicationId, closed, publicationTag3, true, fandomId, languageId, tags, Navigator.TO)
             else Navigator.back()
         }
         vFinish.setOnLongClickListener {
-            SPostCreationTags.create(unitId, tags, false, 0, false, 0) { SPost.instance(unitId, 0, NavigationAction.replace()) }
+            SPostCreationTags.create(publicationId, tags, false, 0, false, 0) { SPost.instance(publicationId, 0, NavigationAction.replace()) }
             true
         }
         if (changePost != null && !changePost.isDraft) vFinish.setImageResource(ToolsResources.getDrawableAttrId(R.attr.ic_done_24dp))
@@ -116,9 +116,9 @@ class SPostCreate constructor(
         if (xPostCreator.pages.isEmpty() && xPostCreator.isNewerAdd()) Navigator.back()
     }
 
-    fun setUnitId(unitId: Long) {
-        this.unitId = unitId
-        EventBus.post(EventPostDraftCreated(unitId))
+    fun setPublicationId(publicationId: Long) {
+        this.publicationId = publicationId
+        EventBus.post(EventPostDraftCreated(publicationId))
     }
 
     //
@@ -126,37 +126,37 @@ class SPostCreate constructor(
     //
 
     private fun requestPutPage(): (Widget?, Array<Page>, (Array<Page>) -> Unit, () -> Unit) -> Unit = { widget, pages, onCreate, onFinish ->
-        ApiRequestsSupporter.executeEnabled(widget, RPostPutPage(unitId, pages, fandomId, languageId, ControllerCampfireSDK.ROOT_PROJECT_KEY, ControllerCampfireSDK.ROOT_PROJECT_SUB_KEY)) { r ->
-            if (this.unitId == 0L) setUnitId(r.unitId)
+        ApiRequestsSupporter.executeEnabled(widget, RPostPutPage(publicationId, pages, fandomId, languageId, ControllerCampfireSDK.ROOT_PROJECT_KEY, ControllerCampfireSDK.ROOT_PROJECT_SUB_KEY)) { r ->
+            if (this.publicationId == 0L) setPublicationId(r.publicationId)
             onCreate.invoke(r.pages)
-            EventBus.post(EventPostChanged(unitId, xPostCreator.pages))
+            EventBus.post(EventPostChanged(publicationId, xPostCreator.pages))
         }.onFinish {
             onFinish.invoke()
         }
     }
 
     private fun requestRemovePage(): (Array<Int>, () -> Unit) -> Unit = { pages, onFinish->
-        ApiRequestsSupporter.executeEnabledConfirm(R.string.post_page_remove_confirm, R.string.app_remove, RPostRemovePage(unitId, pages)) {
+        ApiRequestsSupporter.executeEnabledConfirm(R.string.post_page_remove_confirm, R.string.app_remove, RPostRemovePage(publicationId, pages)) {
             onFinish.invoke()
-            EventBus.post(EventPostChanged(unitId, xPostCreator.pages))
+            EventBus.post(EventPostChanged(publicationId, xPostCreator.pages))
             if (xPostCreator.pages.isEmpty()) {
-                EventBus.post(EventPublicationRemove(unitId))
-                unitId = 0
+                EventBus.post(EventPublicationRemove(publicationId))
+                publicationId = 0
             }
         }
     }
 
     private fun requestChangePage(): (Widget?, Page, Int, (Page) -> Unit) -> Unit = {widget, page, index, onFinish->
-        ApiRequestsSupporter.executeEnabled(widget, RPostChangePage(unitId, page, index)) { r ->
+        ApiRequestsSupporter.executeEnabled(widget, RPostChangePage(publicationId, page, index)) { r ->
             onFinish.invoke(r.page!!)
-            EventBus.post(EventPostChanged(unitId, xPostCreator.pages))
+            EventBus.post(EventPostChanged(publicationId, xPostCreator.pages))
         }
     }
 
     private fun requestMovePage(): (Int,Int,() -> Unit) -> Unit = { currentIndex, targetIndex, onFinish->
-        ApiRequestsSupporter.executeProgressDialog(RPostMovePage(unitId, currentIndex, targetIndex)) { _ ->
+        ApiRequestsSupporter.executeProgressDialog(RPostMovePage(publicationId, currentIndex, targetIndex)) { _ ->
             onFinish.invoke()
-            EventBus.post(EventPostChanged(unitId, xPostCreator.pages))
+            EventBus.post(EventPostChanged(publicationId, xPostCreator.pages))
         }
     }
 
@@ -166,19 +166,19 @@ class SPostCreate constructor(
 
     override fun addText(text: String, postAfterAdd: Boolean) {
         xPostCreator.addText(text) {
-            if (postAfterAdd) SPostCreationTags.create(unitId, tags, false, 0, false, 0) { SPost.instance(unitId, 0, Navigator.REPLACE) }
+            if (postAfterAdd) SPostCreationTags.create(publicationId, tags, false, 0, false, 0) { SPost.instance(publicationId, 0, Navigator.REPLACE) }
         }
     }
 
     override fun addImage(image: Uri, postAfterAdd: Boolean) {
         xPostCreator.addImage(image) {
-            if (postAfterAdd) SPostCreationTags.create(unitId, tags, false, 0, false, 0) { SPost.instance(unitId, 0, Navigator.REPLACE) }
+            if (postAfterAdd) SPostCreationTags.create(publicationId, tags, false, 0, false, 0) { SPost.instance(publicationId, 0, Navigator.REPLACE) }
         }
     }
 
     override fun addImage(image: Bitmap, postAfterAdd: Boolean) {
         xPostCreator.addImage(image) {
-            if (postAfterAdd) SPostCreationTags.create(unitId, tags, false, 0, false, 0) { SPost.instance(unitId, 0, Navigator.REPLACE) }
+            if (postAfterAdd) SPostCreationTags.create(publicationId, tags, false, 0, false, 0) { SPost.instance(publicationId, 0, Navigator.REPLACE) }
         }
     }
 

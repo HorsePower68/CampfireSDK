@@ -185,14 +185,14 @@ class CardChat(
         if (e.notification is NotificationChatMessage) {
             val n = e.notification
             if (n.tag == chat.tag) {
-                chat.unitChatMessage = n.unitChatMessage
+                chat.unitChatMessage = n.publicationChatMessage
                 update()
             }
         }
         if (e.notification is NotificationChatAnswer) {
             val n = e.notification
             if (n.tag == chat.tag) {
-                chat.unitChatMessage = n.unitChatMessage
+                chat.unitChatMessage = n.publicationChatMessage
                 update()
             }
         }

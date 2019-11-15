@@ -11,27 +11,27 @@ import com.sup.dev.android.tools.ToolsView
 import com.sup.dev.android.views.screens.SImageView
 
 class CardCommentImage(
-        unit: PublicationComment,
+        publication: PublicationComment,
         dividers: Boolean,
         miniSize: Boolean,
         onClick: ((PublicationComment) -> Boolean)? = null,
         onQuote: ((PublicationComment) -> Unit)? = null,
         onGoTo: ((Long) -> Unit)?
-) : CardComment(if (miniSize) R.layout.card_comment_image_mini else R.layout.card_comment_image, unit, dividers, miniSize, onClick, onQuote, onGoTo) {
+) : CardComment(if (miniSize) R.layout.card_comment_image_mini else R.layout.card_comment_image, publication, dividers, miniSize, onClick, onQuote, onGoTo) {
 
     override fun bind(view: View) {
-        val unit = xPublication.publication as PublicationComment
+        val publication = xPublication.publication as PublicationComment
 
         val vImage: ImageView = view.findViewById(R.id.vImage)
         val vGifProgressBar: View = view.findViewById(R.id.vGifProgressBar)
         val vCommentText: TextView = view.findViewById(R.id.vCommentText)
 
-        vCommentText.visibility = if (unit.text.isEmpty()) View.GONE else View.VISIBLE
+        vCommentText.visibility = if (publication.text.isEmpty()) View.GONE else View.VISIBLE
 
         ToolsView.setOnLongClickCoordinates(vImage) { _, _, _ -> showMenu() }
 
-        vImage.setOnClickListener { Navigator.to(SImageView(if (unit.gifId == 0L) unit.imageId else unit.gifId)) }
+        vImage.setOnClickListener { Navigator.to(SImageView(if (publication.gifId == 0L) publication.imageId else publication.gifId)) }
 
-        ToolsImagesLoader.loadGif(unit.imageId, unit.gifId, unit.imageW, unit.imageH, vImage, vGifProgressBar, 1.7f)
+        ToolsImagesLoader.loadGif(publication.imageId, publication.gifId, publication.imageW, publication.imageH, vImage, vGifProgressBar, 1.7f)
     }
 }

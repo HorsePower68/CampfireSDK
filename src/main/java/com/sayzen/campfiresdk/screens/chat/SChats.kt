@@ -47,8 +47,8 @@ class SChats constructor(
 
     override fun instanceAdapter(): RecyclerCardAdapterLoading<CardChat, Chat> {
         return RecyclerCardAdapterLoading<CardChat, Chat>(CardChat::class)
-        { unit ->
-            val card = CardChat(unit, unit.unreadCount.toInt(), unit.subscribed)
+        { publication ->
+            val card = CardChat(publication, publication.unreadCount.toInt(), publication.subscribed)
             if (onSelected != null) card.onSelected = {
                 Navigator.remove(this)
                 onSelected!!.invoke(it)
@@ -65,7 +65,7 @@ class SChats constructor(
     private fun sendRequest(onLoad: (Array<Chat>?) -> Unit, cards: ArrayList<CardChat>) {
         RChatsGetAll(cards.size)
                 .onComplete { r ->
-                    onLoad.invoke(r.units)
+                    onLoad.invoke(r.publications)
                 }
                 .onNetworkError { onLoad.invoke(null) }
                 .send(api)

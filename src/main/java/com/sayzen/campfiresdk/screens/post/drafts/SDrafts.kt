@@ -64,18 +64,18 @@ class SDrafts constructor(
     }
 
     override fun instanceAdapter(): RecyclerCardAdapterLoading<CardPost, Publication> {
-        return RecyclerCardAdapterLoading<CardPost, Publication>(CardPost::class) { unit ->
-            val card = CardPost(vRecycler, unit as PublicationPost)
+        return RecyclerCardAdapterLoading<CardPost, Publication>(CardPost::class) { publication ->
+            val card = CardPost(vRecycler, publication as PublicationPost)
             if (onSelect != null) card.onClick = {
                 Navigator.remove(this)
-                onSelect.invoke(unit)
+                onSelect.invoke(publication)
             }
             card.showFandom = true
             card
         }
                 .setBottomLoader { onLoad, cards ->
                     val r = RUnitsDraftsGetAll(ControllerCampfireSDK.ROOT_FANDOM_ID, ControllerCampfireSDK.ROOT_PROJECT_KEY, ControllerCampfireSDK.ROOT_PROJECT_SUB_KEY, cards.size.toLong())
-                            .onComplete { r -> onLoad.invoke(r.units) }
+                            .onComplete { r -> onLoad.invoke(r.publications) }
                             .onNetworkError { onLoad.invoke(null) }
                     r.tokenRequired = true
                     r.send(api)

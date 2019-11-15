@@ -3,6 +3,7 @@ package com.sayzen.campfiresdk.adapters
 import android.widget.ImageView
 import android.widget.TextView
 import com.dzen.campfire.api.models.fandoms.Fandom
+import com.dzen.campfire.api.models.publications.Publication
 import com.sayzen.campfiresdk.controllers.ControllerApi
 import com.sayzen.campfiresdk.controllers.ControllerCampfireSDK
 import com.sayzen.campfiresdk.models.events.fandom.EventFandomChanged
@@ -16,7 +17,7 @@ import com.sup.dev.java.libs.eventBus.EventBus
 import com.sup.dev.java.tools.ToolsDate
 
 class XFandom(
-        var unitId: Long,
+        var publicationId: Long,
         var fandomId: Long,
         var languageId: Long,
         var name: String,
@@ -31,14 +32,14 @@ class XFandom(
     var allViewIsClickable = false
 
     private val eventBus = EventBus
-            .subscribe(EventPublicationFandomChanged::class) { onEventUnitFandomChanged(it) }
+            .subscribe(EventPublicationFandomChanged::class) { onEventPublicationFandomChanged(it) }
             .subscribe(EventFandomChanged::class) { onEventFandomChanged(it) }
 
     constructor(fandom: Fandom, date: Long = 0, onChanged: () -> Unit)
             : this(0, fandom.id, fandom.languageId, fandom.name, fandom.imageId, fandom.imageTitleId, fandom.imageTitleGifId, date, onChanged)
 
-    constructor(unit: com.dzen.campfire.api.models.publications.Publication, date: Long = 0, onChanged: () -> Unit)
-            : this(unit.id, unit.fandomId, unit.languageId, unit.fandomName, unit.fandomImageId, 0, 0, date, onChanged)
+    constructor(publication: Publication, date: Long = 0, onChanged: () -> Unit)
+            : this(publication.id, publication.fandomId, publication.languageId, publication.fandomName, publication.fandomImageId, 0, 0, date, onChanged)
 
     constructor(fandomId: Long, languageId: Long, name: String = "", imageId: Long = 0L, onChanged: () -> Unit)
             : this(0, fandomId, languageId, name, imageId, 0, 0, 0, onChanged)
@@ -102,8 +103,8 @@ class XFandom(
         }
     }
 
-    private fun onEventUnitFandomChanged(e: EventPublicationFandomChanged) {
-        if (e.publicationId == unitId) {
+    private fun onEventPublicationFandomChanged(e: EventPublicationFandomChanged) {
+        if (e.publicationId == publicationId) {
             fandomId = e.fandomId
             languageId = e.languageId
             name = e.fandomName

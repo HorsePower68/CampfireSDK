@@ -5,8 +5,8 @@ import com.dzen.campfire.api.models.publications.Publication
 import com.sayzen.campfiresdk.R
 
 class CardPublicationUnknown(
-        unit: Publication
-) : CardPublication(R.layout.card_unit_unknown, unit) {
+        publication: Publication
+) : CardPublication(R.layout.card_unit_unknown, publication) {
 
     override fun bindView(view: View) {
         super.bindView(view)
