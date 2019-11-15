@@ -1,6 +1,7 @@
 package com.sayzen.campfiresdk.screens.fandoms.search
 
 
+import android.view.View
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import android.view.ViewGroup
 import android.widget.TextView
@@ -18,7 +19,7 @@ import com.sup.dev.android.views.views.layouts.LayoutFlow
 
 class SFandomsSearchParams(
         name: String,
-        val categpryId: Long,
+        var categoryId: Long,
         var params1: Array<Long>,
         var params2: Array<Long>,
         var params3: Array<Long>,
@@ -28,6 +29,7 @@ class SFandomsSearchParams(
     private val vText: SettingsField = findViewById(R.id.vText)
     private val vFab: FloatingActionButton = findViewById(R.id.vFab)
     private val vCategoriesContainer: LayoutFlow = findViewById(R.id.vCategoriesContainer)
+    private val vCategoriesTitle: View = findViewById(R.id.vCategoriesTitle)
     private val vContainer: ViewGroup = findViewById(R.id.vContainer)
 
     private var onFinish: ((String, Long, Array<Long>, Array<Long>, Array<Long>, Array<Long>) -> Unit)? = null
@@ -37,6 +39,12 @@ class SFandomsSearchParams(
         ToolsView.onFieldEnterKey(vText.vField) { onEnter() }
 
         vText.setText(name)
+
+        if(SFandomsSearch.ROOT_CATEGORY_ID > 0) {
+            categoryId = SFandomsSearch.ROOT_CATEGORY_ID
+            vCategoriesContainer.visibility = View.GONE
+            vCategoriesTitle.visibility = View.GONE
+        }
 
 
         addCategory(0, ToolsResources.s(R.string.app_all))
@@ -48,7 +56,7 @@ class SFandomsSearchParams(
 
     private fun addCategory(id: Long, name: String) {
         val v = ViewChip.instanceChoose(context, name, id)
-        v.isChecked = id == categpryId
+        v.isChecked = id == categoryId
         v.setOnClickListener {
             for (i in 0 until vCategoriesContainer.childCount) {
                 val vv = vCategoriesContainer.getChildAt(i) as ViewChip
@@ -88,10 +96,6 @@ class SFandomsSearchParams(
 
         val category = getSelectedCategory()
         vContainer.removeAllViews()
-
-        for(i in 0..5){
-
-        }
 
         if(category != 0L) {
             if (CampfireConstants.getParamTitle(category, 1) != null) addParams(CampfireConstants.getParamTitle(category, 1)!!, CampfireConstants.getParams(category, 1)!!, params1)

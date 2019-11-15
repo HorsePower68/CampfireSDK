@@ -16,6 +16,7 @@ import com.sayzen.campfiresdk.app.CampfireConstants
 import com.sayzen.campfiresdk.controllers.ControllerApi
 import com.sayzen.campfiresdk.controllers.api
 import com.sayzen.campfiresdk.models.objects.FandomParam
+import com.sayzen.campfiresdk.screens.fandoms.search.SFandomsSearch
 import com.sup.dev.android.libs.api_simple.ApiRequestsSupporter
 import com.sup.dev.android.libs.screens.Screen
 import com.sup.dev.android.libs.screens.navigator.NavigationAction
@@ -68,6 +69,7 @@ class SFandomSuggest(
     private val vName: SettingsField = findViewById(R.id.vName)
     private val vFandomIsClosed: SettingsCheckBox = findViewById(R.id.vFandomIsClosed)
     private val vCategoriesContainer: ViewGroup = findViewById(R.id.vCategoriesContainer)
+    private val vCategoriesTitle: View = findViewById(R.id.vCategoriesTitle)
     private val vFab: FloatingActionButton = findViewById(R.id.vFab)
     private val vFab2: FloatingActionButton = findViewById(R.id.vFab2)
     private val vSearchProgress: View = findViewById(R.id.vSearchProgress)
@@ -143,6 +145,12 @@ class SFandomSuggest(
                 v.isChecked = changeFandom.category == g.index
             }
 
+        }
+
+        if(SFandomsSearch.ROOT_CATEGORY_ID > 0){
+            vCategoriesContainer.visibility = View.GONE
+            vCategoriesTitle.visibility = View.GONE
+            (vCategoriesContainer.getChildAt(SFandomsSearch.ROOT_CATEGORY_ID.toInt())as ViewChip).isChecked = true
         }
 
         if (getSelectedCategory() == 0L) (vCategoriesContainer.getChildAt(0) as ViewChip).isChecked = true

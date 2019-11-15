@@ -33,6 +33,8 @@ class SFandomsSearch private constructor(
 
     companion object {
 
+        var ROOT_CATEGORY_ID = 0L
+
         fun instance(action: NavigationAction, backWhenSelect: Boolean = false, onSelected: ((Fandom) -> Unit)? = null) {
             instance("", 0, emptyArray(), emptyArray(), emptyArray(), emptyArray(), action, backWhenSelect, onSelected)
         }
@@ -56,6 +58,8 @@ class SFandomsSearch private constructor(
         setTextEmpty(R.string.fandoms_empty)
         setTextProgress(R.string.fandoms_loading)
         setBackgroundImage(R.drawable.bg_7)
+
+        if(ROOT_CATEGORY_ID > 0) categoryId = ROOT_CATEGORY_ID
 
         val vFab: FloatingActionButton = findViewById(R.id.vFab)
         (vFab as View).visibility = View.VISIBLE

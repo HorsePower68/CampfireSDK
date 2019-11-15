@@ -120,6 +120,7 @@
                 app:Settings_subtitle="@string/fandoms_suggest_closed_help"/>
 
             <TextView
+                android:id="@+id/vCategoriesTitle"
                 style="@style/Base.TextAppearance.AppCompat.SearchResult.Subtitle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
