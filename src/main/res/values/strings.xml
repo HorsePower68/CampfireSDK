@@ -487,6 +487,21 @@
     <string name="feed_loading_53">Do not step over the edge of the earth.</string>
     <string name="feed_loading_54">Fasten your seat belts!</string>
     <string name="feed_loading_55">Glory to the moon queen!</string>
+    <string name="feed_loading_56">Don\'t confuse dwarves with gnomes!</string>
+    <string name="feed_loading_57">Go ahead, do your daily task!</string>
+    <string name="feed_loading_58">The level of bugs within the permitted norm!</string>
+    <string name="feed_loading_59">Write about the bug, get candy.</string>
+    <string name="feed_loading_60">Favorite fire.</string>
+    <string name="feed_loading_61">Need more wood!</string>
+    <string name="feed_loading_62">Astronauts don\'t die on Saturdays.</string>
+    <string name="feed_loading_63">God, I hate danger.</string>
+    <string name="feed_loading_64">This is one small step for man and a huge leap for humanity.</string>
+    <string name="feed_loading_65">Ah... you again.</string>
+    <string name="feed_loading_66">What smells so weird?</string>
+    <string name="feed_loading_67">Nothing new, my friend.</string>
+    <string name="feed_loading_68">Ignorance of the law is no excuse.</string>
+    <string name="feed_loading_69">I think you need to chat.</string>
+    <string name="feed_loading_70">Friendly fire</string>
     <string name="feed_loading_1000">Hello datamineers!</string>
     <string name="feed_all">All publications</string>
     <string name="feed_subscribed">Subscribed only</string>
@@ -858,6 +873,9 @@
     <string name="profile_subtitle_text_16">Very serious</string>
     <string name="profile_subtitle_text_17">Pow-pow</string>
     <string name="profile_subtitle_text_18">Ho-ho</string>
+    <string name="profile_subtitle_text_19">Bug catcher</string>
+    <string name="profile_subtitle_text_20">Moon Queen</string>
+    <string name="profile_subtitle_text_21">The Ghost hunter</string>
 
     <string name="rubric_empty">There are no rubrics in this fandom yet.</string>
     <string name="rubric_empty_my">You don\'t have rubrics yet.</string>
@@ -1031,15 +1049,17 @@
     <string name="quests_text_chat">Write several messages in the chat.</string>
     <string name="quests_text_posts_karma">Publish an post that will get large amount of karma.</string>
     <string name="quests_text_comments_karma">Post a comment that will get a lot of karma.</string>
-    <string name="quests_story_1">Start the quest.</string>
+    <string name="quests_story_1">We have several quests that will help you get used to the application.</string>
     <string name="quests_story_1_button">I\'m ready!</string>
-    <string name="quests_story_2">Rate some posts.</string>
-    <string name="quests_story_3">Open achievements screen.</string>
-    <string name="quests_story_4">Send something to chat.</string>
-    <string name="quests_story_5">Open "All" tab in feed</string>
-    <string name="quests_story_6">Open category filters.</string>
-    <string name="quests_story_7">Create the post.</string>
-    <string name="quests_story_8">Finish</string>
+    <string name="quests_story_2">Karma is the basis of Campfire. All your actions in the application can be evaluated by other users, both positively and negatively. Your possibilities depend on karma.\n\nRate several publications, to understand as this works.</string>
+    <string name="quests_story_3">Level is the second most important thing in Campfire. The level affects the amount of karma that you add or take away from other users by evaluating their publications and depends on the level of your right to use certain features in the application, such as the ability to ban other users.\n\nOpen the achievements screen (an Asterisk in the navigation bar) and learn more about achievements and privileges.</string>
+    <string name="quests_story_4">Chats - all communication takes place in them. You can join existing chats in various fandoms, create your own chat and add friends to it, or just chat in private messages. In your chat list, the main chat application is automatically added.\n\nWrite something in the chat</string>
+    <string name="quests_story_5">Fandoms - all posts are created in fandoms, it is in them that people gather who share a common interest, subscribe to interesting fandoms, then they will simply be displayed in the feed in a separate screen.\n\nOpen the fandom screen through the menu and subscribe to the fandom you are interested in.</string>
+    <string name="quests_story_6">Profile-in it you see everything about yourself and other users. Created posts, public chat messages, achievements, karma, subscriptions, blacklist, stickers... in General, all! Go to the user profile by clicking on his avatar anywhere in the application.\n\nOpen your profile through the menu.</string>
+    <string name="quests_story_7">Feed-you are now in it, all posts of the application are displayed here. The tape is divided into different screens, each showing its part of the screen. You can customize the ribbon as you like.\n\nScroll the ribbon to the right, to the last screen, and open its settings.</string>
+    <string name="quests_story_8">Posts are the main source of karma for your account. Posts can be completely different, it can be just a picture or an entire article. Campfire has a very good tool for creating posts.\n\nCreate a post. Tap the plus sign in the corner of the screen.</string>
+    <string name="quests_story_9">Daily quest. Congratulations you have completed the quest. Now you will be available daily tasks. They will be displayed on the first screen of the ribbon. For completing daily tasks you will increase your level. With each level, the job will become more difficult and confusing.\n\nclick finish To go to the daily tasks.</string>
+
 
     <string name="wiki_list_empty">There are no items in this wiki yet.</string>
     <string name="wiki_item_create_name">Name (%s)</string>

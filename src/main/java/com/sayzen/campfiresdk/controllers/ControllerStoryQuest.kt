@@ -20,6 +20,10 @@ object ControllerStoryQuest {
             ControllerSettings.storyQuestProgress = 0
             ControllerSettings.storyQuestProgressNeed = 1
         } else if(ControllerSettings.storyQuestIndex == API.QUEST_STORY_CHAT){
+            ControllerSettings.storyQuestIndex = API.QUEST_STORY_FANDOM
+            ControllerSettings.storyQuestProgress = 0
+            ControllerSettings.storyQuestProgressNeed = 1
+        }  else if(ControllerSettings.storyQuestIndex == API.QUEST_STORY_FANDOM){
             ControllerSettings.storyQuestIndex = API.QUEST_STORY_PROFILE
             ControllerSettings.storyQuestProgress = 0
             ControllerSettings.storyQuestProgressNeed = 1

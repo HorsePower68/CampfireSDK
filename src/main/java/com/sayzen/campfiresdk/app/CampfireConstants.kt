@@ -139,6 +139,7 @@ object CampfireConstants {
             QuestStory(API.QUEST_STORY_KARMA, R.string.quests_story_2),
             QuestStory(API.QUEST_STORY_ACHI_SCREEN, R.string.quests_story_3),
             QuestStory(API.QUEST_STORY_CHAT, R.string.quests_story_4),
+            QuestStory(API.QUEST_STORY_FANDOM, R.string.quests_story_4),
             QuestStory(API.QUEST_STORY_PROFILE, R.string.quests_story_5),
             QuestStory(API.QUEST_STORY_FILTERS, R.string.quests_story_6),
             QuestStory(API.QUEST_STORY_POST, R.string.quests_story_7),

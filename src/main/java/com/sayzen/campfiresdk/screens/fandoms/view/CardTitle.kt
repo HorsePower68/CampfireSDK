@@ -11,6 +11,7 @@ import com.sayzen.campfiresdk.adapters.XFandom
 import com.sayzen.campfiresdk.app.CampfireConstants
 import com.sayzen.campfiresdk.controllers.ControllerApi
 import com.sayzen.campfiresdk.controllers.ControllerCampfireSDK
+import com.sayzen.campfiresdk.controllers.ControllerStoryQuest
 import com.sayzen.campfiresdk.models.events.fandom.EventFandomCategoryChanged
 import com.sayzen.campfiresdk.models.events.fandom.EventFandomSubscribe
 import com.sup.dev.android.libs.api_simple.ApiRequestsSupporter
@@ -49,6 +50,7 @@ class CardTitle(
         vSubscriptionSettings.setOnClickListener { WidgetSubscription(xFandom.fandomId, xFandom.languageId, subscriptionType, notifyImportant).asSheetShow() }
         if (subscriptionType == API.PUBLICATION_IMPORTANT_NONE) vSubscription.setText(R.string.app_follow) else vSubscription.setText(R.string.app_unfollow)
         vSubscription.setOnClickListener {
+            ControllerStoryQuest.incrQuest(API.QUEST_STORY_FANDOM)
             val type = if (subscriptionType == API.PUBLICATION_IMPORTANT_NONE) API.PUBLICATION_IMPORTANT_DEFAULT else API.PUBLICATION_IMPORTANT_NONE
             ApiRequestsSupporter.executeProgressDialog(RFandomsSubscribeChange(xFandom.fandomId, xFandom.languageId, type, true)) { _ ->
                 EventBus.post(EventFandomSubscribe(xFandom.fandomId, xFandom.languageId, type, true))
