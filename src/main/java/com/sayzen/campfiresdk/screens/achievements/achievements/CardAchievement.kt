@@ -189,6 +189,7 @@ class CardAchievement(
         ControllerAdsVideoReward.loadAd()
         ApiRequestsSupporter.executeProgressDialog(RVideoAdGetCount()){ w,r->
             if(r.count < 1){
+                w.hide()
                 ToolsToast.show(R.string.achi_video_not_available)
             }else{
                 showVideoAdNow(10, w)
@@ -207,6 +208,7 @@ class CardAchievement(
         } else if(tryCount > 0 && ControllerAdsVideoReward.isLoading()){
             ToolsThreads.main(1000) { showVideoAdNow(tryCount-1, vDialog) }
         } else {
+            vDialog.hide()
             ToolsToast.show(R.string.achi_video_not_loaded)
         }
     }

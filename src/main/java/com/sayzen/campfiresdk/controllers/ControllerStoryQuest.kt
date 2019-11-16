@@ -2,6 +2,7 @@ package com.sayzen.campfiresdk.controllers
 
 import com.dzen.campfire.api.API
 import com.sayzen.campfiresdk.models.events.project.EventStoryQuestUpdated
+import com.sup.dev.java.libs.debug.log
 import com.sup.dev.java.libs.eventBus.EventBus
 
 object ControllerStoryQuest {
@@ -49,6 +50,7 @@ object ControllerStoryQuest {
 
 
     fun incrQuest(index:Long){
+        log("Inct $index   ${ControllerSettings.storyQuestIndex}   ${ControllerSettings.storyQuestProgress}")
         if(index == ControllerSettings.storyQuestIndex) {
             ControllerSettings.storyQuestProgress++
             EventBus.post(EventStoryQuestUpdated())
