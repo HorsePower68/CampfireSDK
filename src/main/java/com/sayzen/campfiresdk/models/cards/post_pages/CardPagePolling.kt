@@ -76,8 +76,8 @@ class CardPagePolling(
                     val vLine1: View = vItem.findViewById(R.id.vLine1)
                     val vLine2: View = vItem.findViewById(R.id.vLine2)
 
-                    vCount.visibility = if (showResults) View.VISIBLE else View.GONE
-                    vPercent.visibility = if (showResults) View.VISIBLE else View.GONE
+                    vCount.visibility = if (showResults) View.VISIBLE else View.INVISIBLE
+                    vPercent.visibility = if (showResults) View.VISIBLE else View.INVISIBLE
 
                     val percent = (result.count(i.toLong()).toFloat() / result.totalVotes * 100).toInt()
                     percentSum += percent

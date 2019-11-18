@@ -53,7 +53,8 @@ object ControllerSettings {
         get() = ToolsStorage.getLong("KEY_NOTIFY_DATE_CHECKED", 0)
         set(date) = ToolsStorage.put("KEY_NOTIFY_DATE_CHECKED", date)
 
-    fun setSettings(accountSettings: AccountSettings) {
+    fun setSettings(accountId:Long, accountSettings: AccountSettings) {
+        ToolsStorage.put("ControllerSettings_accountId", accountId)
         this.accountSettings = accountSettings
         ToolsStorage.put("ControllerSettings_accountSettings", accountSettings.json(true, Json()))
         ViewCircleImage.SQUARE_GLOBAL_MODE = styleAvatarsSquare
@@ -61,6 +62,8 @@ object ControllerSettings {
         EventBus.post(EventStyleChanged())
 
     }
+
+    fun getLastSettingsAccountId() = ToolsStorage.getLong("ControllerSettings_accountId", 0L)
 
     //
     //  Style
