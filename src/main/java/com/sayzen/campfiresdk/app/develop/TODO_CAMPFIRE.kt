@@ -2,8 +2,16 @@ package com.sayzen.campfiresdk.app.develop
 
 /*
 
+    !!! Red. В картах не показывается реклама
+    !!! Red. Добавить фильтры в тотал
 
-
+Fatal Exception: java.lang.IndexOutOfBoundsException
+Index: 33, Size: 33
+java.util.ArrayList.get (ArrayList.java:437)
+com.sup.dev.android.views.settings.SettingsSelection.setCurrentIndex (SettingsSelection.kt:43)
+com.dzen.campfire.screens.settings.style.SSettingsStyle.updateValues (SSettingsStyle.kt:166)
+com.dzen.campfire.screens.settings.style.SSettingsStyle.<init> (SSettingsStyle.kt:155)
+com.dzen.campfire.screens.settings.SOther$2.onClick (SOther.kt:52)
 
     $ Эстафеты
         -   Создание эстафеты
@@ -22,12 +30,10 @@ package com.sayzen.campfiresdk.app.develop
     Описание в пользовательские чаты
     Переделать отзывы в рецензии
     Подробная информация на экране блокировок
+    Убрать надписб опубликовно при комментировании из поста, но не при комментировании из ленты
     ? Перенести админскую в активности
 
 
-    !!! В аниме обоях нельзя добавить картинку
-    !!! Red. В картах не показывается реклама
-    !!! Red. Добавить фильтры в тотал
 
 
 ----------------------------------------------------------------------------------------------------------------------------------------------
@@ -52,6 +58,7 @@ package com.sayzen.campfiresdk.app.develop
     - Дергались варианты в опросе при голосовании.
     - У некоторых админов небыло доступа к админской
     - На экране пользователей пропал фон у карточки правления
+
 
 ----------------------------------------------------------------------------------------------------------------------------------------------
 ----------------------------------------------------------------------------------------------------------------------------------------------
