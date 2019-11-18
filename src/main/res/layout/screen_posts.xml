@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    style="@style/Root">
+
+    <com.google.android.material.appbar.AppBarLayout
+        style="@style/AppBar">
+
+        <androidx.appcompat.widget.Toolbar
+            style="@style/Toolbar">
+
+            <com.sup.dev.android.views.views.pager.ViewPagerIndicatorTitles
+                android:id="@+id/vIndicator"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:ViewPagerIndicator_pager="@id/vPager"/>
+
+        </androidx.appcompat.widget.Toolbar>
+
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <androidx.viewpager.widget.ViewPager
+        style="@style/Pager"/>
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

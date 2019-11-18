@@ -87,6 +87,7 @@
     <string name="app_moderation">Модерация</string>
     <string name="app_do_cancel">Отменить</string>
     <string name="app_fandoms">Фэндомы</string>
+    <string name="app_activities">Активности</string>
     <string name="app_fandom">Фэндом</string>
     <string name="app_users">Пользователи</string>
     <string name="app_chat">Чат</string>
@@ -181,6 +182,7 @@
     <string name="app_favorites">Избранные</string>
     <string name="app_error">Ошибка</string>
     <string name="app_post">Пост</string>
+    <string name="app_posts">Посты</string>
     <string name="app_not_now">Не сейчас</string>
     <string name="app_pending">Отложенные</string>
     <string name="app_ad">Реклама</string>
@@ -202,6 +204,7 @@
     <string name="app_anonymously">Анонимно</string>
     <string name="app_limitations">Ограничения</string>
     <string name="app_order">Порядок</string>
+    <string name="app_soon">Скоро...</string>
 
     <string name="he">Он</string>
     <string name="she">Она</string>

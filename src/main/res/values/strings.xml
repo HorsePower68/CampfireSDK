@@ -87,6 +87,7 @@
     <string name="app_moderation">Moderation</string>
     <string name="app_do_cancel">Cancel</string>
     <string name="app_fandoms">Fandoms</string>
+    <string name="app_activities">Activities</string>
     <string name="app_fandom">Fandom</string>
     <string name="app_users">Users</string>
     <string name="app_chat">Chat</string>
@@ -181,6 +182,7 @@
     <string name="app_favorites">Favorites</string>
     <string name="app_error">Error</string>
     <string name="app_post">Post</string>
+    <string name="app_posts">Posts</string>
     <string name="app_not_now">Not now</string>
     <string name="app_pending">Pending</string>
     <string name="app_ad">Ad</string>
@@ -202,6 +204,7 @@
     <string name="app_anonymously">Anonymously</string>
     <string name="app_limitations">Limitations</string>
     <string name="app_order">Order</string>
+    <string name="app_soon">Soon...</string>
 
     <string name="he">He</string>
     <string name="she">She</string>
