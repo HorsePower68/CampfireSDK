@@ -3,7 +3,7 @@ package com.sayzen.campfiresdk.models.widgets
 import androidx.recyclerview.widget.RecyclerView
 import android.view.View
 import com.dzen.campfire.api.API
-import com.dzen.campfire.api.models.PublicationComment
+import com.dzen.campfire.api.models.publications.PublicationComment
 import com.dzen.campfire.api.models.publications.stickers.PublicationSticker
 import com.dzen.campfire.api.requests.units.RUnitsCommentChange
 import com.dzen.campfire.api.requests.units.RUnitsCommentCreate
@@ -38,6 +38,7 @@ class WidgetComment constructor(
         private val changeComment: PublicationComment?,
         private var quoteId: Long,
         private var quoteText: String,
+        private var showToast: Boolean,
         private val onCreated: ((PublicationComment) -> Unit)?
 ) : Widget(R.layout.widget_comment_input) {
 
@@ -52,11 +53,11 @@ class WidgetComment constructor(
             { ToolsThreads.main(100) { asSheetShow() } }, // Нужна задержка, иначе откроется и сразу закроется из-за смены экранов
             { sendSticker(it) })
 
-    constructor(changeComment: PublicationComment) : this(0, null, changeComment, 0, "", null)
+    constructor(changeComment: PublicationComment, showToast:Boolean) : this(0, null, changeComment, 0, "", showToast, null)
 
-    constructor(publicationId: Long, onCreated: (PublicationComment) -> Unit) : this(publicationId, null, null, 0, "", onCreated)
+    constructor(publicationId: Long, showToast:Boolean, onCreated: (PublicationComment) -> Unit) : this(publicationId, null, null, 0, "", showToast, onCreated)
 
-    constructor(publicationId: Long, answer: PublicationComment?, onCreated: (PublicationComment) -> Unit) : this(publicationId, answer, null, 0, "", onCreated)
+    constructor(publicationId: Long, answer: PublicationComment?, showToast:Boolean, onCreated: (PublicationComment) -> Unit) : this(publicationId, answer, null, 0, "", showToast, onCreated)
 
     init {
 
@@ -125,7 +126,7 @@ class WidgetComment constructor(
 
 
     private fun afterSend(comment: PublicationComment) {
-        ToolsToast.show(R.string.app_published)
+        if(showToast)ToolsToast.show(R.string.app_published)
         onCreated?.invoke(comment)
         EventBus.post(EventCommentAdd(publicationId, comment))
         if (ControllerSettings.watchPost) EventBus.post(EventPublicationCommentWatchChange(publicationId, true))

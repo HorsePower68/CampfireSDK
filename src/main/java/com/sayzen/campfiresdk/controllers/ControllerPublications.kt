@@ -4,6 +4,7 @@ import android.view.View
 import com.dzen.campfire.api.API
 import com.dzen.campfire.api.models.publications.Publication
 import com.dzen.campfire.api.models.publications.moderations.*
+import com.dzen.campfire.api.models.publications.moderations.activities.ModerationActivitiesCreate
 import com.dzen.campfire.api.models.publications.moderations.fandom.*
 import com.dzen.campfire.api.models.publications.moderations.chat.ModerationChatChange
 import com.dzen.campfire.api.models.publications.moderations.chat.ModerationChatCreate
@@ -35,6 +36,7 @@ import com.sayzen.campfiresdk.screens.comments.SComments
 import com.sayzen.campfiresdk.screens.fandoms.tags.WidgetTagCreate
 import com.sayzen.campfiresdk.screens.fandoms.tags.WidgetTagRemove
 import com.sayzen.campfiresdk.screens.account.stickers.SStickersView
+import com.sayzen.campfiresdk.screens.activities.user_activities.SRelayRaceInfo
 import com.sayzen.campfiresdk.screens.chat.SChat
 import com.sayzen.campfiresdk.screens.fandoms.rubrics.SRubricPosts
 import com.sup.dev.android.libs.api_simple.ApiRequestsSupporter
@@ -387,6 +389,9 @@ object ControllerPublications {
             is ModerationForgive -> {
                 text = ToolsResources.sCap(R.string.moderation_text_forgive, ToolsResources.sex(publication.creatorSex, R.string.he_forgive, R.string.she_forgive), ControllerApi.linkToUser(m.accountName))
             }
+            is ModerationActivitiesCreate -> {
+                text = ToolsResources.sCap(R.string.moderation_text_activities_create_relay_race, ToolsResources.sex(publication.creatorSex, R.string.he_created, R.string.she_created), m.name)
+            }
             is ModerationChatCreate -> {
                 text = ToolsResources.sCap(R.string.moderation_text_chat_create, ToolsResources.sex(publication.creatorSex, R.string.he_created, R.string.she_created), m.name)
             }
@@ -455,6 +460,9 @@ object ControllerPublications {
             }
             is ModerationBackgroundImageSub -> {
                 ToolsView.addLink(vText, m.chatName) { SChat.instance(API.CHAT_TYPE_FANDOM_SUB, m.chatId, 0, false, Navigator.TO) }
+            }
+            is ModerationActivitiesCreate -> {
+                ToolsView.addLink(vText, m.name) { SRelayRaceInfo.instance(m.activityId, Navigator.TO) }
             }
         }
     }

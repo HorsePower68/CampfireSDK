@@ -1,6 +1,6 @@
 package com.sayzen.campfiresdk.screens.account.rates
 
-import com.dzen.campfire.api.models.Rate
+import com.dzen.campfire.api.models.publications.Rate
 import com.dzen.campfire.api.requests.accounts.RAccountsRatesGetAll
 import com.sayzen.campfiresdk.R
 import com.sayzen.campfiresdk.adapters.XAccount

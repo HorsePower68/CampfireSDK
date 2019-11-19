@@ -3,7 +3,7 @@ package com.sayzen.campfiresdk.adapters
 import android.view.View
 import android.widget.TextView
 import com.dzen.campfire.api.API
-import com.dzen.campfire.api.models.EventPublicationInstance
+import com.dzen.campfire.api.models.publications.EventPublicationInstance
 import com.dzen.campfire.api.models.publications.Publication
 import com.sayzen.campfiresdk.controllers.ControllerApi
 import com.sayzen.campfiresdk.models.events.publications.*

@@ -4,8 +4,8 @@ import android.graphics.drawable.ColorDrawable
 import android.os.Build
 import android.view.View
 import androidx.recyclerview.widget.RecyclerView
-import com.dzen.campfire.api.models.PublicationComment
-import com.dzen.campfire.api.models.PublicationReview
+import com.dzen.campfire.api.models.publications.PublicationComment
+import com.dzen.campfire.api.models.publications.PublicationReview
 import com.dzen.campfire.api.models.publications.Publication
 import com.dzen.campfire.api.models.publications.post.PublicationPost
 import com.dzen.campfire.api.models.publications.chat.PublicationChatMessage

@@ -3,7 +3,7 @@ package com.sayzen.campfiresdk.adapters
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import android.view.View
-import com.dzen.campfire.api.models.PublicationComment
+import com.dzen.campfire.api.models.publications.PublicationComment
 import com.dzen.campfire.api.models.notifications.comments.NotificationComment
 import com.dzen.campfire.api.models.notifications.comments.NotificationCommentAnswer
 import com.dzen.campfire.api.requests.units.RCommentsGetAll
@@ -64,7 +64,7 @@ class AdapterComments(
     }
 
     fun showCommentDialog(comment: PublicationComment? = null, changeComment: PublicationComment? = null, quoteId: Long = 0, quoteText: String = "") {
-        WidgetComment(publicationId, comment, changeComment, quoteId, quoteText) {
+        WidgetComment(publicationId, comment, changeComment, quoteId, quoteText, false) {
             val card = addComment(it)
             vRecycler.scrollToPosition(indexOf(card) + 1)
             card.flash()

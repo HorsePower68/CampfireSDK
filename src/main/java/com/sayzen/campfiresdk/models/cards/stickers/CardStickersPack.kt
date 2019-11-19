@@ -54,7 +54,7 @@ class CardStickersPack(
             SComments.instance(publication.id, 0, Navigator.TO)
         }
         vComments.setOnLongClickListener {
-            WidgetComment(publication.id, null) { }.asSheetShow()
+            WidgetComment(publication.id, null, true) { }.asSheetShow()
             true
         }
 

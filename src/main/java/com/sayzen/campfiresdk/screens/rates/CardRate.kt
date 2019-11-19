@@ -2,7 +2,7 @@ package com.sayzen.campfiresdk.screens.rates
 
 import android.view.View
 import com.dzen.campfire.api.API
-import com.dzen.campfire.api.models.Rate
+import com.dzen.campfire.api.models.publications.Rate
 import com.sayzen.campfiresdk.R
 import com.sayzen.campfiresdk.controllers.ControllerApi
 import com.sayzen.campfiresdk.controllers.ControllerPublications

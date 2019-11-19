@@ -1,7 +1,7 @@
 package com.sayzen.campfiresdk.adapters
 
 import android.widget.TextView
-import com.dzen.campfire.api.models.EventPublicationInstance
+import com.dzen.campfire.api.models.publications.EventPublicationInstance
 import com.dzen.campfire.api.models.notifications.comments.NotificationComment
 import com.dzen.campfire.api.models.notifications.comments.NotificationCommentAnswer
 import com.dzen.campfire.api.models.publications.Publication

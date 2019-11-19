@@ -2,7 +2,7 @@ package com.sayzen.campfiresdk.screens.fandoms.reviews
 
 import android.view.View
 import com.dzen.campfire.api.API
-import com.dzen.campfire.api.models.PublicationReview
+import com.dzen.campfire.api.models.publications.PublicationReview
 import com.dzen.campfire.api.models.publications.Publication
 import com.dzen.campfire.api.requests.fandoms.RFandomsReviewGet
 import com.dzen.campfire.api.requests.fandoms.RFandomsReviewGetInfo

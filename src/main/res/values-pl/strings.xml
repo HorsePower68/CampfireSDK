@@ -205,6 +205,9 @@ Campfire has anime fandoms and gaming fandoms.</string>
     <string name="app_limitations">Limitations</string>
     <string name="app_order">Order</string>
     <string name="app_soon">Soon...</string>
+    <string name="app_relay_race">Relay race</string>
+    <string name="app_relay_races">Relay races</string>
+    <string name="app_choose_fandom">Select fandom</string>
 
     <string name="he">He</string>
     <string name="she">She</string>
@@ -402,6 +405,7 @@ Campfire has anime fandoms and gaming fandoms.</string>
     <string name="moderation_text_tag_change_tag_and_add_image">%s name of tag %s to %s and add image.</string>
     <string name="moderation_text_description">%s description.</string>
     <string name="moderation_text_forgive">%s user %s.</string>
+    <string name="moderation_text_activities_create_relay_race">%s relay race %s.</string>
     <string name="moderation_text_gallery_add">%s gallery image.</string>
     <string name="moderation_text_gallery_remove">%s gallery image.</string>
     <string name="moderation_text_link_add">%s fandom link.</string>
@@ -713,6 +717,7 @@ Campfire has anime fandoms and gaming fandoms.</string>
     <string name="lvl_moderate_pin_post">Ability to pin a post in fandom</string>
     <string name="lvl_moderate_review_remove_text">Remove text from reviews on fandom.</string>
     <string name="lvl_moderate_close_post">Ability to close a post of users.</string>
+    <string name="lvl_moderate_relay_race">Ability to create relay races.</string>
     <string name="lvl_moderate_rubrics">Ability to manage a rubrics of fandom.</string>
     <string name="lvl_avatar_gif">Ability to change avatar with GIF</string>
     <string name="lvl_pin_post">Ability to pin a post in your profile</string>
@@ -1035,6 +1040,11 @@ Campfire has anime fandoms and gaming fandoms.</string>
     <string name="post_pending_publish">Post this now?</string>
     <string name="post_close_confirm">Close this post?</string>
     <string name="post_open_confirm">Open this post?</string>
+
+    <string name="activities_video_ad_title">View video Ad</string>
+    <string name="activities_video_ad_title_sub">You rice you\'r level, and we can pay for Campfire server :)</string>
+    <string name="activities_relay_race_creation">Relay race creation</string>
+    <string name="activities_relay_race_error_lvl">You can\'t create relay race in this fandom. Check you\'r karma.</string>
 
     <string name="quests_story_title">Epic quest</string>
     <string name="quests_next">The next quest will be available tomorrow.</string>

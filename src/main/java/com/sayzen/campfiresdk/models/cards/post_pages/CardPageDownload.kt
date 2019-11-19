@@ -4,7 +4,7 @@ import android.view.Gravity
 import android.view.View
 import android.widget.Button
 import android.widget.TextView
-import com.dzen.campfire.api.models.PagesContainer
+import com.dzen.campfire.api.models.publications.PagesContainer
 import com.dzen.campfire.api.models.publications.post.PageDownload
 import com.dzen.campfire.api_media.requests.RResourcesGet
 import com.sayzen.campfiresdk.R

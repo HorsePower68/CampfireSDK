@@ -2,7 +2,7 @@ package com.sayzen.campfiresdk.models.cards.post_pages
 
 import androidx.annotation.CallSuper
 import android.view.View
-import com.dzen.campfire.api.models.PagesContainer
+import com.dzen.campfire.api.models.publications.PagesContainer
 import com.dzen.campfire.api.models.publications.post.*
 import com.sayzen.campfiresdk.R
 import com.sup.dev.android.views.cards.Card

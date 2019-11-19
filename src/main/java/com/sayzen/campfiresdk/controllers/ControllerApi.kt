@@ -5,7 +5,7 @@ import android.text.Html
 import android.text.util.Linkify
 import android.widget.TextView
 import com.dzen.campfire.api.API
-import com.dzen.campfire.api.models.PublicationComment
+import com.dzen.campfire.api.models.publications.PublicationComment
 import com.dzen.campfire.api.models.account.Account
 import com.dzen.campfire.api.models.lvl.LvlInfo
 import com.dzen.campfire.api.models.lvl.LvlInfoAdmin

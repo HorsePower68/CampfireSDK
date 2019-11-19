@@ -205,6 +205,9 @@
     <string name="app_limitations">Ограничения</string>
     <string name="app_order">Порядок</string>
     <string name="app_soon">Скоро...</string>
+    <string name="app_relay_race">Эстафета</string>
+    <string name="app_relay_races">Эстафеты</string>
+    <string name="app_choose_fandom">Выбрать фэндом</string>
 
     <string name="he">Он</string>
     <string name="she">Она</string>
@@ -404,6 +407,7 @@
     <string name="moderation_text_tag_change_tag_and_add_image">%s название тега %s на %s и добавил изображение.</string>
     <string name="moderation_text_description">%s описание.</string>
     <string name="moderation_text_forgive">%s пользователя %s.</string>
+    <string name="moderation_text_activities_create_relay_race">%s эстафету %s.</string>
     <string name="moderation_text_gallery_add">%s изображение в галерею.</string>
     <string name="moderation_text_gallery_remove">%s изображение из галереи.</string>
     <string name="moderation_text_link_add">%s ссылку фэндома.</string>
@@ -714,6 +718,7 @@
     <string name="lvl_moderate_pin_post">Возможность закрепить пост в фэндоме</string>
     <string name="lvl_moderate_review_remove_text">Удаление текста у отзывов на фэндомы.</string>
     <string name="lvl_moderate_close_post">Возможность закрывать посты других пользователей.</string>
+    <string name="lvl_moderate_relay_race">Возможность создавать эстафеты.</string>
     <string name="lvl_moderate_rubrics">Возможность управлять рубриками фэндома.</string>
     <string name="lvl_app_profile_image_gif">Возможность изменить фоновую картинку в профиле на GIF</string>
     <string name="lvl_moderate_tags">Возможность редактировать теги в фэндоме</string>
@@ -1037,6 +1042,11 @@
     <string name="post_pending_publish">Опубликовать пост сейчас?</string>
     <string name="post_close_confirm">Закрыть этот пост?</string>
     <string name="post_open_confirm">Открыть этот пост?</string>
+
+    <string name="activities_video_ad_title">Посмотреть видео рекламу</string>
+    <string name="activities_video_ad_title_sub">Вы повышаете свой уровень, а мы оплачиваем сервер Campfire :)</string>
+    <string name="activities_relay_race_creation">Создание эстафеты</string>
+    <string name="activities_relay_race_error_lvl">Вы не можете создать эстафету в этом фэндоме. Проверьте свою карму.</string>
 
     <string name="quests_story_title">Эпический квест</string>
     <string name="quests_next">Следующее задание будет доступно завтра.</string>

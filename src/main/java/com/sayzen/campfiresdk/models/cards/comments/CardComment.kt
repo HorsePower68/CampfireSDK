@@ -7,7 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import com.dzen.campfire.api.API
-import com.dzen.campfire.api.models.PublicationComment
+import com.dzen.campfire.api.models.publications.PublicationComment
 import com.dzen.campfire.api.models.notifications.comments.NotificationComment
 import com.dzen.campfire.api.models.notifications.comments.NotificationCommentAnswer
 import com.dzen.campfire.api.models.notifications.publications.NotificationMention
@@ -165,7 +165,7 @@ abstract class CardComment protected constructor(
                 }
                 .groupCondition(ControllerApi.isCurrentAccount(publication.creatorId))
                 .add(R.string.app_remove) { _, _ -> ControllerApi.removePublication(publication.id, R.string.comment_remove_confirm, R.string.comment_error_gone) { EventBus.post(EventCommentRemove(publication.id, publication.parentPublicationId)) } }
-                .add(R.string.app_change) { _, _ -> WidgetComment(publication).asSheetShow() }.condition(changeEnabled)
+                .add(R.string.app_change) { _, _ -> WidgetComment(publication, false).asSheetShow() }.condition(changeEnabled)
                 .clearGroupCondition()
                 .add(R.string.app_copy) { _, _ ->
                     ToolsAndroid.setToClipboard(publication.text)

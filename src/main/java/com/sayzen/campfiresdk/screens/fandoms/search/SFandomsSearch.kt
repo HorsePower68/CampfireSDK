@@ -54,6 +54,12 @@ class SFandomsSearch private constructor(
     private var lockOnEmpty = false
 
     init {
+        if(onSelected != null){
+            isNavigationVisible = false
+            isNavigationAllowed = false
+            isNavigationAnimation = false
+        }
+
         setTitle(R.string.app_fandoms)
         setTextEmpty(R.string.fandoms_empty)
         setTextProgress(R.string.fandoms_loading)

@@ -1,10 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    style="@style/Root.Content"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical">
+    style="@style/Root.Content">
 
     <com.google.android.material.appbar.AppBarLayout style="@style/AppBar">
 
@@ -14,32 +11,108 @@
 
     </com.google.android.material.appbar.AppBarLayout>
 
-    <FrameLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
+
+    <androidx.core.widget.NestedScrollView style="@style/Scroll">
 
         <LinearLayout
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
             android:orientation="vertical">
 
-            <ImageView
-                android:layout_width="120dp"
-                android:layout_height="120dp"
-                android:layout_gravity="center"
-                android:src="@drawable/xxx_intro_1" />
-
-            <TextView
-                style="@style/TextAppearance.AppCompat.Title"
-                android:layout_width="wrap_content"
+            <com.sup.dev.android.views.settings.Settings
+                android:id="@+id/vRelayRace"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginTop="16dp"
-                android:text="@string/app_soon" />
+                app:Settings_icon="@drawable/ic_share_white_24dp"
+                app:Settings_icon_background="@color/deep_purple_700"
+                app:Settings_lineVisible="false"
+                app:Settings_title="@string/app_relay_races" />
+
+            <com.sup.dev.android.views.settings.Settings
+                android:id="@+id/vVideoAd"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:Settings_icon="@drawable/ic_movie_creation_white_18dp"
+                app:Settings_icon_background="@color/pink_700"
+                app:Settings_lineVisible="false"
+                app:Settings_title="@string/activities_video_ad_title"
+                app:Settings_subtitle="@string/activities_video_ad_title_sub"/>
+
+            <com.sup.dev.android.views.settings.SettingsTitle
+                android:id="@+id/vTitleAdmins"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:Settings_title="@string/app_admin" />
+
+            <com.sup.dev.android.views.settings.Settings
+                android:id="@+id/vFandoms"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:Settings_icon="@drawable/ic_thumbs_up_down_white_24dp"
+                app:Settings_icon_background="@color/blue_700"
+                app:Settings_lineVisible="false"
+                app:Settings_title="@string/administration_fandoms" />
+
+            <com.sup.dev.android.views.settings.Settings
+                android:id="@+id/vUserReports"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:Settings_icon="@drawable/ic_person_white_18dp"
+                app:Settings_icon_background="@color/green_700"
+                app:Settings_lineVisible="false"
+                app:Settings_title="@string/administration_user_reports" />
+
+            <com.sup.dev.android.views.settings.Settings
+                android:id="@+id/vReports"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:Settings_icon="@drawable/ic_security_white_24dp"
+                app:Settings_icon_background="@color/cyan_700"
+                app:Settings_lineVisible="false"
+                app:Settings_title="@string/moderation_screen_reports" />
+
+            <com.sup.dev.android.views.settings.Settings
+                android:id="@+id/vBlock"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:Settings_icon="@drawable/ic_security_white_24dp"
+                app:Settings_icon_background="@color/orange_500"
+                app:Settings_title="@string/app_block_title" />
+
+            <com.sup.dev.android.views.settings.SettingsTitle
+                android:id="@+id/vTitleProtoadmins"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:Settings_title="@string/app_protoadmin" />
+
+            <com.sup.dev.android.views.settings.Settings
+                android:id="@+id/vRequests"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:Settings_icon="@drawable/ic_security_white_24dp"
+                app:Settings_icon_background="@color/orange_500"
+                app:Settings_lineVisible="false"
+                app:Settings_title="@string/administration_requests" />
+
+            <com.sup.dev.android.views.settings.Settings
+                android:id="@+id/vQuery"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:Settings_icon="@drawable/ic_security_white_24dp"
+                app:Settings_icon_background="@color/orange_500"
+                app:Settings_lineVisible="false"
+                app:Settings_title="@string/administration_query" />
+
+            <com.sup.dev.android.views.settings.Settings
+                android:id="@+id/vErrors"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:Settings_icon="@drawable/ic_security_white_24dp"
+                app:Settings_icon_background="@color/orange_500"
+                app:Settings_lineVisible="false"
+                app:Settings_title="@string/administration_errors" />
 
         </LinearLayout>
 
-    </FrameLayout>
-
-</LinearLayout>
+    </androidx.core.widget.NestedScrollView>
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

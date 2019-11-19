@@ -3,7 +3,7 @@ package com.sayzen.campfiresdk.models.cards.post_pages
 import android.view.View
 import android.widget.ImageView
 import android.widget.LinearLayout
-import com.dzen.campfire.api.models.PagesContainer
+import com.dzen.campfire.api.models.publications.PagesContainer
 import com.dzen.campfire.api.models.notifications.publications.NotificationMention
 
 import com.dzen.campfire.api.models.publications.post.PageText

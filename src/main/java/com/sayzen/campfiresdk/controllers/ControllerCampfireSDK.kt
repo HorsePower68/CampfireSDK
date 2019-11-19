@@ -85,6 +85,7 @@ object ControllerCampfireSDK {
         this.onLoginFailed = onLoginFailed
         executorLinks = linksExecutor
         ControllerApi.init()
+        ControllerActivities.init()
         ControllerChats.init()
         ControllerNotifications.init(logoColored, logoWhite, notificationExecutor)
         ControllerFirebaseAnalytics.init()

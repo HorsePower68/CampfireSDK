@@ -15,6 +15,7 @@ import com.sayzen.campfiresdk.models.widgets.WidgetRules
 import com.sayzen.campfiresdk.screens.account.search.SAccountSearch
 import com.sayzen.campfiresdk.screens.fandoms.suggest.SFandomSuggest
 import com.sayzen.campfiresdk.app.CampfireConstants
+import com.sayzen.campfiresdk.controllers.ControllerActivities
 import com.sayzen.campfiresdk.controllers.ControllerApi
 import com.sayzen.campfiresdk.controllers.ControllerCampfireSDK
 import com.sayzen.campfiresdk.controllers.api
@@ -23,7 +24,6 @@ import com.sup.dev.android.libs.api_simple.ApiRequestsSupporter
 import com.sup.dev.android.libs.screens.navigator.Navigator
 import com.sup.dev.android.tools.ToolsResources
 import com.sup.dev.android.tools.ToolsToast
-import com.sup.dev.android.tools.ToolsView
 import com.sup.dev.android.views.cards.Card
 import com.sup.dev.android.views.views.ViewAvatar
 import com.sup.dev.android.views.views.ViewChipMini
@@ -172,7 +172,7 @@ class CardAchievement(
             ach.info.index == API.ACHI_ADD_RECRUITER.index -> onRecruiterClicked()
             ach.info.index == API.ACHI_LOGIN.index -> ControllerCampfireSDK.changeLogin()
             ach.info.index == API.ACHI_FANDOMS.index -> SFandomSuggest.instance(Navigator.TO)
-            ach.info.index == API.ACHI_VIDEO_AD.index -> onVideoAdClicked()
+            ach.info.index == API.ACHI_VIDEO_AD.index -> ControllerActivities.showVideoAd()
             ach.info.index == API.ACHI_RULES_USER.index ->
                 WidgetRules(R.string.rules_users_info, Array(CampfireConstants.RULES_USER.size) { CampfireConstants.RULES_USER[it].text })
                         .onFinish { ApiRequestsSupporter.executeProgressDialog(RAchievementsOnFinish(API.ACHI_RULES_USER.index)) { _ -> } }
@@ -183,34 +183,6 @@ class CardAchievement(
                         .asSheetShow()
         }
 
-    }
-
-    private fun onVideoAdClicked(){
-        ControllerAdsVideoReward.loadAd()
-        ApiRequestsSupporter.executeProgressDialog(RVideoAdGetCount()){ w,r->
-            if(r.count < 1){
-                w.hide()
-                ToolsToast.show(R.string.achi_video_not_available)
-            }else{
-                showVideoAdNow(10, w)
-            }
-        }
-    }
-
-    private fun showVideoAdNow(tryCount:Int, vDialog:Widget){
-        if(ControllerAdsVideoReward.isCahShow()){
-            vDialog.hide()
-            ControllerAdsVideoReward.show {
-                screen.setAchiProgress(achievement.index, getProgress()+1)
-                RVideoAdView().send(api)
-                update()
-            }
-        } else if(tryCount > 0 && ControllerAdsVideoReward.isLoading()){
-            ToolsThreads.main(1000) { showVideoAdNow(tryCount-1, vDialog) }
-        } else {
-            vDialog.hide()
-            ToolsToast.show(R.string.achi_video_not_loaded)
-        }
     }
 
     private fun onRecruiterClicked() {

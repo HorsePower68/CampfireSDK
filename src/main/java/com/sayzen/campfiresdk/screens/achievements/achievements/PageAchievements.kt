@@ -11,6 +11,7 @@ import com.sayzen.campfiresdk.screens.achievements.CardInfo
 import com.sayzen.campfiresdk.app.CampfireConstants
 import com.sayzen.campfiresdk.controllers.api
 import com.sayzen.campfiresdk.models.events.notifications.EventNotification
+import com.sayzen.campfiresdk.models.events.project.EventAchiProgressIncr
 import com.sup.dev.android.app.SupAndroid
 import com.sup.dev.android.tools.ToolsView
 import com.sup.dev.android.views.cards.Card
@@ -25,7 +26,8 @@ class PageAchievements(
 ) : Card(0) {
 
     private val eventBus = EventBus
-            .subscribe(EventNotification::class) { e: EventNotification -> this.onNotification(e) }
+            .subscribe(EventNotification::class) {onNotification(it) }
+            .subscribe(EventAchiProgressIncr::class) { onEventAchiProgressIncr(it) }
 
     private val adapterSub: RecyclerCardAdapter = RecyclerCardAdapter()
     private val cardInfo: CardInfo = CardInfo(R.string.achi_karma_hint, R.string.app_level, r.karmaForce, true, CampfireConstants.getLvlImage(r.karmaForce))
@@ -132,6 +134,12 @@ class PageAchievements(
                     card.setForcedLvl(n.achiLvl)
                 }
         }
+    }
+
+    private fun onEventAchiProgressIncr(e: EventAchiProgressIncr) {
+        setAchiProgress(e.index, getAchiProgress(e.index)+1)
+        val l = adapterSub.get(CardAchievement::class)
+        for (card in l) if (e.index == card.achievement.index) card.update()
     }
 
 }

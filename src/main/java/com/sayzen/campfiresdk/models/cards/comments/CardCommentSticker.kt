@@ -3,7 +3,7 @@ package com.sayzen.campfiresdk.models.cards.comments
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
-import com.dzen.campfire.api.models.PublicationComment
+import com.dzen.campfire.api.models.publications.PublicationComment
 import com.sayzen.campfiresdk.R
 import com.sayzen.campfiresdk.controllers.ControllerApi
 import com.sayzen.campfiresdk.screens.account.stickers.SStickersView

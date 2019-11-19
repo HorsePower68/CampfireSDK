@@ -1,7 +1,7 @@
 package com.sayzen.campfiresdk.models.cards.post_pages
 
 import android.view.View
-import com.dzen.campfire.api.models.PagesContainer
+import com.dzen.campfire.api.models.publications.PagesContainer
 import com.dzen.campfire.api.models.publications.post.Page
 
 import com.sayzen.campfiresdk.R

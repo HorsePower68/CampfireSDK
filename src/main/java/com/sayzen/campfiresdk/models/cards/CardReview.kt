@@ -3,7 +3,7 @@ package com.sayzen.campfiresdk.models.cards
 import android.view.View
 import android.widget.ImageView
 import com.dzen.campfire.api.API
-import com.dzen.campfire.api.models.PublicationReview
+import com.dzen.campfire.api.models.publications.PublicationReview
 import com.sayzen.campfiresdk.R
 import com.sayzen.campfiresdk.controllers.ControllerApi
 import com.sayzen.campfiresdk.models.events.fandom.EventFandomReviewChanged

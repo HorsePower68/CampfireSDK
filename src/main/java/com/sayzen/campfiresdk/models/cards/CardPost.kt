@@ -223,7 +223,7 @@ class CardPost constructor(
                 ControllerCampfireSDK.onToPostClicked(publication.id, -1, Navigator.TO)
         }
         vComments.setOnLongClickListener {
-            WidgetComment(publication.id, null) { }.asSheetShow()
+            WidgetComment(publication.id, null, true) { }.asSheetShow()
             true
         }
 

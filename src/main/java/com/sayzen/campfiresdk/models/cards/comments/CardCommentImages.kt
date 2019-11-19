@@ -1,7 +1,7 @@
 package com.sayzen.campfiresdk.models.cards.comments
 
 import android.view.View
-import com.dzen.campfire.api.models.PublicationComment
+import com.dzen.campfire.api.models.publications.PublicationComment
 import com.sayzen.campfiresdk.R
 import com.sup.dev.android.libs.screens.navigator.Navigator
 import com.sup.dev.android.tools.ToolsView

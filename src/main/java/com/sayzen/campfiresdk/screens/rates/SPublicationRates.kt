@@ -2,7 +2,7 @@ package com.sayzen.campfiresdk.screens.rates
 
 import android.view.View
 import android.widget.CheckBox
-import com.dzen.campfire.api.models.Rate
+import com.dzen.campfire.api.models.publications.Rate
 import com.dzen.campfire.api.requests.post.RPostRatesGetAll
 import com.sayzen.campfiresdk.R
 import com.sayzen.campfiresdk.adapters.XKarma
