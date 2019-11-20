@@ -5,9 +5,12 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
 import com.dzen.campfire.api.API
-import com.dzen.campfire.api.requests.activities.RActivitiesCreateRelayRace
+import com.dzen.campfire.api.models.activities.UserActivity
+import com.dzen.campfire.api.requests.activities.RActivitiesRelayRaceChange
+import com.dzen.campfire.api.requests.activities.RActivitiesRelayRaceCreate
 import com.sayzen.campfiresdk.R
 import com.sayzen.campfiresdk.controllers.ControllerApi
+import com.sayzen.campfiresdk.models.events.activities.EventActivitiesChanged
 import com.sayzen.campfiresdk.models.events.activities.EventActivitiesCreate
 import com.sayzen.campfiresdk.screens.account.search.SAccountSearch
 import com.sayzen.campfiresdk.screens.fandoms.search.SFandomsSearch
@@ -21,6 +24,7 @@ import com.sup.dev.android.views.views.ViewAvatarTitle
 import com.sup.dev.java.libs.eventBus.EventBus
 
 class SRelayRaceCreate constructor(
+        val changeUserActivity:UserActivity?
 ) : Screen(R.layout.screen_activities_relay_race_create) {
 
     private val vFandom: ViewAvatarTitle = findViewById(R.id.vFandom)
@@ -67,6 +71,15 @@ class SRelayRaceCreate constructor(
             }
         }
         vFinish.setOnClickListener { create() }
+
+        if(changeUserActivity != null){
+            vName.setText(changeUserActivity.name)
+            vDescription.setText( changeUserActivity.description)
+            vUser.visibility = View.GONE
+            vFandom.visibility = View.GONE
+            vFinish.setText(R.string.app_change)
+        }
+
         updateFinishEnabled()
     }
 
@@ -75,8 +88,8 @@ class SRelayRaceCreate constructor(
         val description = vName.text.toString()
         vFinish.isEnabled = name.length >= API.ACTIVITIES_NAME_MIN && name.length <= API.ACTIVITIES_NAME_MAX &&
                 description.length >= API.ACTIVITIES_DESC_MIN && description.length <= API.ACTIVITIES_DESC_MAX &&
-                accountId > 0 && fandomId > 0 && languageId > 0
-        if (!ControllerApi.can(fandomId, languageId, API.LVL_MODERATOR_RELAY_RACE)) {
+                (changeUserActivity != null || (accountId > 0 && fandomId > 0 && languageId > 0))
+        if (changeUserActivity == null && !ControllerApi.can(fandomId, languageId, API.LVL_MODERATOR_RELAY_RACE)) {
             vFinish.isEnabled = false
             vError.visibility = View.VISIBLE
             vError.setText(R.string.activities_relay_race_error_lvl)
@@ -87,14 +100,26 @@ class SRelayRaceCreate constructor(
 
     private fun create() {
         val name = vName.text.toString()
-        val description = vName.text.toString()
+        val description = vDescription.text.toString()
 
-        ControllerApi.moderation(R.string.activities_relay_race_creation, R.string.app_create, { RActivitiesCreateRelayRace(accountId, fandomId, languageId, name, description, it) },
-                { r ->
-                    EventBus.post(EventActivitiesCreate(r.userActivity))
-                    Navigator.remove(this)
-                    ToolsToast.show(R.string.app_done)
-                })
+
+        if(changeUserActivity == null) {
+            ControllerApi.moderation(R.string.activities_relay_race_creation, R.string.app_create, { RActivitiesRelayRaceCreate(accountId, fandomId, languageId, name, description, it) },
+                    { r ->
+                        EventBus.post(EventActivitiesCreate(r.userActivity))
+                        Navigator.remove(this)
+                        ToolsToast.show(R.string.app_done)
+                    })
+        }else{
+            ControllerApi.moderation(R.string.activities_relay_race_change_title, R.string.app_change, { RActivitiesRelayRaceChange(changeUserActivity.id, name, description, it) },
+                    { r ->
+                        changeUserActivity.name = name
+                        changeUserActivity.description = description
+                        EventBus.post(EventActivitiesChanged(changeUserActivity))
+                        Navigator.remove(this)
+                        ToolsToast.show(R.string.app_done)
+                    })
+        }
     }
 
 }

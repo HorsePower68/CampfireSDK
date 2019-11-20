@@ -10,14 +10,12 @@ import com.sayzen.campfiresdk.models.cards.events.CardPublicationEventAdmin
 import com.sup.dev.android.tools.ToolsResources
 import com.sup.dev.android.views.screens.SLoadingRecycler
 import com.sup.dev.android.views.support.adapters.recycler_view.RecyclerCardAdapterLoading
-import com.sup.dev.android.views.support.adapters.recycler_view.decorators.DecoratorVerticalSpace
 
 class SAdministrationAdminsEvents : SLoadingRecycler<CardPublicationEventAdmin, Publication>() {
 
     init {
         vScreenRoot!!.setBackgroundColor(ToolsResources.getBackgroundColor(context))
         setTitle(R.string.administration_admins_events)
-        vRecycler.addItemDecoration(DecoratorVerticalSpace())
     }
 
     override fun instanceAdapter(): RecyclerCardAdapterLoading<CardPublicationEventAdmin, Publication> {

@@ -33,7 +33,6 @@ import com.sup.dev.android.views.screens.SAlert
 import com.sup.dev.android.views.screens.SCrop
 import com.sup.dev.android.views.screens.SImageView
 import com.sup.dev.android.views.support.adapters.recycler_view.RecyclerCardAdapterLoading
-import com.sup.dev.android.views.support.adapters.recycler_view.decorators.DecoratorVerticalSpace
 import com.sup.dev.android.views.widgets.*
 import com.sup.dev.java.libs.eventBus.EventBus
 import com.sup.dev.java.tools.ToolsBytes
@@ -94,7 +93,6 @@ class SAccount private constructor(
 
         vMore.setOnClickListener { showDialog() }
         vRecycler.layoutManager = LinearLayoutManager(context)
-        vRecycler.addItemDecoration(DecoratorVerticalSpace(8))
 
         vAvatar.setOnClickListener {
             if (ControllerApi.isCurrentAccount(r.account.id)) onChangeAvatarClicked()

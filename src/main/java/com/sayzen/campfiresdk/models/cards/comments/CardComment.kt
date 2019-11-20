@@ -110,6 +110,15 @@ abstract class CardComment protected constructor(
                 }
                 vSwipe.onSwipe = { onQuote.invoke(publication) }
             }
+        } else {
+            val vRootContainer: View? = view.findViewById(R.id.vRootContainer)
+            if(vRootContainer != null){
+                vRootContainer.setOnClickListener{ if (onClick()) showMenu() }
+                vRootContainer.setOnLongClickListener {
+                    showMenu()
+                    true
+                }
+            }
         }
 
         if (vQuoteContainer != null) {

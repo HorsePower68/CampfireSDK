@@ -17,7 +17,6 @@ import com.sup.dev.android.libs.screens.navigator.Navigator
 import com.sup.dev.android.tools.ToolsResources
 import com.sup.dev.android.views.screens.SLoadingRecycler
 import com.sup.dev.android.views.support.adapters.recycler_view.RecyclerCardAdapterLoading
-import com.sup.dev.android.views.support.adapters.recycler_view.decorators.DecoratorVerticalSpace
 import com.sup.dev.java.libs.eventBus.EventBus
 
 class SRubricPosts(
@@ -66,7 +65,6 @@ class SRubricPosts(
         vScreenRoot!!.setBackgroundColor(ToolsResources.getBackgroundColor(context))
         setTitle(rubric.name)
         setTextEmpty(R.string.rubric_posts_empty)
-        vRecycler.addItemDecoration(DecoratorVerticalSpace())
         addToolbarIcon(R.drawable.ic_more_vert_white_24dp){
             ControllerRubrics.instanceMenu(rubric).asSheetShow()
         }

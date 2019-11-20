@@ -36,7 +36,6 @@ import com.sup.dev.android.views.cards.CardSpace
 import com.sup.dev.android.views.cards.CardSpoiler
 import com.sup.dev.android.views.screens.SCrop
 import com.sup.dev.android.views.support.adapters.recycler_view.RecyclerCardAdapterLoading
-import com.sup.dev.android.views.support.adapters.recycler_view.decorators.DecoratorVerticalSpace
 import com.sup.dev.android.views.views.ViewIcon
 import com.sup.dev.android.views.widgets.*
 import com.sup.dev.java.libs.eventBus.EventBus
@@ -142,7 +141,6 @@ class SFandom private constructor(
 
         reload()
 
-        vRecycler.addItemDecoration(DecoratorVerticalSpace(8))
         vRecycler.layoutManager = LinearLayoutManager(context)
         vRecycler.adapter = adapter
 

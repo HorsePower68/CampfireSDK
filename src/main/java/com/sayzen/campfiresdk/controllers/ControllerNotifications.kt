@@ -6,6 +6,7 @@ import android.util.LongSparseArray
 import com.dzen.campfire.api.API
 import com.dzen.campfire.api.models.notifications.*
 import com.dzen.campfire.api.models.notifications.account.*
+import com.dzen.campfire.api.models.notifications.activities.NotificationActivitiesRelayRaceTurn
 import com.dzen.campfire.api.models.notifications.chat.*
 import com.dzen.campfire.api.models.notifications.comments.NotificationComment
 import com.dzen.campfire.api.models.notifications.comments.NotificationCommentAnswer
@@ -344,6 +345,7 @@ object ControllerNotifications {
             is NotificationPublicationRestore -> NotificationUnitRestoreParser(n)
             is NotificationAdminPostFandomChange -> NotificationAdminPostFandomChangeParser(n)
             is NotificationMention -> NotificationMentionParser(n)
+            is NotificationActivitiesRelayRaceTurn -> NotificationActivitiesRelayRaceTurnParser(n)
             else -> NotificationUnknownParserParser(n)
 
         }
@@ -1201,6 +1203,17 @@ object ControllerNotifications {
 
         override fun getTitle() = ToolsResources.sCap(R.string.notification_mention, n.fromAccountName, ToolsResources.sex(n.fromAccountSex, R.string.he_mentioned, R.string.she_mentioned))
 
+    }
+
+    private class NotificationActivitiesRelayRaceTurnParser(override val n: NotificationActivitiesRelayRaceTurn) : Parser(n) {
+
+        override fun post(icon: Int, intent: Intent, text: String, title: String, tag: String, sound: Boolean) {
+            (if (sound) chanelOther else chanelOther_salient).post(icon, getTitle(), text, intent, tag)
+        }
+
+        override fun asString(html: Boolean) = ToolsResources.sCap(R.string.notification_activitie_relay_race_turn, n.fromAccountName, ToolsResources.sex(n.fromAccountSex, R.string.he_give, R.string.she_give), n.activityName, n.fandomName)
+
+        override fun getTitle() = ToolsResources.s(R.string.app_relay_race)
     }
 
     private class NotificationUnknownParserParser(override val n: Notification) : Parser(n) {

@@ -10,7 +10,6 @@ import com.sayzen.campfiresdk.models.events.publications.EventPublicationBlocked
 import com.sup.dev.android.tools.ToolsResources
 import com.sup.dev.android.views.screens.SLoadingRecycler
 import com.sup.dev.android.views.support.adapters.recycler_view.RecyclerCardAdapterLoading
-import com.sup.dev.android.views.support.adapters.recycler_view.decorators.DecoratorVerticalSpace
 import com.sup.dev.java.libs.eventBus.EventBus
 import com.sup.dev.java.tools.ToolsThreads
 
@@ -33,7 +32,6 @@ class SAdministrationBlock : SLoadingRecycler<CardPublication, PublicationBlocke
         vScreenRoot!!.setBackgroundColor(ToolsResources.getBackgroundColor(context))
         setTitle(R.string.app_block_title)
         setTextEmpty(R.string.app_empty)
-        vRecycler.addItemDecoration(DecoratorVerticalSpace())
     }
 
     override fun reload() {

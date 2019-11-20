@@ -19,7 +19,9 @@ class CardCommentSticker(
         onClick: ((PublicationComment) -> Boolean)? = null,
         onQuote: ((PublicationComment) -> Unit)? = null,
         onGoTo: ((Long) -> Unit)?
-) : CardComment( if (miniSize) R.layout.card_comment_sticker_mini else R.layout.card_comment_sticker, publication, dividers, miniSize, onClick, onQuote, onGoTo) {
+) : CardComment(
+        if (miniSize) R.layout.card_comment_sticker_mini else if (dividers) R.layout.card_comment_sticker else R.layout.card_comment_sticker_card,
+        publication, dividers, miniSize, onClick, onQuote, onGoTo) {
 
     init {
         changeEnabled = false

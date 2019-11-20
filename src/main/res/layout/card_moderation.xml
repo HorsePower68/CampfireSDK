@@ -1,98 +1,118 @@
 <?xml version="1.0" encoding="utf-8"?>
-
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    style="@style/TouchableForeground"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:background="?content_background"
-    android:orientation="vertical"
-    android:paddingBottom="4dp">
+    android:layout_height="match_parent"
+    android:paddingLeft="8dp"
+    android:paddingTop="10dp"
+    android:paddingRight="8dp"
+    android:paddingBottom="10dp">
 
-    <FrameLayout
+    <com.google.android.material.card.MaterialCardView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="4dp">
-
-        <com.sup.dev.android.views.views.ViewAvatarTitle
-            android:id="@+id/vAvatar"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="16dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginBottom="8dp"/>
-
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="right|top"
-            android:layout_marginRight="16dp"
-            android:layout_marginTop="16dp"
-            android:src="@drawable/ic_security_white_24dp"/>
-
-    </FrameLayout>
-
-
-    <com.sup.dev.android.views.views.ViewTextLinkable
-        android:id="@+id/vText"
-        style="@style/Base.TextAppearance.AppCompat.Body1"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="16dp"/>
-
-    <FrameLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="match_parent"
+        app:cardBackgroundColor="?content_background"
+        app:cardCornerRadius="12dp">
 
         <LinearLayout
-            android:layout_width="wrap_content"
+            style="@style/TouchableForeground"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center|left"
-            android:layout_marginLeft="16dp"
-            android:orientation="vertical">
+            android:background="?content_background"
+            android:orientation="vertical"
+            android:paddingBottom="4dp">
 
-        <com.sup.dev.android.views.views.ViewTextLinkable
-            android:id="@+id/vStatus"
-            style="@style/TextAppearance.AppCompat.Body1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp">
 
-        <com.sup.dev.android.views.views.ViewTextLinkable
-            android:id="@+id/vStatusComment"
-            style="@style/TextAppearance.AppCompat.Caption"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
+                <com.sup.dev.android.views.views.ViewAvatarTitle
+                    android:id="@+id/vAvatar"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="16dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginBottom="8dp"/>
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="right|top"
+                    android:layout_marginRight="16dp"
+                    android:layout_marginTop="16dp"
+                    android:src="@drawable/ic_security_white_24dp"/>
+
+            </FrameLayout>
+
+
+            <com.sup.dev.android.views.views.ViewTextLinkable
+                android:id="@+id/vText"
+                style="@style/Base.TextAppearance.AppCompat.Body1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="16dp"/>
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center|left"
+                    android:layout_marginLeft="16dp"
+                    android:orientation="vertical">
+
+                    <com.sup.dev.android.views.views.ViewTextLinkable
+                        android:id="@+id/vStatus"
+                        style="@style/TextAppearance.AppCompat.Body1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
+
+                    <com.sup.dev.android.views.views.ViewTextLinkable
+                        android:id="@+id/vStatusComment"
+                        style="@style/TextAppearance.AppCompat.Caption"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/vInfoContainer"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="right|center"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/vComments"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center|left"
+                        android:layout_marginRight="16dp"
+                        android:drawableLeft="@drawable/ic_mode_comment_white_18dp"
+                        android:drawablePadding="8dp"
+                        android:gravity="center"
+                        android:text="10"/>
+
+                    <com.sayzen.campfiresdk.views.ViewKarmaHorizontal
+                        android:id="@+id/vKarma"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center|right"/>
+                </LinearLayout>
+
+
+            </FrameLayout>
+
 
         </LinearLayout>
 
-        <LinearLayout
-            android:id="@+id/vInfoContainer"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="right|center"
-            android:orientation="horizontal">
-
-            <TextView
-                android:id="@+id/vComments"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center|left"
-                android:layout_marginRight="16dp"
-                android:drawableLeft="@drawable/ic_mode_comment_white_18dp"
-                android:drawablePadding="8dp"
-                android:gravity="center"
-                android:text="10"/>
-
-            <com.sayzen.campfiresdk.views.ViewKarmaHorizontal
-                android:id="@+id/vKarma"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center|right"/>
-        </LinearLayout>
+    </com.google.android.material.card.MaterialCardView>
 
 
-    </FrameLayout>
+</FrameLayout>
 
 
-</LinearLayout>
+

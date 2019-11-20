@@ -393,6 +393,7 @@ object ControllerApi {
     fun linkToWikiItemId(itemId: Long) = API.LINK_WIKI_SECTION + itemId
     fun linkToWikiArticle(itemId: Long) = API.LINK_WIKI_ARTICLE + itemId
     fun linkToFandomChat(chatId: Long) = API.LINK_FANDOM_CHAT + chatId
+    fun linkToActivity(activityId: Long) = API.LINK_ACTIVITY + activityId
     fun linkToRubric(rubricId: Long) = API.LINK_RUBRIC + rubricId
     fun linkToSticker(id: Long) = API.LINK_STICKER + id
     fun linkToStickersPack(id: Long) = API.LINK_STICKERS_PACK + id
@@ -440,6 +441,7 @@ object ControllerApi {
         replaceLinkable(vText, API.LINK_SHORT_WIKI_SECTION, API.LINK_WIKI_SECTION)
         replaceLinkable(vText, API.LINK_SHORT_WIKI_ARTICLE, API.LINK_WIKI_ARTICLE)
         replaceLinkable(vText, API.LINK_SHORT_FANDOM_CHAT, API.LINK_FANDOM_CHAT)
+        replaceLinkable(vText, API.LINK_SHORT_ACTIVITY, API.LINK_ACTIVITY)
         replaceLinkable(vText, API.LINK_SHORT_RUBRIC, API.LINK_RUBRIC)
 
         onReplace.invoke()
@@ -456,6 +458,7 @@ object ControllerApi {
         makeLinkable(vText, API.LINK_SHORT_WIKI_SECTION, API.LINK_WIKI_SECTION)
         makeLinkable(vText, API.LINK_SHORT_WIKI_ARTICLE, API.LINK_WIKI_ARTICLE)
         makeLinkable(vText, API.LINK_SHORT_FANDOM_CHAT, API.LINK_FANDOM_CHAT)
+        makeLinkable(vText, API.LINK_SHORT_ACTIVITY, API.LINK_ACTIVITY)
         makeLinkable(vText, API.LINK_SHORT_RUBRIC, API.LINK_RUBRIC)
         makeLinkable(vText, API.LINK_SHORT_STICKER, API.LINK_STICKER)
         makeLinkable(vText, API.LINK_SHORT_STICKERS_PACK, API.LINK_STICKERS_PACK)

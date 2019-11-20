@@ -3,7 +3,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
-    style="@style/Root.Content">
+    style="@style/Root">
 
     <com.google.android.material.appbar.AppBarLayout
         style="@style/AppBar">

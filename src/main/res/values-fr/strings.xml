@@ -278,6 +278,8 @@ Campfire has anime fandoms and gaming fandoms.</string>
     <string name="she_assign">assign</string>
     <string name="he_react">react</string>
     <string name="she_react">react</string>
+    <string name="he_give">give</string>
+    <string name="she_give">give</string>
 
     <string name="filter_events">Events</string>
     <string name="filter_posts">Posts</string>
@@ -337,6 +339,7 @@ Campfire has anime fandoms and gaming fandoms.</string>
     <string name="notification_admin_moderation_restore">Your publication has restored</string>
     <string name="notification_admin_post_fandom_change">Administrator %s %s your post from fandom %s to %s</string>
     <string name="notification_mention">%s %s you</string>
+    <string name="notification_activitie_relay_race_turn">%s %s relay race %s to you in fandom %s</string>
     <string name="notification_quest_finish">Daily quest completed</string>
     <string name="notification_rubric_change_name">%s %s name of rubric from %s to %s</string>
     <string name="notification_rubric_change_owner">%s %s owner of rubric %s to %s</string>
@@ -404,7 +407,11 @@ Campfire has anime fandoms and gaming fandoms.</string>
     <string name="moderation_text_tag_change_tag_and_add_image">%s name of tag %s to %s and add image.</string>
     <string name="moderation_text_description">%s description.</string>
     <string name="moderation_text_forgive">%s user %s.</string>
-    <string name="moderation_text_activities_create_relay_race">%s relay race %s.</string>
+    <string name="moderation_text_activities_relay_race_create">%s relay race %s.</string>
+    <string name="moderation_text_activities_relay_race_change">%s relay race %s.</string>
+    <string name="moderation_text_activities_relay_race_change_name">\nNew name: %s.</string>
+    <string name="moderation_text_activities_relay_race_change_description">\nNew description: %s.</string>
+    <string name="moderation_text_activities_relay_race_remove">%s relay race %s.</string>
     <string name="moderation_text_gallery_add">%s gallery image.</string>
     <string name="moderation_text_gallery_remove">%s gallery image.</string>
     <string name="moderation_text_link_add">%s fandom link.</string>
@@ -1044,6 +1051,11 @@ Campfire has anime fandoms and gaming fandoms.</string>
     <string name="activities_video_ad_title_sub">You rice you\'r level, and we can pay for Campfire server :)</string>
     <string name="activities_relay_race_creation">Relay race creation</string>
     <string name="activities_relay_race_error_lvl">You can\'t create relay race in this fandom. Check you\'r karma.</string>
+    <string name="activities_relay_race_remove_title">Remove relay race</string>
+    <string name="activities_relay_race_change_title">Change relay race</string>
+    <string name="activities_empty">No activities here yest</string>
+    <string name="activities_loading">Loading of activities list</string>
+    <string name="activities_all">All activities</string>
 
     <string name="quests_story_title">Epic quest</string>
     <string name="quests_next">The next quest will be available tomorrow.</string>

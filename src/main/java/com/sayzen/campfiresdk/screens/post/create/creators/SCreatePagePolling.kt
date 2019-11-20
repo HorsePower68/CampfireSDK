@@ -97,11 +97,6 @@ class SCreatePagePolling(
         update()
     }
 
-    override fun onResume() {
-        super.onResume()
-        ToolsThreads.main(500) { ToolsView.showKeyboard(vContainer.getChildAt(0)) }
-    }
-
     override fun onBackPressed(): Boolean {
         onCancel()
         return true

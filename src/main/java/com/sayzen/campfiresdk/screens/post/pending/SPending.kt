@@ -11,13 +11,11 @@ import com.sayzen.campfiresdk.screens.post.create.SPostCreate
 import com.sup.dev.android.libs.screens.navigator.Navigator
 import com.sup.dev.android.views.screens.SLoadingRecycler
 import com.sup.dev.android.views.support.adapters.recycler_view.RecyclerCardAdapterLoading
-import com.sup.dev.android.views.support.adapters.recycler_view.decorators.DecoratorVerticalSpace
 
 class SPending : SLoadingRecycler<CardPost, PublicationPost>() {
 
     init {
         setScreenColorBackground()
-        vRecycler.addItemDecoration(DecoratorVerticalSpace())
         setTitle(R.string.app_pending)
         setTextEmpty(R.string.post_drafts_empty_text)
         setTextProgress(R.string.post_drafts_loading)

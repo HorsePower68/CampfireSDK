@@ -12,6 +12,7 @@ import com.sup.dev.java.tools.ToolsText
 object CampfireConstants {
 
     val RATE_TIME = 2000L
+    val VOTE_TIME = 2000L
 
     val CHECK_RULES_ACCEPTED = "CHECK_RULES_ACCEPTED"
 

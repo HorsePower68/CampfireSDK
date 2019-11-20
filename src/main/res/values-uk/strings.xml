@@ -279,6 +279,8 @@
     <string name="she_assign">назначила</string>
     <string name="he_react">отреагировал</string>
     <string name="she_react">отреагировала</string>
+    <string name="he_give">передал</string>
+    <string name="she_give">передала</string>
 
     <string name="filter_events">События</string>
     <string name="filter_posts">Посты</string>
@@ -338,6 +340,7 @@
     <string name="notification_admin_moderation_restore">Ваша публикация востановлена</string>
     <string name="notification_admin_post_fandom_change">Администартор %s %s ваш пост из фэндома %s в %s</string>
     <string name="notification_mention">%s %s вас</string>
+    <string name="notification_activitie_relay_race_turn">%s %s вам эстафету %s в фэндоме %s</string>
     <string name="notification_quest_finish">Ежедневное задание завершено</string>
     <string name="notification_rubric_change_name">%s %s название рубрики с %s на %s</string>
     <string name="notification_rubric_change_owner">%s %s владельца рубрики %s на %s</string>
@@ -407,7 +410,11 @@
     <string name="moderation_text_tag_change_tag_and_add_image">%s название тега %s на %s и добавил изображение.</string>
     <string name="moderation_text_description">%s описание.</string>
     <string name="moderation_text_forgive">%s пользователя %s.</string>
-    <string name="moderation_text_activities_create_relay_race">%s эстафету %s.</string>
+    <string name="moderation_text_activities_relay_race_create">%s эстафету %s.</string>
+    <string name="moderation_text_activities_relay_race_change">%s эстафету %s.</string>
+    <string name="moderation_text_activities_relay_race_change_name">\nНовое название: %s.</string>
+    <string name="moderation_text_activities_relay_race_change_description">\nНовое описание: %s.</string>
+    <string name="moderation_text_activities_relay_race_remove">%s эстафету %s.</string>
     <string name="moderation_text_gallery_add">%s изображение в галерею.</string>
     <string name="moderation_text_gallery_remove">%s изображение из галереи.</string>
     <string name="moderation_text_link_add">%s ссылку фэндома.</string>
@@ -1049,6 +1056,11 @@
     <string name="activities_video_ad_title_sub">Вы повышаете свой уровень, а мы оплачиваем сервер Campfire :)</string>
     <string name="activities_relay_race_creation">Создание эстафеты</string>
     <string name="activities_relay_race_error_lvl">Вы не можете создать эстафету в этом фэндоме. Проверьте свою карму.</string>
+    <string name="activities_relay_race_remove_title">Удалить эстафету</string>
+    <string name="activities_relay_race_change_title">Изменить эстафету</string>
+    <string name="activities_empty">Здесь еще нет активностей</string>
+    <string name="activities_loading">Загрузка списка активностей</string>
+    <string name="activities_all">Все активности</string>
 
     <string name="quests_story_title">Эпический квест</string>
     <string name="quests_next">Следующее задание будет доступно завтра.</string>

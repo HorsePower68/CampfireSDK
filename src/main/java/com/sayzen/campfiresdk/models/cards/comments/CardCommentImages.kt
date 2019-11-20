@@ -15,7 +15,9 @@ class CardCommentImages(
         onClick: ((PublicationComment) -> Boolean)? = null,
         onQuote: ((PublicationComment) -> Unit)? = null,
         onGoTo: ((Long) -> Unit)?
-) : CardComment(if (miniSize) R.layout.card_comment_images_mini else R.layout.card_comment_images, publication, dividers, miniSize, onClick, onQuote, onGoTo) {
+) : CardComment(
+        if (miniSize) R.layout.card_comment_images_mini else if (dividers) R.layout.card_comment_images else R.layout.card_comment_images_card,
+        publication, dividers, miniSize, onClick, onQuote, onGoTo) {
 
     override fun bind(view: View) {
         val publication = xPublication.publication as PublicationComment

@@ -20,7 +20,6 @@ import com.sup.dev.android.tools.ToolsToast
 import com.sup.dev.android.views.cards.CardSpace
 import com.sup.dev.android.views.screens.SLoadingRecycler
 import com.sup.dev.android.views.support.adapters.recycler_view.RecyclerCardAdapterLoading
-import com.sup.dev.android.views.support.adapters.recycler_view.decorators.DecoratorVerticalSpace
 import com.sup.dev.java.libs.eventBus.EventBus
 import com.sup.dev.java.tools.ToolsThreads
 
@@ -66,7 +65,6 @@ class SReviews private constructor(
         setTextEmpty(R.string.fandom_review_empty)
 
         (vFab as View).visibility = View.VISIBLE
-        vRecycler.addItemDecoration(DecoratorVerticalSpace())
         update()
     }
 

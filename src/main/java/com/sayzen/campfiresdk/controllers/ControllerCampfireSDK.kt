@@ -329,20 +329,21 @@ object ControllerCampfireSDK {
     }
 
 
-    fun putAd(vRecycler: RecyclerView, adapterSub: RecyclerCardAdapter, extraOffset: Int = 0, retryCount: Int = 10) {
+    fun putAd(vRecycler: RecyclerView, adapterSub: RecyclerCardAdapter, retryCount: Int = 10) {
         if (adapterSub.get(CardAd::class).isNotEmpty()) return
         if (adapterSub.get(CardPost::class).size < 5) {
-            ToolsThreads.main(2000) { if (retryCount > 0) putAd(vRecycler, adapterSub, extraOffset, retryCount - 1) }
+            ToolsThreads.main(2000) { if (retryCount > 0) putAd(vRecycler, adapterSub, retryCount - 1) }
             return
         }
         val card = getCardAd()
         if (card == null) {
-            ToolsThreads.main(2000) { if (retryCount > 0) putAd(vRecycler, adapterSub, extraOffset, retryCount - 1) }
+            ToolsThreads.main(2000) { if (retryCount > 0) putAd(vRecycler, adapterSub, retryCount - 1) }
             return
         }
 
         info("XAd", "Ad inserted to feed")
-        var position = (vRecycler.layoutManager as LinearLayoutManager).findLastVisibleItemPosition() + 5 + extraOffset
+        val extraCards = adapterSub.size() - adapterSub.get(CardPost::class).size
+        var position = (vRecycler.layoutManager as LinearLayoutManager).findLastVisibleItemPosition() + 5 + extraCards
         if (position > adapterSub.size()) position = adapterSub.size()
         adapterSub.add(position, card)
     }

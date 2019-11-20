@@ -84,6 +84,12 @@
 
             </LinearLayout>
 
+            <com.sup.dev.android.views.views.ViewProgressCircle
+                android:id="@+id/vProgress"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_gravity="center"/>
+
 
         </FrameLayout>
 

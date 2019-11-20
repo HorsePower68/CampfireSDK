@@ -8,7 +8,6 @@ import com.sayzen.campfiresdk.models.events.publications.EventPublicationReports
 import com.sayzen.campfiresdk.controllers.api
 import com.sup.dev.android.views.screens.SLoadingRecycler
 import com.sup.dev.android.views.support.adapters.recycler_view.RecyclerCardAdapterLoading
-import com.sup.dev.android.views.support.adapters.recycler_view.decorators.DecoratorVerticalSpace
 import com.sup.dev.java.libs.eventBus.EventBus
 
 class SReports(
@@ -24,8 +23,6 @@ class SReports(
         setBackgroundImage(R.drawable.bg_15)
         setTitle(R.string.moderation_screen_reports)
         setTextEmpty(R.string.moderation_screen_reports_empty)
-
-        vRecycler.addItemDecoration(DecoratorVerticalSpace())
     }
 
     override fun instanceAdapter(): RecyclerCardAdapterLoading<CardPublication, Publication> {

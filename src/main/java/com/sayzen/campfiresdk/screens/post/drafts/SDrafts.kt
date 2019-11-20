@@ -21,7 +21,6 @@ import com.sup.dev.android.libs.screens.navigator.Navigator
 import com.sup.dev.android.tools.ToolsResources
 import com.sup.dev.android.views.screens.SLoadingRecycler
 import com.sup.dev.android.views.support.adapters.recycler_view.RecyclerCardAdapterLoading
-import com.sup.dev.android.views.support.adapters.recycler_view.decorators.DecoratorVerticalSpace
 import com.sup.dev.android.views.widgets.WidgetMenu
 import com.sup.dev.java.libs.eventBus.EventBus
 
@@ -35,7 +34,6 @@ class SDrafts constructor(
 
     init {
         setScreenColorBackground()
-        vRecycler.addItemDecoration(DecoratorVerticalSpace())
         setTitle(R.string.app_drafts)
         setTextEmpty(R.string.post_drafts_empty_text)
         setTextProgress(R.string.post_drafts_loading)

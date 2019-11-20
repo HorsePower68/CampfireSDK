@@ -15,7 +15,6 @@ import com.sup.dev.android.libs.screens.navigator.NavigationAction
 import com.sup.dev.android.libs.screens.navigator.Navigator
 import com.sup.dev.android.tools.ToolsResources
 import com.sup.dev.android.views.support.adapters.recycler_view.RecyclerCardAdapterLoading
-import com.sup.dev.android.views.support.adapters.recycler_view.decorators.DecoratorVerticalSpace
 import com.sup.dev.android.views.screens.SLoadingRecycler
 
 class SPostsSearch(val tag: PublicationTag) : SLoadingRecycler<CardPublication, Publication>() {
@@ -43,7 +42,6 @@ class SPostsSearch(val tag: PublicationTag) : SLoadingRecycler<CardPublication, 
             else
                 STags.instance(tag.fandomId, tag.languageId, Navigator.REPLACE)
         }
-        vRecycler.addItemDecoration(DecoratorVerticalSpace())
         (vFab as View).visibility = View.VISIBLE
         vFab.setImageResource(ToolsResources.getDrawableAttrId(R.attr.ic_add_24dp))
         vFab.setOnClickListener {

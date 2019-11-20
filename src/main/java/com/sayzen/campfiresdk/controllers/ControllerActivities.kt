@@ -1,7 +1,9 @@
 package com.sayzen.campfiresdk.controllers
 
 import com.dzen.campfire.api.API
+import com.dzen.campfire.api.models.activities.UserActivity
 import com.dzen.campfire.api.requests.activities.RActivitiesAdministrationGetCounts
+import com.dzen.campfire.api.requests.activities.RActivitiesRemove
 import com.dzen.campfire.api.requests.project.RVideoAdGetCount
 import com.dzen.campfire.api.requests.project.RVideoAdView
 import com.sayzen.campfiresdk.R
@@ -9,10 +11,15 @@ import com.sayzen.campfiresdk.models.events.fandom.EventFandomAccepted
 import com.sayzen.campfiresdk.models.events.project.EventAchiProgressIncr
 import com.sayzen.campfiresdk.models.events.activities.EventActivitiesAdminCountChanged
 import com.sayzen.campfiresdk.models.events.activities.EventActivitiesCountChanged
+import com.sayzen.campfiresdk.models.events.activities.EventActivitiesRemove
+import com.sayzen.campfiresdk.screens.activities.user_activities.SRelayRaceCreate
 import com.sayzen.devsupandroidgoogle.ControllerAdsVideoReward
 import com.sup.dev.android.libs.api_simple.ApiRequestsSupporter
+import com.sup.dev.android.libs.screens.navigator.Navigator
+import com.sup.dev.android.tools.ToolsAndroid
 import com.sup.dev.android.tools.ToolsToast
 import com.sup.dev.android.views.widgets.Widget
+import com.sup.dev.android.views.widgets.WidgetMenu
 import com.sup.dev.java.libs.debug.err
 import com.sup.dev.java.libs.eventBus.EventBus
 import com.sup.dev.java.tools.ToolsThreads
@@ -50,6 +57,21 @@ object ControllerActivities {
 
     fun getActivitiesCount() = activitiesCount
 
+    fun showMenu(userActivity: UserActivity) {
+        WidgetMenu()
+                .add(R.string.app_copy_link) { _, _ -> ToolsAndroid.setToClipboard(ControllerApi.linkToActivity(userActivity.id));ToolsToast.show(R.string.app_copied) }
+                .add(R.string.app_change) { _, _ ->  Navigator.to(SRelayRaceCreate(userActivity)) }.condition(ControllerApi.can(userActivity.fandomId, userActivity.languageId, API.LVL_MODERATOR_RELAY_RACE)).textColorRes(R.color.white).backgroundRes(R.color.blue_700)
+                .add(R.string.app_remove) { _, _ -> removeActivity(userActivity) }.condition(ControllerApi.can(userActivity.fandomId, userActivity.languageId, API.LVL_MODERATOR_RELAY_RACE)).textColorRes(R.color.white).backgroundRes(R.color.blue_700)
+                .asSheetShow()
+    }
+
+    fun removeActivity(userActivity: UserActivity) {
+        ControllerApi.moderation(R.string.activities_relay_race_remove_title, R.string.app_remove, {RActivitiesRemove(userActivity.id, it)}){
+            ToolsToast.show(R.string.app_done)
+            EventBus.post(EventActivitiesRemove(userActivity.id))
+        }
+    }
+
     //
     //  Administration
     //
@@ -64,7 +86,7 @@ object ControllerActivities {
         administrationLoadInProgress = true
         clearAdmins()
         RActivitiesAdministrationGetCounts(ControllerSettings.adminReportsLanguages)
-                .onComplete{
+                .onComplete {
                     suggestedFandomsCount = it.suggestedFandomsCount
                     reportsCount = it.reportsCount
                     reportsUserCount = it.reportsUserCount
@@ -72,7 +94,7 @@ object ControllerActivities {
                     administrationLoadInProgress = false
                     EventBus.post(EventActivitiesAdminCountChanged())
                 }
-                .onError{
+                .onError {
                     administrationLoadInProgress = false
                     EventBus.post(EventActivitiesAdminCountChanged())
                     err(it)

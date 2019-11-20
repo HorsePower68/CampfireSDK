@@ -7,7 +7,6 @@ import com.sayzen.campfiresdk.models.cards.CardPublication
 import com.sup.dev.android.tools.ToolsResources
 import com.sup.dev.android.views.screens.SLoadingRecycler
 import com.sup.dev.android.views.support.adapters.recycler_view.RecyclerCardAdapterLoading
-import com.sup.dev.android.views.support.adapters.recycler_view.decorators.DecoratorVerticalSpace
 
 class SAdministrationDeepBlocked(val accountId: Long) : SLoadingRecycler<CardPublication, Publication>() {
 
@@ -15,7 +14,6 @@ class SAdministrationDeepBlocked(val accountId: Long) : SLoadingRecycler<CardPub
         vScreenRoot!!.setBackgroundColor(ToolsResources.getBackgroundColor(context))
         setTitle("")
         setTextEmpty("Нет заблокированных публикаций")
-        vRecycler.addItemDecoration(DecoratorVerticalSpace())
     }
 
     override fun instanceAdapter(): RecyclerCardAdapterLoading<CardPublication, Publication> {

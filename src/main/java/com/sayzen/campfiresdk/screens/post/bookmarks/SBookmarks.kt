@@ -12,7 +12,6 @@ import com.sup.dev.android.libs.screens.navigator.Navigator
 import com.sup.dev.android.tools.ToolsResources
 import com.sup.dev.android.views.support.adapters.recycler_view.RecyclerCardAdapterLoading
 import com.sup.dev.android.views.screens.SLoadingRecycler
-import com.sup.dev.android.views.support.adapters.recycler_view.decorators.DecoratorVerticalSpace
 import com.sup.dev.java.libs.eventBus.EventBus
 
 class SBookmarks private constructor() : SLoadingRecycler<CardPublication, Publication>() {
@@ -33,7 +32,6 @@ class SBookmarks private constructor() : SLoadingRecycler<CardPublication, Publi
         setTextEmpty(R.string.bookmarks_empty)
         setTextProgress(R.string.bookmarks_loading)
         setBackgroundImage(R.drawable.bg_1)
-        vRecycler.addItemDecoration(DecoratorVerticalSpace())
     }
 
     override fun instanceAdapter(): RecyclerCardAdapterLoading<CardPublication, Publication> {

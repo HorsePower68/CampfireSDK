@@ -4,7 +4,9 @@ import android.view.View
 import com.dzen.campfire.api.API
 import com.dzen.campfire.api.models.publications.Publication
 import com.dzen.campfire.api.models.publications.moderations.*
+import com.dzen.campfire.api.models.publications.moderations.activities.ModerationActivitiesChange
 import com.dzen.campfire.api.models.publications.moderations.activities.ModerationActivitiesCreate
+import com.dzen.campfire.api.models.publications.moderations.activities.ModerationActivitiesRemove
 import com.dzen.campfire.api.models.publications.moderations.fandom.*
 import com.dzen.campfire.api.models.publications.moderations.chat.ModerationChatChange
 import com.dzen.campfire.api.models.publications.moderations.chat.ModerationChatCreate
@@ -390,7 +392,15 @@ object ControllerPublications {
                 text = ToolsResources.sCap(R.string.moderation_text_forgive, ToolsResources.sex(publication.creatorSex, R.string.he_forgive, R.string.she_forgive), ControllerApi.linkToUser(m.accountName))
             }
             is ModerationActivitiesCreate -> {
-                text = ToolsResources.sCap(R.string.moderation_text_activities_create_relay_race, ToolsResources.sex(publication.creatorSex, R.string.he_created, R.string.she_created), m.name)
+                text = ToolsResources.sCap(R.string.moderation_text_activities_relay_race_create, ToolsResources.sex(publication.creatorSex, R.string.he_created, R.string.she_created), m.name)
+            }
+            is ModerationActivitiesChange -> {
+                text = ToolsResources.sCap(R.string.moderation_text_activities_relay_race_change, ToolsResources.sex(publication.creatorSex, R.string.he_changed, R.string.she_changed), m.oldName)
+                if(m.oldName != m.newName) text += ToolsResources.s(R.string.moderation_text_activities_relay_race_change_name, m.newName)
+                if(m.oldDescription != m.newDescription) text += ToolsResources.s(R.string.moderation_text_activities_relay_race_change_description, m.newDescription)
+            }
+            is ModerationActivitiesRemove -> {
+                text = ToolsResources.sCap(R.string.moderation_text_activities_relay_race_remove, ToolsResources.sex(publication.creatorSex, R.string.he_remove, R.string.she_remove), m.name)
             }
             is ModerationChatCreate -> {
                 text = ToolsResources.sCap(R.string.moderation_text_chat_create, ToolsResources.sex(publication.creatorSex, R.string.he_created, R.string.she_created), m.name)
@@ -463,6 +473,10 @@ object ControllerPublications {
             }
             is ModerationActivitiesCreate -> {
                 ToolsView.addLink(vText, m.name) { SRelayRaceInfo.instance(m.activityId, Navigator.TO) }
+            }
+            is ModerationActivitiesChange -> {
+                ToolsView.addLink(vText, m.oldName) { SRelayRaceInfo.instance(m.activityId, Navigator.TO) }
+                ToolsView.addLink(vText, m.newName) { SRelayRaceInfo.instance(m.activityId, Navigator.TO) }
             }
         }
     }
