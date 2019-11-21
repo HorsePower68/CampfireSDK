@@ -4,6 +4,7 @@ import androidx.annotation.DrawableRes
 import com.dzen.campfire.api.API
 import com.dzen.campfire.api.models.AchievementInfo
 import com.dzen.campfire.api.models.QuestInfo
+import com.dzen.campfire.api.models.project.StoryQuest
 import com.sayzen.campfiresdk.R
 import com.sayzen.campfiresdk.models.objects.*
 import com.sup.dev.android.tools.ToolsResources
@@ -137,15 +138,21 @@ object CampfireConstants {
     )
 
     val QUESTS_STORY = arrayOf(
-            QuestStory(API.QUEST_STORY_START, R.string.quests_story_1, R.string.quests_story_1_button, false),
-            QuestStory(API.QUEST_STORY_KARMA, R.string.quests_story_2),
-            QuestStory(API.QUEST_STORY_ACHI_SCREEN, R.string.quests_story_3),
-            QuestStory(API.QUEST_STORY_CHAT, R.string.quests_story_4),
-            QuestStory(API.QUEST_STORY_FANDOM, R.string.quests_story_5),
-            QuestStory(API.QUEST_STORY_PROFILE, R.string.quests_story_6),
-            QuestStory(API.QUEST_STORY_FILTERS, R.string.quests_story_7),
-            QuestStory(API.QUEST_STORY_POST, R.string.quests_story_8),
-            QuestStory(API.QUEST_STORY_FINISH, R.string.quests_story_9)
+            QuestStory(API.QUEST_STORY_START, R.string.quests_story_start, R.string.quests_story_start_button, false),
+            QuestStory(API.QUEST_STORY_KARMA, R.string.quests_story_karma),
+            QuestStory(API.QUEST_STORY_ACHI_SCREEN, R.string.quests_story_achi_screen),
+            QuestStory(API.QUEST_STORY_CHAT, R.string.quests_story_chat),
+            QuestStory(API.QUEST_STORY_FANDOM, R.string.quests_story_fandom),
+            QuestStory(API.QUEST_STORY_PROFILE, R.string.quests_story_profile),
+            QuestStory(API.QUEST_STORY_FILTERS, R.string.quests_story_filters),
+            QuestStory(API.QUEST_STORY_POST, R.string.quests_story_post),
+            QuestStory(API.QUEST_STORY_FINISH, R.string.quests_story_finish, null, false),
+            QuestStory(API.QUEST_STORY_COMMENTS, R.string.quests_story_comments),
+            QuestStory(API.QUEST_STORY_BOOKMARKS, R.string.quests_story_bookmarks),
+            QuestStory(API.QUEST_STORY_BOOKMARKS_SCREEN, R.string.quests_story_bookmarks_screen),
+            QuestStory(API.QUEST_STORY_DRAFT, R.string.quests_story_draft),
+            QuestStory(API.QUEST_STORY_RATINGS, R.string.quests_story_ratings),
+            QuestStory(API.QUEST_STORY_STICKERS, R.string.quests_story_stickers)
     )
 
     val CATEGORIES = arrayOf(
@@ -233,9 +240,13 @@ object CampfireConstants {
         return Quest(API.QUEST_UNKNOWN, R.string.error_unknown)
     }
 
+    fun getStoryQuest(quest: StoryQuest): QuestStory? {
+        return getStoryQuest(quest.index.toLong())
+    }
+
     fun getStoryQuest(index: Long): QuestStory? {
         for (a in QUESTS_STORY)
-            if (a.index == index)
+            if (a.quest.index.toLong() == index)
                 return a
         return null
     }

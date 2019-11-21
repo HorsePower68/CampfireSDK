@@ -41,14 +41,14 @@ class CardStoryQuest : Card(R.layout.screen_fandom_card_story_quest) {
         vQuestProgress.visibility = if (quest.progressLine) View.VISIBLE else View.GONE
         vEpicQuestButton.visibility = View.GONE
 
-        vQuestLine.setProgress(ControllerSettings.storyQuestProgress, ControllerSettings.storyQuestProgressNeed)
-        vQuestProgress.text = "${ControllerSettings.storyQuestProgress} / ${ControllerSettings.storyQuestProgressNeed}"
+        vQuestLine.setProgress(ControllerSettings.storyQuestProgress, quest.quest.count)
+        vQuestProgress.text = "${ControllerSettings.storyQuestProgress} / ${quest.quest.count}"
 
 
         vEpicQuestText.setText(quest.text)
 
         vEpicQuestButton.setOnClickListener { ControllerStoryQuest.finishQuest() }
-        if (ControllerSettings.storyQuestProgress >= ControllerSettings.storyQuestProgressNeed) {
+        if (ControllerSettings.storyQuestProgress >= quest.quest.count) {
             vEpicQuestButton.visibility = View.VISIBLE
             vQuestLine.visibility = View.GONE
             vQuestProgress.visibility = View.GONE

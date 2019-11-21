@@ -49,6 +49,7 @@ object ControllerStickers {
                 ApiRequestsSupporter.executeEnabledConfirm(R.string.sticker_add, R.string.app_add, RStickersPackCollectionAdd(publication.id)) {
                     EventBus.post(EventStickersPackCollectionChanged(publication, true))
                     ToolsToast.show(R.string.stickers_message_add_to_collection_pack)
+                    ControllerStoryQuest.incrQuest(API.QUEST_STORY_STICKERS)
                 }
             }
         }

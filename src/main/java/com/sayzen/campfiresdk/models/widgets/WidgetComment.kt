@@ -10,6 +10,7 @@ import com.dzen.campfire.api.requests.units.RUnitsCommentCreate
 import com.sayzen.campfiresdk.R
 import com.sayzen.campfiresdk.controllers.ControllerApi
 import com.sayzen.campfiresdk.controllers.ControllerSettings
+import com.sayzen.campfiresdk.controllers.ControllerStoryQuest
 import com.sayzen.campfiresdk.models.events.publications.EventCommentAdd
 import com.sayzen.campfiresdk.models.events.publications.EventCommentChange
 import com.sayzen.campfiresdk.models.events.publications.EventPublicationCommentWatchChange
@@ -131,6 +132,7 @@ class WidgetComment constructor(
         EventBus.post(EventCommentAdd(publicationId, comment))
         if (ControllerSettings.watchPost) EventBus.post(EventPublicationCommentWatchChange(publicationId, true))
         hide()
+        ControllerStoryQuest.incrQuest(API.QUEST_STORY_COMMENTS)
     }
 
     private fun getText() = vText.text!!.toString().trim { it <= ' ' }

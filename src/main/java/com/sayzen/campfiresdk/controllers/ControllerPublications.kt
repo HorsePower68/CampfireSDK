@@ -247,6 +247,7 @@ object ControllerPublications {
 
     fun changeBookmark(publicationId: Long) {
         ApiRequestsSupporter.executeProgressDialog(RUnitsBookmarksChange(publicationId)) { r ->
+            ControllerStoryQuest.incrQuest(API.QUEST_STORY_BOOKMARKS)
             EventBus.post(EventPublicationBookmarkChange(publicationId, r.bookmark))
             if (r.bookmark) ToolsToast.show(R.string.bookmarks_added)
             else ToolsToast.show(R.string.bookmarks_removed)

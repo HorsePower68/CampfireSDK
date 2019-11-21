@@ -8,8 +8,6 @@ import com.dzen.campfire.api.API
 import com.dzen.campfire.api.requests.accounts.RAccountsSetRecruiter
 import com.dzen.campfire.api.models.AchievementInfo
 import com.dzen.campfire.api.requests.achievements.RAchievementsOnFinish
-import com.dzen.campfire.api.requests.project.RVideoAdGetCount
-import com.dzen.campfire.api.requests.project.RVideoAdView
 import com.sayzen.campfiresdk.R
 import com.sayzen.campfiresdk.models.widgets.WidgetRules
 import com.sayzen.campfiresdk.screens.account.search.SAccountSearch
@@ -28,7 +26,6 @@ import com.sup.dev.android.views.cards.Card
 import com.sup.dev.android.views.views.ViewAvatar
 import com.sup.dev.android.views.views.ViewChipMini
 import com.sup.dev.android.views.views.ViewProgressLine
-import com.sup.dev.android.views.widgets.Widget
 import com.sup.dev.java.classes.Subscription
 import com.sup.dev.java.classes.animation.AnimationPendulum
 import com.sup.dev.java.classes.animation.AnimationPendulumColor

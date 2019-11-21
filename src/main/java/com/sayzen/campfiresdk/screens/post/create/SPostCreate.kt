@@ -13,6 +13,7 @@ import com.sayzen.campfiresdk.R
 import com.sayzen.campfiresdk.adapters.XFandom
 import com.sayzen.campfiresdk.controllers.ControllerApi
 import com.sayzen.campfiresdk.controllers.ControllerCampfireSDK
+import com.sayzen.campfiresdk.controllers.ControllerStoryQuest
 import com.sayzen.campfiresdk.models.events.publications.EventPostChanged
 import com.sayzen.campfiresdk.models.events.publications.EventPostDraftCreated
 import com.sayzen.campfiresdk.models.events.publications.EventPublicationRemove
@@ -130,6 +131,7 @@ class SPostCreate constructor(
             if (this.publicationId == 0L) setPublicationId(r.publicationId)
             onCreate.invoke(r.pages)
             EventBus.post(EventPostChanged(publicationId, xPostCreator.pages))
+            ControllerStoryQuest.incrQuest(API.QUEST_STORY_DRAFT)
         }.onFinish {
             onFinish.invoke()
         }

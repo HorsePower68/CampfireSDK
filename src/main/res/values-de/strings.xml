@@ -653,7 +653,7 @@ Campfire has anime fandoms and gaming fandoms.</string>
 
     <string name="achi_click">(click)</string>
     <string name="achi_video_not_loaded">Ad is not loaded yet</string>
-    <string name="achi_video_not_available">You can no longer watch the video today</string>
+    <string name="achi_video_loading">Searching for a video</string>
     <string name="achi_you_are_here">You are here</string>
     <string name="achi_spoiler_instruction">Instruction</string>
     <string name="achi_spoiler_sharing">Sharing</string>
@@ -704,7 +704,7 @@ Campfire has anime fandoms and gaming fandoms.</string>
     <string name="achi_58">Get positive rates.</string>
     <string name="achi_59">You should have more positive rates than negative ones.</string>
     <string name="achi_60">Subscribe to any chat.</string>
-    <string name="achi_61">Watch ad to support the project.</string>
+    <string name="achi_61">Watch ad to support the project. (maximum 3 per day)</string>
 
     <string name="lvl_app_access">Ability to use the application</string>
     <string name="lvl_app_status">Ability to change profile status</string>
@@ -1048,8 +1048,9 @@ Campfire has anime fandoms and gaming fandoms.</string>
     <string name="post_close_confirm">Close this post?</string>
     <string name="post_open_confirm">Open this post?</string>
 
-    <string name="activities_video_ad_title">View video Ad</string>
-    <string name="activities_video_ad_title_sub">You rice you\'r level, and we can pay for Campfire server :)</string>
+    <string name="activities_support">Support project</string>
+    <string name="activities_support_card_title">Collected ad views to pay for the server this month:</string>
+    <string name="activities_support_card_action">View ad</string>
     <string name="activities_relay_race_creation">Relay race creation</string>
     <string name="activities_relay_race_error_lvl">You can\'t create relay race in this fandom. Check you\'r karma.</string>
     <string name="activities_relay_race_remove_title">Remove relay race</string>
@@ -1067,17 +1068,22 @@ Campfire has anime fandoms and gaming fandoms.</string>
     <string name="quests_text_chat">Write several messages in the chat.</string>
     <string name="quests_text_posts_karma">Publish an post that will get large amount of karma.</string>
     <string name="quests_text_comments_karma">Post a comment that will get a lot of karma.</string>
-    <string name="quests_story_1">We have several quests that will help you get used to the application.</string>
-    <string name="quests_story_1_button">I\'m ready!</string>
-    <string name="quests_story_2">Karma is the basis of Campfire. All your actions in the application can be evaluated by other users, both positively and negatively. Your possibilities depend on karma.\n\nRate several publications, to understand as this works.</string>
-    <string name="quests_story_3">Level is the second most important thing in Campfire. The level affects the amount of karma that you add or take away from other users by evaluating their publications and depends on the level of your right to use certain features in the application, such as the ability to ban other users.\n\nOpen the achievements screen (an Asterisk in the navigation bar) and learn more about achievements and privileges.</string>
-    <string name="quests_story_4">Chats - all communication takes place in them. You can join existing chats in various fandoms, create your own chat and add friends to it, or just chat in private messages. In your chat list, the main chat application is automatically added.\n\nWrite something in the chat</string>
-    <string name="quests_story_5">Fandoms - all posts are created in fandoms, it is in them that people gather who share a common interest, subscribe to interesting fandoms, then they will simply be displayed in the feed in a separate screen.\n\nOpen the fandom screen through the menu and subscribe to the fandom you are interested in.</string>
-    <string name="quests_story_6">Profile-in it you see everything about yourself and other users. Created posts, public chat messages, achievements, karma, subscriptions, blacklist, stickers... in General, all! Go to the user profile by clicking on his avatar anywhere in the application.\n\nOpen your profile through the menu.</string>
-    <string name="quests_story_7">Feed-you are now in it, all posts of the application are displayed here. The tape is divided into different screens, each showing its part of the screen. You can customize the ribbon as you like.\n\nScroll the ribbon to the right, to the last screen, and open its settings.</string>
-    <string name="quests_story_8">Posts are the main source of karma for your account. Posts can be completely different, it can be just a picture or an entire article. Campfire has a very good tool for creating posts.\n\nCreate a post. Tap the plus sign in the corner of the screen.</string>
-    <string name="quests_story_9">Daily quest. Congratulations you have completed the quest. Now you will be available daily tasks. They will be displayed on the first screen of the ribbon. For completing daily tasks you will increase your level. With each level, the job will become more difficult and confusing.\n\nclick finish To go to the daily tasks.</string>
-
+    <string name="quests_story_start">We have several quests that will help you get used to the application.</string>
+    <string name="quests_story_start_button">I\'m ready!</string>
+    <string name="quests_story_karma">Karma is the basis of Campfire. All your actions in the application can be evaluated by other users, both positively and negatively. Your possibilities depend on karma.\n\nRate several publications, to understand as this works.</string>
+    <string name="quests_story_achi_screen">Level is the second most important thing in Campfire. The level affects the amount of karma that you add or take away from other users by evaluating their publications and depends on the level of your right to use certain features in the application, such as the ability to ban other users.\n\nOpen the achievements screen (an Asterisk in the navigation bar) and learn more about achievements and privileges.</string>
+    <string name="quests_story_chat">Chats - all communication takes place in them. You can join existing chats in various fandoms, create your own chat and add friends to it, or just chat in private messages. In your chat list, the main chat application is automatically added.\n\nWrite something in the chat</string>
+    <string name="quests_story_fandom">Fandoms - all posts are created in fandoms, it is in them that people gather who share a common interest, subscribe to interesting fandoms, then they will simply be displayed in the feed in a separate screen.\n\nOpen the fandom screen through the menu and subscribe to the fandom you are interested in.</string>
+    <string name="quests_story_profile">Profile-in it you see everything about yourself and other users. Created posts, public chat messages, achievements, karma, subscriptions, blacklist, stickers... in General, all! Go to the user profile by clicking on his avatar anywhere in the application.\n\nOpen your profile through the menu.</string>
+    <string name="quests_story_filters">Feed-you are now in it, all posts of the application are displayed here. The tape is divided into different screens, each showing its part of the screen. You can customize the ribbon as you like.\n\nScroll the ribbon to the right, to the last screen, and open its settings.</string>
+    <string name="quests_story_post">Posts are the main source of karma for your account. Posts can be completely different, it can be just a picture or an entire article. Campfire has a very good tool for creating posts.\n\nCreate a post. Tap the plus sign in the corner of the screen.</string>
+    <string name="quests_story_finish">Daily quest. Congratulations you have completed the quest. Now you will be available daily tasks. They will be displayed on the first screen of the ribbon. For completing daily tasks you will increase your level. With each level, the job will become more difficult and confusing.\n\nclick finish To go to the daily tasks.</string>
+    <string name="quests_story_comments">xxx</string>
+    <string name="quests_story_bookmarks">xxx</string>
+    <string name="quests_story_bookmarks_screen">xxx</string>
+    <string name="quests_story_draft">xxx</string>
+    <string name="quests_story_ratings">xxx</string>
+    <string name="quests_story_stickers">xxx</string>
 
     <string name="wiki_list_empty">There are no items in this wiki yet.</string>
     <string name="wiki_item_create_name">Name (%s)</string>

@@ -13,6 +13,7 @@ import com.sayzen.campfiresdk.screens.activities.administration.block.SAdministr
 import com.sayzen.campfiresdk.screens.activities.administration.fandoms.SAdministrationFandoms
 import com.sayzen.campfiresdk.screens.activities.administration.reports.SAdministrationReports
 import com.sayzen.campfiresdk.screens.activities.administration.reports.SAdministrationUserReports
+import com.sayzen.campfiresdk.screens.activities.support.SSupport
 import com.sayzen.campfiresdk.screens.activities.user_activities.SUserActivitiesList
 import com.sup.dev.android.libs.screens.Screen
 import com.sup.dev.android.libs.screens.navigator.Navigator
@@ -26,7 +27,7 @@ class SActivities : Screen(R.layout.screen_activities) {
             .subscribe(EventActivitiesAdminCountChanged::class) { updateCounters() }
 
     private val vRelayRace: Settings = findViewById(R.id.vRelayRace)
-    private val vVideoAd: Settings = findViewById(R.id.vVideoAd)
+    private val vSupport: Settings = findViewById(R.id.vSupport)
     private val vTitleAdmins: Settings = findViewById(R.id.vTitleAdmins)
     private val vFandoms: Settings = findViewById(R.id.vFandoms)
     private val vUserReports: Settings = findViewById(R.id.vUserReports)
@@ -51,7 +52,7 @@ class SActivities : Screen(R.layout.screen_activities) {
         vRequests.setOnClickListener { SAdministrationRequests.instance(Navigator.TO) }
         vQuery.setOnClickListener { SAdministrationQuery.instance(Navigator.TO) }
         vErrors.setOnClickListener { SAdministrationErrors.instance(Navigator.TO) }
-        vVideoAd.setOnClickListener { ControllerActivities.showVideoAd() }
+        vSupport.setOnClickListener { SSupport.instance(Navigator.TO) }
 
         vTitleAdmins.visibility = if (ControllerApi.can(API.LVL_ADMIN_MODER)) View.VISIBLE else View.GONE
         vUserReports.visibility = if (ControllerApi.can(API.LVL_ADMIN_BAN)) View.VISIBLE else View.GONE

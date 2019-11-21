@@ -251,13 +251,6 @@ object ControllerSettings {
             onSettingsUpdated()
         }
 
-    var storyQuestProgressNeed: Long
-        get() = accountSettings.storyQuestProgressNeed
-        set(b) {
-            accountSettings.storyQuestProgressNeed = b
-            onSettingsUpdated()
-        }
-
     //
     //  Notifications Settings
     //
@@ -428,7 +421,7 @@ object ControllerSettings {
         }
 
     var feedOrder: Array<Long>
-        get() =if (accountSettings.feedOrder.isEmpty()) arrayOf(1L, 3L, 4L, 5L) else  accountSettings.feedOrder
+        get() =if (accountSettings.feedOrder.isEmpty()) arrayOf(1L, 2L) else  accountSettings.feedOrder
         set(b) {
             accountSettings.feedOrder = b
             onSettingsUpdated()

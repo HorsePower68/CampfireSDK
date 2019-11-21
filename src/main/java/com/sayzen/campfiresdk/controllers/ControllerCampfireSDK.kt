@@ -330,8 +330,9 @@ object ControllerCampfireSDK {
 
 
     fun putAd(vRecycler: RecyclerView, adapterSub: RecyclerCardAdapter, retryCount: Int = 10) {
+        val p = 10
         if (adapterSub.get(CardAd::class).isNotEmpty()) return
-        if (adapterSub.get(CardPost::class).size < 5) {
+        if (adapterSub.get(CardPost::class).size < p) {
             ToolsThreads.main(2000) { if (retryCount > 0) putAd(vRecycler, adapterSub, retryCount - 1) }
             return
         }
@@ -343,7 +344,7 @@ object ControllerCampfireSDK {
 
         info("XAd", "Ad inserted to feed")
         val extraCards = adapterSub.size() - adapterSub.get(CardPost::class).size
-        var position = (vRecycler.layoutManager as LinearLayoutManager).findLastVisibleItemPosition() + 5 + extraCards
+        var position = (vRecycler.layoutManager as LinearLayoutManager).findLastVisibleItemPosition() + p + extraCards
         if (position > adapterSub.size()) position = adapterSub.size()
         adapterSub.add(position, card)
     }

@@ -1,10 +1,12 @@
 package com.sayzen.campfiresdk.screens.post.bookmarks
 
+import com.dzen.campfire.api.API
 import com.dzen.campfire.api.requests.units.RUnitsBookmarksGetAll
 import com.sayzen.campfiresdk.models.cards.CardPublication
 import com.dzen.campfire.api.models.publications.Publication
 import com.sayzen.campfiresdk.R
 import com.sayzen.campfiresdk.controllers.ControllerCampfireSDK
+import com.sayzen.campfiresdk.controllers.ControllerStoryQuest
 import com.sayzen.campfiresdk.models.events.publications.EventPublicationBookmarkChange
 import com.sayzen.campfiresdk.controllers.api
 import com.sup.dev.android.libs.screens.navigator.NavigationAction
@@ -32,6 +34,8 @@ class SBookmarks private constructor() : SLoadingRecycler<CardPublication, Publi
         setTextEmpty(R.string.bookmarks_empty)
         setTextProgress(R.string.bookmarks_loading)
         setBackgroundImage(R.drawable.bg_1)
+
+        ControllerStoryQuest.incrQuest(API.QUEST_STORY_BOOKMARKS_SCREEN)
     }
 
     override fun instanceAdapter(): RecyclerCardAdapterLoading<CardPublication, Publication> {
