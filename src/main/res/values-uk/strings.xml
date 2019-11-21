@@ -208,6 +208,8 @@
     <string name="app_relay_race">Эстафета</string>
     <string name="app_relay_races">Эстафеты</string>
     <string name="app_choose_fandom">Выбрать фэндом</string>
+    <string name="app_participate">Учствовать</string>
+    <string name="app_participate_no">Не учствовать</string>
 
     <string name="he">Он</string>
     <string name="she">Она</string>
@@ -341,6 +343,7 @@
     <string name="notification_admin_post_fandom_change">Администартор %s %s ваш пост из фэндома %s в %s</string>
     <string name="notification_mention">%s %s вас</string>
     <string name="notification_activitie_relay_race_turn">%s %s вам эстафету %s в фэндоме %s</string>
+    <string name="notification_activitie_relay_race_turn_from_system">Вам передана эстафета %s в фэндоме %s</string>
     <string name="notification_quest_finish">Ежедневное задание завершено</string>
     <string name="notification_rubric_change_name">%s %s название рубрики с %s на %s</string>
     <string name="notification_rubric_change_owner">%s %s владельца рубрики %s на %s</string>
@@ -1059,6 +1062,10 @@
     <string name="activities_relay_race_error_lvl">Вы не можете создать эстафету в этом фэндоме. Проверьте свою карму.</string>
     <string name="activities_relay_race_remove_title">Удалить эстафету</string>
     <string name="activities_relay_race_change_title">Изменить эстафету</string>
+    <string name="activities_relay_race_member_text">Вам будет выслано уведомление как только вы будете выбраны следующим участником.</string>
+    <string name="activities_relay_race_member_text_no">Вы сможете вернуться в список участников в любое время.</string>
+    <string name="activities_relay_race_text_reject">Вам больше не смогут предложить эту эстафету, но вы сможете вернуться в неё в любое время. Вы можете выбрать кому передать эстафету, но это не обязательно.</string>
+    <string name="activities_relay_race_no_user">Нет пользователя.</string>
     <string name="activities_empty">Здесь еще нет активностей</string>
     <string name="activities_loading">Загрузка списка активностей</string>
     <string name="activities_all">Все активности</string>

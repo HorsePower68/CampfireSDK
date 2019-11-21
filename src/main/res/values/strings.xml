@@ -208,6 +208,8 @@
     <string name="app_relay_race">Relay race</string>
     <string name="app_relay_races">Relay races</string>
     <string name="app_choose_fandom">Select fandom</string>
+    <string name="app_participate">Participate</string>
+    <string name="app_participate_no">Not participate</string>
 
     <string name="he">He</string>
     <string name="she">She</string>
@@ -341,6 +343,7 @@
     <string name="notification_admin_post_fandom_change">Administrator %s %s your post from fandom %s to %s</string>
     <string name="notification_mention">%s %s you</string>
     <string name="notification_activitie_relay_race_turn">%s %s relay race %s to you in fandom %s</string>
+    <string name="notification_activitie_relay_race_turn_from_system">You gat relay race %s in fandom %s</string>
     <string name="notification_quest_finish">Daily quest completed</string>
     <string name="notification_rubric_change_name">%s %s name of rubric from %s to %s</string>
     <string name="notification_rubric_change_owner">%s %s owner of rubric %s to %s</string>
@@ -1062,6 +1065,10 @@
     <string name="activities_relay_race_error_lvl">You can\'t create relay race in this fandom. Check you\'r karma.</string>
     <string name="activities_relay_race_remove_title">Remove relay race</string>
     <string name="activities_relay_race_change_title">Change relay race</string>
+    <string name="activities_relay_race_member_text">You will be sent a notification as soon as you are selected by the next participant.</string>
+    <string name="activities_relay_race_member_text_no">You can return to the list of participants at any time.</string>
+    <string name="activities_relay_race_text_reject">You will no longer be offered this relay, but you will be able to return to it at any time. You can choose who to pass the baton to, but it\'s not necessary.</string>
+    <string name="activities_relay_race_no_user">No user.</string>
     <string name="activities_empty">No activities here yest</string>
     <string name="activities_loading">Loading of activities list</string>
     <string name="activities_all">All activities</string>

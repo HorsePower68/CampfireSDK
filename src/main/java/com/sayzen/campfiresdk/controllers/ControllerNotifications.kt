@@ -630,7 +630,7 @@ object ControllerNotifications {
         }
 
         override fun asString(html: Boolean): String {
-            val name = if(n.accountId == 0L) ToolsResources.s(R.string.app_anonymous) else n.accountName
+            val name = if (n.accountId == 0L) ToolsResources.s(R.string.app_anonymous) else n.accountName
             val karmsS = if (!html) "" + (n.karmaCount / 100) else ToolsHTML.font_color(
                     "" + (n.karmaCount / 100),
                     if (n.karmaCount < 0) ToolsHTML.color_red else ToolsHTML.color_green
@@ -1211,7 +1211,10 @@ object ControllerNotifications {
             (if (sound) chanelOther else chanelOther_salient).post(icon, getTitle(), text, intent, tag)
         }
 
-        override fun asString(html: Boolean) = ToolsResources.sCap(R.string.notification_activitie_relay_race_turn, n.fromAccountName, ToolsResources.sex(n.fromAccountSex, R.string.he_give, R.string.she_give), n.activityName, n.fandomName)
+        override fun asString(html: Boolean): String {
+            if (n.fromAccountId > 0) return ToolsResources.sCap(R.string.notification_activitie_relay_race_turn, n.fromAccountName, ToolsResources.sex(n.fromAccountSex, R.string.he_give, R.string.she_give), n.activityName, n.fandomName)
+            return ToolsResources.sCap(R.string.notification_activitie_relay_race_turn_from_system, n.activityName, n.fandomName)
+        }
 
         override fun getTitle() = ToolsResources.s(R.string.app_relay_race)
     }
