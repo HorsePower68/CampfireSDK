@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <androidx.core.widget.NestedScrollView style="@style/Scroll.Widget">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <com.sup.dev.android.views.settings.SettingsCheckBox
+                android:id="@+id/vNotifyFollowers"
+                android:layout_gravity="center|left"
+                app:Settings_title="@string/post_create_notify_followers"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+
+            <com.sup.dev.android.views.settings.SettingsCheckBox
+                android:id="@+id/vPending"
+                android:layout_gravity="center|left"
+                app:Settings_title="@string/post_create_pending"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+
+            <com.sup.dev.android.views.settings.SettingsCheckBox
+                android:id="@+id/vClose"
+                android:layout_gravity="center|left"
+                app:Settings_title="@string/post_create_closed"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+
+            <com.sup.dev.android.views.settings.Settings
+                android:id="@+id/vRubric"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:Settings_title="@string/post_create_rubric"/>
+
+            <com.sup.dev.android.views.settings.Settings
+                android:id="@+id/vRelayRace"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:Settings_title="@string/post_create_relay_race"/>
+
+
+        </LinearLayout>
+
+    </androidx.core.widget.NestedScrollView>
+
+</LinearLayout>

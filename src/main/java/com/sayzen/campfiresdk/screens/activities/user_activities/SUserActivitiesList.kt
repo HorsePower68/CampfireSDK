@@ -17,14 +17,15 @@ import com.sup.dev.android.views.support.adapters.recycler_view.RecyclerCardAdap
 import com.sup.dev.java.libs.eventBus.EventBus
 
 class SUserActivitiesList constructor(
+        private val fandomId:Long=0,
+        private val languageId:Long=0,
         private val onSelected: ((UserActivity) -> Unit)? = null
 ) : SLoadingRecycler<CardUserActivity, UserActivity>(R.layout.screen_activities_user_activities) {
 
-    private val eventBus = EventBus.subscribe(EventActivitiesCreate::class){reload()}
+    private val eventBus = EventBus.subscribe(EventActivitiesCreate::class) { reload() }
 
     private var subscribedLoaded = false
     private var lockOnEmpty = false
-    private var myCount = 0L
 
     init {
         setTitle(R.string.app_relay_races)
@@ -40,8 +41,15 @@ class SUserActivitiesList constructor(
         }
     }
 
+    private fun onSelected(userActivity: UserActivity) {
+        onSelected?.invoke(userActivity)
+        Navigator.remove(this)
+    }
+
     override fun instanceAdapter(): RecyclerCardAdapterLoading<CardUserActivity, UserActivity> {
-        val adapterX = RecyclerCardAdapterLoading<CardUserActivity, UserActivity>(CardUserActivity::class) { CardUserActivity(it) }
+        val adapterX = RecyclerCardAdapterLoading<CardUserActivity, UserActivity>(CardUserActivity::class) {
+            if(onSelected == null)CardUserActivity(it) else CardUserActivity(it) { onSelected(it) }
+        }
                 .setBottomLoader { onLoad, cards -> load(onLoad, cards) }
 
         return adapterX
@@ -51,7 +59,6 @@ class SUserActivitiesList constructor(
         adapter!!.remove(CardDividerTitle::class)
         lockOnEmpty = true
         subscribedLoaded = false
-        myCount = 0
         super.reload()
     }
 
@@ -59,13 +66,12 @@ class SUserActivitiesList constructor(
         lockOnEmpty = false
         if (!subscribedLoaded) {
 
-            subscription = RActivitiesGetAllForAccount(ControllerApi.account.id, cards.size.toLong())
+            subscription = RActivitiesGetAllForAccount(ControllerApi.account.id, fandomId, languageId, cards.size.toLong())
                     .onComplete {
                         onLoad.invoke(it.userActivities)
-                        myCount += it.userActivities.size
-                        if(it.userActivities.isEmpty()){
+                        if (it.userActivities.isEmpty()) {
                             subscribedLoaded = true
-                            if (adapter!!.size() > 0) adapter!!.add(CardDividerTitle(R.string.activities_all).setDividerBottom(false))
+                            if (adapter!!.size() > 0 && onSelected == null) adapter!!.add(CardDividerTitle(R.string.activities_all).setDividerBottom(false))
                             adapter!!.loadBottom()
                         }
                     }
@@ -73,13 +79,23 @@ class SUserActivitiesList constructor(
                     .send(api)
 
         } else {
-            subscription = RActivitiesGetAllNotForAccount(ControllerApi.account.id, cards.size - myCount)
+            if (onSelected != null) {
+                onLoad.invoke(emptyArray())
+                return
+            }
+            subscription = RActivitiesGetAllNotForAccount(ControllerApi.account.id, fandomId, languageId, cards.size - getMyCount())
                     .onComplete { onLoad.invoke(it.userActivities) }
                     .onError { onLoad.invoke(null) }
                     .send(api)
 
 
         }
+    }
+
+    private fun getMyCount(): Long {
+        var count = 0L
+        for (c in adapter!!.get(CardUserActivity::class)) if (ControllerApi.isCurrentAccount(c.userActivity.tag_1) && !c.tag1IsReset) count++
+        return count
     }
 
 

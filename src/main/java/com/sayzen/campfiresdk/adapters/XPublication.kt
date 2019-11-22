@@ -1,8 +1,11 @@
 package com.sayzen.campfiresdk.adapters
 
 import com.dzen.campfire.api.models.publications.Publication
+import com.dzen.campfire.api.models.publications.post.PageUserActivity
+import com.dzen.campfire.api.models.publications.post.PublicationPost
 import com.sayzen.campfiresdk.models.events.publications.*
 import com.sup.dev.java.libs.eventBus.EventBus
+import com.sup.dev.java.tools.ToolsCollections
 
 class XPublication(
         val publication: Publication,
@@ -40,5 +43,14 @@ class XPublication(
     val xComments = XComments(publication) { onChangedComments.invoke() }
     val xReports = XReports(publication) { onChangedReports.invoke() }
 
+    init {
+        if (publication is PublicationPost) {
+            if (publication.userActivity != null) {
+                val page = PageUserActivity()
+                page.userActivity = publication.userActivity!!
+                publication.pages = ToolsCollections.add(page, publication.pages)
+            }
+        }
+    }
 
 }

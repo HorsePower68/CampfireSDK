@@ -88,7 +88,7 @@ class SPostCreate constructor(
             else Navigator.back()
         }
         vFinish.setOnLongClickListener {
-            SPostCreationTags.create(publicationId, tags, false, 0, false, 0) { SPost.instance(publicationId, 0, NavigationAction.replace()) }
+            SPostCreationTags.create(publicationId, tags, false, 0, false, 0, 0, 0) { SPost.instance(publicationId, 0, NavigationAction.replace()) }
             true
         }
         if (changePost != null && !changePost.isDraft) vFinish.setImageResource(ToolsResources.getDrawableAttrId(R.attr.ic_done_24dp))
@@ -168,19 +168,19 @@ class SPostCreate constructor(
 
     override fun addText(text: String, postAfterAdd: Boolean) {
         xPostCreator.addText(text) {
-            if (postAfterAdd) SPostCreationTags.create(publicationId, tags, false, 0, false, 0) { SPost.instance(publicationId, 0, Navigator.REPLACE) }
+            if (postAfterAdd) SPostCreationTags.create(publicationId, tags, false, 0, false, 0, 0, 0) { SPost.instance(publicationId, 0, Navigator.REPLACE) }
         }
     }
 
     override fun addImage(image: Uri, postAfterAdd: Boolean) {
         xPostCreator.addImage(image) {
-            if (postAfterAdd) SPostCreationTags.create(publicationId, tags, false, 0, false, 0) { SPost.instance(publicationId, 0, Navigator.REPLACE) }
+            if (postAfterAdd) SPostCreationTags.create(publicationId, tags, false, 0, false, 0, 0, 0) { SPost.instance(publicationId, 0, Navigator.REPLACE) }
         }
     }
 
     override fun addImage(image: Bitmap, postAfterAdd: Boolean) {
         xPostCreator.addImage(image) {
-            if (postAfterAdd) SPostCreationTags.create(publicationId, tags, false, 0, false, 0) { SPost.instance(publicationId, 0, Navigator.REPLACE) }
+            if (postAfterAdd) SPostCreationTags.create(publicationId, tags, false, 0, false, 0, 0, 0) { SPost.instance(publicationId, 0, Navigator.REPLACE) }
         }
     }
 

@@ -1,12 +1,12 @@
-package com.sayzen.campfiresdk.screens.activities.user_activities
+package com.sayzen.campfiresdk.models.cards.post_pages
 
 import android.view.View
 import android.widget.Button
 import android.widget.TextView
 import com.dzen.campfire.api.API
 import com.dzen.campfire.api.models.account.Account
-import com.dzen.campfire.api.models.activities.UserActivity
-import com.dzen.campfire.api.requests.activities.RActivitiesRelayRaceMember
+import com.dzen.campfire.api.models.publications.PagesContainer
+import com.dzen.campfire.api.models.publications.post.PageUserActivity
 import com.sayzen.campfiresdk.R
 import com.sayzen.campfiresdk.adapters.XAccount
 import com.sayzen.campfiresdk.adapters.XFandom
@@ -16,20 +16,20 @@ import com.sayzen.campfiresdk.models.events.activities.EventActivitiesChanged
 import com.sayzen.campfiresdk.models.events.activities.EventActivitiesRelayRaceMemberStatusChanged
 import com.sayzen.campfiresdk.models.events.activities.EventActivitiesRelayRaceRejected
 import com.sayzen.campfiresdk.models.events.activities.EventActivitiesRemove
-import com.sup.dev.android.libs.api_simple.ApiRequestsSupporter
+import com.sayzen.campfiresdk.screens.activities.user_activities.SRelayRaceInfo
 import com.sup.dev.android.libs.screens.navigator.Navigator
 import com.sup.dev.android.tools.ToolsResources
-import com.sup.dev.android.tools.ToolsToast
-import com.sup.dev.android.views.cards.Card
 import com.sup.dev.android.views.views.ViewAvatarTitle
 import com.sup.dev.android.views.views.ViewDraw
 import com.sup.dev.java.libs.eventBus.EventBus
 import com.sup.dev.java.tools.ToolsDate
 
-class CardUserActivity(
-        val userActivity: UserActivity,
-        val onClick:((UserActivity) -> Unit)? = null
-) : Card(R.layout.card_user_activity) {
+class CardPageUserActivity(
+        pagesContainer: PagesContainer?,
+        page: PageUserActivity
+) : CardPage(R.layout.card_page_user_activity, pagesContainer, page) {
+
+    val userActivity = page.userActivity
 
     private val colorWhite = ToolsResources.getColor(R.color.white)
     private val colorGreen = ToolsResources.getColor(R.color.green_700)
@@ -75,28 +75,21 @@ class CardUserActivity(
 
         val vDescription: TextView = view.findViewById(R.id.vDescription)
         val vAvatar: ViewAvatarTitle = view.findViewById(R.id.vAvatar)
-        val vMenu: View = view.findViewById(R.id.vMenu)
         val vUser: ViewAvatarTitle = view.findViewById(R.id.vUser)
         val vButton: Button = view.findViewById(R.id.vButton)
         val vDraw: ViewDraw = view.findViewById(R.id.vDraw)
         val vUserContainer: View = view.findViewById(R.id.vUserContainer)
         val vButtonContainer: View = view.findViewById(R.id.vButtonContainer)
+        val vTouch: View = view.findViewById(R.id.vTouch)
 
         vDescription.setText(userActivity.description)
         xFandom.setView(vAvatar)
         xAccount.setView(vUser)
         vAvatar.setSubtitle(userActivity.fandomName + " " + ToolsDate.dateToString(userActivity.dateCreate))
         vAvatar.setTitle(userActivity.name)
-        vMenu.setOnClickListener { ControllerActivities.showMenu(userActivity) }
 
-        vAvatar.isClickable = onClick == null
-        vMenu.visibility = if(onClick == null) View.VISIBLE else View.GONE
-        vUserContainer.visibility = if(onClick == null) View.VISIBLE else View.GONE
-        vButtonContainer.visibility = if(onClick == null) View.VISIBLE else View.GONE
-
-        view.setOnClickListener {
-            if(onClick != null) onClick.invoke(userActivity)
-            else SRelayRaceInfo.instance(userActivity.id, Navigator.TO)
+        vTouch.setOnClickListener {
+            SRelayRaceInfo.instance(userActivity.id, Navigator.TO)
         }
 
 
@@ -124,6 +117,10 @@ class CardUserActivity(
         updateTimer()
     }
 
+    override fun notifyItem() {
+
+    }
+
     private fun updateTimer() {
         if (getView() == null) return
         val vTimer: TextView = getView()!!.findViewById(R.id.vTimer)
@@ -141,6 +138,5 @@ class CardUserActivity(
             vTimer.setTextColor(colorWhite)
         }
     }
-
 
 }

@@ -38,6 +38,7 @@ class SActivities : Screen(R.layout.screen_activities) {
     private val vQuery: Settings = findViewById(R.id.vQuery)
     private val vErrors: Settings = findViewById(R.id.vErrors)
 
+    private val vRelayRaceChip = ViewChip.instanceMini(vRelayRace, "")
     private val vFandomsChip = ViewChip.instanceMini(vFandoms, "")
     private val vUserReportsChip = ViewChip.instanceMini(vUserReports, "")
     private val vReportsChip = ViewChip.instanceMini(vReports, "")
@@ -54,38 +55,61 @@ class SActivities : Screen(R.layout.screen_activities) {
         vErrors.setOnClickListener { SAdministrationErrors.instance(Navigator.TO) }
         vSupport.setOnClickListener { SSupport.instance(Navigator.TO) }
 
-        vTitleAdmins.visibility = if (ControllerApi.can(API.LVL_ADMIN_MODER)) View.VISIBLE else View.GONE
-        vUserReports.visibility = if (ControllerApi.can(API.LVL_ADMIN_BAN)) View.VISIBLE else View.GONE
-        vReports.visibility = if (ControllerApi.can(API.LVL_ADMIN_MODER)) View.VISIBLE else View.GONE
-        vFandoms.visibility = if (ControllerApi.can(API.LVL_ADMIN_FANDOMS_ACCEPT)) View.VISIBLE else View.GONE
-        vBlock.visibility = if (ControllerApi.can(API.LVL_ADMIN_FANDOM_ADMIN)) View.VISIBLE else View.GONE
         vTitleProtoadmins.visibility = if (ControllerApi.isProtoadmin()) View.VISIBLE else View.GONE
         vRequests.visibility = if (ControllerApi.isProtoadmin()) View.VISIBLE else View.GONE
         vQuery.visibility = if (ControllerApi.isProtoadmin()) View.VISIBLE else View.GONE
         vErrors.visibility = if (ControllerApi.isProtoadmin()) View.VISIBLE else View.GONE
 
+        vRelayRace.setSubView(vRelayRaceChip)
         vFandoms.setSubView(vFandomsChip)
         vUserReports.setSubView(vUserReportsChip)
         vReports.setSubView(vReportsChip)
         vBlock.setSubView(vBlockChip)
+
+        if (!ControllerApi.can(API.LVL_ADMIN_BAN)) {
+            vUserReports.isEnabled = false
+            vUserReports.setSubtitle(R.string.activities_low_lvl)
+            vUserReportsChip.visibility = View.GONE
+        }
+
+        if (!ControllerApi.can(API.LVL_ADMIN_MODER)) {
+            vReports.isEnabled = false
+            vReports.setSubtitle(R.string.activities_low_lvl)
+            vReportsChip.visibility = View.GONE
+        }
+
+        if (!ControllerApi.can(API.LVL_ADMIN_FANDOMS_ACCEPT)) {
+            vFandoms.isEnabled = false
+            vFandoms.setSubtitle(R.string.activities_low_lvl)
+            vFandomsChip.visibility = View.GONE
+        }
+
+        if (!ControllerApi.can(API.LVL_ADMIN_FANDOM_ADMIN)) {
+            vBlock.isEnabled = false
+            vBlock.setSubtitle(R.string.activities_low_lvl)
+            vBlockChip.visibility = View.GONE
+        }
+
     }
 
     override fun onResume() {
         super.onResume()
-        ControllerActivities.reloadAdministration()
+        ControllerActivities.reloadActivities()
     }
 
     private fun updateCounters() {
-        if(ControllerActivities.isAdministrationLoadInProgress()){
-            vFandomsChip.text = "-"
-            vUserReportsChip.text = "-"
-            vReportsChip.text = "-"
-            vBlockChip.text = "-"
-        }else{
-            vFandomsChip.text = "${ControllerActivities.getSuggestedFandomsCount()}"
-            vUserReportsChip.text = "${ControllerActivities.getReportsUserCount()}"
-            vReportsChip.text = "${ControllerActivities.getReportsCount()}"
-            vBlockChip.text = "${ControllerActivities.getBlocksCount()}"
+        if (ControllerActivities.isAdministrationLoadInProgress()) {
+            vRelayRaceChip.text = "-"
+            if (vFandomsChip.visibility == View.VISIBLE) vFandomsChip.text = "-"
+            if (vUserReportsChip.visibility == View.VISIBLE) vUserReportsChip.text = "-"
+            if (vReportsChip.visibility == View.VISIBLE) vReportsChip.text = "-"
+            if (vBlockChip.visibility == View.VISIBLE) vBlockChip.text = "-"
+        } else {
+            vRelayRaceChip.text = "${ControllerActivities.getActivitiesCount()}"
+            if (vFandomsChip.visibility == View.VISIBLE) vFandomsChip.text = "${ControllerActivities.getSuggestedFandomsCount()}"
+            if (vUserReportsChip.visibility == View.VISIBLE) vUserReportsChip.text = "${ControllerActivities.getReportsUserCount()}"
+            if (vReportsChip.visibility == View.VISIBLE) vReportsChip.text = "${ControllerActivities.getReportsCount()}"
+            if (vBlockChip.visibility == View.VISIBLE) vBlockChip.text = "${ControllerActivities.getBlocksCount()}"
         }
     }
 

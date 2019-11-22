@@ -2,7 +2,6 @@ package com.sayzen.campfiresdk.screens.post.create
 
 import android.view.View
 import android.view.ViewGroup
-import android.widget.CheckBox
 import android.widget.TextView
 import com.dzen.campfire.api.API
 import com.dzen.campfire.api.models.publications.tags.PublicationTag
@@ -11,11 +10,9 @@ import com.dzen.campfire.api.requests.post.RPostPublication
 import com.dzen.campfire.api.requests.tags.RTagsGetAll
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.sayzen.campfiresdk.R
-import com.sayzen.campfiresdk.controllers.ControllerApi
 import com.sayzen.campfiresdk.controllers.ControllerStoryQuest
 import com.sayzen.campfiresdk.controllers.ControllerPublications
 import com.sayzen.campfiresdk.models.events.publications.EventPostStatusChange
-import com.sayzen.campfiresdk.screens.fandoms.rubrics.SRubricsList
 import com.sayzen.campfiresdk.screens.other.rules.SGoogleRules
 import com.sayzen.campfiresdk.screens.post.pending.SPending
 import com.sayzen.campfiresdk.screens.post.view.SPost
@@ -27,11 +24,9 @@ import com.sup.dev.android.libs.screens.navigator.Navigator
 import com.sup.dev.android.tools.*
 import com.sup.dev.android.views.views.ViewChip
 import com.sup.dev.android.views.views.layouts.LayoutFlow
-import com.sup.dev.android.views.widgets.WidgetChooseDate
-import com.sup.dev.android.views.widgets.WidgetChooseTime
 import com.sup.dev.android.views.widgets.WidgetField
 import com.sup.dev.java.libs.eventBus.EventBus
-import com.sup.dev.java.tools.ToolsDate
+import com.sup.dev.java.tools.ToolsThreads
 import java.util.*
 
 class SPostCreationTags private constructor(
@@ -57,9 +52,9 @@ class SPostCreationTags private constructor(
             ApiRequestsSupporter.executeInterstitial(action, RTagsGetAll(fandomId, languageId)) { r -> SPostCreationTags(publicationId, fandomId, languageId, closed, publicationTag3, isMyPublication, presetTags, r.tags) }
         }
 
-        fun create(publicationId: Long, tags: Array<Long>, notifyFollowers: Boolean, pendingTime: Long, closed: Boolean, rubricId: Long, onCreate: () -> Unit) {
+        fun create(publicationId: Long, tags: Array<Long>, notifyFollowers: Boolean, pendingTime: Long, closed: Boolean, rubricId: Long, userActivityId: Long, userActivityIdNextUserId: Long, onCreate: () -> Unit) {
             SGoogleRules.acceptRulesDialog {
-                ApiRequestsSupporter.executeProgressDialog(RPostPublication(publicationId, tags, "", notifyFollowers, pendingTime, closed, rubricId)) { _ ->
+                ApiRequestsSupporter.executeProgressDialog(RPostPublication(publicationId, tags, "", notifyFollowers, pendingTime, closed, rubricId, userActivityId, userActivityIdNextUserId)) { _ ->
                     EventBus.post(EventPostStatusChange(publicationId, API.STATUS_PUBLIC))
                     onCreate.invoke()
                     ControllerStoryQuest.incrQuest(API.QUEST_STORY_POST)
@@ -71,28 +66,20 @@ class SPostCreationTags private constructor(
 
 
     private val vFab: FloatingActionButton = findViewById(R.id.vFab)
-    private val vNotifyFollowers: CheckBox = findViewById(R.id.vNotifyFollowers)
-    private val vPending: CheckBox = findViewById(R.id.vPending)
-    private val vClose: CheckBox = findViewById(R.id.vClose)
-    private val vRubric: TextView = findViewById(R.id.vRubric)
     private val vLine: View = findViewById(R.id.vLine)
     private val vMessageContainer: View = findViewById(R.id.vMessageContainer)
     private val vContainer: ViewGroup = findViewById(R.id.vTagsContainer)
     private val vMenuContainer: ViewGroup = findViewById(R.id.vMenuContainer)
+    private val vParams: View = findViewById(R.id.vParams)
 
+    private val widgetTagsAdditional = WidgetTagsAdditional(fandomId, language, closed, publicationTag3)
     private val chips = ArrayList<ViewChip>()
-    private var pendingDate = 0L
-    private var rubricId = 0L
 
     init {
         isNavigationShadowAvailable = false
         SActivityTypeBottomNavigation.setShadow(vLine)
 
-        vNotifyFollowers.isEnabled = publicationTag3 == 0L
-        vNotifyFollowers.isChecked = false
-        vPending.isChecked = false
-        vClose.isChecked = closed
-        vMenuContainer.visibility = if (vNotifyFollowers.isEnabled && isMyPublication) View.VISIBLE else View.GONE
+        vMenuContainer.visibility = if (isMyPublication && publicationTag3 == 0L) View.VISIBLE else View.GONE
 
         isSingleInstanceInBackStack = true
 
@@ -100,58 +87,18 @@ class SPostCreationTags private constructor(
         else vMessageContainer.visibility = View.VISIBLE
 
         vFab.setOnClickListener { sendPublication() }
+        vParams.setOnClickListener { widgetTagsAdditional.asSheetShow() }
 
-        vPending.setOnClickListener { onPendingClicked() }
-        vRubric.setOnClickListener { onRubricClicked() }
 
         setTags(tags)
     }
 
-    private fun onPendingClicked() {
-        if (!vPending.isChecked/*После нажатия положение меняется*/) setPendingDate(0)
-        else {
-            WidgetChooseDate()
-                    .setOnEnter(R.string.app_choose) { _, date ->
-                        WidgetChooseTime()
-                                .setOnEnter(R.string.app_choose) { _, h, m ->
-                                    setPendingDate(ToolsDate.getStartOfDay(date) + (h * 60L * 60 * 1000) + (m * 60L * 1000))
-                                }
-                                .asSheetShow()
-
-                    }
-                    .asSheetShow()
-        }
+    override fun onResume() {
+        super.onResume()
+        if(widgetTagsAdditional.needReShow)
+            ToolsThreads.main(100) { widgetTagsAdditional.asSheetShow() }
     }
 
-    private fun onRubricClicked() {
-        if (rubricId > 0) {
-            vRubric.text = ToolsResources.s(R.string.post_create_rubric)
-            rubricId = 0
-        } else {
-            Navigator.to(SRubricsList(fandomId, language, ControllerApi.account.id) {
-                vRubric.text = ToolsResources.s(R.string.app_rubric) + ": " + it.name
-                rubricId = it.id
-            })
-        }
-    }
-
-    private fun setPendingDate(date: Long) {
-        var dateV = date
-        if (dateV != 0L && dateV < System.currentTimeMillis()) {
-            ToolsToast.show(R.string.post_create_pending_error)
-            dateV = 0L
-        }
-
-        pendingDate = dateV
-        if (dateV > 0) {
-            vPending.setText(ToolsResources.s(R.string.post_create_pending) + " (${ToolsDate.dateToString(dateV)})")
-            vPending.isChecked = true
-        } else {
-            vPending.setText(R.string.post_create_pending)
-            vPending.isChecked = false
-        }
-
-    }
 
     private fun sendPublication() {
 
@@ -162,9 +109,9 @@ class SPostCreationTags private constructor(
         val tags = Array(selectedTags.size) { selectedTags[it].id }
 
         if (isMyPublication) {
-            create(publicationId, tags, vNotifyFollowers.isChecked, pendingDate, vClose.isChecked, rubricId) {
+            create(publicationId, tags, widgetTagsAdditional.isNotifyFollowers(), widgetTagsAdditional.getPendingDate(), widgetTagsAdditional.isClosed(), widgetTagsAdditional.getRubricId(), widgetTagsAdditional.getUserActivityId(), widgetTagsAdditional.getUserActivityIdNextUserId()) {
                 Navigator.removeAll(SPostCreate::class)
-                if (pendingDate > 0) Navigator.replace(SPending())
+                if (widgetTagsAdditional.getPendingDate() > 0) Navigator.replace(SPending())
                 else SPost.instance(publicationId, 0, NavigationAction.replace())
             }
         } else {
@@ -174,7 +121,7 @@ class SPostCreationTags private constructor(
                     .setMin(API.MODERATION_COMMENT_MIN_L)
                     .setMax(API.MODERATION_COMMENT_MAX_L)
                     .setOnEnter(R.string.app_change) { w, comment ->
-                        ApiRequestsSupporter.executeEnabled(w, RPostPublication(publicationId, tags, comment, false, 0, false, 0)) {
+                        ApiRequestsSupporter.executeEnabled(w, RPostPublication(publicationId, tags, comment, false, 0, false, 0, 0, 0)) {
                             Navigator.removeAll(SPostCreate::class)
                             EventBus.post(EventPostStatusChange(publicationId, API.STATUS_PUBLIC))
                             SPost.instance(publicationId, 0, NavigationAction.replace())

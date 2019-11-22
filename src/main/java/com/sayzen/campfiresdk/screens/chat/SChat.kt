@@ -61,7 +61,7 @@ class SChat private constructor(
         fun instance(messageId: Long, setStack: Boolean, action: NavigationAction) {
             if (setStack) ControllerCampfireSDK.ON_SCREEN_CHAT_START.invoke()
             ApiRequestsSupporter.executeInterstitial(action, RChatGet(ChatTag(), messageId)) { r ->
-                for (i in Navigator.currentStack.stack) if (i is SChat && i.tag == r.tag) Navigator.remove(i)
+                for (i in ToolsCollections.copy(Navigator.currentStack.stack)) if (i is SChat && i.tag == r.tag) Navigator.remove(i)
                 onChatLoaded(r, messageId, {})
             }
         }

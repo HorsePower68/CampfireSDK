@@ -34,6 +34,7 @@ abstract class CardPage(
             if (page is PageTable) return CardPageTable(pagesContainer, page)
             if (page is PageDownload) return CardPageDownload(pagesContainer, page)
             if (page is PageCampfireObject) return CardPageCampfireObject(pagesContainer, page)
+            if (page is PageUserActivity) return CardPageUserActivity(pagesContainer, page)
            return CardPageUnknown(pagesContainer, page)
         }
     }
@@ -59,11 +60,12 @@ abstract class CardPage(
     override fun bindView(view: View) {
         super.bindView(view)
         view.visibility = if (hided) View.GONE else View.VISIBLE
-        val vMore = view.findViewById<ViewIcon>(R.id.vMore)
+        val vMore:ViewIcon? = view.findViewById(R.id.vMore)
 
-        vMore.visibility = if (editMode) View.VISIBLE else View.GONE
-        if (editMode) vMore.setOnClickListener { widgetMenu.asSheetShow() }
-
+        if(vMore != null) {
+            vMore.visibility = if (editMode) View.VISIBLE else View.GONE
+            if (editMode) vMore.setOnClickListener { widgetMenu.asSheetShow() }
+        }
     }
 
     fun setEditMod(

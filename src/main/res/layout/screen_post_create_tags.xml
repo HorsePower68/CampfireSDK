@@ -90,45 +90,16 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:background="?colorPrimary"
-        android:padding="8dp">
+        android:background="?colorPrimary">
 
-        <CheckBox
-            android:id="@+id/vNotifyFollowers"
-            android:layout_gravity="center|left"
-            android:layout_marginLeft="8dp"
-            android:text="@string/post_create_notify_followers"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
-
-        <CheckBox
-            android:id="@+id/vPending"
-            android:layout_gravity="center|left"
-            android:layout_marginTop="8dp"
-            android:layout_marginLeft="8dp"
-            android:text="@string/post_create_pending"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
-
-        <CheckBox
-            android:id="@+id/vClose"
-            android:layout_gravity="center|left"
-            android:layout_marginTop="8dp"
-            android:layout_marginLeft="8dp"
-            android:text="@string/post_create_closed"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
-
-        <TextView
-            android:id="@+id/vRubric"
+        <com.sup.dev.android.views.settings.Settings
+            android:id="@+id/vParams"
+            android:background="@null"
+            style="@style/Button.Outlined"
+            app:Settings_lineVisible="false"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:layout_marginLeft="8dp"
-            style="@style/Touchable"
-            android:textColor="@color/white"
-            android:text="@string/post_create_rubric"
-            android:padding="8dp"/>
+            app:Settings_title="@string/app_additional"/>
 
     </LinearLayout>
 

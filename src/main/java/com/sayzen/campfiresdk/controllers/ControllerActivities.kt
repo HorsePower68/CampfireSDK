@@ -2,18 +2,18 @@ package com.sayzen.campfiresdk.controllers
 
 import com.dzen.campfire.api.API
 import com.dzen.campfire.api.models.activities.UserActivity
-import com.dzen.campfire.api.requests.activities.RActivitiesAdministrationGetCounts
+import com.dzen.campfire.api.requests.activities.RActivitiesGetCounts
+import com.dzen.campfire.api.requests.activities.RActivitiesRelayRaceMember
 import com.dzen.campfire.api.requests.activities.RActivitiesRemove
 import com.dzen.campfire.api.requests.project.RVideoAdView
 import com.sayzen.campfiresdk.R
+import com.sayzen.campfiresdk.models.events.activities.*
 import com.sayzen.campfiresdk.models.events.fandom.EventFandomAccepted
 import com.sayzen.campfiresdk.models.events.project.EventAchiProgressIncr
-import com.sayzen.campfiresdk.models.events.activities.EventActivitiesAdminCountChanged
-import com.sayzen.campfiresdk.models.events.activities.EventActivitiesCountChanged
-import com.sayzen.campfiresdk.models.events.activities.EventActivitiesRemove
-import com.sayzen.campfiresdk.models.events.activities.EventVideoAdView
 import com.sayzen.campfiresdk.screens.activities.user_activities.SRelayRaceCreate
+import com.sayzen.campfiresdk.screens.activities.user_activities.WidgetReject
 import com.sayzen.devsupandroidgoogle.ControllerAdsVideoReward
+import com.sup.dev.android.libs.api_simple.ApiRequestsSupporter
 import com.sup.dev.android.libs.screens.navigator.Navigator
 import com.sup.dev.android.tools.ToolsAndroid
 import com.sup.dev.android.tools.ToolsToast
@@ -83,26 +83,6 @@ object ControllerActivities {
     private var reportsUserCount = 0L
     private var blocksCount = 0L
 
-    fun reloadAdministration() {
-        administrationLoadInProgress = true
-        clearAdmins()
-        RActivitiesAdministrationGetCounts(ControllerSettings.adminReportsLanguages)
-                .onComplete {
-                    suggestedFandomsCount = it.suggestedFandomsCount
-                    reportsCount = it.reportsCount
-                    reportsUserCount = it.reportsUserCount
-                    blocksCount = it.blocksCount
-                    administrationLoadInProgress = false
-                    EventBus.post(EventActivitiesAdminCountChanged())
-                }
-                .onError {
-                    administrationLoadInProgress = false
-                    EventBus.post(EventActivitiesAdminCountChanged())
-                    err(it)
-                }
-                .send(api)
-    }
-
     fun setFandomsCount(count: Long) {
         suggestedFandomsCount = count
         EventBus.post(EventActivitiesAdminCountChanged())
@@ -120,6 +100,54 @@ object ControllerActivities {
         reportsUserCount = 0
         blocksCount = 0
         EventBus.post(EventActivitiesAdminCountChanged())
+    }
+
+    //
+    //  Reload
+    //
+
+    fun reloadActivities() {
+        administrationLoadInProgress = true
+        clearAdmins()
+        RActivitiesGetCounts(ControllerSettings.adminReportsLanguages)
+                .onComplete {
+                    setActivitiesCount(it.userActivitiesCount)
+                    suggestedFandomsCount = it.suggestedFandomsCount
+                    reportsCount = it.reportsCount
+                    reportsUserCount = it.reportsUserCount
+                    blocksCount = it.blocksCount
+                    administrationLoadInProgress = false
+                    EventBus.post(EventActivitiesAdminCountChanged())
+                }
+                .onError {
+                    administrationLoadInProgress = false
+                    EventBus.post(EventActivitiesAdminCountChanged())
+                    err(it)
+                }
+                .send(api)
+    }
+
+    //
+    //  Relay race
+    //
+
+    fun reject(userActivityId:Long) {
+        WidgetReject(userActivityId).asSheetShow()
+    }
+
+    fun member(userActivityId:Long) {
+        ApiRequestsSupporter.executeEnabledConfirm(R.string.activities_relay_race_member_text, R.string.app_participate, RActivitiesRelayRaceMember(userActivityId, true)) { r ->
+            ToolsToast.show(R.string.app_done)
+            EventBus.post(EventActivitiesRelayRaceMemberStatusChanged(userActivityId, 1, r.myIsCurrentMember))
+        }
+    }
+
+    fun no_member(userActivityId:Long) {
+        ApiRequestsSupporter.executeEnabledConfirm(R.string.activities_relay_race_member_text_no, R.string.app_participate_no, RActivitiesRelayRaceMember(userActivityId, false)) { r ->
+            ToolsToast.show(R.string.app_done)
+            setActivitiesCount(getActivitiesCount()-1)
+            EventBus.post(EventActivitiesRelayRaceMemberStatusChanged(userActivityId, 0, false))
+        }
     }
 
     //

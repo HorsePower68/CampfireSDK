@@ -210,6 +210,7 @@
     <string name="app_choose_fandom">Выбрать фэндом</string>
     <string name="app_participate">Учствовать</string>
     <string name="app_participate_no">Не учствовать</string>
+    <string name="app_additional">Дополнительно</string>
 
     <string name="he">Он</string>
     <string name="she">Она</string>
@@ -1049,6 +1050,8 @@
     <string name="post_create_pending_error">Нельзя публиковать в прошлое</string>
     <string name="post_create_closed">Закрытая публикация</string>
     <string name="post_create_rubric">Добавить рубрику</string>
+    <string name="post_create_relay_race">Добавить эстафету</string>
+    <string name="post_create_relay_race_next_user">Теперь вы можете выбрать кому передать эстафету, но это не обязательно.</string>
     <string name="post_pending_publish">Опубликовать пост сейчас?</string>
     <string name="post_close_confirm">Закрыть этот пост?</string>
     <string name="post_open_confirm">Открыть этот пост?</string>
@@ -1056,6 +1059,7 @@
     <string name="activities_support">Поддержать проект</string>
     <string name="activities_support_card_title">Собранно просмотров рекламы на оплату сервера в этом месяце:</string>
     <string name="activities_support_card_action">Посмотреть рекламу</string>
+    <string name="activities_low_lvl">Вы не достойны</string>
     <string name="activities_relay_race_creation">Создание эстафеты</string>
     <string name="activities_relay_race_error_lvl">Вы не можете создать эстафету в этом фэндоме. Проверьте свою карму.</string>
     <string name="activities_relay_race_remove_title">Удалить эстафету</string>
@@ -1064,6 +1068,8 @@
     <string name="activities_relay_race_member_text_no">Вы сможете вернуться в список участников в любое время.</string>
     <string name="activities_relay_race_text_reject">Вам больше не смогут предложить эту эстафету, но вы сможете вернуться в неё в любое время. Вы можете выбрать кому передать эстафету, но это не обязательно.</string>
     <string name="activities_relay_race_no_user">Нет пользователя.</string>
+    <string name="activities_relay_race_error_has_post">Пользователь уже создал пост для этой эстафеты</string>
+    <string name="activities_relay_race_error_has_rejected">Пользователь отказался участвовать в этой эстафете</string>
     <string name="activities_empty">Здесь еще нет активностей</string>
     <string name="activities_loading">Загрузка списка активностей</string>
     <string name="activities_all">Все активности</string>
