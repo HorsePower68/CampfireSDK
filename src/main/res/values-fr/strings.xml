@@ -519,6 +519,7 @@ Campfire has anime fandoms and gaming fandoms.</string>
     <string name="feed_loading_68">Ignorance of the law is no excuse.</string>
     <string name="feed_loading_69">I think you need to chat.</string>
     <string name="feed_loading_70">Friendly fire</string>
+    <string name="feed_loading_71">Careful, the doors are closing!</string>
     <string name="feed_loading_1000">Hello datamineers!</string>
     <string name="feed_all">All publications</string>
     <string name="feed_subscribed">Subscribed only</string>
@@ -887,6 +888,27 @@ Campfire has anime fandoms and gaming fandoms.</string>
     <string name="profile_subtitle_text_19">Bug catcher</string>
     <string name="profile_subtitle_text_20">Moon Queen</string>
     <string name="profile_subtitle_text_21">The Ghost hunter</string>
+    <string name="profile_subtitle_text_22">Chew gum</string>
+    <string name="profile_subtitle_text_23">Listen to music</string>
+    <string name="profile_subtitle_text_24">Reads the writing under the login</string>
+    <string name="profile_subtitle_text_25">Waiting for active</string>
+    <string name="profile_subtitle_text_26">Lose yourself</string>
+    <string name="profile_subtitle_text_27">Been to the Museum</string>
+    <string name="profile_subtitle_text_28">Looking for friends</string>
+    <string name="profile_subtitle_text_29">Mother\'s friend\'s son</string>
+    <string name="profile_subtitle_text_30">Influential</string>
+    <string name="profile_subtitle_text_31">Old</string>
+    <string name="profile_subtitle_text_32">Princess</string>
+    <string name="profile_subtitle_text_33">Knows the secret</string>
+    <string name="profile_subtitle_text_34">We are the blades of Aiur!</string>
+    <string name="profile_subtitle_text_35">Positive</string>
+    <string name="profile_subtitle_text_36">Unique user</string>
+    <string name="profile_subtitle_text_37">Altman</string>
+    <string name="profile_subtitle_text_38">Invented the Bicycle</string>
+    <string name="profile_subtitle_text_39">Space unicorn</string>
+    <string name="profile_subtitle_text_40">Cute</string>
+    <string name="profile_subtitle_text_41">Sad</string>
+    <string name="profile_subtitle_text_42">Personal splash</string>
 
     <string name="rubric_empty">There are no rubrics in this fandom yet.</string>
     <string name="rubric_empty_my">You don\'t have rubrics yet.</string>
