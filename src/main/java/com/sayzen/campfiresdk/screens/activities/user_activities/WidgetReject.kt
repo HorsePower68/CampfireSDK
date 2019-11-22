@@ -15,12 +15,12 @@ import com.sup.dev.java.libs.eventBus.EventBus
 import com.sup.dev.java.tools.ToolsThreads
 
 class WidgetReject(
-        val userActivityId:Long
-) : Widget(R.layout.screen_activities_reject){
+        val userActivityId: Long
+) : Widget(R.layout.screen_activities_reject) {
 
-    val vUser:ViewAvatarTitle = findViewById(R.id.vUser)
-    val vCancel:Button = findViewById(R.id.vCancel)
-    val vEnter:Button = findViewById(R.id.vEnter)
+    val vUser: ViewAvatarTitle = findViewById(R.id.vUser)
+    val vCancel: Button = findViewById(R.id.vCancel)
+    val vEnter: Button = findViewById(R.id.vEnter)
 
     var nextAccountId = 0L
 
@@ -42,10 +42,15 @@ class WidgetReject(
         vEnter.setOnClickListener { send() }
     }
 
-    private fun send(){
-        ApiRequestsSupporter.executeProgressDialog(RActivitiesRelayRaceReject(userActivityId, nextAccountId)){ _->
+    private fun send() {
+        ApiRequestsSupporter.executeProgressDialog(RActivitiesRelayRaceReject(userActivityId, nextAccountId)) { r ->
             ToolsToast.show(R.string.app_done)
-            EventBus.post(EventActivitiesRelayRaceRejected(userActivityId))
+            EventBus.post(EventActivitiesRelayRaceRejected(userActivityId,
+                    r.currentOwnerId,
+                    r.currentOwnerTime,
+                    r.currentOwnerName,
+                    r.currentOwnerImageId
+                    ))
             hide()
         }
                 .onApiError(RActivitiesRelayRaceReject.E_HAS_POST) { ToolsToast.show(R.string.activities_relay_race_error_has_post) }

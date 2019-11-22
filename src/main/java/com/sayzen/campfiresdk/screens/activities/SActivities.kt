@@ -70,24 +70,32 @@ class SActivities : Screen(R.layout.screen_activities) {
             vUserReports.isEnabled = false
             vUserReports.setSubtitle(R.string.activities_low_lvl)
             vUserReportsChip.visibility = View.GONE
+        }else{
+            vUserReportsChip.visibility = View.VISIBLE
         }
 
         if (!ControllerApi.can(API.LVL_ADMIN_MODER)) {
             vReports.isEnabled = false
             vReports.setSubtitle(R.string.activities_low_lvl)
             vReportsChip.visibility = View.GONE
+        }else{
+            vReportsChip.visibility = View.VISIBLE
         }
 
         if (!ControllerApi.can(API.LVL_ADMIN_FANDOMS_ACCEPT)) {
             vFandoms.isEnabled = false
             vFandoms.setSubtitle(R.string.activities_low_lvl)
             vFandomsChip.visibility = View.GONE
+        }else{
+            vFandomsChip.visibility = View.VISIBLE
         }
 
         if (!ControllerApi.can(API.LVL_ADMIN_FANDOM_ADMIN)) {
             vBlock.isEnabled = false
             vBlock.setSubtitle(R.string.activities_low_lvl)
             vBlockChip.visibility = View.GONE
+        }else{
+            vBlockChip.visibility = View.VISIBLE
         }
 
     }

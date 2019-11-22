@@ -37,7 +37,16 @@ class CardPageUserActivity(
 
     private val eventBus = EventBus
             .subscribe(EventActivitiesRemove::class) { if (it.userActivityId == userActivity.id) adapter?.remove(this) }
-            .subscribe(EventActivitiesRelayRaceRejected::class) {if (it.userActivityId == userActivity.id) adapter?.remove(this) }
+            .subscribe(EventActivitiesRelayRaceRejected::class) {
+                if (it.userActivityId == userActivity.id){
+                    userActivity.tag_1 = it.currentOwnerId
+                    userActivity.tag_2 = it.currentOwnerTime
+                    userActivity.userName = it.currentOwnerName
+                    userActivity.userImageId = it.currentOwnerImageId
+                    recreateXAccount()
+                    update()
+                }
+            }
             .subscribe(EventActivitiesRelayRaceMemberStatusChanged::class) {
                 if (it.userActivity == userActivity.id) {
                     userActivity.myMemberStatus = it.memberStatus
@@ -85,7 +94,7 @@ class CardPageUserActivity(
         vDescription.setText(userActivity.description)
         xFandom.setView(vAvatar)
         xAccount.setView(vUser)
-        vAvatar.setSubtitle(userActivity.fandomName + " " + ToolsDate.dateToString(userActivity.dateCreate))
+        vAvatar.setSubtitle(userActivity.fandomName)
         vAvatar.setTitle(userActivity.name)
 
         vTouch.setOnClickListener {

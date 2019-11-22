@@ -3,15 +3,16 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="?content_background"
-    android:orientation="vertical"
-    android:minHeight="48dp"
-    android:padding="16dp">
+    android:orientation="vertical">
 
     <TextView
         android:text="@string/intro_update"
         style="@style/Base.TextAppearance.AppCompat.Title"
         android:layout_gravity="center"
         android:layout_width="match_parent"
+        android:layout_marginTop="16dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
         android:gravity="center"
         android:layout_height="wrap_content"/>
 
@@ -20,17 +21,25 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
         android:layout_gravity="center"
-        style="@style/Button.Text"
+        style="@style/Button.Outlined"
         android:text="@string/app_update"/>
 
     <TextView
         android:text="@string/intro_update_sub"
         android:layout_marginTop="16dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
         style="@style/TextAppearance.AppCompat.Caption"
         android:layout_gravity="center"
         android:layout_width="match_parent"
         android:gravity="center"
         android:layout_height="wrap_content"/>
+
+    <View
+        android:layout_marginTop="8dp"
+        style="@style/Divider"/>
 
 </LinearLayout>

@@ -23,6 +23,7 @@ import com.sup.dev.android.tools.ToolsToast
 import com.sup.dev.android.views.cards.Card
 import com.sup.dev.android.views.views.ViewAvatarTitle
 import com.sup.dev.android.views.views.ViewDraw
+import com.sup.dev.java.libs.debug.log
 import com.sup.dev.java.libs.eventBus.EventBus
 import com.sup.dev.java.tools.ToolsDate
 
@@ -37,7 +38,17 @@ class CardUserActivity(
 
     private val eventBus = EventBus
             .subscribe(EventActivitiesRemove::class) { if (it.userActivityId == userActivity.id) adapter?.remove(this) }
-            .subscribe(EventActivitiesRelayRaceRejected::class) {if (it.userActivityId == userActivity.id) adapter?.remove(this) }
+            .subscribe(EventActivitiesRelayRaceRejected::class) {
+                if (it.userActivityId == userActivity.id){
+                    userActivity.tag_1 = it.currentOwnerId
+                    userActivity.tag_2 = it.currentOwnerTime
+                    userActivity.userName = it.currentOwnerName
+                    userActivity.userImageId = it.currentOwnerImageId
+                    recreateXAccount()
+                    update()
+                    log("[event]tag_1[${userActivity.tag_1}] tag_2[${userActivity.tag_2}] userName[${userActivity.userName}] ")
+                }
+            }
             .subscribe(EventActivitiesRelayRaceMemberStatusChanged::class) {
                 if (it.userActivity == userActivity.id) {
                     userActivity.myMemberStatus = it.memberStatus
@@ -72,6 +83,8 @@ class CardUserActivity(
 
     override fun bindView(view: View) {
         super.bindView(view)
+
+        log("[update1]tag_1[${userActivity.tag_1}] tag_2[${userActivity.tag_2}] userName[${userActivity.userName}] ")
 
         val vDescription: TextView = view.findViewById(R.id.vDescription)
         val vAvatar: ViewAvatarTitle = view.findViewById(R.id.vAvatar)

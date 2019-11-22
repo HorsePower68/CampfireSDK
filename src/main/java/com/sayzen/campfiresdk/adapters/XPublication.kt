@@ -1,5 +1,6 @@
 package com.sayzen.campfiresdk.adapters
 
+import com.dzen.campfire.api.API
 import com.dzen.campfire.api.models.publications.Publication
 import com.dzen.campfire.api.models.publications.post.PageUserActivity
 import com.dzen.campfire.api.models.publications.post.PublicationPost
@@ -45,7 +46,7 @@ class XPublication(
 
     init {
         if (publication is PublicationPost) {
-            if (publication.userActivity != null) {
+            if (publication.status == API.Companion.STATUS_PUBLIC && publication.userActivity != null) {
                 val page = PageUserActivity()
                 page.userActivity = publication.userActivity!!
                 publication.pages = ToolsCollections.add(page, publication.pages)
