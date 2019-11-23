@@ -55,6 +55,8 @@ class SActivities : Screen(R.layout.screen_activities) {
         vErrors.setOnClickListener { SAdministrationErrors.instance(Navigator.TO) }
         vSupport.setOnClickListener { SSupport.instance(Navigator.TO) }
 
+        vSupport.visibility = View.GONE
+
         vTitleProtoadmins.visibility = if (ControllerApi.isProtoadmin()) View.VISIBLE else View.GONE
         vRequests.visibility = if (ControllerApi.isProtoadmin()) View.VISIBLE else View.GONE
         vQuery.visibility = if (ControllerApi.isProtoadmin()) View.VISIBLE else View.GONE

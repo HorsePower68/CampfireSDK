@@ -75,8 +75,8 @@ object CampfireConstants {
             Achievement(API.ACHI_KARMA_30, R.string.achi_57, R.color.deep_purple_500, false, R.drawable.achi_21),
             Achievement(API.ACHI_UP_RATES, R.string.achi_58, R.color.indigo_500, false, R.drawable.achi_21),
             Achievement(API.ACHI_UP_RATES_OVER_DOWN, R.string.achi_59, R.color.cyan_900, false, R.drawable.achi_21),
-            Achievement(API.ACHI_CHAT_SUBSCRIBE, R.string.achi_60, R.color.teal_500, false, R.drawable.achi_21),
-            Achievement(API.ACHI_VIDEO_AD, R.string.achi_61, R.color.orange_500, true, R.drawable.achi_21)
+            Achievement(API.ACHI_CHAT_SUBSCRIBE, R.string.achi_60, R.color.teal_500, false, R.drawable.achi_21)
+        //    Achievement(API.ACHI_VIDEO_AD, R.string.achi_61, R.color.orange_500, true, R.drawable.achi_21)
     )
 
     val LVLS = arrayOf(

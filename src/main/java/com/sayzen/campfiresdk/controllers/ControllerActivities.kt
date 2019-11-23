@@ -155,26 +155,26 @@ object ControllerActivities {
     //
 
     fun showVideoAd() {
-        ControllerAdsVideoReward.loadAd()
-        showVideoAdNow(10, ToolsView.showProgressDialog(R.string.achi_video_loading))
+    //    ControllerAdsVideoReward.loadAd()
+    //    showVideoAdNow(10, ToolsView.showProgressDialog(R.string.achi_video_loading))
     }
 
     private fun showVideoAdNow(tryCount: Int, vDialog: Widget) {
-        info("XAd", "onRewardedAdFailedToLoad " + ControllerAdsVideoReward.isCahShow())
-        if (ControllerAdsVideoReward.isCahShow()) {
-            vDialog.hide()
-            ControllerAdsVideoReward.show {
-                RVideoAdView().onComplete {
-                    if (it.achi) EventBus.post(EventAchiProgressIncr(API.ACHI_VIDEO_AD.index))
-                    EventBus.post(EventVideoAdView())
-                }.send(api)
-            }
-        } else if (tryCount > 0 && ControllerAdsVideoReward.isLoading()) {
-            ToolsThreads.main(1000) { showVideoAdNow(tryCount - 1, vDialog) }
-        } else {
-            vDialog.hide()
-            ToolsToast.show(R.string.achi_video_not_loaded)
-        }
+       // info("XAd", "onRewardedAdFailedToLoad " + ControllerAdsVideoReward.isCahShow())
+       // if (ControllerAdsVideoReward.isCahShow()) {
+       //     vDialog.hide()
+       //     ControllerAdsVideoReward.show {
+       //         RVideoAdView().onComplete {
+       //             if (it.achi) EventBus.post(EventAchiProgressIncr(API.ACHI_VIDEO_AD.index))
+       //             EventBus.post(EventVideoAdView())
+       //         }.send(api)
+       //     }
+       // } else if (tryCount > 0 && ControllerAdsVideoReward.isLoading()) {
+       //     ToolsThreads.main(1000) { showVideoAdNow(tryCount - 1, vDialog) }
+       // } else {
+       //     vDialog.hide()
+       //     ToolsToast.show(R.string.achi_video_not_loaded)
+       // }
     }
 
 }
