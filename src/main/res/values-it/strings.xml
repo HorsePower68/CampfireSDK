@@ -1113,12 +1113,13 @@ Campfire has anime fandoms and gaming fandoms.</string>
     <string name="quests_story_filters">Feed-you are now in it, all posts of the application are displayed here. The tape is divided into different screens, each showing its part of the screen. You can customize the ribbon as you like.\n\nScroll the ribbon to the right, to the last screen, and open its settings.</string>
     <string name="quests_story_post">Posts are the main source of karma for your account. Posts can be completely different, it can be just a picture or an entire article. Campfire has a very good tool for creating posts.\n\nCreate a post. Tap the plus sign in the corner of the screen.</string>
     <string name="quests_story_finish">Daily quest. Congratulations you have completed the quest. Now you will be available daily tasks. They will be displayed on the first screen of the ribbon. For completing daily tasks you will increase your level. With each level, the job will become more difficult and confusing.\n\nclick finish To go to the daily tasks.</string>
-    <string name="quests_story_comments">xxx</string>
-    <string name="quests_story_bookmarks">xxx</string>
-    <string name="quests_story_bookmarks_screen">xxx</string>
-    <string name="quests_story_draft">xxx</string>
-    <string name="quests_story_ratings">xxx</string>
-    <string name="quests_story_stickers">xxx</string>
+    <string name="quests_story_comments">Comments - like everywhere else, Campfire has a comment system. Comments in the same way as posts are evaluated by karma, and the best comments are displayed directly in the feed and collect even more karma.\n\nWrite some comments under different posts.</string>
+    <string name="quests_story_bookmarks">Bookmarks - they will help you save the desired posts and return to them if necessary.\n\nBookmark any post via the menu.</string>
+    <string name="quests_story_bookmarks_screen">Bookmarks screen-stores all your saved posts, there was also a post just added to bookmarks.\n\nOpen the bookmarks screen through the navigation menu.</string>
+    <string name="quests_story_draft">Drafts are the key to creating posts, you can create a draft and edit it at any time. To create posts provided a huge number of different elements.\n\nCreate a draft of several elements, it is not necessary to publish it.</string>
+    <string name="quests_story_ratings">Ratings - if users in Campfire have a level and karma, then of course there are ratings.\n\nLook at the rating screen on the users tab in the navigation menu.</string>
+    <string name="quests_story_stickers">Stickers - like everywhere else, Campfire has stickers. Stickers are created by the user, this feature is available with the achievement of a certain level.\n\nAdd a set of stickers to your collection, they can be found in your profile.</string>
+
 
     <string name="wiki_list_empty">There are no items in this wiki yet.</string>
     <string name="wiki_item_create_name">Name (%s)</string>
