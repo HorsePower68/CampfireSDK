@@ -56,7 +56,7 @@ class DrawAnimationWinter : DrawAnimation() {
         var y = 0f
         var r = 0f
         var rMax = 0f
-        var alpha = 10f
+        var alpha = 0f
         var alphaMax = 0f
         var color = 0
         var rotate = 0f
@@ -73,9 +73,9 @@ class DrawAnimationWinter : DrawAnimation() {
             rs = ToolsMath.randomFloat(ToolsView.dpToPx(1), ToolsView.dpToPx(3))
             ass = ToolsMath.randomFloat(1f, 3f)
             alphaMax = ToolsMath.randomFloat(50f, 150f)
-            rMax = ToolsMath.randomFloat(ToolsView.dpToPx(30), ToolsView.dpToPx(200))
+            rMax = ToolsMath.randomFloat(ToolsView.dpToPx(150), ToolsView.dpToPx(300))
             rotate = ToolsMath.randomFloat(0f, 90f)
-            rotateS = ToolsMath.randomFloat(0f, 10f)
+            rotateS = ToolsMath.randomFloat(5f, 20f)
             rotateD = ToolsCollections.random(arrayOf(-1f, 1f))
             r = ToolsMath.randomFloat(0f, rMax/2)
             color = colors[ToolsMath.randomInt(0, colors.size - 1)]
