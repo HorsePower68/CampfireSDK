@@ -11,6 +11,7 @@ import kotlin.collections.ArrayList
 
 class DrawAnimationSummer() : DrawAnimation(){
 
+    private val colors:Array<Int> = arrayOf(ToolsResources.getColor(R.color.red_700), ToolsResources.getColor(R.color.yellow_900), ToolsResources.getColor(R.color.orange_900))
     private val yellow = ToolsColor.setAlpha(5, ToolsResources.getColor(R.color.amber_700))
     private val particles = ArrayList<Particle>()
 
@@ -78,7 +79,6 @@ class DrawAnimationSummer() : DrawAnimation(){
     }
 
     private inner class Particle{
-        val colors:Array<Int> = arrayOf(ToolsResources.getColor(R.color.red_700), ToolsResources.getColor(R.color.yellow_900), ToolsResources.getColor(R.color.orange_900))
 
         var x = 0f
         var y = 0f

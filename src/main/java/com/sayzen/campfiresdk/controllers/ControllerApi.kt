@@ -436,6 +436,7 @@ object ControllerApi {
         replaceLinkable(vText, API.LINK_SHORT_BOX_WITH_FIREWORKS, API.LINK_BOX_WITH_FIREWORKS)
         replaceLinkable(vText, API.LINK_SHORT_BOX_WITH_SUMMER, API.LINK_BOX_WITH_SUMMER)
         replaceLinkable(vText, API.LINK_SHORT_BOX_WITH_AUTUMN, API.LINK_BOX_WITH_AUTUMN)
+        replaceLinkable(vText, API.LINK_SHORT_BOX_WITH_WINTER, API.LINK_BOX_WITH_WINTER)
         replaceLinkable(vText, API.LINK_SHORT_PROFILE, API.LINK_PROFILE_NAME)
         replaceLinkable(vText, API.LINK_SHORT_WIKI_FANDOM, API.LINK_WIKI_FANDOM)
         replaceLinkable(vText, API.LINK_SHORT_WIKI_SECTION, API.LINK_WIKI_SECTION)
@@ -471,6 +472,7 @@ object ControllerApi {
         makeLinkableInner(vText, API.LINK_SHORT_BOX_WITH_FIREWORKS, API.LINK_BOX_WITH_FIREWORKS)
         makeLinkableInner(vText, API.LINK_SHORT_BOX_WITH_SUMMER, API.LINK_BOX_WITH_SUMMER)
         makeLinkableInner(vText, API.LINK_SHORT_BOX_WITH_AUTUMN, API.LINK_BOX_WITH_AUTUMN)
+        makeLinkableInner(vText, API.LINK_SHORT_BOX_WITH_WINTER, API.LINK_BOX_WITH_WINTER)
         makeLinkable(vText, API.LINK_SHORT_PROFILE, API.LINK_PROFILE_NAME, "([A-Za-z0-9#]+)")
 
         ToolsView.makeLinksClickable(vText)

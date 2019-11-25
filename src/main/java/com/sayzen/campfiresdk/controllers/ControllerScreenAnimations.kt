@@ -2,6 +2,7 @@ package com.sayzen.campfiresdk.controllers
 
 import com.sayzen.campfiresdk.models.animations.DrawAnimationAutumn
 import com.sayzen.campfiresdk.models.animations.DrawAnimationSummer
+import com.sayzen.campfiresdk.models.animations.DrawAnimationWinter
 import com.sup.dev.android.app.SupAndroid
 import com.sup.dev.android.tools.ToolsAndroid
 import com.sup.dev.android.tools.ToolsView
@@ -61,6 +62,14 @@ object ControllerScreenAnimations {
         key = myKey
 
         addAnimation(DrawAnimationAutumn())
+    }
+
+    fun winter(){
+        clearAnimation()
+        val myKey = System.currentTimeMillis()
+        key = myKey
+
+        addAnimation(DrawAnimationWinter())
     }
 
     private fun clearAnimation() {
