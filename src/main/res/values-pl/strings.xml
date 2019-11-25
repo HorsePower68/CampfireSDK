@@ -1090,6 +1090,7 @@ Campfire has anime fandoms and gaming fandoms.</string>
     <string name="activities_relay_race_no_user">No user.</string>
     <string name="activities_relay_race_error_has_post">The user has already created a post for this relay race</string>
     <string name="activities_relay_race_error_has_rejected">The user refused to participate in this relay race</string>
+    <string name="activities_relay_race_label">Post created to participate in the relay race</string>
     <string name="activities_empty">No activities here yest</string>
     <string name="activities_loading">Loading of activities list</string>
     <string name="activities_all">All activities</string>

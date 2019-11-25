@@ -25,6 +25,7 @@ import com.sup.dev.android.tools.ToolsResources
 import com.sup.dev.android.tools.ToolsView
 import com.sup.dev.android.views.views.ViewAvatarTitle
 import com.sup.dev.android.views.views.layouts.LayoutMaxSizes
+import com.sup.dev.java.libs.debug.log
 import com.sup.dev.java.libs.eventBus.EventBus
 import com.sup.dev.java.tools.ToolsDate
 import com.sup.dev.java.tools.ToolsText
@@ -303,31 +304,13 @@ class CardPost constructor(
 
         vMaxSizes.setMaxHeight(if (isShowFull) 50000 else 300)
 
-        vPagesCount.tag = this
-        updateShowAll(vPagesCount, vMaxSizes, vPagesContainer)
-        ToolsThreads.main(100) {
-            if (vPagesCount.tag == this) {
-                updateShowAll(vPagesCount, vMaxSizes, vPagesContainer)
-                ToolsThreads.main(100) {
-                    if (vPagesCount.tag == this) {
-                        updateShowAll(vPagesCount, vMaxSizes, vPagesContainer)
-                        ToolsThreads.main(100) {
-                            if (vPagesCount.tag == this) {
-                                updateShowAll(vPagesCount, vMaxSizes, vPagesContainer)
-                            }
-                        }
-                    }
-                }
-            }
+        ToolsThreads.main(true) {
+            vPagesCount.visibility = if (publication.pages.size > 2 || vMaxSizes.isCroppedH()) View.VISIBLE else View.INVISIBLE
         }
 
     }
 
 
-    private fun updateShowAll(vPagesCount: TextView, vMaxSizes: LayoutMaxSizes, vPagesContainer: ViewGroup) {
-        val publication = xPublication.publication as PublicationPost
-        vPagesCount.visibility = if (publication.pages.size > 2 || vMaxSizes.isCroppedH() || vPagesContainer.measuredHeight > ToolsView.dpToPx(300)) View.VISIBLE else View.INVISIBLE
-    }
 
     override fun notifyItem() {
         for (page in pages)

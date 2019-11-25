@@ -24,14 +24,14 @@ class CardRubric(val rubric: Rubric) : Card(R.layout.card_rubric) {
     var showFandom = false
 
     val eventBus = EventBus
-            .subscribe(EventRubricChangeName::class){
-                if(rubric.id == it.rubricId){
+            .subscribe(EventRubricChangeName::class) {
+                if (rubric.id == it.rubricId) {
                     rubric.name = it.rubricName
                     update()
                 }
             }
-            .subscribe(EventRubricChangeOwner::class){
-                if(rubric.id == it.rubricId){
+            .subscribe(EventRubricChangeOwner::class) {
+                if (rubric.id == it.rubricId) {
                     rubric.ownerId = it.ownerId
                     rubric.ownerImageId = it.ownerImageId
                     rubric.ownerName = it.ownerName
@@ -41,8 +41,8 @@ class CardRubric(val rubric: Rubric) : Card(R.layout.card_rubric) {
                     update()
                 }
             }
-            .subscribe(EventRubricRemove::class){
-                if(rubric.id == it.rubricId){
+            .subscribe(EventRubricRemove::class) {
+                if (rubric.id == it.rubricId) {
                     adapter?.remove(this)
                 }
             }
@@ -51,6 +51,7 @@ class CardRubric(val rubric: Rubric) : Card(R.layout.card_rubric) {
 
         val vAvatar: ViewAvatarTitle = view.findViewById(R.id.vAvatar)
         val vRate: TextView = view.findViewById(R.id.vRate)
+        val vWaitForPost: View = view.findViewById(R.id.vWaitForPost)
 
         if (showFandom) xFandom.setView(vAvatar) else xAccount.setView(vAvatar)
         vAvatar.setTitle(rubric.name)
@@ -59,6 +60,7 @@ class CardRubric(val rubric: Rubric) : Card(R.layout.card_rubric) {
         vAvatar.isClickable = false
 
         vRate.text = ToolsText.numToStringRound(rubric.karmaCof / 100.0, 2)
+        vWaitForPost.visibility = if (rubric.isWaitForPost) View.VISIBLE else View.GONE
 
         view.setOnClickListener {
             if (onClick == null) {

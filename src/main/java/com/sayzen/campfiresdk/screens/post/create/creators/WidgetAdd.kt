@@ -6,7 +6,7 @@ import com.sayzen.campfiresdk.models.cards.post_pages.*
 import com.sup.dev.android.libs.screens.Screen
 import com.sup.dev.android.libs.screens.navigator.Navigator
 import com.sup.dev.android.tools.ToolsResources
-import com.sup.dev.android.views.sheets.Sheet
+import com.sup.dev.android.views.splash.Sheet
 import com.sup.dev.android.views.widgets.Widget
 import com.sup.dev.android.views.widgets.WidgetAlert
 import com.sup.dev.android.views.widgets.WidgetMenu

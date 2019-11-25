@@ -9,7 +9,7 @@ import com.sup.dev.android.tools.ToolsResources
 import com.sup.dev.android.tools.ToolsToast
 import com.sup.dev.android.views.settings.Settings
 import com.sup.dev.android.views.settings.SettingsCheckBox
-import com.sup.dev.android.views.sheets.Sheet
+import com.sup.dev.android.views.splash.Sheet
 import com.sup.dev.android.views.widgets.Widget
 import com.sup.dev.android.views.widgets.WidgetChooseDate
 import com.sup.dev.android.views.widgets.WidgetChooseTime

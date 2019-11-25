@@ -36,7 +36,7 @@ class SAchievements private constructor(
         }
 
         fun instance(accountId: Long, accountName: String, scrollToId: Long, toPrev:Boolean=false, action: NavigationAction) {
-            ApiRequestsSupporter.executeInterstitial( if(Navigator.getCurrent() is SAchievements) Navigator.REPLACE else action, SAchievements::class, RAchievementsInfo(accountId)) { r ->
+            ApiRequestsSupporter.executeInterstitial(if(Navigator.getCurrent() is SAchievements) Navigator.REPLACE else action, RAchievementsInfo(accountId)) { r ->
                 SAchievements(accountId, accountName, scrollToId, toPrev, r)
             }
         }

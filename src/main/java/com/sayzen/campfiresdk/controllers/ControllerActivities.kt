@@ -5,25 +5,20 @@ import com.dzen.campfire.api.models.activities.UserActivity
 import com.dzen.campfire.api.requests.activities.RActivitiesGetCounts
 import com.dzen.campfire.api.requests.activities.RActivitiesRelayRaceMember
 import com.dzen.campfire.api.requests.activities.RActivitiesRemove
-import com.dzen.campfire.api.requests.project.RVideoAdView
 import com.sayzen.campfiresdk.R
 import com.sayzen.campfiresdk.models.events.activities.*
 import com.sayzen.campfiresdk.models.events.fandom.EventFandomAccepted
-import com.sayzen.campfiresdk.models.events.project.EventAchiProgressIncr
 import com.sayzen.campfiresdk.screens.activities.user_activities.SRelayRaceCreate
 import com.sayzen.campfiresdk.screens.activities.user_activities.WidgetReject
-import com.sayzen.devsupandroidgoogle.ControllerAdsVideoReward
 import com.sup.dev.android.libs.api_simple.ApiRequestsSupporter
 import com.sup.dev.android.libs.screens.navigator.Navigator
 import com.sup.dev.android.tools.ToolsAndroid
 import com.sup.dev.android.tools.ToolsToast
-import com.sup.dev.android.tools.ToolsView
 import com.sup.dev.android.views.widgets.Widget
 import com.sup.dev.android.views.widgets.WidgetMenu
 import com.sup.dev.java.libs.debug.err
-import com.sup.dev.java.libs.debug.info
+import com.sup.dev.java.libs.debug.log
 import com.sup.dev.java.libs.eventBus.EventBus
-import com.sup.dev.java.tools.ToolsThreads
 
 object ControllerActivities {
 
@@ -45,18 +40,30 @@ object ControllerActivities {
     //  User
     //
 
-    private var activitiesCount = 0L
+    private var relayRacesCount = 0L
+    private var rubricsCount = 0L
 
-    fun setActivitiesCount(activitiesCount: Long) {
-        this.activitiesCount = activitiesCount
+    fun setRelayRacesCount(relayRacesCount: Long) {
+        this.relayRacesCount = relayRacesCount
+        EventBus.post(EventActivitiesCountChanged())
+    }
+
+    fun setRubricsCount(rubricsCount: Long) {
+        log("setRubricsCount $rubricsCount")
+        this.rubricsCount = rubricsCount
         EventBus.post(EventActivitiesCountChanged())
     }
 
     fun clearUser() {
+        relayRacesCount = 0L
+        rubricsCount = 0L
         EventBus.post(EventActivitiesCountChanged())
     }
 
-    fun getActivitiesCount() = activitiesCount
+    fun getActivitiesCount() = getRelayRacesCount() + getRubricsCount()
+
+    fun getRelayRacesCount() = relayRacesCount
+    fun getRubricsCount() = rubricsCount
 
     fun showMenu(userActivity: UserActivity) {
         WidgetMenu()
@@ -111,7 +118,8 @@ object ControllerActivities {
         clearAdmins()
         RActivitiesGetCounts(ControllerSettings.adminReportsLanguages)
                 .onComplete {
-                    setActivitiesCount(it.userActivitiesCount)
+                    setRelayRacesCount(it.relayRacesCount)
+                    setRubricsCount(it.rubricsCount)
                     suggestedFandomsCount = it.suggestedFandomsCount
                     reportsCount = it.reportsCount
                     reportsUserCount = it.reportsUserCount
@@ -145,7 +153,7 @@ object ControllerActivities {
     fun no_member(userActivityId:Long) {
         ApiRequestsSupporter.executeEnabledConfirm(R.string.activities_relay_race_member_text_no, R.string.app_participate_no, RActivitiesRelayRaceMember(userActivityId, false)) { r ->
             ToolsToast.show(R.string.app_done)
-            setActivitiesCount(getActivitiesCount()-1)
+            setRelayRacesCount(getActivitiesCount()-1)
             EventBus.post(EventActivitiesRelayRaceMemberStatusChanged(userActivityId, 0, false))
         }
     }

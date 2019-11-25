@@ -18,32 +18,34 @@ class SRubricsList constructor(
         private val fandomId: Long,
         private val languageId: Long,
         private val ownerId: Long,
-        private val onSelected: ((Rubric)->Unit)? = null
+        private val onSelected: ((Rubric) -> Unit)? = null
 ) : SLoadingRecycler<CardRubric, Rubric>(R.layout.screen_fandoms_search) {
 
-    val eventBus = EventBus.subscribe(EventRubricCreate::class){
-        if(it.rubric.fandomId == fandomId && it.rubric.languageId == languageId) reload()
+    val eventBus = EventBus.subscribe(EventRubricCreate::class) {
+        if (it.rubric.fandomId == fandomId && it.rubric.languageId == languageId) reload()
     }
 
     init {
         setTitle(R.string.app_rubrics)
-        if(ownerId == 0L) setTextEmpty(R.string.rubric_empty)
-        else if(ControllerApi.isCurrentAccount(ownerId) ) setTextEmpty(R.string.rubric_empty_my)
-        else  setTextEmpty(R.string.rubric_empty_other)
+        if (ownerId == 0L) setTextEmpty(R.string.rubric_empty)
+        else if (ControllerApi.isCurrentAccount(ownerId)) setTextEmpty(R.string.rubric_empty_my)
+        else setTextEmpty(R.string.rubric_empty_other)
         setTextProgress(R.string.rubric_loading)
         setBackgroundImage(R.drawable.bg_7)
 
         val vFab: FloatingActionButton = findViewById(R.id.vFab)
         if (ControllerApi.can(fandomId, languageId, API.LVL_MODERATOR_RUBRIC)) (vFab as View).visibility = View.VISIBLE
         vFab.setImageResource(R.drawable.ic_add_white_24dp)
-        vFab.setOnClickListener {Navigator.to(SRubricsCreate(fandomId, languageId))}
+        vFab.setOnClickListener { Navigator.to(SRubricsCreate(fandomId, languageId)) }
+
+        if (ownerId > 0) (vFab as View).visibility = View.GONE
     }
 
     override fun instanceAdapter(): RecyclerCardAdapterLoading<CardRubric, Rubric> {
         return RecyclerCardAdapterLoading<CardRubric, Rubric>(CardRubric::class) {
             val card = CardRubric(it)
-            if(ownerId > 0) card.showFandom = true
-            if(onSelected != null) card.onClick = {
+            if (ownerId > 0) card.showFandom = true
+            if (onSelected != null) card.onClick = {
                 onSelected.invoke(it)
                 Navigator.remove(this)
             }

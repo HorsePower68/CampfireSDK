@@ -1092,6 +1092,7 @@
     <string name="activities_relay_race_no_user">Нет пользователя.</string>
     <string name="activities_relay_race_error_has_post">Пользователь уже создал пост для этой эстафеты</string>
     <string name="activities_relay_race_error_has_rejected">Пользователь отказался участвовать в этой эстафете</string>
+    <string name="activities_relay_race_label">Пост создан для участия в эстафете</string>
     <string name="activities_empty">Здесь еще нет активностей</string>
     <string name="activities_loading">Загрузка списка активностей</string>
     <string name="activities_all">Все активности</string>
