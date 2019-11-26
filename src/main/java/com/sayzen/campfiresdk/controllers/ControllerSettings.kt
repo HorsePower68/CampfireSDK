@@ -25,6 +25,12 @@ object ControllerSettings {
         accountSettings.json(false, ToolsStorage.getJson("ControllerSettings_accountSettings") ?: Json())
     }
 
+    fun clear(){
+        val settings = AccountSettings()
+        settings.isStub = true
+        setSettings(0, settings)
+    }
+
     private fun onSettingsUpdated() {
         updateSettingsTime = System.currentTimeMillis() + 1000
         EventBus.post(EventStyleChanged())
@@ -44,6 +50,7 @@ object ControllerSettings {
     fun setSettingsNow(onFinish: () -> Unit = {}, onError: () -> Unit = {}) {
         updateSettingsStarted = false
         ToolsStorage.put("ControllerSettings_accountSettings", accountSettings.json(true, Json()))
+        if(accountSettings.isStub) return
         ApiRequestsSupporter.execute(RAccountSetSettings(accountSettings)) {
             onFinish.invoke()
         }.onError { onError.invoke() }

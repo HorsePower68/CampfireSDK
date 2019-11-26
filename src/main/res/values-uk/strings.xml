@@ -211,6 +211,7 @@
     <string name="app_participate">Участвовать</string>
     <string name="app_participate_no">Не участвовать</string>
     <string name="app_additional">Дополнительно</string>
+    <string name="app_details">Подробности</string>
 
     <string name="he">Он</string>
     <string name="she">Она</string>
@@ -1018,6 +1019,10 @@
 
     <string name="post">Пост</string>
     <string name="post_error_gone">Похоже кто-то удалил этот пост</string>
+    <string name="post_error_gone_total">Пост тотально уничтожен. Его нет. Такое могло произойти только по воле протоадминов.</string>
+    <string name="post_error_gone_block">Пост заблокирован доблестными модераторами Campfire.</string>
+    <string name="post_error_gone_draft">Пост возвращен в черновики пользователя.</string>
+    <string name="post_error_gone_remove">Пост удалён пользователем.</string>
     <string name="post_remove_confirm">Удалить этот пост?</string>
     <string name="post_clear_reports_confirm">Удалить жалобы на этот пост?</string>
     <string name="post_report_confirm">Пожаловаться на этот пост?</string>

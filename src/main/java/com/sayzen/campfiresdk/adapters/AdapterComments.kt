@@ -66,8 +66,7 @@ class AdapterComments(
     fun showCommentDialog(comment: PublicationComment? = null, changeComment: PublicationComment? = null, quoteId: Long = 0, quoteText: String = "") {
         WidgetComment(publicationId, comment, changeComment, quoteId, quoteText, false) {
             val card = addComment(it)
-            vRecycler.scrollToPosition(indexOf(card) + 1)
-            card.flash()
+            scrollToCard(card)
         }.asSheetShow()
     }
 
@@ -80,6 +79,11 @@ class AdapterComments(
                     .onNetworkError { onLoad.invoke(null) }
                     .send(api)
         }
+    }
+
+    private fun scrollToCard(card:CardComment, extraScroll:Int=0){
+        card.flash()
+        vRecycler.scrollToPosition(indexOf(card) + extraScroll + 1)
     }
 
     private fun onCommentsPackLoaded() {
@@ -95,8 +99,7 @@ class AdapterComments(
                 if (c.xPublication.publication.id == scrollToCommentId) {
                     scrollToCommentId = 0
                     ToolsThreads.main(600) {
-                        vRecycler.scrollToPosition(indexOf(c) + extraScroll)
-                        c.flash()
+                        scrollToCard(c, extraScroll)
                     }
                 }
             }
@@ -115,7 +118,7 @@ class AdapterComments(
     fun addComment(publicationComment: PublicationComment): CardComment {
         val card = instanceCard(publicationComment)
         addWithHash(card)
-        card.flash()
+        scrollToCard(card)
         return card
     }
 
@@ -142,8 +145,7 @@ class AdapterComments(
                 { id ->
                     for (i in get(CardComment::class)) {
                         if (i.xPublication.publication.id == id) {
-                            i.flash()
-                            vRecycler.scrollToPosition(indexOf(i))
+                            scrollToCard(i)
                             break
                         }
                     }
