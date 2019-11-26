@@ -82,7 +82,7 @@ class CardPageUserActivity(
     override fun bindView(view: View) {
         super.bindView(view)
 
-        val vDescription: TextView = view.findViewById(R.id.vDescription)
+        val vActivityDescription: TextView = view.findViewById(R.id.vActivityDescription)
         val vAvatar: ViewAvatarTitle = view.findViewById(R.id.vAvatar)
         val vUser: ViewAvatarTitle = view.findViewById(R.id.vUser)
         val vButton: Button = view.findViewById(R.id.vButton)
@@ -91,7 +91,7 @@ class CardPageUserActivity(
         val vButtonContainer: View = view.findViewById(R.id.vButtonContainer)
         val vTouch: View = view.findViewById(R.id.vTouch)
 
-        vDescription.setText(userActivity.description)
+        vActivityDescription.setText(userActivity.description)
         xFandom.setView(vAvatar)
         xAccount.setView(vUser)
         vAvatar.setSubtitle(userActivity.fandomName)

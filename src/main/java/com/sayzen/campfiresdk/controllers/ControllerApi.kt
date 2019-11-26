@@ -28,23 +28,30 @@ import com.sayzen.campfiresdk.models.events.project.EventSalientTimeChanged
 import com.sayzen.campfiresdk.models.events.publications.EventPublicationRemove
 import com.sayzen.campfiresdk.models.events.publications.EventPublicationReportsAdd
 import com.sayzen.campfiresdk.models.events.publications.EventPublicationReportsClear
+import com.sayzen.campfiresdk.screens.fandoms.moderation.view.SModerationView
 import com.sup.dev.java.libs.text_format.TextFormater
 import com.sayzen.devsupandroidgoogle.ControllerGoogleAuth
+import com.sup.dev.android.app.SupAndroid
 import com.sup.dev.android.libs.api_simple.ApiRequestsSupporter
 import com.sup.dev.android.libs.image_loader.ImageLoaderId
 import com.sup.dev.android.libs.image_loader.ImageLoaderTag
+import com.sup.dev.android.libs.screens.navigator.NavigationAction
+import com.sup.dev.android.libs.screens.navigator.Navigator
 import com.sup.dev.android.tools.*
+import com.sup.dev.android.views.screens.SAlert
 import com.sup.dev.android.views.views.ViewTextLinkable
 import com.sup.dev.android.views.widgets.WidgetField
 import com.sup.dev.android.views.widgets.WidgetMenu
 import com.sup.dev.java.classes.items.Item3
 import com.sup.dev.java.classes.items.ItemNullable
+import com.sup.dev.java.libs.api_simple.ApiException
 import com.sup.dev.java.libs.api_simple.client.Request
 import com.sup.dev.java.libs.api_simple.client.TokenProvider
 import com.sup.dev.java.libs.debug.err
 import com.sup.dev.java.libs.eventBus.EventBus
 import com.sup.dev.java.libs.json.Json
 import com.sup.dev.java.libs.json.JsonArray
+import com.sup.dev.java.tools.ToolsMapper
 import com.sup.dev.java.tools.ToolsThreads
 import java.lang.Exception
 import java.util.regex.Pattern
@@ -319,6 +326,7 @@ object ControllerApi {
                     ControllerGoogleAuth.logout {
                         api.clearTokens()
                         ControllerChats.clearMessagesCount()
+                        ControllerSettings.clear()
                         ControllerNotifications.setNewNotifications(emptyArray())
                         setCurrentAccount(Account())
                         this.fandomsKarmaCounts = null
@@ -327,6 +335,18 @@ object ControllerApi {
                     }
                 }
                 .send(api)
+    }
+
+    fun showBlockedScreen(ex: ApiException, action: NavigationAction, text:Int){
+        val moderationId = if(ex.params != null && ex.params!!.isNotEmpty() && ex.params!![0] != null && ToolsMapper.isLongCastable(ex.params!![0]!!)) ex.params!![0]!!.toLong() else 0L
+        SAlert.showMessage(text, if(moderationId > 0)R.string.app_details else R.string.app_block, SupAndroid.IMG_ERROR_GONE, action){ screen->
+            if(moderationId > 0) {
+                Navigator.remove(screen)
+                SModerationView.instance(moderationId, action)
+            }else{
+                Navigator.remove(screen)
+            }
+        }
     }
 
     //
