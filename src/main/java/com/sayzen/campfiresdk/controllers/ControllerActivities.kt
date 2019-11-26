@@ -2,12 +2,14 @@ package com.sayzen.campfiresdk.controllers
 
 import com.dzen.campfire.api.API
 import com.dzen.campfire.api.models.activities.UserActivity
+import com.dzen.campfire.api.models.notifications.activities.NotificationActivitiesRelayRaceTurn
 import com.dzen.campfire.api.requests.activities.RActivitiesGetCounts
 import com.dzen.campfire.api.requests.activities.RActivitiesRelayRaceMember
 import com.dzen.campfire.api.requests.activities.RActivitiesRemove
 import com.sayzen.campfiresdk.R
 import com.sayzen.campfiresdk.models.events.activities.*
 import com.sayzen.campfiresdk.models.events.fandom.EventFandomAccepted
+import com.sayzen.campfiresdk.models.events.notifications.EventNotification
 import com.sayzen.campfiresdk.screens.activities.user_activities.SRelayRaceCreate
 import com.sayzen.campfiresdk.screens.activities.user_activities.WidgetReject
 import com.sup.dev.android.libs.api_simple.ApiRequestsSupporter
@@ -17,13 +19,13 @@ import com.sup.dev.android.tools.ToolsToast
 import com.sup.dev.android.views.widgets.Widget
 import com.sup.dev.android.views.widgets.WidgetMenu
 import com.sup.dev.java.libs.debug.err
-import com.sup.dev.java.libs.debug.log
 import com.sup.dev.java.libs.eventBus.EventBus
 
 object ControllerActivities {
 
     private val eventBus = EventBus
             .subscribe(EventFandomAccepted::class) { setFandomsCount(suggestedFandomsCount - 1) }
+            .subscribe(EventNotification::class) { if (it.notification is NotificationActivitiesRelayRaceTurn) reloadActivities() }
 
     fun init() {
 
@@ -49,7 +51,6 @@ object ControllerActivities {
     }
 
     fun setRubricsCount(rubricsCount: Long) {
-        log("setRubricsCount $rubricsCount")
         this.rubricsCount = rubricsCount
         EventBus.post(EventActivitiesCountChanged())
     }
@@ -139,21 +140,21 @@ object ControllerActivities {
     //  Relay race
     //
 
-    fun reject(userActivityId:Long) {
+    fun reject(userActivityId: Long) {
         WidgetReject(userActivityId).asSheetShow()
     }
 
-    fun member(userActivityId:Long) {
+    fun member(userActivityId: Long) {
         ApiRequestsSupporter.executeEnabledConfirm(R.string.activities_relay_race_member_text, R.string.app_participate, RActivitiesRelayRaceMember(userActivityId, true)) { r ->
             ToolsToast.show(R.string.app_done)
             EventBus.post(EventActivitiesRelayRaceMemberStatusChanged(userActivityId, 1, r.myIsCurrentMember))
         }
     }
 
-    fun no_member(userActivityId:Long) {
+    fun no_member(userActivityId: Long) {
         ApiRequestsSupporter.executeEnabledConfirm(R.string.activities_relay_race_member_text_no, R.string.app_participate_no, RActivitiesRelayRaceMember(userActivityId, false)) { r ->
             ToolsToast.show(R.string.app_done)
-            setRelayRacesCount(getActivitiesCount()-1)
+            setRelayRacesCount(getActivitiesCount() - 1)
             EventBus.post(EventActivitiesRelayRaceMemberStatusChanged(userActivityId, 0, false))
         }
     }
@@ -163,26 +164,26 @@ object ControllerActivities {
     //
 
     fun showVideoAd() {
-    //    ControllerAdsVideoReward.loadAd()
-    //    showVideoAdNow(10, ToolsView.showProgressDialog(R.string.achi_video_loading))
+        //    ControllerAdsVideoReward.loadAd()
+        //    showVideoAdNow(10, ToolsView.showProgressDialog(R.string.achi_video_loading))
     }
 
     private fun showVideoAdNow(tryCount: Int, vDialog: Widget) {
-       // info("XAd", "onRewardedAdFailedToLoad " + ControllerAdsVideoReward.isCahShow())
-       // if (ControllerAdsVideoReward.isCahShow()) {
-       //     vDialog.hide()
-       //     ControllerAdsVideoReward.show {
-       //         RVideoAdView().onComplete {
-       //             if (it.achi) EventBus.post(EventAchiProgressIncr(API.ACHI_VIDEO_AD.index))
-       //             EventBus.post(EventVideoAdView())
-       //         }.send(api)
-       //     }
-       // } else if (tryCount > 0 && ControllerAdsVideoReward.isLoading()) {
-       //     ToolsThreads.main(1000) { showVideoAdNow(tryCount - 1, vDialog) }
-       // } else {
-       //     vDialog.hide()
-       //     ToolsToast.show(R.string.achi_video_not_loaded)
-       // }
+        // info("XAd", "onRewardedAdFailedToLoad " + ControllerAdsVideoReward.isCahShow())
+        // if (ControllerAdsVideoReward.isCahShow()) {
+        //     vDialog.hide()
+        //     ControllerAdsVideoReward.show {
+        //         RVideoAdView().onComplete {
+        //             if (it.achi) EventBus.post(EventAchiProgressIncr(API.ACHI_VIDEO_AD.index))
+        //             EventBus.post(EventVideoAdView())
+        //         }.send(api)
+        //     }
+        // } else if (tryCount > 0 && ControllerAdsVideoReward.isLoading()) {
+        //     ToolsThreads.main(1000) { showVideoAdNow(tryCount - 1, vDialog) }
+        // } else {
+        //     vDialog.hide()
+        //     ToolsToast.show(R.string.achi_video_not_loaded)
+        // }
     }
 
 }

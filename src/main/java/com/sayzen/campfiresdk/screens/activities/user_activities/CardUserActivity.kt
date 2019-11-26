@@ -16,14 +16,11 @@ import com.sayzen.campfiresdk.models.events.activities.EventActivitiesChanged
 import com.sayzen.campfiresdk.models.events.activities.EventActivitiesRelayRaceMemberStatusChanged
 import com.sayzen.campfiresdk.models.events.activities.EventActivitiesRelayRaceRejected
 import com.sayzen.campfiresdk.models.events.activities.EventActivitiesRemove
-import com.sup.dev.android.libs.api_simple.ApiRequestsSupporter
 import com.sup.dev.android.libs.screens.navigator.Navigator
 import com.sup.dev.android.tools.ToolsResources
-import com.sup.dev.android.tools.ToolsToast
 import com.sup.dev.android.views.cards.Card
 import com.sup.dev.android.views.views.ViewAvatarTitle
 import com.sup.dev.android.views.views.ViewDraw
-import com.sup.dev.java.libs.debug.log
 import com.sup.dev.java.libs.eventBus.EventBus
 import com.sup.dev.java.tools.ToolsDate
 
@@ -46,7 +43,6 @@ class CardUserActivity(
                     userActivity.userImageId = it.currentOwnerImageId
                     recreateXAccount()
                     update()
-                    log("[event]tag_1[${userActivity.tag_1}] tag_2[${userActivity.tag_2}] userName[${userActivity.userName}] ")
                 }
             }
             .subscribe(EventActivitiesRelayRaceMemberStatusChanged::class) {
@@ -83,8 +79,6 @@ class CardUserActivity(
 
     override fun bindView(view: View) {
         super.bindView(view)
-
-        log("[update1]tag_1[${userActivity.tag_1}] tag_2[${userActivity.tag_2}] userName[${userActivity.userName}] ")
 
         val vDescription: TextView = view.findViewById(R.id.vDescription)
         val vAvatar: ViewAvatarTitle = view.findViewById(R.id.vAvatar)

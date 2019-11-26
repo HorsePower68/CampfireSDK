@@ -51,7 +51,7 @@ class SChat private constructor(
         val chatInfo_2: Long,
         val chatInfo_3: Long,
         val chatInfo_4: Long,
-        val messageId: Long,
+        var scrollToMessageId: Long,
         var startOffsetDate: Long,
         var memberStatus: Long?)
     : SLoadingRecycler<CardChatMessage, PublicationChatMessage>(R.layout.screen_chat), ScreenShare {
@@ -67,24 +67,29 @@ class SChat private constructor(
         }
 
         fun instance(chatType: Long, targetId: Long, targetSubId: Long, setStack: Boolean, action: NavigationAction) {
+            instance(chatType, targetId, targetSubId, 0, setStack, action)
+        }
+
+        fun instance(chatType: Long, targetId: Long, targetSubId: Long, scrollToMessageId: Long, setStack: Boolean, action: NavigationAction) {
             val targetSubIdV = if (chatType != API.CHAT_TYPE_FANDOM_ROOT || targetSubId != 0L) targetSubId else ControllerApi.getLanguageId()
             val tag = ChatTag(chatType, targetId, targetSubIdV)
-            if (tryOpenFromBackStack(tag)) return
+            if (tryOpenFromBackStack(tag, scrollToMessageId)) return
             instance(tag, setStack, action)
         }
 
         fun instance(tag: ChatTag, setStack: Boolean, action: NavigationAction, onShow: (SChat) -> Unit = {}) {
             if (setStack) ControllerCampfireSDK.ON_SCREEN_CHAT_START.invoke()
-            if (tryOpenFromBackStack(tag)) return
+            if (tryOpenFromBackStack(tag, 0)) return
             ApiRequestsSupporter.executeInterstitial(action, RChatGet(tag, 0)) { r ->
                 onChatLoaded(r, 0, onShow)
             }
         }
 
-        private fun tryOpenFromBackStack(tag: ChatTag): Boolean {
+        private fun tryOpenFromBackStack(tag: ChatTag, messageId: Long): Boolean {
             for (i in Navigator.currentStack.stack) {
                 if (i is SChat && i.tag == tag) {
                     Navigator.reorder(i)
+                    if (messageId > 0) i.scrollTo(messageId)
                     return true
                 }
             }
@@ -163,6 +168,27 @@ class SChat private constructor(
         }
     }
 
+    private fun scrollTo(messageId: Long) {
+        var found = false
+        val cards = adapter!!.get(CardChatMessage::class)
+        for (i in cards) {
+            if (i.xPublication.publication.id == messageId) {
+                vRecycler.smoothScrollToPosition(adapter!!.indexOf(i))
+                ToolsThreads.main(500) { i.flash() }
+                found = true
+                break
+            }
+        }
+        if (!found) {
+            scrollToMessageId = messageId
+            if (messageId > cards.get(cards.size - 1).xPublication.publication.id) {
+                adapter!!.loadBottom()
+            } else {
+                adapter!!.loadTop()
+            }
+        }
+    }
+
     private fun update() {
         if (tag.chatType == API.CHAT_TYPE_FANDOM_ROOT) {
             val xFandom = XFandom(tag.targetId, tag.targetSubId, chatName, chatImageId) { update() }
@@ -217,7 +243,10 @@ class SChat private constructor(
     override fun instanceAdapter(): RecyclerCardAdapterLoading<CardChatMessage, PublicationChatMessage> {
         val adapter = RecyclerCardAdapterLoading<CardChatMessage, PublicationChatMessage>(CardChatMessage::class) { u ->
             val card = instanceCard(u)
-            if (u.id == messageId) ToolsThreads.main(500) { card.flash() }
+            if (u.id == scrollToMessageId) ToolsThreads.main(500) {
+                card.flash()
+                //adapter!!.loadBottom()
+            }
             card
         }
                 .setBottomLoader { onLoad, cards ->
@@ -225,13 +254,16 @@ class SChat private constructor(
                         onLoad.invoke(emptyArray())
                     } else {
                         val isLoadTargetDate = cards.isEmpty() && startOffsetDate > 0
-                        subscription = RChatMessageGetAll(tag, if (cards.isEmpty()) startOffsetDate else cards[cards.size - 1].xPublication.publication.dateCreate, false, isLoadTargetDate)
+                        subscription = RChatMessageGetAll(tag,
+                                if (cards.isEmpty()) startOffsetDate else cards[cards.size - 1].xPublication.publication.dateCreate,
+                                false,
+                                isLoadTargetDate)
                                 .onComplete { r ->
-                                    if(isLoadTargetDate){
+                                    if (isLoadTargetDate) {
                                         startOffsetDate = 0
                                         onLoad.invoke(r.publications)
-                                        adapter!!.loadBottom()
-                                    }else {
+                                        adapter!!.loadTop()
+                                    } else {
                                         if (loaded) {
                                             onLoad.invoke(emptyArray())
                                             return@onComplete

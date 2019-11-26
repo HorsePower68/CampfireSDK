@@ -66,6 +66,7 @@ class SActivities : Screen(R.layout.screen_activities) {
         vRequests.visibility = if (ControllerApi.isProtoadmin()) View.VISIBLE else View.GONE
         vQuery.visibility = if (ControllerApi.isProtoadmin()) View.VISIBLE else View.GONE
         vErrors.visibility = if (ControllerApi.isProtoadmin()) View.VISIBLE else View.GONE
+        if (!ControllerApi.isProtoadmin()) vBlock.setLineVisible(false)
 
         vRelayRaceChip.setBackground(ToolsResources.getAccentColor(context))
         vRubricsChip.setBackground(ToolsResources.getAccentColor(context))

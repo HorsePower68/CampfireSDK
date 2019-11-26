@@ -17,8 +17,8 @@ import com.sup.dev.android.views.support.adapters.recycler_view.RecyclerCardAdap
 import com.sup.dev.java.libs.eventBus.EventBus
 
 class SUserActivitiesList constructor(
-        private val fandomId:Long=0,
-        private val languageId:Long=0,
+        private val fandomId: Long = 0,
+        private val languageId: Long = 0,
         private val onSelected: ((UserActivity) -> Unit)? = null
 ) : SLoadingRecycler<CardUserActivity, UserActivity>(R.layout.screen_activities_user_activities) {
 
@@ -29,7 +29,7 @@ class SUserActivitiesList constructor(
 
     init {
         setTitle(R.string.app_relay_races)
-        setTextEmpty(R.string.activities_empty)
+        setTextEmpty(if (fandomId > 0) R.string.activities_empty_user else R.string.activities_empty)
         setTextProgress(R.string.activities_loading)
         setBackgroundImage(R.drawable.bg_7)
 
@@ -48,7 +48,7 @@ class SUserActivitiesList constructor(
 
     override fun instanceAdapter(): RecyclerCardAdapterLoading<CardUserActivity, UserActivity> {
         val adapterX = RecyclerCardAdapterLoading<CardUserActivity, UserActivity>(CardUserActivity::class) {
-            if(onSelected == null)CardUserActivity(it) else CardUserActivity(it) { onSelected(it) }
+            if (onSelected == null) CardUserActivity(it) else CardUserActivity(it) { onSelected(it) }
         }
                 .setBottomLoader { onLoad, cards -> load(onLoad, cards) }
 

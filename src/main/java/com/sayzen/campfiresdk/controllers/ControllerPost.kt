@@ -426,7 +426,7 @@ object ControllerPost {
                 .setMax(API.MODERATION_COMMENT_MAX_L)
                 .setOnEnter(R.string.app_make) { w, comment ->
                     ApiRequestsSupporter.executeEnabled(w, RFandomsAdminMakeModerator(publication.id, comment)) { r ->
-                        EventBus.post(EventPublicationKarmaAdd(publication.id, r.myKarmaCount))
+                        ToolsToast.show(R.string.app_done)
                     }
                             .onApiError(RFandomsAdminMakeModerator.E_ALREADY) { ToolsToast.show(R.string.error_moderator_already) }
                             .onApiError(RFandomsAdminMakeModerator.E_TOO_MANY) { ToolsToast.show(R.string.error_moderator_too_many) }
