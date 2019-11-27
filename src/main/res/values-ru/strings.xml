@@ -212,6 +212,7 @@
     <string name="app_participate_no">Не участвовать</string>
     <string name="app_additional">Дополнительно</string>
     <string name="app_details">Подробности</string>
+    <string name="app_ok">Ок</string>
 
     <string name="he">Он</string>
     <string name="she">Она</string>
@@ -619,6 +620,8 @@
     <string name="chat_report_confirm">Пожаловаться на это сообщение?</string>
     <string name="chat_clear_reports_confirm">Удалить жалобы на это сообщение?</string>
     <string name="chat_error_gone">Похоже кто-то удалил это сообщение</string>
+    <string name="chat_error_gone_block">Сообщение заблокировано доблестными модераторами Campfire.</string>
+    <string name="chat_error_gone_remove">Сообщение удалёно пользователем.</string>
     <string name="chat_create_title">Создание чата</string>
     <string name="chat_create_error_account_exist">Пользователь уже добавлен в чат</string>
     <string name="chat_create_allow_invites">Разрешить участникам приглашать пользователей в чат</string>
@@ -631,6 +634,8 @@
     <string name="comment_report_confirm">Пожаловаться на этот комментарий?</string>
     <string name="comment_clear_reports_confirm">Удалить жалобы на этот комментарий?</string>
     <string name="comment_error_gone">Похоже кто-то удалил этот комментарий</string>
+    <string name="comment_error_gone_remove">Комментарий удалён пользователем.</string>
+    <string name="comment_error_gone_block">Комментарий заблокирован доблестными модераторами Campfire.</string>
 
     <string name="fandom_chat_creation_hint">Текст главной страницы чата</string>
     <string name="fandom_chat_remove_alert">Удалить этот чат?</string>
@@ -1017,7 +1022,6 @@
 
     <string name="post">Пост</string>
     <string name="post_error_gone">Похоже кто-то удалил этот пост</string>
-    <string name="post_error_gone_total">Пост тотально уничтожен. Его нет. Такое могло произойти только по воле протоадминов.</string>
     <string name="post_error_gone_block">Пост заблокирован доблестными модераторами Campfire.</string>
     <string name="post_error_gone_draft">Пост возвращен в черновики пользователя.</string>
     <string name="post_error_gone_remove">Пост удалён пользователем.</string>

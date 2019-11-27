@@ -212,6 +212,7 @@
     <string name="app_participate_no">Not participate</string>
     <string name="app_additional">Additional</string>
     <string name="app_details">Details</string>
+    <string name="app_ok">Ok</string>
 
     <string name="he">He</string>
     <string name="she">She</string>
@@ -624,6 +625,8 @@
     <string name="chat_report_confirm">Report this message?</string>
     <string name="chat_clear_reports_confirm">Clear this message reports?</string>
     <string name="chat_error_gone">Looks like someone deleted this message</string>
+    <string name="chat_error_gone_block">Comment blocked by moderators of Campfire.</string>
+    <string name="chat_error_gone_remove">Comment removed by user.</string>
     <string name="chat_create_title">Chat creation</string>
     <string name="chat_create_error_account_exist">User already added to chat</string>
     <string name="chat_create_allow_invites">Allow users to invite another users to chat</string>
@@ -636,6 +639,8 @@
     <string name="comment_report_confirm">Report this comment?</string>
     <string name="comment_clear_reports_confirm">Clear this comment reports?</string>
     <string name="comment_error_gone">Looks like someone deleted this comment</string>
+    <string name="comment_error_gone_remove">Comment removed by user.</string>
+    <string name="comment_error_gone_block">Comment blocked by moderators of Campfire.</string>
 
     <string name="fandom_chat_creation_hint">Text of chat main page</string>
     <string name="fandom_chat_remove_alert">Remove this chat?</string>
@@ -1022,10 +1027,9 @@
 
     <string name="post">Post</string>
     <string name="post_error_gone">Looks like someone deleted this post.</string>
-    <string name="post_error_gone_total">The post is totally destroyed. It\'s gone. This could happen only by the will of Protoamins.</string>
     <string name="post_error_gone_block">Post blocked by moderators of Campfire.</string>
     <string name="post_error_gone_draft">The post is returned to the user\'s drafts.</string>
-    <string name="post_error_gone_remove">Post removed by the user.</string>
+    <string name="post_error_gone_remove">Post removed by user.</string>
     <string name="post_remove_confirm">Remove this post?</string>
     <string name="post_clear_reports_confirm">Clear this post reports?</string>
     <string name="post_report_confirm">Report this post?</string>

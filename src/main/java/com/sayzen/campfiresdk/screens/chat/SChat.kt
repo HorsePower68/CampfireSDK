@@ -36,6 +36,8 @@ import com.sup.dev.android.views.screens.SLoadingRecycler
 import com.sup.dev.android.views.support.adapters.recycler_view.RecyclerCardAdapterLoading
 import com.sup.dev.android.views.views.ViewAvatarTitle
 import com.sup.dev.android.views.views.ViewIcon
+import com.sup.dev.android.views.widgets.WidgetAlert
+import com.sup.dev.java.libs.api_simple.client.ApiClient
 import com.sup.dev.java.libs.eventBus.EventBus
 import com.sup.dev.java.libs.json.Json
 import com.sup.dev.java.tools.*
@@ -127,6 +129,7 @@ class SChat private constructor(
     private val carSpace = CardSpace(16)
     private var needUpdate = false
     private var loaded = false
+    private var scrollToMessageWasLoaded = false
     private val addAfterLoadList = ArrayList<PublicationChatMessage>()
 
     init {
@@ -241,14 +244,7 @@ class SChat private constructor(
     }
 
     override fun instanceAdapter(): RecyclerCardAdapterLoading<CardChatMessage, PublicationChatMessage> {
-        val adapter = RecyclerCardAdapterLoading<CardChatMessage, PublicationChatMessage>(CardChatMessage::class) { u ->
-            val card = instanceCard(u)
-            if (u.id == scrollToMessageId) ToolsThreads.main(500) {
-                card.flash()
-                //adapter!!.loadBottom()
-            }
-            card
-        }
+        val adapter = RecyclerCardAdapterLoading<CardChatMessage, PublicationChatMessage>(CardChatMessage::class) { u -> instanceCard(u) }
                 .setBottomLoader { onLoad, cards ->
                     if (loaded) {
                         onLoad.invoke(emptyArray())
@@ -297,6 +293,45 @@ class SChat private constructor(
         adapter.setRemoveSame(true)
         adapter.setShowLoadingCardBottom(false)
         adapter.setShowLoadingCardTop(true)
+        adapter.addOnLoadedNotEmpty {
+            if (scrollToMessageId != 0L) {
+                for (c in adapter.get(CardChatMessage::class)) {
+                    if (c.xPublication.publication.id == scrollToMessageId) {
+                        scrollToMessageId = 0
+                        vRecycler.smoothScrollToPosition(adapter.indexOf(c))
+                        ToolsThreads.main(600) {
+                            c.flash()
+                        }
+                    }
+                }
+                if (scrollToMessageId != 0L) {
+                    if (scrollToMessageWasLoaded) {
+                        adapter.loadBottom()
+                    } else {
+                        RChatMessageGet(tag, scrollToMessageId)
+                                .onComplete {
+                                    adapter.loadBottom()
+                                    scrollToMessageWasLoaded = true
+                                }
+                                .onApiError(ApiClient.ERROR_GONE) {
+                                    if (it.messageError == RChatMessageGet.GONE_BLOCKED) ControllerApi.showBlockedDialog(it, R.string.chat_error_gone_block)
+                                    else if (it.messageError == RChatMessageGet.GONE_REMOVE) WidgetAlert().setText(R.string.chat_error_gone_remove).setOnEnter(R.string.app_ok).asSheetShow()
+                                    else WidgetAlert().setText(R.string.chat_error_gone).setOnEnter(R.string.app_ok).asSheetShow()
+                                    scrollToMessageWasLoaded = false
+                                    scrollToMessageId = 0
+                                }
+                                .send(api)
+                    }
+                }
+            }
+        }
+        adapter.addOnLoadedEmptyPack {
+            if (scrollToMessageId > 0 && scrollToMessageWasLoaded) {
+                scrollToMessageId = 0
+                scrollToMessageWasLoaded = false
+                WidgetAlert().setText(R.string.chat_error_gone_remove).setOnEnter(R.string.app_ok).asSheetShow()
+            }
+        }
         return adapter
     }
 
