@@ -73,6 +73,7 @@ class CardChat(
         vAvatar.vSubtitle.ellipsize = TextUtils.TruncateAt.END
         vAvatar.vSubtitle.setSingleLine()
         vAvatar.vAvatar.vChip.setText("")
+        vAvatar.vAvatar.setChipIcon(0)
         vAvatar.vAvatar.setOnClickListener {  }
 
         val hasUnread = !ControllerApi.isCurrentAccount(chat.unitChatMessage.creatorId)

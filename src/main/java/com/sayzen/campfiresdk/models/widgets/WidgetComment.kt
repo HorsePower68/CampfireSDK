@@ -107,6 +107,11 @@ class WidgetComment constructor(
         return false
     }
 
+    override fun onBackPressed(): Boolean {
+        onCancel()
+        return false
+    }
+
     private fun onCancel() {
         if (attach.isHasContent()
                 || (getText().isNotEmpty() && answer != null && getText() != answer.creatorName + ",")

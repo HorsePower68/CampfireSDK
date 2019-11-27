@@ -181,7 +181,9 @@ object ControllerApi {
     @Suppress("DEPRECATION")
     fun makeTextHtml(vText: TextView) {
         val text = vText.text.toString().replace("<", "&#60;")
-        vText.text = Html.fromHtml(TextFormater(text).parse().replace("\n", "<br />"))
+        val s_1 = TextFormater(text).parse()
+        val s_2 = s_1.replace("\n", "<br />")
+        vText.text = Html.fromHtml(s_2)
     }
 
     fun toBytes(bitmap: Bitmap?, size: Int, w: Int = 0, h: Int = 0, weakSizesMode: Boolean = false, callback: (ByteArray?) -> Unit) {
@@ -338,8 +340,8 @@ object ControllerApi {
     }
 
     fun showBlockedScreen(ex: ApiException, action: NavigationAction, text:Int){
-        val moderationId = if(ex.params != null && ex.params!!.isNotEmpty() && ex.params!![0] != null && ToolsMapper.isLongCastable(ex.params!![0]!!)) ex.params!![0]!!.toLong() else 0L
-        SAlert.showMessage(text, if(moderationId > 0)R.string.app_details else R.string.app_block, SupAndroid.IMG_ERROR_GONE, action){ screen->
+        val moderationId = if(ex.params.isNotEmpty() &&  ToolsMapper.isLongCastable(ex.params[0])) ex.params[0].toLong() else 0L
+        SAlert.showMessage(text, if(moderationId > 0)R.string.app_details else R.string.app_back, SupAndroid.IMG_ERROR_GONE, action){ screen->
             if(moderationId > 0) {
                 Navigator.remove(screen)
                 SModerationView.instance(moderationId, action)
@@ -438,6 +440,7 @@ object ControllerApi {
     }
 
     fun makeLinkable(vText: ViewTextLinkable, onReplace: () -> Unit = {}) {
+
         replaceLinkable(vText, API.LINK_SHORT_POST_ID, API.LINK_POST)
         replaceLinkable(vText, API.LINK_SHORT_REVIEW_ID, API.LINK_REVIEW)
         replaceLinkable(vText, API.LINK_SHORT_CHAT_ID, API.LINK_CHAT)

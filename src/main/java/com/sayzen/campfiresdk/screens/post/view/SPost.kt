@@ -54,8 +54,8 @@ class SPost constructor(
                 log("messageError [${it.messageError}]")
                 if (it.messageError == RPostGet.GONE_TOTAL_REMOVE) SAlert.showMessage(R.string.post_error_gone_total, R.string.app_back, SupAndroid.IMG_ERROR_GONE, action)
                 else if (it.messageError == RPostGet.GONE_BLOCKED) ControllerApi.showBlockedScreen(it, action, R.string.post_error_gone_block)
-                else if (it.messageError == RPostGet.GONE_DRAFT) ControllerApi.showBlockedScreen(it, action, R.string.post_error_gone_draft)
-                else if (it.messageError == RPostGet.GONE_REMOVE) ControllerApi.showBlockedScreen(it, action, R.string.post_error_gone_remove)
+                else if (it.messageError == RPostGet.GONE_DRAFT)  SAlert.showMessage(R.string.post_error_gone_draft, R.string.app_back, SupAndroid.IMG_ERROR_GONE, action)
+                else if (it.messageError == RPostGet.GONE_REMOVE) SAlert.showMessage(R.string.post_error_gone_remove, R.string.app_back, SupAndroid.IMG_ERROR_GONE, action)
                 else SAlert.showMessage(R.string.post_error_gone, R.string.app_back, SupAndroid.IMG_ERROR_GONE, action)
 
             }
