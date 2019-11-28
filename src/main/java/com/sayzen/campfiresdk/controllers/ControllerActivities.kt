@@ -26,6 +26,7 @@ object ControllerActivities {
     private val eventBus = EventBus
             .subscribe(EventFandomAccepted::class) { setFandomsCount(suggestedFandomsCount - 1) }
             .subscribe(EventNotification::class) { if (it.notification is NotificationActivitiesRelayRaceTurn) reloadActivities() }
+            .subscribe(EventActivitiesRelayRaceRejected::class) { setRelayRacesCount(relayRacesCount - 1) }
 
     fun init() {
 

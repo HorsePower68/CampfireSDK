@@ -23,7 +23,6 @@ class SStickersPacks(
     val eventBus = EventBus
             .subscribe(EventStickersPackCreate::class) { reload() }
             .subscribe(EventStickersPackCollectionChanged::class) { reload() }
-    var loaded = false
 
     init {
         setTitle(R.string.app_stickers)
@@ -44,22 +43,14 @@ class SStickersPacks(
     }
 
     override fun reload() {
-        loaded = false
         super.reload()
     }
 
     override fun instanceAdapter(): RecyclerCardAdapterLoading<CardStickersPack, PublicationStickersPack> {
         val adapter = RecyclerCardAdapterLoading<CardStickersPack, PublicationStickersPack>(CardStickersPack::class) { CardStickersPack(it) }
                 .setBottomLoader { onLoad, cards ->
-                    subscription = RStickersPacksGetAllByAccount(accountId, if(cards.isEmpty()) Long.MAX_VALUE else cards.get(cards.size-1).xPublication.publication.dateCreate)
-                            .onComplete { r ->
-                                if (loaded) {
-                                    onLoad.invoke(emptyArray())
-                                } else {
-                                    loaded = true
-                                    onLoad.invoke(r.stickersPacks)
-                                }
-                            }
+                    subscription = RStickersPacksGetAllByAccount(accountId, if(cards.isEmpty()) 0 else cards.get(cards.size-1).xPublication.publication.dateCreate)
+                            .onComplete { r -> onLoad.invoke(r.stickersPacks) }
                             .onNetworkError { onLoad.invoke(null) }
                             .send(api)
                 }

@@ -40,6 +40,7 @@ import com.sup.dev.android.libs.screens.navigator.Navigator
 import com.sup.dev.android.tools.*
 import com.sup.dev.android.views.screens.SAlert
 import com.sup.dev.android.views.views.ViewTextLinkable
+import com.sup.dev.android.views.widgets.WidgetAlert
 import com.sup.dev.android.views.widgets.WidgetField
 import com.sup.dev.android.views.widgets.WidgetMenu
 import com.sup.dev.java.classes.items.Item3
@@ -137,14 +138,14 @@ object ControllerApi {
 
     fun isOldVersion() = version.isNotEmpty() && version != API.VERSION
 
-    fun isUnsupportedVersion():Boolean{
+    fun isUnsupportedVersion(): Boolean {
         try {
             val versionSupportedS = if (supported.contains('b')) supported.substring(0, supported.length - 1) else supported
             val versionS = if (version.contains('b')) version.substring(0, version.length - 1) else version
             val versionSupported = versionSupportedS.toDouble()
             val version = versionS.toDouble()
             return version < versionSupported
-        }catch (e:Exception){
+        } catch (e: Exception) {
             err(e)
             return true
         }
@@ -181,7 +182,9 @@ object ControllerApi {
     @Suppress("DEPRECATION")
     fun makeTextHtml(vText: TextView) {
         val text = vText.text.toString().replace("<", "&#60;")
-        vText.text = Html.fromHtml(TextFormater(text).parse().replace("\n", "<br />"))
+        val s_1 = TextFormater(text).parse()
+        val s_2 = s_1.replace("\n", "<br />")
+        vText.text = Html.fromHtml(s_2)
     }
 
     fun toBytes(bitmap: Bitmap?, size: Int, w: Int = 0, h: Int = 0, weakSizesMode: Boolean = false, callback: (ByteArray?) -> Unit) {
@@ -220,13 +223,13 @@ object ControllerApi {
         setHasFandomSubscribes(hasSubscribes)
 
         val jProtoadmins = JsonArray()
-        for(i in protoadmins) jProtoadmins.put(i)
+        for (i in protoadmins) jProtoadmins.put(i)
         ToolsStorage.put("protoadmins", jProtoadmins)
 
         ControllerPolling.clear()
     }
 
-    fun setHasFandomSubscribes(hasSubscribes: Boolean){
+    fun setHasFandomSubscribes(hasSubscribes: Boolean) {
         this.hasSubscribes = hasSubscribes
         ToolsStorage.put("hasSubscribes", hasSubscribes)
     }
@@ -337,16 +340,29 @@ object ControllerApi {
                 .send(api)
     }
 
-    fun showBlockedScreen(ex: ApiException, action: NavigationAction, text:Int){
-        val moderationId = if(ex.params != null && ex.params!!.isNotEmpty() && ex.params!![0] != null && ToolsMapper.isLongCastable(ex.params!![0]!!)) ex.params!![0]!!.toLong() else 0L
-        SAlert.showMessage(text, if(moderationId > 0)R.string.app_details else R.string.app_block, SupAndroid.IMG_ERROR_GONE, action){ screen->
-            if(moderationId > 0) {
+    fun showBlockedScreen(ex: ApiException, action: NavigationAction, text: Int) {
+        val moderationId = if (ex.params.isNotEmpty() && ToolsMapper.isLongCastable(ex.params[0])) ex.params[0].toLong() else 0L
+        SAlert.showMessage(text, if (moderationId > 0) R.string.app_details else R.string.app_back, SupAndroid.IMG_ERROR_GONE, action) { screen ->
+            if (moderationId > 0) {
                 Navigator.remove(screen)
                 SModerationView.instance(moderationId, action)
-            }else{
+            } else {
                 Navigator.remove(screen)
             }
         }
+    }
+
+    fun showBlockedDialog(ex: ApiException, text: Int) {
+        val moderationId = if (ex.params.isNotEmpty() && ToolsMapper.isLongCastable(ex.params[0])) ex.params[0].toLong() else 0L
+        val w = WidgetAlert()
+        w.setText(text)
+        w.setOnCancel(R.string.app_ok)
+        if(moderationId > 0) {
+            w.setOnEnter(R.string.app_details) {
+                SModerationView.instance(moderationId, Navigator.TO)
+            }
+        }
+        w.asSheetShow()
     }
 
     //
@@ -438,6 +454,7 @@ object ControllerApi {
     }
 
     fun makeLinkable(vText: ViewTextLinkable, onReplace: () -> Unit = {}) {
+
         replaceLinkable(vText, API.LINK_SHORT_POST_ID, API.LINK_POST)
         replaceLinkable(vText, API.LINK_SHORT_REVIEW_ID, API.LINK_REVIEW)
         replaceLinkable(vText, API.LINK_SHORT_CHAT_ID, API.LINK_CHAT)
@@ -603,7 +620,7 @@ object ControllerApi {
         }
     }
 
-    fun <K : Request.Response> moderation(title:Int, action:Int, instanceRequest: (String)->Request<K>, onComplete: (K) -> Unit){
+    fun <K : Request.Response> moderation(title: Int, action: Int, instanceRequest: (String) -> Request<K>, onComplete: (K) -> Unit) {
         WidgetField()
                 .setTitle(title)
                 .setHint(R.string.moderation_widget_comment)

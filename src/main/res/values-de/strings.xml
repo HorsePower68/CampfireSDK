@@ -212,6 +212,7 @@ Campfire has anime fandoms and gaming fandoms.</string>
     <string name="app_participate_no">Not participate</string>
     <string name="app_additional">Additional</string>
     <string name="app_details">Details</string>
+    <string name="app_ok">Ok</string>
 
     <string name="he">He</string>
     <string name="she">She</string>
@@ -428,9 +429,9 @@ Campfire has anime fandoms and gaming fandoms.</string>
     <string name="moderation_text_to_drafts">%s post of user %s to drafts.</string>
     <string name="moderation_text_multilingual_not">%s post of user %s not multilingual</string>
     <string name="moderation_text_post_tags">%s tags of %s.</string>
-    <string name="moderation_text_chat_create">%s chat %s (%s).</string>
-    <string name="moderation_text_chat_change">%s chat %s (%s).</string>
-    <string name="moderation_text_chat_remove">%s chat %s (%s).</string>
+    <string name="moderation_text_chat_create">%s chat %s.</string>
+    <string name="moderation_text_chat_change">%s chat %s.</string>
+    <string name="moderation_text_chat_remove">%s chat %s.</string>
     <string name="moderation_background_image">%s main chat background image</string>
     <string name="moderation_background_image_sub">%s background image in chat %s</string>
     <string name="moderation_text_names">%s fandom other names.</string>
@@ -522,6 +523,24 @@ Campfire has anime fandoms and gaming fandoms.</string>
     <string name="feed_loading_69">I think you need to chat.</string>
     <string name="feed_loading_70">Friendly fire</string>
     <string name="feed_loading_71">Careful, the doors are closing!</string>
+    <string name="feed_loading_72">100% cotton.</string>
+    <string name="feed_loading_73">Close the window, wind blows on me!</string>
+    <string name="feed_loading_74">Prepare for warp jump!</string>
+    <string name="feed_loading_75">Take off your hat indoors</string>
+    <string name="feed_loading_76">No change of shoes - no entry!</string>
+    <string name="feed_loading_77">Dangerous, evil dog!</string>
+    <string name="feed_loading_78">The danger of an avalanche!</string>
+    <string name="feed_loading_79">Beware-wild deer!</string>
+    <string name="feed_loading_80">Do not trust user number 2720</string>
+    <string name="feed_loading_81">Self-destruct Protocol launched!</string>
+    <string name="feed_loading_82">Shake well before use.</string>
+    <string name="feed_loading_83">Use chilled.</string>
+    <string name="feed_loading_84">Campfire 2 - we rethought the understanding of the sequel.</string>
+    <string name="feed_loading_85">Buy our franchise.</string>
+    <string name="feed_loading_86">The young startup</string>
+    <string name="feed_loading_87">Has anyone seen my hat?</string>
+    <string name="feed_loading_88">D... Do you hear that music?!</string>
+    <string name="feed_loading_89">Why am I writing this?</string>
     <string name="feed_loading_1000">Hello datamineers!</string>
     <string name="feed_all">All publications</string>
     <string name="feed_subscribed">Subscribed only</string>
@@ -617,6 +636,8 @@ Campfire has anime fandoms and gaming fandoms.</string>
     <string name="chat_report_confirm">Report this message?</string>
     <string name="chat_clear_reports_confirm">Clear this message reports?</string>
     <string name="chat_error_gone">Looks like someone deleted this message</string>
+    <string name="chat_error_gone_block">Comment blocked by moderators of Campfire.</string>
+    <string name="chat_error_gone_remove">Comment removed by user.</string>
     <string name="chat_create_title">Chat creation</string>
     <string name="chat_create_error_account_exist">User already added to chat</string>
     <string name="chat_create_allow_invites">Allow users to invite another users to chat</string>
@@ -629,6 +650,8 @@ Campfire has anime fandoms and gaming fandoms.</string>
     <string name="comment_report_confirm">Report this comment?</string>
     <string name="comment_clear_reports_confirm">Clear this comment reports?</string>
     <string name="comment_error_gone">Looks like someone deleted this comment</string>
+    <string name="comment_error_gone_remove">Comment removed by user.</string>
+    <string name="comment_error_gone_block">Comment blocked by moderators of Campfire.</string>
 
     <string name="fandom_chat_creation_hint">Text of chat main page</string>
     <string name="fandom_chat_remove_alert">Remove this chat?</string>
@@ -911,6 +934,15 @@ Campfire has anime fandoms and gaming fandoms.</string>
     <string name="profile_subtitle_text_40">Cute</string>
     <string name="profile_subtitle_text_41">Sad</string>
     <string name="profile_subtitle_text_42">Personal splash</string>
+    <string name="profile_subtitle_text_43">Rainbow horse</string>
+    <string name="profile_subtitle_text_44">Steals tomatoes</string>
+    <string name="profile_subtitle_text_45">Knight of campfire</string>
+    <string name="profile_subtitle_text_46">Wizard</string>
+    <string name="profile_subtitle_text_47">Crazy Empress</string>
+    <string name="profile_subtitle_text_48">Neko-tyan</string>
+    <string name="profile_subtitle_text_49">Captain</string>
+    <string name="profile_subtitle_text_50">Emperor</string>
+    <string name="profile_subtitle_text_51">Druid</string>
 
     <string name="rubric_empty">There are no rubrics in this fandom yet.</string>
     <string name="rubric_empty_my">You don\'t have rubrics yet.</string>
@@ -1015,10 +1047,9 @@ Campfire has anime fandoms and gaming fandoms.</string>
 
     <string name="post">Post</string>
     <string name="post_error_gone">Looks like someone deleted this post.</string>
-    <string name="post_error_gone_total">The post is totally destroyed. It\'s gone. This could happen only by the will of Protoamins.</string>
     <string name="post_error_gone_block">Post blocked by moderators of Campfire.</string>
     <string name="post_error_gone_draft">The post is returned to the user\'s drafts.</string>
-    <string name="post_error_gone_remove">Post removed by the user.</string>
+    <string name="post_error_gone_remove">Post removed by user.</string>
     <string name="post_remove_confirm">Remove this post?</string>
     <string name="post_clear_reports_confirm">Clear this post reports?</string>
     <string name="post_report_confirm">Report this post?</string>

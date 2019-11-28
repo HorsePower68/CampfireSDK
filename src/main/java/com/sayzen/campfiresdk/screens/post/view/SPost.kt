@@ -16,22 +16,16 @@ import com.sayzen.campfiresdk.adapters.XPublication
 import com.sayzen.campfiresdk.controllers.*
 import com.sayzen.campfiresdk.models.cards.post_pages.CardPage
 import com.sayzen.campfiresdk.models.events.publications.*
-import com.sayzen.campfiresdk.screens.fandoms.moderation.moderators.SModeration
-import com.sayzen.campfiresdk.screens.fandoms.moderation.view.SModerationView
 import com.sup.dev.android.app.SupAndroid
 import com.sup.dev.android.libs.api_simple.ApiRequestsSupporter
 import com.sup.dev.android.libs.screens.Screen
 import com.sup.dev.android.libs.screens.navigator.NavigationAction
 import com.sup.dev.android.libs.screens.navigator.Navigator
-import com.sup.dev.android.tools.ToolsToast
 import com.sup.dev.android.tools.ToolsView
 import com.sup.dev.android.views.screens.SAlert
 import com.sup.dev.java.libs.api_simple.client.ApiClient
-import com.sup.dev.java.libs.debug.log
 import com.sup.dev.java.libs.eventBus.EventBus
 import com.sup.dev.java.libs.eventBus.EventBusSubscriber
-import com.sup.dev.java.tools.ToolsClass
-import com.sup.dev.java.tools.ToolsMapper
 import com.sup.dev.java.tools.ToolsThreads
 
 class SPost constructor(
@@ -51,11 +45,9 @@ class SPost constructor(
                     RPostGet(publicationId)) { r ->
                 SPost(r.publication, r.tags, commentId)
             }.onApiError(ApiClient.ERROR_GONE) {
-                log("messageError [${it.messageError}]")
-                if (it.messageError == RPostGet.GONE_TOTAL_REMOVE) SAlert.showMessage(R.string.post_error_gone_total, R.string.app_back, SupAndroid.IMG_ERROR_GONE, action)
-                else if (it.messageError == RPostGet.GONE_BLOCKED) ControllerApi.showBlockedScreen(it, action, R.string.post_error_gone_block)
-                else if (it.messageError == RPostGet.GONE_DRAFT) ControllerApi.showBlockedScreen(it, action, R.string.post_error_gone_draft)
-                else if (it.messageError == RPostGet.GONE_REMOVE) ControllerApi.showBlockedScreen(it, action, R.string.post_error_gone_remove)
+                if (it.messageError == RPostGet.GONE_BLOCKED) ControllerApi.showBlockedScreen(it, action, R.string.post_error_gone_block)
+                else if (it.messageError == RPostGet.GONE_DRAFT)  SAlert.showMessage(R.string.post_error_gone_draft, R.string.app_back, SupAndroid.IMG_ERROR_GONE, action)
+                else if (it.messageError == RPostGet.GONE_REMOVE) SAlert.showMessage(R.string.post_error_gone_remove, R.string.app_back, SupAndroid.IMG_ERROR_GONE, action)
                 else SAlert.showMessage(R.string.post_error_gone, R.string.app_back, SupAndroid.IMG_ERROR_GONE, action)
 
             }

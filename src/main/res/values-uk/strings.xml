@@ -212,6 +212,7 @@
     <string name="app_participate_no">Не участвовать</string>
     <string name="app_additional">Дополнительно</string>
     <string name="app_details">Подробности</string>
+    <string name="app_ok">Ок</string>
 
     <string name="he">Он</string>
     <string name="she">Она</string>
@@ -430,9 +431,9 @@
     <string name="moderation_text_to_drafts">%s пост пользователя %s в черновики</string>
     <string name="moderation_text_multilingual_not">%s пост пользователя %s не мультиязычным</string>
     <string name="moderation_text_post_tags">%s теги %s.</string>
-    <string name="moderation_text_chat_create">%s чат %s (%s).</string>
-    <string name="moderation_text_chat_change">%s чат %s (%s).</string>
-    <string name="moderation_text_chat_remove">%s чат %s (%s).</string>
+    <string name="moderation_text_chat_create">%s чат %s.</string>
+    <string name="moderation_text_chat_change">%s чат %s.</string>
+    <string name="moderation_text_chat_remove">%s чат %s.</string>
     <string name="moderation_background_image">%s фоновую картинку в основном чате</string>
     <string name="moderation_background_image_sub">%s фоновую картинку в чате %s</string>
     <string name="moderation_text_names">%s дополнительные названия фэндома.</string>
@@ -524,6 +525,24 @@
     <string name="feed_loading_69">Кажется ты нужен в чате.</string>
     <string name="feed_loading_70">Фрэндли фаер</string>
     <string name="feed_loading_71">Осторожно, двери закрываются!</string>
+    <string name="feed_loading_72">На 100% из хлопка.</string>
+    <string name="feed_loading_73">Закрой окно, мне дует!</string>
+    <string name="feed_loading_74">Приготовиться к варп прыжку!</string>
+    <string name="feed_loading_75">Сними шапку в помещении</string>
+    <string name="feed_loading_76">Без сменной обуви - вход воспрещен!</string>
+    <string name="feed_loading_77">Осторожно, злая собака!</string>
+    <string name="feed_loading_78">Опасность спуска лавины!</string>
+    <string name="feed_loading_79">Осторожно - дикие олени!</string>
+    <string name="feed_loading_80">Не доверяйте пользователю номер 2720</string>
+    <string name="feed_loading_81">Запущен протокол самоуничтожения!</string>
+    <string name="feed_loading_82">Встряхнуть перед использованием.</string>
+    <string name="feed_loading_83">Использовать охлажденным.</string>
+    <string name="feed_loading_84">Campfire 2- мы переосмыслили понимание сиквела.</string>
+    <string name="feed_loading_85">Покупайте нашу франшизу.</string>
+    <string name="feed_loading_86">Молодой стартап</string>
+    <string name="feed_loading_87">Кто нибудь видел мою шляпу?</string>
+    <string name="feed_loading_88">Т... Ты слышишь эту музыку?!</string>
+    <string name="feed_loading_89">И зачем я это пишу?</string>
     <string name="feed_loading_1000">Привет датамайнерам!</string>
     <string name="feed_all">Все побликации</string>
     <string name="feed_subscribed">Только подписки</string>
@@ -619,6 +638,8 @@
     <string name="chat_report_confirm">Пожаловаться на это сообщение?</string>
     <string name="chat_clear_reports_confirm">Удалить жалобы на это сообщение?</string>
     <string name="chat_error_gone">Похоже кто-то удалил это сообщение</string>
+    <string name="chat_error_gone_block">Сообщение заблокировано доблестными модераторами Campfire.</string>
+    <string name="chat_error_gone_remove">Сообщение удалёно пользователем.</string>
     <string name="chat_create_title">Создание чата</string>
     <string name="chat_create_error_account_exist">Пользователь уже добавлен в чат</string>
     <string name="chat_create_allow_invites">Разрешить участникам приглашать пользователей в чат</string>
@@ -631,6 +652,8 @@
     <string name="comment_report_confirm">Пожаловаться на этот комментарий?</string>
     <string name="comment_clear_reports_confirm">Удалить жалобы на этот комментарий?</string>
     <string name="comment_error_gone">Похоже кто-то удалил этот комментарий</string>
+    <string name="comment_error_gone_remove">Комментарий удалён пользователем.</string>
+    <string name="comment_error_gone_block">Комментарий заблокирован доблестными модераторами Campfire.</string>
 
     <string name="fandom_chat_creation_hint">Текст главной страницы чата</string>
     <string name="fandom_chat_remove_alert">Удалить этот чат?</string>
@@ -913,6 +936,15 @@
     <string name="profile_subtitle_text_40">Няшка</string>
     <string name="profile_subtitle_text_41">Грустит</string>
     <string name="profile_subtitle_text_42">Персональный сплеш</string>
+    <string name="profile_subtitle_text_43">Радужный конь</string>
+    <string name="profile_subtitle_text_44">Ворует помидоры</string>
+    <string name="profile_subtitle_text_45">Рыцарь костра</string>
+    <string name="profile_subtitle_text_46">Волшебник</string>
+    <string name="profile_subtitle_text_47">Шальная императрица</string>
+    <string name="profile_subtitle_text_48">Неко-тян</string>
+    <string name="profile_subtitle_text_49">Капитан</string>
+    <string name="profile_subtitle_text_50">Император</string>
+    <string name="profile_subtitle_text_51">Друид</string>
 
 
     <string name="rubric_empty">В этом фэндоме еще нет рубрик</string>
@@ -1019,7 +1051,6 @@
 
     <string name="post">Пост</string>
     <string name="post_error_gone">Похоже кто-то удалил этот пост</string>
-    <string name="post_error_gone_total">Пост тотально уничтожен. Его нет. Такое могло произойти только по воле протоадминов.</string>
     <string name="post_error_gone_block">Пост заблокирован доблестными модераторами Campfire.</string>
     <string name="post_error_gone_draft">Пост возвращен в черновики пользователя.</string>
     <string name="post_error_gone_remove">Пост удалён пользователем.</string>
