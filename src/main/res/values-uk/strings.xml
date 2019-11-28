@@ -431,9 +431,9 @@
     <string name="moderation_text_to_drafts">%s пост пользователя %s в черновики</string>
     <string name="moderation_text_multilingual_not">%s пост пользователя %s не мультиязычным</string>
     <string name="moderation_text_post_tags">%s теги %s.</string>
-    <string name="moderation_text_chat_create">%s чат %s (%s).</string>
-    <string name="moderation_text_chat_change">%s чат %s (%s).</string>
-    <string name="moderation_text_chat_remove">%s чат %s (%s).</string>
+    <string name="moderation_text_chat_create">%s чат %s.</string>
+    <string name="moderation_text_chat_change">%s чат %s.</string>
+    <string name="moderation_text_chat_remove">%s чат %s.</string>
     <string name="moderation_background_image">%s фоновую картинку в основном чате</string>
     <string name="moderation_background_image_sub">%s фоновую картинку в чате %s</string>
     <string name="moderation_text_names">%s дополнительные названия фэндома.</string>

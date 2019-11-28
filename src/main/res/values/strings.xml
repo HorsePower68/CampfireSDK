@@ -429,9 +429,9 @@
     <string name="moderation_text_to_drafts">%s post of user %s to drafts.</string>
     <string name="moderation_text_multilingual_not">%s post of user %s not multilingual</string>
     <string name="moderation_text_post_tags">%s tags of %s.</string>
-    <string name="moderation_text_chat_create">%s chat %s (%s).</string>
-    <string name="moderation_text_chat_change">%s chat %s (%s).</string>
-    <string name="moderation_text_chat_remove">%s chat %s (%s).</string>
+    <string name="moderation_text_chat_create">%s chat %s.</string>
+    <string name="moderation_text_chat_change">%s chat %s.</string>
+    <string name="moderation_text_chat_remove">%s chat %s.</string>
     <string name="moderation_background_image">%s main chat background image</string>
     <string name="moderation_background_image_sub">%s background image in chat %s</string>
     <string name="moderation_text_names">%s fandom other names.</string>
