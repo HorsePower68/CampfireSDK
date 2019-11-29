@@ -97,6 +97,11 @@ class SCreatePagePolling(
         update()
     }
 
+    override fun onResume() {
+        super.onResume()
+        vPageTitle.requestFocus()
+    }
+
     override fun onBackPressed(): Boolean {
         onCancel()
         return true

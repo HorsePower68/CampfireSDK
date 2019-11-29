@@ -6,7 +6,6 @@ import android.widget.TextView
 import com.dzen.campfire.api.API
 import com.dzen.campfire.api.models.account.Account
 import com.dzen.campfire.api.models.activities.UserActivity
-import com.dzen.campfire.api.requests.activities.RActivitiesRelayRaceMember
 import com.sayzen.campfiresdk.R
 import com.sayzen.campfiresdk.adapters.XAccount
 import com.sayzen.campfiresdk.adapters.XFandom
@@ -16,6 +15,7 @@ import com.sayzen.campfiresdk.models.events.activities.EventActivitiesChanged
 import com.sayzen.campfiresdk.models.events.activities.EventActivitiesRelayRaceMemberStatusChanged
 import com.sayzen.campfiresdk.models.events.activities.EventActivitiesRelayRaceRejected
 import com.sayzen.campfiresdk.models.events.activities.EventActivitiesRemove
+import com.sayzen.campfiresdk.screens.activities.user_activities.relay_race.SRelayRaceInfo
 import com.sup.dev.android.libs.screens.navigator.Navigator
 import com.sup.dev.android.tools.ToolsResources
 import com.sup.dev.android.views.cards.Card

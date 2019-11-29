@@ -212,6 +212,8 @@ Campfire has anime fandoms and gaming fandoms.</string>
     <string name="app_additional">Additional</string>
     <string name="app_details">Details</string>
     <string name="app_ok">Ok</string>
+    <string name="app_gif">Gif</string>
+    <string name="app_images">Images</string>
 
     <string name="he">He</string>
     <string name="she">She</string>
@@ -313,29 +315,29 @@ Campfire has anime fandoms and gaming fandoms.</string>
     <string name="notifications_fandom_make_moderator">You have been denied moderation of fandom %s</string>
     <string name="notifications_fandom_remove_moderator">Now you can moderate fandom %s</string>
     <string name="notifications_important_publication">Important publication appeared in the fandom %s</string>
-    <string name="notifications_moderation_to_drafts">Moderator %s %s your post to drafts</string>
+    <string name="notifications_moderation_to_drafts">Moderator %s %s your post%s to drafts</string>
     <string name="notifications_moderation_multilingual_not">Moderator %s %s your post not multilingual</string>
     <string name="notifications_moderation_post_close">Moderator %s %s your post</string>
     <string name="notifications_moderation_post_close_no">Moderator %s %s your post</string>
     <string name="notifications_moderation_tags">Moderator %s %s your post tags</string>
     <string name="notifications_moderation_forgive">Moderator %s %s you in fandom %s</string>
-    <string name="notification_post_comment">%s %s your post</string>
+    <string name="notification_post_comment">%s %s your post%s</string>
     <string name="notification_punishment_remove">%s %s your punishment</string>
-    <string name="notification_post_comment_watch">%s %s on the post you follow</string>
+    <string name="notification_post_comment_watch">%s %s on the post%s you follow</string>
     <string name="notification_stickers_pack_comment">%s %s your stickers pack</string>
     <string name="notification_stickers_pack_comment_watch">%s %s on the stickers pack you follow</string>
-    <string name="notification_post_karma">%s %s your post for %s</string>
+    <string name="notification_post_karma">%s %s your post%s for %s</string>
     <string name="notification_moderation_comment">%s %s your moderation action</string>
     <string name="notification_moderation_comment_watch">%s %s on moderation you follow</string>
     <string name="notification_moderation_karma">%s %s your moderation for %s</string>
     <string name="notification_karma_review">%s %s your review for %s</string>
     <string name="notification_karma_stickers_pack">%s %s your stickers pack %s</string>
     <string name="notification_profile_follows_add">%s %s to you</string>
-    <string name="notification_comments_answer">%s %s to your comment</string>
+    <string name="notification_comments_answer">%s %s to your comment%s</string>
     <string name="notification_reaction">%s %s to your comment</string>
     <string name="notification_chat_many">%s %s %s in chat</string>
     <string name="notification_chat_private_many">%s %s private %s</string>
-    <string name="notification_comments_karma">%s %s  your comment for %s</string>
+    <string name="notification_comments_karma">%s %s  your comment%s for %s</string>
     <string name="notification_admin_name_remove">%s %s your login</string>
     <string name="notification_admin_link_remove">%s %s link in your profile</string>
     <string name="notification_admin_description_remove">%s %s description in your profile</string>
@@ -344,8 +346,8 @@ Campfire has anime fandoms and gaming fandoms.</string>
     <string name="notification_admin_moderation_restore">Your publication has restored</string>
     <string name="notification_admin_post_fandom_change">Administrator %s %s your post from fandom %s to %s</string>
     <string name="notification_mention">%s %s you</string>
-    <string name="notification_activitie_relay_race_turn">%s %s relay race %s to you in fandom %s</string>
-    <string name="notification_activitie_relay_race_turn_from_system">You gat relay race %s in fandom %s</string>
+    <string name="notification_activities_relay_race_turn">%s %s relay race %s to you in fandom %s</string>
+    <string name="notification_activities_relay_race_turn_from_system">You gat relay race %s in fandom %s</string>
     <string name="notification_quest_finish">Daily quest completed</string>
     <string name="notification_rubric_change_name">%s %s name of rubric from %s to %s</string>
     <string name="notification_rubric_change_owner">%s %s owner of rubric %s to %s</string>
@@ -937,7 +939,7 @@ Campfire has anime fandoms and gaming fandoms.</string>
     <string name="profile_subtitle_text_44">Steals tomatoes</string>
     <string name="profile_subtitle_text_45">Knight of campfire</string>
     <string name="profile_subtitle_text_46">Wizard</string>
-    <string name="profile_subtitle_text_47">Crazy Empress</string>
+    <string name="profile_subtitle_text_47">Empress</string>
     <string name="profile_subtitle_text_48">Neko-tyan</string>
     <string name="profile_subtitle_text_49">Captain</string>
     <string name="profile_subtitle_text_50">Emperor</string>
@@ -1130,6 +1132,9 @@ Campfire has anime fandoms and gaming fandoms.</string>
     <string name="activities_empty_user">You have not yet redistributed a single relay race</string>
     <string name="activities_loading">Loading of activities list</string>
     <string name="activities_all">All activities</string>
+    <string name="activities_relay_race_members">Members</string>
+    <string name="activities_relay_race_rejected">Rejected</string>
+    <string name="activities_relay_race_posts">Posts</string>
 
     <string name="quests_story_title">Epic quest</string>
     <string name="quests_next">The next quest will be available tomorrow.</string>

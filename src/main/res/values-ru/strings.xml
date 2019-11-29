@@ -213,6 +213,8 @@
     <string name="app_additional">Дополнительно</string>
     <string name="app_details">Подробности</string>
     <string name="app_ok">Ок</string>
+    <string name="app_gif">Gif</string>
+    <string name="app_images">Изображения</string>
 
     <string name="he">Он</string>
     <string name="she">Она</string>
@@ -314,29 +316,29 @@
     <string name="notifications_fandom_make_moderator">Вас лишили права модерировать фэндом %s</string>
     <string name="notifications_fandom_remove_moderator">Теперь вы можете модерировать фэндом %s</string>
     <string name="notifications_important_publication">В фэндоме %s появилась важная публикация</string>
-    <string name="notifications_moderation_to_drafts">Модератор %s %s ваш пост в черновики</string>
+    <string name="notifications_moderation_to_drafts">Модератор %s %s ваш пост%s в черновики</string>
     <string name="notifications_moderation_multilingual_not">Модератор %s %s ваш пост не мультиязычным</string>
     <string name="notifications_moderation_post_close">Модератор %s %s ваш пост</string>
     <string name="notifications_moderation_post_close_no">Модератор %s %s ваш пост</string>
     <string name="notifications_moderation_tags">Модератор %s %s теги вашего поста</string>
     <string name="notifications_moderation_forgive">Модератор %s %s вас в фэндоме %s</string>
-    <string name="notification_post_comment">%s %s ваш пост</string>
+    <string name="notification_post_comment">%s %s ваш пост%s</string>
     <string name="notification_punishment_remove">%s %s вашe наказание</string>
-    <string name="notification_post_comment_watch">%s %s пост, за которым вы следите</string>
+    <string name="notification_post_comment_watch">%s %s пост%s, за которым вы следите</string>
     <string name="notification_stickers_pack_comment">%s %s ваш набор стикеров</string>
     <string name="notification_stickers_pack_comment_watch">%s %s набор стикеров, за которым вы следите</string>
-    <string name="notification_post_karma">%s %s ваш пост на %s</string>
+    <string name="notification_post_karma">%s %s ваш пост%s на %s</string>
     <string name="notification_moderation_comment">%s %s ваше модераторское действие</string>
     <string name="notification_moderation_comment_watch">%s %s модерацию, за которой вы следите</string>
     <string name="notification_moderation_karma">%s %s вашу модерацию на %s</string>
     <string name="notification_karma_review">%s %s ваш отзыв на %s</string>
     <string name="notification_karma_stickers_pack">%s %s ваш набор стикеров на %s</string>
     <string name="notification_profile_follows_add">%s %s на вас</string>
-    <string name="notification_comments_answer">%s %s на ваш комментарий</string>
+    <string name="notification_comments_answer">%s %s на ваш комментарий%s</string>
     <string name="notification_reaction">%s %s на ваш комментарий</string>
     <string name="notification_chat_many">%s %s %s в чате</string>
     <string name="notification_chat_private_many">%s %s %s %s</string>
-    <string name="notification_comments_karma">%s %s ваш комментарий на %s</string>
+    <string name="notification_comments_karma">%s %s ваш комментарий%s на %s</string>
     <string name="notification_admin_name_remove">%s %s ваш логин</string>
     <string name="notification_admin_link_remove">%s %s ссылку в вашем профиле</string>
     <string name="notification_admin_description_remove">%s %s описние в вашем профиле</string>
@@ -345,8 +347,8 @@
     <string name="notification_admin_moderation_restore">Ваша публикация востановлена</string>
     <string name="notification_admin_post_fandom_change">Администартор %s %s ваш пост из фэндома %s в %s</string>
     <string name="notification_mention">%s %s вас</string>
-    <string name="notification_activitie_relay_race_turn">%s %s вам эстафету %s в фэндоме %s</string>
-    <string name="notification_activitie_relay_race_turn_from_system">Вам передана эстафета %s в фэндоме %s</string>
+    <string name="notification_activities_relay_race_turn">%s %s вам эстафету %s в фэндоме %s</string>
+    <string name="notification_activities_relay_race_turn_from_system">Вам передана эстафета %s в фэндоме %s</string>
     <string name="notification_quest_finish">Ежедневное задание завершено</string>
     <string name="notification_rubric_change_name">%s %s название рубрики с %s на %s</string>
     <string name="notification_rubric_change_owner">%s %s владельца рубрики %s на %s</string>
@@ -940,7 +942,7 @@
     <string name="profile_subtitle_text_44">Ворует помидоры</string>
     <string name="profile_subtitle_text_45">Рыцарь костра</string>
     <string name="profile_subtitle_text_46">Волшебник</string>
-    <string name="profile_subtitle_text_47">Шальная императрица</string>
+    <string name="profile_subtitle_text_47">Императрица</string>
     <string name="profile_subtitle_text_48">Неко-тян</string>
     <string name="profile_subtitle_text_49">Капитан</string>
     <string name="profile_subtitle_text_50">Император</string>
@@ -1133,6 +1135,9 @@
     <string name="activities_empty_user">Вам пока не передена ни одна эстафета</string>
     <string name="activities_loading">Загрузка списка активностей</string>
     <string name="activities_all">Все активности</string>
+    <string name="activities_relay_race_members">Участники</string>
+    <string name="activities_relay_race_rejected">Отказались</string>
+    <string name="activities_relay_race_posts">Посты</string>
 
     <string name="quests_story_title">Эпический квест</string>
     <string name="quests_next">Следующее задание будет доступно завтра.</string>

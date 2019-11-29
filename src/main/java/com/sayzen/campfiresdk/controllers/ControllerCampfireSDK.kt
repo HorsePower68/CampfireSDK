@@ -134,7 +134,14 @@ object ControllerCampfireSDK {
     fun parseLink(link: String): Boolean {
         try {
 
-            val t = link.substring(API.DOMEN.length)
+            var t:String
+            if(link.startsWith(API.DOMEN)){
+                t = link.substring(API.DOMEN.length)
+            } else{
+                t = link.substring("http://@".length)
+                t = t.replace("_", "-")
+            }
+
             val s1 = t.split("-")
             val linkV = s1[0]
             val params: List<String> = if (s1.size > 1) s1[1].split("_") else emptyList()

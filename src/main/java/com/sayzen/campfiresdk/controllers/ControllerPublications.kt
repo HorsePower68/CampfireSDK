@@ -3,6 +3,7 @@ package com.sayzen.campfiresdk.controllers
 import android.view.View
 import com.dzen.campfire.api.API
 import com.dzen.campfire.api.models.publications.Publication
+import com.dzen.campfire.api.models.publications.PublicationComment
 import com.dzen.campfire.api.models.publications.moderations.*
 import com.dzen.campfire.api.models.publications.moderations.activities.ModerationActivitiesChange
 import com.dzen.campfire.api.models.publications.moderations.activities.ModerationActivitiesCreate
@@ -38,7 +39,7 @@ import com.sayzen.campfiresdk.screens.comments.SComments
 import com.sayzen.campfiresdk.screens.fandoms.tags.WidgetTagCreate
 import com.sayzen.campfiresdk.screens.fandoms.tags.WidgetTagRemove
 import com.sayzen.campfiresdk.screens.account.stickers.SStickersView
-import com.sayzen.campfiresdk.screens.activities.user_activities.SRelayRaceInfo
+import com.sayzen.campfiresdk.screens.activities.user_activities.relay_race.SRelayRaceInfo
 import com.sayzen.campfiresdk.screens.chat.SChat
 import com.sayzen.campfiresdk.screens.fandoms.rubrics.SRubricPosts
 import com.sup.dev.android.libs.api_simple.ApiRequestsSupporter
@@ -56,6 +57,38 @@ import com.sup.dev.java.tools.ToolsText
 import java.util.*
 
 object ControllerPublications {
+
+    fun getMaskForPost(mask:String, type:Long): String {
+        if (mask.isNotEmpty()) return " \"${mask}\""
+        return getPostPageName(type)
+    }
+
+
+    fun getMaskForComment(mask:String, type:Long): String {
+        if (mask.isNotEmpty()) return " \"${mask}\""
+        return getCommentName(type)
+    }
+
+    fun getCommentName(type:Long):String{
+        if (type == PublicationComment.TYPE_IMAGE) return " \"${ToolsResources.s(R.string.app_image)}\""
+        if (type == PublicationComment.TYPE_GIF) return " \"${ToolsResources.s(R.string.app_gif)}\""
+        if (type == PublicationComment.TYPE_IMAGES) return " \"${ToolsResources.s(R.string.app_images)}\""
+        if (type == PublicationComment.TYPE_STICKER) return " \"${ToolsResources.s(R.string.app_sticker)}\""
+        return ""
+    }
+
+    fun getPostPageName(type:Long):String{
+        if (type == API.PAGE_TYPE_IMAGE) return " \"${ToolsResources.s(R.string.post_page_image)}\""
+        if (type == API.PAGE_TYPE_IMAGES) return " \"${ToolsResources.s(R.string.post_page_images)}\""
+        if (type == API.PAGE_TYPE_LINK) return " \"${ToolsResources.s(R.string.post_page_link)}\""
+        if (type == API.PAGE_TYPE_QUOTE) return " \"${ToolsResources.s(R.string.post_page_quote)}\""
+        if (type == API.PAGE_TYPE_SPOILER) return " \"${ToolsResources.s(R.string.post_page_spoiler)}\""
+        if (type == API.PAGE_TYPE_POLLING) return " \"${ToolsResources.s(R.string.post_page_polling)}\""
+        if (type == API.PAGE_TYPE_VIDEO) return " \"${ToolsResources.s(R.string.post_page_video)}\""
+        if (type == API.PAGE_TYPE_TABLE) return " \"${ToolsResources.s(R.string.post_page_table)}\""
+        if (type == API.PAGE_TYPE_CAMPFIRE_OBJECT) return " \"${ToolsResources.s(R.string.post_page_campfire_object)}\""
+        return ""
+    }
 
     fun getName(publicationType: Long): String {
         return when (publicationType) {

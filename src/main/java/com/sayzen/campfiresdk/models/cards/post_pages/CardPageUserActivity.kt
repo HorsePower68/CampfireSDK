@@ -16,7 +16,7 @@ import com.sayzen.campfiresdk.models.events.activities.EventActivitiesChanged
 import com.sayzen.campfiresdk.models.events.activities.EventActivitiesRelayRaceMemberStatusChanged
 import com.sayzen.campfiresdk.models.events.activities.EventActivitiesRelayRaceRejected
 import com.sayzen.campfiresdk.models.events.activities.EventActivitiesRemove
-import com.sayzen.campfiresdk.screens.activities.user_activities.SRelayRaceInfo
+import com.sayzen.campfiresdk.screens.activities.user_activities.relay_race.SRelayRaceInfo
 import com.sup.dev.android.libs.screens.navigator.Navigator
 import com.sup.dev.android.tools.ToolsResources
 import com.sup.dev.android.views.views.ViewAvatarTitle

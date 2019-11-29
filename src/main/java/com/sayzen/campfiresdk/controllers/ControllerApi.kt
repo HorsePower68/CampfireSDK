@@ -29,7 +29,7 @@ import com.sayzen.campfiresdk.models.events.publications.EventPublicationRemove
 import com.sayzen.campfiresdk.models.events.publications.EventPublicationReportsAdd
 import com.sayzen.campfiresdk.models.events.publications.EventPublicationReportsClear
 import com.sayzen.campfiresdk.screens.fandoms.moderation.view.SModerationView
-import com.sup.dev.java.libs.text_format.TextFormater
+import com.sup.dev.java.libs.text_format.TextFormatter
 import com.sayzen.devsupandroidgoogle.ControllerGoogleAuth
 import com.sup.dev.android.app.SupAndroid
 import com.sup.dev.android.libs.api_simple.ApiRequestsSupporter
@@ -182,7 +182,7 @@ object ControllerApi {
     @Suppress("DEPRECATION")
     fun makeTextHtml(vText: TextView) {
         val text = vText.text.toString().replace("<", "&#60;")
-        val s_1 = TextFormater(text).parse()
+        val s_1 = TextFormatter(text).parse()
         val s_2 = s_1.replace("\n", "<br />")
         vText.text = Html.fromHtml(s_2)
     }
