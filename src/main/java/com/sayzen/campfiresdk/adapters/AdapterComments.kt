@@ -1,13 +1,12 @@
 package com.sayzen.campfiresdk.adapters
 
+import android.view.View
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import android.view.View
-import com.dzen.campfire.api.models.publications.PublicationComment
 import com.dzen.campfire.api.models.notifications.comments.NotificationComment
 import com.dzen.campfire.api.models.notifications.comments.NotificationCommentAnswer
+import com.dzen.campfire.api.models.publications.PublicationComment
 import com.dzen.campfire.api.requests.comments.RCommentGet
-import com.dzen.campfire.api.requests.post.RPostGet
 import com.dzen.campfire.api.requests.units.RCommentsGetAll
 import com.sayzen.campfiresdk.R
 import com.sayzen.campfiresdk.controllers.ControllerApi
@@ -17,6 +16,7 @@ import com.sayzen.campfiresdk.models.events.notifications.EventNotification
 import com.sayzen.campfiresdk.models.events.publications.EventCommentsCountChanged
 import com.sayzen.campfiresdk.models.widgets.WidgetComment
 import com.sup.dev.android.tools.ToolsResources
+import com.sup.dev.android.tools.ToolsView
 import com.sup.dev.android.views.cards.CardSpace
 import com.sup.dev.android.views.support.adapters.recycler_view.RecyclerCardAdapterLoading
 import com.sup.dev.android.views.widgets.WidgetAlert
@@ -37,7 +37,6 @@ class AdapterComments(
             .subscribe(EventCommentsCountChanged::class) { this.onEventCommentsCountChanged(it) }
 
     private var needScrollToBottom = false
-    private var extraScroll = 1
     private var scrollToCommentWasLoaded = false
 
     init {
@@ -92,9 +91,11 @@ class AdapterComments(
         }
     }
 
-    private fun scrollToCard(card: CardComment, extraScroll: Int = 0) {
-        card.flash()
-        vRecycler.scrollToPosition(indexOf(card) + extraScroll + 1)
+    private fun scrollToCard(card: CardComment) {
+        ToolsThreads.main(200) {
+            ToolsView.scrollRecycler(vRecycler, indexOf(card) + 1)
+            ToolsThreads.main(200) { card.flash() }
+        }
     }
 
     private fun onCommentsPackLoaded() {
@@ -102,18 +103,14 @@ class AdapterComments(
             scrollToCommentId = 0
             scrollToCommentWasLoaded = false
             val v = get(CardComment::class)
-            val index = if (v.isNotEmpty()) indexOf(v.get(0)) + 1 else size()
-            ToolsThreads.main(600) {
-                vRecycler.scrollToPosition(index)
-            }
+            val index = if (v.isNotEmpty()) indexOf(v.get(0)) else size()
+            vRecycler.scrollToPosition(index)
         } else if (scrollToCommentId != 0L) {
             for (c in get(CardComment::class)) {
                 if (c.xPublication.publication.id == scrollToCommentId) {
                     scrollToCommentId = 0
                     scrollToCommentWasLoaded = false
-                    ToolsThreads.main(600) {
-                        scrollToCard(c, extraScroll)
-                    }
+                    scrollToCard(c)
                 }
             }
             if (scrollToCommentId != 0L) {
@@ -180,10 +177,6 @@ class AdapterComments(
                     }
                 }
         )
-    }
-
-    fun setExtraScroll(extraScroll: Int) {
-        this.extraScroll = extraScroll
     }
 
     //

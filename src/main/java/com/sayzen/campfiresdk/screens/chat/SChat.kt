@@ -54,7 +54,6 @@ class SChat private constructor(
         val chatInfo_3: Long,
         val chatInfo_4: Long,
         var scrollToMessageId: Long,
-        var startOffsetDate: Long,
         var memberStatus: Long?)
     : SLoadingRecycler<CardChatMessage, PublicationChatMessage>(R.layout.screen_chat), ScreenShare {
 
@@ -100,7 +99,7 @@ class SChat private constructor(
 
         private fun onChatLoaded(r: RChatGet.Response, messageId: Long, onShow: (SChat) -> Unit): SChat {
             ControllerChats.putRead(r.tag, r.anotherReadDate)
-            val screen = SChat(r.tag, r.subscribed, r.chatName, r.chatParams, r.chatImageId, r.chatBackgroundImageId, r.chatInfo_1, r.chatInfo_2, r.chatInfo_3, r.chatInfo_4, messageId, r.startOffsetDate, r.memberStatus)
+            val screen = SChat(r.tag, r.subscribed, r.chatName, r.chatParams, r.chatImageId, r.chatBackgroundImageId, r.chatInfo_1, r.chatInfo_2, r.chatInfo_3, r.chatInfo_4, messageId, r.memberStatus)
             onShow.invoke(screen)
             return screen
         }
@@ -125,7 +124,6 @@ class SChat private constructor(
 
     private val fieldLogic = FieldLogic(this)
 
-    private var scrollAfterLoad = false
     private val carSpace = CardSpace(16)
     private var needUpdate = false
     private var loaded = false
@@ -176,7 +174,7 @@ class SChat private constructor(
         val cards = adapter!!.get(CardChatMessage::class)
         for (i in cards) {
             if (i.xPublication.publication.id == messageId) {
-                vRecycler.smoothScrollToPosition(adapter!!.indexOf(i))
+                ToolsView.scrollRecycler(vRecycler, adapter!!.indexOf(i) + 1)
                 ToolsThreads.main(500) { i.flash() }
                 found = true
                 break
@@ -249,35 +247,31 @@ class SChat private constructor(
                     if (loaded) {
                         onLoad.invoke(emptyArray())
                     } else {
-                        val isLoadTargetDate = cards.isEmpty() && startOffsetDate > 0
                         subscription = RChatMessageGetAll(tag,
-                                if (cards.isEmpty()) startOffsetDate else cards[cards.size - 1].xPublication.publication.dateCreate,
+                                if (cards.isEmpty()) 0 else cards[cards.size - 1].xPublication.publication.dateCreate,
                                 false,
-                                isLoadTargetDate)
+                                scrollToMessageId)
                                 .onComplete { r ->
-                                    if (isLoadTargetDate) {
-                                        startOffsetDate = 0
+
+                                    if (scrollToMessageId > 0) {
                                         onLoad.invoke(r.publications)
-                                        adapter!!.loadTop()
                                     } else {
                                         if (loaded) {
                                             onLoad.invoke(emptyArray())
                                             return@onComplete
                                         }
-                                        loaded = true
                                         adapter!!.remove(carSpace)
                                         onLoad.invoke(r.publications)
                                         adapter!!.add(carSpace)
-                                        if (scrollAfterLoad) {
-                                            scrollAfterLoad = false
-                                            vRecycler.smoothScrollToPosition(vRecycler.adapter!!.itemCount)
-                                        }
-                                        EventBus.post(EventChatRead(tag))
                                         if (r.publications.isNotEmpty()) EventBus.post(EventChatNewBottomMessage(tag, r.publications[r.publications.size - 1]))
                                         ToolsThreads.main(true) {
                                             for (c in addAfterLoadList) addMessage(c, true)
                                         }
-                                        adapter!!.lockBottom()
+                                        if(r.publications.isEmpty() || r.publications.size < RChatMessageGetAll.COUNT){
+                                            loaded = true
+                                            EventBus.post(EventChatRead(tag))
+                                            adapter!!.lockBottom()
+                                        }
                                     }
                                 }
                                 .onNetworkError { onLoad.invoke(null) }
@@ -285,28 +279,28 @@ class SChat private constructor(
                     }
                 }
                 .setTopLoader { onLoad, cards ->
-                    subscription = RChatMessageGetAll(tag, if (cards.isEmpty()) 0 else cards[0].xPublication.publication.dateCreate, true, false)
+                    subscription = RChatMessageGetAll(tag, if (cards.isEmpty()) 0 else cards[0].xPublication.publication.dateCreate, true, 0)
                             .onComplete { r -> onLoad.invoke(r.publications) }
                             .onNetworkError { onLoad.invoke(null) }
                             .send(api)
                 }
         adapter.setRemoveSame(true)
-        adapter.setShowLoadingCardBottom(false)
+        adapter.setShowLoadingCardBottom(true)
         adapter.setShowLoadingCardTop(true)
         adapter.addOnLoadedNotEmpty {
             if (scrollToMessageId != 0L) {
                 for (c in adapter.get(CardChatMessage::class)) {
                     if (c.xPublication.publication.id == scrollToMessageId) {
                         scrollToMessageId = 0
-                        vRecycler.smoothScrollToPosition(adapter.indexOf(c))
-                        ToolsThreads.main(600) {
-                            c.flash()
-                        }
+                        ToolsView.scrollRecycler(vRecycler, adapter.indexOf(c)+1)
+                        ToolsThreads.main(500) { c.flash() }
                     }
                 }
                 if (scrollToMessageId != 0L) {
                     if (scrollToMessageWasLoaded) {
                         adapter.loadBottom()
+                        scrollToMessageWasLoaded = false
+                        scrollToMessageId = 0
                     } else {
                         RChatMessageGet(tag, scrollToMessageId)
                                 .onComplete {
@@ -356,7 +350,7 @@ class SChat private constructor(
                     for (i in adapter!!.get(CardChatMessage::class)) {
                         if (i.xPublication.publication.id == id) {
                             i.flash()
-                            vRecycler.scrollToPosition(adapter!!.indexOf(i))
+                            ToolsView.scrollRecycler(vRecycler, adapter!!.indexOf(i) + 1)
                             break
                         }
                     }
@@ -410,7 +404,7 @@ class SChat private constructor(
             adapter!!.remove(carSpace)
             adapter!!.add(card)
             adapter!!.add(carSpace)
-            vRecycler.smoothScrollToPosition(vRecycler.adapter!!.itemCount - 1)
+            ToolsView.scrollRecycler(vRecycler, vRecycler.adapter!!.itemCount - 1)
         }
     }
 
@@ -442,9 +436,9 @@ class SChat private constructor(
             }
 
             if (forceScroll)
-                vRecycler.scrollToPosition(vRecycler.adapter!!.itemCount - 1)
+                ToolsView.scrollRecycler(vRecycler, vRecycler.adapter!!.itemCount - 1)
             else if (b)
-                vRecycler.smoothScrollToPosition(vRecycler.adapter!!.itemCount - 1)
+                ToolsView.scrollRecyclerSmooth(vRecycler, vRecycler.adapter!!.itemCount - 1)
         }
         setState(State.NONE)
     }
