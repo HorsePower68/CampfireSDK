@@ -18,16 +18,16 @@ import com.dzen.campfire.api.models.publications.moderations.rubrics.ModerationR
 import com.dzen.campfire.api.models.publications.moderations.rubrics.ModerationRubricCreate
 import com.dzen.campfire.api.models.publications.moderations.rubrics.ModerationRubricRemove
 import com.dzen.campfire.api.models.publications.moderations.tags.*
-import com.dzen.campfire.api.models.publications.moderations.units.ModerationBlock
-import com.dzen.campfire.api.models.publications.moderations.units.ModerationForgive
+import com.dzen.campfire.api.models.publications.moderations.publications.ModerationBlock
+import com.dzen.campfire.api.models.publications.moderations.publications.ModerationForgive
 import com.dzen.campfire.api.models.publications.tags.PublicationTag
 import com.dzen.campfire.api.requests.post.RPostToDrafts
 import com.dzen.campfire.api.requests.tags.RTagsMove
 import com.dzen.campfire.api.requests.tags.RTagsMoveCategory
 import com.dzen.campfire.api.requests.tags.RTagsMoveTag
-import com.dzen.campfire.api.requests.units.RUnitsAdminRestoreDeepBlock
-import com.dzen.campfire.api.requests.units.RUnitsBookmarksChange
-import com.dzen.campfire.api.requests.units.RUnitsCommentsWatchChange
+import com.dzen.campfire.api.requests.publications.RPublicationsAdminRestoreDeepBlock
+import com.dzen.campfire.api.requests.publications.RPublicationsBookmarksChange
+import com.dzen.campfire.api.requests.publications.RPublicationsCommentsWatchChange
 import com.sayzen.campfiresdk.R
 import com.sayzen.campfiresdk.models.events.fandom.EventFandomTagMove
 import com.sayzen.campfiresdk.models.events.publications.*
@@ -146,7 +146,7 @@ object ControllerPublications {
 
         val w = WidgetMenu()
                 .add(R.string.app_copy_link) { _, _ ->
-                    ToolsAndroid.setToClipboard(ControllerApi.linkToTag(publication.id))
+                    ToolsAndroid.setToClipboard(ControllerLinks.linkToTag(publication.id))
                     ToolsToast.show(R.string.app_copied)
                 }
                 .groupCondition(ControllerApi.can(publication.fandomId, publication.languageId, API.LVL_MODERATOR_TAGS))
@@ -260,7 +260,7 @@ object ControllerPublications {
     fun showModerationPopup(publication: PublicationModeration) {
         WidgetMenu()
                 .add(R.string.app_copy_link) { _, _ ->
-                    ToolsAndroid.setToClipboard(ControllerApi.linkToModeration(publication.id))
+                    ToolsAndroid.setToClipboard(ControllerLinks.linkToModeration(publication.id))
                     ToolsToast.show(R.string.app_copied)
                 }.condition(publication.isPublic)
                 .asSheetShow()
@@ -271,7 +271,7 @@ object ControllerPublications {
     //
 
     fun changeWatchComments(publicationId: Long) {
-        ApiRequestsSupporter.executeProgressDialog(RUnitsCommentsWatchChange(publicationId)) { r ->
+        ApiRequestsSupporter.executeProgressDialog(RPublicationsCommentsWatchChange(publicationId)) { r ->
             EventBus.post(EventPublicationCommentWatchChange(publicationId, r.follow))
             if (r.follow) ToolsToast.show(R.string.publication_menu_comments_watch_on)
             else ToolsToast.show(R.string.publication_menu_comments_watch_off)
@@ -279,7 +279,7 @@ object ControllerPublications {
     }
 
     fun changeBookmark(publicationId: Long) {
-        ApiRequestsSupporter.executeProgressDialog(RUnitsBookmarksChange(publicationId)) { r ->
+        ApiRequestsSupporter.executeProgressDialog(RPublicationsBookmarksChange(publicationId)) { r ->
             ControllerStoryQuest.incrQuest(API.QUEST_STORY_BOOKMARKS)
             EventBus.post(EventPublicationBookmarkChange(publicationId, r.bookmark))
             if (r.bookmark) ToolsToast.show(R.string.bookmarks_added)
@@ -302,7 +302,7 @@ object ControllerPublications {
                 .setMin(API.MODERATION_COMMENT_MIN_L)
                 .setMax(API.MODERATION_COMMENT_MAX_L)
                 .setOnEnter(R.string.app_restore) { w, comment ->
-                    ApiRequestsSupporter.executeEnabled(w, RUnitsAdminRestoreDeepBlock(publicationId, comment)) {
+                    ApiRequestsSupporter.executeEnabled(w, RPublicationsAdminRestoreDeepBlock(publicationId, comment)) {
                         EventBus.post(EventPublicationDeepBlockRestore(publicationId))
                         ToolsToast.show(R.string.app_done)
                     }
@@ -320,10 +320,10 @@ object ControllerPublications {
         when (m) {
             is ModerationBlock -> {
                 if (m.publicationType == API.PUBLICATION_TYPE_REVIEW) {
-                    text = ToolsResources.sCap(R.string.moderation_card_block_text_main_review, ToolsResources.sex(publication.creatorSex, R.string.he_remove, R.string.she_remove), ControllerApi.linkToUser(m.accountName))
+                    text = ToolsResources.sCap(R.string.moderation_card_block_text_main_review, ToolsResources.sex(publication.creatorSex, R.string.he_remove, R.string.she_remove), ControllerLinks.linkToUser(m.accountName))
                 } else {
                     val publicationType = if (m.publicationType == API.PUBLICATION_TYPE_POST) ToolsResources.sCap(R.string.moderation_publication_post) else if (m.publicationType == API.PUBLICATION_TYPE_COMMENT) ToolsResources.sCap(R.string.moderation_publication_comment) else if (m.publicationType == API.PUBLICATION_TYPE_CHAT_MESSAGE) ToolsResources.s(R.string.moderation_publication_message) else "null"
-                    text = ToolsResources.sCap(R.string.moderation_card_block_text_main, ToolsResources.sex(publication.creatorSex, R.string.he_blocked, R.string.she_blocked), publicationType, ControllerApi.linkToUser(m.accountName))
+                    text = ToolsResources.sCap(R.string.moderation_card_block_text_main, ToolsResources.sex(publication.creatorSex, R.string.he_blocked, R.string.she_blocked), publicationType, ControllerLinks.linkToUser(m.accountName))
                 }
                 if (m.accountBlockDate > 0) text += "\n" + ToolsResources.sCap(R.string.moderation_card_block_text_ban, ToolsDate.dateToString(m.accountBlockDate))
                 if (m.lastPublicationsBlocked) text += "\n" + ToolsResources.sCap(R.string.moderation_card_block_text_block_last)
@@ -365,7 +365,7 @@ object ControllerPublications {
             is ModerationImportant -> {
                 if (m.isImportant) text = ToolsResources.sCap(R.string.moderation_text_importance_mark, ToolsResources.sex(publication.creatorSex, R.string.he_mark, R.string.she_mark))
                 else text = ToolsResources.sCap(R.string.moderation_text_importance_unmark, ToolsResources.sex(publication.creatorSex, R.string.he_remove, R.string.she_remove))
-                text += "\n${ToolsResources.sCap(R.string.app_publication)}: ${ControllerApi.linkToPost(m.importantPublicationId)}"
+                text += "\n${ToolsResources.sCap(R.string.app_publication)}: ${ControllerLinks.linkToPost(m.importantPublicationId)}"
             }
             is ModerationTitleImage -> {
                 text = ToolsResources.sCap(R.string.moderation_text_title_image, ToolsResources.sex(publication.creatorSex, R.string.he_changed, R.string.she_changed))
@@ -379,10 +379,10 @@ object ControllerPublications {
                 text = ToolsResources.sCap(R.string.moderation_text_link_remove, ToolsResources.sex(publication.creatorSex, R.string.he_remove, R.string.she_remove))
             }
             is ModerationToDrafts -> {
-                text = ToolsResources.sCap(R.string.moderation_text_to_drafts, ToolsResources.sex(publication.creatorSex, R.string.he_return, R.string.she_return), ControllerApi.linkToUser(m.accountName))
+                text = ToolsResources.sCap(R.string.moderation_text_to_drafts, ToolsResources.sex(publication.creatorSex, R.string.he_return, R.string.she_return), ControllerLinks.linkToUser(m.accountName))
             }
             is ModerationMultilingualNot -> {
-                text = ToolsResources.sCap(R.string.moderation_text_multilingual_not, ToolsResources.sex(publication.creatorSex, R.string.he_make, R.string.she_make), ControllerApi.linkToUser(m.accountName))
+                text = ToolsResources.sCap(R.string.moderation_text_multilingual_not, ToolsResources.sex(publication.creatorSex, R.string.he_make, R.string.she_make), ControllerLinks.linkToUser(m.accountName))
             }
             is ModerationBackgroundImage -> {
                 if (m.imageId > 0)
@@ -397,7 +397,7 @@ object ControllerPublications {
                     text = ToolsResources.sCap(R.string.moderation_background_image_sub, ToolsResources.sex(publication.creatorSex, R.string.he_remove, R.string.she_remove), m.chatName)
             }
             is ModerationPostTags -> {
-                text = ToolsResources.sCap(R.string.moderation_text_post_tags, ToolsResources.sex(publication.creatorSex, R.string.he_changed, R.string.she_changed), ControllerApi.linkToPost(m.publicationId))
+                text = ToolsResources.sCap(R.string.moderation_text_post_tags, ToolsResources.sex(publication.creatorSex, R.string.he_changed, R.string.she_changed), ControllerLinks.linkToPost(m.publicationId))
 
                 if (m.newTags.isNotEmpty()) {
                     text += "\n" + ToolsResources.sCap(R.string.publication_event_fandom_genres_new) + " " + m.newTags[0]
@@ -423,7 +423,7 @@ object ControllerPublications {
                 }
             }
             is ModerationForgive -> {
-                text = ToolsResources.sCap(R.string.moderation_text_forgive, ToolsResources.sex(publication.creatorSex, R.string.he_forgive, R.string.she_forgive), ControllerApi.linkToUser(m.accountName))
+                text = ToolsResources.sCap(R.string.moderation_text_forgive, ToolsResources.sex(publication.creatorSex, R.string.he_forgive, R.string.she_forgive), ControllerLinks.linkToUser(m.accountName))
             }
             is ModerationActivitiesCreate -> {
                 text = ToolsResources.sCap(R.string.moderation_text_activities_relay_race_create, ToolsResources.sex(publication.creatorSex, R.string.he_created, R.string.she_created), m.name)
@@ -453,13 +453,13 @@ object ControllerPublications {
                 text = ToolsResources.sCap(R.string.moderation_tag_move_tag_between_category, ToolsResources.sex(publication.creatorSex, R.string.he_move, R.string.she_move), m.tagName, m.tagOldName, m.tagNewName)
             }
             is ModerationPinPostInFandom -> {
-                text = ToolsResources.sCap(R.string.moderation_pin_post_in_fandom, ToolsResources.sex(publication.creatorSex, R.string.he_pined, R.string.she_pined), ControllerApi.linkToPost(m.postId))
+                text = ToolsResources.sCap(R.string.moderation_pin_post_in_fandom, ToolsResources.sex(publication.creatorSex, R.string.he_pined, R.string.she_pined), ControllerLinks.linkToPost(m.postId))
             }
             is ModerationPostClose -> {
-                text = ToolsResources.sCap(R.string.moderation_post_close, ToolsResources.sex(publication.creatorSex, R.string.he_close, R.string.she_close), ControllerApi.linkToPost(m.postId))
+                text = ToolsResources.sCap(R.string.moderation_post_close, ToolsResources.sex(publication.creatorSex, R.string.he_close, R.string.she_close), ControllerLinks.linkToPost(m.postId))
             }
             is ModerationPostCloseNo -> {
-                text = ToolsResources.sCap(R.string.moderation_post_close_no, ToolsResources.sex(publication.creatorSex, R.string.he_open, R.string.she_open), ControllerApi.linkToPost(m.postId))
+                text = ToolsResources.sCap(R.string.moderation_post_close_no, ToolsResources.sex(publication.creatorSex, R.string.he_open, R.string.she_open), ControllerLinks.linkToPost(m.postId))
             }
             is ModerationRubricChangeName -> {
                 text = ToolsResources.sCap(R.string.moderation_rubric_change_name, ToolsResources.sex(publication.creatorSex, R.string.he_changed, R.string.she_changed), m.rubricOldName, m.rubricNewName)
@@ -480,7 +480,7 @@ object ControllerPublications {
         if (publication.moderation != null)
             if (!ToolsText.empty(publication.moderation!!.comment)) text += "\n" + ToolsResources.sCap(R.string.moderation_card_block_text_comment, publication.moderation!!.comment)
         vText.text = text
-        ControllerApi.makeLinkable(vText)
+        ControllerLinks.makeLinkable(vText)
 
 
         when (m) {

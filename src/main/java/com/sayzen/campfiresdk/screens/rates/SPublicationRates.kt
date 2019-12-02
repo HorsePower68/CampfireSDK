@@ -17,7 +17,7 @@ class SPublicationRates(
         karmaCount: Long,
         myKarma: Long,
         val creatorId: Long,
-        unitStatus: Long
+        publicationStatus: Long
 
 ) : SLoadingRecycler<CardRateText, Rate>(R.layout.screen_unit_rates) {
 
@@ -25,7 +25,7 @@ class SPublicationRates(
     val vAnon: CheckBox = findViewById(R.id.vAnon)
     val vKarma: ViewKarma = findViewById(R.id.vKarma)
 
-    val xKarma = XKarma(publicationId, karmaCount, myKarma, creatorId, unitStatus) { updateKarma() }
+    val xKarma = XKarma(publicationId, karmaCount, myKarma, creatorId, publicationStatus) { updateKarma() }
     var lastReloadKarma = xKarma.karmaCount
 
     init {

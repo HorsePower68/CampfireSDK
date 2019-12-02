@@ -5,8 +5,8 @@ import android.widget.Button
 import com.sayzen.campfiresdk.R
 import com.dzen.campfire.api.API
 import com.dzen.campfire.api.models.publications.PublicationBlocked
-import com.dzen.campfire.api.requests.units.RUnitsAdminRemove
-import com.dzen.campfire.api.requests.units.RUnitsAdminRestore
+import com.dzen.campfire.api.requests.publications.RPublicationsAdminRemove
+import com.dzen.campfire.api.requests.publications.RPublicationsAdminRestore
 import com.sayzen.campfiresdk.adapters.XAccount
 import com.sayzen.campfiresdk.adapters.XFandom
 import com.sayzen.campfiresdk.controllers.ControllerApi
@@ -47,7 +47,7 @@ class CardUnitBlock(
         vAccept.setOnClickListener {
             EventBus.post(EventPublicationBlockedRemove(publication.moderationId, publication.publication.id))
             ToolsToast.show(R.string.app_done)
-            ApiRequestsSupporter.execute(RUnitsAdminRemove(publication.moderationId)){
+            ApiRequestsSupporter.execute(RPublicationsAdminRemove(publication.moderationId)){
             }
         }
 
@@ -58,7 +58,7 @@ class CardUnitBlock(
                     .setMin(API.MODERATION_COMMENT_MIN_L)
                     .setMax(API.MODERATION_COMMENT_MAX_L)
                     .setOnEnter(R.string.app_reject) { w, comment ->
-                        ApiRequestsSupporter.executeEnabled(w, RUnitsAdminRestore(publication.moderationId, comment)) {
+                        ApiRequestsSupporter.executeEnabled(w, RPublicationsAdminRestore(publication.moderationId, comment)) {
                             ToolsToast.show(R.string.app_done)
                             EventBus.post(EventPublicationBlockedRemove(publication.moderationId, publication.publication.id))
                         }

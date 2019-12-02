@@ -5,7 +5,7 @@ import com.dzen.campfire.api.API
 import com.dzen.campfire.api.models.publications.Publication
 import com.dzen.campfire.api.models.publications.post.PublicationPost
 import com.dzen.campfire.api.requests.fandoms.RFandomsGet
-import com.dzen.campfire.api.requests.units.RUnitsDraftsGetAll
+import com.dzen.campfire.api.requests.publications.RPublicationsDraftsGetAll
 import com.sayzen.campfiresdk.R
 import com.sayzen.campfiresdk.controllers.ControllerApi
 import com.sayzen.campfiresdk.controllers.ControllerCampfireSDK
@@ -72,7 +72,7 @@ class SDrafts constructor(
             card
         }
                 .setBottomLoader { onLoad, cards ->
-                    val r = RUnitsDraftsGetAll(ControllerCampfireSDK.ROOT_FANDOM_ID, ControllerCampfireSDK.ROOT_PROJECT_KEY, ControllerCampfireSDK.ROOT_PROJECT_SUB_KEY, cards.size.toLong())
+                    val r = RPublicationsDraftsGetAll(ControllerCampfireSDK.ROOT_FANDOM_ID, ControllerCampfireSDK.ROOT_PROJECT_KEY, ControllerCampfireSDK.ROOT_PROJECT_SUB_KEY, cards.size.toLong())
                             .onComplete { r -> onLoad.invoke(r.publications) }
                             .onNetworkError { onLoad.invoke(null) }
                     r.tokenRequired = true

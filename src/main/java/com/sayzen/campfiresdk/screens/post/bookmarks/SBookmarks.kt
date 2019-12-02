@@ -1,7 +1,7 @@
 package com.sayzen.campfiresdk.screens.post.bookmarks
 
 import com.dzen.campfire.api.API
-import com.dzen.campfire.api.requests.units.RUnitsBookmarksGetAll
+import com.dzen.campfire.api.requests.publications.RPublicationsBookmarksGetAll
 import com.sayzen.campfiresdk.models.cards.CardPublication
 import com.dzen.campfire.api.models.publications.Publication
 import com.sayzen.campfiresdk.R
@@ -41,7 +41,7 @@ class SBookmarks private constructor() : SLoadingRecycler<CardPublication, Publi
     override fun instanceAdapter(): RecyclerCardAdapterLoading<CardPublication, Publication> {
         return RecyclerCardAdapterLoading<CardPublication, Publication>(CardPublication::class) { publication -> CardPublication.instance(publication, vRecycler) }
                 .setBottomLoader { onLoad, cards ->
-                    RUnitsBookmarksGetAll(cards.size.toLong(), "", ControllerCampfireSDK.ROOT_FANDOM_ID, 0)
+                    RPublicationsBookmarksGetAll(cards.size.toLong(), "", ControllerCampfireSDK.ROOT_FANDOM_ID, 0)
                             .onComplete { r -> onLoad.invoke(r.publications) }
                             .onNetworkError { onLoad.invoke(null) }
                             .send(api)

@@ -4,6 +4,9 @@ import android.content.Intent
 import com.dzen.campfire.api.models.notifications.fanom.NotificationForgive
 import com.sayzen.campfiresdk.R
 import com.sayzen.campfiresdk.controllers.ControllerNotifications
+import com.sayzen.campfiresdk.controllers.ControllerSettings
+import com.sayzen.campfiresdk.screens.notifications.SNotifications
+import com.sup.dev.android.libs.screens.navigator.Navigator
 import com.sup.dev.android.tools.ToolsResources
 import com.sup.dev.java.tools.ToolsHTML
 import com.sup.dev.java.tools.ToolsText
@@ -28,6 +31,12 @@ public class NotificationForgiveParser(override val n: NotificationForgive) : Co
                 R.string.she_forgive
         ), n.fandomName
         )
+    }
+
+    override fun canShow() = ControllerSettings.notificationsOther
+
+    override fun doAction() {
+        if (Navigator.getCurrent() !is SNotifications) SNotifications.instance(Navigator.TO)
     }
 
 }

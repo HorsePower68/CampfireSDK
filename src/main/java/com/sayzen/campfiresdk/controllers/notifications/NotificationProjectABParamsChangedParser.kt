@@ -13,4 +13,9 @@ public class NotificationProjectABParamsChangedParser(override val n: Notificati
 
     override fun asString(html: Boolean) = ""
 
+    override fun canShow() = false
+
+    override fun doAction() {
+    }
+
 }

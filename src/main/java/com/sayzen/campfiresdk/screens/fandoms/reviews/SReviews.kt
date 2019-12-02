@@ -6,7 +6,7 @@ import com.dzen.campfire.api.models.publications.PublicationReview
 import com.dzen.campfire.api.models.publications.Publication
 import com.dzen.campfire.api.requests.fandoms.RFandomsReviewGet
 import com.dzen.campfire.api.requests.fandoms.RFandomsReviewGetInfo
-import com.dzen.campfire.api.requests.units.RUnitsGetAll
+import com.dzen.campfire.api.requests.publications.RPublicationsGetAll
 import com.sayzen.campfiresdk.R
 import com.sayzen.campfiresdk.controllers.ControllerApi
 import com.sayzen.campfiresdk.models.cards.CardReview
@@ -91,13 +91,13 @@ class SReviews private constructor(
     override fun instanceAdapter(): RecyclerCardAdapterLoading<CardReview, Publication> {
         return RecyclerCardAdapterLoading<CardReview, Publication>(CardReview::class) { CardReview(it as PublicationReview) }
                 .setBottomLoader { onLoad, cards ->
-                    val r = RUnitsGetAll()
+                    val r = RPublicationsGetAll()
                             .setCount(20)
                             .setFandomId(fandomId)
                             .setLanguageId(languageId)
                             .setPublicationTypes(API.PUBLICATION_TYPE_REVIEW)
                             .setOffset(cards.size.toLong())
-                            .setOrder(RUnitsGetAll.ORDER_NEW)
+                            .setOrder(RPublicationsGetAll.ORDER_NEW)
                             .onComplete { r ->
                                 var b = false
                                 for (u in r.publications) b = b || ControllerApi.isCurrentAccount(u.creatorId)

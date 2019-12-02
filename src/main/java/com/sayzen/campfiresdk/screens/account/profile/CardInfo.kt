@@ -19,6 +19,7 @@ import com.sayzen.campfiresdk.screens.punishments.SPunishments
 import com.sayzen.campfiresdk.screens.account.rates.SRates
 import com.sayzen.campfiresdk.screens.account.story.SStory
 import com.sayzen.campfiresdk.controllers.ControllerApi
+import com.sayzen.campfiresdk.controllers.ControllerLinks
 import com.sayzen.campfiresdk.models.events.account.EventAccountBaned
 import com.sayzen.campfiresdk.models.events.account.EventAccountNoteChanged
 import com.sayzen.campfiresdk.models.events.account.EventAccountStatusChanged
@@ -190,8 +191,8 @@ class CardInfo(
             }
         }
 
-        ControllerApi.makeLinkable(vStatus)
-        ControllerApi.makeLinkable(vNote)
+        ControllerLinks.makeLinkable(vStatus)
+        ControllerLinks.makeLinkable(vNote)
 
         vFollow.setOnClickListener { toggleFollows() }
         vMessage.setOnClickListener { SChat.instance(API.CHAT_TYPE_PRIVATE, xAccount.accountId, ControllerApi.account.id, true, Navigator.TO) }

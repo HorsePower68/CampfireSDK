@@ -2,7 +2,7 @@ package com.sayzen.campfiresdk.screens.activities.administration.reports
 
 import com.sayzen.campfiresdk.R
 import com.dzen.campfire.api.models.publications.Publication
-import com.dzen.campfire.api.requests.units.RUnitsReportedGetAll
+import com.dzen.campfire.api.requests.publications.RPublicationsReportedGetAll
 import com.sayzen.campfiresdk.controllers.ControllerCampfireSDK
 import com.sayzen.campfiresdk.controllers.ControllerSettings
 import com.sayzen.campfiresdk.models.cards.CardPublication
@@ -46,7 +46,7 @@ class SAdministrationReports : SLoadingRecycler<CardPublication, Publication>() 
     override fun instanceAdapter(): RecyclerCardAdapterLoading<CardPublication, Publication> {
         return RecyclerCardAdapterLoading<CardPublication, Publication>(CardPublication::class) { CardPublication.instance(it, null, false, false, isShowReports= true) }
                 .setBottomLoader { onLoad, cards ->
-                    RUnitsReportedGetAll(0, languages.toTypedArray(), cards.size.toLong())
+                    RPublicationsReportedGetAll(0, languages.toTypedArray(), cards.size.toLong())
                             .onComplete { r ->
                                 onLoad.invoke(r.publications)
                                 ToolsThreads.main { afterPackLoaded() }

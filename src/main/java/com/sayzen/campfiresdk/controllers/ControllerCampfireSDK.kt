@@ -20,13 +20,27 @@ import com.sayzen.campfiresdk.models.events.account.EventAccountBioChangedSex
 import com.sayzen.campfiresdk.models.events.account.EventAccountChanged
 import com.sayzen.campfiresdk.models.events.account.EventAccountRemoveFromBlackList
 import com.sayzen.campfiresdk.models.events.fandom.EventFandomBlackListChange
+import com.sayzen.campfiresdk.screens.account.profile.SAccount
 import com.sayzen.campfiresdk.screens.comments.SComments
 import com.sayzen.campfiresdk.screens.other.about.SAboutApp
 import com.sayzen.campfiresdk.screens.other.about.SAboutCreators
 import com.sayzen.campfiresdk.screens.other.rules.SRulesModerators
 import com.sayzen.campfiresdk.screens.other.rules.SRulesUser
 import com.sayzen.campfiresdk.screens.account.stickers.SStickersView
+import com.sayzen.campfiresdk.screens.achievements.SAchievements
+import com.sayzen.campfiresdk.screens.activities.user_activities.relay_race.SRelayRaceInfo
+import com.sayzen.campfiresdk.screens.chat.SChat
 import com.sayzen.campfiresdk.screens.fandoms.CardAd
+import com.sayzen.campfiresdk.screens.fandoms.moderation.view.SModerationView
+import com.sayzen.campfiresdk.screens.fandoms.reviews.SReviews
+import com.sayzen.campfiresdk.screens.fandoms.rubrics.SRubricPosts
+import com.sayzen.campfiresdk.screens.fandoms.view.SFandom
+import com.sayzen.campfiresdk.screens.post.create.SPostCreate
+import com.sayzen.campfiresdk.screens.post.create.SPostCreationTags
+import com.sayzen.campfiresdk.screens.post.search.SPostsSearch
+import com.sayzen.campfiresdk.screens.post.view.SPost
+import com.sayzen.campfiresdk.screens.wiki.SWikiArticleView
+import com.sayzen.campfiresdk.screens.wiki.SWikiList
 import com.sayzen.devsupandroidgoogle.ControllerAdsNative
 import com.sayzen.devsupandroidgoogle.ControllerFirebaseAnalytics
 import com.sayzen.devsupandroidgoogle.ControllerGoogleAuth
@@ -57,19 +71,11 @@ object ControllerCampfireSDK {
 
     var ENABLE_CLOSE_FANDOM_ALERT = false
 
-    var ON_TO_FANDOM_CLICKED: (fandomId: Long, languageId: Long, action: NavigationAction) -> Unit = { fandomId, languageId, _ -> openLink(ControllerApi.linkToFandom(fandomId, languageId)) }
-    var ON_TO_ACCOUNT_CLICKED: (accountId: Long, action: NavigationAction) -> Unit = { accountId, _ -> openLink(ControllerApi.linkToUser(accountId)) }
-    var ON_TO_MODERATION_CLICKED: (moderationId: Long, commentId: Long, action: NavigationAction) -> Unit = { moderationId, commentId, _ -> openLink(ControllerApi.linkToModerationComment(moderationId, commentId)) }
-    var ON_TO_POST_CLICKED: (postId: Long, commentId: Long, action: NavigationAction) -> Unit = { postId, commentId, _ -> openLink(ControllerApi.linkToPostComment(postId, commentId)) }
     var ON_TO_DRAFTS_CLICKED: (action: NavigationAction) -> Unit = { }
-    var ON_TO_DRAFT_CLICKED: (postId: Long, action: NavigationAction) -> Unit = { _, _ -> }
-    var ON_TO_POST_TAGS_CLICKED: (postId: Long, isMyPublication: Boolean, action: NavigationAction) -> Unit = { _, _, _ -> }
-    var ON_TO_ACHIEVEMENT_CLICKED: (accountId: Long, accountName: String, achievementIndex: Long, toPrev: Boolean, action: NavigationAction) -> Unit = { _, _, _, _, _ -> }
     var ON_SCREEN_CHAT_START: () -> Unit = { }
 
     var SEARCH_FANDOM: (callback: (Fandom) -> Unit) -> Unit = { }
 
-    var executorLinks: ExecutorLinks? = null
     var projectKey = ""
     var onLoginFailed:() -> Unit = {}
 
@@ -77,17 +83,14 @@ object ControllerCampfireSDK {
             projectKey: String,
             logoColored: Int,
             logoWhite: Int,
-            notificationExecutor: ControllerNotifications.ExecutorNotification,
-            linksExecutor: ExecutorLinks,
             onLoginFailed: () -> Unit
     ) {
         this.projectKey = projectKey
         this.onLoginFailed = onLoginFailed
-        executorLinks = linksExecutor
         ControllerApi.init()
         ControllerActivities.init()
         ControllerChats.init()
-        ControllerNotifications.init(logoColored, logoWhite, notificationExecutor)
+        ControllerNotifications.init(logoColored, logoWhite)
         ControllerFirebaseAnalytics.init()
         ControllerGoogleAuth.init("276237287601-6e9aoah4uivbjh6lnn1l9hna6taljd9u.apps.googleusercontent.com", onLoginFailed)
 
@@ -95,23 +98,23 @@ object ControllerCampfireSDK {
     }
 
     fun onToFandomClicked(fandomId: Long, languageId: Long, action: NavigationAction) {
-        ON_TO_FANDOM_CLICKED.invoke(fandomId, languageId, action)
+        SFandom.instance(fandomId, languageId, action)
     }
 
     fun onToAccountClicked(accountId: Long, action: NavigationAction) {
-        ON_TO_ACCOUNT_CLICKED.invoke(accountId, action)
+        SAccount.instance(accountId, action)
     }
 
     fun onToModerationClicked(moderationId: Long, commentId: Long, action: NavigationAction) {
-        ON_TO_MODERATION_CLICKED.invoke(moderationId, commentId, action)
+        SModerationView.instance(moderationId, commentId, action)
     }
 
     fun onToPostClicked(postId: Long, commentId: Long, action: NavigationAction) {
-        ON_TO_POST_CLICKED.invoke(postId, commentId, action)
+        SPost.instance(postId, commentId, action)
     }
 
     fun onToDraftClicked(postId: Long, action: NavigationAction) {
-        ON_TO_DRAFT_CLICKED.invoke(postId, action)
+        SPostCreate.instance(postId, action)
     }
 
     fun onToDraftsClicked(action: NavigationAction) {
@@ -119,74 +122,13 @@ object ControllerCampfireSDK {
     }
 
     fun onToPostTagsClicked(postId: Long, isMyPublication: Boolean, action: NavigationAction) {
-        ON_TO_POST_TAGS_CLICKED.invoke(postId, isMyPublication, action)
+        SPostCreationTags.instance(postId, isMyPublication, action)
     }
 
 
     fun onToAchievementClicked(accountId: Long, accountName: String, achievementIndex: Long, toPrev: Boolean, action: NavigationAction) {
-        ON_TO_ACHIEVEMENT_CLICKED.invoke(accountId, accountName, achievementIndex, toPrev, action)
+        SAchievements.instance(accountId, accountName, achievementIndex, toPrev, action)
     }
-
-    //
-    //  Links
-    //
-
-    fun parseLink(link: String): Boolean {
-        try {
-
-            var t:String
-            if(link.startsWith(API.DOMEN)){
-                t = link.substring(API.DOMEN.length)
-            } else{
-                t = link.substring("http://@".length)
-                t = t.replace("_", "-")
-            }
-
-            val s1 = t.split("-")
-            val linkV = s1[0]
-            val params: List<String> = if (s1.size > 1) s1[1].split("_") else emptyList()
-
-            when (linkV) {
-                API.LINK_TAG_ABOUT -> Navigator.to(SAboutApp())
-                API.LINK_TAG_RULES_USER -> Navigator.to(SRulesUser())
-                API.LINK_TAG_RULES_MODER -> Navigator.to(SRulesModerators())
-                API.LINK_TAG_CREATORS -> Navigator.to(SAboutCreators())
-                API.LINK_TAG_BOX_WITH_FIREWIRKS -> {
-                    ControllerScreenAnimations.fireworks()
-                    ToolsThreads.main(10000) { RAchievementsOnFinish(API.ACHI_FIREWORKS.index).send(api) }
-                }
-                API.LINK_TAG_BOX_WITH_SUMMER -> ControllerScreenAnimations.summer()
-                API.LINK_TAG_BOX_WITH_AUTUMN -> ControllerScreenAnimations.autumn()
-                API.LINK_TAG_BOX_WITH_WINTER -> ControllerScreenAnimations.winter()
-                API.LINK_TAG_STICKER -> SStickersView.instanceBySticker(params[0].toLong(), Navigator.TO)
-                API.LINK_TAG_STICKERS_PACK -> {
-                    if (params.size == 1) SStickersView.instance(params[0].toLong(), Navigator.TO)
-                    if (params.size == 2) Navigator.to(SComments(params[0].toLong(), params[1].toLong()))
-                }
-
-                else -> return executorLinks?.parseLink(linkV, params) ?: false
-
-            }
-            return true
-
-        } catch (e: Throwable) {
-            err(e)
-            return false
-        }
-    }
-
-    fun openLink(link: String) {
-        if (parseLink(link)) return
-        WidgetAlert()
-                .setOnCancel(R.string.app_cancel)
-                .setOnEnter(R.string.app_open) { ToolsIntent.openLink(link) }
-                .setText(R.string.message_link)
-                .setTextGravity(Gravity.CENTER)
-                .setTitleImage(R.drawable.ic_security_white_48dp)
-                .setTitleImageBackgroundRes(R.color.blue_700)
-                .asSheetShow()
-    }
-
 
     //
     //  Actions
@@ -364,12 +306,6 @@ object ControllerCampfireSDK {
         val ad = ControllerAdsNative.getAd()
         if (ad != null) cardAd = CardAd(ad)
         return cardAd
-    }
-
-    interface ExecutorLinks {
-
-        fun parseLink(link: String, params: List<String>): Boolean
-
     }
 
 

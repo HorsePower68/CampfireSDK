@@ -14,4 +14,10 @@ public class NotificationUnknownParserParser(override val n: Notification) : Con
 
     override fun getTitle() = ""
 
+    override fun canShow() = false
+
+    override fun doAction() {
+
+    }
+
 }

@@ -20,7 +20,7 @@ import com.sup.dev.java.libs.eventBus.EventBus
 object ControllerRubrics {
 
     fun instanceMenu(rubric: Rubric) = WidgetMenu()
-            .add(R.string.app_copy_link) { _, _ -> ToolsAndroid.setToClipboard(ControllerApi.linkToRubric(rubric.id));ToolsToast.show(R.string.app_copied) }
+            .add(R.string.app_copy_link) { _, _ -> ToolsAndroid.setToClipboard(ControllerLinks.linkToRubric(rubric.id));ToolsToast.show(R.string.app_copied) }
             .groupCondition(ControllerApi.can(rubric.fandomId, rubric.languageId, API.LVL_MODERATOR_RUBRIC))
             .add(R.string.app_change_naming) { _, _ -> edit(rubric) }.backgroundRes(R.color.blue_700).textColorRes(R.color.white)
             .add(R.string.app_remove) { _, _ -> removeRubric(rubric) }.backgroundRes(R.color.blue_700).textColorRes(R.color.white)

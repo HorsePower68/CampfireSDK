@@ -1,9 +1,14 @@
 package com.sayzen.campfiresdk.controllers.notifications
 
 import android.content.Intent
+import com.dzen.campfire.api.API
 import com.dzen.campfire.api.models.notifications.publications.NotificationPublicationRestore
 import com.sayzen.campfiresdk.R
 import com.sayzen.campfiresdk.controllers.ControllerNotifications
+import com.sayzen.campfiresdk.controllers.ControllerPublications
+import com.sayzen.campfiresdk.controllers.ControllerSettings
+import com.sayzen.campfiresdk.screens.notifications.SNotifications
+import com.sup.dev.android.libs.screens.navigator.Navigator
 import com.sup.dev.android.tools.ToolsResources
 import com.sup.dev.java.tools.ToolsHTML
 import com.sup.dev.java.tools.ToolsText
@@ -22,5 +27,27 @@ public class NotificationUnitRestoreParser(override val n: NotificationPublicati
     override fun getTitle(): String {
         return ToolsResources.sCap(R.string.notification_admin_moderation_restore)
     }
+
+    override fun canShow() =  ControllerSettings.notificationsOther
+
+    override fun doAction() {
+        doActionNotificationPublicationRestore(n)
+    }
+    private fun doActionNotificationPublicationRestore(n: NotificationPublicationRestore) {
+        var publicationId = n.publicationId
+        var publicationType = n.publicationType
+        var toCommentId = 0L
+
+        if (n.publicationType == API.PUBLICATION_TYPE_COMMENT) {
+            publicationId = n.parentPublicationId
+            publicationType = n.parentPublicationType
+            toCommentId = n.publicationId
+        }
+
+        if (publicationType != 0L) ControllerPublications.toPublication(publicationType, publicationId, toCommentId)
+        else SNotifications.instance(Navigator.TO)
+    }
+
+
 
 }

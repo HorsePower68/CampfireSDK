@@ -12,4 +12,9 @@ public class NotificationChatReadParser(override val n: NotificationChatRead) : 
 
     override fun asString(html: Boolean) = ""
 
+    override fun canShow() = false
+
+    override fun doAction() {
+    }
+
 }

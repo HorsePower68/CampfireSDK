@@ -5,6 +5,9 @@ import com.dzen.campfire.api.API
 import com.dzen.campfire.api.models.notifications.publications.NotificationPublicationBlock
 import com.sayzen.campfiresdk.R
 import com.sayzen.campfiresdk.controllers.ControllerNotifications
+import com.sayzen.campfiresdk.controllers.ControllerSettings
+import com.sayzen.campfiresdk.screens.fandoms.moderation.view.SModerationView
+import com.sup.dev.android.libs.screens.navigator.Navigator
 import com.sup.dev.android.tools.ToolsResources
 import com.sup.dev.java.tools.ToolsDate
 import com.sup.dev.java.tools.ToolsHTML
@@ -27,7 +30,13 @@ public class NotificationPublicationBlockParser(override val n: NotificationPubl
     }
 
     override fun getTitle(): String {
-        return ToolsResources.sCap(if (n.blockLastUnits) R.string.moderation_notification_publications_is_blocked else if (n.blockUnitType == API.PUBLICATION_TYPE_REVIEW) R.string.moderation_notification_review_is_blocked else R.string.moderation_notification_publication_is_blocked)
+        return ToolsResources.sCap(if (n.blockLastPublications) R.string.moderation_notification_publications_is_blocked else if (n.blockUnitType == API.PUBLICATION_TYPE_REVIEW) R.string.moderation_notification_review_is_blocked else R.string.moderation_notification_publication_is_blocked)
+    }
+
+    override fun canShow() = ControllerSettings.notificationsOther
+
+    override fun doAction() {
+        SModerationView.instance(n.moderationId, Navigator.TO)
     }
 
 }

@@ -7,7 +7,7 @@ import com.dzen.campfire.api.models.notifications.comments.NotificationComment
 import com.dzen.campfire.api.models.notifications.comments.NotificationCommentAnswer
 import com.dzen.campfire.api.models.publications.PublicationComment
 import com.dzen.campfire.api.requests.comments.RCommentGet
-import com.dzen.campfire.api.requests.units.RCommentsGetAll
+import com.dzen.campfire.api.requests.comments.RCommentsGetAll
 import com.sayzen.campfiresdk.R
 import com.sayzen.campfiresdk.controllers.ControllerApi
 import com.sayzen.campfiresdk.controllers.api

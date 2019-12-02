@@ -12,4 +12,10 @@ public class NotificationChatMessageChangeParser(override val n: NotificationCha
 
     override fun asString(html: Boolean) = ""
 
+    override fun canShow() = false
+
+    override fun doAction() {
+
+    }
+
 }

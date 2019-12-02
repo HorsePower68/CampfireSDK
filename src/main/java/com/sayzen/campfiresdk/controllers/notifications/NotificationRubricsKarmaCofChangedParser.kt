@@ -4,6 +4,9 @@ import android.content.Intent
 import com.dzen.campfire.api.models.notifications.rubrics.NotificationRubricsKarmaCofChanged
 import com.sayzen.campfiresdk.R
 import com.sayzen.campfiresdk.controllers.ControllerNotifications
+import com.sayzen.campfiresdk.controllers.ControllerSettings
+import com.sayzen.campfiresdk.screens.fandoms.rubrics.SRubricPosts
+import com.sup.dev.android.libs.screens.navigator.Navigator
 import com.sup.dev.android.tools.ToolsResources
 import com.sup.dev.java.tools.ToolsText
 
@@ -20,5 +23,11 @@ public class NotificationRubricsKarmaCofChangedParser(override val n: Notificati
 
     override fun getTitle(): String {
         return ToolsResources.sCap(R.string.notification_rubric_cof_title, n.rubricName)
+    }
+
+    override fun canShow() = ControllerSettings.notificationsOther
+
+    override fun doAction() {
+        SRubricPosts.instance(n.rubricId, Navigator.TO)
     }
 }

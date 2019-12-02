@@ -4,6 +4,7 @@ import android.widget.TextView
 import com.dzen.campfire.api.requests.accounts.RAccountsGetStory
 import com.sayzen.campfiresdk.R
 import com.sayzen.campfiresdk.controllers.ControllerApi
+import com.sayzen.campfiresdk.controllers.ControllerLinks
 import com.sup.dev.android.libs.api_simple.ApiRequestsSupporter
 import com.sup.dev.android.libs.screens.Screen
 import com.sup.dev.android.libs.screens.navigator.NavigationAction
@@ -56,13 +57,13 @@ class SStory(
         vComments.text = "${r.totalComments}"
         vMessages.text = "${r.totalMessages}"
         vReviews.text = "${r.totalReviews}"
-        vBestPost.text = if(r.bestPost == 0L) "-" else ControllerApi.linkToPost(r.bestPost)
-        vBestComment.text = if(r.bestComment == 0L) "-" else ControllerApi.linkToComment(r.bestComment, r.bestCommentUnitType, r.bestCommentUnitId)
-        vBestReview.text = if(r.bestReview == 0L) "-" else ControllerApi.linkToReview(r.bestReview)
+        vBestPost.text = if(r.bestPost == 0L) "-" else ControllerLinks.linkToPost(r.bestPost)
+        vBestComment.text = if(r.bestComment == 0L) "-" else ControllerLinks.linkToComment(r.bestComment, r.bestCommentUnitType, r.bestCommentUnitId)
+        vBestReview.text = if(r.bestReview == 0L) "-" else ControllerLinks.linkToReview(r.bestReview)
 
-        ControllerApi.makeLinkable(vBestPost)
-        ControllerApi.makeLinkable(vBestComment)
-        ControllerApi.makeLinkable(vBestReview)
+        ControllerLinks.makeLinkable(vBestPost)
+        ControllerLinks.makeLinkable(vBestComment)
+        ControllerLinks.makeLinkable(vBestReview)
     }
 
 

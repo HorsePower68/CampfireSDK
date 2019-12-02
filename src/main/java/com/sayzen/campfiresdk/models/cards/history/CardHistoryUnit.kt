@@ -6,6 +6,7 @@ import com.dzen.campfire.api.models.publications.history.*
 import com.sayzen.campfiresdk.R
 import com.sayzen.campfiresdk.controllers.ControllerApi
 import com.sayzen.campfiresdk.controllers.ControllerCampfireSDK
+import com.sayzen.campfiresdk.controllers.ControllerLinks
 import com.sup.dev.android.libs.screens.navigator.Navigator
 import com.sup.dev.android.tools.ToolsImagesLoader
 import com.sup.dev.android.tools.ToolsResources
@@ -64,7 +65,7 @@ class CardHistoryUnit(
         }
 
         if (history.comment.isNotEmpty()) vAvatar.setSubtitle(vAvatar.getSubTitle() + "\n" + ToolsResources.s(R.string.app_comment) + ": " + history.comment)
-        ControllerApi.makeLinkable(vAvatar.vSubtitle)
+        ControllerLinks.makeLinkable(vAvatar.vSubtitle)
 
 
     }

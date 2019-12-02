@@ -9,6 +9,7 @@ import android.widget.TextView
 import com.sayzen.campfiresdk.R
 import com.sayzen.campfiresdk.app.CampfireConstants
 import com.sayzen.campfiresdk.controllers.ControllerCampfireSDK
+import com.sayzen.campfiresdk.controllers.ControllerLinks
 import com.sayzen.campfiresdk.controllers.ControllerSettings
 import com.sup.dev.android.libs.screens.Screen
 import com.sup.dev.android.libs.screens.navigator.NavigationAction
@@ -69,7 +70,7 @@ class SGoogleRules(
             span.setSpan(
                     object : ClickableSpan() {
                         override fun onClick(v: View) {
-                            ControllerCampfireSDK.openLink("https://play.google.com/intl/ru_ALL/about/restricted-content/inappropriate-content/")
+                            ControllerLinks.openLink("https://play.google.com/intl/ru_ALL/about/restricted-content/inappropriate-content/")
                         }
                     },
                     t.indexOf(tGoogle),

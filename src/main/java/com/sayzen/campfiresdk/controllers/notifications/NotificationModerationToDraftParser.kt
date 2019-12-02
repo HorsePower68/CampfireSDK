@@ -5,6 +5,9 @@ import com.dzen.campfire.api.models.notifications.post.NotificationModerationToD
 import com.sayzen.campfiresdk.R
 import com.sayzen.campfiresdk.controllers.ControllerNotifications
 import com.sayzen.campfiresdk.controllers.ControllerPublications
+import com.sayzen.campfiresdk.controllers.ControllerSettings
+import com.sayzen.campfiresdk.screens.fandoms.moderation.view.SModerationView
+import com.sup.dev.android.libs.screens.navigator.Navigator
 import com.sup.dev.android.tools.ToolsResources
 import com.sup.dev.java.tools.ToolsHTML
 import com.sup.dev.java.tools.ToolsText
@@ -26,6 +29,12 @@ public class NotificationModerationToDraftParser(override val n: NotificationMod
                 R.string.notifications_moderation_to_drafts, n.moderatorName, ToolsResources.sex(n.moderatorSex, R.string.he_return, R.string.she_return),
                 ControllerPublications.getMaskForPost(n.maskText, n.maskPageType)
         )
+    }
+
+    override fun canShow() = ControllerSettings.notificationsOther
+
+    override fun doAction() {
+        SModerationView.instance(n.moderationId, Navigator.TO)
     }
 
 

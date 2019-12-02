@@ -5,6 +5,7 @@ import com.dzen.campfire.api.models.publications.PagesContainer
 import com.dzen.campfire.api.models.publications.post.PageTable
 import com.sayzen.campfiresdk.R
 import com.sayzen.campfiresdk.controllers.ControllerApi
+import com.sayzen.campfiresdk.controllers.ControllerLinks
 import com.sup.dev.android.views.views.table.ViewTable
 
 class CardPageTable(
@@ -20,7 +21,7 @@ class CardPageTable(
         val vTable:ViewTable = view.findViewById(R.id.vTable)
 
         vTable.clear()
-        vTable.textProcessor = { _, _, vText -> ControllerApi.makeLinkable(vText) }
+        vTable.textProcessor = { _, _, vText -> ControllerLinks.makeLinkable(vText) }
         vTable.setColumnsCount(page.columnsCount, true)
         vTable.createRows(page.rowsCount, true)
         for(c in page.cells) {

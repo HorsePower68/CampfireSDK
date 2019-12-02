@@ -6,6 +6,10 @@ import com.dzen.campfire.api.models.notifications.chat.NotificationChatMessage
 import com.sayzen.campfiresdk.R
 import com.sayzen.campfiresdk.controllers.ControllerChats
 import com.sayzen.campfiresdk.controllers.ControllerNotifications
+import com.sayzen.campfiresdk.controllers.ControllerSettings
+import com.sayzen.campfiresdk.screens.chat.SChat
+import com.sup.dev.android.app.SupAndroid
+import com.sup.dev.android.libs.screens.navigator.Navigator
 import com.sup.dev.android.tools.ToolsResources
 
 public class NotificationChatMessageParser(override val n: NotificationChatMessage) : ControllerNotifications.Parser(n) {
@@ -49,5 +53,29 @@ public class NotificationChatMessageParser(override val n: NotificationChatMessa
             else n.publicationChatMessage.text
         }
     }
+
+    override fun canShow() = canShowNotificationChatMessage(n)
+
+    override fun doAction() {
+        doActionNotificationChatMessage(n)
+    }
+
+    private fun canShowNotificationChatMessage(n: NotificationChatMessage): Boolean {
+        if (!n.subscribed) return false
+        if (n.tag.chatType == API.CHAT_TYPE_FANDOM_ROOT && !ControllerSettings.notificationsChatMessages) return false
+        if (n.tag.chatType == API.CHAT_TYPE_PRIVATE && !ControllerSettings.notificationsPM) return false
+        if (SupAndroid.activityIsVisible && Navigator.getCurrent() is SChat) {
+            val screen = Navigator.getCurrent() as SChat
+            return screen.tag != n.tag
+        } else {
+            return true
+        }
+    }
+
+    private fun doActionNotificationChatMessage(n: NotificationChatMessage) {
+        SChat.instance(n.publicationChatMessage.chatType, n.publicationChatMessage.fandomId, n.publicationChatMessage.languageId, n.publicationChatMessage.id, true, Navigator.TO)
+    }
+
+
 
 }

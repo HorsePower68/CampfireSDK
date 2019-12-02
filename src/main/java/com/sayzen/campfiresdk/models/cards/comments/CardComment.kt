@@ -14,10 +14,7 @@ import com.dzen.campfire.api.models.notifications.publications.NotificationMenti
 import com.dzen.campfire.api.requests.comments.RCommentReactionAdd
 import com.dzen.campfire.api.requests.comments.RCommentReactionRemove
 import com.sayzen.campfiresdk.R
-import com.sayzen.campfiresdk.controllers.ControllerApi
-import com.sayzen.campfiresdk.controllers.ControllerNotifications
-import com.sayzen.campfiresdk.controllers.ControllerPost
-import com.sayzen.campfiresdk.controllers.ControllerPublications
+import com.sayzen.campfiresdk.controllers.*
 import com.sayzen.campfiresdk.models.cards.CardPublication
 import com.sayzen.campfiresdk.models.events.publications.EventCommentChange
 import com.sayzen.campfiresdk.models.events.publications.EventCommentRemove
@@ -130,7 +127,7 @@ abstract class CardComment protected constructor(
 
         if (vQuoteText != null) {
             vQuoteText.text = publication.quoteText
-            ControllerApi.makeLinkable(vQuoteText)
+            ControllerLinks.makeLinkable(vQuoteText)
         }
 
         if (vQuoteImage != null) {
@@ -147,7 +144,7 @@ abstract class CardComment protected constructor(
 
         if (vText != null) {
             vText.text = publication.text
-            ControllerApi.makeLinkable(vText) {
+            ControllerLinks.makeLinkable(vText) {
                 val myName = ControllerApi.account.name + ","
                 if (publication.text.startsWith(myName)) vText.text = Html.fromHtml(ToolsHTML.font_color(myName, "#FF6D00") + publication.text.substring(myName.length))
             }
@@ -169,7 +166,7 @@ abstract class CardComment protected constructor(
         val publication = xPublication.publication as PublicationComment
         WidgetMenu()
                 .add(R.string.app_copy_link) { _, _ ->
-                    ToolsAndroid.setToClipboard(ControllerApi.linkToComment(publication))
+                    ToolsAndroid.setToClipboard(ControllerLinks.linkToComment(publication))
                     ToolsToast.show(R.string.app_copied)
                 }
                 .groupCondition(ControllerApi.isCurrentAccount(publication.creatorId))

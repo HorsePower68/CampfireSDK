@@ -131,7 +131,7 @@ abstract class CardChatMessage constructor(
 
         if (vQuoteText != null) {
             vQuoteText.text = publication.quoteText
-            ControllerApi.makeLinkable(vQuoteText) {
+            ControllerLinks.makeLinkable(vQuoteText) {
                 if (publication.quoteCreatorName.isNotEmpty()) {
                     val otherName = publication.quoteCreatorName + ":"
                     if (publication.quoteText.startsWith(otherName)) {
@@ -157,7 +157,7 @@ abstract class CardChatMessage constructor(
             vText.text = publication.text
             vText.visibility = if (publication.text.isEmpty()) View.GONE else View.VISIBLE
 
-            ControllerApi.makeLinkable(vText) {
+            ControllerLinks.makeLinkable(vText) {
                 val myName = ControllerApi.account.name + ","
                 if (publication.text.startsWith(myName)) {
                     vText.text = "{ff6d00 $myName}" + vText.text.toString().substring(myName.length)

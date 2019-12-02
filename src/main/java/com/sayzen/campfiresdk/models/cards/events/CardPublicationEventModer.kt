@@ -6,6 +6,7 @@ import com.dzen.campfire.api.models.publications.events_moderators.PublicationEv
 import com.sayzen.campfiresdk.R
 import com.sayzen.campfiresdk.adapters.XAccount
 import com.sayzen.campfiresdk.controllers.ControllerApi
+import com.sayzen.campfiresdk.controllers.ControllerLinks
 import com.sayzen.campfiresdk.models.cards.CardPublication
 import com.sup.dev.android.tools.ToolsResources
 import com.sup.dev.android.views.views.ViewAvatar
@@ -50,7 +51,7 @@ class CardPublicationEventModer(
         if (e.comment.isNotEmpty()) text += "\n" + ToolsResources.s(R.string.app_comment) + ": " + e.comment
 
         vText.text = text
-        ControllerApi.makeLinkable(vText)
+        ControllerLinks.makeLinkable(vText)
 
         if (showFandom && publication.fandomId > 0) {
             xPublication.xFandom.setView(vAvatarTitle)

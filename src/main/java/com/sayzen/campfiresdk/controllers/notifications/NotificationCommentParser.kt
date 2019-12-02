@@ -7,6 +7,7 @@ import com.sayzen.campfiresdk.R
 import com.sayzen.campfiresdk.controllers.ControllerApi
 import com.sayzen.campfiresdk.controllers.ControllerNotifications
 import com.sayzen.campfiresdk.controllers.ControllerPublications
+import com.sayzen.campfiresdk.controllers.ControllerSettings
 import com.sup.dev.android.tools.ToolsResources
 
 
@@ -42,6 +43,12 @@ public class NotificationCommentParser(override val n: NotificationComment) : Co
             else ToolsResources.sCap(R.string.notification_moderation_comment_watch, n.accountName, ToolsResources.sex(n.accountSex, R.string.he_comment, R.string.she_comment))
         }
         return title
+    }
+
+    override fun canShow() = ControllerSettings.notificationsComments
+
+    override fun doAction() {
+        ControllerPublications.toPublication(n.parentPublicationType, n.publicationId, n.commentId)
     }
 
 }

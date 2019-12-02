@@ -8,6 +8,7 @@ import com.sayzen.campfiresdk.R
 import com.sayzen.campfiresdk.models.cards.post_pages.CardPage
 import com.sayzen.campfiresdk.models.cards.post_pages.CardPageTable
 import com.sayzen.campfiresdk.controllers.ControllerApi
+import com.sayzen.campfiresdk.controllers.ControllerLinks
 import com.sup.dev.android.libs.screens.Screen
 import com.sup.dev.android.libs.screens.navigator.Navigator
 import com.sup.dev.android.tools.*
@@ -40,7 +41,7 @@ class SCreatePageTable(
         isNavigationAllowed = false
         isNavigationAnimation = false
 
-        vTable.textProcessor = { _, _, vText -> ControllerApi.makeLinkable(vText) }
+        vTable.textProcessor = { _, _, vText -> ControllerLinks.makeLinkable(vText) }
 
         vBorderLeft.setOnClickListener {
             if (removeMode)

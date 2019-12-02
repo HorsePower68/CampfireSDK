@@ -7,6 +7,7 @@ import com.dzen.campfire.api.models.publications.PagesContainer
 import com.dzen.campfire.api.models.publications.post.PageSpoiler
 import com.sayzen.campfiresdk.R
 import com.sayzen.campfiresdk.controllers.ControllerApi
+import com.sayzen.campfiresdk.controllers.ControllerLinks
 import com.sayzen.campfiresdk.controllers.ControllerPost
 import com.sup.dev.android.tools.ToolsResources
 import com.sup.dev.android.views.support.adapters.recycler_view.RecyclerCardAdapter
@@ -27,7 +28,7 @@ class CardPageSpoiler(
         val vIcon:ImageView = view.findViewById(R.id.vIcon)
         val vTouch:View = view.findViewById(R.id.vTouch)
 
-        ControllerApi.makeLinkable(vText)
+        ControllerLinks.makeLinkable(vText)
 
         vTouch.visibility = if (clickable) View.VISIBLE else View.GONE
         vTouch.setOnClickListener { onClicked() }

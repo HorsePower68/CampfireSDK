@@ -55,18 +55,15 @@ object ControllerNotifications {
     val lastNotificationsCodes = LongSparseArray<Boolean>()
 
     var token = ""
-    var executorNotification: ExecutorNotification? = null
     var logoColored = 0
     var logoWhite = 0
 
     internal fun init(
             logoColored: Int,
-            logoWhite: Int,
-            notificationExecutor: ExecutorNotification
+            logoWhite: Int
     ) {
         this.logoColored = logoColored
         this.logoWhite = logoWhite
-        this.executorNotification = notificationExecutor
         ToolsNotifications.defChanelId = chanelOther.getId()
         GoogleNotifications.init({ token: String? ->
             onToken(token)
@@ -131,9 +128,28 @@ object ControllerNotifications {
         }
     }
 
-    fun canShowBySettings(notification: Notification) = executorNotification!!.canShowBySettings(notification)
+    fun canShowBySettings(notification: Notification): Boolean {
+        if (!ControllerSettings.notifications) return false
+        if (notification.dateCreate <= ControllerSettings.notifyDateChecked) return false
+        if (ControllerSettings.salientTime > System.currentTimeMillis()) return false
+        return true
+    }
 
-    fun canSoundBySettings(notification: Notification) = executorNotification!!.canSoundBySettings(notification)
+    fun canSoundBySettings(notification: Notification):Boolean{
+        if (ControllerSettings.notificationsSalientOnTimeEnabled) {
+            val current = ToolsDate.getCurrentMinutesOfDay()
+            val start = ControllerSettings.notificationsSalientOnTimeStartH * 60 + ControllerSettings.notificationsSalientOnTimeStartM
+            val end = ControllerSettings.notificationsSalientOnTimeEndH * 60 + ControllerSettings.notificationsSalientOnTimeEndM
+            if (start < end) {
+                if (current in start..end) return false
+            } else {
+                if (current >= start || current <= end) return false
+            }
+        }
+        return true
+    }
+
+    fun notificationsFilterEnabled(type: Long) = ControllerSettings.notificationsFilterEnabled(type)
 
     fun canShowByFilter(notification: Notification) = parser(notification).canShow()
 
@@ -190,7 +206,7 @@ object ControllerNotifications {
         for (i in removeList) removeBuffer.remove(i)
 
         var count = 0
-        for (i in newNotifications) if (executorNotification!!.notificationsFilterEnabled(i.getType())) count++
+        for (i in newNotifications) if (notificationsFilterEnabled(i.getType())) count++
         ToolsStorage.put("ControllerNotification_count", count)
         EventBus.post(EventNotificationsCountChanged())
     }
@@ -355,27 +371,12 @@ object ControllerNotifications {
 
         abstract fun asString(html: Boolean): String
 
+        abstract fun canShow() : Boolean
+
+        abstract fun doAction()
+
         open fun getTitle() = ""
 
-        fun canShow() = executorNotification!!.canShowByFilter(n)
-
-        fun doAction() {
-            executorNotification!!.doAction(n)
-        }
-
-    }
-
-    interface ExecutorNotification {
-
-        fun canSoundBySettings(notification: Notification): Boolean
-
-        fun canShowBySettings(notification: Notification): Boolean
-
-        fun canShowByFilter(notification: Notification): Boolean
-
-        fun notificationsFilterEnabled(type: Long): Boolean
-
-        fun doAction(notification: Notification)
 
     }
 

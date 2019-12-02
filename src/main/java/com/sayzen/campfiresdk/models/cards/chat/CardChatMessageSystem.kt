@@ -7,6 +7,7 @@ import com.sayzen.campfiresdk.R
 import com.sayzen.campfiresdk.controllers.ControllerApi
 import com.sayzen.campfiresdk.controllers.ControllerCampfireSDK
 import com.sayzen.campfiresdk.controllers.ControllerChats
+import com.sayzen.campfiresdk.controllers.ControllerLinks
 import com.sup.dev.android.libs.screens.navigator.Navigator
 import com.sup.dev.android.tools.ToolsResources
 import com.sup.dev.android.views.views.ViewTextLinkable
@@ -42,7 +43,7 @@ class CardChatMessageSystem(
 
         vSystemMessage.text = ControllerChats.getSystemText(publication)
 
-        ControllerApi.makeLinkable(vSystemMessage)
+        ControllerLinks.makeLinkable(vSystemMessage)
     }
 
 }

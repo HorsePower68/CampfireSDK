@@ -6,6 +6,7 @@ import com.dzen.campfire.api.requests.accounts.RAccountsAdminPunishmentsRemove
 import com.sayzen.campfiresdk.R
 import com.sayzen.campfiresdk.controllers.ControllerApi
 import com.sayzen.campfiresdk.controllers.ControllerCampfireSDK
+import com.sayzen.campfiresdk.controllers.ControllerLinks
 import com.sayzen.campfiresdk.models.events.fandom.EventFandomAccountBaned
 import com.sayzen.campfiresdk.models.events.account.EventAccountBaned
 import com.sayzen.campfiresdk.models.events.account.EventAccountPunishmentRemove
@@ -35,20 +36,20 @@ class CardPunishment(
         var text: String
 
         if (punishment.fandomId == 0L) {
-            if (punishment.banDate > 0) text = ToolsResources.sCap(R.string.profile_punishment_card_ban_admin, ControllerApi.linkToUser(punishment.fromAccountName), ToolsResources.sex(punishment.fromAccountSex, R.string.he_blocked, R.string.she_blocked), ToolsDate.dateToStringFull(punishment.banDate))
+            if (punishment.banDate > 0) text = ToolsResources.sCap(R.string.profile_punishment_card_ban_admin, ControllerLinks.linkToUser(punishment.fromAccountName), ToolsResources.sex(punishment.fromAccountSex, R.string.he_blocked, R.string.she_blocked), ToolsDate.dateToStringFull(punishment.banDate))
             else text = ToolsResources.sCap(R.string.profile_punishment_card_warn_admin,
-                    ControllerApi.linkToUser(punishment.fromAccountName),
+                    ControllerLinks.linkToUser(punishment.fromAccountName),
                     ToolsResources.sex(punishment.fromAccountSex, R.string.he_warn, R.string.she_warn)
             )
             setOnClick { ControllerCampfireSDK.onToAccountClicked(punishment.fromAccountId, Navigator.TO) }
         } else {
             if (punishment.banDate > 0) text = ToolsResources.sCap(R.string.profile_punishment_card_ban,
-                    ControllerApi.linkToUser(punishment.fromAccountName),
+                    ControllerLinks.linkToUser(punishment.fromAccountName),
                     ToolsResources.sex(punishment.fromAccountSex, R.string.he_blocked, R.string.she_blocked),
                     "" + punishment.fandomName,
                     ToolsDate.dateToStringFull(punishment.banDate))
             else text = ToolsResources.sCap(R.string.profile_punishment_card_warn,
-                    ControllerApi.linkToUser(punishment.fromAccountName),
+                    ControllerLinks.linkToUser(punishment.fromAccountName),
                     ToolsResources.sex(punishment.fromAccountSex, R.string.he_warn, R.string.she_warn),
                     "" + punishment.fandomName)
             setOnClick { ControllerCampfireSDK.onToFandomClicked(punishment.fandomId, punishment.languageId, Navigator.TO) }
@@ -74,7 +75,7 @@ class CardPunishment(
     }
 
     override fun onBind(vAvatar: ViewAvatarTitle) {
-        ControllerApi.makeLinkable(vAvatar.vTitle)
+        ControllerLinks.makeLinkable(vAvatar.vTitle)
 
         if (punishment.fandomImageId > 0) ToolsImagesLoader.load(punishment.fandomImageId).into(vAvatar.vAvatar.vImageView)
         else ToolsImagesLoader.load(punishment.fromAccountImageId).into(vAvatar.vAvatar.vImageView)

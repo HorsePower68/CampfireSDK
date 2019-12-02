@@ -7,6 +7,9 @@ import com.dzen.campfire.api.models.publications.PublicationComment
 import com.sayzen.campfiresdk.R
 import com.sayzen.campfiresdk.controllers.ControllerNotifications
 import com.sayzen.campfiresdk.controllers.ControllerPublications
+import com.sayzen.campfiresdk.controllers.ControllerSettings
+import com.sayzen.campfiresdk.screens.notifications.SNotifications
+import com.sup.dev.android.libs.screens.navigator.Navigator
 import com.sup.dev.android.tools.ToolsResources
 import com.sup.dev.java.tools.ToolsHTML
 
@@ -42,4 +45,24 @@ public class NotificationKarmaAddParser(override val n: NotificationKarmaAdd) : 
 
     }
 
+    override fun canShow() =  ControllerSettings.notificationsKarma
+
+    override fun doAction() {
+        doActionNotificationKarmaAdd(n)
+    }
+
+    private fun doActionNotificationKarmaAdd(n: NotificationKarmaAdd) {
+        var publicationId = n.publicationId
+        var publicationType = n.publicationType
+        var toCommentId: Long = 0
+
+        if (publicationType == API.PUBLICATION_TYPE_COMMENT) {
+            publicationId = n.parentPublicationId
+            publicationType = n.parentPublicationType
+            toCommentId = n.publicationId
+        }
+
+        if (publicationType != 0L) ControllerPublications.toPublication(publicationType, publicationId, toCommentId)
+        else SNotifications.instance(Navigator.TO)
+    }
 }

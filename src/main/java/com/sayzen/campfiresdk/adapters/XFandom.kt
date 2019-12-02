@@ -6,6 +6,7 @@ import com.dzen.campfire.api.models.fandoms.Fandom
 import com.dzen.campfire.api.models.publications.Publication
 import com.sayzen.campfiresdk.controllers.ControllerApi
 import com.sayzen.campfiresdk.controllers.ControllerCampfireSDK
+import com.sayzen.campfiresdk.controllers.ControllerLinks
 import com.sayzen.campfiresdk.models.events.fandom.EventFandomChanged
 import com.sayzen.campfiresdk.models.events.publications.EventPublicationFandomChanged
 import com.sup.dev.android.libs.screens.navigator.Navigator
@@ -118,9 +119,9 @@ class XFandom(
     //  Getters
     //
 
-    fun linkTo() = ControllerApi.linkToFandom(fandomId)
+    fun linkTo() = ControllerLinks.linkToFandom(fandomId)
 
-    fun linkToWithLanguage() = ControllerApi.linkToFandom(fandomId, languageId)
+    fun linkToWithLanguage() = ControllerLinks.linkToFandom(fandomId, languageId)
 
 
 }

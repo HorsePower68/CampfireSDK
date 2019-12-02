@@ -9,6 +9,7 @@ import com.dzen.campfire.api.requests.accounts.*
 import com.sayzen.campfiresdk.R
 import com.sayzen.campfiresdk.controllers.ControllerApi
 import com.sayzen.campfiresdk.controllers.ControllerCampfireSDK
+import com.sayzen.campfiresdk.controllers.ControllerLinks
 import com.sayzen.campfiresdk.models.events.account.EventAccountBioChangedAge
 import com.sayzen.campfiresdk.models.events.account.EventAccountBioChangedDescription
 import com.sayzen.campfiresdk.models.events.account.EventAccountBioChangedLinks
@@ -70,7 +71,7 @@ class CardBio(
 
         }
 
-        ControllerApi.makeLinkable(vDescription)
+        ControllerLinks.makeLinkable(vDescription)
 
         vLinksContainer.visibility = if (links.count() > 0) View.VISIBLE else View.GONE
         vLinksContainer.removeAllViews()
@@ -85,7 +86,7 @@ class CardBio(
             vTitle.text = link.a1
             vUrl.text = link.a2
 
-            v.setOnClickListener { ControllerCampfireSDK.openLink(link.a2) }
+            v.setOnClickListener { ControllerLinks.openLink(link.a2) }
 
             val w = WidgetMenu()
                     .add(R.string.app_copy) { _, _ ->

@@ -5,6 +5,7 @@ import com.dzen.campfire.api.models.notifications.comments.NotificationCommentAn
 import com.sayzen.campfiresdk.R
 import com.sayzen.campfiresdk.controllers.ControllerNotifications
 import com.sayzen.campfiresdk.controllers.ControllerPublications
+import com.sayzen.campfiresdk.controllers.ControllerSettings
 import com.sup.dev.android.tools.ToolsResources
 
 public class NotificationCommentAnswerParser(override val n: NotificationCommentAnswer) : ControllerNotifications.Parser(n) {
@@ -22,6 +23,12 @@ public class NotificationCommentAnswerParser(override val n: NotificationComment
             R.string.notification_comments_answer, n.accountName, ToolsResources.sex(n.accountSex, R.string.he_replied, R.string.she_replied),
             ControllerPublications.getMaskForComment(n.maskText, n.maskPageType)
     )
+
+    override fun canShow() = ControllerSettings.notificationsCommentsAnswers
+
+    override fun doAction() {
+        ControllerPublications.toPublication(n.parentPublicationType, n.publicationId, n.commentId)
+    }
 
 
 }

@@ -10,6 +10,7 @@ import com.dzen.campfire.api.models.publications.post.PageText
 import com.sayzen.campfiresdk.R
 import com.sayzen.campfiresdk.app.CampfireConstants
 import com.sayzen.campfiresdk.controllers.ControllerApi
+import com.sayzen.campfiresdk.controllers.ControllerLinks
 import com.sayzen.campfiresdk.controllers.ControllerNotifications
 import com.sup.dev.android.tools.ToolsResources
 import com.sup.dev.android.tools.ToolsView
@@ -32,7 +33,7 @@ class CardPageText(
 
         vText.text = page.text
         vText.textSize = (if (page.size == PageText.SIZE_0) 14 else 21).toFloat()
-        ControllerApi.makeLinkable(vText)
+        ControllerLinks.makeLinkable(vText)
 
         if (page.icon > 0 && page.icon < CampfireConstants.TEXT_ICONS.size) {
             vTextIcon.setImageDrawable(ToolsResources.getDrawableAttr(CampfireConstants.TEXT_ICONS[page.icon]))

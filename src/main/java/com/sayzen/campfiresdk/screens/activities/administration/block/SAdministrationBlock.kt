@@ -3,7 +3,7 @@ package com.sayzen.campfiresdk.screens.activities.administration.block
 import com.sayzen.campfiresdk.R
 import com.dzen.campfire.api.models.publications.PublicationReview
 import com.dzen.campfire.api.models.publications.PublicationBlocked
-import com.dzen.campfire.api.requests.units.RUnitsBlockGetAll
+import com.dzen.campfire.api.requests.publications.RPublicationsBlockGetAll
 import com.sayzen.campfiresdk.controllers.api
 import com.sayzen.campfiresdk.models.cards.CardPublication
 import com.sayzen.campfiresdk.models.events.publications.EventPublicationBlockedRemove
@@ -46,7 +46,7 @@ class SAdministrationBlock : SLoadingRecycler<CardPublication, PublicationBlocke
             c
         }
                 .setBottomLoader { onLoad, cards ->
-                    RUnitsBlockGetAll(cards.size.toLong())
+                    RPublicationsBlockGetAll(cards.size.toLong())
                             .onComplete { r ->
                                 for(u in r.publications) if(u.publication is PublicationReview) (u.publication as PublicationReview).text = (u.publication as PublicationReview).removedText
                                 onLoad.invoke(r.publications)

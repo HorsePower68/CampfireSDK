@@ -7,6 +7,7 @@ import com.dzen.campfire.api.requests.wiki.RWikiItemGet
 import com.dzen.campfire.api.requests.wiki.RWikiListGet
 import com.sayzen.campfiresdk.R
 import com.sayzen.campfiresdk.controllers.ControllerApi
+import com.sayzen.campfiresdk.controllers.ControllerLinks
 import com.sayzen.campfiresdk.controllers.api
 import com.sayzen.campfiresdk.models.events.wiki.EventWikiCreated
 import com.sup.dev.android.libs.api_simple.ApiRequestsSupporter
@@ -45,8 +46,8 @@ class SWikiList(
     init {
 
         addToolbarIcon(ToolsResources.getDrawableAttr(R.attr.ic_insert_link_24dp)!!) {
-            if (itemId > 0) ToolsAndroid.setToClipboard(ControllerApi.linkToWikiItemId(itemId))
-            else ToolsAndroid.setToClipboard(ControllerApi.linkToWikiFandomId(fandomId))
+            if (itemId > 0) ToolsAndroid.setToClipboard(ControllerLinks.linkToWikiItemId(itemId))
+            else ToolsAndroid.setToClipboard(ControllerLinks.linkToWikiFandomId(fandomId))
             ToolsToast.show(R.string.app_copied)
         }
 

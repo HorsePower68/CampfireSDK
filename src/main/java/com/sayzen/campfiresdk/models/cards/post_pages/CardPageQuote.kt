@@ -6,6 +6,7 @@ import com.dzen.campfire.api.models.publications.PagesContainer
 import com.dzen.campfire.api.models.publications.post.PageQuote
 import com.sayzen.campfiresdk.R
 import com.sayzen.campfiresdk.controllers.ControllerApi
+import com.sayzen.campfiresdk.controllers.ControllerLinks
 import com.sup.dev.android.views.views.ViewTextLinkable
 
 class CardPageQuote(
@@ -18,8 +19,8 @@ class CardPageQuote(
         val vText: ViewTextLinkable = view.findViewById(R.id.vText)
         val vAuthor: ViewTextLinkable = view.findViewById(R.id.vAuthor)
 
-        ControllerApi.makeLinkable(vText)
-        ControllerApi.makeLinkable(vAuthor)
+        ControllerLinks.makeLinkable(vText)
+        ControllerLinks.makeLinkable(vAuthor)
 
         vAuthor.visibility = if ((page as PageQuote).author.isEmpty()) View.GONE else View.VISIBLE
 

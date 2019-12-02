@@ -6,6 +6,7 @@ import com.dzen.campfire.api.models.fandoms.KarmaInFandom
 import com.sayzen.campfiresdk.R
 import com.sayzen.campfiresdk.adapters.XFandom
 import com.sayzen.campfiresdk.controllers.ControllerApi
+import com.sayzen.campfiresdk.controllers.ControllerLinks
 import com.sayzen.campfiresdk.screens.fandoms.view.SFandom
 import com.sup.dev.android.libs.screens.navigator.Navigator
 import com.sup.dev.android.tools.ToolsImagesLoader
@@ -37,7 +38,7 @@ class CardKarma(
 
     override fun onBind(vAvatar: ViewAvatarTitle) {
         xFandom.setView(vAvatar)
-        ControllerApi.makeLinkable(vAvatar.vTitle)
+        ControllerLinks.makeLinkable(vAvatar.vTitle)
         ToolsImagesLoader.load(karma.fandomImageId).into(vAvatar.vAvatar.vImageView)
     }
 

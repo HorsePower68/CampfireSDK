@@ -68,7 +68,7 @@ abstract class ViewKarma(
                karmaCount: Long,
                myKarma: Long,
                creatorId: Long,
-               unitStatus: Long,
+               publicationStatus: Long,
                onRate: ((Boolean) -> Unit) = {},
                onRateClicked: (() -> Unit) = {}
     ) {
@@ -78,8 +78,8 @@ abstract class ViewKarma(
         vDown.setFilter(if (myKarma < 0 || (rateStartTime != 0L && !rateIsUp)) red else ToolsResources.getColorAttr(R.attr.revers_color))
         vUp.setFilter(if (myKarma > 0 || (rateStartTime != 0L && rateIsUp)) green else ToolsResources.getColorAttr(R.attr.revers_color))
 
-        vDown.isEnabled = myKarma <= 0 && !ControllerApi.isCurrentAccount(creatorId) && unitStatus == API.STATUS_PUBLIC
-        vUp.isEnabled = myKarma >= 0 && !ControllerApi.isCurrentAccount(creatorId) && unitStatus == API.STATUS_PUBLIC
+        vDown.isEnabled = myKarma <= 0 && !ControllerApi.isCurrentAccount(creatorId) && publicationStatus == API.STATUS_PUBLIC
+        vUp.isEnabled = myKarma >= 0 && !ControllerApi.isCurrentAccount(creatorId) && publicationStatus == API.STATUS_PUBLIC
         vText.text = (karmaCount / 100).toString()
 
         vDown.setOnClickListener {
@@ -104,11 +104,11 @@ abstract class ViewKarma(
         }
 
         //  Порядок важен (после setOnClickListener)
-        vDown.isClickable = myKarma == 0L && vDown.isEnabled && unitStatus == API.STATUS_PUBLIC
+        vDown.isClickable = myKarma == 0L && vDown.isEnabled && publicationStatus == API.STATUS_PUBLIC
         vDown.isLongClickable =  vDown.isClickable
-        vUp.isClickable = myKarma == 0L && vUp.isEnabled && unitStatus == API.STATUS_PUBLIC
+        vUp.isClickable = myKarma == 0L && vUp.isEnabled && publicationStatus == API.STATUS_PUBLIC
         vUp.isLongClickable =  vUp.isClickable
-        vTouch.isClickable = (myKarma != 0L || ControllerApi.isCurrentAccount(creatorId)) && unitStatus == API.STATUS_PUBLIC
+        vTouch.isClickable = (myKarma != 0L || ControllerApi.isCurrentAccount(creatorId)) && publicationStatus == API.STATUS_PUBLIC
 
         vTouch.background = if (vTouch.isClickable) clickDrawable else null
 

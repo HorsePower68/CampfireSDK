@@ -8,6 +8,7 @@ import com.sayzen.campfiresdk.adapters.XAccount
 import com.sayzen.campfiresdk.app.CampfireConstants
 import com.sayzen.campfiresdk.controllers.ControllerApi
 import com.sayzen.campfiresdk.controllers.ControllerCampfireSDK
+import com.sayzen.campfiresdk.controllers.ControllerLinks
 import com.sayzen.campfiresdk.models.cards.CardPublication
 import com.sayzen.campfiresdk.screens.fandoms.view.SFandom
 import com.sup.dev.android.libs.screens.navigator.Navigator
@@ -97,14 +98,14 @@ class CardPublicationEventFandom(
                 )
             }
             is ApiEventFandomMakeModerator -> {
-                text = ToolsResources.sCap(R.string.publication_event_make_moderator_admin, ToolsResources.sex(e.ownerAccountSex, R.string.he_make, R.string.she_make), ControllerApi.linkToUser(e.targetAccountName), e.fandomName)
+                text = ToolsResources.sCap(R.string.publication_event_make_moderator_admin, ToolsResources.sex(e.ownerAccountSex, R.string.he_make, R.string.she_make), ControllerLinks.linkToUser(e.targetAccountName), e.fandomName)
                 view.setOnClickListener { ControllerCampfireSDK.onToAccountClicked(e.targetAccountId, Navigator.TO) }
             }
             is ApiEventFandomRemove -> {
                 text = "" + ToolsResources.sCap(R.string.publication_event_remove_fandom, ToolsResources.sex(e.ownerAccountSex, R.string.he_remove, R.string.she_remove), e.fandomName)
             }
             is ApiEventFandomRemoveModerator -> {
-                text = ToolsResources.sCap(R.string.publication_event_remove_moderator_admin, ToolsResources.sex(e.ownerAccountSex, R.string.he_deprived, R.string.she_deprived), ControllerApi.linkToUser(e.targetAccountName), e.fandomName)
+                text = ToolsResources.sCap(R.string.publication_event_remove_moderator_admin, ToolsResources.sex(e.ownerAccountSex, R.string.he_deprived, R.string.she_deprived), ControllerLinks.linkToUser(e.targetAccountName), e.fandomName)
                 view.setOnClickListener { ControllerCampfireSDK.onToAccountClicked(e.targetAccountId, Navigator.TO) }
             }
             is ApiEventFandomRename -> {
@@ -116,7 +117,7 @@ class CardPublicationEventFandom(
         if (e.comment.isNotEmpty()) text += "\n" + ToolsResources.s(R.string.app_comment) + ": " + e.comment
 
         vText.text = text
-        ControllerApi.makeLinkable(vText)
+        ControllerLinks.makeLinkable(vText)
 
         if (showFandom && publication.fandomId > 0) {
             xPublication.xFandom.setView(vAvatarTitle)

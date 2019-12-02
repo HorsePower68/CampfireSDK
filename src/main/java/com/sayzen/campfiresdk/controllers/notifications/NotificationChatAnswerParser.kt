@@ -4,6 +4,10 @@ import android.content.Intent
 import com.dzen.campfire.api.models.notifications.chat.NotificationChatAnswer
 import com.sayzen.campfiresdk.R
 import com.sayzen.campfiresdk.controllers.ControllerNotifications
+import com.sayzen.campfiresdk.controllers.ControllerSettings
+import com.sayzen.campfiresdk.screens.chat.SChat
+import com.sup.dev.android.app.SupAndroid
+import com.sup.dev.android.libs.screens.navigator.Navigator
 import com.sup.dev.android.tools.ToolsResources
 
 
@@ -22,4 +26,24 @@ public class NotificationChatAnswerParser(override val n: NotificationChatAnswer
         else n.publicationChatMessage.creatorName + ": " + n.publicationChatMessage.text
     }
 
+    override fun canShow() = canShowNotificationChatAnswer(n)
+
+    override fun doAction() {
+        doActionNotificationChatAnswer(n)
+    }
+
+    private fun canShowNotificationChatAnswer(n: NotificationChatAnswer): Boolean {
+        if (!ControllerSettings.notificationsChatAnswers) return false
+        if (SupAndroid.activityIsVisible && Navigator.getCurrent() is SChat) {
+            val screen = Navigator.getCurrent() as SChat
+            return screen.tag != n.tag
+        } else {
+            return true
+        }
+    }
+
+    private fun doActionNotificationChatAnswer(n: NotificationChatAnswer) {
+        SChat.instance(n.publicationChatMessage.chatType, n.publicationChatMessage.fandomId, n.publicationChatMessage.languageId, n.publicationChatMessage.id, true, Navigator.TO)
+
+    }
 }

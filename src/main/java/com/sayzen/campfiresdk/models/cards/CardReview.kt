@@ -6,6 +6,7 @@ import com.dzen.campfire.api.API
 import com.dzen.campfire.api.models.publications.PublicationReview
 import com.sayzen.campfiresdk.R
 import com.sayzen.campfiresdk.controllers.ControllerApi
+import com.sayzen.campfiresdk.controllers.ControllerLinks
 import com.sayzen.campfiresdk.models.events.fandom.EventFandomReviewChanged
 import com.sayzen.campfiresdk.models.events.fandom.EventFandomReviewRemoved
 import com.sayzen.campfiresdk.models.events.fandom.EventFandomReviewTextRemoved
@@ -97,7 +98,7 @@ class CardReview(
                 .clearGroupCondition()
                 .add(R.string.app_share) { _, _ -> ControllerApi.shareReview(publication.id) }.condition(publication.isPublic)
                 .add(R.string.app_copy_link) { _, _ ->
-                    ToolsAndroid.setToClipboard(ControllerApi.linkToReview(publication.id))
+                    ToolsAndroid.setToClipboard(ControllerLinks.linkToReview(publication.id))
                     ToolsToast.show(R.string.app_copied)
                 }
                 .add(R.string.app_clear_reports) { _, _ -> ControllerApi.clearReportsPublication(publication.id, publication.publicationType) }.backgroundRes(R.color.blue_700).textColorRes(R.color.white).condition(ControllerApi.can(publication.fandomId, publication.languageId, API.LVL_MODERATOR_BLOCK) && publication.reportsCount > 0)

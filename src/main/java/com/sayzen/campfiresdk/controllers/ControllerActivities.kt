@@ -69,7 +69,7 @@ object ControllerActivities {
 
     fun showMenu(userActivity: UserActivity) {
         WidgetMenu()
-                .add(R.string.app_copy_link) { _, _ -> ToolsAndroid.setToClipboard(ControllerApi.linkToActivity(userActivity.id));ToolsToast.show(R.string.app_copied) }
+                .add(R.string.app_copy_link) { _, _ -> ToolsAndroid.setToClipboard(ControllerLinks.linkToActivity(userActivity.id));ToolsToast.show(R.string.app_copied) }
                 .add(R.string.app_change) { _, _ -> Navigator.to(SRelayRaceCreate(userActivity)) }.condition(ControllerApi.can(userActivity.fandomId, userActivity.languageId, API.LVL_MODERATOR_RELAY_RACE)).textColorRes(R.color.white).backgroundRes(R.color.blue_700)
                 .add(R.string.app_remove) { _, _ -> removeActivity(userActivity) }.condition(ControllerApi.can(userActivity.fandomId, userActivity.languageId, API.LVL_MODERATOR_RELAY_RACE)).textColorRes(R.color.white).backgroundRes(R.color.blue_700)
                 .asSheetShow()

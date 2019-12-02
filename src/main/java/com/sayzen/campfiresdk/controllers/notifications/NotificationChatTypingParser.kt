@@ -12,4 +12,9 @@ public class NotificationChatTypingParser(override val n: NotificationChatTyping
 
     override fun asString(html: Boolean) = ""
 
+    override fun canShow() = false
+
+    override fun doAction() {
+    }
+
 }

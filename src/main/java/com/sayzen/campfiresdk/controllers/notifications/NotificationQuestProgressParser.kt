@@ -12,4 +12,9 @@ public class NotificationQuestProgressParser(override val n: NotificationQuestPr
 
     override fun asString(html: Boolean) = ""
 
+    override fun canShow() = false
+
+    override fun doAction() {
+    }
+
 }

@@ -5,7 +5,7 @@ import com.dzen.campfire.api.API
 import com.dzen.campfire.api.models.publications.stickers.PublicationSticker
 import com.dzen.campfire.api.models.publications.stickers.PublicationStickersPack
 import com.dzen.campfire.api.requests.stickers.*
-import com.dzen.campfire.api.requests.units.RUnitsRemove
+import com.dzen.campfire.api.requests.publications.RPublicationsRemove
 import com.sayzen.campfiresdk.R
 import com.sayzen.campfiresdk.models.events.stickers.EventStickerCollectionChanged
 import com.sayzen.campfiresdk.models.events.stickers.EventStickersPackCollectionChanged
@@ -26,7 +26,7 @@ object ControllerStickers {
 
     fun showStickerPackPopup(publication: PublicationStickersPack) {
         WidgetMenu()
-                .add(R.string.app_copy_link) { _, _ -> ToolsAndroid.setToClipboard(ControllerApi.linkToStickersPack(publication.id)); ToolsToast.show(R.string.app_copied) }
+                .add(R.string.app_copy_link) { _, _ -> ToolsAndroid.setToClipboard(ControllerLinks.linkToStickersPack(publication.id)); ToolsToast.show(R.string.app_copied) }
                 .add(R.string.publication_menu_comments_watch) { _, _ -> ControllerPublications.changeWatchComments(publication.id) }.condition(publication.isPublic)
                 .add(R.string.app_change) { _, _ -> Navigator.to(SStickersPackCreate(publication)) }.condition(publication.creatorId == ControllerApi.account.id)
                 .add(R.string.app_remove) { _, _ -> removeStickersPack(publication.id) }.condition(publication.creatorId == ControllerApi.account.id)
@@ -56,7 +56,7 @@ object ControllerStickers {
     }
 
     fun removeStickersPack(publicationId: Long) {
-        ApiRequestsSupporter.executeEnabledConfirm(R.string.stickers_packs_remove_confirm, R.string.app_remove, RUnitsRemove(publicationId)) {
+        ApiRequestsSupporter.executeEnabledConfirm(R.string.stickers_packs_remove_confirm, R.string.app_remove, RPublicationsRemove(publicationId)) {
             EventBus.post(EventPublicationRemove(publicationId))
             ToolsToast.show(R.string.app_done)
         }
@@ -64,7 +64,7 @@ object ControllerStickers {
 
     fun showStickerPopup(view: View, x: Int, y: Int, publication: PublicationSticker) {
         WidgetMenu()
-                .add(R.string.app_copy_link) { _, _ -> ToolsAndroid.setToClipboard(ControllerApi.linkToSticker(publication.id)); ToolsToast.show(R.string.app_copied) }
+                .add(R.string.app_copy_link) { _, _ -> ToolsAndroid.setToClipboard(ControllerLinks.linkToSticker(publication.id)); ToolsToast.show(R.string.app_copied) }
                 .add(R.string.app_remove) { _, _ -> removeSticker(publication.id) }.condition(publication.creatorId == ControllerApi.account.id)
                 .add(R.string.app_report) { _, _ -> ControllerApi.reportPublication(publication.id, R.string.stickers_report_confirm, R.string.sticker_error_gone) }
                 .add(R.string.app_favorite) { _, _ -> switchStickerCollection(publication) }.condition(publication.status == API.STATUS_PUBLIC)
@@ -91,7 +91,7 @@ object ControllerStickers {
     }
 
     fun removeSticker(publicationId: Long) {
-        ApiRequestsSupporter.executeEnabledConfirm(R.string.stickers_remove_confirm, R.string.app_remove, RUnitsRemove(publicationId)) {
+        ApiRequestsSupporter.executeEnabledConfirm(R.string.stickers_remove_confirm, R.string.app_remove, RPublicationsRemove(publicationId)) {
             EventBus.post(EventPublicationRemove(publicationId))
             ToolsToast.show(R.string.app_done)
         }

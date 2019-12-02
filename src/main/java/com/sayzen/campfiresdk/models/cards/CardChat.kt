@@ -14,6 +14,7 @@ import com.sayzen.campfiresdk.adapters.XAccount
 import com.sayzen.campfiresdk.adapters.XFandom
 import com.sayzen.campfiresdk.controllers.ControllerApi
 import com.sayzen.campfiresdk.controllers.ControllerChats
+import com.sayzen.campfiresdk.controllers.ControllerLinks
 import com.sayzen.campfiresdk.models.events.chat.*
 import com.sayzen.campfiresdk.models.events.fandom.EventFandomChatChanged
 import com.sayzen.campfiresdk.models.events.fandom.EventFandomChatRemove
@@ -136,7 +137,7 @@ class CardChat(
         vMessagesCounter.setBackgroundColor(if (subscribed) ToolsResources.getAccentColor(view.context) else ToolsResources.getColor(R.color.grey_600))
         vMessagesCounter.visibility = if (messagesCount < 1) View.GONE else View.VISIBLE
 
-        ControllerApi.makeLinkable(vAvatar.vSubtitle)
+        ControllerLinks.makeLinkable(vAvatar.vSubtitle)
 
     }
 

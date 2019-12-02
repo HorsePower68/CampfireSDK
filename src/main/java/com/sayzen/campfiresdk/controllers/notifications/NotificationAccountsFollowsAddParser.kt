@@ -4,6 +4,9 @@ import android.content.Intent
 import com.dzen.campfire.api.models.notifications.account.NotificationAccountsFollowsAdd
 import com.sayzen.campfiresdk.R
 import com.sayzen.campfiresdk.controllers.ControllerNotifications
+import com.sayzen.campfiresdk.controllers.ControllerSettings
+import com.sayzen.campfiresdk.screens.account.profile.SAccount
+import com.sup.dev.android.libs.screens.navigator.Navigator
 import com.sup.dev.android.tools.ToolsResources
 
 public class NotificationAccountsFollowsAddParser(override val n: NotificationAccountsFollowsAdd) : ControllerNotifications.Parser(n) {
@@ -19,5 +22,11 @@ public class NotificationAccountsFollowsAddParser(override val n: NotificationAc
             R.string.she_subscribed
     )
     )
+
+    override fun canShow() = ControllerSettings.notificationsFollows
+
+    override fun doAction() {
+        SAccount.instance(n.accountId, Navigator.TO)
+    }
 
 }

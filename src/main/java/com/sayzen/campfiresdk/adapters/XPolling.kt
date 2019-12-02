@@ -9,6 +9,7 @@ import com.dzen.campfire.api.models.publications.post.PagePolling
 import com.sayzen.campfiresdk.R
 import com.sayzen.campfiresdk.app.CampfireConstants
 import com.sayzen.campfiresdk.controllers.ControllerApi
+import com.sayzen.campfiresdk.controllers.ControllerLinks
 import com.sayzen.campfiresdk.controllers.ControllerPolling
 import com.sayzen.campfiresdk.models.events.publications.EventPollingChanged
 import com.sup.dev.android.tools.ToolsResources
@@ -130,7 +131,7 @@ class XPolling(
     private fun updateTitle(view: View){
         val vTitle: ViewTextLinkable = view.findViewById(R.id.vTitle)
 
-        ControllerApi.makeLinkable(vTitle)
+        ControllerLinks.makeLinkable(vTitle)
 
         vTitle.visibility = if (page.title.isEmpty()) View.GONE else View.VISIBLE
         vTitle.text = page.title

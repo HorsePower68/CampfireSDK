@@ -13,6 +13,7 @@ import com.sayzen.campfiresdk.R
 import com.sayzen.campfiresdk.adapters.XFandom
 import com.sayzen.campfiresdk.controllers.ControllerApi
 import com.sayzen.campfiresdk.controllers.ControllerCampfireSDK
+import com.sayzen.campfiresdk.controllers.ControllerLinks
 import com.sayzen.campfiresdk.models.events.fandom.EventFandomInfoChanged
 import com.sup.dev.android.libs.api_simple.ApiRequestsSupporter
 import com.sup.dev.android.tools.ToolsAndroid
@@ -66,7 +67,7 @@ class CardLinks(
                 w.asSheetShow()
                 true
             }
-            vLink.setOnClickListener { ControllerCampfireSDK.openLink(link.url) }
+            vLink.setOnClickListener { ControllerLinks.openLink(link.url) }
 
             when (link.imageIndex) {
                 1L -> vLinkImage.setImageResource(ToolsResources.getDrawableAttrId(R.attr.icon_youtube))

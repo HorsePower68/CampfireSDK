@@ -4,6 +4,9 @@ import android.content.Intent
 import com.dzen.campfire.api.models.notifications.account.NotificationAdminPostFandomChange
 import com.sayzen.campfiresdk.R
 import com.sayzen.campfiresdk.controllers.ControllerNotifications
+import com.sayzen.campfiresdk.controllers.ControllerSettings
+import com.sayzen.campfiresdk.screens.post.view.SPost
+import com.sup.dev.android.libs.screens.navigator.Navigator
 import com.sup.dev.android.tools.ToolsResources
 import com.sup.dev.java.tools.ToolsHTML
 import com.sup.dev.java.tools.ToolsText
@@ -19,7 +22,6 @@ public class NotificationAdminPostFandomChangeParser(override val n: Notificatio
         val comment = if (!html) n.comment else ToolsHTML.i(n.comment)
         return (if (ToolsText.empty(n.comment)) "" else ToolsResources.s(R.string.moderation_notification_moderator_comment) + " " + comment)
     }
-
     override fun getTitle(): String {
         return ToolsResources.sCap(
                 R.string.notification_admin_post_fandom_change, n.adminName, ToolsResources.sex(
@@ -29,5 +31,12 @@ public class NotificationAdminPostFandomChangeParser(override val n: Notificatio
         ), n.oldFandomName, n.newFandomName
         )
     }
+
+    override fun canShow() = ControllerSettings.notificationsOther
+
+    override fun doAction() {
+        SPost.instance(n.publicationId, Navigator.TO)
+    }
+
 
 }

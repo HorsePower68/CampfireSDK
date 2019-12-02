@@ -4,6 +4,9 @@ import android.content.Intent
 import com.dzen.campfire.api.models.notifications.account.NotificationAdminBlock
 import com.sayzen.campfiresdk.R
 import com.sayzen.campfiresdk.controllers.ControllerNotifications
+import com.sayzen.campfiresdk.controllers.ControllerSettings
+import com.sayzen.campfiresdk.screens.notifications.SNotifications
+import com.sup.dev.android.libs.screens.navigator.Navigator
 import com.sup.dev.android.tools.ToolsResources
 import com.sup.dev.java.tools.ToolsDate
 import com.sup.dev.java.tools.ToolsHTML
@@ -29,6 +32,12 @@ public class NotificationBlockParser(override val n: NotificationAdminBlock) : C
         } else {
             (ToolsResources.sCap(R.string.moderation_notification_warned))
         }
+    }
+
+    override fun canShow() = ControllerSettings.notificationsOther
+
+    override fun doAction() {
+        if (Navigator.getCurrent() !is SNotifications) SNotifications.instance(Navigator.TO)
     }
 
 }

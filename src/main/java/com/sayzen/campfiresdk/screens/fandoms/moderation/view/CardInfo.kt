@@ -4,13 +4,13 @@ import android.view.View
 import android.widget.TextView
 import com.dzen.campfire.api.models.notifications.comments.NotificationComment
 import com.dzen.campfire.api.models.notifications.comments.NotificationCommentAnswer
-import com.dzen.campfire.api.models.publications.moderations.units.ModerationBlock
+import com.dzen.campfire.api.models.publications.moderations.publications.ModerationBlock
 import com.dzen.campfire.api.models.publications.moderations.PublicationModeration
 import com.sayzen.campfiresdk.R
 import com.sayzen.campfiresdk.adapters.XAccount
 import com.sayzen.campfiresdk.adapters.XFandom
 import com.sayzen.campfiresdk.adapters.XKarma
-import com.sayzen.campfiresdk.controllers.ControllerApi
+import com.sayzen.campfiresdk.controllers.ControllerLinks
 import com.sayzen.campfiresdk.controllers.ControllerPublications
 import com.sayzen.campfiresdk.views.ViewKarma
 import com.sayzen.campfiresdk.models.events.notifications.EventNotification
@@ -57,15 +57,15 @@ class CardInfo(
             }
             if (publication.tag_2 == 1L) {
                 vStatus.setTextColor(ToolsResources.getColor(R.color.green_700))
-                vStatus.text = ToolsResources.s(R.string.moderation_checked_yes, ControllerApi.linkToUser((publication.moderation!! as ModerationBlock).checkAdminName))
+                vStatus.text = ToolsResources.s(R.string.moderation_checked_yes, ControllerLinks.linkToUser((publication.moderation!! as ModerationBlock).checkAdminName))
             }
             if (publication.tag_2 == 2L) {
                 vStatus.setTextColor(ToolsResources.getColor(R.color.red_700))
-                vStatus.text = ToolsResources.s(R.string.moderation_checked_no, ControllerApi.linkToUser((publication.moderation!! as ModerationBlock).checkAdminName))
+                vStatus.text = ToolsResources.s(R.string.moderation_checked_no, ControllerLinks.linkToUser((publication.moderation!! as ModerationBlock).checkAdminName))
                 vStatusComment.visibility = View.VISIBLE
                 vStatusComment.text = (publication.moderation!! as ModerationBlock).checkAdminComment
             }
-            ControllerApi.makeLinkable(vStatus)
+            ControllerLinks.makeLinkable(vStatus)
         }else{
             vStatus.visibility = View.GONE
         }

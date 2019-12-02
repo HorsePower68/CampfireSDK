@@ -7,6 +7,7 @@ import com.dzen.campfire.api.models.publications.PagesContainer
 import com.dzen.campfire.api.models.publications.post.PageImages
 import com.sayzen.campfiresdk.R
 import com.sayzen.campfiresdk.controllers.ControllerApi
+import com.sayzen.campfiresdk.controllers.ControllerLinks
 import com.sup.dev.android.tools.ToolsImagesLoader
 import com.sup.dev.android.views.views.ViewImagesContainer
 import com.sup.dev.android.views.views.ViewTextLinkable
@@ -31,7 +32,7 @@ class CardPageImages(
             vImagesSwipe.add((page as PageImages).imagesMiniIds[i], (page as PageImages).imagesIds[i], (page as PageImages).imagesMiniSizesW[i],(page as PageImages).imagesMiniSizesH[i])
         }
 
-        ControllerApi.makeLinkable(vTitle)
+        ControllerLinks.makeLinkable(vTitle)
     }
 
     override fun onDetachView() {

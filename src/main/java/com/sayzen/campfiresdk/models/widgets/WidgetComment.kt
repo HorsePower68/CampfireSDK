@@ -6,8 +6,8 @@ import android.view.ViewGroup
 import com.dzen.campfire.api.API
 import com.dzen.campfire.api.models.publications.PublicationComment
 import com.dzen.campfire.api.models.publications.stickers.PublicationSticker
-import com.dzen.campfire.api.requests.units.RUnitsCommentChange
-import com.dzen.campfire.api.requests.units.RUnitsCommentCreate
+import com.dzen.campfire.api.requests.publications.RPublicationsCommentChange
+import com.dzen.campfire.api.requests.publications.RPublicationsCommentCreate
 import com.sayzen.campfiresdk.R
 import com.sayzen.campfiresdk.controllers.ControllerApi
 import com.sayzen.campfiresdk.controllers.ControllerSettings
@@ -188,7 +188,7 @@ class WidgetComment constructor(
 
     private fun sendText(text: String, parentId: Long) {
         SGoogleRules.acceptRulesDialog() {
-            ApiRequestsSupporter.executeEnabled(this, RUnitsCommentCreate(publicationId, text, null, null, parentId, ControllerSettings.watchPost, quoteId, 0)) { r ->
+            ApiRequestsSupporter.executeEnabled(this, RPublicationsCommentCreate(publicationId, text, null, null, parentId, ControllerSettings.watchPost, quoteId, 0)) { r ->
                 afterSend(r.comment)
             }
         }
@@ -199,7 +199,7 @@ class WidgetComment constructor(
         SGoogleRules.acceptRulesDialog() {
             ApiRequestsSupporter.executeEnabled(
                 this,
-                RUnitsCommentChange(changeComment!!.id, text, quoteId)
+                RPublicationsCommentChange(changeComment!!.id, text, quoteId)
             ) {
                 ToolsToast.show(R.string.app_changed)
                 EventBus.post(EventCommentChange(changeComment.id, text, quoteId, quoteText))
@@ -253,7 +253,7 @@ class WidgetComment constructor(
                     bytes[0] = byt
                 }
                 ApiRequestsSupporter.executeProgressDialog(
-                    RUnitsCommentCreate(
+                    RPublicationsCommentCreate(
                         publicationId,
                         text,
                         bytes,
@@ -264,7 +264,7 @@ class WidgetComment constructor(
                         0
                     )
                 ) { r -> afterSend(r.comment) }
-                    .onApiError(RUnitsCommentCreate.E_BAD_PUBLICATION_STATUS) { ToolsToast.show(R.string.error_gone) }
+                    .onApiError(RPublicationsCommentCreate.E_BAD_PUBLICATION_STATUS) { ToolsToast.show(R.string.error_gone) }
                     .onFinish { setEnabled(true) }
             }
 
@@ -276,7 +276,7 @@ class WidgetComment constructor(
             setEnabled(false)
 
             ApiRequestsSupporter.executeProgressDialog(
-                RUnitsCommentCreate(
+                RPublicationsCommentCreate(
                     publicationId,
                     "",
                     null,
@@ -287,7 +287,7 @@ class WidgetComment constructor(
                     sticker.id
                 )
             ) { r -> afterSend(r.comment) }
-                .onApiError(RUnitsCommentCreate.E_BAD_PUBLICATION_STATUS) { ToolsToast.show(R.string.error_gone) }
+                .onApiError(RPublicationsCommentCreate.E_BAD_PUBLICATION_STATUS) { ToolsToast.show(R.string.error_gone) }
                 .onFinish { setEnabled(true) }
         }
     }

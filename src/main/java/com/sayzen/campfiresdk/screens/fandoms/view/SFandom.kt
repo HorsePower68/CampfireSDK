@@ -11,7 +11,7 @@ import com.dzen.campfire.api.API
 import com.dzen.campfire.api.models.publications.Publication
 import com.dzen.campfire.api.models.publications.post.PublicationPost
 import com.dzen.campfire.api.requests.fandoms.*
-import com.dzen.campfire.api.requests.units.RUnitsGetAll
+import com.dzen.campfire.api.requests.publications.RPublicationsGetAll
 import com.sayzen.campfiresdk.R
 import com.sayzen.campfiresdk.adapters.XFandom
 import com.sayzen.campfiresdk.models.cards.CardPost
@@ -94,10 +94,10 @@ class SFandom private constructor(
 
         adapter = RecyclerCardAdapterLoading<CardPublication, Publication>(CardPublication::class) { publication -> CardPublication.instance(publication, vRecycler, false, false, true) }
                 .setBottomLoader { onLoad, cards ->
-                    RUnitsGetAll()
+                    RPublicationsGetAll()
                             .setOffset(cards.size)
                             .setPublicationTypes(ControllerSettings.getFandomFilters())
-                            .setOrder(RUnitsGetAll.ORDER_NEW)
+                            .setOrder(RPublicationsGetAll.ORDER_NEW)
                             .setFandomId(xFandom.fandomId)
                             .setLanguageId(xFandom.languageId)
                             .setImportant(if (ControllerSettings.fandomFilterOnlyImportant) API.PUBLICATION_IMPORTANT_IMPORTANT else API.PUBLICATION_IMPORTANT_NONE)

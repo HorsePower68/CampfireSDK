@@ -4,6 +4,9 @@ import android.content.Intent
 import com.dzen.campfire.api.models.notifications.publications.NotificationFollowsPublication
 import com.sayzen.campfiresdk.R
 import com.sayzen.campfiresdk.controllers.ControllerNotifications
+import com.sayzen.campfiresdk.controllers.ControllerSettings
+import com.sayzen.campfiresdk.screens.post.view.SPost
+import com.sup.dev.android.libs.screens.navigator.Navigator
 import com.sup.dev.android.tools.ToolsResources
 
 public class NotificationFollowsPublicationParser(override val n: NotificationFollowsPublication) : ControllerNotifications.Parser(n) {
@@ -19,5 +22,11 @@ public class NotificationFollowsPublicationParser(override val n: NotificationFo
             R.string.she_make
     )
     )
+
+    override fun canShow() = ControllerSettings.notificationsFollowsPosts
+
+    override fun doAction() {
+        SPost.instance(n.publicationId, 0, Navigator.TO)
+    }
 
 }

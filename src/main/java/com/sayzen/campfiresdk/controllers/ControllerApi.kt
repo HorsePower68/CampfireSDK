@@ -2,10 +2,8 @@ package com.sayzen.campfiresdk.controllers
 
 import android.graphics.Bitmap
 import android.text.Html
-import android.text.util.Linkify
 import android.widget.TextView
 import com.dzen.campfire.api.API
-import com.dzen.campfire.api.models.publications.PublicationComment
 import com.dzen.campfire.api.models.account.Account
 import com.dzen.campfire.api.models.lvl.LvlInfo
 import com.dzen.campfire.api.models.lvl.LvlInfoAdmin
@@ -14,10 +12,10 @@ import com.dzen.campfire.api.requests.accounts.RAccountsLogout
 import com.dzen.campfire.api.requests.accounts.RAccountsClearReports
 import com.dzen.campfire.api.requests.accounts.RAccountsLoginSimple
 import com.dzen.campfire.api.requests.accounts.RAccountsRegistration
-import com.dzen.campfire.api.requests.units.RUnitsAdminClearReports
-import com.dzen.campfire.api.requests.units.RUnitsOnShare
-import com.dzen.campfire.api.requests.units.RUnitsRemove
-import com.dzen.campfire.api.requests.units.RUnitsReport
+import com.dzen.campfire.api.requests.publications.RPublicationsAdminClearReports
+import com.dzen.campfire.api.requests.publications.RPublicationsOnShare
+import com.dzen.campfire.api.requests.publications.RPublicationsRemove
+import com.dzen.campfire.api.requests.publications.RPublicationsReport
 import com.dzen.campfire.api_media.APIMedia
 import com.dzen.campfire.api_media.requests.RResourcesGet
 import com.dzen.campfire.api_media.requests.RResourcesGetByTag
@@ -39,7 +37,6 @@ import com.sup.dev.android.libs.screens.navigator.NavigationAction
 import com.sup.dev.android.libs.screens.navigator.Navigator
 import com.sup.dev.android.tools.*
 import com.sup.dev.android.views.screens.SAlert
-import com.sup.dev.android.views.views.ViewTextLinkable
 import com.sup.dev.android.views.widgets.WidgetAlert
 import com.sup.dev.android.views.widgets.WidgetField
 import com.sup.dev.android.views.widgets.WidgetMenu
@@ -55,7 +52,6 @@ import com.sup.dev.java.libs.json.JsonArray
 import com.sup.dev.java.tools.ToolsMapper
 import com.sup.dev.java.tools.ToolsThreads
 import java.lang.Exception
-import java.util.regex.Pattern
 
 
 val api: API = API(
@@ -415,126 +411,6 @@ object ControllerApi {
     }
 
     //
-    //  Links
-    //
-
-    fun linkToUser(name: String) = API.LINK_PROFILE_NAME + name
-    fun linkToUser(id: Long) = API.LINK_PROFILE_ID + id
-    fun linkToFandom(fandomId: Long) = API.LINK_FANDOM + fandomId
-    fun linkToFandom(fandomId: Long, languageId: Long) = API.LINK_FANDOM + fandomId + "_" + languageId
-    fun linkToPost(postId: Long) = API.LINK_POST + postId
-    fun linkToReview(reviewId: Long) = API.LINK_REVIEW + reviewId
-    fun linkToModeration(moderationId: Long) = API.LINK_MODERATION + moderationId
-    fun linkToWikiFandomId(fandomId: Long) = API.LINK_WIKI_FANDOM + fandomId
-    fun linkToWikiItemId(itemId: Long) = API.LINK_WIKI_SECTION + itemId
-    fun linkToWikiArticle(itemId: Long) = API.LINK_WIKI_ARTICLE + itemId
-    fun linkToFandomChat(chatId: Long) = API.LINK_FANDOM_CHAT + chatId
-    fun linkToActivity(activityId: Long) = API.LINK_ACTIVITY + activityId
-    fun linkToRubric(rubricId: Long) = API.LINK_RUBRIC + rubricId
-    fun linkToSticker(id: Long) = API.LINK_STICKER + id
-    fun linkToStickersPack(id: Long) = API.LINK_STICKERS_PACK + id
-    fun linkToPostComment(parentPublicationId: Long, commentId: Long) = API.LINK_POST + parentPublicationId + "_" + commentId
-    fun linkToModerationComment(parentPublicationId: Long, commentId: Long) = API.LINK_MODERATION + parentPublicationId + "_" + commentId
-    fun linkToStickersComment(parentPublicationId: Long, commentId: Long) = API.LINK_STICKERS_PACK + parentPublicationId + "_" + commentId
-    fun linkToChat(fandomId: Long) = API.LINK_CHAT + fandomId
-    fun linkToChat(fandomId: Long, languageId: Long) = API.LINK_CHAT + fandomId + "_" + languageId
-    fun linkToChatMessage(messageId: Long, fandomId: Long, languageId: Long) = API.LINK_CHAT + fandomId + "_" + languageId + "_" + messageId
-    fun linkToConf(chatId: Long) = API.LINK_CONF + chatId
-    fun linkToConfMessage(messageId: Long, chatId: Long) = API.LINK_CONF + chatId + "_" + messageId
-    fun linkToEvent(eventId: Long) = API.LINK_EVENT + eventId
-    fun linkToTag(tagId: Long) = API.LINK_TAG + tagId
-    fun linkToComment(comment: PublicationComment) = linkToComment(comment.id, comment.parentPublicationType, comment.parentPublicationId)
-    fun linkToComment(commentId: Long, publicationType: Long, publicationId: Long): String {
-        return when (publicationType) {
-            API.PUBLICATION_TYPE_POST -> linkToPostComment(publicationId, commentId)
-            API.PUBLICATION_TYPE_MODERATION -> linkToModerationComment(publicationId, commentId)
-            API.PUBLICATION_TYPE_STICKERS_PACK -> linkToStickersComment(publicationId, commentId)
-            else -> ""
-        }
-    }
-
-    fun makeLinkable(vText: ViewTextLinkable, onReplace: () -> Unit = {}) {
-
-        replaceLinkable(vText, API.LINK_SHORT_POST_ID, API.LINK_POST)
-        replaceLinkable(vText, API.LINK_SHORT_REVIEW_ID, API.LINK_REVIEW)
-        replaceLinkable(vText, API.LINK_SHORT_CHAT_ID, API.LINK_CHAT)
-        replaceLinkable(vText, API.LINK_SHORT_CONF_ID, API.LINK_CONF)
-        replaceLinkable(vText, API.LINK_SHORT_FANDOM_ID, API.LINK_FANDOM)
-        replaceLinkable(vText, API.LINK_SHORT_PROFILE_ID, API.LINK_PROFILE_ID)
-        replaceLinkable(vText, API.LINK_SHORT_MODERATION_ID, API.LINK_MODERATION)
-        replaceLinkable(vText, API.LINK_SHORT_STICKER, API.LINK_STICKER)
-        replaceLinkable(vText, API.LINK_SHORT_STICKERS_PACK, API.LINK_STICKERS_PACK)
-        replaceLinkable(vText, API.LINK_SHORT_EVENT, API.LINK_EVENT)
-        replaceLinkable(vText, API.LINK_SHORT_TAG, API.LINK_TAG)
-        replaceLinkable(vText, API.LINK_SHORT_RULES_USER, API.LINK_RULES_USER)
-        replaceLinkable(vText, API.LINK_SHORT_RULES_MODER, API.LINK_RULES_MODER)
-        replaceLinkable(vText, API.LINK_SHORT_CREATORS, API.LINK_CREATORS)
-        replaceLinkable(vText, API.LINK_SHORT_ABOUT, API.LINK_ABOUT)
-        replaceLinkable(vText, API.LINK_SHORT_BOX_WITH_FIREWORKS, API.LINK_BOX_WITH_FIREWORKS)
-        replaceLinkable(vText, API.LINK_SHORT_BOX_WITH_SUMMER, API.LINK_BOX_WITH_SUMMER)
-        replaceLinkable(vText, API.LINK_SHORT_BOX_WITH_AUTUMN, API.LINK_BOX_WITH_AUTUMN)
-        replaceLinkable(vText, API.LINK_SHORT_BOX_WITH_WINTER, API.LINK_BOX_WITH_WINTER)
-        replaceLinkable(vText, API.LINK_SHORT_PROFILE, API.LINK_PROFILE_NAME)
-        replaceLinkable(vText, API.LINK_SHORT_WIKI_FANDOM, API.LINK_WIKI_FANDOM)
-        replaceLinkable(vText, API.LINK_SHORT_WIKI_SECTION, API.LINK_WIKI_SECTION)
-        replaceLinkable(vText, API.LINK_SHORT_WIKI_ARTICLE, API.LINK_WIKI_ARTICLE)
-        replaceLinkable(vText, API.LINK_SHORT_FANDOM_CHAT, API.LINK_FANDOM_CHAT)
-        replaceLinkable(vText, API.LINK_SHORT_ACTIVITY, API.LINK_ACTIVITY)
-        replaceLinkable(vText, API.LINK_SHORT_RUBRIC, API.LINK_RUBRIC)
-
-        onReplace.invoke()
-        makeTextHtml(vText)
-
-        makeLinkable(vText, API.LINK_SHORT_POST_ID, API.LINK_POST)
-        makeLinkable(vText, API.LINK_SHORT_REVIEW_ID, API.LINK_REVIEW)
-        makeLinkable(vText, API.LINK_SHORT_CHAT_ID, API.LINK_CHAT)
-        makeLinkable(vText, API.LINK_SHORT_CONF_ID, API.LINK_CONF)
-        makeLinkable(vText, API.LINK_SHORT_FANDOM_ID, API.LINK_FANDOM)
-        makeLinkable(vText, API.LINK_SHORT_PROFILE_ID, API.LINK_PROFILE_ID)
-        makeLinkable(vText, API.LINK_SHORT_MODERATION_ID, API.LINK_MODERATION)
-        makeLinkable(vText, API.LINK_SHORT_WIKI_FANDOM, API.LINK_WIKI_FANDOM)
-        makeLinkable(vText, API.LINK_SHORT_WIKI_SECTION, API.LINK_WIKI_SECTION)
-        makeLinkable(vText, API.LINK_SHORT_WIKI_ARTICLE, API.LINK_WIKI_ARTICLE)
-        makeLinkable(vText, API.LINK_SHORT_FANDOM_CHAT, API.LINK_FANDOM_CHAT)
-        makeLinkable(vText, API.LINK_SHORT_ACTIVITY, API.LINK_ACTIVITY)
-        makeLinkable(vText, API.LINK_SHORT_RUBRIC, API.LINK_RUBRIC)
-        makeLinkable(vText, API.LINK_SHORT_STICKER, API.LINK_STICKER)
-        makeLinkable(vText, API.LINK_SHORT_STICKERS_PACK, API.LINK_STICKERS_PACK)
-        makeLinkable(vText, API.LINK_SHORT_EVENT, API.LINK_EVENT)
-        makeLinkable(vText, API.LINK_SHORT_TAG, API.LINK_TAG)
-        makeLinkableInner(vText, API.LINK_SHORT_RULES_USER, API.LINK_RULES_USER)
-        makeLinkableInner(vText, API.LINK_SHORT_RULES_MODER, API.LINK_RULES_MODER)
-        makeLinkableInner(vText, API.LINK_SHORT_CREATORS, API.LINK_CREATORS)
-        makeLinkableInner(vText, API.LINK_SHORT_ABOUT, API.LINK_ABOUT)
-        makeLinkableInner(vText, API.LINK_SHORT_BOX_WITH_FIREWORKS, API.LINK_BOX_WITH_FIREWORKS)
-        makeLinkableInner(vText, API.LINK_SHORT_BOX_WITH_SUMMER, API.LINK_BOX_WITH_SUMMER)
-        makeLinkableInner(vText, API.LINK_SHORT_BOX_WITH_AUTUMN, API.LINK_BOX_WITH_AUTUMN)
-        makeLinkableInner(vText, API.LINK_SHORT_BOX_WITH_WINTER, API.LINK_BOX_WITH_WINTER)
-        makeLinkable(vText, API.LINK_SHORT_PROFILE, API.LINK_PROFILE_NAME, "([A-Za-z0-9#]+)")
-
-        ToolsView.makeLinksClickable(vText)
-    }
-
-    private fun replaceLinkable(vText: TextView, short: String, link: String) {
-        vText.text = vText.text.toString().replace(link, short)
-    }
-
-    private fun makeLinkableInner(vText: TextView, short: String, link: String) {
-        makeLinkable(vText, short, link, "")
-    }
-
-    private fun makeLinkable(vText: TextView, short: String, link: String) {
-        makeLinkable(vText, short, link, "([A-Za-z0-9_-]+)")
-    }
-
-    private fun makeLinkable(vText: TextView, short: String, link: String, spec: String) {
-        Linkify.addLinks(vText, Pattern.compile("$short$spec"), link, null, { _, url ->
-            link + url.substring(short.length)
-        })
-    }
-
-
-    //
     //  Share
     //
 
@@ -543,8 +419,8 @@ object ControllerApi {
                 .setHint(R.string.app_message)
                 .setOnCancel(R.string.app_cancel)
                 .setOnEnter(R.string.app_share) { _, text ->
-                    ToolsIntent.shareText(text + "\n\r" + linkToPost(publicationId))
-                    ToolsThreads.main(10000) { RUnitsOnShare(publicationId).send(api) }
+                    ToolsIntent.shareText(text + "\n\r" + ControllerLinks.linkToPost(publicationId))
+                    ToolsThreads.main(10000) { RPublicationsOnShare(publicationId).send(api) }
                 }
                 .asSheetShow()
     }
@@ -554,7 +430,7 @@ object ControllerApi {
                 .setHint(R.string.app_message)
                 .setOnCancel(R.string.app_cancel)
                 .setOnEnter(R.string.app_share) { _, text ->
-                    ToolsIntent.shareText(text + "\n\r" + linkToReview(publicationId))
+                    ToolsIntent.shareText(text + "\n\r" + ControllerLinks.linkToReview(publicationId))
                 }
                 .asSheetShow()
     }
@@ -564,16 +440,16 @@ object ControllerApi {
     //
 
     fun reportPublication(publicationId: Long, stringRes: Int, stringResGone: Int) {
-        ApiRequestsSupporter.executeEnabledConfirm(stringRes, R.string.app_report, RUnitsReport(publicationId)) {
+        ApiRequestsSupporter.executeEnabledConfirm(stringRes, R.string.app_report, RPublicationsReport(publicationId)) {
             ToolsToast.show(R.string.app_reported)
             EventBus.post(EventPublicationReportsAdd(publicationId))
         }
-                .onApiError(RUnitsReport.E_ALREADY_EXIST) { ToolsToast.show(R.string.app_report_already_exist) }
+                .onApiError(RPublicationsReport.E_ALREADY_EXIST) { ToolsToast.show(R.string.app_report_already_exist) }
                 .onApiError(API.ERROR_GONE) { ToolsToast.show(stringResGone) }
     }
 
     fun removePublication(publicationId: Long, stringRes: Int, stringResGone: Int, onRemove: () -> Unit = {}) {
-        ApiRequestsSupporter.executeEnabledConfirm(stringRes, R.string.app_remove, RUnitsRemove(publicationId)) {
+        ApiRequestsSupporter.executeEnabledConfirm(stringRes, R.string.app_remove, RPublicationsRemove(publicationId)) {
             EventBus.post(EventPublicationRemove(publicationId))
             ToolsToast.show(R.string.app_removed)
             onRemove.invoke()
@@ -594,7 +470,7 @@ object ControllerApi {
         ApiRequestsSupporter.executeEnabledConfirm(
                 stringRes,
                 R.string.app_clear,
-                RUnitsAdminClearReports(publicationId)
+                RPublicationsAdminClearReports(publicationId)
         ) {
             ToolsToast.show(R.string.app_done)
             EventBus.post(EventPublicationReportsClear(publicationId))
@@ -602,7 +478,7 @@ object ControllerApi {
     }
 
     fun clearReportsPublicationNow(publicationId: Long) {
-        ApiRequestsSupporter.execute(RUnitsAdminClearReports(publicationId)) {
+        ApiRequestsSupporter.execute(RPublicationsAdminClearReports(publicationId)) {
             EventBus.post(EventPublicationReportsClear(publicationId))
         }
     }

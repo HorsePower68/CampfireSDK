@@ -7,6 +7,7 @@ import com.dzen.campfire.api.models.publications.post.PageLink
 import com.sayzen.campfiresdk.R
 import com.sayzen.campfiresdk.controllers.ControllerApi
 import com.sayzen.campfiresdk.controllers.ControllerCampfireSDK
+import com.sayzen.campfiresdk.controllers.ControllerLinks
 import com.sup.dev.android.tools.ToolsAndroid
 import com.sup.dev.android.tools.ToolsToast
 import com.sup.dev.android.views.views.ViewTextLinkable
@@ -24,10 +25,10 @@ class CardPageLink(
         val vLink: ViewTextLinkable = view.findViewById(R.id.vLink)
         val vTouch: View = view.findViewById(R.id.vTouch)
 
-        ControllerApi.makeLinkable(vName)
+        ControllerLinks.makeLinkable(vName)
 
         vTouch.visibility = if (clickable) View.VISIBLE else View.GONE
-        vTouch.setOnClickListener { ControllerCampfireSDK.openLink((page as PageLink).link) }
+        vTouch.setOnClickListener { ControllerLinks.openLink((page as PageLink).link) }
         vTouch.setOnLongClickListener {
             ToolsAndroid.setToClipboard((page as PageLink).link)
             ToolsToast.show(R.string.app_copied)
@@ -37,7 +38,7 @@ class CardPageLink(
         vLink.text = (page as PageLink).link
         vName.text = (page as PageLink).name
 
-        ControllerApi.makeLinkable(vLink)
+        ControllerLinks.makeLinkable(vLink)
     }
 
 

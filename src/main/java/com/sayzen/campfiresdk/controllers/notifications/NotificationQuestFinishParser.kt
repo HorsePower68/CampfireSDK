@@ -5,6 +5,9 @@ import com.dzen.campfire.api.models.notifications.project.NotificationQuestFinis
 import com.sayzen.campfiresdk.R
 import com.sayzen.campfiresdk.app.CampfireConstants
 import com.sayzen.campfiresdk.controllers.ControllerNotifications
+import com.sayzen.campfiresdk.controllers.ControllerSettings
+import com.sayzen.campfiresdk.screens.notifications.SNotifications
+import com.sup.dev.android.libs.screens.navigator.Navigator
 import com.sup.dev.android.tools.ToolsResources
 
 public class NotificationQuestFinishParser(override val n: NotificationQuestFinish) : ControllerNotifications.Parser(n) {
@@ -19,6 +22,12 @@ public class NotificationQuestFinishParser(override val n: NotificationQuestFini
 
     override fun getTitle(): String {
         return ToolsResources.sCap(R.string.notification_quest_finish)
+    }
+
+    override fun canShow() = ControllerSettings.notificationsOther
+
+    override fun doAction() {
+        if (Navigator.getCurrent() !is SNotifications) SNotifications.instance(Navigator.TO)
     }
 
 }

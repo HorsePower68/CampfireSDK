@@ -4,6 +4,8 @@ import android.content.Intent
 import com.dzen.campfire.api.models.notifications.publications.NotificationPublicationReaction
 import com.sayzen.campfiresdk.R
 import com.sayzen.campfiresdk.controllers.ControllerNotifications
+import com.sayzen.campfiresdk.controllers.ControllerPublications
+import com.sayzen.campfiresdk.controllers.ControllerSettings
 import com.sup.dev.android.tools.ToolsResources
 
 public class NotificationUnitReactionParser(override val n: NotificationPublicationReaction) : ControllerNotifications.Parser(n) {
@@ -21,5 +23,12 @@ public class NotificationUnitReactionParser(override val n: NotificationPublicat
             R.string.she_react
     )
     )
+
+    override fun canShow() = ControllerSettings.notificationsCommentsAnswers
+
+    override fun doAction() {
+        ControllerPublications.toPublication(n.parentPublicationType, n.parentPublicationId, n.publicationId)
+    }
+
 
 }

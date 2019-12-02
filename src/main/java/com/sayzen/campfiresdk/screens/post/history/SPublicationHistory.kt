@@ -1,7 +1,7 @@
 package com.sayzen.campfiresdk.screens.post.history
 
 import com.dzen.campfire.api.models.publications.history.HistoryPublication
-import com.dzen.campfire.api.requests.units.RUnitsHistoryGetAll
+import com.dzen.campfire.api.requests.publications.RPublicationsHistoryGetAll
 import com.sayzen.campfiresdk.R
 import com.sayzen.campfiresdk.controllers.api
 import com.sayzen.campfiresdk.models.cards.history.CardHistoryUnit
@@ -21,7 +21,7 @@ class SPublicationHistory(
     override fun instanceAdapter(): RecyclerCardAdapterLoading<CardHistoryUnit, HistoryPublication> {
         return RecyclerCardAdapterLoading<CardHistoryUnit, HistoryPublication>(CardHistoryUnit::class) { CardHistoryUnit(it) }
                 .setBottomLoader { onLoad, cards ->
-                    RUnitsHistoryGetAll(publicationId, cards.size.toLong())
+                    RPublicationsHistoryGetAll(publicationId, cards.size.toLong())
                             .onComplete { r ->
                                 onLoad.invoke(r.history)
                             }

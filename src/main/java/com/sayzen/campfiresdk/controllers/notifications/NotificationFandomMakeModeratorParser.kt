@@ -4,6 +4,9 @@ import android.content.Intent
 import com.dzen.campfire.api.models.notifications.fanom.NotificationFandomMakeModerator
 import com.sayzen.campfiresdk.R
 import com.sayzen.campfiresdk.controllers.ControllerNotifications
+import com.sayzen.campfiresdk.controllers.ControllerSettings
+import com.sayzen.campfiresdk.screens.fandoms.view.SFandom
+import com.sup.dev.android.libs.screens.navigator.Navigator
 import com.sup.dev.android.tools.ToolsResources
 
 
@@ -15,5 +18,11 @@ public class NotificationFandomMakeModeratorParser(override val n: NotificationF
 
     override fun asString(html: Boolean) =
             ToolsResources.sCap(R.string.notifications_fandom_make_moderator, n.fandomName)
+
+    override fun canShow() = ControllerSettings.notificationsOther
+
+    override fun doAction() {
+        SFandom.instance(n.fandomId, n.languageId, Navigator.TO)
+    }
 
 }

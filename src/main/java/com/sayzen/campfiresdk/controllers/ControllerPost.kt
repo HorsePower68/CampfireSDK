@@ -438,7 +438,7 @@ object ControllerPost {
     }
 
     private fun copyLink(publication: Publication) {
-        ToolsAndroid.setToClipboard(ControllerApi.linkToPost(publication.id))
+        ToolsAndroid.setToClipboard(ControllerLinks.linkToPost(publication.id))
         ToolsToast.show(R.string.app_copied)
     }
 

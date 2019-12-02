@@ -4,6 +4,9 @@ import android.content.Intent
 import com.dzen.campfire.api.models.notifications.account.NotificationPunishmentRemove
 import com.sayzen.campfiresdk.R
 import com.sayzen.campfiresdk.controllers.ControllerNotifications
+import com.sayzen.campfiresdk.controllers.ControllerSettings
+import com.sayzen.campfiresdk.screens.notifications.SNotifications
+import com.sup.dev.android.libs.screens.navigator.Navigator
 import com.sup.dev.android.tools.ToolsResources
 
 public class NotificationPunishmentRemoveParser(override val n: NotificationPunishmentRemove) : ControllerNotifications.Parser(n) {
@@ -19,5 +22,11 @@ public class NotificationPunishmentRemoveParser(override val n: NotificationPuni
             R.string.she_remove
     )
     )
+
+    override fun canShow() = ControllerSettings.notificationsOther
+
+    override fun doAction() {
+        if (Navigator.getCurrent() !is SNotifications) SNotifications.instance(Navigator.TO)
+    }
 
 }

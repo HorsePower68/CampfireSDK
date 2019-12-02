@@ -4,6 +4,9 @@ import android.content.Intent
 import com.dzen.campfire.api.models.notifications.rubrics.NotificationRubricsMakeOwner
 import com.sayzen.campfiresdk.R
 import com.sayzen.campfiresdk.controllers.ControllerNotifications
+import com.sayzen.campfiresdk.controllers.ControllerSettings
+import com.sayzen.campfiresdk.screens.fandoms.moderation.view.SModerationView
+import com.sup.dev.android.libs.screens.navigator.Navigator
 import com.sup.dev.android.tools.ToolsResources
 import com.sup.dev.java.tools.ToolsHTML
 import com.sup.dev.java.tools.ToolsText
@@ -21,4 +24,11 @@ public class NotificationRubricsMakeOwnerParser(override val n: NotificationRubr
     override fun getTitle(): String {
         return ToolsResources.sCap(R.string.notification_rubric_make_owner, n.adminName, ToolsResources.sex(n.adminSex, R.string.he_make, R.string.she_make), n.rubricName)
     }
+
+    override fun canShow() = ControllerSettings.notificationsOther
+
+    override fun doAction() {
+        SModerationView.instance(n.moderationId, Navigator.TO)
+    }
+
 }

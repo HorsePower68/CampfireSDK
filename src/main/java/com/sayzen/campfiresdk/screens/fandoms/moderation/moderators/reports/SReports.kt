@@ -1,7 +1,7 @@
 package com.sayzen.campfiresdk.screens.fandoms.moderation.moderators.reports
 
 import com.dzen.campfire.api.models.publications.Publication
-import com.dzen.campfire.api.requests.units.RUnitsReportedGetAll
+import com.dzen.campfire.api.requests.publications.RPublicationsReportedGetAll
 import com.sayzen.campfiresdk.R
 import com.sayzen.campfiresdk.models.cards.CardPublication
 import com.sayzen.campfiresdk.models.events.publications.EventPublicationReportsClear
@@ -28,7 +28,7 @@ class SReports(
     override fun instanceAdapter(): RecyclerCardAdapterLoading<CardPublication, Publication> {
         return RecyclerCardAdapterLoading<CardPublication, Publication>(CardPublication::class) { CardPublication.instance(it, null, false, false) }
                 .setBottomLoader { onLoad, cards ->
-                    RUnitsReportedGetAll(fandomId, arrayOf(languageId), cards.size.toLong())
+                    RPublicationsReportedGetAll(fandomId, arrayOf(languageId), cards.size.toLong())
                             .onComplete { r -> onLoad.invoke(r.publications) }
                             .onNetworkError { onLoad.invoke(null) }
                             .send(api)

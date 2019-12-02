@@ -5,6 +5,7 @@ import com.dzen.campfire.api.API
 import com.dzen.campfire.api.models.publications.Rate
 import com.sayzen.campfiresdk.R
 import com.sayzen.campfiresdk.controllers.ControllerApi
+import com.sayzen.campfiresdk.controllers.ControllerLinks
 import com.sayzen.campfiresdk.controllers.ControllerPublications
 import com.sayzen.campfiresdk.screens.fandoms.moderation.view.SModerationView
 import com.sayzen.campfiresdk.screens.fandoms.reviews.SReviews
@@ -31,32 +32,32 @@ class CardRate(
         when (rate.publicationType) {
             API.PUBLICATION_TYPE_POST -> {
                 textR = R.string.profile_rate_post
-                link = ControllerApi.linkToPost(rate.publicationId)
+                link = ControllerLinks.linkToPost(rate.publicationId)
                 setOnClick { SPost.instance(rate.publicationId, Navigator.TO) }
             }
             API.PUBLICATION_TYPE_COMMENT -> {
                 textR = R.string.profile_rate_comment
-                link = ControllerApi.linkToComment(rate.publicationId, rate.publicationParentType, rate.publicationParentId)
+                link = ControllerLinks.linkToComment(rate.publicationId, rate.publicationParentType, rate.publicationParentId)
                 setOnClick { ControllerPublications.toPublication(rate.publicationParentType, rate.publicationParentId, rate.publicationId) }
             }
             API.PUBLICATION_TYPE_MODERATION -> {
                 textR = R.string.profile_rate_moderation
-                link = ControllerApi.linkToModeration(rate.publicationId)
+                link = ControllerLinks.linkToModeration(rate.publicationId)
                 setOnClick { SModerationView.instance(rate.publicationId, Navigator.TO) }
             }
             API.PUBLICATION_TYPE_REVIEW -> {
                 textR = R.string.profile_rate_review
-                link = ControllerApi.linkToReview(rate.publicationId)
+                link = ControllerLinks.linkToReview(rate.publicationId)
                 setOnClick { SReviews.instance(rate.publicationParentId, rate.publicationId, Navigator.TO) }
             }
             API.PUBLICATION_TYPE_STICKER -> {
                 textR = R.string.profile_rate_sticker
-                link = ControllerApi.linkToSticker(rate.publicationId)
+                link = ControllerLinks.linkToSticker(rate.publicationId)
                 setOnClick { SStickersView.instanceBySticker(rate.publicationId, Navigator.TO) }
             }
             API.PUBLICATION_TYPE_STICKERS_PACK -> {
                 textR = R.string.profile_rate_stikers_pack
-                link = ControllerApi.linkToStickersPack(rate.publicationId)
+                link = ControllerLinks.linkToStickersPack(rate.publicationId)
                 setOnClick { SStickersView.instance(rate.publicationId, Navigator.TO) }
             }
             else -> {
@@ -83,7 +84,7 @@ class CardRate(
     }
 
     override fun onBind(vAvatar: ViewAvatarTitle) {
-        ControllerApi.makeLinkable(vAvatar.vTitle)
+        ControllerLinks.makeLinkable(vAvatar.vTitle)
         ToolsImagesLoader.load(rate.fandomImageId).into(vAvatar.vAvatar.vImageView)
     }
 

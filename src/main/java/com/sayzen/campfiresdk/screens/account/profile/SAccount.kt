@@ -10,7 +10,7 @@ import com.dzen.campfire.api.API
 import com.dzen.campfire.api.models.publications.Publication
 import com.dzen.campfire.api.models.publications.post.PublicationPost
 import com.dzen.campfire.api.requests.accounts.*
-import com.dzen.campfire.api.requests.units.RUnitsGetAll
+import com.dzen.campfire.api.requests.publications.RPublicationsGetAll
 import com.sayzen.campfiresdk.R
 import com.sayzen.campfiresdk.adapters.XAccount
 import com.sayzen.campfiresdk.controllers.*
@@ -120,7 +120,7 @@ class SAccount private constructor(
 
         adapter = RecyclerCardAdapterLoading<CardPublication, Publication>(CardPublication::class) { publication -> CardPublication.instance(publication, vRecycler, true, isShowFullInfo = true) }
                 .setBottomLoader { onLoad, cards ->
-                    val r = RUnitsGetAll()
+                    val r = RPublicationsGetAll()
                             .setAccountId(r.account.id)
                             .setOffset(cards.size)
                             .setPublicationTypes(ControllerSettings.getProfileFilters())
@@ -191,7 +191,7 @@ class SAccount private constructor(
     private fun showDialog() {
         val w = WidgetMenu()
                 .add(R.string.app_copy_link) { _, _ ->
-                    ToolsAndroid.setToClipboard(ControllerApi.linkToUser(xAccount.name))
+                    ToolsAndroid.setToClipboard(ControllerLinks.linkToUser(xAccount.name))
                     ToolsToast.show(R.string.app_copied)
                 }
                 .groupCondition(ControllerApi.account.id != xAccount.accountId)

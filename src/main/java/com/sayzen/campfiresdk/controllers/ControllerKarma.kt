@@ -1,7 +1,7 @@
 package com.sayzen.campfiresdk.controllers
 
 import com.dzen.campfire.api.API
-import com.dzen.campfire.api.requests.units.RUnitsKarmaAdd
+import com.dzen.campfire.api.requests.publications.RPublicationsKarmaAdd
 import com.sayzen.campfiresdk.R
 import com.sayzen.campfiresdk.app.CampfireConstants
 import com.sayzen.campfiresdk.models.events.publications.EventPublicationKarmaAdd
@@ -52,12 +52,12 @@ object ControllerKarma {
 
         init {
             subscription = ToolsThreads.main(CampfireConstants.RATE_TIME) {
-                ApiRequestsSupporter.execute(RUnitsKarmaAdd(publicationId, up, ControllerApi.getLanguageId(), anon)) { r ->
+                ApiRequestsSupporter.execute(RPublicationsKarmaAdd(publicationId, up, ControllerApi.getLanguageId(), anon)) { r ->
                     EventBus.post(EventPublicationKarmaAdd(publicationId, r.myKarmaCount))
                     ControllerStoryQuest.incrQuest(API.QUEST_STORY_KARMA)
                 }
-                    .onApiError(RUnitsKarmaAdd.E_SELF_PUBLICATION) { ToolsToast.show(R.string.error_rate_self_publication) }
-                    .onApiError(RUnitsKarmaAdd.E_CANT_DOWN) { ToolsToast.show(R.string.error_rate_cant_down) }
+                    .onApiError(RPublicationsKarmaAdd.E_SELF_PUBLICATION) { ToolsToast.show(R.string.error_rate_self_publication) }
+                    .onApiError(RPublicationsKarmaAdd.E_CANT_DOWN) { ToolsToast.show(R.string.error_rate_cant_down) }
                     .onFinish {
                         if(rates[publicationId] == this) rates.remove(publicationId)
                         clearRate()

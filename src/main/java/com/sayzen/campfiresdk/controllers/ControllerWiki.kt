@@ -60,8 +60,8 @@ object ControllerWiki {
     }
 
     private fun copyLink(wikiTitle: WikiTitle){
-        if (wikiTitle.itemType == API.WIKI_TYPE_ARTICLE) ToolsAndroid.setToClipboard(ControllerApi.linkToWikiArticle(wikiTitle.itemId))
-        else ToolsAndroid.setToClipboard(ControllerApi.linkToWikiItemId(wikiTitle.itemId))
+        if (wikiTitle.itemType == API.WIKI_TYPE_ARTICLE) ToolsAndroid.setToClipboard(ControllerLinks.linkToWikiArticle(wikiTitle.itemId))
+        else ToolsAndroid.setToClipboard(ControllerLinks.linkToWikiItemId(wikiTitle.itemId))
         ToolsToast.show(R.string.app_copied)
     }
 

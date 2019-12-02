@@ -3,7 +3,7 @@ package com.sayzen.campfiresdk.screens.activities.administration.admins_events
 import com.dzen.campfire.api.API
 import com.dzen.campfire.api.models.publications.Publication
 import com.dzen.campfire.api.models.publications.events_admins.PublicationEventAdmin
-import com.dzen.campfire.api.requests.units.RUnitsGetAll
+import com.dzen.campfire.api.requests.publications.RPublicationsGetAll
 import com.sayzen.campfiresdk.R
 import com.sayzen.campfiresdk.controllers.api
 import com.sayzen.campfiresdk.models.cards.events.CardPublicationEventAdmin
@@ -21,10 +21,10 @@ class SAdministrationAdminsEvents : SLoadingRecycler<CardPublicationEventAdmin, 
     override fun instanceAdapter(): RecyclerCardAdapterLoading<CardPublicationEventAdmin, Publication> {
         return RecyclerCardAdapterLoading<CardPublicationEventAdmin, Publication>(CardPublicationEventAdmin::class) { publication -> CardPublicationEventAdmin(publication as PublicationEventAdmin) }
                 .setBottomLoader { onLoad, cards ->
-                    RUnitsGetAll()
+                    RPublicationsGetAll()
                             .setOffset(cards.size)
                             .setPublicationTypes(API.PUBLICATION_TYPE_EVENT_ADMIN)
-                            .setOrder(RUnitsGetAll.ORDER_NEW)
+                            .setOrder(RPublicationsGetAll.ORDER_NEW)
                             .setIncludeZeroLanguages(true)
                             .setIncludeMultilingual(true)
                             .onComplete { rr -> onLoad.invoke(rr.publications) }
