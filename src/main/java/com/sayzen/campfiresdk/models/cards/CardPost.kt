@@ -296,17 +296,27 @@ class CardPost constructor(
 
         val vPagesCount: TextView = getView()!!.findViewById(R.id.vPagesCount)
         val vMaxSizes: LayoutMaxSizes = getView()!!.findViewById(R.id.vMaxSizes)
-        val vPagesContainer: ViewGroup = getView()!!.findViewById(R.id.vPagesContainer)
+
+        vMaxSizes.onMeasureFinish = { updateShowAllUpdateCounter() }
 
         if (isShowFull) vPagesCount.text = ToolsResources.s(R.string.app_hide)
         else vPagesCount.text = "${ToolsResources.s(R.string.app_show_all)} (${publication.pages.size})"
 
         vMaxSizes.setMaxHeight(if (isShowFull) 50000 else 300)
 
+        updateShowAllUpdateCounter()
+    }
+
+    private fun updateShowAllUpdateCounter(){
+        if (getView() == null) return
+        val publication = xPublication.publication as PublicationPost
+
+        val vPagesCount: TextView = getView()!!.findViewById(R.id.vPagesCount)
+        val vMaxSizes: LayoutMaxSizes = getView()!!.findViewById(R.id.vMaxSizes)
+
         ToolsThreads.main(true) {
             vPagesCount.visibility = if (publication.pages.size > 2 || vMaxSizes.isCroppedH()) View.VISIBLE else View.INVISIBLE
         }
-
     }
 
 

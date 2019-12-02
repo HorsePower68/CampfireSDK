@@ -43,11 +43,25 @@
                 android:id="@+id/vRelayRace"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                app:Settings_lineVisible="false"
                 app:Settings_title="@string/post_create_relay_race"/>
 
 
         </LinearLayout>
 
     </androidx.core.widget.NestedScrollView>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="end"
+        android:layout_margin="8dp"
+        android:orientation="horizontal">
+
+        <com.sup.dev.android.views.views.ViewButton
+            android:id="@+id/vEnter"
+            style="@style/Button.Text"/>
+
+    </LinearLayout>
 
 </LinearLayout>

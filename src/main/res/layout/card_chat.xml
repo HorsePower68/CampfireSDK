@@ -79,11 +79,7 @@
 
         </LinearLayout>
 
-
     </FrameLayout>
 
-    <View
-        style="@style/Divider"
-        android:layout_gravity="bottom" />
 
 </com.sup.dev.android.views.views.ViewSwipe>

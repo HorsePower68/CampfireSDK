@@ -49,10 +49,14 @@ class CardKarmaCof(
                 .setHint_1(R.string.app_coefficient)
                 .setLinesCount_1(1)
                 .addChecker_1(R.string.error_incorrect_value) {
-                    if (it.length > 4) return@addChecker_1 false
+                    if (it.length > 4) {
+                        return@addChecker_1 false
+                    }
                     try {
                         val v = (it.toDouble() * 100).toLong()
-                        if (v < API.FANDOM_KARMA_COF_MIN || v > API.FANDOM_KARMA_COF_MAX) return@addChecker_1 false
+                        if (v < API.FANDOM_KARMA_COF_MIN || v > API.FANDOM_KARMA_COF_MAX) {
+                            return@addChecker_1 false
+                        }
                     } catch (e: Exception) {
                         return@addChecker_1 false
                     }
@@ -62,7 +66,9 @@ class CardKarmaCof(
                 .addChecker_1("") {
                     try {
                         val v = (it.toDouble() * 100).toLong()
-                        if (v == fandom.karmaCof)  return@addChecker_1 false
+                        if (v == fandom.karmaCof) {
+                            return@addChecker_1 false
+                        }
                     } catch (e: Exception) {
                         return@addChecker_1 false
                     }

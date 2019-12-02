@@ -199,12 +199,20 @@
 
                     </LinearLayout>
 
-                    <com.sup.dev.android.views.views.ViewIcon
-                        android:id="@+id/vSend"
-                        style="@style/Icon"
-                        android:layout_gravity="bottom"
-                        app:ViewIcon_filter="?toolbar_content_color"
-                        android:src="?ic_send_24dp" />
+                    <FrameLayout
+                        android:id="@+id/vSendContainer"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent">
+
+                        <com.sup.dev.android.views.views.ViewIcon
+                            android:id="@+id/vSend"
+                            style="@style/Icon"
+                            android:layout_gravity="bottom"
+                            app:ViewIcon_filter="?toolbar_content_color"
+                            android:src="?ic_send_24dp" />
+
+                    </FrameLayout>
+
 
                 </LinearLayout>
 

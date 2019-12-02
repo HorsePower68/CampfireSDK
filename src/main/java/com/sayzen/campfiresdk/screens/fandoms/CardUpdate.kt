@@ -17,10 +17,10 @@ class CardUpdate : Card(R.layout.screen_fandom_card_update) {
     override fun bindView(view: View) {
         super.bindView(view)
 
-        view.visibility = if (ControllerApi.isOldVersion()) View.VISIBLE else View.GONE
-
+        val vContainer:View = view.findViewById(R.id.vContainer)
         val vUpdate: TextView = view.findViewById(R.id.vUpdate)
 
+        vContainer.visibility = if (ControllerApi.isOldVersion()) View.VISIBLE else View.GONE
         vUpdate.setOnClickListener { ToolsIntent.startPlayMarket(SupAndroid.appId) }
 
 

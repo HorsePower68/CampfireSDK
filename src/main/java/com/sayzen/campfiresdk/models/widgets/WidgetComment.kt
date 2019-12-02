@@ -2,6 +2,7 @@ package com.sayzen.campfiresdk.models.widgets
 
 import androidx.recyclerview.widget.RecyclerView
 import android.view.View
+import android.view.ViewGroup
 import com.dzen.campfire.api.API
 import com.dzen.campfire.api.models.publications.PublicationComment
 import com.dzen.campfire.api.models.publications.stickers.PublicationSticker
@@ -48,6 +49,8 @@ class WidgetComment constructor(
     private val vAttachRecycler: RecyclerView = findViewById(R.id.vAttachRecycler)
     private val vText: ViewEditTextMedia = findViewById(R.id.vText)
     private val vQuoteText: ViewTextLinkable = findViewById(R.id.vQuoteText)
+    private val vFieldContainer: ViewGroup = findViewById(R.id.vFieldContainer)
+    private val vSendContainer: ViewGroup = findViewById(R.id.vSendContainer)
 
     private var attach = Attach(vAttach, vAttachRecycler,
             { updateSendEnabled() },
@@ -82,6 +85,22 @@ class WidgetComment constructor(
         vSend.setOnClickListener { onSendClicked() }
         vSend.setImageResource(ToolsResources.getDrawableAttrId(if (changeComment == null) R.attr.ic_send_24dp else R.attr.ic_done_24dp))
         vAttach.visibility = if (changeComment == null) View.VISIBLE else View.GONE
+
+
+        vFieldContainer.addOnLayoutChangeListener { v, left, top, right, bottom, oldLeft, oldTop, oldRight, oldBottom ->
+            if(vFieldContainer.height >= ToolsView.dpToPx(130)){
+                if(vFieldContainer.indexOfChild(vAttach) != -1){
+                    vSendContainer.addView(ToolsView.removeFromParent(vAttach), 0)
+                    vText.requestLayout()
+                }
+            } else if(vFieldContainer.height <= ToolsView.dpToPx(100)){
+                if(vSendContainer.indexOfChild(vAttach) != -1){
+                    vFieldContainer.addView(ToolsView.removeFromParent(vAttach), 0)
+                    vText.requestLayout()
+                }
+            }
+        }
+
         updateSendEnabled()
     }
 

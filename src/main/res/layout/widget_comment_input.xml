@@ -25,6 +25,7 @@
         android:layout_marginBottom="4dp"/>
 
     <LinearLayout
+        android:id="@+id/vFieldContainer"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="4dp"
@@ -51,11 +52,19 @@
             android:inputType="textCapSentences|textMultiLine|textAutoCorrect|textAutoComplete"
             android:maxLines="9"/>
 
-        <com.sup.dev.android.views.views.ViewIcon
-            android:id="@+id/vSend"
-            style="@style/Icon"
-            android:layout_gravity="bottom"
-            android:src="?ic_send_24dp"/>
+        <FrameLayout
+            android:id="@+id/vSendContainer"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent">
+
+            <com.sup.dev.android.views.views.ViewIcon
+                android:id="@+id/vSend"
+                style="@style/Icon"
+                android:layout_gravity="bottom"
+                android:src="?ic_send_24dp"/>
+
+        </FrameLayout>
+
 
     </LinearLayout>
 

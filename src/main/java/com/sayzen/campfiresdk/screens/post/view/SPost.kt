@@ -49,7 +49,6 @@ class SPost constructor(
                 else if (it.messageError == RPostGet.GONE_DRAFT)  SAlert.showMessage(R.string.post_error_gone_draft, R.string.app_back, SupAndroid.IMG_ERROR_GONE, action)
                 else if (it.messageError == RPostGet.GONE_REMOVE) SAlert.showMessage(R.string.post_error_gone_remove, R.string.app_back, SupAndroid.IMG_ERROR_GONE, action)
                 else SAlert.showMessage(R.string.post_error_gone, R.string.app_back, SupAndroid.IMG_ERROR_GONE, action)
-
             }
         }
     }

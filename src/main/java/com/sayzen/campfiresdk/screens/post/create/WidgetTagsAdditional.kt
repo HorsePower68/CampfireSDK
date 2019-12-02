@@ -1,5 +1,6 @@
 package com.sayzen.campfiresdk.screens.post.create
 
+import android.widget.Button
 import com.sayzen.campfiresdk.R
 import com.sayzen.campfiresdk.controllers.ControllerApi
 import com.sayzen.campfiresdk.screens.activities.user_activities.SUserActivitiesList
@@ -34,13 +35,16 @@ class WidgetTagsAdditional(
     private val vClose: SettingsCheckBox = findViewById(R.id.vClose)
     private val vRubric: Settings = findViewById(R.id.vRubric)
     private val vRelayRace: Settings = findViewById(R.id.vRelayRace)
+    private val vEnter: Button = findViewById(R.id.vEnter)
 
     init {
         vNotifyFollowers.isEnabled = publicationTag3 == 0L
         vNotifyFollowers.setChecked(false)
         vPending.setChecked(false)
         vClose.setChecked(closed)
+        vEnter.setText(R.string.app_ok)
 
+        vEnter.setOnClickListener { hide() }
         vPending.setOnClickListener { onPendingClicked() }
         vRubric.setOnClickListener { onRubricClicked() }
         vRelayRace.setOnClickListener { onRelayRaceClicked() }

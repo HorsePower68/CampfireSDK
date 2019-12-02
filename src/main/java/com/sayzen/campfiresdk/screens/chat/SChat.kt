@@ -265,10 +265,11 @@ class SChat private constructor(
                                         adapter!!.add(carSpace)
                                         if (r.publications.isNotEmpty()) EventBus.post(EventChatNewBottomMessage(tag, r.publications[r.publications.size - 1]))
                                         ToolsThreads.main(true) {
-                                            for (c in addAfterLoadList) addMessage(c, true)
+                                            while (addAfterLoadList.isNotEmpty()) addMessage(addAfterLoadList.removeAt(0), true)
                                         }
-                                        if(r.publications.isEmpty() || r.publications.size < RChatMessageGetAll.COUNT){
+                                        if (r.publications.isEmpty() || r.publications.size < RChatMessageGetAll.COUNT) {
                                             loaded = true
+                                            adapter!!.setShowLoadingCardBottom(false)
                                             EventBus.post(EventChatRead(tag))
                                             adapter!!.lockBottom()
                                         }
@@ -292,7 +293,7 @@ class SChat private constructor(
                 for (c in adapter.get(CardChatMessage::class)) {
                     if (c.xPublication.publication.id == scrollToMessageId) {
                         scrollToMessageId = 0
-                        ToolsView.scrollRecycler(vRecycler, adapter.indexOf(c)+1)
+                        ToolsView.scrollRecycler(vRecycler, adapter.indexOf(c) + 1)
                         ToolsThreads.main(500) { c.flash() }
                     }
                 }
@@ -392,7 +393,7 @@ class SChat private constructor(
 
 
     override fun onBackPressed(): Boolean {
-        if (fieldLogic.publivationChange != null) {
+        if (fieldLogic.publicationChange != null) {
             fieldLogic.setChange(null)
             return true
         }

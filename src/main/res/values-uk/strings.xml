@@ -215,6 +215,7 @@
     <string name="app_ok">Ок</string>
     <string name="app_gif">Gif</string>
     <string name="app_images">Изображения</string>
+    <string name="app_you">Вы</string>
 
     <string name="he">Он</string>
     <string name="she">Она</string>
@@ -428,7 +429,7 @@
     <string name="moderation_text_link_add">%s ссылку фэндома.</string>
     <string name="moderation_text_link_remove">%s ссылку фэндома.</string>
     <string name="moderation_text_title_image">%s фоновое изображение.</string>
-    <string name="moderation_text_importance_mark">%s публикацию как важную.</string>
+    <string name="moderation_text_importance_mark">%s пост как важный.</string>
     <string name="moderation_text_importance_unmark">%s метку важности с публикации</string>
     <string name="moderation_text_to_drafts">%s пост пользователя %s в черновики</string>
     <string name="moderation_text_multilingual_not">%s пост пользователя %s не мультиязычным</string>
@@ -1638,9 +1639,6 @@
 
     <string name="campfire_hello_annotation">Пост создан автоматически, поприветствуем нового пользователя Campfire</string>
     <string name="campfire_hello_1">Всем привет, я %s.</string>
-
-    <string name="holiday_campfire_birthday_title">День рождения Campfire.</string>
-    <string name="holiday_campfire_birthday_text">В 2016 году, в этот день зародился Campfire.</string>
 
     <string name="about_about">О приложении</string>
     <string name="about_rules_user">Правила приложения</string>

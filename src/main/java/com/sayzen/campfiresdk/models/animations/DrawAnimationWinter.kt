@@ -71,7 +71,7 @@ class DrawAnimationWinter : DrawAnimation() {
             y =  ToolsMath.randomFloat(0f, h)
             rs = ToolsMath.randomFloat(ToolsView.dpToPx(1), ToolsView.dpToPx(3))
             ass = ToolsMath.randomFloat(1f, 3f)
-            alphaMax = ToolsMath.randomFloat(50f, 150f)
+            alphaMax = ToolsMath.randomFloat(50f, 100f)
             rMax = ToolsMath.randomFloat(ToolsView.dpToPx(150), ToolsView.dpToPx(300))
             rotate = ToolsMath.randomFloat(0f, 90f)
             rotateS = ToolsMath.randomFloat(5f, 20f)

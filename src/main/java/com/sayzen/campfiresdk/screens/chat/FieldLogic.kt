@@ -50,6 +50,7 @@ class FieldLogic(
     val vVoicePlay: ViewIcon = screen.findViewById(R.id.vVoicePlay)
     val vVoiceRemove: ViewIcon = screen.findViewById(R.id.vVoiceRemove)
     val vVoiceLabel: TextView = screen.findViewById(R.id.vVoiceLabel)
+    val vSendContainer: ViewGroup = screen.findViewById(R.id.vSendContainer)
 
     val attach = Attach(vAttach, vAttachRecycler, { updateAction() }, {}, { sendSticker(it) })
     private val utilsAudioPlayer = UtilsAudioPlayer()
@@ -57,7 +58,7 @@ class FieldLogic(
     private var lastTypingSent = 0L
     private var isRecording = false
     private var publicationAnswer: PublicationChatMessage? = null
-    var publivationChange: PublicationChatMessage? = null
+    var publicationChange: PublicationChatMessage? = null
     private var quoteText = ""
     private var quoteId = 0L
     private var voiceBytes: ByteArray? = null
@@ -95,8 +96,23 @@ class FieldLogic(
             else startMyVoice()
         }
 
+        vFieldContainer.addOnLayoutChangeListener { v, left, top, right, bottom, oldLeft, oldTop, oldRight, oldBottom ->
+            if(vFieldContainer.height >= ToolsView.dpToPx(130)){
+                if(vFieldContainer.indexOfChild(vAttach) != -1){
+                    vSendContainer.addView(ToolsView.removeFromParent(vAttach), 0)
+                    vText.requestLayout()
+                }
+            } else if(vFieldContainer.height <= ToolsView.dpToPx(100)){
+                if(vSendContainer.indexOfChild(vAttach) != -1){
+                    vFieldContainer.addView(ToolsView.removeFromParent(vAttach), 0)
+                    vText.requestLayout()
+                }
+            }
+        }
+
         updateMedieEditText()
         onTextChanged()
+
     }
 
     private fun stopMyVoice() {
@@ -149,8 +165,8 @@ class FieldLogic(
     }
 
     private fun updateAction() {
-        vSend.visibility = if (vText.text.toString().isNotEmpty() || attach.isHasContent() || quoteId != 0L || publivationChange != null || voiceBytes != null) View.VISIBLE else View.GONE
-        vVoiceRecorder.visibility = if (vText.text.toString().isNotEmpty() || attach.isHasContent() || quoteId != 0L || publivationChange != null || voiceBytes != null) View.GONE else View.VISIBLE
+        vSend.visibility = if (vText.text.toString().isNotEmpty() || attach.isHasContent() || quoteId != 0L || publicationChange != null || voiceBytes != null) View.VISIBLE else View.GONE
+        vVoiceRecorder.visibility = if (vText.text.toString().isNotEmpty() || attach.isHasContent() || quoteId != 0L || publicationChange != null || voiceBytes != null) View.GONE else View.VISIBLE
 
         if (isRecording || voiceBytes != null) vFieldContainer.visibility = View.GONE
         else vFieldContainer.visibility = View.VISIBLE
@@ -185,7 +201,7 @@ class FieldLogic(
 
         if (text.isEmpty() && !attach.isHasContent()) return
 
-        if (publivationChange == null) {
+        if (publicationChange == null) {
             if (attach.isHasContent()) sendImage(text, parentId)
             else if (ToolsText.isWebLink(text)) sendLink(text, parentId, true)
             else sendText(text, parentId)
@@ -206,8 +222,8 @@ class FieldLogic(
     }
 
     fun setChange(publicationChange: PublicationChatMessage?) {
-        if (this.publivationChange != null && publicationChange == null) vText.setText(null)
-        this.publivationChange = publicationChange
+        if (this.publicationChange != null && publicationChange == null) vText.setText(null)
+        this.publicationChange = publicationChange
 
         updateMedieEditText()
 
@@ -222,7 +238,7 @@ class FieldLogic(
     }
 
     fun updateMedieEditText() {
-        if (publivationChange == null) vText.setCallback { link -> sendLink(link, getParentId(), false) }
+        if (publicationChange == null) vText.setCallback { link -> sendLink(link, getParentId(), false) }
         else vText.setCallback(null)
     }
 
@@ -242,7 +258,7 @@ class FieldLogic(
     private fun sendChange(text: String) {
         val quoteIdV = quoteId
         val quoteTextV = quoteText
-        val publicationChangeId = publivationChange!!.id
+        val publicationChangeId = publicationChange!!.id
         beforeSend()
         ToolsToast.show(R.string.app_changed)
         ApiRequestsSupporter.execute(RChatMessageChange(publicationChangeId, quoteIdV, text)) {

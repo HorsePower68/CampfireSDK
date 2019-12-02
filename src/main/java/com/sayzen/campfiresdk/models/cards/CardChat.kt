@@ -74,7 +74,7 @@ class CardChat(
         vAvatar.vSubtitle.setSingleLine()
         vAvatar.vAvatar.vChip.setText("")
         vAvatar.vAvatar.setChipIcon(0)
-        vAvatar.vAvatar.setOnClickListener {  }
+        vAvatar.vAvatar.setOnClickListener { }
 
         val hasUnread = !ControllerApi.isCurrentAccount(chat.unitChatMessage.creatorId)
                 || ControllerChats.isRead(chat.tag, chat.unitChatMessage.dateCreate)
@@ -82,7 +82,7 @@ class CardChat(
 
         vNotRead.visibility = if (hasUnread) View.GONE else View.VISIBLE
 
-        vSwipe.onClick =  { _, _ -> if (onSelected != null) onSelected!!.invoke(chat) else SChat.instance(chat.tag, setStack, Navigator.TO) }
+        vSwipe.onClick = { _, _ -> if (onSelected != null) onSelected!!.invoke(chat) else SChat.instance(chat.tag, setStack, Navigator.TO) }
         vSwipe.onLongClick = { _, _ -> ControllerChats.instanceChatPopup(chat.tag, chat.params, chat.anotherAccountImageId, null).asSheetShow() }
         vSwipe.onSwipe = { if (hasUnread) ControllerChats.readRequest(chat.tag) }
 
@@ -107,7 +107,12 @@ class CardChat(
             if (text != null)
                 vAvatar.setSubtitle(text)
             else {
-                var t = if(chat.unitChatMessage.creatorName.isNotEmpty())chat.unitChatMessage.creatorName + ": " else ""
+                var t = if (chat.unitChatMessage.creatorName.isNotEmpty()) chat.unitChatMessage.creatorName + ": " else ""
+                if (ControllerApi.isCurrentAccount((chat.unitChatMessage.creatorId))) t = ToolsResources.s(R.string.app_you) + ": "
+                if (chat.tag.chatType == API.CHAT_TYPE_PRIVATE) {
+                    if (!ControllerApi.isCurrentAccount((chat.unitChatMessage.creatorId))) t = ""
+                }
+
                 t += when {
                     chat.unitChatMessage.resourceId > 0 -> ToolsResources.s(R.string.app_image)
                     chat.unitChatMessage.voiceResourceId > 0 -> ToolsResources.s(R.string.app_voice_message)
@@ -125,7 +130,7 @@ class CardChat(
         }
 
         val messagesCount: Int = ControllerChats.getMessagesCount(chat.tag)
-        if(messagesCount > 9) vMessagesCounter.setText("9+")
+        if (messagesCount > 9) vMessagesCounter.setText("9+")
         else vMessagesCounter.setText("$messagesCount")
 
         vMessagesCounter.setBackgroundColor(if (subscribed) ToolsResources.getAccentColor(view.context) else ToolsResources.getColor(R.color.grey_600))

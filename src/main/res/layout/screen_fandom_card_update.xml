@@ -1,45 +1,53 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     android:background="?content_background"
-    android:orientation="vertical">
+    android:paddingTop="1dp">
 
-    <TextView
-        android:text="@string/intro_update"
-        style="@style/Base.TextAppearance.AppCompat.Title"
-        android:layout_gravity="center"
+    <LinearLayout
+        android:id="@+id/vContainer"
         android:layout_width="match_parent"
-        android:layout_marginTop="16dp"
-        android:layout_marginLeft="16dp"
-        android:layout_marginRight="16dp"
-        android:gravity="center"
-        android:layout_height="wrap_content"/>
-
-    <Button
-        android:id="@+id/vUpdate"
-        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:layout_marginLeft="16dp"
-        android:layout_marginRight="16dp"
-        android:layout_gravity="center"
-        style="@style/Button.Outlined"
-        android:text="@string/app_update"/>
+        android:orientation="vertical">
 
-    <TextView
-        android:text="@string/intro_update_sub"
-        android:layout_marginTop="16dp"
-        android:layout_marginLeft="16dp"
-        android:layout_marginRight="16dp"
-        style="@style/TextAppearance.AppCompat.Caption"
-        android:layout_gravity="center"
-        android:layout_width="match_parent"
-        android:gravity="center"
-        android:layout_height="wrap_content"/>
+        <TextView
+            style="@style/Base.TextAppearance.AppCompat.Title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginLeft="16dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginRight="16dp"
+            android:gravity="center"
+            android:text="@string/intro_update" />
 
-    <View
-        android:layout_marginTop="8dp"
-        style="@style/Divider"/>
+        <Button
+            android:id="@+id/vUpdate"
+            style="@style/Button.Outlined"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginLeft="16dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginRight="16dp"
+            android:text="@string/app_update" />
 
-</LinearLayout>
+        <TextView
+            style="@style/TextAppearance.AppCompat.Caption"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginLeft="16dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginRight="16dp"
+            android:gravity="center"
+            android:text="@string/intro_update_sub" />
+
+        <View
+            style="@style/Divider"
+            android:layout_marginTop="8dp" />
+
+    </LinearLayout>
+
+</FrameLayout>
