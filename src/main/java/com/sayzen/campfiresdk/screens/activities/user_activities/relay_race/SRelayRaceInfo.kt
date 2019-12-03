@@ -34,7 +34,7 @@ class SRelayRaceInfo(
     init {
         vScreenRoot!!.setBackgroundColor(ToolsResources.getBackgroundColor(context))
         setTitle(userActivity.name)
-        setTextEmpty(R.string.app_empty)
+        setTextEmpty("")
     }
 
     override fun instanceAdapter(): RecyclerCardAdapterLoading<CardPublication, Publication> {

@@ -5,7 +5,10 @@ import android.content.Intent
 import android.util.LongSparseArray
 import com.dzen.campfire.api.models.notifications.*
 import com.dzen.campfire.api.models.notifications.account.*
+import com.dzen.campfire.api.models.notifications.activities.NotificationActivitiesRelayRaceLost
+import com.dzen.campfire.api.models.notifications.activities.NotificationActivitiesRelayRaceNewPost
 import com.dzen.campfire.api.models.notifications.activities.NotificationActivitiesRelayRaceTurn
+import com.dzen.campfire.api.models.notifications.activities.NotificationActivitiesRelayRejected
 import com.dzen.campfire.api.models.notifications.chat.*
 import com.dzen.campfire.api.models.notifications.comments.NotificationComment
 import com.dzen.campfire.api.models.notifications.comments.NotificationCommentAnswer
@@ -360,6 +363,9 @@ object ControllerNotifications {
             is NotificationAdminPostFandomChange -> NotificationAdminPostFandomChangeParser(n)
             is NotificationMention -> NotificationMentionParser(n)
             is NotificationActivitiesRelayRaceTurn -> NotificationActivitiesRelayRaceTurnParser(n)
+            is NotificationActivitiesRelayRaceLost -> NotificationActivitiesRelayRaceLostParser(n)
+            is NotificationActivitiesRelayRaceNewPost -> NotificationActivitiesRelayRaceNewPostParser(n)
+            is NotificationActivitiesRelayRejected -> NotificationActivitiesRelayRejectedParser(n)
             else -> NotificationUnknownParserParser(n)
 
         }

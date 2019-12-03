@@ -39,11 +39,11 @@ class CardModeration(
             }
             if (publication.tag_2 == 1L) {
                 vStatus.setTextColor(ToolsResources.getColor(R.color.green_700))
-                vStatus.text = ToolsResources.s(R.string.moderation_checked_yes, ControllerLinks.linkToUser((publication.moderation!! as ModerationBlock).checkAdminName))
+                vStatus.text = ToolsResources.s(R.string.moderation_checked_yes, ControllerLinks.linkToAccount((publication.moderation!! as ModerationBlock).checkAdminName))
             }
             if (publication.tag_2 == 2L) {
                 vStatus.setTextColor(ToolsResources.getColor(R.color.red_700))
-                vStatus.text = ToolsResources.s(R.string.moderation_checked_no, ControllerLinks.linkToUser((publication.moderation!! as ModerationBlock).checkAdminName))
+                vStatus.text = ToolsResources.s(R.string.moderation_checked_no, ControllerLinks.linkToAccount((publication.moderation!! as ModerationBlock).checkAdminName))
                 vStatusComment.visibility = View.VISIBLE
                 vStatusComment.text = (publication.moderation!! as ModerationBlock).checkAdminComment
             }

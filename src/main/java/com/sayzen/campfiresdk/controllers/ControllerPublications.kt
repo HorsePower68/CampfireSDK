@@ -320,10 +320,10 @@ object ControllerPublications {
         when (m) {
             is ModerationBlock -> {
                 if (m.publicationType == API.PUBLICATION_TYPE_REVIEW) {
-                    text = ToolsResources.sCap(R.string.moderation_card_block_text_main_review, ToolsResources.sex(publication.creatorSex, R.string.he_remove, R.string.she_remove), ControllerLinks.linkToUser(m.accountName))
+                    text = ToolsResources.sCap(R.string.moderation_card_block_text_main_review, ToolsResources.sex(publication.creatorSex, R.string.he_remove, R.string.she_remove), ControllerLinks.linkToAccount(m.accountName))
                 } else {
                     val publicationType = if (m.publicationType == API.PUBLICATION_TYPE_POST) ToolsResources.sCap(R.string.moderation_publication_post) else if (m.publicationType == API.PUBLICATION_TYPE_COMMENT) ToolsResources.sCap(R.string.moderation_publication_comment) else if (m.publicationType == API.PUBLICATION_TYPE_CHAT_MESSAGE) ToolsResources.s(R.string.moderation_publication_message) else "null"
-                    text = ToolsResources.sCap(R.string.moderation_card_block_text_main, ToolsResources.sex(publication.creatorSex, R.string.he_blocked, R.string.she_blocked), publicationType, ControllerLinks.linkToUser(m.accountName))
+                    text = ToolsResources.sCap(R.string.moderation_card_block_text_main, ToolsResources.sex(publication.creatorSex, R.string.he_blocked, R.string.she_blocked), publicationType, ControllerLinks.linkToAccount(m.accountName))
                 }
                 if (m.accountBlockDate > 0) text += "\n" + ToolsResources.sCap(R.string.moderation_card_block_text_ban, ToolsDate.dateToString(m.accountBlockDate))
                 if (m.lastPublicationsBlocked) text += "\n" + ToolsResources.sCap(R.string.moderation_card_block_text_block_last)
@@ -379,10 +379,10 @@ object ControllerPublications {
                 text = ToolsResources.sCap(R.string.moderation_text_link_remove, ToolsResources.sex(publication.creatorSex, R.string.he_remove, R.string.she_remove))
             }
             is ModerationToDrafts -> {
-                text = ToolsResources.sCap(R.string.moderation_text_to_drafts, ToolsResources.sex(publication.creatorSex, R.string.he_return, R.string.she_return), ControllerLinks.linkToUser(m.accountName))
+                text = ToolsResources.sCap(R.string.moderation_text_to_drafts, ToolsResources.sex(publication.creatorSex, R.string.he_return, R.string.she_return), ControllerLinks.linkToAccount(m.accountName))
             }
             is ModerationMultilingualNot -> {
-                text = ToolsResources.sCap(R.string.moderation_text_multilingual_not, ToolsResources.sex(publication.creatorSex, R.string.he_make, R.string.she_make), ControllerLinks.linkToUser(m.accountName))
+                text = ToolsResources.sCap(R.string.moderation_text_multilingual_not, ToolsResources.sex(publication.creatorSex, R.string.he_make, R.string.she_make), ControllerLinks.linkToAccount(m.accountName))
             }
             is ModerationBackgroundImage -> {
                 if (m.imageId > 0)
@@ -423,7 +423,7 @@ object ControllerPublications {
                 }
             }
             is ModerationForgive -> {
-                text = ToolsResources.sCap(R.string.moderation_text_forgive, ToolsResources.sex(publication.creatorSex, R.string.he_forgive, R.string.she_forgive), ControllerLinks.linkToUser(m.accountName))
+                text = ToolsResources.sCap(R.string.moderation_text_forgive, ToolsResources.sex(publication.creatorSex, R.string.he_forgive, R.string.she_forgive), ControllerLinks.linkToAccount(m.accountName))
             }
             is ModerationActivitiesCreate -> {
                 text = ToolsResources.sCap(R.string.moderation_text_activities_relay_race_create, ToolsResources.sex(publication.creatorSex, R.string.he_created, R.string.she_created), m.name)

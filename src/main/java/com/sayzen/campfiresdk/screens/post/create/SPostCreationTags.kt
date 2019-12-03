@@ -10,6 +10,7 @@ import com.dzen.campfire.api.requests.post.RPostPublication
 import com.dzen.campfire.api.requests.tags.RTagsGetAll
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.sayzen.campfiresdk.R
+import com.sayzen.campfiresdk.controllers.ControllerActivities
 import com.sayzen.campfiresdk.controllers.ControllerStoryQuest
 import com.sayzen.campfiresdk.controllers.ControllerPublications
 import com.sayzen.campfiresdk.models.events.publications.EventPostStatusChange
@@ -58,6 +59,7 @@ class SPostCreationTags private constructor(
                     EventBus.post(EventPostStatusChange(publicationId, API.STATUS_PUBLIC))
                     onCreate.invoke()
                     ControllerStoryQuest.incrQuest(API.QUEST_STORY_POST)
+                    ControllerActivities.reloadActivities()
                 }
             }
         }

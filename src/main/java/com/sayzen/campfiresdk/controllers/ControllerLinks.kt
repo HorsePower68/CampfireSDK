@@ -126,8 +126,8 @@ object ControllerLinks {
                 .asSheetShow()
     }
 
-    fun linkToUser(name: String) = API.LINK_PROFILE_NAME + name
-    fun linkToUser(id: Long) = API.LINK_PROFILE_ID + id
+    fun linkToAccount(name: String) = API.LINK_PROFILE_NAME + name
+    fun linkToAccount(id: Long) = API.LINK_PROFILE_ID + id
     fun linkToFandom(fandomId: Long) = API.LINK_FANDOM + fandomId
     fun linkToFandom(fandomId: Long, languageId: Long) = API.LINK_FANDOM + fandomId + "_" + languageId
     fun linkToPost(postId: Long) = API.LINK_POST + postId

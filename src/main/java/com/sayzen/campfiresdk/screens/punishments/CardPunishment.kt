@@ -36,20 +36,20 @@ class CardPunishment(
         var text: String
 
         if (punishment.fandomId == 0L) {
-            if (punishment.banDate > 0) text = ToolsResources.sCap(R.string.profile_punishment_card_ban_admin, ControllerLinks.linkToUser(punishment.fromAccountName), ToolsResources.sex(punishment.fromAccountSex, R.string.he_blocked, R.string.she_blocked), ToolsDate.dateToStringFull(punishment.banDate))
+            if (punishment.banDate > 0) text = ToolsResources.sCap(R.string.profile_punishment_card_ban_admin, ControllerLinks.linkToAccount(punishment.fromAccountName), ToolsResources.sex(punishment.fromAccountSex, R.string.he_blocked, R.string.she_blocked), ToolsDate.dateToStringFull(punishment.banDate))
             else text = ToolsResources.sCap(R.string.profile_punishment_card_warn_admin,
-                    ControllerLinks.linkToUser(punishment.fromAccountName),
+                    ControllerLinks.linkToAccount(punishment.fromAccountName),
                     ToolsResources.sex(punishment.fromAccountSex, R.string.he_warn, R.string.she_warn)
             )
             setOnClick { ControllerCampfireSDK.onToAccountClicked(punishment.fromAccountId, Navigator.TO) }
         } else {
             if (punishment.banDate > 0) text = ToolsResources.sCap(R.string.profile_punishment_card_ban,
-                    ControllerLinks.linkToUser(punishment.fromAccountName),
+                    ControllerLinks.linkToAccount(punishment.fromAccountName),
                     ToolsResources.sex(punishment.fromAccountSex, R.string.he_blocked, R.string.she_blocked),
                     "" + punishment.fandomName,
                     ToolsDate.dateToStringFull(punishment.banDate))
             else text = ToolsResources.sCap(R.string.profile_punishment_card_warn,
-                    ControllerLinks.linkToUser(punishment.fromAccountName),
+                    ControllerLinks.linkToAccount(punishment.fromAccountName),
                     ToolsResources.sex(punishment.fromAccountSex, R.string.he_warn, R.string.she_warn),
                     "" + punishment.fandomName)
             setOnClick { ControllerCampfireSDK.onToFandomClicked(punishment.fandomId, punishment.languageId, Navigator.TO) }

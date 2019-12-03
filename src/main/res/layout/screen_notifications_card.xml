@@ -53,6 +53,4 @@
 
     </FrameLayout>
 
-    <View style="@style/Divider" />
-
 </com.sup.dev.android.views.views.ViewSwipe>

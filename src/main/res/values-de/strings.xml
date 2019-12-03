@@ -348,8 +348,13 @@ Campfire has anime fandoms and gaming fandoms.</string>
     <string name="notification_admin_moderation_restore">Your publication has restored</string>
     <string name="notification_admin_post_fandom_change">Administrator %s %s your post from fandom %s to %s</string>
     <string name="notification_mention">%s %s you</string>
-    <string name="notification_activities_relay_race_turn">%s %s relay race %s to you in fandom %s</string>
-    <string name="notification_activities_relay_race_turn_from_system">You gat relay race %s in fandom %s</string>
+    <string name="notification_activities_relay_race_turn">%s %s relay race "%s" to you in fandom %s</string>
+    <string name="notification_activities_relay_race_turn_from_system">You gat relay race "%s" in fandom %s</string>
+    <string name="notification_activities_relay_race_lost">You have not created a post for relay race "%s".</string>
+    <string name="notification_activities_relay_race_lost_with_new">You have not created a post for relay race "%s". The relay race is passed to %s.</string>
+    <string name="notification_activities_relay_race_rejected">%s %s the relay race "%s".</string>
+    <string name="notification_activities_relay_race_rejected_with_new">%s %s the relay race "%s". The relay race is passed to %s.</string>
+    <string name="notification_activities_relay_race_new_post">There is a new post in relay race "%s".</string>
     <string name="notification_quest_finish">Daily quest completed</string>
     <string name="notification_rubric_change_name">%s %s name of rubric from %s to %s</string>
     <string name="notification_rubric_change_owner">%s %s owner of rubric %s to %s</string>
@@ -739,6 +744,11 @@ Campfire has anime fandoms and gaming fandoms.</string>
     <string name="achi_59">You should have more positive rates than negative ones.</string>
     <string name="achi_60">Subscribe to any chat.</string>
     <string name="achi_61">Watch the ads and to level up.</string>
+    <string name="achi_64">Create a post in the relay race.</string>
+    <string name="achi_65">Pass a relay race to any user.</string>
+    <string name="achi_66">Create a relay race.</string>
+    <string name="achi_67">Create multiple posts in relay races.</string>
+    <string name="achi_68">In the relay race created by you there should be several posts.</string>
 
     <string name="lvl_app_access">Ability to use the application</string>
     <string name="lvl_app_status">Ability to change profile status</string>

@@ -191,7 +191,7 @@ class SAccount private constructor(
     private fun showDialog() {
         val w = WidgetMenu()
                 .add(R.string.app_copy_link) { _, _ ->
-                    ToolsAndroid.setToClipboard(ControllerLinks.linkToUser(xAccount.name))
+                    ToolsAndroid.setToClipboard(ControllerLinks.linkToAccount(xAccount.name))
                     ToolsToast.show(R.string.app_copied)
                 }
                 .groupCondition(ControllerApi.account.id != xAccount.accountId)

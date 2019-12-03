@@ -348,8 +348,13 @@
     <string name="notification_admin_moderation_restore">Ваша публикация востановлена</string>
     <string name="notification_admin_post_fandom_change">Администартор %s %s ваш пост из фэндома %s в %s</string>
     <string name="notification_mention">%s %s вас</string>
-    <string name="notification_activities_relay_race_turn">%s %s вам эстафету %s в фэндоме %s</string>
-    <string name="notification_activities_relay_race_turn_from_system">Вам передана эстафета %s в фэндоме %s</string>
+    <string name="notification_activities_relay_race_turn">%s %s вам эстафету "%s" в фэндоме %s</string>
+    <string name="notification_activities_relay_race_turn_from_system">Вам передана эстафета "%s" в фэндоме %s</string>
+    <string name="notification_activities_relay_race_lost">Вы не успели создать пост для эстафеты "%s".</string>
+    <string name="notification_activities_relay_race_lost_with_new">Вы не успели создать пост для эстафеты "%s". Эстафета передана %s.</string>
+    <string name="notification_activities_relay_race_rejected">%s %s от эстафеты "%s".</string>
+    <string name="notification_activities_relay_race_rejected_with_new">%s %s от эстафеты "%s". Эстафета передана %s</string>
+    <string name="notification_activities_relay_race_new_post">В эстафете "%s" появился новый пост.</string>
     <string name="notification_quest_finish">Ежедневное задание завершено</string>
     <string name="notification_rubric_change_name">%s %s название рубрики с %s на %s</string>
     <string name="notification_rubric_change_owner">%s %s владельца рубрики %s на %s</string>
@@ -741,6 +746,11 @@
     <string name="achi_59">У вас должно быть больше положительных оценок, чем отрицательных.</string>
     <string name="achi_60">Подпишитесь на любой чат.</string>
     <string name="achi_61">Посмотрите рекламу и чтобы повысить уровень.</string>
+    <string name="achi_64">Создайте пост в эстафете.</string>
+    <string name="achi_65">Передайте эстафету любому пользователю.</string>
+    <string name="achi_66">Создайте эстафету.</string>
+    <string name="achi_67">Создайте несколько постов в эстафетах.</string>
+    <string name="achi_68">В созданной вами эстафете должно быть несколько постов.</string>
 
     <string name="lvl_app_access">Возможность пользоваться приложением</string>
     <string name="lvl_app_status">Возможность изменять статус профиля</string>
