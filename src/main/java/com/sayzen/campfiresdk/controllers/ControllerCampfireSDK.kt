@@ -41,7 +41,6 @@ import com.sayzen.campfiresdk.screens.post.search.SPostsSearch
 import com.sayzen.campfiresdk.screens.post.view.SPost
 import com.sayzen.campfiresdk.screens.wiki.SWikiArticleView
 import com.sayzen.campfiresdk.screens.wiki.SWikiList
-import com.sayzen.devsupandroidgoogle.ControllerAdsNative
 import com.sayzen.devsupandroidgoogle.ControllerFirebaseAnalytics
 import com.sayzen.devsupandroidgoogle.ControllerGoogleAuth
 import com.sup.dev.android.libs.api_simple.ApiRequestsSupporter
@@ -77,7 +76,7 @@ object ControllerCampfireSDK {
     var SEARCH_FANDOM: (callback: (Fandom) -> Unit) -> Unit = { }
 
     var projectKey = ""
-    var onLoginFailed:() -> Unit = {}
+    var onLoginFailed: () -> Unit = {}
 
     fun init(
             projectKey: String,
@@ -283,11 +282,13 @@ object ControllerCampfireSDK {
         val p = 10
         if (adapterSub.get(CardAd::class).isNotEmpty()) return
         if (adapterSub.get(CardPost::class).size < p) {
+            info("XAd", "Ad native is not ready [1]")
             ToolsThreads.main(2000) { if (retryCount > 0) putAd(vRecycler, adapterSub, retryCount - 1) }
             return
         }
         val card = getCardAd()
         if (card == null) {
+            info("XAd", "Ad native is not ready [2]")
             ToolsThreads.main(2000) { if (retryCount > 0) putAd(vRecycler, adapterSub, retryCount - 1) }
             return
         }
@@ -303,7 +304,7 @@ object ControllerCampfireSDK {
 
     fun getCardAd(): CardAd? {
         if (cardAd != null) return cardAd
-        val ad = ControllerAdsNative.getAd()
+        val ad = ControllerAppodeal.getNative()
         if (ad != null) cardAd = CardAd(ad)
         return cardAd
     }

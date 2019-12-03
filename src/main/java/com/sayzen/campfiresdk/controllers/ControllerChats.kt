@@ -74,8 +74,7 @@ object ControllerChats {
 
     fun instanceChatPopup(tag: ChatTag, paramsJson:Json, imageId:Long, memberStatus: Long?,onRemove: () -> Unit = {}): WidgetMenu {
         return WidgetMenu()
-                .add(R.string.app_copy_link) { _, _ -> ToolsAndroid.setToClipboard(ControllerLinks.linkToChat(tag.targetId));ToolsToast.show(R.string.app_copied) }.condition(tag.chatType == API.CHAT_TYPE_FANDOM_ROOT)
-                .add(R.string.app_copy_link_with_language) { _, _ -> ToolsAndroid.setToClipboard(ControllerLinks.linkToChat(tag.targetId, tag.targetSubId));ToolsToast.show(R.string.app_copied) }.condition(tag.chatType == API.CHAT_TYPE_FANDOM_ROOT)
+                .add(R.string.app_copy_link) { _, _ -> ToolsAndroid.setToClipboard(ControllerLinks.linkToChat(tag.targetId, tag.targetSubId));ToolsToast.show(R.string.app_copied) }.condition(tag.chatType == API.CHAT_TYPE_FANDOM_ROOT)
                 .add(R.string.app_copy_link) { _, _ -> ToolsAndroid.setToClipboard(ControllerLinks.linkToConf(tag.targetId));ToolsToast.show(R.string.app_copied) }.condition(tag.chatType == API.CHAT_TYPE_CONFERENCE)
                 .add(R.string.app_copy_link) { _, _ -> ToolsAndroid.setToClipboard(ControllerLinks.linkToFandomChat(tag.targetId));ToolsToast.show(R.string.app_copied) }.condition(tag.chatType == API.CHAT_TYPE_FANDOM_SUB)
                 .add(R.string.app_edit) { _, _ -> SChatCreate.instance(tag.targetId, Navigator.TO) }.condition(tag.chatType == API.CHAT_TYPE_CONFERENCE && memberStatus == API.CHAT_MEMBER_STATUS_ACTIVE)

@@ -13,11 +13,7 @@ import com.sayzen.campfiresdk.models.widgets.WidgetRules
 import com.sayzen.campfiresdk.screens.account.search.SAccountSearch
 import com.sayzen.campfiresdk.screens.fandoms.suggest.SFandomSuggest
 import com.sayzen.campfiresdk.app.CampfireConstants
-import com.sayzen.campfiresdk.controllers.ControllerActivities
-import com.sayzen.campfiresdk.controllers.ControllerApi
-import com.sayzen.campfiresdk.controllers.ControllerCampfireSDK
-import com.sayzen.campfiresdk.controllers.api
-import com.sayzen.devsupandroidgoogle.ControllerAdsVideoReward
+import com.sayzen.campfiresdk.controllers.*
 import com.sup.dev.android.libs.api_simple.ApiRequestsSupporter
 import com.sup.dev.android.libs.screens.navigator.Navigator
 import com.sup.dev.android.tools.ToolsResources
@@ -49,22 +45,22 @@ class CardAchievement(
         return this
     }
 
-    fun getLvl() = if(forcedLvl == -1)achievement.getLvl(getProgress()) else forcedLvl
+    fun getLvl() = if (forcedLvl == -1) achievement.getLvl(getProgress()) else forcedLvl
     fun getProgress() = screen.getAchiProgress(achievement.index)
-    fun setForcedLvl(lvl:Int){
+    fun setForcedLvl(lvl: Int) {
         forcedLvl = lvl
         update()
     }
 
     override fun bindView(view: View) {
         super.bindView(view)
-        val vImage:ViewAvatar = view.findViewById(R.id.vImage)
-        val vImage1:ViewAvatar = view.findViewById(R.id.vImage1)
-        val vChip2:ViewChipMini = view.findViewById(R.id.vChip2)
-        val vImagesContainer:View = view.findViewById(R.id.vImagesContainer)
-        val vText:TextView = view.findViewById(R.id.vText)
-        val vProgress:TextView = view.findViewById(R.id.vProgress)
-        val vLine:ViewProgressLine = view.findViewById(R.id.vLine)
+        val vImage: ViewAvatar = view.findViewById(R.id.vImage)
+        val vImage1: ViewAvatar = view.findViewById(R.id.vImage1)
+        val vChip2: ViewChipMini = view.findViewById(R.id.vChip2)
+        val vImagesContainer: View = view.findViewById(R.id.vImagesContainer)
+        val vText: TextView = view.findViewById(R.id.vText)
+        val vProgress: TextView = view.findViewById(R.id.vProgress)
+        val vLine: ViewProgressLine = view.findViewById(R.id.vLine)
 
         val accountId = screen.accountId
         val ach = CampfireConstants.getAchievement(achievement)
@@ -118,7 +114,7 @@ class CardAchievement(
 
             vImage1.setImage(ach.image)
             vImage1.vChip.setText(ToolsText.numToStringRoundAndTrim(ach.info.getForce() * lvl, 2))
-            vChip2.setText( ToolsText.numToStringRoundAndTrim(ach.info.getForce(), 2))
+            vChip2.setText(ToolsText.numToStringRoundAndTrim(ach.info.getForce(), 2))
         }
 
         if (animationFlash != null) {
@@ -147,9 +143,9 @@ class CardAchievement(
                     })
         }
 
-      //  if(achievement.index == API.ACHI_VIDEO_AD.index){
-      //      ControllerAdsVideoReward.loadAd()
-      //  }
+        if (achievement.index == API.ACHI_VIDEO_AD.index) {
+            ControllerAppodeal.cashVideo()
+        }
 
     }
 
@@ -169,7 +165,7 @@ class CardAchievement(
             ach.info.index == API.ACHI_ADD_RECRUITER.index -> onRecruiterClicked()
             ach.info.index == API.ACHI_LOGIN.index -> ControllerCampfireSDK.changeLogin()
             ach.info.index == API.ACHI_FANDOMS.index -> SFandomSuggest.instance(Navigator.TO)
-          //  ach.info.index == API.ACHI_VIDEO_AD.index -> ControllerActivities.showVideoAd()
+            ach.info.index == API.ACHI_VIDEO_AD.index -> ControllerActivities.showVideoAd(true)
             ach.info.index == API.ACHI_RULES_USER.index ->
                 WidgetRules(R.string.rules_users_info, Array(CampfireConstants.RULES_USER.size) { CampfireConstants.RULES_USER[it].text })
                         .onFinish { ApiRequestsSupporter.executeProgressDialog(RAchievementsOnFinish(API.ACHI_RULES_USER.index)) { _ -> } }
@@ -184,7 +180,7 @@ class CardAchievement(
 
     private fun onRecruiterClicked() {
 
-        Navigator.to(SAccountSearch{ account ->
+        Navigator.to(SAccountSearch { account ->
             RAccountsSetRecruiter(account.id)
                     .onComplete { ToolsToast.show(R.string.app_done) }
                     .onNetworkError { ToolsToast.show(R.string.error_network) }

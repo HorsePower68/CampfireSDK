@@ -27,6 +27,7 @@ dependencies {
     api project(':CampfireApiMedia')
     api project(':DevSupAndroidGoogle')
     implementation files('libs/YouTubeAndroidPlayerApi.jar')
+    implementation 'com.appodeal.ads:sdk:2.6.0.0'
 }
 
 tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile).all {

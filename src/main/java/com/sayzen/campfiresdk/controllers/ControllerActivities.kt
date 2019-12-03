@@ -6,20 +6,25 @@ import com.dzen.campfire.api.models.notifications.activities.NotificationActivit
 import com.dzen.campfire.api.requests.activities.RActivitiesGetCounts
 import com.dzen.campfire.api.requests.activities.RActivitiesRelayRaceMember
 import com.dzen.campfire.api.requests.activities.RActivitiesRemove
+import com.dzen.campfire.api.requests.project.RVideoAdView
 import com.sayzen.campfiresdk.R
 import com.sayzen.campfiresdk.models.events.activities.*
 import com.sayzen.campfiresdk.models.events.fandom.EventFandomAccepted
 import com.sayzen.campfiresdk.models.events.notifications.EventNotification
+import com.sayzen.campfiresdk.models.events.project.EventAchiProgressIncr
 import com.sayzen.campfiresdk.screens.activities.user_activities.SRelayRaceCreate
 import com.sayzen.campfiresdk.screens.activities.user_activities.WidgetReject
 import com.sup.dev.android.libs.api_simple.ApiRequestsSupporter
 import com.sup.dev.android.libs.screens.navigator.Navigator
 import com.sup.dev.android.tools.ToolsAndroid
 import com.sup.dev.android.tools.ToolsToast
+import com.sup.dev.android.tools.ToolsView
 import com.sup.dev.android.views.widgets.Widget
 import com.sup.dev.android.views.widgets.WidgetMenu
 import com.sup.dev.java.libs.debug.err
+import com.sup.dev.java.libs.debug.info
 import com.sup.dev.java.libs.eventBus.EventBus
+import com.sup.dev.java.tools.ToolsThreads
 
 object ControllerActivities {
 
@@ -164,27 +169,43 @@ object ControllerActivities {
     //  Video Ad
     //
 
-    fun showVideoAd() {
-        //    ControllerAdsVideoReward.loadAd()
-        //    showVideoAdNow(10, ToolsView.showProgressDialog(R.string.achi_video_loading))
+    private var videoAchiLocked = false
+    private var videoLocked = false
+
+    fun showVideoAd(forAchi: Boolean) {
+        if (videoLocked || (forAchi && videoAchiLocked)) {
+            ToolsToast.show(R.string.achi_video_device_max)
+            return
+        }
+        ControllerAppodeal.cashVideo()
+        showVideoAdNow(10, ToolsView.showProgressDialog(R.string.achi_video_loading), forAchi)
     }
 
-    private fun showVideoAdNow(tryCount: Int, vDialog: Widget) {
-        // info("XAd", "onRewardedAdFailedToLoad " + ControllerAdsVideoReward.isCahShow())
-        // if (ControllerAdsVideoReward.isCahShow()) {
-        //     vDialog.hide()
-        //     ControllerAdsVideoReward.show {
-        //         RVideoAdView().onComplete {
-        //             if (it.achi) EventBus.post(EventAchiProgressIncr(API.ACHI_VIDEO_AD.index))
-        //             EventBus.post(EventVideoAdView())
-        //         }.send(api)
-        //     }
-        // } else if (tryCount > 0 && ControllerAdsVideoReward.isLoading()) {
-        //     ToolsThreads.main(1000) { showVideoAdNow(tryCount - 1, vDialog) }
-        // } else {
-        //     vDialog.hide()
-        //     ToolsToast.show(R.string.achi_video_not_loaded)
-        // }
+    private fun showVideoAdNow(tryCount: Int, vDialog: Widget, forAchi: Boolean) {
+        if (ControllerAppodeal.isLoadedVideo()) {
+            vDialog.hide()
+            ControllerAppodeal.showVideo {
+                RVideoAdView().onComplete {
+                    if (it.achi) EventBus.post(EventAchiProgressIncr(API.ACHI_VIDEO_AD.index))
+                    else if (!it.achi && forAchi) {
+                        videoAchiLocked = true
+                        ToolsToast.show(R.string.achi_video_achi_max)
+                    } else if (it.totalLimit) {
+                        videoLocked = true
+                        ToolsToast.show(R.string.achi_video_device_max)
+                    }else{
+                        videoAchiLocked = it.countToday > 2
+                        videoLocked = it.countToday > 9
+                    }
+                    EventBus.post(EventVideoAdView())
+                }.send(api)
+            }
+        } else if (tryCount > 0) {
+            ToolsThreads.main(1000) { showVideoAdNow(tryCount - 1, vDialog, forAchi) }
+        } else {
+            vDialog.hide()
+            ToolsToast.show(R.string.achi_video_not_loaded)
+        }
     }
 
 }

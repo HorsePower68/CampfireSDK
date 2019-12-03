@@ -60,7 +60,15 @@ class SActivities : Screen(R.layout.screen_activities) {
         vErrors.setOnClickListener { SAdministrationErrors.instance(Navigator.TO) }
         vSupport.setOnClickListener { SSupport.instance(Navigator.TO) }
 
-        vSupport.visibility = View.GONE
+        if(ControllerApi.account.lvl >= 2) {
+            vSupport.visibility = View.VISIBLE
+            vRubrics.setLineVisible(false)
+            vSupport.setLineVisible(true)
+        }else{
+            vSupport.visibility = View.GONE
+            vRubrics.setLineVisible(true)
+            vSupport.setLineVisible(false)
+        }
 
         vTitleProtoadmins.visibility = if (ControllerApi.isProtoadmin()) View.VISIBLE else View.GONE
         vRequests.visibility = if (ControllerApi.isProtoadmin()) View.VISIBLE else View.GONE

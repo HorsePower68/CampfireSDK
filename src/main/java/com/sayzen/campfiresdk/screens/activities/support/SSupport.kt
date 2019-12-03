@@ -7,9 +7,10 @@ import androidx.recyclerview.widget.RecyclerView
 import com.dzen.campfire.api.requests.project.RProjectSupportGetInfo
 import com.sayzen.campfiresdk.R
 import com.sayzen.campfiresdk.controllers.ControllerActivities
+import com.sayzen.campfiresdk.controllers.ControllerAppodeal
+import com.sayzen.campfiresdk.controllers.ControllerCampfireSDK
 import com.sayzen.campfiresdk.controllers.api
 import com.sayzen.campfiresdk.models.events.activities.EventVideoAdView
-import com.sayzen.devsupandroidgoogle.ControllerAdsVideoReward
 import com.sup.dev.android.libs.api_simple.ApiRequestsSupporter
 import com.sup.dev.android.libs.screens.Screen
 import com.sup.dev.android.libs.screens.activity.SActivityTypeBottomNavigation
@@ -44,9 +45,9 @@ class SSupport private constructor(
         vRecycler.layoutManager = LinearLayoutManager(context)
         vRecycler.adapter = adapter
         reset()
-        ControllerAdsVideoReward.loadAd()
+        ControllerAppodeal.cashVideo()
 
-        vButton.setOnClickListener { ControllerActivities.showVideoAd() }
+        vButton.setOnClickListener { ControllerActivities.showVideoAd(false) }
 
         SActivityTypeBottomNavigation.setShadow(vShadow)
     }

@@ -687,6 +687,8 @@
 
     <string name="achi_click">(нажмите)</string>
     <string name="achi_video_not_loaded">Видео еще не загружено</string>
+    <string name="achi_video_achi_max">Засчитано максимальное количество просмотров видео за сегодня</string>
+    <string name="achi_video_device_max">Вы больше не можете смотреть видео сегодня</string>
     <string name="achi_video_loading">Поиск видео</string>
     <string name="achi_you_are_here">Вы здесь</string>
     <string name="achi_spoiler_instruction">Обучение</string>

@@ -20,8 +20,8 @@
             android:background="?content_background"
             android:padding="8dp">
 
-            <com.google.android.gms.ads.formats.UnifiedNativeAdView
-                android:id="@+id/vAdView"
+            <com.appodeal.ads.NativeAdView
+                android:id="@+id/vNativeAdView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
@@ -42,7 +42,7 @@
                         android:layout_marginTop="8dp"
                         android:orientation="horizontal">
 
-                        <ImageView
+                        <com.appodeal.ads.NativeIconView
                             android:id="@+id/vIcon"
                             android:layout_width="64dp"
                             android:layout_marginRight="16dp"
@@ -66,9 +66,8 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content" />
 
-                            <TextView
+                            <FrameLayout
                                 android:id="@+id/vAdvertiser"
-                                style="@style/Base.TextAppearance.AppCompat.Caption"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginTop="4dp" />
@@ -76,7 +75,7 @@
 
                     </LinearLayout>
 
-                    <com.google.android.gms.ads.formats.MediaView
+                    <com.appodeal.ads.NativeMediaView
                         android:id="@+id/vMediaView"
                         android:background="?content_background"
                         android:layout_width="match_parent"
@@ -91,7 +90,7 @@
 
                 </LinearLayout>
 
-            </com.google.android.gms.ads.formats.UnifiedNativeAdView>
+            </com.appodeal.ads.NativeAdView>
 
         </FrameLayout>
 

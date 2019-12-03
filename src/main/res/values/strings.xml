@@ -692,6 +692,8 @@
 
     <string name="achi_click">(click)</string>
     <string name="achi_video_not_loaded">Ad is not loaded yet</string>
+    <string name="achi_video_achi_max">Maximum number of video views for this dat is reached</string>
+    <string name="achi_video_device_max">You can no longer watch videos today</string>
     <string name="achi_video_loading">Searching for a video</string>
     <string name="achi_you_are_here">You are here</string>
     <string name="achi_spoiler_instruction">Instruction</string>
