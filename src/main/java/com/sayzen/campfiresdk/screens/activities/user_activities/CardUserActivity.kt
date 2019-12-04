@@ -16,6 +16,8 @@ import com.sayzen.campfiresdk.models.events.activities.EventActivitiesRelayRaceM
 import com.sayzen.campfiresdk.models.events.activities.EventActivitiesRelayRaceRejected
 import com.sayzen.campfiresdk.models.events.activities.EventActivitiesRemove
 import com.sayzen.campfiresdk.screens.activities.user_activities.relay_race.SRelayRaceInfo
+import com.sayzen.campfiresdk.screens.post.create.SPostCreate
+import com.sayzen.campfiresdk.screens.post.create.WidgetTagsRelayRaceNextUser
 import com.sup.dev.android.libs.screens.navigator.Navigator
 import com.sup.dev.android.tools.ToolsResources
 import com.sup.dev.android.views.cards.Card
@@ -85,6 +87,7 @@ class CardUserActivity(
         val vMenu: View = view.findViewById(R.id.vMenu)
         val vUser: ViewAvatarTitle = view.findViewById(R.id.vUser)
         val vButton: Button = view.findViewById(R.id.vButton)
+        val vButton_2: Button = view.findViewById(R.id.vButton_2)
         val vDraw: ViewDraw = view.findViewById(R.id.vDraw)
         val vUserContainer: View = view.findViewById(R.id.vUserContainer)
         val vButtonContainer: View = view.findViewById(R.id.vButtonContainer)
@@ -113,7 +116,12 @@ class CardUserActivity(
             vButton.setTextColor(ToolsResources.getColor(R.color.red_700))
             vButton.visibility = View.VISIBLE
             vButton.setOnClickListener { ControllerActivities.reject(userActivity.id) }
+            vButton_2.visibility = View.VISIBLE
+            vButton_2.setText(R.string.app_create_post)
+            vButton_2.setTextColor(ToolsResources.getColor(R.color.green_700))
+            vButton_2.setOnClickListener { toPostCreate() }
         } else {
+            vButton_2.visibility = View.GONE
             vButton.visibility = if (userActivity.myPostId == 0L) View.VISIBLE else View.GONE
             if (userActivity.myMemberStatus == 1L) {
                 vButton.setText(R.string.app_participate_no)
@@ -129,6 +137,13 @@ class CardUserActivity(
 
         vDraw.setOnDraw { updateTimer() }
         updateTimer()
+    }
+
+    private fun toPostCreate(){
+        WidgetTagsRelayRaceNextUser(userActivity.id) {
+           SPostCreate.instance(userActivity.fandomId, userActivity.languageId, userActivity.fandomName, userActivity.fandomImageId, userActivity, it, Navigator.TO)
+        }
+                .asSheetShow()
     }
 
     private fun updateTimer() {

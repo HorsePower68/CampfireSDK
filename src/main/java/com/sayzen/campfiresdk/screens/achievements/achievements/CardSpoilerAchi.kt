@@ -2,6 +2,7 @@ package com.sayzen.campfiresdk.screens.achievements.achievements
 
 import androidx.annotation.StringRes
 import com.dzen.campfire.api.API
+import com.dzen.campfire.api.models.AchievementInfo
 import com.sayzen.campfiresdk.R
 
 import com.sayzen.campfiresdk.app.CampfireConstants
@@ -80,14 +81,18 @@ class CardSpoilerAchi(
 
     fun onLoaded() {
         remove(cardLoading)
+        if (packIndex == 1) addAchi(API.ACHI_PACK_1)
+        if (packIndex == 2) addAchi(API.ACHI_PACK_2)
+        if (packIndex == 3) addAchi(API.ACHI_PACK_3)
+        if (packIndex == 4) addAchi(API.ACHI_PACK_4)
+        if (packIndex == 5) addAchi(API.ACHI_PACK_5)
+    }
 
-        if (packIndex == 1) for (i in API.ACHI_PACK_1) addAchi(CardAchievement(pageAchievements, i))
-        if (packIndex == 2) for (i in API.ACHI_PACK_2) addAchi(CardAchievement(pageAchievements, i))
-        if (packIndex == 3) for (i in API.ACHI_PACK_3) addAchi(CardAchievement(pageAchievements, i))
-        if (packIndex == 4) for (i in API.ACHI_PACK_4) addAchi(CardAchievement(pageAchievements, i))
-        if (packIndex == 5) for (i in API.ACHI_PACK_5) addAchi(CardAchievement(pageAchievements, i))
-
-
+    private fun addAchi(array:Array<AchievementInfo>){
+        for (i in array.indices) {
+            val card = CardAchievement(pageAchievements, array[i])
+            addAchi(card)
+        }
     }
 
 }

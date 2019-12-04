@@ -1,6 +1,9 @@
 package com.sayzen.campfiresdk.screens.post.create
 
+import android.view.View
 import android.widget.Button
+import android.widget.TextView
+import com.dzen.campfire.api.models.activities.UserActivity
 import com.sayzen.campfiresdk.R
 import com.sayzen.campfiresdk.controllers.ControllerApi
 import com.sayzen.campfiresdk.screens.activities.user_activities.SUserActivitiesList
@@ -21,7 +24,10 @@ class WidgetTagsAdditional(
         private val fandomId: Long,
         private val language: Long,
         private val closed: Boolean,
-        private val publicationTag3: Long
+        private val publicationTag3: Long,
+        private val presetActivity: UserActivity?,
+        private val nextUserId:Long,
+        private val vParamsText: TextView
 ) : Widget(R.layout.screen_post_create_tags_widget) {
 
     private var pendingDate = 0L
@@ -48,6 +54,27 @@ class WidgetTagsAdditional(
         vPending.setOnClickListener { onPendingClicked() }
         vRubric.setOnClickListener { onRubricClicked() }
         vRelayRace.setOnClickListener { onRelayRaceClicked() }
+        vNotifyFollowers.setOnClickListener { updateParamsText() }
+        vClose.setOnClickListener { updateParamsText() }
+
+        if(presetActivity  != null){
+            setRelayRace(presetActivity, nextUserId)
+        }
+
+        updateParamsText()
+    }
+
+    private fun updateParamsText(){
+        var text = ""
+
+        if(vNotifyFollowers.isChecked()) text += "\n" + ToolsResources.s(R.string.post_create_notify_followers)
+        if(pendingDate > 0) text += "\n" + ToolsResources.s(R.string.post_create_pending) + " " + ToolsDate.dateToString(pendingDate)
+        if(vClose.isChecked()) text += "\n" + ToolsResources.s(R.string.post_create_closed)
+        if(rubricId > 0) text += "\n" + ToolsResources.s(R.string.app_rubric) + ": " + vRubric.getTitle()
+        if(userActivityId > 0) text += "\n" + ToolsResources.s(R.string.app_relay_race) + ": " + vRelayRace.getTitle()
+
+        vParamsText.text = text
+        vParamsText.visibility = if(text.isEmpty()) View.GONE else View.VISIBLE
     }
 
     override fun asSheetShow(): Sheet {
@@ -74,11 +101,13 @@ class WidgetTagsAdditional(
     private fun clearRubric() {
         vRubric.setTitle(R.string.post_create_rubric)
         rubricId = 0
+        updateParamsText()
     }
 
     private fun clearRelay() {
         vRelayRace.setTitle(R.string.post_create_relay_race)
         userActivityId = 0
+        updateParamsText()
     }
 
     private fun onRubricClicked() {
@@ -90,6 +119,7 @@ class WidgetTagsAdditional(
                 clearRelay()
                 vRubric.setTitle(ToolsResources.s(R.string.app_rubric) + ": " + it.name)
                 rubricId = it.id
+                updateParamsText()
             })
         }
     }
@@ -102,16 +132,21 @@ class WidgetTagsAdditional(
                 ToolsThreads.main(200) {
                     WidgetTagsRelayRaceNextUser(userActivity.id) {
                         needReShow = true
-                        clearRubric()
-                        vRelayRace.setTitle(ToolsResources.s(R.string.app_relay_race) + ": " + userActivity.name)
-                        userActivityId = userActivity.id
-                        userActivityIdNextUserId = it
+                        setRelayRace(userActivity, it)
                     }
                             .asSheetShow()
 
                 }
             })
         }
+    }
+
+    private fun setRelayRace(userActivity:UserActivity, nextUserId:Long){
+        clearRubric()
+        vRelayRace.setTitle(ToolsResources.s(R.string.app_relay_race) + ": " + userActivity.name)
+        userActivityId = userActivity.id
+        userActivityIdNextUserId = nextUserId
+        updateParamsText()
     }
 
     private fun setPendingDate(date: Long) {
@@ -129,6 +164,8 @@ class WidgetTagsAdditional(
             vPending.setTitle(R.string.post_create_pending)
             vPending.setChecked(false)
         }
+
+        updateParamsText()
 
     }
 

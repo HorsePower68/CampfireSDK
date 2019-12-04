@@ -58,6 +58,4 @@
 
     </LinearLayout>
 
-    <View style="@style/Divider"/>
-
 </FrameLayout>

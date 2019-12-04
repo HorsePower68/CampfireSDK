@@ -92,6 +92,13 @@
         android:orientation="vertical"
         android:background="?colorPrimary">
 
+        <TextView
+            android:id="@+id/vParamsText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="28dp"
+            android:layout_marginRight="28dp"/>
+
         <com.sup.dev.android.views.settings.Settings
             android:id="@+id/vParams"
             android:background="@null"

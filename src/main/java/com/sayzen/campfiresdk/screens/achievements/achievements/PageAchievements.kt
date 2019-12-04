@@ -43,13 +43,19 @@ class PageAchievements(
         val spoiler1 = CardSpoilerAchi(this, 1).setTitle(R.string.achi_spoiler_instruction)
         val spoiler2 = CardSpoilerAchi(this, 2).setTitle(R.string.achi_spoiler_sharing)
         val spoiler3 = CardSpoilerAchi(this, 3).setTitle(R.string.achi_spoiler_publications)
-        val spoiler6 = CardSpoilerAchi(this, 4).setTitle(R.string.app_moderation)
+        val spoiler4 = CardSpoilerAchi(this, 4).setTitle(R.string.app_moderation)
         val spoiler5 = CardSpoilerAchi(this, 5).setTitle(R.string.achi_spoiler_other)
+
+        spoiler1.setDividerTopVisible(true)
+        spoiler1.addOnExpandChanged { spoiler2.setDividerTopVisible(it) }
+        spoiler2.addOnExpandChanged { spoiler3.setDividerTopVisible(it) }
+        spoiler3.addOnExpandChanged { spoiler4.setDividerTopVisible(it) }
+        spoiler4.addOnExpandChanged { spoiler5.setDividerTopVisible(it) }
 
         adapterSub.add(spoiler1)
         adapterSub.add(spoiler2)
         adapterSub.add(spoiler3)
-        adapterSub.add(spoiler6)
+        adapterSub.add(spoiler4)
         adapterSub.add(spoiler5)
 
 

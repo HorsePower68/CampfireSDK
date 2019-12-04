@@ -27,6 +27,7 @@ import com.sup.dev.android.views.widgets.*
 import com.sup.dev.java.classes.items.Item3
 import com.sup.dev.java.classes.items.ItemNullable2
 import com.sup.dev.java.libs.debug.err
+import com.sup.dev.java.libs.debug.log
 import com.sup.dev.java.libs.eventBus.EventBus
 import com.sup.dev.java.libs.json.Json
 import com.sup.dev.java.libs.json.JsonArray
@@ -216,7 +217,10 @@ object ControllerChats {
     //
 
     fun clearMessagesCount() {
-        ToolsStorage.put("ControllerChats", JsonArray())
+        ToolsStorage.clear("ControllerChats")
+        ToolsStorage.clear("ControllerChats_count")
+        EventBus.post(EventChatMessagesCountChanged(ChatTag()))
+        log("clearMessagesCount " + getMessagesCount())
     }
 
     fun getMessagesCount() = ToolsStorage.getInt("ControllerChats_count", 0)
@@ -226,6 +230,7 @@ object ControllerChats {
     }
 
     fun setMessagesCount(tag: ChatTag, count: Int, showInNavigation: Boolean) {
+        log("setMessagesCount " +tag + "  " + count)
         val list = loadMessagesCounts()
         var seted = false
         for (item in list) {

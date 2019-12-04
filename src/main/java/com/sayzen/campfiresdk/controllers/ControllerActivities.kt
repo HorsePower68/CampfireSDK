@@ -83,6 +83,7 @@ object ControllerActivities {
         ControllerApi.moderation(R.string.activities_relay_race_remove_title, R.string.app_remove, { RActivitiesRemove(userActivity.id, it) }) {
             ToolsToast.show(R.string.app_done)
             EventBus.post(EventActivitiesRemove(userActivity.id))
+            reloadActivities()
         }
     }
 

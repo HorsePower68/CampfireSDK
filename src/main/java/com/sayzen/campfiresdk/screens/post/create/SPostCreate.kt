@@ -5,6 +5,7 @@ import android.net.Uri
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.dzen.campfire.api.API
+import com.dzen.campfire.api.models.activities.UserActivity
 import com.dzen.campfire.api.models.publications.post.*
 import com.dzen.campfire.api.requests.fandoms.RFandomsGet
 import com.dzen.campfire.api.requests.post.*
@@ -36,6 +37,8 @@ class SPostCreate constructor(
         val fandomImageId: Long,
         changePost: PublicationPost?,
         private val tags: Array<Long>,
+        private val presetActivity: UserActivity?,
+        private val nextUserId: Long,
         showMenu: Boolean
 ) : Screen(R.layout.screen_post_create), ScreenShare {
 
@@ -43,27 +46,32 @@ class SPostCreate constructor(
 
         fun instance(publicationId: Long, action: NavigationAction, onOpen: (SPostCreate) -> Unit = {}) {
             ApiRequestsSupporter.executeInterstitial(action, RPostGetDraft(publicationId)) { r ->
-                val screen = SPostCreate(r.publication.fandomId, r.publication.languageId, r.publication.fandomName, r.publication.fandomImageId, r.publication, Array(r.tags.size) { r.tags[it].id }, true)
+                val screen = SPostCreate(r.publication.fandomId, r.publication.languageId, r.publication.fandomName, r.publication.fandomImageId, r.publication, Array(r.tags.size) { r.tags[it].id }, null, 0, true)
                 onOpen.invoke(screen)
                 screen
             }
         }
 
         fun instance(fandomId: Long, languageId: Long, fandomName: String, fandomImageId: Long, presetTags: Array<Long>, action: NavigationAction) {
-            Navigator.action(action, SPostCreate(fandomId, languageId, fandomName, fandomImageId, null, presetTags, true))
+            Navigator.action(action, SPostCreate(fandomId, languageId, fandomName, fandomImageId, null, presetTags, null, 0, true))
         }
 
         fun instance(fandomId: Long, languageId: Long, presetTags: Array<Long>, onOpen: (SPostCreate) -> Unit = {}, action: NavigationAction) {
             ApiRequestsSupporter.executeInterstitial(action, RFandomsGet(fandomId, languageId, ControllerApi.getLanguageId())) { r ->
-                val screen = SPostCreate(fandomId, languageId, r.fandom.name, r.fandom.imageId, null, presetTags, true)
+                val screen = SPostCreate(fandomId, languageId, r.fandom.name, r.fandom.imageId, null, presetTags, null, 0, true)
                 onOpen.invoke(screen)
                 screen
             }
         }
 
+        fun instance(fandomId: Long, languageId: Long, fandomName: String, fandomImageId: Long, presetActivity:UserActivity, nextUserId:Long, action: NavigationAction) {
+            Navigator.action(action, SPostCreate(fandomId, languageId, fandomName, fandomImageId, null, emptyArray(), presetActivity, nextUserId, true))
+        }
+
+
     }
 
-    constructor(fandomId: Long, languageId: Long, fandomName: String, fandomImageId: Long) : this(fandomId, languageId, fandomName, fandomImageId, null, emptyArray(), true)
+    constructor(fandomId: Long, languageId: Long, fandomName: String, fandomImageId: Long) : this(fandomId, languageId, fandomName, fandomImageId, null, emptyArray(), null, 0, true)
 
     private val vRecycler: RecyclerView = findViewById(R.id.vRecycler)
     private val vAdd: FloatingActionButton = findViewById(R.id.vAdd)
@@ -84,7 +92,7 @@ class SPostCreate constructor(
         this.closed = changePost?.closed ?: false
 
         vFinish.setOnClickListener {
-            if (changePost == null || changePost.isDraft) SPostCreationTags.instance(publicationId, closed, publicationTag3, true, fandomId, languageId, tags, Navigator.TO)
+            if (changePost == null || changePost.isDraft) SPostCreationTags.instance(publicationId, closed, publicationTag3, true, fandomId, languageId, tags, presetActivity, nextUserId, Navigator.TO)
             else Navigator.back()
         }
         vFinish.setOnLongClickListener {

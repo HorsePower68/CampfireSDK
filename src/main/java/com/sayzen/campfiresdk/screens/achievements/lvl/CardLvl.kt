@@ -10,7 +10,11 @@ import com.sup.dev.android.tools.ToolsResources
 import com.sup.dev.android.views.cards.Card
 import com.sup.dev.java.tools.ToolsText
 
-class CardLvl(val accountLvl: Long, val myKarma30: Long, val appLvl: AppLevel) : Card(R.layout.screen_achievements_card_lvl) {
+class CardLvl(
+        val accountLvl: Long,
+        val myKarma30: Long,
+        val appLvl: AppLevel
+) : Card(R.layout.screen_achievements_card_lvl) {
 
     override fun bindView(view: View) {
         super.bindView(view)

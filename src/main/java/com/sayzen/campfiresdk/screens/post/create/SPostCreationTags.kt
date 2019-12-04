@@ -4,6 +4,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import com.dzen.campfire.api.API
+import com.dzen.campfire.api.models.activities.UserActivity
 import com.dzen.campfire.api.models.publications.tags.PublicationTag
 import com.dzen.campfire.api.requests.post.RPostGet
 import com.dzen.campfire.api.requests.post.RPostPublication
@@ -38,6 +39,8 @@ class SPostCreationTags private constructor(
         private val publicationTag3: Long,
         private val isMyPublication: Boolean,
         private val presetTags: Array<Long>,
+        private val presetActivity: UserActivity?,
+        private val nextUserId: Long,
         tags: Array<PublicationTag>
 ) : Screen(R.layout.screen_post_create_tags) {
 
@@ -45,12 +48,12 @@ class SPostCreationTags private constructor(
 
         fun instance(publicationId: Long, isMyPublication: Boolean, action: NavigationAction) {
             ApiRequestsSupporter.executeProgressDialog(RPostGet(publicationId)) { r ->
-                instance(r.publication.id, r.publication.closed, r.publication.tag_3, isMyPublication, r.publication.fandomId, r.publication.languageId, ControllerPublications.tagsAsLongArray(r.tags), action)
+                instance(r.publication.id, r.publication.closed, r.publication.tag_3, isMyPublication, r.publication.fandomId, r.publication.languageId, ControllerPublications.tagsAsLongArray(r.tags), null, 0, action)
             }
         }
 
-        fun instance(publicationId: Long, closed: Boolean, publicationTag3: Long, isMyPublication: Boolean, fandomId: Long, languageId: Long, presetTags: Array<Long>, action: NavigationAction) {
-            ApiRequestsSupporter.executeInterstitial(action, RTagsGetAll(fandomId, languageId)) { r -> SPostCreationTags(publicationId, fandomId, languageId, closed, publicationTag3, isMyPublication, presetTags, r.tags) }
+        fun instance(publicationId: Long, closed: Boolean, publicationTag3: Long, isMyPublication: Boolean, fandomId: Long, languageId: Long, presetTags: Array<Long>, presetActivity:UserActivity?,  nextUserId:Long, action: NavigationAction) {
+            ApiRequestsSupporter.executeInterstitial(action, RTagsGetAll(fandomId, languageId)) { r -> SPostCreationTags(publicationId, fandomId, languageId, closed, publicationTag3, isMyPublication, presetTags, presetActivity, nextUserId, r.tags) }
         }
 
         fun create(publicationId: Long, tags: Array<Long>, notifyFollowers: Boolean, pendingTime: Long, closed: Boolean, rubricId: Long, userActivityId: Long, userActivityIdNextUserId: Long, onCreate: () -> Unit) {
@@ -73,8 +76,9 @@ class SPostCreationTags private constructor(
     private val vContainer: ViewGroup = findViewById(R.id.vTagsContainer)
     private val vMenuContainer: ViewGroup = findViewById(R.id.vMenuContainer)
     private val vParams: View = findViewById(R.id.vParams)
+    private val vParamsText: TextView = findViewById(R.id.vParamsText)
 
-    private val widgetTagsAdditional = WidgetTagsAdditional(fandomId, language, closed, publicationTag3)
+    private val widgetTagsAdditional = WidgetTagsAdditional(fandomId, language, closed, publicationTag3, presetActivity, nextUserId, vParamsText)
     private val chips = ArrayList<ViewChip>()
 
     init {

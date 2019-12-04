@@ -1129,7 +1129,7 @@
     <string name="post_create_closed">Closed post</string>
     <string name="post_create_rubric">Add rubric</string>
     <string name="post_create_relay_race">Add relay race</string>
-    <string name="post_create_relay_race_next_user">Now you can choose who to pass the relay race to, but it\'s not necessary.</string>
+    <string name="post_create_relay_race_next_user">You can choose who to pass the relay race to, but it\'s not necessary.</string>
     <string name="post_pending_publish">Post this now?</string>
     <string name="post_close_confirm">Close this post?</string>
     <string name="post_open_confirm">Open this post?</string>

@@ -1124,7 +1124,7 @@
     <string name="post_create_closed">Закрытая публикация</string>
     <string name="post_create_rubric">Добавить рубрику</string>
     <string name="post_create_relay_race">Добавить эстафету</string>
-    <string name="post_create_relay_race_next_user">Теперь вы можете выбрать кому передать эстафету, но это не обязательно.</string>
+    <string name="post_create_relay_race_next_user">Вы можете выбрать кому передать эстафету, но это не обязательно.</string>
     <string name="post_pending_publish">Опубликовать пост сейчас?</string>
     <string name="post_close_confirm">Закрыть этот пост?</string>
     <string name="post_open_confirm">Открыть этот пост?</string>
