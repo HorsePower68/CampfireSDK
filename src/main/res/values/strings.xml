@@ -137,6 +137,8 @@
     <string name="app_add">Add</string>
     <string name="app_status">Status</string>
     <string name="app_subscription">Subscription</string>
+    <string name="app_subscribe">Subscribe</string>
+    <string name="app_unsubscribe">Unsubscribe</string>
     <string name="app_subscriptions">Subscriptions</string>
     <string name="app_subscribers">Subscribers</string>
     <string name="app_wiki">Wiki</string>
@@ -216,6 +218,7 @@
     <string name="app_gif">Gif</string>
     <string name="app_images">Images</string>
     <string name="app_you">You</string>
+    <string name="app_viceroy">Viceroy</string>
 
     <string name="he">He</string>
     <string name="she">She</string>
@@ -805,6 +808,7 @@
     <string name="lvl_make_moderators">Ability to make the user a moderator in fandom. Gives the user the karma to become a moderator.</string>
     <string name="lvl_fandom_close">Ability to open / close a fandom</string>
     <string name="lvl_remove_fandoms">Ability to remove fandoms</string>
+    <string name="lvl_viceroy">Ability to choose a viceroy of a fandom</string>
     <string name="lvl_protoadmin">Protoadmin. Access to the red button</string>
 
     <string name="error_unknown">Unknown error</string>
@@ -1138,6 +1142,8 @@
     <string name="activities_support_card_title">Collected ad views to pay for the server this month:</string>
     <string name="activities_support_card_action">View ad</string>
     <string name="activities_low_lvl">You are not worthy</string>
+    <string name="activities_subscribe_alert">Subscribe on this activity?</string>
+    <string name="activities_unsubscribe_alert">Unsubscribe from this activity?</string>
     <string name="activities_relay_race_creation">Relay race creation</string>
     <string name="activities_relay_race_error_lvl">You can\'t create relay race in this fandom. Check you\'r karma.</string>
     <string name="activities_relay_race_remove_title">Remove relay race</string>

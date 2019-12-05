@@ -75,7 +75,7 @@ class CardButtons(
         vSubscribersText.text = "$subscribersCountLanguage"
         vSubscribersTotalText.text = "/${subscribersCountTotal}"
 
-        vWikiButton.setOnClickListener { Navigator.to(SWikiList(xFandom.fandomId, 0, "")) }
+        vWikiButton.setOnClickListener { Navigator.to(SWikiList(xFandom.fandomId, xFandom.languageId, 0, "")) }
         vWikiText.text = "$wikiCount"
 
         vRubricButton.setOnClickListener { Navigator.to(SRubricsList(xFandom.fandomId, xFandom.languageId, 0))}

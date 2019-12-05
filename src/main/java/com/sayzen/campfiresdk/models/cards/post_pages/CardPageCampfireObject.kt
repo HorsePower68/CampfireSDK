@@ -3,6 +3,7 @@ package com.sayzen.campfiresdk.models.cards.post_pages
 import android.view.View
 import com.dzen.campfire.api.API
 import com.dzen.campfire.api.models.CampfireLink
+import com.dzen.campfire.api.models.chat.ChatTag
 import com.dzen.campfire.api.models.publications.PagesContainer
 import com.dzen.campfire.api.models.publications.post.PageCampfireObject
 import com.sayzen.campfiresdk.R
@@ -45,18 +46,20 @@ class CardPageCampfireObject(
         vTouch.isClickable = true
         vTouch.isEnabled = true
         vTouch.isFocusable = true
-        vTouch.setOnClickListener { when {
-            link.isLinkToAccount() -> {
-                val id = link.getLongParamOrZero(0)
-                val name = if (link.link.length < 3) "" else link.link.removePrefix("@").replace("_", "")
-                if (id > 0) SAccount.instance(id, Navigator.TO)
-                else SAccount.instance(name, Navigator.TO)
+        vTouch.setOnClickListener {
+            when {
+                link.isLinkToAccount() -> {
+                    val id = link.getLongParamOrZero(0)
+                    val name = if (link.link.length < 3) "" else link.link.removePrefix("@").replace("_", "")
+                    if (id > 0) SAccount.instance(id, Navigator.TO)
+                    else SAccount.instance(name, Navigator.TO)
+                }
+                link.isLinkToPost() -> SPost.instance(link.getLongParamOrZero(0), Navigator.TO)
+                link.isLinkToChat() -> SChat.instance(ChatTag(API.CHAT_TYPE_FANDOM_ROOT, link.getLongParamOrZero(0), link.getLongParamOrZero(1)), 0, false, Navigator.TO)
+                link.isLinkToFandom() -> SFandom.instance(link.getLongParamOrZero(0), link.getLongParamOrZero(1), Navigator.TO)
+                link.isLinkToStickersPack() -> SStickersView.instance(link.getLongParamOrZero(0), Navigator.TO)
             }
-            link.isLinkToPost() -> SPost.instance(link.getLongParamOrZero(0), Navigator.TO)
-            link.isLinkToChat() -> SChat.instance(API.CHAT_TYPE_FANDOM_ROOT, link.getLongParamOrZero(0), link.getLongParamOrZero(1), false, Navigator.TO)
-            link.isLinkToFandom() -> SFandom.instance(link.getLongParamOrZero(0), link.getLongParamOrZero(1), Navigator.TO)
-            link.isLinkToStickersPack() -> SStickersView.instance(link.getLongParamOrZero(0), Navigator.TO)
-        }}
+        }
 
 
     }
@@ -64,7 +67,6 @@ class CardPageCampfireObject(
     override fun notifyItem() {
         ControllerCampfireObjects.load(CampfireLink((page as PageCampfireObject).link)) { _, _, _ -> }
     }
-
 
 
 }

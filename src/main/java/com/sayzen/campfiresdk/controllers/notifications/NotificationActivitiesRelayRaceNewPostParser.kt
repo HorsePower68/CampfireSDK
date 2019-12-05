@@ -1,16 +1,16 @@
 package com.sayzen.campfiresdk.controllers.notifications
 
 import android.content.Intent
-import com.dzen.campfire.api.models.notifications.activities.NotificationActivitiesRelayRaceNewPost
-import com.dzen.campfire.api.models.notifications.activities.NotificationActivitiesRelayRaceTurn
+import com.dzen.campfire.api.models.notifications.activities.NotificationActivitiesNewPost
 import com.sayzen.campfiresdk.R
 import com.sayzen.campfiresdk.controllers.ControllerNotifications
 import com.sayzen.campfiresdk.controllers.ControllerSettings
 import com.sayzen.campfiresdk.screens.activities.user_activities.relay_race.SRelayRaceInfo
+import com.sayzen.campfiresdk.screens.post.view.SPost
 import com.sup.dev.android.libs.screens.navigator.Navigator
 import com.sup.dev.android.tools.ToolsResources
 
-public class NotificationActivitiesRelayRaceNewPostParser(override val n: NotificationActivitiesRelayRaceNewPost) : ControllerNotifications.Parser(n) {
+public class NotificationActivitiesRelayRaceNewPostParser(override val n: NotificationActivitiesNewPost) : ControllerNotifications.Parser(n) {
 
     override fun post(icon: Int, intent: Intent, text: String, title: String, tag: String, sound: Boolean) {
         (if (sound) ControllerNotifications.chanelOther else ControllerNotifications.chanelOther_salient).post(icon, getTitle(), text, intent, tag)
@@ -25,7 +25,7 @@ public class NotificationActivitiesRelayRaceNewPostParser(override val n: Notifi
     override fun canShow() = ControllerSettings.notificationsOther
 
     override fun doAction() {
-        SRelayRaceInfo.instance(n.activityId, Navigator.TO)
+        SPost.instance(n.postId, Navigator.TO)
     }
 
 

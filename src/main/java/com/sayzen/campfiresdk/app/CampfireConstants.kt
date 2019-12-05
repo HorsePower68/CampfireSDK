@@ -128,8 +128,10 @@ object CampfireConstants {
             AppLevel(R.string.lvl_make_moderators, API.LVL_ADMIN_MAKE_MODERATOR, R.color.red_500),
             AppLevel(R.string.lvl_fandom_close, API.LVL_ADMIN_FANDOM_CLOSE, R.color.red_500),
             AppLevel(R.string.lvl_remove_fandoms, API.LVL_ADMIN_FANDOM_REMOVE, R.color.red_500),
+            AppLevel(R.string.lvl_viceroy, API.LVL_ADMIN_FANDOM_VICEROY, R.color.red_500),
             AppLevel(R.string.lvl_fandom_admin, API.LVL_ADMIN_FANDOM_ADMIN, R.color.red_500),
-            AppLevel(R.string.lvl_fandom_set_cof, API.LVL_ADMIN_FANDOM_SET_COF, R.color.red_500)
+            AppLevel(R.string.lvl_fandom_set_cof, API.LVL_ADMIN_FANDOM_SET_COF, R.color.red_500),
+            AppLevel(R.string.lvl_protoadmin, API.LVL_PROTOADMIN, R.color.orange_700)
     )
 
     val QUESTS = arrayOf(

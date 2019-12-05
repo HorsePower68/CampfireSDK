@@ -3,9 +3,7 @@ package com.sayzen.campfiresdk.controllers
 import com.dzen.campfire.api.API
 import com.dzen.campfire.api.models.activities.UserActivity
 import com.dzen.campfire.api.models.notifications.activities.NotificationActivitiesRelayRaceTurn
-import com.dzen.campfire.api.requests.activities.RActivitiesGetCounts
-import com.dzen.campfire.api.requests.activities.RActivitiesRelayRaceMember
-import com.dzen.campfire.api.requests.activities.RActivitiesRemove
+import com.dzen.campfire.api.requests.activities.*
 import com.dzen.campfire.api.requests.project.RVideoAdView
 import com.sayzen.campfiresdk.R
 import com.sayzen.campfiresdk.models.events.activities.*
@@ -20,6 +18,7 @@ import com.sup.dev.android.tools.ToolsAndroid
 import com.sup.dev.android.tools.ToolsToast
 import com.sup.dev.android.tools.ToolsView
 import com.sup.dev.android.views.widgets.Widget
+import com.sup.dev.android.views.widgets.WidgetAlert
 import com.sup.dev.android.views.widgets.WidgetMenu
 import com.sup.dev.java.libs.debug.err
 import com.sup.dev.java.libs.eventBus.EventBus
@@ -73,10 +72,23 @@ object ControllerActivities {
 
     fun showMenu(userActivity: UserActivity) {
         WidgetMenu()
+                .add(R.string.app_subscription) { _, _ -> subscribtion(userActivity) }
                 .add(R.string.app_copy_link) { _, _ -> ToolsAndroid.setToClipboard(ControllerLinks.linkToActivity(userActivity.id));ToolsToast.show(R.string.app_copied) }
                 .add(R.string.app_change) { _, _ -> Navigator.to(SRelayRaceCreate(userActivity)) }.condition(ControllerApi.can(userActivity.fandomId, userActivity.languageId, API.LVL_MODERATOR_RELAY_RACE)).textColorRes(R.color.white).backgroundRes(R.color.blue_700)
                 .add(R.string.app_remove) { _, _ -> removeActivity(userActivity) }.condition(ControllerApi.can(userActivity.fandomId, userActivity.languageId, API.LVL_MODERATOR_RELAY_RACE)).textColorRes(R.color.white).backgroundRes(R.color.blue_700)
                 .asSheetShow()
+    }
+
+    fun subscribtion(userActivity: UserActivity){
+        ApiRequestsSupporter.executeProgressDialog(RActivitiesSubscribeGet(userActivity.id)){ r->
+            ApiRequestsSupporter.executeEnabledConfirm(
+                    if(r.subscribed)R.string.activities_unsubscribe_alert else R.string.activities_subscribe_alert,
+                    if(r.subscribed) R.string.app_unsubscribe else  R.string.app_subscribe,
+                    RActivitiesSubscribe(userActivity.id, !r.subscribed)
+            ){
+                ToolsToast.show(R.string.app_done)
+            }
+        }
     }
 
     fun removeActivity(userActivity: UserActivity) {

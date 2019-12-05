@@ -113,7 +113,7 @@ class SFandomChatsCreate(
                             ToolsToast.show(R.string.app_done)
                             Navigator.remove(this)
                             EventBus.post(EventFandomChatCreated(fandomId, languageId, r.chatTag.targetId))
-                            SChat.instance(API.CHAT_TYPE_FANDOM_SUB, r.chatTag.targetId, 0, false, Navigator.TO)
+                            SChat.instance(ChatTag(API.CHAT_TYPE_FANDOM_SUB, r.chatTag.targetId, 0), 0, false, Navigator.TO)
                         }
                     } else {
                         ApiRequestsSupporter.executeProgressDialog(RFandomsModerationChatChange(chatId, name, vField.text.toString(), comment, image)) { _ ->

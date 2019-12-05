@@ -22,6 +22,7 @@ import com.sup.dev.java.libs.eventBus.EventBus
 
 class SWikiList(
         val fandomId: Long,
+        val prefLanguageId: Long,
         val itemId: Long,
         val itemName: String
 ) : SLoadingRecycler<CardWikiItem, WikiTitle>() {
@@ -29,12 +30,12 @@ class SWikiList(
     companion object {
 
         fun instanceFandomId(fandomId: Long, action: NavigationAction) {
-            Navigator.action(action, SWikiList(fandomId, 0, ""))
+            Navigator.action(action, SWikiList(fandomId, 0, 0, ""))
         }
 
         fun instanceItemId(wikiItemId: Long, action: NavigationAction) {
             ApiRequestsSupporter.executeInterstitial(action, RWikiItemGet(wikiItemId)) { r ->
-                SWikiList(r.wikiTitle.fandomId, r.wikiTitle.itemId, r.wikiTitle.getName(ControllerApi.getLanguageCode()))
+                SWikiList(r.wikiTitle.fandomId, 0, r.wikiTitle.itemId, r.wikiTitle.getName(ControllerApi.getLanguageCode()))
             }
         }
 
@@ -59,7 +60,7 @@ class SWikiList(
     }
 
     override fun instanceAdapter(): RecyclerCardAdapterLoading<CardWikiItem, WikiTitle> {
-        return RecyclerCardAdapterLoading<CardWikiItem, WikiTitle>(CardWikiItem::class) { CardWikiItem(it) }
+        return RecyclerCardAdapterLoading<CardWikiItem, WikiTitle>(CardWikiItem::class) { CardWikiItem(it, prefLanguageId) }
                 .setBottomLoader { onLoad, cards ->
                     subscription = RWikiListGet(fandomId, itemId, cards.size.toLong())
                             .onComplete { r ->

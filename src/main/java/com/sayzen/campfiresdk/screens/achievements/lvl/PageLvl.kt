@@ -33,20 +33,19 @@ class PageLvl(var accountId:Long, accountLvl: Long, karma30:Long) : Card(0) {
         adapterSub.add(cardInfo)
 
         for(l in CampfireConstants.LVLS) {
-            if(l.lvl == API.LVL_APP_ACCESS)  adapterSub.add(CardLvlTitle(ToolsResources.s(R.string.app_user), ToolsResources.getColor(R.color.green_700)))
-            if(l.lvl == API.LVL_MODERATOR_BLOCK)  adapterSub.add(CardLvlTitle(ToolsResources.s(R.string.app_moderator), ToolsResources.getColor(R.color.blue_700)))
-            if(l.lvl == API.LVL_ADMIN_MODER)  adapterSub.add(CardLvlTitle(ToolsResources.s(R.string.app_admin), ToolsResources.getColor(R.color.red_700)))
-            if(l.lvl == API.LVL_PROTOADMIN)  adapterSub.add(CardLvlTitle(ToolsResources.s(R.string.app_protoadmin), ToolsResources.getColor(R.color.orange_700)))
-            addLvl(CardLvl(accountLvl, karma30, l))
+            val card = CardLvl(accountLvl, karma30, l)
+            var markerAdded = false
+            if (ControllerApi.isCurrentAccount(accountId) && (ControllerApi.account.lvl < card.appLvl.lvl.lvl) && !adapterSub.contains(CardDividerTitle::class)) {
+                adapterSub.add(CardDividerTitle().setText(R.string.achi_you_are_here).setDividerTop(true).toCenter())
+                markerAdded = true
+            }
+            if(l.lvl == API.LVL_APP_ACCESS)  adapterSub.add(CardLvlTitle(ToolsResources.s(R.string.app_user), ToolsResources.getColor(R.color.green_700)).setDividerTopEnabled(!markerAdded))
+            if(l.lvl == API.LVL_MODERATOR_BLOCK)  adapterSub.add(CardLvlTitle(ToolsResources.s(R.string.app_moderator), ToolsResources.getColor(R.color.blue_700)).setDividerTopEnabled(!markerAdded))
+            if(l.lvl == API.LVL_ADMIN_MODER)  adapterSub.add(CardLvlTitle(ToolsResources.s(R.string.app_admin), ToolsResources.getColor(R.color.red_700)).setDividerTopEnabled(!markerAdded))
+            if(l.lvl == API.LVL_PROTOADMIN)  adapterSub.add(CardLvlTitle(ToolsResources.s(R.string.app_protoadmin), ToolsResources.getColor(R.color.orange_700)).setDividerTopEnabled(!markerAdded))
+            adapterSub.add(card)
         }
 
-        addLvl(CardLvl(accountLvl, karma30, AppLevel(API.LVL_PROTOADMIN, R.string.lvl_protoadmin, R.color.orange_700)))
-    }
-
-    private fun addLvl(card: CardLvl) {
-        if (ControllerApi.isCurrentAccount(accountId) && (ControllerApi.account.lvl < card.appLvl.lvl.lvl) && !adapterSub.contains(CardDividerTitle::class))
-            adapterSub.add(CardDividerTitle().setText(R.string.achi_you_are_here).setDividerTop(true).toCenter())
-        adapterSub.add(card)
     }
 
     override fun instanceView(): View {

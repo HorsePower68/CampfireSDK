@@ -15,12 +15,23 @@ class CardLvlTitle(
         val color:Int
 ) : Card(R.layout.screen_achievements_card_lvl_title) {
 
+    private var isDividerTopEnabled = true
+
     override fun bindView(view: View) {
         super.bindView(view)
         val vText: TextView = view.findViewById(R.id.vText)
+        val vDividerTop: View = view.findViewById(R.id.vDividerTop)
+
+        vDividerTop.visibility = if(isDividerTopEnabled) View.VISIBLE else View.GONE
 
         vText.text = text
         vText.setTextColor(color)
+    }
+
+    fun setDividerTopEnabled(isDividerTopEnabled:Boolean):CardLvlTitle{
+        this.isDividerTopEnabled = isDividerTopEnabled
+        update()
+        return this
     }
 
 

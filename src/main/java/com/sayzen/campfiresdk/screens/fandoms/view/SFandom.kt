@@ -135,6 +135,7 @@ class SFandom private constructor(
 
         adapter.add(CardSpace(56))
         adapter.add(cardTitle)
+        adapter.add(CardViceroy(xFandom.fandomId, xFandom.languageId))
         adapter.add(CardButtons(xFandom, r.chatsCount, r.tagsCount, r.subscribersCountLanguage, r.subscribersCountTotal, r.modersCount, r.subscriptionType != API.PUBLICATION_IMPORTANT_NONE, r.wikiCount, r.rubricsCount))
         adapter.add(spoiler)
         adapter.add(cardFilters)

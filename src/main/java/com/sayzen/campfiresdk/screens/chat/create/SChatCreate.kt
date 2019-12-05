@@ -164,7 +164,7 @@ class SChatCreate(
             for (c in adapter.get(CardChatMember::class)) if (c.chatMember.memberStatus == API.CHAT_MEMBER_STATUS_ACTIVE || c.chatMember.memberStatus == 0L) count++
             EventBus.post(EventChatChanged(changeId, cardTitle.text, changeImageId, count))
             Navigator.remove(this)
-            SChat.instance(r.tag, false, Navigator.TO)
+            SChat.instance(r.tag, 0, false, Navigator.TO)
         }
 
     }

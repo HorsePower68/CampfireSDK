@@ -4,6 +4,7 @@ import android.text.util.Linkify
 import android.view.Gravity
 import android.widget.TextView
 import com.dzen.campfire.api.API
+import com.dzen.campfire.api.models.chat.ChatTag
 import com.dzen.campfire.api.models.publications.PublicationComment
 import com.dzen.campfire.api.requests.achievements.RAchievementsOnFinish
 import com.sayzen.campfiresdk.R
@@ -39,10 +40,10 @@ object ControllerLinks {
     fun parseLink(link: String): Boolean {
         try {
 
-            var t:String
-            if(link.startsWith(API.DOMEN)){
+            var t: String
+            if (link.startsWith(API.DOMEN)) {
                 t = link.substring(API.DOMEN.length)
-            } else{
+            } else {
                 t = link.substring("http://@".length)
                 t = t.replace("_", "-")
             }
@@ -87,17 +88,17 @@ object ControllerLinks {
                     if (params.size == 2) SModerationView.instance(params[0].toLong(), params[1].toLong(), Navigator.TO)
                 }
                 API.LINK_TAG_CHAT -> {
-                    if (params.size == 1) SChat.instance(API.CHAT_TYPE_FANDOM_ROOT, params[0].toLong(), 0, true, Navigator.TO)
-                    if (params.size == 2) SChat.instance(API.CHAT_TYPE_FANDOM_ROOT, params[0].toLong(), params[1].toLong(), true, Navigator.TO)
+                    if (params.size == 1) SChat.instance(ChatTag(API.CHAT_TYPE_FANDOM_ROOT, params[0].toLong(), 0), 0, true, Navigator.TO)
+                    if (params.size == 2) SChat.instance(ChatTag(API.CHAT_TYPE_FANDOM_ROOT, params[0].toLong(), params[1].toLong()), 0, true, Navigator.TO)
                 }
                 API.LINK_TAG_CONF -> {
-                    if (params.size == 1) SChat.instance(API.CHAT_TYPE_CONFERENCE, params[0].toLong(), 0, true, Navigator.TO)
-                    if (params.size == 2) SChat.instance(API.CHAT_TYPE_CONFERENCE, params[0].toLong(), params[1].toLong(), true, Navigator.TO)
+                    if (params.size == 1) SChat.instance(ChatTag(API.CHAT_TYPE_CONFERENCE, params[0].toLong(), 0), 0, true, Navigator.TO)
+                    if (params.size == 2) SChat.instance(ChatTag(API.CHAT_TYPE_CONFERENCE, params[0].toLong(), params[1].toLong()), 0, true, Navigator.TO)
                 }
                 API.LINK_TAG_WIKI_FANDOM -> SWikiList.instanceFandomId(params[0].toLong(), Navigator.TO)
                 API.LINK_TAG_WIKI_SECTION -> SWikiList.instanceItemId(params[0].toLong(), Navigator.TO)
                 API.LINK_TAG_WIKI_ARTICLE -> SWikiArticleView.instance(params[0].toLong(), Navigator.TO)
-                API.LINK_TAG_FANDOM_CHAT -> SChat.instance(API.CHAT_TYPE_FANDOM_SUB, params[0].toLong(), 0, false, Navigator.TO)
+                API.LINK_TAG_FANDOM_CHAT -> SChat.instance(ChatTag(API.CHAT_TYPE_FANDOM_SUB, params[0].toLong(), 0), 0, false, Navigator.TO)
                 API.LINK_TAG_ACTIVITY -> SRelayRaceInfo.instance(params[0].toLong(), Navigator.TO)
                 API.LINK_TAG_RUBRIC -> SRubricPosts.instance(params[0].toLong(), Navigator.TO)
                 else -> {
@@ -240,7 +241,6 @@ object ControllerLinks {
             link + url.substring(short.length)
         })
     }
-
 
 
 }

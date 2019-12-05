@@ -6,7 +6,7 @@ import android.util.LongSparseArray
 import com.dzen.campfire.api.models.notifications.*
 import com.dzen.campfire.api.models.notifications.account.*
 import com.dzen.campfire.api.models.notifications.activities.NotificationActivitiesRelayRaceLost
-import com.dzen.campfire.api.models.notifications.activities.NotificationActivitiesRelayRaceNewPost
+import com.dzen.campfire.api.models.notifications.activities.NotificationActivitiesNewPost
 import com.dzen.campfire.api.models.notifications.activities.NotificationActivitiesRelayRaceTurn
 import com.dzen.campfire.api.models.notifications.activities.NotificationActivitiesRelayRejected
 import com.dzen.campfire.api.models.notifications.chat.*
@@ -364,7 +364,7 @@ object ControllerNotifications {
             is NotificationMention -> NotificationMentionParser(n)
             is NotificationActivitiesRelayRaceTurn -> NotificationActivitiesRelayRaceTurnParser(n)
             is NotificationActivitiesRelayRaceLost -> NotificationActivitiesRelayRaceLostParser(n)
-            is NotificationActivitiesRelayRaceNewPost -> NotificationActivitiesRelayRaceNewPostParser(n)
+            is NotificationActivitiesNewPost -> NotificationActivitiesRelayRaceNewPostParser(n)
             is NotificationActivitiesRelayRejected -> NotificationActivitiesRelayRejectedParser(n)
             else -> NotificationUnknownParserParser(n)
 

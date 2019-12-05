@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.TextView
 import com.dzen.campfire.api.API
+import com.dzen.campfire.api.models.chat.ChatTag
 import com.dzen.campfire.api.requests.accounts.RAccountsFollowsChange
 import com.dzen.campfire.api.requests.accounts.RAccountsStatusSet
 import com.sayzen.campfiresdk.R
@@ -195,7 +196,7 @@ class CardInfo(
         ControllerLinks.makeLinkable(vNote)
 
         vFollow.setOnClickListener { toggleFollows() }
-        vMessage.setOnClickListener { SChat.instance(API.CHAT_TYPE_PRIVATE, xAccount.accountId, ControllerApi.account.id, true, Navigator.TO) }
+        vMessage.setOnClickListener { SChat.instance(ChatTag(API.CHAT_TYPE_PRIVATE, xAccount.accountId, ControllerApi.account.id), 0, true, Navigator.TO) }
         vFollowsButton.setOnClickListener { Navigator.to(SFollows(xAccount.accountId, xAccount.name)) }
         vFollowersButton.setOnClickListener { Navigator.to(SFollowers(xAccount.accountId, xAccount.name)) }
         vRatesButton.setOnClickListener { Navigator.to(SRates(xAccount.accountId, xAccount.name)) }

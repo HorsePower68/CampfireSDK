@@ -67,22 +67,14 @@ class SChat private constructor(
             }
         }
 
-        fun instance(chatType: Long, targetId: Long, targetSubId: Long, setStack: Boolean, action: NavigationAction) {
-            instance(chatType, targetId, targetSubId, 0, setStack, action)
-        }
+        fun instance(tag: ChatTag, scrollToMessageId: Long, setStack: Boolean, action: NavigationAction, onShow: (SChat) -> Unit = {}) {
+            tag.targetSubId = if (tag.chatType != API.CHAT_TYPE_FANDOM_ROOT || tag.targetSubId != 0L) tag.targetSubId else ControllerApi.getLanguageId()
 
-        fun instance(chatType: Long, targetId: Long, targetSubId: Long, scrollToMessageId: Long, setStack: Boolean, action: NavigationAction) {
-            val targetSubIdV = if (chatType != API.CHAT_TYPE_FANDOM_ROOT || targetSubId != 0L) targetSubId else ControllerApi.getLanguageId()
-            val tag = ChatTag(chatType, targetId, targetSubIdV)
-            if (tryOpenFromBackStack(tag, scrollToMessageId)) return
-            instance(tag, setStack, action)
-        }
-
-        fun instance(tag: ChatTag, setStack: Boolean, action: NavigationAction, onShow: (SChat) -> Unit = {}) {
             if (setStack) ControllerCampfireSDK.ON_SCREEN_CHAT_START.invoke()
-            if (tryOpenFromBackStack(tag, 0)) return
+            if (tryOpenFromBackStack(tag, scrollToMessageId)) return
+
             ApiRequestsSupporter.executeInterstitial(action, RChatGet(tag, 0)) { r ->
-                onChatLoaded(r, 0, onShow)
+                onChatLoaded(r, scrollToMessageId, onShow)
             }
         }
 

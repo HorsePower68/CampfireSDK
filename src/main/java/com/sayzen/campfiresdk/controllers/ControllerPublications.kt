@@ -2,6 +2,7 @@ package com.sayzen.campfiresdk.controllers
 
 import android.view.View
 import com.dzen.campfire.api.API
+import com.dzen.campfire.api.models.chat.ChatTag
 import com.dzen.campfire.api.models.publications.Publication
 import com.dzen.campfire.api.models.publications.PublicationComment
 import com.dzen.campfire.api.models.publications.moderations.*
@@ -497,13 +498,13 @@ object ControllerPublications {
                 ToolsView.addLink(vText, m.ownerName) { SAccount.instance(m.ownerId, Navigator.TO) }
             }
             is ModerationChatCreate -> {
-                ToolsView.addLink(vText, m.name) { SChat.instance(API.CHAT_TYPE_FANDOM_SUB, m.chatId, 0, false, Navigator.TO) }
+                ToolsView.addLink(vText, m.name) { SChat.instance(ChatTag(API.CHAT_TYPE_FANDOM_SUB, m.chatId, 0), 0, false, Navigator.TO) }
             }
             is ModerationChatChange -> {
-                ToolsView.addLink(vText, m.name) { SChat.instance(API.CHAT_TYPE_FANDOM_SUB, m.chatId, 0, false, Navigator.TO) }
+                ToolsView.addLink(vText, m.name) { SChat.instance(ChatTag(API.CHAT_TYPE_FANDOM_SUB, m.chatId, 0), 0, false, Navigator.TO) }
             }
             is ModerationBackgroundImageSub -> {
-                ToolsView.addLink(vText, m.chatName) { SChat.instance(API.CHAT_TYPE_FANDOM_SUB, m.chatId, 0, false, Navigator.TO) }
+                ToolsView.addLink(vText, m.chatName) { SChat.instance(ChatTag(API.CHAT_TYPE_FANDOM_SUB, m.chatId, 0), 0, false, Navigator.TO) }
             }
             is ModerationActivitiesCreate -> {
                 ToolsView.addLink(vText, m.name) { SRelayRaceInfo.instance(m.activityId, Navigator.TO) }

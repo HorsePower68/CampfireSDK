@@ -17,12 +17,17 @@ import com.sup.dev.android.views.support.adapters.NotifyItem
 import com.sup.dev.java.libs.eventBus.EventBus
 
 class CardWikiItem(
-        var wikiItem: WikiTitle
+        var wikiItem: WikiTitle,
+        var prefLanguageId: Long
 ) : Card(R.layout.screen_wiki_card_item), NotifyItem {
 
     private val eventBus = EventBus
             .subscribe(EventWikiRemove::class) { if (it.itemId == wikiItem.itemId) adapter?.remove(this) }
             .subscribe(EventWikiChanged::class) { if (it.item.itemId == wikiItem.itemId) wikiItem = it.item; update(); }
+
+    init {
+        if(prefLanguageId < 1) prefLanguageId = ControllerApi.getLanguageId()
+    }
 
     override fun bindView(view: View) {
         super.bindView(view)
@@ -32,16 +37,16 @@ class CardWikiItem(
         val vSectionIcon: ImageView = view.findViewById(R.id.vSectionIcon)
 
         ToolsImagesLoader.loadGif(wikiItem.imageId, 0, 0, 0, vImage)
-        vName.text = wikiItem.getName(ControllerApi.getLanguageCode())
+        vName.text = wikiItem.getName(API.getLanguage(prefLanguageId).code)
         vSectionIcon.visibility = if (wikiItem.itemType == API.WIKI_TYPE_SECION) View.VISIBLE else View.GONE
 
         view.setOnClickListener {
-            if (wikiItem.itemType == API.WIKI_TYPE_SECION) Navigator.to(SWikiList(wikiItem.fandomId, wikiItem.itemId, wikiItem.getName(ControllerApi.getLanguageCode())))
-            else Navigator.to(SWikiArticleView(wikiItem, ControllerApi.getLanguageId()))
+            if (wikiItem.itemType == API.WIKI_TYPE_SECION) Navigator.to(SWikiList(wikiItem.fandomId, prefLanguageId, wikiItem.itemId, wikiItem.getName(API.getLanguage(prefLanguageId).code)))
+            else Navigator.to(SWikiArticleView(wikiItem, prefLanguageId))
         }
 
         view.setOnLongClickListener {
-            ControllerWiki.showMenu(wikiItem, ControllerApi.getLanguageId())
+            ControllerWiki.showMenu(wikiItem, prefLanguageId)
             true
         }
     }

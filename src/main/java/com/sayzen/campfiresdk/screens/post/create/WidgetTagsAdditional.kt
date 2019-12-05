@@ -26,7 +26,7 @@ class WidgetTagsAdditional(
         private val closed: Boolean,
         private val publicationTag3: Long,
         private val presetActivity: UserActivity?,
-        private val nextUserId:Long,
+        private val nextUserId: Long,
         private val vParamsText: TextView
 ) : Widget(R.layout.screen_post_create_tags_widget) {
 
@@ -57,24 +57,24 @@ class WidgetTagsAdditional(
         vNotifyFollowers.setOnClickListener { updateParamsText() }
         vClose.setOnClickListener { updateParamsText() }
 
-        if(presetActivity  != null){
+        if (presetActivity != null) {
             setRelayRace(presetActivity, nextUserId)
         }
 
         updateParamsText()
     }
 
-    private fun updateParamsText(){
+    private fun updateParamsText() {
         var text = ""
 
-        if(vNotifyFollowers.isChecked()) text += "\n" + ToolsResources.s(R.string.post_create_notify_followers)
-        if(pendingDate > 0) text += "\n" + ToolsResources.s(R.string.post_create_pending) + " " + ToolsDate.dateToString(pendingDate)
-        if(vClose.isChecked()) text += "\n" + ToolsResources.s(R.string.post_create_closed)
-        if(rubricId > 0) text += "\n" + ToolsResources.s(R.string.app_rubric) + ": " + vRubric.getTitle()
-        if(userActivityId > 0) text += "\n" + ToolsResources.s(R.string.app_relay_race) + ": " + vRelayRace.getTitle()
+        if (vNotifyFollowers.isChecked()) text += "\n" + ToolsResources.s(R.string.post_create_notify_followers)
+        if (pendingDate > 0) text += "\n" + ToolsResources.s(R.string.post_create_pending) + " " + ToolsDate.dateToString(pendingDate)
+        if (vClose.isChecked()) text += "\n" + ToolsResources.s(R.string.post_create_closed)
+        if (rubricId > 0) text += "\n" + vRubric.getTitle()
+        if (userActivityId > 0) text += "\n" + vRelayRace.getTitle()
 
         vParamsText.text = text
-        vParamsText.visibility = if(text.isEmpty()) View.GONE else View.VISIBLE
+        vParamsText.visibility = if (text.isEmpty()) View.GONE else View.VISIBLE
     }
 
     override fun asSheetShow(): Sheet {
@@ -141,7 +141,7 @@ class WidgetTagsAdditional(
         }
     }
 
-    private fun setRelayRace(userActivity:UserActivity, nextUserId:Long){
+    private fun setRelayRace(userActivity: UserActivity, nextUserId: Long) {
         clearRubric()
         vRelayRace.setTitle(ToolsResources.s(R.string.app_relay_race) + ": " + userActivity.name)
         userActivityId = userActivity.id

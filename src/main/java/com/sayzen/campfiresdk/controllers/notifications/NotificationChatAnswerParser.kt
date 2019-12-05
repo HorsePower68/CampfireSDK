@@ -1,6 +1,7 @@
 package com.sayzen.campfiresdk.controllers.notifications
 
 import android.content.Intent
+import com.dzen.campfire.api.models.chat.ChatTag
 import com.dzen.campfire.api.models.notifications.chat.NotificationChatAnswer
 import com.sayzen.campfiresdk.R
 import com.sayzen.campfiresdk.controllers.ControllerNotifications
@@ -43,7 +44,7 @@ public class NotificationChatAnswerParser(override val n: NotificationChatAnswer
     }
 
     private fun doActionNotificationChatAnswer(n: NotificationChatAnswer) {
-        SChat.instance(n.publicationChatMessage.chatType, n.publicationChatMessage.fandomId, n.publicationChatMessage.languageId, n.publicationChatMessage.id, true, Navigator.TO)
+        SChat.instance(ChatTag(n.publicationChatMessage.chatType, n.publicationChatMessage.fandomId, n.publicationChatMessage.languageId), n.publicationChatMessage.id, true, Navigator.TO)
 
     }
 }

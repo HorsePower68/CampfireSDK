@@ -137,6 +137,8 @@
     <string name="app_add">Добавить</string>
     <string name="app_status">Статус</string>
     <string name="app_subscription">Подписка</string>
+    <string name="app_subscribe">Подписаться</string>
+    <string name="app_unsubscribe">Отписаться</string>
     <string name="app_subscriptions">Подписки</string>
     <string name="app_subscribers">Подписчики</string>
     <string name="app_wiki">Вики</string>
@@ -216,6 +218,7 @@
     <string name="app_gif">Gif</string>
     <string name="app_images">Изображения</string>
     <string name="app_you">Вы</string>
+    <string name="app_viceroy">Наместник</string>
 
     <string name="he">Он</string>
     <string name="she">Она</string>
@@ -800,6 +803,7 @@
     <string name="lvl_make_moderators">Возможность сделать пользователя модератором в фэндоме. Дает пользователю необходимую карму для того чтобы стать модератором.</string>
     <string name="lvl_fandom_close">Возможность открыть / закрыть фэндом</string>
     <string name="lvl_remove_fandoms">Возможность удалять фэндомы</string>
+    <string name="lvl_viceroy">Возможность назначать наместников фэндома</string>
     <string name="lvl_protoadmin">Протоадмин. Доступ к красной кнопке</string>
 
     <string name="error_unknown">Неизвестная ошибка</string>
@@ -1135,6 +1139,8 @@
     <string name="activities_support_card_title">Собранно просмотров рекламы на оплату сервера в этом месяце:</string>
     <string name="activities_support_card_action">Посмотреть рекламу</string>
     <string name="activities_low_lvl">Вы недостойны</string>
+    <string name="activities_subscribe_alert">Подписаться на эту активность?</string>
+    <string name="activities_unsubscribe_alert">Отписаться от этой активности?</string>
     <string name="activities_relay_race_creation">Создание эстафеты</string>
     <string name="activities_relay_race_error_lvl">Вы не можете создать эстафету в этом фэндоме. Проверьте свою карму.</string>
     <string name="activities_relay_race_remove_title">Удалить эстафету</string>

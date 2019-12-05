@@ -7,6 +7,7 @@ import android.widget.FrameLayout
 import android.widget.LinearLayout
 import android.widget.TextView
 import com.dzen.campfire.api.API
+import com.dzen.campfire.api.models.chat.ChatTag
 import com.dzen.campfire.api.models.notifications.chat.NotificationChatMessageChange
 import com.dzen.campfire.api.models.notifications.chat.NotificationChatMessageRemove
 import com.dzen.campfire.api.models.notifications.publications.NotificationMention
@@ -384,7 +385,7 @@ abstract class CardChatMessage constructor(
         }
 
         if (onClick == null) {
-            SChat.instance(publication.chatType, publication.fandomId, publication.languageId, true, Navigator.TO)
+            SChat.instance(ChatTag(publication.chatType, publication.fandomId, publication.languageId), 0, true, Navigator.TO)
             return true
         } else {
             return onClick!!.invoke(publication)
