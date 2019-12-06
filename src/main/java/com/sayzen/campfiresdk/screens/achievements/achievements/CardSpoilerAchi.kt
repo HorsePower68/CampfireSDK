@@ -6,6 +6,7 @@ import com.dzen.campfire.api.models.AchievementInfo
 import com.sayzen.campfiresdk.R
 
 import com.sayzen.campfiresdk.app.CampfireConstants
+import com.sayzen.campfiresdk.controllers.ControllerApi
 import com.sup.dev.android.tools.ToolsResources
 import com.sup.dev.android.views.cards.CardLoading
 import com.sup.dev.android.views.cards.CardSpoiler
@@ -90,6 +91,7 @@ class CardSpoilerAchi(
 
     private fun addAchi(array:Array<AchievementInfo>){
         for (i in array.indices) {
+            if(array[i].index == API.ACHI_VIDEO_AD.index && ControllerApi.account.lvl < 200) continue
             val card = CardAchievement(pageAchievements, array[i])
             addAchi(card)
         }

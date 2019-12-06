@@ -9,8 +9,8 @@ import com.dzen.campfire.api.models.notifications.account.NotificationAchievemen
 import com.dzen.campfire.api.models.notifications.chat.NotificationChatAnswer
 import com.dzen.campfire.api.models.notifications.comments.NotificationComment
 import com.dzen.campfire.api.models.notifications.comments.NotificationCommentAnswer
-import com.dzen.campfire.api.models.notifications.fanom.NotificationFandomAccepted
-import com.dzen.campfire.api.models.notifications.fanom.NotificationModerationRejected
+import com.dzen.campfire.api.models.notifications.fandom.NotificationFandomAccepted
+import com.dzen.campfire.api.models.notifications.fandom.NotificationModerationRejected
 import com.dzen.campfire.api.models.notifications.rubrics.*
 import com.dzen.campfire.api.models.notifications.publications.NotificationFollowsPublication
 import com.dzen.campfire.api.models.notifications.publications.NotificationKarmaAdd

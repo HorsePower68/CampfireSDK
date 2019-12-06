@@ -112,6 +112,13 @@ class CardPublicationEventFandom(
                 text = ToolsResources.sCap(R.string.publication_event_fandom_rename, ToolsResources.sex(e.ownerAccountSex, R.string.he_rename, R.string.she_rename), e.oldName, "" + e.fandomName)
                 view.setOnClickListener { ControllerCampfireSDK.onToFandomClicked(e.fandomId, 0, Navigator.TO) }
             }
+            is ApiEventFandomViceroyAssign -> {
+                text = if(e.oldAccountName.isEmpty()) ToolsResources.sCap(R.string.publication_event_fandom_viceroy_assign, ToolsResources.sex(e.ownerAccountSex, R.string.he_assign, R.string.she_assign), ControllerLinks.linkToAccount(e.newAccountName))
+                else ToolsResources.sCap(R.string.publication_event_fandom_viceroy_assign_instead, ToolsResources.sex(e.ownerAccountSex, R.string.he_assign, R.string.she_assign), ControllerLinks.linkToAccount(e.newAccountName), ControllerLinks.linkToAccount(e.oldAccountName))
+            }
+            is ApiEventFandomViceroyRemove -> {
+                text = ToolsResources.sCap(R.string.publication_event_fandom_viceroy_remove, ToolsResources.sex(e.ownerAccountSex, R.string.he_denied, R.string.she_denied), ControllerLinks.linkToAccount(e.oldAccountName))
+            }
         }
 
         if (e.comment.isNotEmpty()) text += "\n" + ToolsResources.s(R.string.app_comment) + ": " + e.comment

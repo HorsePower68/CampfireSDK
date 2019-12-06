@@ -60,7 +60,7 @@ class SActivities : Screen(R.layout.screen_activities) {
         vErrors.setOnClickListener { SAdministrationErrors.instance(Navigator.TO) }
         vSupport.setOnClickListener { SSupport.instance(Navigator.TO) }
 
-        if(ControllerApi.account.lvl >= 2) {
+        if(ControllerApi.account.lvl >= 200) {
             vSupport.visibility = View.VISIBLE
             vRubrics.setLineVisible(false)
             vSupport.setLineVisible(true)

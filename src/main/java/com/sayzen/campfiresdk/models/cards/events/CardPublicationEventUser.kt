@@ -64,8 +64,8 @@ class CardPublicationEventUser(
                 view.setOnClickListener { ControllerCampfireSDK.onToAchievementClicked(publication.creatorId, publication.creatorName, e.achievementIndex, false, Navigator.TO) }
             }
             is ApiEventUserQuestFinish -> {
-                text = ToolsResources.sCap(R.string.publication_event_quest_finish, ToolsResources.sex(e.ownerAccountSex, R.string.he_finished, R.string.she_finished)) +":"
-                text += "\n"+ToolsResources.s(CampfireConstants.getQuest(e.questIndex).text)
+                text = ToolsResources.sCap(R.string.publication_event_quest_finish, ToolsResources.sex(e.ownerAccountSex, R.string.he_finished, R.string.she_finished)) + ":"
+                text += "\n" + ToolsResources.s(CampfireConstants.getQuest(e.questIndex).text)
                 imageRedId = CampfireConstants.getAchievement(API.ACHI_QUESTS).image
                 vAvatarTitle.vImageView.tag = null
                 vAvatarTitle.vImageView.setBackgroundColor(ToolsResources.getColor(CampfireConstants.getAchievement(API.ACHI_QUESTS).colorRes))
@@ -84,7 +84,7 @@ class CardPublicationEventUser(
                 if (e.warned) text += "\n" + ToolsResources.s(R.string.publication_event_account_blocked_warn)
                 if (e.lastPublicationsBlocked) text += "\n" + ToolsResources.s(R.string.publication_event_account_blocked_last_publications)
                 view.setOnClickListener {
-                    if(e.moderationId > 0) ControllerCampfireSDK.onToModerationClicked(e.moderationId, 0L, Navigator.TO)
+                    if (e.moderationId > 0) ControllerCampfireSDK.onToModerationClicked(e.moderationId, 0L, Navigator.TO)
                     else ControllerCampfireSDK.onToAccountClicked(e.ownerAccountId, Navigator.TO)
                 }
             }
@@ -149,6 +149,14 @@ class CardPublicationEventUser(
                 text = ToolsResources.sCap(R.string.publication_event_post_fandom_change, ControllerLinks.linkToAccount(e.adminAccountName), ToolsResources.sex(e.adminAccountSex, R.string.he_move, R.string.she_move), e.oldFandomName, e.newFandomName)
                 view.setOnClickListener { ControllerCampfireSDK.onToPostClicked(e.publicationId, 0, Navigator.TO) }
             }
+            is ApiEventUserAdminViceroyAssign -> {
+                text = ToolsResources.sCap(R.string.publication_event_user_viceroy_assign, ControllerLinks.linkToAccount(e.adminAccountName), ToolsResources.sex(e.adminAccountSex, R.string.he_assign, R.string.she_assign), e.fandomName)
+                view.setOnClickListener { SFandom.instance(e.fandomId, e.fandomLanguageId, Navigator.TO) }
+            }
+            is ApiEventUserAdminViceroyRemove -> {
+                text = ToolsResources.sCap(R.string.publication_event_user_viceroy_remove, ControllerLinks.linkToAccount(e.adminAccountName), ToolsResources.sex(e.adminAccountSex, R.string.he_denied, R.string.she_denied), e.fandomName)
+                view.setOnClickListener { SFandom.instance(e.fandomId, e.fandomLanguageId, Navigator.TO) }
+            }
         }
 
         if (e.comment.isNotEmpty()) text += "\n" + ToolsResources.s(R.string.app_comment) + ": " + e.comment
@@ -162,10 +170,10 @@ class CardPublicationEventUser(
         } else if (showFandom && publication.fandomId > 0) {
             xPublication.xFandom.setView(vAvatarTitle)
             vName.text = xPublication.xFandom.name
-        } else if(e.adminAccountId > 0){
+        } else if (e.adminAccountId > 0) {
             xAccountAdmin.setView(vAvatarTitle)
             vName.text = xAccountAdmin.name
-        } else{
+        } else {
             xAccount.setView(vAvatarTitle)
             vName.text = xAccount.name
         }
@@ -173,6 +181,8 @@ class CardPublicationEventUser(
         when (e) {
             is ApiEventUserFandomMakeModerator -> ToolsView.addLink(vText, e.fandomName) { SFandom.instance(e.fandomId, Navigator.TO) }
             is ApiEventUserFandomRemoveModerator -> ToolsView.addLink(vText, e.fandomName) { SFandom.instance(e.fandomId, Navigator.TO) }
+            is ApiEventUserAdminViceroyAssign -> ToolsView.addLink(vText, e.fandomName) { SFandom.instance(e.fandomId, e.fandomLanguageId, Navigator.TO) }
+            is ApiEventUserAdminViceroyRemove -> ToolsView.addLink(vText, e.fandomName) { SFandom.instance(e.fandomId, e.fandomLanguageId, Navigator.TO) }
             is ApiEventUserAdminPublicationBlocked -> ToolsView.addLink(vText, e.blockFandomName) { SFandom.instance(e.blockFandomId, Navigator.TO) }
         }
     }

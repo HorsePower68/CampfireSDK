@@ -166,6 +166,15 @@ class CardPublicationEventAdmin(
                 text = ToolsResources.sCap(R.string.publication_event_fandom_suggested_accept, ToolsResources.sex(e.ownerAccountSex, R.string.he_accept, R.string.she_accept), e.fandomName)
                 view.setOnClickListener { ControllerCampfireSDK.onToFandomClicked(e.fandomId, 0, Navigator.TO) }
             }
+            is ApiEventAdminFandomViceroyAssign -> {
+                text = if(e.oldAccountName.isEmpty()) ToolsResources.sCap(R.string.publication_event_admin_viceroy_assign, ToolsResources.sex(e.ownerAccountSex, R.string.he_assign, R.string.she_assign), ControllerLinks.linkToAccount(e.newAccountName), e.fandomName)
+                else ToolsResources.sCap(R.string.publication_event_admin_viceroy_assign_instead, ToolsResources.sex(e.ownerAccountSex, R.string.he_assign, R.string.she_assign), ControllerLinks.linkToAccount(e.newAccountName), e.fandomName, ControllerLinks.linkToAccount(e.oldAccountName))
+                view.setOnClickListener { SFandom.instance(e.fandomId, e.fandomLanguageId, Navigator.TO)}
+            }
+            is ApiEventAdminFandomViceroyRemove -> {
+                text = ToolsResources.sCap(R.string.publication_event_admin_viceroy_remove, ToolsResources.sex(e.ownerAccountSex, R.string.he_denied, R.string.she_denied), ControllerLinks.linkToAccount(e.oldAccountName), e.fandomName)
+                view.setOnClickListener { SFandom.instance(e.fandomId, e.fandomLanguageId, Navigator.TO) }
+            }
         }
 
         if (e.comment.isNotEmpty()) text += "\n" + ToolsResources.s(R.string.app_comment) + ": " + e.comment
@@ -191,7 +200,8 @@ class CardPublicationEventAdmin(
             is ApiEventAdminFandomMakeModerator -> ToolsView.addLink(vText, e.fandomName) { SFandom.instance(e.fandomId, Navigator.TO) }
             is ApiEventAdminFandomRemoveModerator -> ToolsView.addLink(vText, e.fandomName) { SFandom.instance(e.fandomId, Navigator.TO) }
             is ApiEventAdminFandomRename -> ToolsView.addLink(vText, e.newName) { SFandom.instance(e.fandomId, Navigator.TO) }
-            is ApiEventAdminFandomMakeModerator -> ToolsView.addLink(vText, e.fandomName) { SFandom.instance(e.fandomId, Navigator.TO) }
+            is ApiEventAdminFandomViceroyAssign -> ToolsView.addLink(vText, e.fandomName) { SFandom.instance(e.fandomId, e.fandomLanguageId, Navigator.TO) }
+            is ApiEventAdminFandomViceroyRemove -> ToolsView.addLink(vText, e.fandomName) { SFandom.instance(e.fandomId, e.fandomLanguageId, Navigator.TO) }
         }
 
     }

@@ -219,6 +219,7 @@
     <string name="app_images">Изображения</string>
     <string name="app_you">Вы</string>
     <string name="app_viceroy">Наместник</string>
+    <string name="app_assign">Назначить</string>
 
     <string name="he">Он</string>
     <string name="she">Она</string>
@@ -292,6 +293,8 @@
     <string name="she_react">отреагировала</string>
     <string name="he_give">передал</string>
     <string name="she_give">передала</string>
+    <string name="he_denied">лешил</string>
+    <string name="she_denied">лешила</string>
 
     <string name="filter_events">События</string>
     <string name="filter_posts">Посты</string>
@@ -317,8 +320,10 @@
 
     <string name="notifications_follows_new_content">%s %s новую публикацию</string>
     <string name="notifications_fandom_suggested">%s %s новый фэндом</string>
-    <string name="notifications_fandom_make_moderator">Вас лишили права модерировать фэндом %s</string>
-    <string name="notifications_fandom_remove_moderator">Теперь вы можете модерировать фэндом %s</string>
+    <string name="notifications_fandom_make_moderator">Теперь вы можете модерировать фэндом %s</string>
+    <string name="notifications_fandom_remove_moderator">Вас лишили права модерировать фэндом %s</string>
+    <string name="notifications_fandom_viceroy_assign">%s %s вас наместником фэндома %s</string>
+    <string name="notifications_fandom_viceroy_remove">%s %s вас права наместника фэндома %s</string>
     <string name="notifications_important_publication">В фэндоме %s появилась важная публикация</string>
     <string name="notifications_moderation_to_drafts">Модератор %s %s ваш пост%s в черновики</string>
     <string name="notifications_moderation_multilingual_not">Модератор %s %s ваш пост не мультиязычным</string>
@@ -617,6 +622,11 @@
     <string name="fandom_subscription_type">Тип подписки</string>
     <string name="fandom_subscription_notify">Уведомлять о важных постах</string>
     <string name="fandom_review_empty">Нет отзывов</string>
+    <string name="fandom_viceroy_assign">Назначить наместника</string>
+    <string name="fandom_viceroy_empty">Не назначен</string>
+    <string name="fandom_viceroy_remove">Убрать наместника</string>
+    <string name="fandom_viceroy_assign_text">Назначить этого пользователя наместником фэндома?</string>
+    <string name="fandom_viceroy_remove_text">Убрать наместника этого фэндома?</string>
 
     <string name="chats_empty">У вас пока нет чатов</string>
     <string name="chats_loading">Загрузка ваших чатов</string>
@@ -1499,6 +1509,9 @@
     <string name="publication_event_fandom_suggested">%s фэндом %s</string>
     <string name="publication_event_fandom_suggested_self">%s и %s фэндом %s</string>
     <string name="publication_event_fandom_suggested_accept">%s фэндом %s</string>
+    <string name="publication_event_admin_viceroy_assign">%s пользователя %s наместником фэндома %s</string>
+    <string name="publication_event_admin_viceroy_assign_instead">%s пользователя %s наместником фэндома %s. Вместо %s.</string>
+    <string name="publication_event_admin_viceroy_remove">%s пользователя %s прав наместника фэндома %s</string>
     <string name="publication_event_change_name">Администратор %s %s имя этого пользователя с %s на %s</string>
     <string name="publication_event_change_name_admin">%s имя пользователя с %s на %s</string>
     <string name="publication_event_remove_name">Администратор %s %s имя этого пользователя</string>
@@ -1516,6 +1529,9 @@
     <string name="publication_event_remove_fandom">%s фэндом %s</string>
     <string name="publication_event_fandom_karma_cof">%s коэффициент кармы в фэндоме %s с %s на %s</string>
     <string name="publication_event_fandom_rename">%s фэндом с %s на %s</string>
+    <string name="publication_event_fandom_viceroy_assign">%s пользователя %s наместником фэндома</string>
+    <string name="publication_event_fandom_viceroy_assign_instead">%s пользователя %s наместником фэндома. Вместо %s.</string>
+    <string name="publication_event_fandom_viceroy_remove">%s пользователя %s прав наместника фэндома</string>
     <string name="publication_event_fandom_close">%s фэндом %s</string>
     <string name="publication_event_fandom_avatar">%s аватар фэндома %s</string>
     <string name="publication_event_fandom_image_title">Изменил фоновое изображение фэндома %s</string>
@@ -1553,6 +1569,8 @@
     <string name="publication_event_publication_restore">Администратор %s %s публикацию этого пользователя</string>
     <string name="publication_event_publication_restore_admin">%s публикацию пользователя %s</string>
     <string name="publication_event_post_fandom_change">Администратор %s %s пост этого пользователя из фэндома %s в %s</string>
+    <string name="publication_event_user_viceroy_assign">Администратор %s %s наместником фэндома %s</string>
+    <string name="publication_event_user_viceroy_remove">Администратор %s %s права наместника фэндома %s</string>
     <string name="publication_event_post_fandom_change_admin">%s пост пользователя %s из фэндома %s в %s</string>
     <string name="publication_event_category_fandom_change_admin">%s категорию фэндома %s с %s на %s</string>
     <string name="publication_event_account_blocked_date">Пользователь заблокирован до %s</string>

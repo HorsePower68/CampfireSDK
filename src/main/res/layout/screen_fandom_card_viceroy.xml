@@ -23,6 +23,7 @@
     <com.sup.dev.android.views.views.ViewIcon
         android:id="@+id/vMenu"
         style="@style/Icon.18"
+        android:layout_marginRight="16dp"
         android:layout_gravity="right|center"
         android:src="@drawable/ic_more_vert_grey_700_18dp" />
 
@@ -34,6 +35,15 @@
         android:layout_gravity="center"
         android:layout_marginTop="8dp"
         android:text="@string/app_loading" />
+
+    <TextView
+        android:id="@+id/vEmpty"
+        style="@style/TextAppearance.AppCompat.Body1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="8dp"
+        android:text="@string/fandom_viceroy_empty" />
 
     <Button
         android:id="@+id/vRetry"

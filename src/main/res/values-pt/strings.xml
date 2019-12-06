@@ -219,6 +219,7 @@ Campfire has anime fandoms and gaming fandoms.</string>
     <string name="app_images">Images</string>
     <string name="app_you">You</string>
     <string name="app_viceroy">Viceroy</string>
+    <string name="app_assign">Assign</string>
 
     <string name="he">He</string>
     <string name="she">She</string>
@@ -292,6 +293,8 @@ Campfire has anime fandoms and gaming fandoms.</string>
     <string name="she_react">react</string>
     <string name="he_give">give</string>
     <string name="she_give">give</string>
+    <string name="he_denied">denied</string>
+    <string name="she_denied">denied</string>
 
     <string name="filter_events">Events</string>
     <string name="filter_posts">Posts</string>
@@ -317,8 +320,10 @@ Campfire has anime fandoms and gaming fandoms.</string>
 
     <string name="notifications_follows_new_content">%s %s new publication</string>
     <string name="notifications_fandom_suggested">%s %s new fandom</string>
-    <string name="notifications_fandom_make_moderator">You have been denied moderation of fandom %s</string>
-    <string name="notifications_fandom_remove_moderator">Now you can moderate fandom %s</string>
+    <string name="notifications_fandom_make_moderator">Now you can moderate fandom %s </string>
+    <string name="notifications_fandom_remove_moderator">You have been denied moderation of fandom %s</string>
+    <string name="notifications_fandom_viceroy_assign">%s %s you viceroy of fandom %s</string>
+    <string name="notifications_fandom_viceroy_remove">%s %s of the right viceroy of fandom %s</string>
     <string name="notifications_important_publication">Important publication appeared in the fandom %s</string>
     <string name="notifications_moderation_to_drafts">Moderator %s %s your post%s to drafts</string>
     <string name="notifications_moderation_multilingual_not">Moderator %s %s your post not multilingual</string>
@@ -615,6 +620,11 @@ Campfire has anime fandoms and gaming fandoms.</string>
     <string name="fandom_subscription_type">Subscription type</string>
     <string name="fandom_subscription_notify">Notify about important posts</string>
     <string name="fandom_review_empty">No reviews</string>
+    <string name="fandom_viceroy_assign">Assign viceroy</string>
+    <string name="fandom_viceroy_empty">Not assign</string>
+    <string name="fandom_viceroy_remove">Remove viceroy</string>
+    <string name="fandom_viceroy_assign_text">Assign this user as the viceroy of the fandom?</string>
+    <string name="fandom_viceroy_remove_text">Remove the viceroy of this fandom?</string>
 
     <string name="chats_empty">You don\'t have chats</string>
     <string name="chats_loading">Loading your chats</string>
@@ -1497,6 +1507,9 @@ Campfire has anime fandoms and gaming fandoms.</string>
     <string name="publication_event_fandom_suggested">%s a fandom %s</string>
     <string name="publication_event_fandom_suggested_self">%s and %s fandom %s</string>
     <string name="publication_event_fandom_suggested_accept">%s fandom %s</string>
+    <string name="publication_event_admin_viceroy_assign">%s %s viceroy of fandom %s</string>
+    <string name="publication_event_admin_viceroy_assign_instead">%s %s viceroy of fandom %s. Instead of %s.</string>
+    <string name="publication_event_admin_viceroy_remove">%s %s rules of viceroy of fandom %s</string>
     <string name="publication_event_change_name">Administrator %s %s this user name from %s to %s</string>
     <string name="publication_event_change_name_admin">%s user name from %s to %s</string>
     <string name="publication_event_remove_name">Administrator %s %s this user name</string>
@@ -1514,6 +1527,9 @@ Campfire has anime fandoms and gaming fandoms.</string>
     <string name="publication_event_remove_fandom">%s fandom %s</string>
     <string name="publication_event_fandom_karma_cof">%s karma coefficient in fandom %s from %s to %s</string>
     <string name="publication_event_fandom_rename">%s fandom from %s to %s</string>
+    <string name="publication_event_fandom_viceroy_assign">%s %s viceroy of fandom</string>
+    <string name="publication_event_fandom_viceroy_assign_instead">%s %s viceroy of fandom. Instead of %s.</string>
+    <string name="publication_event_fandom_viceroy_remove">%s %s rules of viceroy of fandom</string>
     <string name="publication_event_fandom_close">%s fandom %s</string>
     <string name="publication_event_fandom_avatar">%s avatar of fandom %s</string>
     <string name="publication_event_fandom_image_title">Changed fandom title image</string>
@@ -1531,6 +1547,8 @@ Campfire has anime fandoms and gaming fandoms.</string>
     <string name="publication_event_publication_restore">Administrator %s %s publication of this user</string>
     <string name="publication_event_publication_restore_admin">%s publication of user %s</string>
     <string name="publication_event_post_fandom_change">Administrator %s %s post of this user from fandom %s to %s</string>
+    <string name="publication_event_user_viceroy_assign">Administrator %s %s viceroy of fandom %s</string>
+    <string name="publication_event_user_viceroy_remove">Administrator %s %s rules of viceroy of fandom %s</string>
     <string name="publication_event_post_fandom_change_admin">%s post of user %s from fandom %s to %s</string>
     <string name="publication_event_category_fandom_change_admin">%s category of fandom %s %s to %s</string>
     <string name="publication_event_account_blocked_date">User was blocked until %s</string>

@@ -12,7 +12,7 @@ import com.dzen.campfire.api.models.notifications.activities.NotificationActivit
 import com.dzen.campfire.api.models.notifications.chat.*
 import com.dzen.campfire.api.models.notifications.comments.NotificationComment
 import com.dzen.campfire.api.models.notifications.comments.NotificationCommentAnswer
-import com.dzen.campfire.api.models.notifications.fanom.*
+import com.dzen.campfire.api.models.notifications.fandom.*
 import com.dzen.campfire.api.models.notifications.post.*
 import com.dzen.campfire.api.models.notifications.project.NotificationProjectABParamsChanged
 import com.dzen.campfire.api.models.notifications.project.NotificationQuestFinish
@@ -27,7 +27,21 @@ import com.dzen.campfire.api.requests.accounts.RAccountsNotificationsRemoveToken
 import com.dzen.campfire.api.requests.accounts.RAccountsNotificationsView
 import com.google.firebase.messaging.RemoteMessage
 import com.sayzen.campfiresdk.R
-import com.sayzen.campfiresdk.controllers.notifications.*
+import com.sayzen.campfiresdk.controllers.notifications.account.*
+import com.sayzen.campfiresdk.controllers.notifications.activities.NotificationActivitiesRelayRaceLostParser
+import com.sayzen.campfiresdk.controllers.notifications.activities.NotificationActivitiesRelayRaceNewPostParser
+import com.sayzen.campfiresdk.controllers.notifications.activities.NotificationActivitiesRelayRaceTurnParser
+import com.sayzen.campfiresdk.controllers.notifications.activities.NotificationActivitiesRelayRejectedParser
+import com.sayzen.campfiresdk.controllers.notifications.chat.*
+import com.sayzen.campfiresdk.controllers.notifications.comments.NotificationCommentAnswerParser
+import com.sayzen.campfiresdk.controllers.notifications.comments.NotificationCommentParser
+import com.sayzen.campfiresdk.controllers.notifications.fandom.*
+import com.sayzen.campfiresdk.controllers.notifications.post.*
+import com.sayzen.campfiresdk.controllers.notifications.project.NotificationProjectABParamsChangedParser
+import com.sayzen.campfiresdk.controllers.notifications.project.NotificationQuestFinishParser
+import com.sayzen.campfiresdk.controllers.notifications.project.NotificationQuestProgressParser
+import com.sayzen.campfiresdk.controllers.notifications.publications.*
+import com.sayzen.campfiresdk.controllers.notifications.rubrics.*
 import com.sayzen.campfiresdk.models.events.notifications.EventNotification
 import com.sayzen.campfiresdk.models.events.notifications.EventNotificationReaded
 import com.sayzen.campfiresdk.models.events.notifications.EventNotificationsCountChanged
@@ -327,13 +341,15 @@ object ControllerNotifications {
             is NotificationFollowsPublication -> NotificationFollowsPublicationParser(n)
             is NotificationFandomRemoveModerator -> NotificationFandomRemoveModeratorParser(n)
             is NotificationFandomMakeModerator -> NotificationFandomMakeModeratorParser(n)
+            is NotificationFandomViceroyAssign -> NotificationFandomViceroyAssignParser(n)
+            is NotificationFandomViceroyRemove -> NotificationFandomViceroyRemoveParser(n)
             is NotificationAchievement -> NotificationAchievementParser(n)
             is NotificationFandomAccepted -> NotificationFandomAcceptedParser(n)
             is NotificationPublicationBlock -> NotificationPublicationBlockParser(n)
             is NotificationPublicationBlockAfterReport -> NotificationPublicationBlockAfterReportParser(n)
             is NotificationKarmaAdd -> NotificationKarmaAddParser(n)
-            is NotificationPublicationReaction -> NotificationUnitReactionParser(n)
-            is NotificationPublicationImportant -> NotificationUnitImportantParser(n)
+            is NotificationPublicationReaction -> NotificationPublicationReactionParser(n)
+            is NotificationPublicationImportant -> NotificationPublicationImportantParser(n)
             is NotificationModerationToDraft -> NotificationModerationToDraftParser(n)
             is NotificationModerationMultilingualNot -> NotificationModerationMultilingualNotParser(n)
             is NotificationModerationPostClosed -> NotificationModerationPostClosedParser(n)
@@ -359,7 +375,7 @@ object ControllerNotifications {
             is NotificationRubricsChangeOwner -> NotificationRubricsChangeOwnerParser(n)
             is NotificationRubricsKarmaCofChanged -> NotificationRubricsKarmaCofChangedParser(n)
             is NotificationRubricsRemove -> NotificationRubricsRemoveParser(n)
-            is NotificationPublicationRestore -> NotificationUnitRestoreParser(n)
+            is NotificationPublicationRestore -> NotificationPublicationRestoreParser(n)
             is NotificationAdminPostFandomChange -> NotificationAdminPostFandomChangeParser(n)
             is NotificationMention -> NotificationMentionParser(n)
             is NotificationActivitiesRelayRaceTurn -> NotificationActivitiesRelayRaceTurnParser(n)
