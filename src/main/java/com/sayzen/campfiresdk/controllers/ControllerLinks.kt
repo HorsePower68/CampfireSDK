@@ -64,6 +64,7 @@ object ControllerLinks {
                 API.LINK_TAG_BOX_WITH_SUMMER -> ControllerScreenAnimations.summer()
                 API.LINK_TAG_BOX_WITH_AUTUMN -> ControllerScreenAnimations.autumn()
                 API.LINK_TAG_BOX_WITH_WINTER -> ControllerScreenAnimations.winter()
+                API.LINK_TAG_BOX_WITH_CRASH -> ("Do Crash").toInt()
                 API.LINK_TAG_STICKER -> SStickersView.instanceBySticker(params[0].toLong(), Navigator.TO)
                 API.LINK_TAG_STICKERS_PACK -> {
                     if (params.size == 1) SStickersView.instance(params[0].toLong(), Navigator.TO)
