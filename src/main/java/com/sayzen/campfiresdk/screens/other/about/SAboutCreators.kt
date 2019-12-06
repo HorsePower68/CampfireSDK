@@ -57,7 +57,7 @@ class SAboutCreators : Screen(R.layout.screen_other_abount_creators){
         }
 
         vCopyLink.setOnClickListener {
-            ToolsAndroid.setToClipboard(API.LINK_CREATORS)
+            ToolsAndroid.setToClipboard(API.LINK_CREATORS.asWeb())
             ToolsToast.show(R.string.app_copied)
         }
     }

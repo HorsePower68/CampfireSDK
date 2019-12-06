@@ -18,7 +18,7 @@ class SRulesModerators : Screen(R.layout.screen_other_rules_moderators) {
 
     init {
         vCopyLink.setOnClickListener {
-            ToolsAndroid.setToClipboard(API.LINK_RULES_MODER)
+            ToolsAndroid.setToClipboard(API.LINK_RULES_MODER.asWeb())
             ToolsToast.show(R.string.app_copied)
         }
 

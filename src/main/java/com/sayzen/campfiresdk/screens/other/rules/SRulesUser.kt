@@ -29,7 +29,7 @@ class SRulesUser(
         }
 
         vCopyLink.setOnClickListener {
-            ToolsAndroid.setToClipboard(API.LINK_RULES_USER)
+            ToolsAndroid.setToClipboard(API.LINK_RULES_USER.asWeb())
             ToolsToast.show(R.string.app_copied)
         }
 

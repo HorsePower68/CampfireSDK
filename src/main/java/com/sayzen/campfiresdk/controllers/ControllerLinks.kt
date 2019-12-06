@@ -53,56 +53,56 @@ object ControllerLinks {
             val params: List<String> = if (s1.size > 1) s1[1].split("_") else emptyList()
 
             when (linkV) {
-                API.LINK_TAG_ABOUT -> Navigator.to(SAboutApp())
-                API.LINK_TAG_RULES_USER -> Navigator.to(SRulesUser())
-                API.LINK_TAG_RULES_MODER -> Navigator.to(SRulesModerators())
-                API.LINK_TAG_CREATORS -> Navigator.to(SAboutCreators())
-                API.LINK_TAG_BOX_WITH_FIREWIRKS -> {
+                API.LINK_ABOUT.link -> Navigator.to(SAboutApp())
+                API.LINK_RULES_USER.link -> Navigator.to(SRulesUser())
+                API.LINK_RULES_MODER.link -> Navigator.to(SRulesModerators())
+                API.LINK_CREATORS.link -> Navigator.to(SAboutCreators())
+                API.LINK_BOX_WITH_FIREWORKS.link -> {
                     ControllerScreenAnimations.fireworks()
                     ToolsThreads.main(10000) { RAchievementsOnFinish(API.ACHI_FIREWORKS.index).send(api) }
                 }
-                API.LINK_TAG_BOX_WITH_SUMMER -> ControllerScreenAnimations.summer()
-                API.LINK_TAG_BOX_WITH_AUTUMN -> ControllerScreenAnimations.autumn()
-                API.LINK_TAG_BOX_WITH_WINTER -> ControllerScreenAnimations.winter()
-                API.LINK_TAG_BOX_WITH_BOMB -> ControllerScreenAnimations.bomb()
-                API.LINK_TAG_BOX_WITH_CRASH -> ControllerScreenAnimations.crash()
-                API.LINK_TAG_STICKER -> SStickersView.instanceBySticker(params[0].toLong(), Navigator.TO)
-                API.LINK_TAG_STICKERS_PACK -> {
+                API.LINK_BOX_WITH_SUMMER.link -> ControllerScreenAnimations.summer()
+                API.LINK_BOX_WITH_AUTUMN.link -> ControllerScreenAnimations.autumn()
+                API.LINK_BOX_WITH_WINTER.link -> ControllerScreenAnimations.winter()
+                API.LINK_BOX_WITH_BOMB.link -> ControllerScreenAnimations.bomb()
+                API.LINK_BOX_WITH_CRASH.link -> ControllerScreenAnimations.crash()
+                API.LINK_STICKER.link -> SStickersView.instanceBySticker(params[0].toLong(), Navigator.TO)
+                API.LINK_STICKERS_PACK.link -> {
                     if (params.size == 1) SStickersView.instance(params[0].toLong(), Navigator.TO)
                     if (params.size == 2) Navigator.to(SComments(params[0].toLong(), params[1].toLong()))
                 }
-                API.LINK_TAG_POST -> {
+                API.LINK_POST.link -> {
                     if (params.size == 1) SPost.instance(params[0].toLong(), 0, Navigator.TO)
                     if (params.size == 2) SPost.instance(params[0].toLong(), params[1].toLong(), Navigator.TO)
                 }
-                API.LINK_TAG_REVIEW -> {
+                API.LINK_REVIEW.link -> {
                     SReviews.instance(params[0].toLong(), Navigator.TO)
                 }
-                API.LINK_TAG_FANDOM -> {
+                API.LINK_FANDOM.link -> {
                     if (params.size == 1) SFandom.instance(params[0].toLong(), 0, Navigator.TO)
                     if (params.size == 2) SFandom.instance(params[0].toLong(), params[1].toLong(), Navigator.TO)
                 }
-                API.LINK_TAG_PROFILE_ID -> SAccount.instance(params[0].toLong(), Navigator.TO)
+                API.LINK_PROFILE_ID.link -> SAccount.instance(params[0].toLong(), Navigator.TO)
                 API.LINK_TAG_PROFILE_NAME -> SAccount.instance(params[0], Navigator.TO)
-                API.LINK_TAG_TAG -> SPostsSearch.instance(params[0].toLong(), Navigator.TO)
-                API.LINK_TAG_MODERATION -> {
+                API.LINK_TAG.link -> SPostsSearch.instance(params[0].toLong(), Navigator.TO)
+                API.LINK_MODERATION.link -> {
                     if (params.size == 1) SModerationView.instance(params[0].toLong(), 0, Navigator.TO)
                     if (params.size == 2) SModerationView.instance(params[0].toLong(), params[1].toLong(), Navigator.TO)
                 }
-                API.LINK_TAG_CHAT -> {
+                API.LINK_CHAT.link -> {
                     if (params.size == 1) SChat.instance(ChatTag(API.CHAT_TYPE_FANDOM_ROOT, params[0].toLong(), 0), 0, true, Navigator.TO)
                     if (params.size == 2) SChat.instance(ChatTag(API.CHAT_TYPE_FANDOM_ROOT, params[0].toLong(), params[1].toLong()), 0, true, Navigator.TO)
                 }
-                API.LINK_TAG_CONF -> {
+                API.LINK_CONF.link -> {
                     if (params.size == 1) SChat.instance(ChatTag(API.CHAT_TYPE_CONFERENCE, params[0].toLong(), 0), 0, true, Navigator.TO)
                     if (params.size == 2) SChat.instance(ChatTag(API.CHAT_TYPE_CONFERENCE, params[0].toLong(), params[1].toLong()), 0, true, Navigator.TO)
                 }
-                API.LINK_TAG_WIKI_FANDOM -> SWikiList.instanceFandomId(params[0].toLong(), Navigator.TO)
-                API.LINK_TAG_WIKI_SECTION -> SWikiList.instanceItemId(params[0].toLong(), Navigator.TO)
-                API.LINK_TAG_WIKI_ARTICLE -> SWikiArticleView.instance(params[0].toLong(), Navigator.TO)
-                API.LINK_TAG_FANDOM_CHAT -> SChat.instance(ChatTag(API.CHAT_TYPE_FANDOM_SUB, params[0].toLong(), 0), 0, false, Navigator.TO)
-                API.LINK_TAG_ACTIVITY -> SRelayRaceInfo.instance(params[0].toLong(), Navigator.TO)
-                API.LINK_TAG_RUBRIC -> SRubricPosts.instance(params[0].toLong(), Navigator.TO)
+                API.LINK_WIKI_FANDOM.link -> SWikiList.instanceFandomId(params[0].toLong(), Navigator.TO)
+                API.LINK_WIKI_SECTION.link -> SWikiList.instanceItemId(params[0].toLong(), Navigator.TO)
+                API.LINK_WIKI_ARTICLE.link -> SWikiArticleView.instance(params[0].toLong(), Navigator.TO)
+                API.LINK_FANDOM_CHAT.link -> SChat.instance(ChatTag(API.CHAT_TYPE_FANDOM_SUB, params[0].toLong(), 0), 0, false, Navigator.TO)
+                API.LINK_ACTIVITY.link -> SRelayRaceInfo.instance(params[0].toLong(), Navigator.TO)
+                API.LINK_RUBRIC.link -> SRubricPosts.instance(params[0].toLong(), Navigator.TO)
                 else -> {
                     info("ControllerExecutorLinks link was't found [$link]")
                     return false
@@ -130,30 +130,30 @@ object ControllerLinks {
     }
 
     fun linkToAccount(name: String) = API.LINK_PROFILE_NAME + name
-    fun linkToAccount(id: Long) = API.LINK_PROFILE_ID + id
-    fun linkToFandom(fandomId: Long) = API.LINK_FANDOM + fandomId
-    fun linkToFandom(fandomId: Long, languageId: Long) = API.LINK_FANDOM + fandomId + "_" + languageId
-    fun linkToPost(postId: Long) = API.LINK_POST + postId
-    fun linkToReview(reviewId: Long) = API.LINK_REVIEW + reviewId
-    fun linkToModeration(moderationId: Long) = API.LINK_MODERATION + moderationId
-    fun linkToWikiFandomId(fandomId: Long) = API.LINK_WIKI_FANDOM + fandomId
-    fun linkToWikiItemId(itemId: Long) = API.LINK_WIKI_SECTION + itemId
-    fun linkToWikiArticle(itemId: Long) = API.LINK_WIKI_ARTICLE + itemId
-    fun linkToFandomChat(chatId: Long) = API.LINK_FANDOM_CHAT + chatId
-    fun linkToActivity(activityId: Long) = API.LINK_ACTIVITY + activityId
-    fun linkToRubric(rubricId: Long) = API.LINK_RUBRIC + rubricId
-    fun linkToSticker(id: Long) = API.LINK_STICKER + id
-    fun linkToStickersPack(id: Long) = API.LINK_STICKERS_PACK + id
-    fun linkToPostComment(parentPublicationId: Long, commentId: Long) = API.LINK_POST + parentPublicationId + "_" + commentId
-    fun linkToModerationComment(parentPublicationId: Long, commentId: Long) = API.LINK_MODERATION + parentPublicationId + "_" + commentId
-    fun linkToStickersComment(parentPublicationId: Long, commentId: Long) = API.LINK_STICKERS_PACK + parentPublicationId + "_" + commentId
-    fun linkToChat(fandomId: Long) = API.LINK_CHAT + fandomId
-    fun linkToChat(fandomId: Long, languageId: Long) = API.LINK_CHAT + fandomId + "_" + languageId
-    fun linkToChatMessage(messageId: Long, fandomId: Long, languageId: Long) = API.LINK_CHAT + fandomId + "_" + languageId + "_" + messageId
-    fun linkToConf(chatId: Long) = API.LINK_CONF + chatId
-    fun linkToConfMessage(messageId: Long, chatId: Long) = API.LINK_CONF + chatId + "_" + messageId
-    fun linkToEvent(eventId: Long) = API.LINK_EVENT + eventId
-    fun linkToTag(tagId: Long) = API.LINK_TAG + tagId
+    fun linkToAccount(id: Long) = API.LINK_PROFILE_ID.asWeb() + id
+    fun linkToFandom(fandomId: Long) = API.LINK_FANDOM.asWeb() + fandomId
+    fun linkToFandom(fandomId: Long, languageId: Long) = API.LINK_FANDOM.asWeb() + fandomId + "_" + languageId
+    fun linkToPost(postId: Long) = API.LINK_POST.asWeb() + postId
+    fun linkToReview(reviewId: Long) = API.LINK_REVIEW.asWeb() + reviewId
+    fun linkToModeration(moderationId: Long) = API.LINK_MODERATION.asWeb() + moderationId
+    fun linkToWikiFandomId(fandomId: Long) = API.LINK_WIKI_FANDOM.asWeb() + fandomId
+    fun linkToWikiItemId(itemId: Long) = API.LINK_WIKI_SECTION.asWeb() + itemId
+    fun linkToWikiArticle(itemId: Long) = API.LINK_WIKI_ARTICLE.asWeb() + itemId
+    fun linkToFandomChat(chatId: Long) = API.LINK_FANDOM_CHAT.asWeb() + chatId
+    fun linkToActivity(activityId: Long) = API.LINK_ACTIVITY.asWeb() + activityId
+    fun linkToRubric(rubricId: Long) = API.LINK_RUBRIC.asWeb() + rubricId
+    fun linkToSticker(id: Long) = API.LINK_STICKER.asWeb() + id
+    fun linkToStickersPack(id: Long) = API.LINK_STICKERS_PACK.asWeb() + id
+    fun linkToPostComment(parentPublicationId: Long, commentId: Long) = API.LINK_POST.asWeb() + parentPublicationId + "_" + commentId
+    fun linkToModerationComment(parentPublicationId: Long, commentId: Long) = API.LINK_MODERATION.asWeb() + parentPublicationId + "_" + commentId
+    fun linkToStickersComment(parentPublicationId: Long, commentId: Long) = API.LINK_STICKERS_PACK.asWeb() + parentPublicationId + "_" + commentId
+    fun linkToChat(fandomId: Long) = API.LINK_CHAT.asWeb() + fandomId
+    fun linkToChat(fandomId: Long, languageId: Long) = API.LINK_CHAT.asWeb() + fandomId + "_" + languageId
+    fun linkToChatMessage(messageId: Long, fandomId: Long, languageId: Long) = API.LINK_CHAT.asWeb() + fandomId + "_" + languageId + "_" + messageId
+    fun linkToConf(chatId: Long) = API.LINK_CONF.asWeb() + chatId
+    fun linkToConfMessage(messageId: Long, chatId: Long) = API.LINK_CONF.asWeb() + chatId + "_" + messageId
+    fun linkToEvent(eventId: Long) = API.LINK_EVENT.asWeb() + eventId
+    fun linkToTag(tagId: Long) = API.LINK_TAG.asWeb() + tagId
     fun linkToComment(comment: PublicationComment) = linkToComment(comment.id, comment.parentPublicationType, comment.parentPublicationId)
     fun linkToComment(commentId: Long, publicationType: Long, publicationId: Long): String {
         return when (publicationType) {
@@ -166,65 +166,14 @@ object ControllerLinks {
 
     fun makeLinkable(vText: ViewTextLinkable, onReplace: () -> Unit = {}) {
 
-        replaceLinkable(vText, API.LINK_SHORT_POST_ID, API.LINK_POST)
-        replaceLinkable(vText, API.LINK_SHORT_REVIEW_ID, API.LINK_REVIEW)
-        replaceLinkable(vText, API.LINK_SHORT_CHAT_ID, API.LINK_CHAT)
-        replaceLinkable(vText, API.LINK_SHORT_CONF_ID, API.LINK_CONF)
-        replaceLinkable(vText, API.LINK_SHORT_FANDOM_ID, API.LINK_FANDOM)
-        replaceLinkable(vText, API.LINK_SHORT_PROFILE_ID, API.LINK_PROFILE_ID)
-        replaceLinkable(vText, API.LINK_SHORT_MODERATION_ID, API.LINK_MODERATION)
-        replaceLinkable(vText, API.LINK_SHORT_STICKER, API.LINK_STICKER)
-        replaceLinkable(vText, API.LINK_SHORT_STICKERS_PACK, API.LINK_STICKERS_PACK)
-        replaceLinkable(vText, API.LINK_SHORT_EVENT, API.LINK_EVENT)
-        replaceLinkable(vText, API.LINK_SHORT_TAG, API.LINK_TAG)
-        replaceLinkable(vText, API.LINK_SHORT_RULES_USER, API.LINK_RULES_USER)
-        replaceLinkable(vText, API.LINK_SHORT_RULES_MODER, API.LINK_RULES_MODER)
-        replaceLinkable(vText, API.LINK_SHORT_CREATORS, API.LINK_CREATORS)
-        replaceLinkable(vText, API.LINK_SHORT_ABOUT, API.LINK_ABOUT)
-        replaceLinkable(vText, API.LINK_SHORT_BOX_WITH_FIREWORKS, API.LINK_BOX_WITH_FIREWORKS)
-        replaceLinkable(vText, API.LINK_SHORT_BOX_WITH_SUMMER, API.LINK_BOX_WITH_SUMMER)
-        replaceLinkable(vText, API.LINK_SHORT_BOX_WITH_AUTUMN, API.LINK_BOX_WITH_AUTUMN)
-        replaceLinkable(vText, API.LINK_SHORT_BOX_WITH_WINTER, API.LINK_BOX_WITH_WINTER)
-        replaceLinkable(vText, API.LINK_SHORT_BOX_WITH_CRASH, API.LINK_BOX_WITH_CRASH)
-        replaceLinkable(vText, API.LINK_SHORT_BOX_WITH_BOMB, API.LINK_BOX_WITH_BOMB)
         replaceLinkable(vText, API.LINK_SHORT_PROFILE, API.LINK_PROFILE_NAME)
-        replaceLinkable(vText, API.LINK_SHORT_WIKI_FANDOM, API.LINK_WIKI_FANDOM)
-        replaceLinkable(vText, API.LINK_SHORT_WIKI_SECTION, API.LINK_WIKI_SECTION)
-        replaceLinkable(vText, API.LINK_SHORT_WIKI_ARTICLE, API.LINK_WIKI_ARTICLE)
-        replaceLinkable(vText, API.LINK_SHORT_FANDOM_CHAT, API.LINK_FANDOM_CHAT)
-        replaceLinkable(vText, API.LINK_SHORT_ACTIVITY, API.LINK_ACTIVITY)
-        replaceLinkable(vText, API.LINK_SHORT_RUBRIC, API.LINK_RUBRIC)
+
+        for (i in API.LINKS_ARRAY) replaceLinkable(vText, i.asLink(), i.asWeb())
 
         onReplace.invoke()
         ControllerApi.makeTextHtml(vText)
 
-        makeLinkable(vText, API.LINK_SHORT_POST_ID, API.LINK_POST)
-        makeLinkable(vText, API.LINK_SHORT_REVIEW_ID, API.LINK_REVIEW)
-        makeLinkable(vText, API.LINK_SHORT_CHAT_ID, API.LINK_CHAT)
-        makeLinkable(vText, API.LINK_SHORT_CONF_ID, API.LINK_CONF)
-        makeLinkable(vText, API.LINK_SHORT_FANDOM_ID, API.LINK_FANDOM)
-        makeLinkable(vText, API.LINK_SHORT_PROFILE_ID, API.LINK_PROFILE_ID)
-        makeLinkable(vText, API.LINK_SHORT_MODERATION_ID, API.LINK_MODERATION)
-        makeLinkable(vText, API.LINK_SHORT_WIKI_FANDOM, API.LINK_WIKI_FANDOM)
-        makeLinkable(vText, API.LINK_SHORT_WIKI_SECTION, API.LINK_WIKI_SECTION)
-        makeLinkable(vText, API.LINK_SHORT_WIKI_ARTICLE, API.LINK_WIKI_ARTICLE)
-        makeLinkable(vText, API.LINK_SHORT_FANDOM_CHAT, API.LINK_FANDOM_CHAT)
-        makeLinkable(vText, API.LINK_SHORT_ACTIVITY, API.LINK_ACTIVITY)
-        makeLinkable(vText, API.LINK_SHORT_RUBRIC, API.LINK_RUBRIC)
-        makeLinkable(vText, API.LINK_SHORT_STICKER, API.LINK_STICKER)
-        makeLinkable(vText, API.LINK_SHORT_STICKERS_PACK, API.LINK_STICKERS_PACK)
-        makeLinkable(vText, API.LINK_SHORT_EVENT, API.LINK_EVENT)
-        makeLinkable(vText, API.LINK_SHORT_TAG, API.LINK_TAG)
-        makeLinkableInner(vText, API.LINK_SHORT_RULES_USER, API.LINK_RULES_USER)
-        makeLinkableInner(vText, API.LINK_SHORT_RULES_MODER, API.LINK_RULES_MODER)
-        makeLinkableInner(vText, API.LINK_SHORT_CREATORS, API.LINK_CREATORS)
-        makeLinkableInner(vText, API.LINK_SHORT_ABOUT, API.LINK_ABOUT)
-        makeLinkableInner(vText, API.LINK_SHORT_BOX_WITH_FIREWORKS, API.LINK_BOX_WITH_FIREWORKS)
-        makeLinkableInner(vText, API.LINK_SHORT_BOX_WITH_SUMMER, API.LINK_BOX_WITH_SUMMER)
-        makeLinkableInner(vText, API.LINK_SHORT_BOX_WITH_AUTUMN, API.LINK_BOX_WITH_AUTUMN)
-        makeLinkableInner(vText, API.LINK_SHORT_BOX_WITH_WINTER, API.LINK_BOX_WITH_WINTER)
-        makeLinkableInner(vText, API.LINK_SHORT_BOX_WITH_CRASH, API.LINK_BOX_WITH_CRASH)
-        makeLinkableInner(vText, API.LINK_SHORT_BOX_WITH_BOMB, API.LINK_BOX_WITH_BOMB)
+        for (i in API.LINKS_ARRAY) if (i.isInnerLink) makeLinkableInner(vText, i.asLink(), i.asWeb()) else makeLinkable(vText, i.asLink(), i.asWeb())
         makeLinkable(vText, API.LINK_SHORT_PROFILE, API.LINK_PROFILE_NAME, "([A-Za-z0-9#]+)")
 
         ToolsView.makeLinksClickable(vText)
