@@ -5,7 +5,6 @@ import com.appodeal.ads.*
 import com.sup.dev.android.app.SupAndroid
 import com.sup.dev.android.tools.ToolsAndroid
 import com.sup.dev.java.libs.debug.info
-import com.sup.dev.java.libs.debug.log
 
 
 object ControllerAppodeal {
@@ -174,27 +173,27 @@ object ControllerAppodeal {
             }
 
             override fun onInterstitialFailedToLoad() {
-                log("ControllerAppodeal", "onInterstitialFailedToLoad")
+                info("ControllerAppodeal", "onInterstitialFailedToLoad")
             }
 
             override fun onInterstitialShown() {
-                log("ControllerAppodeal", "onInterstitialShown")
+                info("ControllerAppodeal", "onInterstitialShown")
             }
 
             override fun onInterstitialShowFailed() {
-                log("ControllerAppodeal", "onInterstitialShowFailed")
+                info("ControllerAppodeal", "onInterstitialShowFailed")
             }
 
             override fun onInterstitialClicked() {
-                log("ControllerAppodeal", "onInterstitialClicked")
+                info("ControllerAppodeal", "onInterstitialClicked")
             }
 
             override fun onInterstitialClosed() {
-                log("ControllerAppodeal", "onInterstitialClosed")
+                info("ControllerAppodeal", "onInterstitialClosed")
             }
 
             override fun onInterstitialExpired() {
-                log("ControllerAppodeal", "onInterstitialExpired")
+                info("ControllerAppodeal", "onInterstitialExpired")
             }
         })
     }
