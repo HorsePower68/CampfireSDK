@@ -3,7 +3,7 @@ package com.sayzen.campfiresdk.screens.post.create.creators
 import android.view.inputmethod.EditorInfo
 import android.widget.Button
 import com.dzen.campfire.api.API
-import com.dzen.campfire.api.models.CampfireLink
+import com.dzen.campfire.api.models.LinkParsed
 import com.dzen.campfire.api.models.publications.post.Page
 import com.dzen.campfire.api.models.publications.post.PageCampfireObject
 import com.sayzen.campfiresdk.R
@@ -58,7 +58,7 @@ class WidgetPageCampfireObject(
         val page = PageCampfireObject()
         page.link = vLink.getText().trim { it <= ' ' }
 
-        val campfireLink = CampfireLink(page.link)
+        val campfireLink = LinkParsed(page.link)
         if(!campfireLink.isValid()) {
             ToolsToast.show(R.string.error_unsupported_link)
             return

@@ -1,6 +1,7 @@
 package com.sayzen.campfiresdk.controllers
 
 import com.sayzen.campfiresdk.models.animations.DrawAnimationAutumn
+import com.sayzen.campfiresdk.models.animations.DrawAnimationBomb
 import com.sayzen.campfiresdk.models.animations.DrawAnimationSummer
 import com.sayzen.campfiresdk.models.animations.DrawAnimationWinter
 import com.sup.dev.android.app.SupAndroid
@@ -70,6 +71,18 @@ object ControllerScreenAnimations {
         key = myKey
 
         addAnimation(DrawAnimationWinter())
+    }
+
+    fun bomb(){
+        clearAnimation()
+        val myKey = System.currentTimeMillis()
+        key = myKey
+
+        addAnimation(DrawAnimationBomb())
+    }
+
+    fun crash(){
+        ToolsThreads.main(true) { ("Do Crash").toInt() }
     }
 
     private fun clearAnimation() {

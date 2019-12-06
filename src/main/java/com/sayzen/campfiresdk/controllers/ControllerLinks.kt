@@ -64,7 +64,8 @@ object ControllerLinks {
                 API.LINK_TAG_BOX_WITH_SUMMER -> ControllerScreenAnimations.summer()
                 API.LINK_TAG_BOX_WITH_AUTUMN -> ControllerScreenAnimations.autumn()
                 API.LINK_TAG_BOX_WITH_WINTER -> ControllerScreenAnimations.winter()
-                API.LINK_TAG_BOX_WITH_CRASH -> ("Do Crash").toInt()
+                API.LINK_TAG_BOX_WITH_BOMB -> ControllerScreenAnimations.bomb()
+                API.LINK_TAG_BOX_WITH_CRASH -> ControllerScreenAnimations.crash()
                 API.LINK_TAG_STICKER -> SStickersView.instanceBySticker(params[0].toLong(), Navigator.TO)
                 API.LINK_TAG_STICKERS_PACK -> {
                     if (params.size == 1) SStickersView.instance(params[0].toLong(), Navigator.TO)
@@ -184,6 +185,8 @@ object ControllerLinks {
         replaceLinkable(vText, API.LINK_SHORT_BOX_WITH_SUMMER, API.LINK_BOX_WITH_SUMMER)
         replaceLinkable(vText, API.LINK_SHORT_BOX_WITH_AUTUMN, API.LINK_BOX_WITH_AUTUMN)
         replaceLinkable(vText, API.LINK_SHORT_BOX_WITH_WINTER, API.LINK_BOX_WITH_WINTER)
+        replaceLinkable(vText, API.LINK_SHORT_BOX_WITH_CRASH, API.LINK_BOX_WITH_CRASH)
+        replaceLinkable(vText, API.LINK_SHORT_BOX_WITH_BOMB, API.LINK_BOX_WITH_BOMB)
         replaceLinkable(vText, API.LINK_SHORT_PROFILE, API.LINK_PROFILE_NAME)
         replaceLinkable(vText, API.LINK_SHORT_WIKI_FANDOM, API.LINK_WIKI_FANDOM)
         replaceLinkable(vText, API.LINK_SHORT_WIKI_SECTION, API.LINK_WIKI_SECTION)
@@ -220,6 +223,8 @@ object ControllerLinks {
         makeLinkableInner(vText, API.LINK_SHORT_BOX_WITH_SUMMER, API.LINK_BOX_WITH_SUMMER)
         makeLinkableInner(vText, API.LINK_SHORT_BOX_WITH_AUTUMN, API.LINK_BOX_WITH_AUTUMN)
         makeLinkableInner(vText, API.LINK_SHORT_BOX_WITH_WINTER, API.LINK_BOX_WITH_WINTER)
+        makeLinkableInner(vText, API.LINK_SHORT_BOX_WITH_CRASH, API.LINK_BOX_WITH_CRASH)
+        makeLinkableInner(vText, API.LINK_SHORT_BOX_WITH_BOMB, API.LINK_BOX_WITH_BOMB)
         makeLinkable(vText, API.LINK_SHORT_PROFILE, API.LINK_PROFILE_NAME, "([A-Za-z0-9#]+)")
 
         ToolsView.makeLinksClickable(vText)

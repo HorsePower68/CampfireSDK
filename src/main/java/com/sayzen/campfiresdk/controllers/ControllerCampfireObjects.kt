@@ -1,7 +1,7 @@
 package com.sayzen.campfiresdk.controllers
 
 import com.dzen.campfire.api.API
-import com.dzen.campfire.api.models.CampfireLink
+import com.dzen.campfire.api.models.LinkParsed
 import com.dzen.campfire.api.models.chat.ChatTag
 import com.dzen.campfire.api.requests.accounts.RAccountsGet
 import com.dzen.campfire.api.requests.chat.RChatGet
@@ -17,7 +17,7 @@ object ControllerCampfireObjects {
     private val cash:HashMap<String, Item3<String, String, Long>> = HashMap()
     private val inProgress:HashMap<String, ArrayList<(String, String, Long) -> Unit>> = HashMap()
 
-    fun load(link: CampfireLink, onComplete: (String, String, Long) -> Unit) {
+    fun load(link: LinkParsed, onComplete: (String, String, Long) -> Unit) {
 
         if(cash.containsKey(link.linkRaw)){
             val get = cash.get(link.linkRaw)!!
@@ -45,7 +45,7 @@ object ControllerCampfireObjects {
         }
     }
 
-    private fun loadAccount(link: CampfireLink) {
+    private fun loadAccount(link: LinkParsed) {
 
         val id = link.getLongParamOrZero(0)
         val name = if(link.link.startsWith("@")) {
@@ -60,7 +60,7 @@ object ControllerCampfireObjects {
                 .send(api)
     }
 
-    private fun loadPost(link: CampfireLink) {
+    private fun loadPost(link: LinkParsed) {
         val id = link.getLongParamOrZero(0)
 
         RPostGet(id)
@@ -69,7 +69,7 @@ object ControllerCampfireObjects {
                 .send(api)
     }
 
-    private fun loadChat(link: CampfireLink) {
+    private fun loadChat(link: LinkParsed) {
         val targetId = link.getLongParamOrZero(0)
         val targetSubId = link.getLongParamOrZero(1)
 
@@ -79,7 +79,7 @@ object ControllerCampfireObjects {
                 .send(api)
     }
 
-    private fun loadFandom(link: CampfireLink) {
+    private fun loadFandom(link: LinkParsed) {
         val fandomId = link.getLongParamOrZero(0)
         val languageId = link.getLongParamOrZero(1)
 
@@ -89,7 +89,7 @@ object ControllerCampfireObjects {
                 .send(api)
     }
 
-    private fun loadStickersPack(link: CampfireLink) {
+    private fun loadStickersPack(link: LinkParsed) {
         val id = link.getLongParamOrZero(0)
 
         RStickersPacksGetInfo(id, 0)
@@ -98,7 +98,7 @@ object ControllerCampfireObjects {
                 .send(api)
     }
 
-    private fun onComplete(link: CampfireLink, title:String, subtitle:String, image:Long){
+    private fun onComplete(link: LinkParsed, title:String, subtitle:String, image:Long){
         cash.put(link.linkRaw, Item3(title, subtitle, image))
         val callbacks = inProgress.get(link.linkRaw)
         if(callbacks != null){
@@ -107,7 +107,7 @@ object ControllerCampfireObjects {
         }
     }
 
-    private fun onError(link: CampfireLink) {
+    private fun onError(link: LinkParsed) {
         val callbacks = inProgress.get(link.linkRaw)
         if(callbacks != null){
             for(i in callbacks) i.invoke(ToolsResources.s(R.string.post_page_campfire_object_error), ToolsResources.s(R.string.app_error), 0)

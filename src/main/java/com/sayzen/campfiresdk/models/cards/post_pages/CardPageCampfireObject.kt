@@ -2,7 +2,7 @@ package com.sayzen.campfiresdk.models.cards.post_pages
 
 import android.view.View
 import com.dzen.campfire.api.API
-import com.dzen.campfire.api.models.CampfireLink
+import com.dzen.campfire.api.models.LinkParsed
 import com.dzen.campfire.api.models.chat.ChatTag
 import com.dzen.campfire.api.models.publications.PagesContainer
 import com.dzen.campfire.api.models.publications.post.PageCampfireObject
@@ -33,7 +33,7 @@ class CardPageCampfireObject(
         vAvatar.vAvatar.vImageView.setImageResource(R.color.focus)
         vAvatar.setTitle(R.string.app_loading)
         vAvatar.setSubtitle("")
-        val link = CampfireLink(page.link)
+        val link = LinkParsed(page.link)
         ControllerCampfireObjects.load(link) { title, subtitle, imageId ->
             if (vAvatar.tag == this) {
                 vAvatar.setTitle(title)
@@ -65,7 +65,7 @@ class CardPageCampfireObject(
     }
 
     override fun notifyItem() {
-        ControllerCampfireObjects.load(CampfireLink((page as PageCampfireObject).link)) { _, _, _ -> }
+        ControllerCampfireObjects.load(LinkParsed((page as PageCampfireObject).link)) { _, _, _ -> }
     }
 
 
