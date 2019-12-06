@@ -12,6 +12,7 @@ import com.sayzen.campfiresdk.controllers.ControllerApi
 import com.sayzen.campfiresdk.controllers.api
 import com.sayzen.campfiresdk.screens.account.search.SAccountSearch
 import com.sup.dev.android.libs.screens.navigator.Navigator
+import com.sup.dev.android.tools.ToolsResources
 import com.sup.dev.android.tools.ToolsToast
 import com.sup.dev.android.views.cards.Card
 import com.sup.dev.android.views.views.ViewAvatarTitle
@@ -53,7 +54,10 @@ class CardViceroy(
         vAvatar.visibility = if (!error && !loading && xAccount != null) View.VISIBLE else View.GONE
         vEmpty.visibility = if (!error && !loading && xAccount == null) View.VISIBLE else View.GONE
 
-        if (xAccount != null) xAccount!!.setView(vAvatar)
+        if (xAccount != null) {
+            xAccount!!.setView(vAvatar)
+            vAvatar.setSubtitle("${((ControllerApi.currentTime() - date) / (1000L * 60 * 60 * 24)) + 1} ${ToolsResources.s(R.string.app_d)}")
+        }
     }
 
     private fun load(tryCount: Int = 5) {

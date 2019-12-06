@@ -92,7 +92,7 @@ class AdapterComments(
     }
 
     private fun scrollToCard(card: CardComment) {
-        ToolsThreads.main(200) {
+        ToolsThreads.main(300) {
             ToolsView.scrollRecycler(vRecycler, indexOf(card) + 1)
             ToolsThreads.main(200) { card.flash() }
         }

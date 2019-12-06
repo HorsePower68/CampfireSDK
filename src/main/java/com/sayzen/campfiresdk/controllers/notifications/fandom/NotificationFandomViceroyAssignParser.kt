@@ -19,8 +19,8 @@ public class NotificationFandomViceroyAssignParser(override val n: NotificationF
     }
 
     override fun getTitle(): String {
-        return if (ToolsText.empty(n.comment)) "" else " " +
-                ToolsResources.s(R.string.notifications_fandom_viceroy_remove, n.adminAccountName, ToolsResources.sex(n.adminAccountSex, R.string.he_denied, R.string.she_denied), n.fandomName)
+        return  if (ToolsText.empty(n.comment)) "" else " " +
+                ToolsResources.s(R.string.notifications_fandom_viceroy_assign, n.adminAccountName, ToolsResources.sex(n.adminAccountSex, R.string.he_assign, R.string.she_assign), n.fandomName)
     }
 
     override fun asString(html: Boolean): String {

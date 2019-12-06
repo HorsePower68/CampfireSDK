@@ -764,6 +764,14 @@
     <string name="achi_66">Создайте эстафету.</string>
     <string name="achi_67">Создайте несколько постов в эстафетах.</string>
     <string name="achi_68">В созданной вами эстафете должно быть несколько постов.</string>
+    <string name="achi_69">Станьте наместником.</string>
+    <string name="achi_70">В вашем фэндоме должно быть несколько постов.</string>
+    <string name="achi_71">В вашем фэндоме должно быть несколько WIKI статей.</string>
+    <string name="achi_72">Пользователи вашего фэндома должны заработать карму.</string>
+    <string name="achi_73">На ваш фэндом должны подписаться пользователи.</string>
+    <string name="achi_74">Добавьте ссылку в ваш фэндом.</string>
+    <string name="achi_75">Добавьте изображения в галерею вашего фэндома.</string>
+    <string name="achi_76">Добавьте описание к вашему фэндому.</string>
 
     <string name="lvl_app_access">Возможность пользоваться приложением</string>
     <string name="lvl_app_status">Возможность изменять статус профиля</string>

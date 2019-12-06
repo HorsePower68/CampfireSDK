@@ -28,7 +28,8 @@ class CardSpoilerAchi(
         2 -> API.ACHI_PACK_2
         3 -> API.ACHI_PACK_3
         4 -> API.ACHI_PACK_4
-        else -> API.ACHI_PACK_5
+        5 -> API.ACHI_PACK_5
+        else -> API.ACHI_PACK_6
     }
 
 
@@ -61,6 +62,7 @@ class CardSpoilerAchi(
                 || card.achievement == API.ACHI_KARMA_30
                 || card.achievement == API.ACHI_MODERATOR_ACTION_KARMA
                 || card.achievement == API.ACHI_STICKERS_KARMA
+                || card.achievement == API.ACHI_VICEROY_KARMA_COUNT
         ) card.setValueMultiplier(0.01)
         super.add(card)
         if (isExpanded() && card.achievement.index == scrollToIndex) {
@@ -82,17 +84,9 @@ class CardSpoilerAchi(
 
     fun onLoaded() {
         remove(cardLoading)
-        if (packIndex == 1) addAchi(API.ACHI_PACK_1)
-        if (packIndex == 2) addAchi(API.ACHI_PACK_2)
-        if (packIndex == 3) addAchi(API.ACHI_PACK_3)
-        if (packIndex == 4) addAchi(API.ACHI_PACK_4)
-        if (packIndex == 5) addAchi(API.ACHI_PACK_5)
-    }
-
-    private fun addAchi(array:Array<AchievementInfo>){
-        for (i in array.indices) {
-            if(array[i].index == API.ACHI_VIDEO_AD.index && ControllerApi.account.lvl < 200) continue
-            val card = CardAchievement(pageAchievements, array[i])
+        for (i in pack.indices) {
+            if(pack[i].index == API.ACHI_VIDEO_AD.index && ControllerApi.account.lvl < 200) continue
+            val card = CardAchievement(pageAchievements, pack[i])
             addAchi(card)
         }
     }

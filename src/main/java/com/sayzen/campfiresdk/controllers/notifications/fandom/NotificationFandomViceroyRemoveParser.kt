@@ -1,7 +1,6 @@
 package com.sayzen.campfiresdk.controllers.notifications.fandom
 
 import android.content.Intent
-import com.dzen.campfire.api.models.notifications.fandom.NotificationFandomViceroyAssign
 import com.dzen.campfire.api.models.notifications.fandom.NotificationFandomViceroyRemove
 import com.sayzen.campfiresdk.R
 import com.sayzen.campfiresdk.controllers.ControllerNotifications
@@ -20,8 +19,8 @@ public class NotificationFandomViceroyRemoveParser(override val n: NotificationF
     }
 
     override fun getTitle(): String {
-        return  if (ToolsText.empty(n.comment)) "" else " " +
-                ToolsResources.s(R.string.notifications_fandom_viceroy_assign, n.adminAccountName, ToolsResources.sex(n.adminAccountSex, R.string.he_assign, R.string.she_assign), n.fandomName)
+        return if (ToolsText.empty(n.comment)) "" else " " +
+                ToolsResources.s(R.string.notifications_fandom_viceroy_remove, n.adminAccountName, ToolsResources.sex(n.adminAccountSex, R.string.he_denied, R.string.she_denied), n.fandomName)
     }
 
     override fun asString(html: Boolean): String {

@@ -81,7 +81,16 @@ object CampfireConstants {
             Achievement(API.ACHI_RELAY_RACE_FIRST_NEXT_MEMBER, R.string.achi_65, R.color.cyan_900, false, R.drawable.achi_21),
             Achievement(API.ACHI_RELAY_RACE_FIRST_CREATE, R.string.achi_66, R.color.teal_500, false, R.drawable.achi_21),
             Achievement(API.ACHI_RELAY_RACE_POSTS_COUNT, R.string.achi_67, R.color.red_500, false, R.drawable.achi_21),
-            Achievement(API.ACHI_RELAY_RACE_MY_RACE_POSTS_COUNT, R.string.achi_68, R.color.indigo_500, false, R.drawable.achi_21)
+            Achievement(API.ACHI_RELAY_RACE_MY_RACE_POSTS_COUNT, R.string.achi_68, R.color.indigo_500, false, R.drawable.achi_21),
+            Achievement(API.ACHI_VICEROY_ASSIGN, R.string.achi_69, R.color.blue_500, false, R.drawable.achi_21),
+            Achievement(API.ACHI_VICEROY_POSTS_COUNT, R.string.achi_70, R.color.indigo_500, false, R.drawable.achi_21),
+            Achievement(API.ACHI_VICEROY_WIKI_COUNT, R.string.achi_71, R.color.cyan_900, false, R.drawable.achi_21),
+            Achievement(API.ACHI_VICEROY_KARMA_COUNT, R.string.achi_72, R.color.red_800, false, R.drawable.achi_21),
+            Achievement(API.ACHI_VICEROY_SUBSCRIBERS_COUNT, R.string.achi_73, R.color.orange_500, false, R.drawable.achi_21),
+            Achievement(API.ACHI_VICEROY_LINK, R.string.achi_74, R.color.indigo_800, false, R.drawable.achi_21),
+            Achievement(API.ACHI_VICEROY_IMAGES, R.string.achi_75, R.color.cyan_700, false, R.drawable.achi_21),
+            Achievement(API.ACHI_VICEROY_DESCRIPTION, R.string.achi_76, R.color.red_500, false, R.drawable.achi_21)
+
     )
 
     val LVLS = arrayOf(

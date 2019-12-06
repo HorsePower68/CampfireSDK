@@ -761,6 +761,14 @@ Campfire has anime fandoms and gaming fandoms.</string>
     <string name="achi_66">Create a relay race.</string>
     <string name="achi_67">Create multiple posts in relay races.</string>
     <string name="achi_68">In the relay race created by you there should be several posts.</string>
+    <string name="achi_69">Become Viceroy.</string>
+    <string name="achi_70">There should be several posts in your fandom.</string>
+    <string name="achi_71">There should be several WIKI articles in your fandom.</string>
+    <string name="achi_72">Users of your fandom should get karma.</string>
+    <string name="achi_73">Users must subscribe to your fandom.</string>
+    <string name="achi_74">Add a link to your fandom.</string>
+    <string name="achi_75">Add images to your fandom gallery.</string>
+    <string name="achi_76">Add a description to your fandom.</string>
 
     <string name="lvl_app_access">Ability to use the application</string>
     <string name="lvl_app_status">Ability to change profile status</string>
