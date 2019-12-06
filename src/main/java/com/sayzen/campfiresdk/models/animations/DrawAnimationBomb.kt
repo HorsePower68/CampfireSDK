@@ -79,7 +79,7 @@ class DrawAnimationBomb : DrawAnimation() {
     private val particles = ArrayList<Particle>()
 
     private fun createParticles(){
-        for(i in 0..200) particles.add(Particle())
+        for(i in 0..300) particles.add(Particle())
     }
 
     private fun updateParticles(delta: Float){
