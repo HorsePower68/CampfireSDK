@@ -758,7 +758,7 @@
     <string name="achi_58">Получите положительные оценки.</string>
     <string name="achi_59">У вас должно быть больше положительных оценок, чем отрицательных.</string>
     <string name="achi_60">Подпишитесь на любой чат.</string>
-    <string name="achi_61">Посмотрите рекламу и чтобы повысить уровень.</string>
+    <string name="achi_61">Посмотрите рекламу чтобы повысить уровень.</string>
     <string name="achi_64">Создайте пост в эстафете.</string>
     <string name="achi_65">Передайте эстафету любому пользователю.</string>
     <string name="achi_66">Создайте эстафету.</string>
@@ -880,6 +880,7 @@
     <string name="profile_story_best_comment">Лучший комментарий</string>
     <string name="profile_story_best_review">Лучший отзыв</string>
     <string name="profile_change_avatar">Изменить аватар</string>
+    <string name="profile_change_background">Изменить фон</string>
     <string name="profile_change_name">Изменить имя</string>
     <string name="profile_change_name_confirm">Изменить имя этого пользователя?</string>
     <string name="profile_change_title_image">Изменить фоновую картинку</string>
@@ -1639,6 +1640,7 @@
     <string name="administration_requests_middle">В среднем</string>
     <string name="administration_requests_count">Всего</string>
     <string name="administration_errors">Статистика ошибок</string>
+    <string name="administration_debug">Отладка</string>
     <string name="administration_admins_events">Действия администраторов</string>
     <string name="administration_errors_empty">Нет ошибок. Пока ;)</string>
 

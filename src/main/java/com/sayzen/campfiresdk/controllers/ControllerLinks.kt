@@ -67,6 +67,7 @@ object ControllerLinks {
                 API.LINK_BOX_WITH_WINTER.link -> ControllerScreenAnimations.winter()
                 API.LINK_BOX_WITH_BOMB.link -> ControllerScreenAnimations.bomb()
                 API.LINK_BOX_WITH_CRASH.link -> ControllerScreenAnimations.crash()
+                API.LINK_BOX_WITH_SNOW.link -> ControllerScreenAnimations.snow()
                 API.LINK_STICKER.link -> SStickersView.instanceBySticker(params[0].toLong(), Navigator.TO)
                 API.LINK_STICKERS_PACK.link -> {
                     if (params.size == 1) SStickersView.instance(params[0].toLong(), Navigator.TO)

@@ -1,9 +1,6 @@
 package com.sayzen.campfiresdk.controllers
 
-import com.sayzen.campfiresdk.models.animations.DrawAnimationAutumn
-import com.sayzen.campfiresdk.models.animations.DrawAnimationBomb
-import com.sayzen.campfiresdk.models.animations.DrawAnimationSummer
-import com.sayzen.campfiresdk.models.animations.DrawAnimationWinter
+import com.sayzen.campfiresdk.models.animations.*
 import com.sup.dev.android.app.SupAndroid
 import com.sup.dev.android.tools.ToolsAndroid
 import com.sup.dev.android.tools.ToolsView
@@ -50,35 +47,23 @@ object ControllerScreenAnimations {
     }
 
     fun summer(){
-        clearAnimation()
-        val myKey = System.currentTimeMillis()
-        key = myKey
-
-        addAnimation(DrawAnimationSummer())
+        addAnimationWithClear(DrawAnimationSummer())
     }
 
     fun autumn(){
-        clearAnimation()
-        val myKey = System.currentTimeMillis()
-        key = myKey
-
-        addAnimation(DrawAnimationAutumn())
+        addAnimationWithClear(DrawAnimationAutumn())
     }
 
     fun winter(){
-        clearAnimation()
-        val myKey = System.currentTimeMillis()
-        key = myKey
-
-        addAnimation(DrawAnimationWinter())
+        addAnimationWithClear(DrawAnimationWinter())
     }
 
     fun bomb(){
-        clearAnimation()
-        val myKey = System.currentTimeMillis()
-        key = myKey
+        addAnimationWithClear(DrawAnimationBomb())
+    }
 
-        addAnimation(DrawAnimationBomb())
+    fun snow(){
+        addAnimationWithClear(DrawAnimationSnow())
     }
 
     fun crash(){
@@ -90,7 +75,15 @@ object ControllerScreenAnimations {
         ToolsThreads.main { SupAndroid.activity!!.vActivityDrawAnimations!!.clear() }
     }
 
-    private fun addAnimation(animation: DrawAnimation) {
+    fun addAnimationWithClear(animation: DrawAnimation) {
+        clearAnimation()
+        val myKey = System.currentTimeMillis()
+        key = myKey
+
+        addAnimation(animation)
+    }
+
+    fun addAnimation(animation: DrawAnimation) {
         ToolsThreads.main { SupAndroid.activity!!.vActivityDrawAnimations!!.addAnimation(animation) }
     }
 

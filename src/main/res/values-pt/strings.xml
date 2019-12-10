@@ -878,6 +878,7 @@ Campfire has anime fandoms and gaming fandoms.</string>
     <string name="profile_story_best_comment">Best comment</string>
     <string name="profile_story_best_review">Best review</string>
     <string name="profile_change_avatar">Change avatar</string>
+    <string name="profile_change_background">Change background</string>
     <string name="profile_change_name">Change name</string>
     <string name="profile_change_name_confirm">Change this user\'s name?</string>
     <string name="profile_change_title_image">Change title image</string>
@@ -1637,6 +1638,7 @@ Campfire has anime fandoms and gaming fandoms.</string>
     <string name="administration_requests_middle">Middle</string>
     <string name="administration_requests_count">Total</string>
     <string name="administration_errors">Errors statistic</string>
+    <string name="administration_debug">Debug</string>
     <string name="administration_admins_events">Admins events</string>
     <string name="administration_errors_empty">No errors. Yet ;)</string>
 

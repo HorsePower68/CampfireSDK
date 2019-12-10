@@ -132,14 +132,13 @@ abstract class CardChatMessage constructor(
 
         if (vQuoteText != null) {
             vQuoteText.text = publication.quoteText
-            ControllerLinks.makeLinkable(vQuoteText) {
-                if (publication.quoteCreatorName.isNotEmpty()) {
-                    val otherName = publication.quoteCreatorName + ":"
-                    if (publication.quoteText.startsWith(otherName)) {
-                        vQuoteText.text = "{90A4AE $otherName}" + publication.quoteText.substring(otherName.length)
-                    }
+            if (publication.quoteCreatorName.isNotEmpty()) {
+                val otherName = publication.quoteCreatorName + ":"
+                if (publication.quoteText.startsWith(otherName)) {
+                    vQuoteText.text = "{90A4AE $otherName}" + publication.quoteText.substring(otherName.length)
                 }
             }
+            ControllerLinks.makeLinkable(vQuoteText)
         }
 
         if (vQuoteImage != null) {

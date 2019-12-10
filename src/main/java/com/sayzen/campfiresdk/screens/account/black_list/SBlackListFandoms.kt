@@ -35,8 +35,6 @@ class SBlackListFandoms(
                     for (c in adapter!!.get(CardFandom::class)) if (c.fandom.id == it.fandomId) adapter?.remove(c)
             }
 
-    private var loaded = false
-
     init {
         setTitle(R.string.settings_black_list_fandoms)
         setTextEmpty(R.string.settings_black_list_empty)
@@ -51,17 +49,12 @@ class SBlackListFandoms(
             c
         }
                 .setBottomLoader { onLoad, _ ->
-                    if (loaded) {
-                        onLoad.invoke(emptyArray())
-                    } else {
-                        subscription = RFandomsGetAllById(feedIgnoreFandoms)
-                                .onComplete { r ->
-                                    loaded = true
-                                    onLoad.invoke(r.fandoms)
-                                }
-                                .onNetworkError { onLoad.invoke(null) }
-                                .send(api)
-                    }
+                    subscription = RFandomsGetAllById(feedIgnoreFandoms)
+                            .onComplete { r ->
+                                onLoad.invoke(r.fandoms)
+                            }
+                            .onNetworkError { onLoad.invoke(null) }
+                            .send(api)
                 }
     }
 

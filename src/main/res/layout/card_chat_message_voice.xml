@@ -69,13 +69,10 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
-                    android:padding="8dp">
-
-                    <TextView
-                        android:id="@+id/vLabel"
-                        style="@style/Base.TextAppearance.AppCompat.Caption"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content" />
+                    android:layout_marginLeft="8dp"
+                    android:layout_marginRight="8dp"
+                    android:layout_marginTop="8dp"
+                    android:paddingBottom="4dp">
 
                     <LinearLayout
                         android:layout_width="wrap_content"
@@ -107,6 +104,15 @@
                             app:ViewIcon_background="@color/blue_700" />
 
                     </LinearLayout>
+
+                    <TextView
+                        android:id="@+id/vLabel"
+                        style="@style/Base.TextAppearance.AppCompat.Caption"
+                        android:textSize="9sp"
+                        android:layout_marginRight="4dp"
+                        android:layout_marginTop="4dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
 
                 </LinearLayout>
 

@@ -1,6 +1,5 @@
 package com.sayzen.campfiresdk.models.animations
 
-
 import android.graphics.Canvas
 import com.sup.dev.android.R
 import com.sup.dev.android.tools.ToolsResources
@@ -65,7 +64,7 @@ class DrawAnimationBomb : DrawAnimation() {
     }
 
     private fun drawBomb(canvas: Canvas){
-        if(!bombIsFinished) {
+        if(!bombIsFinished && bombX > 0) {
             paint.color = bombColor
             canvas.drawCircle(bombX, bombY, bombR, paint)
         }

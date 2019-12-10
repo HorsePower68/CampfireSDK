@@ -154,6 +154,7 @@ class SFandom private constructor(
             WidgetMenu()
                     .add(R.string.app_copy_link) { _, _ -> ToolsAndroid.setToClipboard(xFandom.linkToWithLanguage());ToolsToast.show(R.string.app_copied) }
                     .add(R.string.settings_black_list) { _, _ -> ControllerCampfireSDK.switchToBlackListFandom(xFandom.fandomId) }.condition(BLACK_LIST_ENABLED)
+                    .add(R.string.profile_change_background) { _, _ -> changeTitleImage() }.condition(ControllerApi.can(xFandom.fandomId, xFandom.languageId, API.LVL_MODERATOR_FANDOM_IMAGE)).backgroundRes(R.color.blue_700).textColorRes(R.color.white)
                     .add(R.string.profile_change_avatar) { _, _ -> changeImage() }.condition(ControllerApi.can(API.LVL_ADMIN_FANDOM_AVATAR)).backgroundRes(R.color.red_700).textColorRes(R.color.white)
                     .add(R.string.fandoms_menu_change_category) { _, _ -> changeCategory() }.condition(ControllerApi.can(API.LVL_ADMIN_FANDOM_CATEGORY)).backgroundRes(R.color.red_700).textColorRes(R.color.white)
                     .add(R.string.fandoms_menu_rename) { _, _ -> rename() }.condition(ControllerApi.can(API.LVL_ADMIN_FANDOM_NAME)).backgroundRes(R.color.red_700).textColorRes(R.color.white)

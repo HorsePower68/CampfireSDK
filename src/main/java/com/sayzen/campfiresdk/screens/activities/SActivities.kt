@@ -13,6 +13,7 @@ import com.sayzen.campfiresdk.screens.activities.administration.block.SAdministr
 import com.sayzen.campfiresdk.screens.activities.administration.fandoms.SAdministrationFandoms
 import com.sayzen.campfiresdk.screens.activities.administration.reports.SAdministrationReports
 import com.sayzen.campfiresdk.screens.activities.administration.reports.SAdministrationUserReports
+import com.sayzen.campfiresdk.screens.activities.quests.SQuestNewYear
 import com.sayzen.campfiresdk.screens.activities.support.SSupport
 import com.sayzen.campfiresdk.screens.activities.user_activities.SUserActivitiesList
 import com.sayzen.campfiresdk.screens.fandoms.rubrics.SRubricsList
@@ -40,6 +41,7 @@ class SActivities : Screen(R.layout.screen_activities) {
     private val vRequests: Settings = findViewById(R.id.vRequests)
     private val vQuery: Settings = findViewById(R.id.vQuery)
     private val vErrors: Settings = findViewById(R.id.vErrors)
+    private val vDebug: Settings = findViewById(R.id.vDebug)
 
     private val vRelayRaceChip = ViewChip.instanceMini(vRelayRace, "")
     private val vRubricsChip = ViewChip.instanceMini(vRubrics, "")
@@ -59,6 +61,7 @@ class SActivities : Screen(R.layout.screen_activities) {
         vQuery.setOnClickListener { SAdministrationQuery.instance(Navigator.TO) }
         vErrors.setOnClickListener { SAdministrationErrors.instance(Navigator.TO) }
         vSupport.setOnClickListener { SSupport.instance(Navigator.TO) }
+        vDebug.setOnClickListener { Navigator.to(SQuestNewYear()) }
 
         if(ControllerApi.account.lvl >= 200) {
             vSupport.visibility = View.VISIBLE
@@ -74,6 +77,7 @@ class SActivities : Screen(R.layout.screen_activities) {
         vRequests.visibility = if (ControllerApi.isProtoadmin()) View.VISIBLE else View.GONE
         vQuery.visibility = if (ControllerApi.isProtoadmin()) View.VISIBLE else View.GONE
         vErrors.visibility = if (ControllerApi.isProtoadmin()) View.VISIBLE else View.GONE
+        vDebug.visibility = if (ControllerApi.isProtoadmin()) View.VISIBLE else View.GONE
         if (!ControllerApi.isProtoadmin()) vBlock.setLineVisible(false)
 
         vRelayRaceChip.setBackground(ToolsResources.getAccentColor(context))
