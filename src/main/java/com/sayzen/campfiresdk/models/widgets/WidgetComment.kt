@@ -133,7 +133,6 @@ class WidgetComment constructor(
     }
 
     private fun onCancel() {
-        Debug.printStack()
         if (attach.isHasContent()
                 || (getText().isNotEmpty() && answer != null && getText() != answer.creatorName + ",")
                 || (changeComment != null && getText() != changeComment.text.trim())
