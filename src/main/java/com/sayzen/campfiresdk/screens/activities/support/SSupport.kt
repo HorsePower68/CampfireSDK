@@ -45,7 +45,7 @@ class SSupport private constructor(
         vRecycler.layoutManager = LinearLayoutManager(context)
         vRecycler.adapter = adapter
         reset()
-        ControllerAppodeal.cashVideo()
+        ControllerAppodeal.cashVideoReward()
 
         vButton.setOnClickListener { ControllerActivities.showVideoAd(false) }
 

@@ -12,30 +12,35 @@ object ControllerAppodeal {
     private var video = false
     private var native = false
     private var interstitial = false
+    private var videoReward = false
 
-    fun init(activity: Activity, appId: String, video: Boolean, native: Boolean, interstitial: Boolean) {
+    fun init(activity: Activity, appId: String, video: Boolean, native: Boolean, interstitial: Boolean, videoReward: Boolean) {
         if (!video && !native && !interstitial) return
 
         this.video = video
         this.native = native
         this.interstitial = interstitial
+        this.videoReward = videoReward
 
         Appodeal.setAutoCache(Appodeal.NON_SKIPPABLE_VIDEO, false)
+        Appodeal.setAutoCache(Appodeal.REWARDED_VIDEO, false)
         Appodeal.disableLocationPermissionCheck()
         Appodeal.disableWriteExternalStoragePermissionCheck()
-        Appodeal.setTesting(ToolsAndroid.isDebug())
+        //Appodeal.setTesting(ToolsAndroid.isDebug())
         Appodeal.setNativeAdType(Native.NativeAdType.Auto)
 
         var adKeys = 0
         if (video) adKeys = adKeys or Appodeal.NON_SKIPPABLE_VIDEO
         if (native) adKeys = adKeys or Appodeal.NATIVE
         if (interstitial) adKeys = adKeys or Appodeal.INTERSTITIAL
+        if (videoReward) adKeys = adKeys or Appodeal.REWARDED_VIDEO
 
         Appodeal.initialize(activity, appId, adKeys, false)
 
         if (video) initVideo()
         if (native) initNative()
         if (interstitial) initInterstitial()
+        if (videoReward) initVideoReward()
 
     }
 
@@ -94,9 +99,74 @@ object ControllerAppodeal {
 
     fun cashVideo() {
         if (!video) return
-        if (isLoadedVideo()) return
+        if (isLoadedVideoReward()) return
         info("ControllerAppodeal", "cashVideo")
         Appodeal.cache(SupAndroid.activity!!, Appodeal.NON_SKIPPABLE_VIDEO)
+    }
+
+    //
+    //  Video Reward
+    //
+
+    private var onVideoRewardFinished: () -> Unit = {}
+
+    private fun initVideoReward() {
+        if (!isLoadedVideoReward()) return
+        info("ControllerAppodeal", "initVideoReward")
+        Appodeal.setRewardedVideoCallbacks(object : RewardedVideoCallbacks{
+            override fun onRewardedVideoFinished(p0: Double, p1: String?) {
+                info("ControllerAppodeal", "onRewardedVideoFinished")
+                onVideoRewardFinished.invoke()
+            }
+
+            override fun onRewardedVideoClosed(p0: Boolean) {
+                info("ControllerAppodeal", "onRewardedVideoClosed")
+            }
+
+            override fun onRewardedVideoExpired() {
+                info("ControllerAppodeal", "onRewardedVideoExpired")
+            }
+
+            override fun onRewardedVideoLoaded(p0: Boolean) {
+                info("ControllerAppodeal", "onRewardedVideoLoaded")
+            }
+
+            override fun onRewardedVideoClicked() {
+                info("ControllerAppodeal", "onRewardedVideoClicked")
+            }
+
+            override fun onRewardedVideoFailedToLoad() {
+                info("ControllerAppodeal", "onRewardedVideoFailedToLoad")
+            }
+
+            override fun onRewardedVideoShown() {
+                info("ControllerAppodeal", "onRewardedVideoShown")
+            }
+
+            override fun onRewardedVideoShowFailed() {
+                info("ControllerAppodeal", "onRewardedVideoShowFailed")
+            }
+
+        })
+    }
+
+    fun showVideoReward(onVideoFinished: () -> Unit) {
+        if (!videoReward) return
+        info("ControllerAppodeal", "showVideoReward")
+        this.onVideoFinished = onVideoFinished
+        Appodeal.show(SupAndroid.activity!!, Appodeal.REWARDED_VIDEO)
+    }
+
+    fun isLoadedVideoReward(): Boolean {
+        if (!videoReward) return false
+        return Appodeal.isLoaded(Appodeal.REWARDED_VIDEO)
+    }
+
+    fun cashVideoReward() {
+        if (!videoReward) return
+        if (isLoadedVideoReward()) return
+        info("ControllerAppodeal", "cashVideoReward")
+        Appodeal.cache(SupAndroid.activity!!, Appodeal.REWARDED_VIDEO)
     }
 
     //

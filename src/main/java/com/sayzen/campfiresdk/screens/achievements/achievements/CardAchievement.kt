@@ -144,7 +144,7 @@ class CardAchievement(
         }
 
         if (achievement.index == API.ACHI_VIDEO_AD.index) {
-            ControllerAppodeal.cashVideo()
+            ControllerAppodeal.cashVideoReward()
         }
 
     }

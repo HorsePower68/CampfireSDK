@@ -189,14 +189,14 @@ object ControllerActivities {
             ToolsToast.show(R.string.achi_video_device_max)
             return
         }
-        ControllerAppodeal.cashVideo()
+        ControllerAppodeal.cashVideoReward()
         showVideoAdNow(10, ToolsView.showProgressDialog(R.string.achi_video_loading), forAchi)
     }
 
     private fun showVideoAdNow(tryCount: Int, vDialog: Widget, forAchi: Boolean) {
-        if (ControllerAppodeal.isLoadedVideo()) {
+        if (ControllerAppodeal.isLoadedVideoReward()) {
             vDialog.hide()
-            ControllerAppodeal.showVideo {
+            ControllerAppodeal.showVideoReward {
                 RVideoAdView().onComplete {
                     if (it.achi) EventBus.post(EventAchiProgressIncr(API.ACHI_VIDEO_AD.index))
                     else if (!it.achi && forAchi) {
