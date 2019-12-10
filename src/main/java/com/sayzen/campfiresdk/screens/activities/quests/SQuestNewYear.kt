@@ -16,7 +16,7 @@ class SQuestNewYear : SQuest() {
             .setLabel("Глухой лес, утро")
             .setButton_1("Поспать ещё") {
                 ToolsView.fromAlpha(vSplash, 3000){
-                    ToolsView.toAlpha(vSplash, 2000)
+                    ToolsView.toAlpha(vSplash, 4000)
                 }
             }
             .setButton_2("Проснуться") {

@@ -7,14 +7,9 @@ import android.widget.TextView
 import com.sayzen.campfiresdk.R
 import com.sayzen.campfiresdk.controllers.ControllerApi
 import com.sup.dev.android.libs.screens.Screen
-import com.sup.dev.android.tools.ToolsAndroid
 import com.sup.dev.android.tools.ToolsImagesLoader
 import com.sup.dev.android.tools.ToolsResources
 import com.sup.dev.android.tools.ToolsView
-import com.sup.dev.android.views.widgets.WidgetProgressTransparent
-import com.sup.dev.android.views.widgets.WidgetSplash
-import com.sup.dev.java.libs.debug.log
-import com.sup.dev.java.tools.ToolsThreads
 
 abstract class SQuest : Screen(R.layout.screen_quest) {
 

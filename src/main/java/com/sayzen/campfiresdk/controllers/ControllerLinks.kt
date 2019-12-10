@@ -32,7 +32,6 @@ import com.sup.dev.android.views.views.ViewTextLinkable
 import com.sup.dev.android.views.widgets.WidgetAlert
 import com.sup.dev.java.libs.debug.err
 import com.sup.dev.java.libs.debug.info
-import com.sup.dev.java.libs.debug.log
 import com.sup.dev.java.tools.ToolsThreads
 import java.util.regex.Pattern
 
@@ -175,12 +174,9 @@ object ControllerLinks {
         onReplace.invoke()
         ControllerApi.makeTextHtml(vText)
 
-        log("---------------------")
-        log("[1] ", vText.text.toString())
         for (i in API.LINKS_ARRAY)
             if (i.isInnerLink)
                 makeLinkableInner(vText, i.asLink(), i.asWeb()) else makeLinkable(vText, i.asLink(), i.asWeb())
-        log("[2] ", vText.text.toString())
         makeLinkable(vText, API.LINK_SHORT_PROFILE, API.LINK_PROFILE_NAME, "([A-Za-z0-9#]+)")
 
         ToolsView.makeLinksClickable(vText)
@@ -195,7 +191,6 @@ object ControllerLinks {
     }
 
     private fun makeLinkable(vText: TextView, short: String, link: String) {
-        log("makeLinkable text[${vText.text}] short[$short] link[$link]")
         makeLinkable(vText, short, link, "([A-Za-z0-9_-]+)")
     }
 

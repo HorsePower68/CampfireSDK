@@ -28,6 +28,7 @@ import com.sup.dev.android.views.views.ViewIcon
 import com.sup.dev.android.views.views.ViewTextLinkable
 import com.sup.dev.android.views.widgets.Widget
 import com.sup.dev.android.views.widgets.WidgetAlert
+import com.sup.dev.java.libs.debug.Debug
 import com.sup.dev.java.libs.eventBus.EventBus
 import com.sup.dev.java.tools.ToolsBytes
 import com.sup.dev.java.tools.ToolsNetwork
@@ -132,6 +133,7 @@ class WidgetComment constructor(
     }
 
     private fun onCancel() {
+        Debug.printStack()
         if (attach.isHasContent()
                 || (getText().isNotEmpty() && answer != null && getText() != answer.creatorName + ",")
                 || (changeComment != null && getText() != changeComment.text.trim())
