@@ -16,14 +16,7 @@ import com.sup.dev.android.views.support.adapters.recycler_view.RecyclerCardAdap
 import com.sup.dev.android.views.screens.SLoadingRecycler
 import com.sup.dev.java.libs.eventBus.EventBus
 
-class SBookmarks private constructor() : SLoadingRecycler<CardPublication, Publication>() {
-
-    companion object {
-
-        fun instance(action: NavigationAction) {
-            Navigator.action(action, SBookmarks())
-        }
-    }
+class SBookmarks constructor() : SLoadingRecycler<CardPublication, Publication>() {
 
     private val eventBus = EventBus
             .subscribe(EventPublicationBookmarkChange::class) { this.onEventUnitBookmarkChange(it) }

@@ -20,11 +20,13 @@ import com.sayzen.campfiresdk.models.events.publications.*
 import com.sayzen.campfiresdk.models.widgets.WidgetComment
 import com.sayzen.campfiresdk.screens.fandoms.rubrics.SRubricPosts
 import com.sayzen.campfiresdk.views.ViewKarma
+import com.sup.dev.android.app.SupAndroid
 import com.sup.dev.android.libs.screens.navigator.Navigator
 import com.sup.dev.android.tools.ToolsResources
 import com.sup.dev.android.tools.ToolsView
 import com.sup.dev.android.views.views.ViewAvatarTitle
 import com.sup.dev.android.views.views.layouts.LayoutMaxSizes
+import com.sup.dev.java.libs.debug.log
 import com.sup.dev.java.libs.eventBus.EventBus
 import com.sup.dev.java.tools.ToolsDate
 import com.sup.dev.java.tools.ToolsText
@@ -42,6 +44,12 @@ class CardPost constructor(
 
         private val pagesCash = HashMap<Long, ArrayList<View>>()
         private val cashSize = 5
+
+        init {
+            SupAndroid.addOnLowMemory {
+                pagesCash.clear()
+            }
+        }
 
         private fun getList(card: CardPage): ArrayList<View> {
             var list = pagesCash[card.page.getType()]
@@ -90,24 +98,13 @@ class CardPost constructor(
         xPublication.xFandom.allViewIsClickable = true
         updateFandomOnBind = false
         updatePages()
-        onBack = {
-            if (Navigator.getCurrent() is PostList && (Navigator.getCurrent() as PostList).contains(this)) {
-                if (isShowFull) {
-                    toggleShowFull()
-                    getView() != null
-                } else {
-                    Navigator.removeOnBack(onBack)
-                    false
-                }
-            } else {
-                false
-            }
-        }
     }
 
     private fun updatePages() {
         val publication = xPublication.publication as PublicationPost
 
+        val page_0 = if (pages.size > 0) pages[0] else null
+        val page_1 = if (pages.size > 1) pages[1] else null
         pages.clear()
 
         if (publication.pages.isNotEmpty()) {
@@ -115,26 +112,30 @@ class CardPost constructor(
             if (isShowFull) {
                 var i = 0
                 while (i < publication.pages.size) {
-                    val pageView = CardPage.instance(publication, publication.pages[i])
-                    pages.add(pageView)
-                    if (pageView is CardPageSpoiler) {
-                        pageView.pages = pages
-                        pageView.onClick = { update() }
+                    val pageCard = if (i == 0 && page_0 != null) page_0 else if (i == 1 && page_1 != null) page_1 else CardPage.instance(publication, publication.pages[i])
+
+                    pages.add(pageCard)
+                    if (pageCard is CardPageSpoiler) {
+                        pageCard.pages = pages
+                        pageCard.onClick = { update() }
                     }
                     i++
                 }
                 ControllerPost.updateSpoilers(pages)
             } else {
 
-                addPage(publication.pages[0])
+                if (page_0 != null) addPage(page_0) else addPage(publication.pages[0])
+
                 if (publication.pages.size > 1)
                     if (publication.pages[0].getType() != API.PAGE_TYPE_SPOILER)
-                        addPage(publication.pages[1])
+                        if (page_1 != null) addPage(page_1) else addPage(publication.pages[1])
                     else {
                         var leftCount = (publication.pages[0] as PageSpoiler).count
                         for (i in 1 until publication.pages.size) {
                             if (leftCount == 0) {
-                                if (publication.pages.size > i) addPage(publication.pages[i])
+                                if (publication.pages.size > i) {
+                                    if (i == 1 && page_1 != null) addPage(page_1) else addPage(publication.pages[i])
+                                }
                                 break
                             }
                             if (publication.pages[i].getType() == API.PAGE_TYPE_SPOILER) leftCount += (publication.pages[i] as PageSpoiler).count
@@ -149,9 +150,10 @@ class CardPost constructor(
     }
 
     private fun addPage(page: Page) {
-        val publication = xPublication.publication as PublicationPost
+        addPage(CardPage.instance(xPublication.publication as PublicationPost, page))
+    }
 
-        val card = CardPage.instance(publication, page)
+    private fun addPage(card: CardPage) {
         if (card is CardPageSpoiler && !isShowFull) {
             card.onClick = {
                 toggleShowFull()
@@ -198,9 +200,10 @@ class CardPost constructor(
         for (page in pages) {
             page.clickable = isShowFull || (page is CardPageSpoiler) || (page is CardPageImage) || (page is CardPageImages)
             page.postIsDraft = publication.isDraft
-            val v = Companion.getView(page, vPagesContainer)
+            val pageView = page.getView()
+            val v = pageView ?: Companion.getView(page, vPagesContainer)
             page.bindCardView(v)
-            vPagesContainer.addView(v)
+            vPagesContainer.addView(ToolsView.removeFromParent(v))
         }
 
         if (publication.isPined) vTitleContainer.setBackgroundColor(ToolsResources.getColor(R.color.lime_700))
@@ -277,8 +280,19 @@ class CardPost constructor(
     private fun toggleShowFull() {
         isShowFull = !isShowFull
 
-        if (isShowFull) Navigator.addOnBack(onBack)
-        else Navigator.removeOnBack(onBack)
+        Navigator.removeOnBack(onBack)
+        if (isShowFull) {
+            onBack = {
+                if (Navigator.getCurrent() is PostList && (Navigator.getCurrent() as PostList).contains(this)) {
+                    if (isShowFull) {
+                        toggleShowFull()
+                        getView() != null && getView()!!.findViewById<View>(R.id.vPagesCount).tag == this
+                    } else false
+                } else false
+
+            }
+            Navigator.addOnBack(onBack)
+        }
 
         updatePages()
         updateShowAll()
@@ -297,6 +311,7 @@ class CardPost constructor(
         val vPagesCount: TextView = getView()!!.findViewById(R.id.vPagesCount)
         val vMaxSizes: LayoutMaxSizes = getView()!!.findViewById(R.id.vMaxSizes)
 
+        vPagesCount.tag = this
         vMaxSizes.onMeasureFinish = { updateShowAllUpdateCounter() }
 
         if (isShowFull) vPagesCount.text = ToolsResources.s(R.string.app_hide)
@@ -307,7 +322,7 @@ class CardPost constructor(
         updateShowAllUpdateCounter()
     }
 
-    private fun updateShowAllUpdateCounter(){
+    private fun updateShowAllUpdateCounter() {
         if (getView() == null) return
         val publication = xPublication.publication as PublicationPost
 
@@ -315,10 +330,9 @@ class CardPost constructor(
         val vMaxSizes: LayoutMaxSizes = getView()!!.findViewById(R.id.vMaxSizes)
 
         ToolsThreads.main(true) {
-            vPagesCount.visibility = if (publication.pages.size > 2 || vMaxSizes.isCroppedH()) View.VISIBLE else View.INVISIBLE
+            vPagesCount.visibility = if (publication.pages.size > 2 || vMaxSizes.isCroppedH() || isShowFull) View.VISIBLE else View.INVISIBLE
         }
     }
-
 
 
     override fun notifyItem() {
@@ -334,6 +348,7 @@ class CardPost constructor(
         val publication = xPublication.publication as PublicationPost
         if (e.publicationId == publication.id) {
             publication.pages = e.pages
+            pages.clear()
             updatePages()
         }
     }

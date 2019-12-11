@@ -20,7 +20,6 @@ open class WidgetReactions : WidgetRecycler(R.layout.widget_reactions) {
 
     private var onSelected: (Long) -> Unit = { }
     private var spanCount = 4
-    private var hided = false
 
     init {
         spanCount = if (ToolsAndroid.isScreenPortrait()) 6 else 12
@@ -35,11 +34,6 @@ open class WidgetReactions : WidgetRecycler(R.layout.widget_reactions) {
         for(i in API.REACTIONS.indices){
             myAdapter.add(CardReaction(i))
         }
-    }
-
-    override fun onHide() {
-        super.onHide()
-        hided = true
     }
 
     override fun onShow() {

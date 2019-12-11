@@ -30,7 +30,6 @@ open class WidgetStickers : WidgetRecycler(R.layout.widget_stickers) {
 
     private var onSelected: (PublicationSticker) -> Unit = { }
     private var spanCount = 4
-    private var hided = false
 
     init {
         vEmptyContainer.visibility = View.GONE
@@ -77,11 +76,6 @@ open class WidgetStickers : WidgetRecycler(R.layout.widget_stickers) {
                 }
                 .send(api)
 
-    }
-
-    override fun onHide() {
-        super.onHide()
-        hided = true
     }
 
     override fun onShow() {

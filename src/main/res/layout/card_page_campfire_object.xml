@@ -24,7 +24,7 @@
             android:layout_height="wrap_content">
 
             <com.sup.dev.android.views.views.ViewAvatarTitle
-                android:id="@+id/vAvatarTitleObject"
+                android:id="@+id/vAvatarTitle_Object"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="16dp"

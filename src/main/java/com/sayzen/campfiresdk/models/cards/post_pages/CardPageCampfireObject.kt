@@ -26,7 +26,7 @@ class CardPageCampfireObject(
         super.bindView(view)
         val page = this.page as PageCampfireObject
 
-        val vAvatar: ViewAvatarTitle = view.findViewById(R.id.vAvatarTitleObject)
+        val vAvatar: ViewAvatarTitle = view.findViewById(R.id.vAvatarTitle_Object)
         val vTouch: View = view.findViewById(R.id.vTouch)
 
         vAvatar.tag = this
