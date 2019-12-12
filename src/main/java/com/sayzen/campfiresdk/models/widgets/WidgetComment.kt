@@ -6,8 +6,8 @@ import android.view.ViewGroup
 import com.dzen.campfire.api.API
 import com.dzen.campfire.api.models.publications.PublicationComment
 import com.dzen.campfire.api.models.publications.stickers.PublicationSticker
-import com.dzen.campfire.api.requests.publications.RPublicationsCommentChange
-import com.dzen.campfire.api.requests.publications.RPublicationsCommentCreate
+import com.dzen.campfire.api.requests.comments.RCommentsChange
+import com.dzen.campfire.api.requests.comments.RCommentsCreate
 import com.sayzen.campfiresdk.R
 import com.sayzen.campfiresdk.controllers.ControllerApi
 import com.sayzen.campfiresdk.controllers.ControllerSettings
@@ -28,7 +28,6 @@ import com.sup.dev.android.views.views.ViewIcon
 import com.sup.dev.android.views.views.ViewTextLinkable
 import com.sup.dev.android.views.widgets.Widget
 import com.sup.dev.android.views.widgets.WidgetAlert
-import com.sup.dev.java.libs.debug.Debug
 import com.sup.dev.java.libs.eventBus.EventBus
 import com.sup.dev.java.tools.ToolsBytes
 import com.sup.dev.java.tools.ToolsNetwork
@@ -189,7 +188,7 @@ class WidgetComment constructor(
 
     private fun sendText(text: String, parentId: Long) {
         SGoogleRules.acceptRulesDialog() {
-            ApiRequestsSupporter.executeEnabled(this, RPublicationsCommentCreate(publicationId, text, null, null, parentId, ControllerSettings.watchPost, quoteId, 0)) { r ->
+            ApiRequestsSupporter.executeEnabled(this, RCommentsCreate(publicationId, text, null, null, parentId, ControllerSettings.watchPost, quoteId, 0)) { r ->
                 afterSend(r.comment)
             }
         }
@@ -200,7 +199,7 @@ class WidgetComment constructor(
         SGoogleRules.acceptRulesDialog() {
             ApiRequestsSupporter.executeEnabled(
                 this,
-                RPublicationsCommentChange(changeComment!!.id, text, quoteId)
+                    RCommentsChange(changeComment!!.id, text, quoteId)
             ) {
                 ToolsToast.show(R.string.app_changed)
                 EventBus.post(EventCommentChange(changeComment.id, text, quoteId, quoteText))
@@ -254,18 +253,18 @@ class WidgetComment constructor(
                     bytes[0] = byt
                 }
                 ApiRequestsSupporter.executeProgressDialog(
-                    RPublicationsCommentCreate(
-                        publicationId,
-                        text,
-                        bytes,
-                        gif,
-                        parentId,
-                        ControllerSettings.watchPost,
-                        quoteId,
-                        0
-                    )
+                        RCommentsCreate(
+                                publicationId,
+                                text,
+                                bytes,
+                                gif,
+                                parentId,
+                                ControllerSettings.watchPost,
+                                quoteId,
+                                0
+                        )
                 ) { r -> afterSend(r.comment) }
-                    .onApiError(RPublicationsCommentCreate.E_BAD_PUBLICATION_STATUS) { ToolsToast.show(R.string.error_gone) }
+                    .onApiError(RCommentsCreate.E_BAD_PUBLICATION_STATUS) { ToolsToast.show(R.string.error_gone) }
                     .onFinish { setEnabled(true) }
             }
 
@@ -277,18 +276,18 @@ class WidgetComment constructor(
             setEnabled(false)
 
             ApiRequestsSupporter.executeProgressDialog(
-                RPublicationsCommentCreate(
-                    publicationId,
-                    "",
-                    null,
-                    null,
-                    answer?.id?:0,
-                    ControllerSettings.watchPost,
-                    quoteId,
-                    sticker.id
-                )
+                    RCommentsCreate(
+                            publicationId,
+                            "",
+                            null,
+                            null,
+                            answer?.id ?: 0,
+                            ControllerSettings.watchPost,
+                            quoteId,
+                            sticker.id
+                    )
             ) { r -> afterSend(r.comment) }
-                .onApiError(RPublicationsCommentCreate.E_BAD_PUBLICATION_STATUS) { ToolsToast.show(R.string.error_gone) }
+                .onApiError(RCommentsCreate.E_BAD_PUBLICATION_STATUS) { ToolsToast.show(R.string.error_gone) }
                 .onFinish { setEnabled(true) }
         }
     }

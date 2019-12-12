@@ -28,7 +28,7 @@ import com.dzen.campfire.api.requests.tags.RTagsMoveCategory
 import com.dzen.campfire.api.requests.tags.RTagsMoveTag
 import com.dzen.campfire.api.requests.publications.RPublicationsAdminRestoreDeepBlock
 import com.dzen.campfire.api.requests.publications.RPublicationsBookmarksChange
-import com.dzen.campfire.api.requests.publications.RPublicationsCommentsWatchChange
+import com.dzen.campfire.api.requests.comments.RCommentsWatchChange
 import com.sayzen.campfiresdk.R
 import com.sayzen.campfiresdk.models.events.fandom.EventFandomTagMove
 import com.sayzen.campfiresdk.models.events.publications.*
@@ -272,7 +272,7 @@ object ControllerPublications {
     //
 
     fun changeWatchComments(publicationId: Long) {
-        ApiRequestsSupporter.executeProgressDialog(RPublicationsCommentsWatchChange(publicationId)) { r ->
+        ApiRequestsSupporter.executeProgressDialog(RCommentsWatchChange(publicationId)) { r ->
             EventBus.post(EventPublicationCommentWatchChange(publicationId, r.follow))
             if (r.follow) ToolsToast.show(R.string.publication_menu_comments_watch_on)
             else ToolsToast.show(R.string.publication_menu_comments_watch_off)
