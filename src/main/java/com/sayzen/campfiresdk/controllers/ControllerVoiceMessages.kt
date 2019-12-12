@@ -15,102 +15,146 @@ object ControllerVoiceMessages {
         NONE, LOADING, PLAY, PAUSE
     }
 
-    private val utilsAudioPlayer = UtilsAudioPlayer()
-    private var currentId = 0L
-    private var state = State.NONE
-    private var playTimeMs = 0L
+    private var currentVoice = Voice(0)
 
     init {
-        utilsAudioPlayer.useProximity = true
         Navigator.addOnScreenChanged {
-            stop(currentId)
+            currentVoice.stop()
             false
         }
     }
 
+    //
+    //  API
+    //
+
     fun play(id: Long) {
-        if (currentId == id) {
-            if (isPause(currentId)) resume(id)
+        if (currentVoice.id == id) {
+            if (isPause(currentVoice.id)) currentVoice.resume()
             return
         }
 
-        if (currentId != 0L) {
-            stop(currentId)
-        }
-
-        playTimeMs = 0L
-        currentId = id
-
-        setState(id, State.LOADING)
-        RResourcesGet(id)
-                .onComplete {
-                    startPlay(id, it.bytes)
-                }
-                .onError {
-                    stop(id)
-                    ToolsToast.show(R.string.error_unknown)
-                }
-                .send(apiMedia)
+        currentVoice.stop()
+        currentVoice = Voice(id)
+        currentVoice.play()
     }
 
-    fun stop(id: Long) {
-        if (currentId != id) return
-        setState(id, State.NONE)
-        utilsAudioPlayer.stop()
+    fun stop(id:Long) {
+        if (currentVoice.id != id) return
+        currentVoice.stop()
     }
 
-    private fun startPlay(id: Long, bytes: ByteArray) {
-        if (currentId != id) return
-        setState(id, State.PLAY)
-        playTimeMs = 0L
-        utilsAudioPlayer.onStep = {
-            if (currentId == id) playTimeMs = it
-            EventBus.post(EventVoiceMessageStep(currentId))
-        }
-        utilsAudioPlayer.play(bytes) {
-            setState(id, State.NONE)
-            if (currentId == id) currentId = 0L
-        }
+    fun pause(id:Long) {
+        if (currentVoice.id != id) return
+        currentVoice.pause()
     }
 
-    fun pause(id: Long) {
-        if (currentId != id) return
-
-        setState(id, State.PAUSE)
-        utilsAudioPlayer.pause()
+    fun resume(id:Long) {
+        if (currentVoice.id != id) return
+        currentVoice.resume()
     }
 
-    fun resume(id: Long) {
-        if (currentId != id) return
 
-        setState(id, State.PLAY)
-        utilsAudioPlayer.resume()
-    }
-
-    private fun setState(id: Long, state: State) {
-        if (currentId != id) return
-        this.state = state
-        EventBus.post(EventVoiceMessageStateChanged())
-    }
+    //
+    //  Getters
+    //
 
     fun isPlay(id: Long): Boolean {
-        if (currentId != id) return false
-        return state == State.PLAY
+        if (currentVoice.id != id) return false
+        return currentVoice.getState() == State.PLAY
     }
 
     fun isPause(id: Long): Boolean {
-        if (currentId != id) return false
-        return state == State.PAUSE
+        if (currentVoice.id != id) return false
+        return currentVoice.getState() == State.PAUSE
     }
 
     fun isLoading(id: Long): Boolean {
-        if (currentId != id) return false
-        return state == State.LOADING
+        if (currentVoice.id != id) return false
+        return currentVoice.getState() == State.LOADING
     }
 
     fun getPlayTimeMs(id: Long): Long {
-        if (currentId != id) return 0L
-        return playTimeMs
+        if (currentVoice.id != id) return 0L
+        return currentVoice.playTimeMs
+    }
+
+    //
+    //  Support
+    //
+
+    private class Voice(
+            val id: Long
+    ) {
+
+        private var state = State.NONE
+        private val utilsAudioPlayer = UtilsAudioPlayer()
+        var playTimeMs = 0L
+
+        init {
+            utilsAudioPlayer.useProximity = true
+        }
+
+        fun play() {
+            if (id == 0L) return
+            setState(State.LOADING)
+            RResourcesGet(id)
+                    .onComplete {
+                        startPlay(it.bytes)
+                    }
+                    .onError {
+                        stop()
+                        ToolsToast.show(R.string.error_unknown)
+                    }
+                    .send(apiMedia)
+        }
+
+        private fun setState(state: State) {
+            this.state = state
+            EventBus.post(EventVoiceMessageStateChanged())
+        }
+
+        fun getState() = state
+
+        private fun startPlay(bytes: ByteArray) {
+            if (idDead()) return
+            setState(State.PLAY)
+            playTimeMs = 0L
+            utilsAudioPlayer.onStep = {
+                if (currentVoice == this) {
+                    playTimeMs = it
+                    EventBus.post(EventVoiceMessageStep(id))
+                }
+            }
+            utilsAudioPlayer.play(bytes) {
+                if (currentVoice == this) {
+                    setState(State.NONE)
+                    currentVoice = Voice(0)
+                }
+            }
+        }
+
+        fun stop() {
+            if (idDead()) return
+            setState(State.NONE)
+            utilsAudioPlayer.stop()
+        }
+
+        fun pause() {
+            if (idDead()) return
+            setState(State.PAUSE)
+            utilsAudioPlayer.pause()
+        }
+
+        fun resume() {
+            if (idDead()) return
+            setState(State.PLAY)
+            utilsAudioPlayer.resume()
+        }
+
+        fun idDead() = currentVoice != this || id == 0L || state == State.NONE
+
+
     }
 
 }

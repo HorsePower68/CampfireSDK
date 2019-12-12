@@ -1186,6 +1186,7 @@
     <string name="quests_text_chat">Напишите несколько сообщений в чате.</string>
     <string name="quests_text_posts_karma">Опубликуйте пост, который наберет большое количество кармы.</string>
     <string name="quests_text_comments_karma">Опубликуйте комментарий, который наберет большое количество кармы.</string>
+    <string name="quests_text_relay_race">Опубликуйте пост в эстафете.</string>
     <string name="quests_story_start">У нас есть несколько заданий которые помогут вам освоиться в приложении.</string>
     <string name="quests_story_start_button">Я готов!</string>
     <string name="quests_story_karma">Карма - основа Campfire. Все ваши действия в приложении могут быть оценены другими пользователями, как положительно, так и отрицательно. От кармы зависят ваши возможности.\n\nПоставте несколько оценок публикациям, чтобы понять как это работает.</string>

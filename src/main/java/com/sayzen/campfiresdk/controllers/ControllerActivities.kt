@@ -4,6 +4,7 @@ import com.dzen.campfire.api.API
 import com.dzen.campfire.api.models.activities.UserActivity
 import com.dzen.campfire.api.models.notifications.activities.NotificationActivitiesRelayRaceTurn
 import com.dzen.campfire.api.requests.activities.*
+import com.dzen.campfire.api.requests.project.RVideoAdInfo
 import com.dzen.campfire.api.requests.project.RVideoAdView
 import com.sayzen.campfiresdk.R
 import com.sayzen.campfiresdk.models.events.activities.*
@@ -18,7 +19,6 @@ import com.sup.dev.android.tools.ToolsAndroid
 import com.sup.dev.android.tools.ToolsToast
 import com.sup.dev.android.tools.ToolsView
 import com.sup.dev.android.views.widgets.Widget
-import com.sup.dev.android.views.widgets.WidgetAlert
 import com.sup.dev.android.views.widgets.WidgetMenu
 import com.sup.dev.java.libs.debug.err
 import com.sup.dev.java.libs.eventBus.EventBus
@@ -190,7 +190,24 @@ object ControllerActivities {
             return
         }
         ControllerAppodeal.cashVideoReward()
-        showVideoAdNow(10, ToolsView.showProgressDialog(R.string.achi_video_loading), forAchi)
+
+        val v =  ToolsView.showProgressDialog(R.string.achi_video_loading)
+        RVideoAdInfo()
+                .onComplete {
+                    videoAchiLocked = it.countToday > 2
+                    videoLocked = it.countToday > 9
+                    if (videoLocked || (forAchi && videoAchiLocked)) {
+                        v.hide()
+                        ToolsToast.show(R.string.achi_video_device_max)
+                        return@onComplete
+                    }
+                    showVideoAdNow(10, v, forAchi)
+                }
+                .onError{
+                    ToolsToast.show(R.string.error_unknown)
+                    v.hide()
+                }
+                .send(api)
     }
 
     private fun showVideoAdNow(tryCount: Int, vDialog: Widget, forAchi: Boolean) {

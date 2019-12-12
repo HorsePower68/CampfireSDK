@@ -1184,6 +1184,7 @@ Campfire has anime fandoms and gaming fandoms.</string>
     <string name="quests_text_chat">Write several messages in the chat.</string>
     <string name="quests_text_posts_karma">Publish an post that will get large amount of karma.</string>
     <string name="quests_text_comments_karma">Post a comment that will get a lot of karma.</string>
+    <string name="quests_text_relay_race">Create a post in a relay race.</string>
     <string name="quests_story_start">We have several quests that will help you get used to the application.</string>
     <string name="quests_story_start_button">I\'m ready!</string>
     <string name="quests_story_karma">Karma is the basis of Campfire. All your actions in the application can be evaluated by other users, both positively and negatively. Your possibilities depend on karma.\n\nRate several publications, to understand as this works.</string>

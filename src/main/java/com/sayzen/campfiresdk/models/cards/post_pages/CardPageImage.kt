@@ -8,7 +8,6 @@ import com.sayzen.campfiresdk.R
 import com.sup.dev.android.libs.screens.navigator.Navigator
 import com.sup.dev.android.tools.ToolsImagesLoader
 import com.sup.dev.android.views.screens.SImageView
-import com.sup.dev.java.libs.debug.log
 
 class CardPageImage(
         pagesContainer: PagesContainer?,
@@ -25,8 +24,6 @@ class CardPageImage(
 
         if (clickable) vImage.setOnClickListener { onImageClicked() }
         else vImage.setOnClickListener(null)
-
-        log("imageId[${page.imageId}] hash[${view.hashCode()}]")
 
         vImage.isFocusable = false
         vImage.isClickable = clickable

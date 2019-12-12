@@ -6,7 +6,6 @@ import com.sup.dev.android.app.SupAndroid
 import com.sup.dev.android.tools.ToolsAndroid
 import com.sup.dev.java.libs.debug.info
 
-
 object ControllerAppodeal {
 
     private var video = false
@@ -15,7 +14,7 @@ object ControllerAppodeal {
     private var videoReward = false
 
     fun init(activity: Activity, appId: String, video: Boolean, native: Boolean, interstitial: Boolean, videoReward: Boolean) {
-        if (!video && !native && !interstitial) return
+        if (!video && !native && !interstitial && !videoReward) return
 
         this.video = video
         this.native = native
@@ -26,7 +25,7 @@ object ControllerAppodeal {
         Appodeal.setAutoCache(Appodeal.REWARDED_VIDEO, false)
         Appodeal.disableLocationPermissionCheck()
         Appodeal.disableWriteExternalStoragePermissionCheck()
-        //Appodeal.setTesting(ToolsAndroid.isDebug())
+        Appodeal.setTesting(ToolsAndroid.isDebug())
         Appodeal.setNativeAdType(Native.NativeAdType.Auto)
 
         var adKeys = 0
@@ -37,10 +36,10 @@ object ControllerAppodeal {
 
         Appodeal.initialize(activity, appId, adKeys, false)
 
-        if (video) initVideo()
-        if (native) initNative()
-        if (interstitial) initInterstitial()
-        if (videoReward) initVideoReward()
+        initVideo()
+        initNative()
+        initInterstitial()
+        initVideoReward()
 
     }
 
@@ -111,7 +110,7 @@ object ControllerAppodeal {
     private var onVideoRewardFinished: () -> Unit = {}
 
     private fun initVideoReward() {
-        if (!isLoadedVideoReward()) return
+        if (!videoReward) return
         info("ControllerAppodeal", "initVideoReward")
         Appodeal.setRewardedVideoCallbacks(object : RewardedVideoCallbacks{
             override fun onRewardedVideoFinished(p0: Double, p1: String?) {
@@ -153,7 +152,7 @@ object ControllerAppodeal {
     fun showVideoReward(onVideoFinished: () -> Unit) {
         if (!videoReward) return
         info("ControllerAppodeal", "showVideoReward")
-        this.onVideoFinished = onVideoFinished
+        this.onVideoRewardFinished = onVideoFinished
         Appodeal.show(SupAndroid.activity!!, Appodeal.REWARDED_VIDEO)
     }
 
@@ -175,7 +174,7 @@ object ControllerAppodeal {
 
     private fun initNative() {
         if (!native) return
-
+        info("ControllerAppodeal", "initNative")
         Appodeal.setNativeCallbacks(object : NativeCallbacks{
             override fun onNativeLoaded() {
                 info("ControllerAppodeal", "onNativeLoaded")

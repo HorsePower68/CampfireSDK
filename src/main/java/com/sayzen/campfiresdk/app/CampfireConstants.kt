@@ -150,7 +150,8 @@ object CampfireConstants {
             Quest(API.QUEST_COMMENTS, R.string.quests_text_comments),
             Quest(API.QUEST_CHAT, R.string.quests_text_chat),
             Quest(API.QUEST_POST_KARMA, R.string.quests_text_posts_karma),
-            Quest(API.QUEST_COMMENTS_KARMA, R.string.quests_text_comments_karma)
+            Quest(API.QUEST_COMMENTS_KARMA, R.string.quests_text_comments_karma),
+            Quest(API.QUEST_ACTIVITIES, R.string.quests_text_relay_race)
     )
 
     val QUESTS_STORY = arrayOf(
