@@ -255,7 +255,7 @@ class SChat private constructor(
                                         adapter!!.remove(carSpace)
                                         onLoad.invoke(r.publications)
                                         adapter!!.add(carSpace)
-                                        if (r.publications.isNotEmpty()) EventBus.post(EventChatNewBottomMessage(tag, r.publications[r.publications.size - 1]))
+                                        if (r.publications.isNotEmpty()) EventBus.post(EventChatNewBottomMessage(r.publications[r.publications.size - 1]))
                                         ToolsThreads.main(true) {
                                             while (addAfterLoadList.isNotEmpty()) addMessage(addAfterLoadList.removeAt(0), true)
                                         }

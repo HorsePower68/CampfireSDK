@@ -17,8 +17,8 @@ import com.sayzen.campfiresdk.R
 import com.sayzen.campfiresdk.controllers.*
 import com.sayzen.campfiresdk.models.cards.CardPublication
 import com.sayzen.campfiresdk.models.events.chat.EventChatMessageChanged
+import com.sayzen.campfiresdk.models.events.chat.EventChatNewBottomMessage
 import com.sayzen.campfiresdk.models.events.chat.EventChatReadDateChanged
-import com.sayzen.campfiresdk.models.events.chat.EventUpdateChats
 import com.sayzen.campfiresdk.models.events.notifications.EventNotification
 import com.sayzen.campfiresdk.models.events.publications.EventPublicationBlocked
 import com.sayzen.campfiresdk.models.events.publications.EventPublicationDeepBlockRestore
@@ -307,7 +307,7 @@ abstract class CardChatMessage constructor(
                 .groupCondition(ControllerApi.isCurrentAccount(publication.creatorId))
                 .add(R.string.app_remove) { _, _ ->
                     ControllerApi.removePublication(publication.id, R.string.chat_remove_confirm, R.string.chat_error_gone) {
-                        EventBus.post(EventUpdateChats())
+                        EventBus.post(EventChatNewBottomMessage(publication))
                     }
                 }
                 .add(R.string.app_change) { _, _ -> onChange?.invoke(publication) }.condition(changeEnabled)

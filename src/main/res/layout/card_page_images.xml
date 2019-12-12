@@ -24,7 +24,7 @@
             android:layout_height="wrap_content">
 
             <com.sup.dev.android.views.views.ViewImagesContainer
-                android:id="@+id/vImagesSwipe"
+                android:id="@+id/vImagesContainer"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="1dp"

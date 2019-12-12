@@ -9,7 +9,7 @@ import com.sayzen.campfiresdk.R
 import com.sayzen.campfiresdk.controllers.ControllerApi
 import com.sayzen.campfiresdk.controllers.ControllerStoryQuest
 import com.sayzen.campfiresdk.models.events.chat.EventChatMemberStatusChanged
-import com.sayzen.campfiresdk.models.events.chat.EventUpdateChats
+import com.sayzen.campfiresdk.models.events.chat.EventChatNewBottomMessage
 import com.sup.dev.android.libs.api_simple.ApiRequestsSupporter
 import com.sup.dev.android.tools.ToolsToast
 import com.sup.dev.android.views.cards.Card
@@ -65,7 +65,7 @@ class CardSending(
 
 
     private fun afterSend(message: PublicationChatMessage) {
-        EventBus.post(EventUpdateChats())
+        EventBus.post(EventChatNewBottomMessage(message))
         screen.addMessage(message, true, this)
     }
 

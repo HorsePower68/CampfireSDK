@@ -175,8 +175,8 @@ class CardChat(
     }
 
     private fun onEventChatNewBottomMessage(e: EventChatNewBottomMessage) {
-        if (e.tag == chat.tag) {
-            chat.unitChatMessage = e.unitChatMessage
+        if (e.chatMessage.chatTag() == chat.tag) {
+            chat.unitChatMessage = e.chatMessage
             update()
         }
     }

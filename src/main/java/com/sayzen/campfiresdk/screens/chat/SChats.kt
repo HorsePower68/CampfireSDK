@@ -2,13 +2,14 @@ package com.sayzen.campfiresdk.screens.chat
 
 import com.dzen.campfire.api.models.notifications.chat.NotificationChatMessage
 import com.dzen.campfire.api.models.publications.chat.Chat
+import com.dzen.campfire.api.models.publications.chat.PublicationChatMessage
 import com.dzen.campfire.api.requests.chat.RChatsGetAll
 import com.sayzen.campfiresdk.R
 import com.sayzen.campfiresdk.controllers.ControllerApi
 import com.sayzen.campfiresdk.controllers.api
 import com.sayzen.campfiresdk.models.cards.CardChat
+import com.sayzen.campfiresdk.models.events.chat.EventChatNewBottomMessage
 import com.sayzen.campfiresdk.models.events.chat.EventChatSubscriptionChanged
-import com.sayzen.campfiresdk.models.events.chat.EventUpdateChats
 import com.sayzen.campfiresdk.models.events.notifications.EventNotification
 import com.sayzen.campfiresdk.screens.chat.create.SChatCreate
 import com.sup.dev.android.libs.screens.navigator.NavigationAction
@@ -33,8 +34,7 @@ class SChats constructor(
     private val eventBus = EventBus
             .subscribe(EventChatSubscriptionChanged::class) { reload() }
             .subscribe(EventNotification::class) { onEventNotification(it) }
-            .subscribe(EventUpdateChats::class) { reloadOrFlag() }
-    private var needReload = false
+            .subscribe(EventChatNewBottomMessage::class) { reorder(it.chatMessage) }
 
     init {
         setBackgroundImage(R.drawable.bg_5)
@@ -46,21 +46,23 @@ class SChats constructor(
     }
 
     override fun instanceAdapter(): RecyclerCardAdapterLoading<CardChat, Chat> {
-        return RecyclerCardAdapterLoading<CardChat, Chat>(CardChat::class)
-        { publication ->
-            val card = CardChat(publication, publication.unreadCount.toInt(), publication.subscribed)
-            if (onSelected != null) card.onSelected = {
-                Navigator.remove(this)
-                onSelected!!.invoke(it)
-            }
-            card
-        }
+        return RecyclerCardAdapterLoading<CardChat, Chat>(CardChat::class) { instanceCard(it)}
                 .setBottomLoader { onLoad, cards ->
                     if (ControllerApi.account.id == 0L) ToolsThreads.main(1000) { sendRequest(onLoad, cards) }
                     else sendRequest(onLoad, cards)
                 }
 
     }
+
+    private fun instanceCard(chat: Chat):CardChat{
+        val card = CardChat(chat, chat.unreadCount.toInt(), chat.subscribed)
+        if (onSelected != null) card.onSelected = {
+            Navigator.remove(this)
+            onSelected!!.invoke(it)
+        }
+        return card
+    }
+
 
     private fun sendRequest(onLoad: (Array<Chat>?) -> Unit, cards: ArrayList<CardChat>) {
         RChatsGetAll(cards.size)
@@ -71,17 +73,40 @@ class SChats constructor(
                 .send(api)
     }
 
-    override fun onResume() {
-        super.onResume()
-        if (needReload) {
-            needReload = false
-            reload()
-        }
-    }
+    private fun reorder(chatMessage: PublicationChatMessage) {
+        if (adapter == null) return
+        val cards = adapter!!.get(CardChat::class)
+        if (cards.isNotEmpty() && cards[0].chat.tag == chatMessage.chatTag()) return
 
-    private fun reloadOrFlag() {
-        if (Navigator.getCurrent() == this) reload()
-        else needReload = true
+
+        var chatCard: CardChat? = null
+        for (c in cards)
+            if (c.chat.tag == chatMessage.chatTag()) {
+                chatCard = c
+                break
+            }
+
+        if(chatCard == null){
+            reload()
+            return
+        }
+
+        var targetCard: CardChat? = null
+        for (c in cards)
+            if (c.chat.unitChatMessage.dateCreate < chatMessage.dateCreate) {
+                targetCard = c
+                break
+            }
+
+        if(targetCard == null){
+            reload()
+            return
+        }
+
+        val index_1 = adapter!!.indexOf(chatCard)
+        val index_2 = adapter!!.indexOf(targetCard)
+        adapter!!.replace(index_1, targetCard)
+        adapter!!.replace(index_2, chatCard)
     }
 
     //
@@ -90,11 +115,7 @@ class SChats constructor(
 
     private fun onEventNotification(e: EventNotification) {
         if (e.notification is NotificationChatMessage) {
-            if (adapter == null) return
-            val cards = adapter!!.get(CardChat::class)
-            if (cards.isNotEmpty() && cards[0].chat.tag == e.notification.tag)
-                return
-            reloadOrFlag()
+            reorder(e.notification.publicationChatMessage)
         }
     }
 

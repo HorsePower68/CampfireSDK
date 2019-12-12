@@ -5,6 +5,7 @@ import android.widget.ImageView
 import com.dzen.campfire.api.models.publications.PagesContainer
 import com.dzen.campfire.api.models.publications.post.PageImage
 import com.sayzen.campfiresdk.R
+import com.sayzen.campfiresdk.controllers.ControllerPost
 import com.sup.dev.android.libs.screens.navigator.Navigator
 import com.sup.dev.android.tools.ToolsImagesLoader
 import com.sup.dev.android.views.screens.SImageView
@@ -33,18 +34,9 @@ class CardPageImage(
     }
 
     private fun onImageClicked() {
-
-        if(pagesContainer != null) {
-            val list = ArrayList<Long>()
-            var index = 0
-
-            for (p in pagesContainer.getPagesArray())
-                if (p is PageImage) {
-                    if (p == page) index = list.size
-                    list.add(p.getMainImageId())
-                }
-
-            Navigator.to(SImageView(index, list.toTypedArray()))
+        if (pagesContainer != null) {
+            val page = this.page as PageImage
+            ControllerPost.toImagesScreen(pagesContainer, page.imageId)
         } else {
             Navigator.to(SImageView((page as PageImage).getMainImageId()))
         }

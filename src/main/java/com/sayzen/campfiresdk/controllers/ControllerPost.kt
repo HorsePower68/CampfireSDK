@@ -1,9 +1,9 @@
 package com.sayzen.campfiresdk.controllers
 
 import com.dzen.campfire.api.API
+import com.dzen.campfire.api.models.publications.PagesContainer
 import com.dzen.campfire.api.models.publications.Publication
-import com.dzen.campfire.api.models.publications.post.PageSpoiler
-import com.dzen.campfire.api.models.publications.post.PublicationPost
+import com.dzen.campfire.api.models.publications.post.*
 import com.dzen.campfire.api.requests.fandoms.RFandomsAdminMakeModerator
 import com.dzen.campfire.api.requests.fandoms.RFandomsModerationImportant
 import com.dzen.campfire.api.requests.fandoms.RFandomsModerationToDrafts
@@ -17,6 +17,7 @@ import com.sup.dev.android.libs.api_simple.ApiRequestsSupporter
 import com.sup.dev.android.libs.screens.navigator.Navigator
 import com.sup.dev.android.tools.ToolsAndroid
 import com.sup.dev.android.tools.ToolsToast
+import com.sup.dev.android.views.screens.SImageView
 import com.sup.dev.android.views.support.adapters.recycler_view.RecyclerCardAdapter
 import com.sup.dev.android.views.widgets.WidgetField
 import com.sup.dev.android.views.widgets.WidgetMenu
@@ -472,6 +473,26 @@ object ControllerPost {
                     Navigator.REPLACE
             )
         }
+    }
+
+    fun toImagesScreen(pagesContainer: PagesContainer, imageId:Long){
+        val list = ArrayList<Long>()
+        var index = 0
+
+        for (p in pagesContainer.getPagesArray()) {
+            if (p is PageImage) {
+                if (p.imageId == imageId) index = list.size
+                list.add(p.getMainImageId())
+            }
+            if (p is PageImages) {
+                for(subImageId in p.imagesIds) {
+                    if (subImageId == imageId) index = list.size
+                    list.add(subImageId)
+                }
+            }
+        }
+
+        Navigator.to(SImageView(index, list.toTypedArray()))
     }
 
 }
