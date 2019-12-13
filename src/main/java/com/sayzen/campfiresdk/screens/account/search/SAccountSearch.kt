@@ -35,8 +35,14 @@ class SAccountSearch(
         setTextEmpty("")
         setBackgroundImage(0)
 
-        ToolsView.onFieldEnterKey(vField.vField) { reload() }
-        vSearch.setOnClickListener { reload() }
+        ToolsView.onFieldEnterKey(vField.vField) {
+            ToolsView.hideKeyboard(vField.vField)
+            reload()
+        }
+        vSearch.setOnClickListener {
+            ToolsView.hideKeyboard(vField.vField)
+            reload()
+        }
 
         if (first) {
             first = false

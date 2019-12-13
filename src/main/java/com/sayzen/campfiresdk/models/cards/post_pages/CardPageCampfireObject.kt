@@ -8,7 +8,7 @@ import com.dzen.campfire.api.models.publications.PagesContainer
 import com.dzen.campfire.api.models.publications.post.PageCampfireObject
 import com.sayzen.campfiresdk.R
 import com.sayzen.campfiresdk.controllers.ControllerCampfireObjects
-import com.sayzen.campfiresdk.screens.account.profile.SAccount
+import com.sayzen.campfiresdk.screens.account.profile.SProfile
 import com.sayzen.campfiresdk.screens.chat.SChat
 import com.sayzen.campfiresdk.screens.fandoms.view.SFandom
 import com.sayzen.campfiresdk.screens.post.view.SPost
@@ -51,8 +51,8 @@ class CardPageCampfireObject(
                 link.isLinkToAccount() -> {
                     val id = link.getLongParamOrZero(0)
                     val name = if (link.link.length < 3) "" else link.link.removePrefix("@").replace("_", "")
-                    if (id > 0) SAccount.instance(id, Navigator.TO)
-                    else SAccount.instance(name, Navigator.TO)
+                    if (id > 0) SProfile.instance(id, Navigator.TO)
+                    else SProfile.instance(name, Navigator.TO)
                 }
                 link.isLinkToPost() -> SPost.instance(link.getLongParamOrZero(0), Navigator.TO)
                 link.isLinkToChat() -> SChat.instance(ChatTag(API.CHAT_TYPE_FANDOM_ROOT, link.getLongParamOrZero(0), link.getLongParamOrZero(1)), 0, false, Navigator.TO)

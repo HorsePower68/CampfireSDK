@@ -5,7 +5,7 @@ import com.dzen.campfire.api.models.account.Account
 import com.sayzen.campfiresdk.R
 import com.sayzen.campfiresdk.adapters.XAccount
 import com.sayzen.campfiresdk.models.cards.CardAccount
-import com.sayzen.campfiresdk.screens.account.profile.SAccount
+import com.sayzen.campfiresdk.screens.account.profile.SProfile
 import com.sayzen.campfiresdk.screens.account.search.SAccountSearch
 import com.sayzen.campfiresdk.controllers.ControllerApi
 import com.sayzen.campfiresdk.controllers.api
@@ -22,7 +22,7 @@ class SFollowers(
     private val xAccount = XAccount(accountId, accountName){ update() }
 
     init {
-        addToolbarIcon(ToolsResources.getDrawableAttrId(R.attr.ic_search_24dp)){Navigator.to(SAccountSearch {SAccount.instance(it.name, Navigator.TO)})}
+        addToolbarIcon(ToolsResources.getDrawableAttrId(R.attr.ic_search_24dp)){Navigator.to(SAccountSearch {SProfile.instance(it.name, Navigator.TO)})}
         setTextEmpty(if (ControllerApi.isCurrentAccount(accountId)) R.string.profile_followers_empty else R.string.profile_followers_empty_another)
         setBackgroundImage(R.drawable.bg_4)
         update()

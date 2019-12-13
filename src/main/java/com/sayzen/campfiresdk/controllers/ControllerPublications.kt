@@ -35,7 +35,7 @@ import com.sayzen.campfiresdk.models.events.publications.*
 import com.sayzen.campfiresdk.models.objects.TagParent
 import com.sayzen.campfiresdk.models.widgets.WidgetCategoryCreate
 import com.sayzen.campfiresdk.models.widgets.WidgetModerationBlock
-import com.sayzen.campfiresdk.screens.account.profile.SAccount
+import com.sayzen.campfiresdk.screens.account.profile.SProfile
 import com.sayzen.campfiresdk.screens.comments.SComments
 import com.sayzen.campfiresdk.screens.fandoms.tags.WidgetTagCreate
 import com.sayzen.campfiresdk.screens.fandoms.tags.WidgetTagRemove
@@ -490,12 +490,12 @@ object ControllerPublications {
             }
             is ModerationRubricChangeOwner -> {
                 ToolsView.addLink(vText, m.rubricName) { SRubricPosts.instance(m.rubricId, Navigator.TO) }
-                ToolsView.addLink(vText, m.oldOwnerName) { SAccount.instance(m.oldOwnerId, Navigator.TO) }
-                ToolsView.addLink(vText, m.newOwnerName) { SAccount.instance(m.newOwnerId, Navigator.TO) }
+                ToolsView.addLink(vText, m.oldOwnerName) { SProfile.instance(m.oldOwnerId, Navigator.TO) }
+                ToolsView.addLink(vText, m.newOwnerName) { SProfile.instance(m.newOwnerId, Navigator.TO) }
             }
             is ModerationRubricCreate -> {
                 ToolsView.addLink(vText, m.rubricName) { SRubricPosts.instance(m.rubricId, Navigator.TO) }
-                ToolsView.addLink(vText, m.ownerName) { SAccount.instance(m.ownerId, Navigator.TO) }
+                ToolsView.addLink(vText, m.ownerName) { SProfile.instance(m.ownerId, Navigator.TO) }
             }
             is ModerationChatCreate -> {
                 ToolsView.addLink(vText, m.name) { SChat.instance(ChatTag(API.CHAT_TYPE_FANDOM_SUB, m.chatId, 0), 0, false, Navigator.TO) }

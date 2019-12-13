@@ -689,6 +689,7 @@ Campfire has anime fandoms and gaming fandoms.</string>
     <string name="stickers_packs_clear_reports_confirm">Clear this stickers pack reports?</string>
     <string name="stickers_message_add_to_collection_pack">Stickers pack added to collection.</string>
     <string name="stickers_message_remove_from_collection_pack">Stickers pack removed from collection</string>
+    <string name="stickers_message_too_many_paskc">You have too many stickers packs</string>
     <string name="stickers_message_too_many">Too many stickers in the pack</string>
     <string name="sticker_error_gone">Looks like someone deleted this sticker</string>
     <string name="sticker_add">Add to collection?</string>

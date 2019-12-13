@@ -9,7 +9,7 @@ import com.dzen.campfire.api.models.account.Account
 import com.sayzen.campfiresdk.R
 import com.sayzen.campfiresdk.adapters.XAccount
 import com.sayzen.campfiresdk.controllers.ControllerApi
-import com.sayzen.campfiresdk.screens.account.profile.SAccount
+import com.sayzen.campfiresdk.screens.account.profile.SProfile
 import com.sup.dev.android.libs.screens.navigator.Navigator
 import com.sup.dev.android.tools.ToolsResources
 import com.sup.dev.android.views.cards.Card
@@ -57,7 +57,7 @@ class CardRating(
         vText.text = text
 
         view.setOnClickListener {
-            SAccount.instance(account.id, Navigator.TO)
+            SProfile.instance(account.id, Navigator.TO)
         }
 
     }

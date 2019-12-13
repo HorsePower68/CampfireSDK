@@ -1,6 +1,5 @@
 package com.sayzen.campfiresdk.controllers
 
-import android.view.Gravity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.dzen.campfire.api.API
@@ -20,39 +19,24 @@ import com.sayzen.campfiresdk.models.events.account.EventAccountBioChangedSex
 import com.sayzen.campfiresdk.models.events.account.EventAccountChanged
 import com.sayzen.campfiresdk.models.events.account.EventAccountRemoveFromBlackList
 import com.sayzen.campfiresdk.models.events.fandom.EventFandomBlackListChange
-import com.sayzen.campfiresdk.screens.account.profile.SAccount
-import com.sayzen.campfiresdk.screens.comments.SComments
-import com.sayzen.campfiresdk.screens.other.about.SAboutApp
-import com.sayzen.campfiresdk.screens.other.about.SAboutCreators
-import com.sayzen.campfiresdk.screens.other.rules.SRulesModerators
-import com.sayzen.campfiresdk.screens.other.rules.SRulesUser
-import com.sayzen.campfiresdk.screens.account.stickers.SStickersView
+import com.sayzen.campfiresdk.screens.account.profile.SProfile
 import com.sayzen.campfiresdk.screens.achievements.SAchievements
-import com.sayzen.campfiresdk.screens.activities.user_activities.relay_race.SRelayRaceInfo
-import com.sayzen.campfiresdk.screens.chat.SChat
 import com.sayzen.campfiresdk.screens.fandoms.CardAd
 import com.sayzen.campfiresdk.screens.fandoms.moderation.view.SModerationView
-import com.sayzen.campfiresdk.screens.fandoms.reviews.SReviews
-import com.sayzen.campfiresdk.screens.fandoms.rubrics.SRubricPosts
 import com.sayzen.campfiresdk.screens.fandoms.view.SFandom
 import com.sayzen.campfiresdk.screens.post.create.SPostCreate
 import com.sayzen.campfiresdk.screens.post.create.SPostCreationTags
-import com.sayzen.campfiresdk.screens.post.search.SPostsSearch
 import com.sayzen.campfiresdk.screens.post.view.SPost
-import com.sayzen.campfiresdk.screens.wiki.SWikiArticleView
-import com.sayzen.campfiresdk.screens.wiki.SWikiList
 import com.sayzen.devsupandroidgoogle.ControllerFirebaseAnalytics
 import com.sayzen.devsupandroidgoogle.ControllerGoogleAuth
 import com.sup.dev.android.libs.api_simple.ApiRequestsSupporter
 import com.sup.dev.android.libs.screens.navigator.NavigationAction
-import com.sup.dev.android.libs.screens.navigator.Navigator
 import com.sup.dev.android.tools.ToolsIntent
 import com.sup.dev.android.tools.ToolsToast
 import com.sup.dev.android.tools.ToolsView
 import com.sup.dev.android.views.screens.SAlert
 import com.sup.dev.android.views.support.adapters.recycler_view.RecyclerCardAdapter
 import com.sup.dev.android.views.widgets.*
-import com.sup.dev.java.libs.debug.err
 import com.sup.dev.java.libs.debug.info
 import com.sup.dev.java.libs.eventBus.EventBus
 import com.sup.dev.java.tools.ToolsText
@@ -103,7 +87,7 @@ object ControllerCampfireSDK {
     }
 
     fun onToAccountClicked(accountId: Long, action: NavigationAction) {
-        SAccount.instance(accountId, action)
+        SProfile.instance(accountId, action)
     }
 
     fun onToModerationClicked(moderationId: Long, commentId: Long, action: NavigationAction) {

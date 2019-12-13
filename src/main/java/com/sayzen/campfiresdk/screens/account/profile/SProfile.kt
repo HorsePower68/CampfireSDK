@@ -39,15 +39,15 @@ import com.sup.dev.java.tools.ToolsBytes
 import com.sup.dev.java.tools.ToolsText
 import com.sup.dev.java.tools.ToolsThreads
 
-class SAccount private constructor(
+class SProfile private constructor(
         val r: RAccountsGetProfile.Response
-) : Screen(R.layout.screen_account), PostList {
+) : Screen(R.layout.screen_profile), PostList {
 
     companion object {
 
         fun instance(name: String, action: NavigationAction) {
             ApiRequestsSupporter.executeInterstitial(action, RAccountsGetProfile(0, name)) { r ->
-                SAccount(r)
+                SProfile(r)
             }
         }
 
@@ -62,7 +62,7 @@ class SAccount private constructor(
                 screen.isNavigationAnimation = false
                 Navigator.to(screen)
             } else ApiRequestsSupporter.executeInterstitial(action, RAccountsGetProfile(accountId, "")) { r ->
-                SAccount(r)
+                SProfile(r)
             }
         }
     }

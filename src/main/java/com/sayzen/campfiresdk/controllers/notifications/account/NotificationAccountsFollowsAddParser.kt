@@ -5,7 +5,7 @@ import com.dzen.campfire.api.models.notifications.account.NotificationAccountsFo
 import com.sayzen.campfiresdk.R
 import com.sayzen.campfiresdk.controllers.ControllerNotifications
 import com.sayzen.campfiresdk.controllers.ControllerSettings
-import com.sayzen.campfiresdk.screens.account.profile.SAccount
+import com.sayzen.campfiresdk.screens.account.profile.SProfile
 import com.sup.dev.android.libs.screens.navigator.Navigator
 import com.sup.dev.android.tools.ToolsResources
 
@@ -26,7 +26,7 @@ public class NotificationAccountsFollowsAddParser(override val n: NotificationAc
     override fun canShow() = ControllerSettings.notificationsFollows
 
     override fun doAction() {
-        SAccount.instance(n.accountId, Navigator.TO)
+        SProfile.instance(n.accountId, Navigator.TO)
     }
 
 }

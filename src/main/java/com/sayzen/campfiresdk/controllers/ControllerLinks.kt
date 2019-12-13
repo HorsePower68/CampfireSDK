@@ -8,7 +8,7 @@ import com.dzen.campfire.api.models.chat.ChatTag
 import com.dzen.campfire.api.models.publications.PublicationComment
 import com.dzen.campfire.api.requests.achievements.RAchievementsOnFinish
 import com.sayzen.campfiresdk.R
-import com.sayzen.campfiresdk.screens.account.profile.SAccount
+import com.sayzen.campfiresdk.screens.account.profile.SProfile
 import com.sayzen.campfiresdk.screens.account.stickers.SStickersView
 import com.sayzen.campfiresdk.screens.activities.user_activities.relay_race.SRelayRaceInfo
 import com.sayzen.campfiresdk.screens.chat.SChat
@@ -83,8 +83,8 @@ object ControllerLinks {
                     if (params.size == 1) SFandom.instance(params[0].toLong(), 0, Navigator.TO)
                     if (params.size == 2) SFandom.instance(params[0].toLong(), params[1].toLong(), Navigator.TO)
                 }
-                API.LINK_PROFILE_ID.link -> SAccount.instance(params[0].toLong(), Navigator.TO)
-                API.LINK_TAG_PROFILE_NAME -> SAccount.instance(params[0], Navigator.TO)
+                API.LINK_PROFILE_ID.link -> SProfile.instance(params[0].toLong(), Navigator.TO)
+                API.LINK_TAG_PROFILE_NAME -> SProfile.instance(params[0], Navigator.TO)
                 API.LINK_TAG.link -> SPostsSearch.instance(params[0].toLong(), Navigator.TO)
                 API.LINK_MODERATION.link -> {
                     if (params.size == 1) SModerationView.instance(params[0].toLong(), 0, Navigator.TO)

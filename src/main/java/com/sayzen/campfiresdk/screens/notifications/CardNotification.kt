@@ -17,7 +17,7 @@ import com.dzen.campfire.api.models.notifications.publications.NotificationKarma
 import com.dzen.campfire.api.models.notifications.publications.NotificationMention
 import com.dzen.campfire.api.models.notifications.publications.NotificationPublicationReaction
 import com.sayzen.campfiresdk.R
-import com.sayzen.campfiresdk.screens.account.profile.SAccount
+import com.sayzen.campfiresdk.screens.account.profile.SProfile
 import com.sayzen.campfiresdk.screens.achievements.SAchievements
 import com.sayzen.campfiresdk.controllers.ControllerApi
 import com.sayzen.campfiresdk.controllers.ControllerLinks
@@ -56,22 +56,22 @@ class CardNotification(
         setSubtitle(ToolsDate.dateToString(notification.dateCreate))
 
         when (notification) {
-            is NotificationAccountsFollowsAdd -> setOnCLickAvatar { SAccount.instance(notification.accountId, Navigator.TO) }
-            is NotificationFollowsPublication -> setOnCLickAvatar { SAccount.instance(notification.accountId, Navigator.TO) }
-            is NotificationComment -> setOnCLickAvatar { SAccount.instance(notification.accountId, Navigator.TO) }
-            is NotificationCommentAnswer -> setOnCLickAvatar { SAccount.instance(notification.accountId, Navigator.TO) }
-            is NotificationKarmaAdd -> setOnCLickAvatar { SAccount.instance(notification.accountId, Navigator.TO) }
-            is NotificationChatAnswer -> setOnCLickAvatar { SAccount.instance(notification.publicationChatMessage.creatorId, Navigator.TO) }
+            is NotificationAccountsFollowsAdd -> setOnCLickAvatar { SProfile.instance(notification.accountId, Navigator.TO) }
+            is NotificationFollowsPublication -> setOnCLickAvatar { SProfile.instance(notification.accountId, Navigator.TO) }
+            is NotificationComment -> setOnCLickAvatar { SProfile.instance(notification.accountId, Navigator.TO) }
+            is NotificationCommentAnswer -> setOnCLickAvatar { SProfile.instance(notification.accountId, Navigator.TO) }
+            is NotificationKarmaAdd -> setOnCLickAvatar { SProfile.instance(notification.accountId, Navigator.TO) }
+            is NotificationChatAnswer -> setOnCLickAvatar { SProfile.instance(notification.publicationChatMessage.creatorId, Navigator.TO) }
             is NotificationAchievement -> setOnCLickAvatar { SAchievements.instance(ControllerApi.account.id, ControllerApi.account.name, notification.achiIndex, false, Navigator.TO) }
-            is NotificationFandomAccepted -> setOnCLickAvatar { SAccount.instance(notification.accountId, Navigator.TO) }
-            is NotificationMention -> setOnCLickAvatar { SAccount.instance(notification.fromAccountId, Navigator.TO) }
+            is NotificationFandomAccepted -> setOnCLickAvatar { SProfile.instance(notification.accountId, Navigator.TO) }
+            is NotificationMention -> setOnCLickAvatar { SProfile.instance(notification.fromAccountId, Navigator.TO) }
             is NotificationModerationRejected -> setOnCLickAvatar { SFandom.instance(notification.fandomId, notification.languageId, Navigator.TO) }
             is NotificationRubricsChangeName -> setOnCLickAvatar { SFandom.instance(notification.fandomId, notification.languageId, Navigator.TO) }
             is NotificationRubricsChangeOwner -> setOnCLickAvatar { SFandom.instance(notification.fandomId, notification.languageId, Navigator.TO) }
             is NotificationRubricsKarmaCofChanged -> setOnCLickAvatar { SFandom.instance(notification.fandomId, notification.languageId, Navigator.TO) }
             is NotificationRubricsMakeOwner -> setOnCLickAvatar { SFandom.instance(notification.fandomId, notification.languageId, Navigator.TO) }
             is NotificationRubricsRemove -> setOnCLickAvatar { SFandom.instance(notification.fandomId, notification.languageId, Navigator.TO) }
-            is NotificationPublicationReaction -> setOnCLickAvatar { SAccount.instance(notification.accountId, Navigator.TO) }
+            is NotificationPublicationReaction -> setOnCLickAvatar { SProfile.instance(notification.accountId, Navigator.TO) }
         }
 
 

@@ -1,6 +1,5 @@
 package com.sayzen.campfiresdk.screens.account.profile
 
-import android.view.View
 import com.dzen.campfire.api.API
 import com.dzen.campfire.api.requests.accounts.RAccountsChangeNote
 import com.sayzen.campfiresdk.R
@@ -12,7 +11,7 @@ import com.sup.dev.android.views.views.ViewCircleImage
 import com.sup.dev.android.views.widgets.WidgetField
 import com.sup.dev.java.libs.eventBus.EventBus
 
-class WidgetNote(screen:SAccount) : WidgetField(R.layout.screen_account_widget_field) {
+class WidgetNote(screen:SProfile) : WidgetField(R.layout.screen_account_widget_field) {
 
     private var color:Int? = null
     private var vLastIcon:ViewCircleImage? = null

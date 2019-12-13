@@ -17,7 +17,7 @@ import com.sayzen.campfiresdk.models.cards.stickers.CardSticker
 import com.sayzen.campfiresdk.models.events.stickers.EventStickerCreate
 import com.sayzen.campfiresdk.models.events.stickers.EventStickersPackChanged
 import com.sayzen.campfiresdk.models.events.publications.EventPublicationRemove
-import com.sayzen.campfiresdk.screens.account.profile.SAccount
+import com.sayzen.campfiresdk.screens.account.profile.SProfile
 import com.sayzen.campfiresdk.screens.comments.SComments
 import com.sayzen.campfiresdk.views.ViewKarma
 import com.sup.dev.android.libs.api_simple.ApiRequestsSupporter
@@ -88,7 +88,7 @@ class SStickersView(
 
 
         vAvatarTitle.setOnClickListener {
-            SAccount.instance(stickersPack.creatorId, Navigator.TO)
+            SProfile.instance(stickersPack.creatorId, Navigator.TO)
         }
 
         vCommentsContainer.setOnClickListener {

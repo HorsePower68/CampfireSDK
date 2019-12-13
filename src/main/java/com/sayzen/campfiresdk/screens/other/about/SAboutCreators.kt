@@ -3,9 +3,8 @@ package com.sayzen.campfiresdk.screens.other.about
 import android.view.View
 import com.dzen.campfire.api.API
 import com.sayzen.campfiresdk.R
-import com.sayzen.campfiresdk.controllers.ControllerCampfireSDK
 import com.sayzen.campfiresdk.controllers.ControllerLinks
-import com.sayzen.campfiresdk.screens.account.profile.SAccount
+import com.sayzen.campfiresdk.screens.account.profile.SProfile
 import com.sup.dev.android.libs.screens.Screen
 import com.sup.dev.android.libs.screens.navigator.Navigator
 import com.sup.dev.android.tools.ToolsAndroid
@@ -26,7 +25,7 @@ class SAboutCreators : Screen(R.layout.screen_other_abount_creators){
     init {
         vMoreZeon.setOnClickListener {
             WidgetMenu()
-                    .add(R.string.app_campfire){_, _ -> SAccount.instance(1, Navigator.TO)  }
+                    .add(R.string.app_campfire){_, _ -> SProfile.instance(1, Navigator.TO)  }
                     .add(R.string.app_email){_, _ -> ToolsIntent.startMail("zeooon@ya.ru")  }
                     .add(R.string.app_vkontakte){_, _ -> ControllerLinks.openLink("https://vk.com/zeooon")   }
                     .asSheetShow()
@@ -34,7 +33,7 @@ class SAboutCreators : Screen(R.layout.screen_other_abount_creators){
 
         vMoreSaynok.setOnClickListener {
             WidgetMenu()
-                    .add(R.string.app_campfire){_, _ -> SAccount.instance(2720, Navigator.TO)  }
+                    .add(R.string.app_campfire){_, _ -> SProfile.instance(2720, Navigator.TO)  }
                     .add(R.string.app_email){_, _ -> ToolsIntent.startMail("saynokdeveloper@gmail.com")  }
                     .add(R.string.app_vkontakte){_, _ -> ControllerLinks.openLink("https://vk.com/saynok")   }
                     .asSheetShow()
@@ -42,7 +41,7 @@ class SAboutCreators : Screen(R.layout.screen_other_abount_creators){
 
         vMoreEgor.setOnClickListener {
             WidgetMenu()
-                    .add(R.string.app_campfire){_, _ -> SAccount.instance(9447, Navigator.TO)  }
+                    .add(R.string.app_campfire){_, _ -> SProfile.instance(9447, Navigator.TO)  }
                     .add(R.string.app_email){_, _ -> ToolsIntent.startMail("georgepro036@gmail.com")  }
                     .add(R.string.app_vkontakte){_, _ -> ControllerLinks.openLink("https://vk.com/id216069359")   }
                     .asSheetShow()
@@ -50,7 +49,7 @@ class SAboutCreators : Screen(R.layout.screen_other_abount_creators){
 
         vMoreTurbo.setOnClickListener {
             WidgetMenu()
-                    .add(R.string.app_campfire){_, _ -> SAccount.instance(8083, Navigator.TO)  }
+                    .add(R.string.app_campfire){_, _ -> SProfile.instance(8083, Navigator.TO)  }
                     .add(R.string.app_email){_, _ -> ToolsIntent.startMail("turboRO99@gmail.com")  }
                     .add(R.string.app_vkontakte){_, _ -> ControllerLinks.openLink("https://vk.com/turboa99")   }
                     .asSheetShow()

@@ -50,6 +50,8 @@ object ControllerStickers {
                     EventBus.post(EventStickersPackCollectionChanged(publication, true))
                     ToolsToast.show(R.string.stickers_message_add_to_collection_pack)
                     ControllerStoryQuest.incrQuest(API.QUEST_STORY_STICKERS)
+                }.onApiError(RStickersPackCollectionAdd.E_TOO_MANY) {
+                    ToolsToast.show(R.string.stickers_message_too_many_paskc)
                 }
             }
         }
