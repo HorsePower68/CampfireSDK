@@ -15,7 +15,7 @@ class SAboutApp : Screen(R.layout.screen_other_abount_app){
 
     init {
         vCopyLink.setOnClickListener {
-            ToolsAndroid.setToClipboard(API.LINK_ABOUT.link)
+            ToolsAndroid.setToClipboard(API.LINK_ABOUT.asWeb())
             ToolsToast.show(R.string.app_copied)
         }
         vVersion.text = "Campfire ${ToolsAndroid.getVersion()}"

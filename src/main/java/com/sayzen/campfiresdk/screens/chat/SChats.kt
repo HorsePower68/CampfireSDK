@@ -14,9 +14,12 @@ import com.sayzen.campfiresdk.models.events.notifications.EventNotification
 import com.sayzen.campfiresdk.screens.chat.create.SChatCreate
 import com.sup.dev.android.libs.screens.navigator.NavigationAction
 import com.sup.dev.android.libs.screens.navigator.Navigator
+import com.sup.dev.android.tools.ToolsView
 import com.sup.dev.android.views.support.adapters.recycler_view.RecyclerCardAdapterLoading
 import com.sup.dev.android.views.screens.SLoadingRecycler
+import com.sup.dev.java.libs.debug.log
 import com.sup.dev.java.libs.eventBus.EventBus
+import com.sup.dev.java.tools.ToolsDate
 import com.sup.dev.java.tools.ToolsThreads
 
 class SChats constructor(
@@ -92,21 +95,25 @@ class SChats constructor(
         }
 
         var targetCard: CardChat? = null
-        for (c in cards)
-            if (c.chat.unitChatMessage.dateCreate < chatMessage.dateCreate) {
+        for (c in cards) {
+            if (c == chatCard) {
+                return
+            }
+            if (c.chat.chatMessage.dateCreate < chatMessage.dateCreate) {
                 targetCard = c
                 break
             }
+        }
 
         if(targetCard == null){
             reload()
             return
         }
 
-        val index_1 = adapter!!.indexOf(chatCard)
         val index_2 = adapter!!.indexOf(targetCard)
-        adapter!!.replace(index_1, targetCard)
-        adapter!!.replace(index_2, chatCard)
+        adapter!!.remove(chatCard)
+        adapter!!.add(index_2, chatCard)
+        vRecycler.scrollToPosition(index_2)
     }
 
     //

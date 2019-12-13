@@ -57,7 +57,7 @@ class CardChat(
     init {
         ControllerChats.putRead(chat.tag, chat.anotherAccountReadDate)
         chat.tag.setMyAccountId(ControllerApi.account.id)
-        xFandom = XFandom(if (chat.tag.chatType == API.CHAT_TYPE_FANDOM_ROOT) chat.tag.targetId else 0, chat.tag.targetSubId, chat.unitChatMessage.fandomName, chat.unitChatMessage.fandomImageId) { update() }
+        xFandom = XFandom(if (chat.tag.chatType == API.CHAT_TYPE_FANDOM_ROOT) chat.tag.targetId else 0, chat.tag.targetSubId, chat.chatMessage.fandomName, chat.chatMessage.fandomImageId) { update() }
         xAccount = XAccount(if (chat.tag.chatType == API.CHAT_TYPE_PRIVATE) chat.tag.getAnotherId() else 0, chat.anotherAccountImageId, chat.anotherAccountLvl, chat.anotherAccountKarma30, chat.anotherAccountLastOnlineTime) { update() }
 
         ControllerChats.setMessagesCount(chat.tag, messagesCount, subscribed)
@@ -77,8 +77,8 @@ class CardChat(
         vAvatar.vAvatar.setChipIcon(0)
         vAvatar.vAvatar.setOnClickListener { }
 
-        val hasUnread = !ControllerApi.isCurrentAccount(chat.unitChatMessage.creatorId)
-                || ControllerChats.isRead(chat.tag, chat.unitChatMessage.dateCreate)
+        val hasUnread = !ControllerApi.isCurrentAccount(chat.chatMessage.creatorId)
+                || ControllerChats.isRead(chat.tag, chat.chatMessage.dateCreate)
                 || chat.tag.chatType != API.CHAT_TYPE_PRIVATE
 
         vNotRead.visibility = if (hasUnread) View.GONE else View.VISIBLE
@@ -100,31 +100,31 @@ class CardChat(
             vAvatar.vAvatar.vChip.visibility = View.GONE
         }
 
-        if (chat.tag.chatType == API.CHAT_TYPE_FANDOM_ROOT) vAvatar.setTitle(chat.unitChatMessage.fandomName)
+        if (chat.tag.chatType == API.CHAT_TYPE_FANDOM_ROOT) vAvatar.setTitle(chat.chatMessage.fandomName)
         else vAvatar.setTitle(chat.anotherAccountName)
 
-        if (chat.unitChatMessage.id != 0L) {
+        if (chat.chatMessage.id != 0L) {
             val text = ControllerChats.getTypingText(chat.tag)
             if (text != null)
                 vAvatar.setSubtitle(text)
             else {
-                var t = if (chat.unitChatMessage.creatorName.isNotEmpty()) chat.unitChatMessage.creatorName + ": " else ""
-                if (ControllerApi.isCurrentAccount((chat.unitChatMessage.creatorId))) t = ToolsResources.s(R.string.app_you) + ": "
+                var t = if (chat.chatMessage.creatorName.isNotEmpty()) chat.chatMessage.creatorName + ": " else ""
+                if (ControllerApi.isCurrentAccount((chat.chatMessage.creatorId))) t = ToolsResources.s(R.string.app_you) + ": "
                 if (chat.tag.chatType == API.CHAT_TYPE_PRIVATE) {
-                    if (!ControllerApi.isCurrentAccount((chat.unitChatMessage.creatorId))) t = ""
+                    if (!ControllerApi.isCurrentAccount((chat.chatMessage.creatorId))) t = ""
                 }
 
                 t += when {
-                    chat.unitChatMessage.resourceId > 0 -> ToolsResources.s(R.string.app_image)
-                    chat.unitChatMessage.voiceResourceId > 0 -> ToolsResources.s(R.string.app_voice_message)
-                    chat.unitChatMessage.stickerId > 0 -> ToolsResources.s(R.string.app_sticker)
-                    chat.unitChatMessage.imageIdArray.isNotEmpty() -> ToolsResources.s(R.string.app_image)
-                    chat.unitChatMessage.type == PublicationChatMessage.TYPE_SYSTEM -> ControllerChats.getSystemText(chat.unitChatMessage)
-                    else -> chat.unitChatMessage.text
+                    chat.chatMessage.resourceId > 0 -> ToolsResources.s(R.string.app_image)
+                    chat.chatMessage.voiceResourceId > 0 -> ToolsResources.s(R.string.app_voice_message)
+                    chat.chatMessage.stickerId > 0 -> ToolsResources.s(R.string.app_sticker)
+                    chat.chatMessage.imageIdArray.isNotEmpty() -> ToolsResources.s(R.string.app_image)
+                    chat.chatMessage.type == PublicationChatMessage.TYPE_SYSTEM -> ControllerChats.getSystemText(chat.chatMessage)
+                    else -> chat.chatMessage.text
                 }
                 vAvatar.setSubtitle(t)
             }
-            vMessageDate.text = ToolsDate.dateToString(chat.unitChatMessage.dateCreate)
+            vMessageDate.text = ToolsDate.dateToString(chat.chatMessage.dateCreate)
         } else {
             vMessageDate.text = ""
             vAvatar.setSubtitle(ToolsResources.s(R.string.app_empty))
@@ -176,7 +176,7 @@ class CardChat(
 
     private fun onEventChatNewBottomMessage(e: EventChatNewBottomMessage) {
         if (e.chatMessage.chatTag() == chat.tag) {
-            chat.unitChatMessage = e.chatMessage
+            chat.chatMessage = e.chatMessage
             update()
         }
     }
@@ -192,14 +192,14 @@ class CardChat(
         if (e.notification is NotificationChatMessage) {
             val n = e.notification
             if (n.tag == chat.tag) {
-                chat.unitChatMessage = n.publicationChatMessage
+                chat.chatMessage = n.publicationChatMessage
                 update()
             }
         }
         if (e.notification is NotificationChatAnswer) {
             val n = e.notification
             if (n.tag == chat.tag) {
-                chat.unitChatMessage = n.publicationChatMessage
+                chat.chatMessage = n.publicationChatMessage
                 update()
             }
         }

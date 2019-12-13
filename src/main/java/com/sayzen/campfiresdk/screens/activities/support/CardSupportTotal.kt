@@ -22,7 +22,7 @@ class CardSupportTotal(
         val vLine: ViewProgressLine = view.findViewById(R.id.vLine)
 
         vLine.setProgress(count, need)
-        vCounter.setText("${count} / ${need}")
+        vCounter.setText("${count} / ${need} \u20BD")
     }
 
 }

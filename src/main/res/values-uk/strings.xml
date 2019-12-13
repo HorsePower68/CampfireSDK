@@ -1156,8 +1156,8 @@
     <string name="post_open_confirm">Открыть этот пост?</string>
 
     <string name="activities_support">Поддержать проект</string>
-    <string name="activities_support_card_title">Собранно просмотров рекламы на оплату сервера в этом месяце:</string>
-    <string name="activities_support_card_action">Посмотреть рекламу</string>
+    <string name="activities_support_card_title">Собранно денег на оплату сервера в этом месяце:</string>
+    <string name="activities_support_card_action">Пожертвовать</string>
     <string name="activities_low_lvl">Вы недостойны</string>
     <string name="activities_subscribe_alert">Подписаться на эту активность?</string>
     <string name="activities_unsubscribe_alert">Отписаться от этой активности?</string>

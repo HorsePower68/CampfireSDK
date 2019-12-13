@@ -22,7 +22,7 @@ class CardSupportUser(
         val vCounter:TextView = view.findViewById(R.id.vCounter)
 
         xAccount.setView(vAvatar)
-        vCounter.text = "$count"
+        vCounter.text = "$count \u20BD"
     }
 
 

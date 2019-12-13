@@ -14,7 +14,7 @@ import com.sayzen.campfiresdk.screens.activities.administration.fandoms.SAdminis
 import com.sayzen.campfiresdk.screens.activities.administration.reports.SAdministrationReports
 import com.sayzen.campfiresdk.screens.activities.administration.reports.SAdministrationUserReports
 import com.sayzen.campfiresdk.screens.activities.quests.SQuestNewYear
-import com.sayzen.campfiresdk.screens.activities.support.SSupport
+import com.sayzen.campfiresdk.screens.activities.support.SDonate
 import com.sayzen.campfiresdk.screens.activities.user_activities.SUserActivitiesList
 import com.sayzen.campfiresdk.screens.fandoms.rubrics.SRubricsList
 import com.sup.dev.android.libs.screens.Screen
@@ -60,7 +60,7 @@ class SActivities : Screen(R.layout.screen_activities) {
         vRequests.setOnClickListener { SAdministrationRequests.instance(Navigator.TO) }
         vQuery.setOnClickListener { SAdministrationQuery.instance(Navigator.TO) }
         vErrors.setOnClickListener { SAdministrationErrors.instance(Navigator.TO) }
-        vSupport.setOnClickListener { SSupport.instance(Navigator.TO) }
+        vSupport.setOnClickListener { SDonate.instance(Navigator.TO) }
         vDebug.setOnClickListener { Navigator.to(SQuestNewYear()) }
 
         if(ControllerApi.account.lvl >= 200) {

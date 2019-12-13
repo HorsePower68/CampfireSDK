@@ -10,6 +10,7 @@ import com.dzen.campfire.api.requests.achievements.RAchievementsOnFinish
 import com.sayzen.campfiresdk.R
 import com.sayzen.campfiresdk.screens.account.profile.SProfile
 import com.sayzen.campfiresdk.screens.account.stickers.SStickersView
+import com.sayzen.campfiresdk.screens.activities.support.SDonate
 import com.sayzen.campfiresdk.screens.activities.user_activities.relay_race.SRelayRaceInfo
 import com.sayzen.campfiresdk.screens.chat.SChat
 import com.sayzen.campfiresdk.screens.comments.SComments
@@ -54,6 +55,7 @@ object ControllerLinks {
 
             when (linkV) {
                 API.LINK_ABOUT.link -> Navigator.to(SAboutApp())
+                API.LINK_DONATE.link -> SDonate.instance(Navigator.TO)
                 API.LINK_RULES_USER.link -> Navigator.to(SRulesUser())
                 API.LINK_RULES_MODER.link -> Navigator.to(SRulesModerators())
                 API.LINK_CREATORS.link -> Navigator.to(SAboutCreators())

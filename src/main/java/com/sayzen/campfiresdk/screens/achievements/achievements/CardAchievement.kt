@@ -165,7 +165,7 @@ class CardAchievement(
             ach.info.index == API.ACHI_ADD_RECRUITER.index -> onRecruiterClicked()
             ach.info.index == API.ACHI_LOGIN.index -> ControllerCampfireSDK.changeLogin()
             ach.info.index == API.ACHI_FANDOMS.index -> SFandomSuggest.instance(Navigator.TO)
-            ach.info.index == API.ACHI_VIDEO_AD.index -> ControllerActivities.showVideoAd(true)
+            ach.info.index == API.ACHI_VIDEO_AD.index -> ControllerActivities.showVideoAd()
             ach.info.index == API.ACHI_RULES_USER.index ->
                 WidgetRules(R.string.rules_users_info, Array(CampfireConstants.RULES_USER.size) { CampfireConstants.RULES_USER[it].text })
                         .onFinish { ApiRequestsSupporter.executeProgressDialog(RAchievementsOnFinish(API.ACHI_RULES_USER.index)) { _ -> } }

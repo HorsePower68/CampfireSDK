@@ -182,10 +182,9 @@ object ControllerActivities {
     //
 
     private var videoAchiLocked = false
-    private var videoLocked = false
 
-    fun showVideoAd(forAchi: Boolean) {
-        if (videoLocked || (forAchi && videoAchiLocked)) {
+    fun showVideoAd() {
+        if (videoAchiLocked) {
             ToolsToast.show(R.string.achi_video_device_max)
             return
         }
@@ -195,13 +194,12 @@ object ControllerActivities {
         RVideoAdInfo()
                 .onComplete {
                     videoAchiLocked = it.countToday > 2
-                    videoLocked = it.countToday > 9
-                    if (videoLocked || (forAchi && videoAchiLocked)) {
+                    if (videoAchiLocked) {
                         v.hide()
                         ToolsToast.show(R.string.achi_video_device_max)
                         return@onComplete
                     }
-                    showVideoAdNow(10, v, forAchi)
+                    showVideoAdNow(10, v)
                 }
                 .onError{
                     ToolsToast.show(R.string.error_unknown)
@@ -210,27 +208,23 @@ object ControllerActivities {
                 .send(api)
     }
 
-    private fun showVideoAdNow(tryCount: Int, vDialog: Widget, forAchi: Boolean) {
+    private fun showVideoAdNow(tryCount: Int, vDialog: Widget) {
         if (ControllerAppodeal.isLoadedVideoReward()) {
             vDialog.hide()
             ControllerAppodeal.showVideoReward {
                 RVideoAdView().onComplete {
                     if (it.achi) EventBus.post(EventAchiProgressIncr(API.ACHI_VIDEO_AD.index))
-                    else if (!it.achi && forAchi) {
+                    else if (!it.achi) {
                         videoAchiLocked = true
                         ToolsToast.show(R.string.achi_video_achi_max)
-                    } else if (it.totalLimit) {
-                        videoLocked = true
-                        ToolsToast.show(R.string.achi_video_device_max)
-                    }else{
+                    } else{
                         videoAchiLocked = it.countToday > 2
-                        videoLocked = it.countToday > 9
                     }
                     EventBus.post(EventVideoAdView())
                 }.send(api)
             }
         } else if (tryCount > 0) {
-            ToolsThreads.main(1000) { showVideoAdNow(tryCount - 1, vDialog, forAchi) }
+            ToolsThreads.main(1000) { showVideoAdNow(tryCount - 1, vDialog) }
         } else {
             vDialog.hide()
             ToolsToast.show(R.string.achi_video_not_loaded)
