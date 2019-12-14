@@ -220,6 +220,7 @@
     <string name="app_you">Вы</string>
     <string name="app_viceroy">Наместник</string>
     <string name="app_assign">Назначить</string>
+    <string name="app_donate">Пожертвования</string>
 
     <string name="he">Он</string>
     <string name="she">Она</string>
@@ -370,6 +371,7 @@
     <string name="notification_rubric_remove">%s %s рубрику %s</string>
     <string name="notification_rubric_cof_title">Коэффициент рубрики %s обновлён</string>
     <string name="notification_rubric_cof_text">Коэффициент изменился на %s, теперь он равен %s.</string>
+    <string name="notification_donate">Мы получили ваше пожертвование %s ₽. Спасибо! :)</string>
 
     <string name="message_close_app">Закрыть приложение?</string>
     <string name="message_publication_rules">Используя данное приложение, вы подтверждаете что вам уже исполнилось 13 лет и вы ознакомлены с %s. Любые публикации должны соответстовать %s и %s</string>
@@ -1156,6 +1158,10 @@
     <string name="activities_support">Поддержать проект</string>
     <string name="activities_support_card_title">Собранно денег на оплату сервера в этом месяце:</string>
     <string name="activities_support_card_action">Пожертвовать</string>
+    <string name="activities_support_mobile_alert">Внимание! При использовании мобильного платежа, сервер не сможет автоматически узнать о его поступлении, просьба сразу сообщить @Zeon, чтобы ваш донат был учтен.</string>
+    <string name="activities_support_comment">Пожертвования проекту Campfire</string>
+    <string name="activities_support_comment_user">Пожертвования от: %s</string>
+    <string name="activities_support_sum">Сумма ₽</string>
     <string name="activities_low_lvl">Вы недостойны</string>
     <string name="activities_subscribe_alert">Подписаться на эту активность?</string>
     <string name="activities_unsubscribe_alert">Отписаться от этой активности?</string>

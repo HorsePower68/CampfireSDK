@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    style="@style/Root.Content"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <com.google.android.material.appbar.AppBarLayout style="@style/AppBar">
+
+        <androidx.appcompat.widget.Toolbar
+            style="@style/Toolbar"
+            app:title="@string/activities_support">
+
+            <com.sup.dev.android.views.views.ViewIcon
+                android:id="@+id/vCopyLink"
+                style="@style/Icon.Toolbar.Filtered"
+                android:src="?ic_insert_link_24dp" />
+
+
+        </androidx.appcompat.widget.Toolbar>
+
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1">
+
+        <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+            android:id="@+id/vSwipe"
+            style="@style/SwipeRefresh">
+
+            <androidx.recyclerview.widget.RecyclerView style="@style/Recycler" />
+
+        </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/vFab"
+            style="@style/Fab"
+            android:src="@drawable/ic_add_white_24dp"
+            android:layout_marginBottom="8dp"/>
+
+    </FrameLayout>
+
+    <View
+        android:id="@+id/vShadow"
+        android:layout_width="match_parent"
+        android:layout_height="3dp"
+        android:layout_gravity="top" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="?colorPrimary"
+        android:orientation="vertical"
+        android:paddingLeft="16dp"
+        android:paddingTop="16dp"
+        android:paddingRight="16dp"
+        android:paddingBottom="16dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <com.google.android.material.textfield.TextInputLayout
+                style="@style/TextInputLayout.Outlined"
+                android:layout_weight="1">
+
+                <EditText
+                    android:id="@+id/vSum"
+                    style="@style/Field"
+                    android:hint="@string/activities_support_sum"
+                    android:inputType="numberDecimal"
+                    android:paddingLeft="8dp"
+                    android:paddingTop="8dp"
+                    android:paddingRight="8dp"
+                    android:paddingBottom="8dp" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.sup.dev.android.views.views.ViewIcon
+                android:id="@+id/vIcon_yandex"
+                style="@style/Icon.18"
+                android:layout_gravity="center"
+                android:layout_marginLeft="18dp"
+                android:src="@drawable/icon_yandex_dengi"
+                app:ViewIcon_accentColor="@color/focus" />
+
+            <com.sup.dev.android.views.views.ViewIcon
+                android:id="@+id/vIcon_card"
+                style="@style/Icon.18"
+                android:layout_gravity="center"
+                android:src="@drawable/icon_bank_card"
+                app:ViewIcon_accentColor="@color/focus" />
+
+            <com.sup.dev.android.views.views.ViewIcon
+                android:id="@+id/vIcon_phone"
+                style="@style/Icon.18"
+                android:layout_gravity="center"
+                android:src="@drawable/icon_phone"
+                app:ViewIcon_accentColor="@color/focus" />
+
+        </LinearLayout>
+
+        <com.sup.dev.android.views.views.ViewTextLinkable
+            android:id="@+id/vMobileAlert"
+            android:layout_marginTop="4dp"
+            android:layout_marginBottom="4dp"
+            style="@style/TextAppearance.AppCompat.Caption"
+            android:text="@string/activities_support_mobile_alert"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/red_700"/>
+
+        <Button
+            android:id="@+id/vButton"
+            style="@style/Button.Outlined"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="@string/activities_support_card_action" />
+
+
+    </LinearLayout>
+
+</LinearLayout>

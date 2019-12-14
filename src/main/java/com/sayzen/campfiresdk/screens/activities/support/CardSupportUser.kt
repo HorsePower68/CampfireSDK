@@ -7,10 +7,11 @@ import com.sayzen.campfiresdk.R
 import com.sayzen.campfiresdk.adapters.XAccount
 import com.sup.dev.android.views.cards.Card
 import com.sup.dev.android.views.views.ViewAvatarTitle
+import com.sup.dev.java.tools.ToolsText
 
 class CardSupportUser(
         val account: Account,
-        val count:Long
+        val sum:Long
 ) : Card(R.layout.screen_support_card_user){
 
     private val xAccount = XAccount(account, 0L, 0L, 0L) {update()}
@@ -22,7 +23,7 @@ class CardSupportUser(
         val vCounter:TextView = view.findViewById(R.id.vCounter)
 
         xAccount.setView(vAvatar)
-        vCounter.text = "$count \u20BD"
+        vCounter.text = "${ToolsText.numToStringRoundAndTrim(sum/100.0, 2)} \u20BD"
     }
 
 

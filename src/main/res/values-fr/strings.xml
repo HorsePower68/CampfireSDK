@@ -219,6 +219,7 @@ Campfire has anime fandoms and gaming fandoms.</string>
     <string name="app_you">You</string>
     <string name="app_viceroy">Viceroy</string>
     <string name="app_assign">Assign</string>
+    <string name="app_donate">Donate</string>
 
     <string name="he">He</string>
     <string name="she">She</string>
@@ -369,6 +370,7 @@ Campfire has anime fandoms and gaming fandoms.</string>
     <string name="notification_rubric_remove">%s %s rubric %s</string>
     <string name="notification_rubric_cof_title">Coefficient of rubric %s was updated</string>
     <string name="notification_rubric_cof_text">Coefficient was changed with %s, now is %s.</string>
+    <string name="notification_donate">We have received your donation %s ₽. Thanks! :)</string>
 
     <string name="message_close_app">Close the app?</string>
     <string name="message_publication_rules">Using this application, you confirm that you are already 13 years old and you read %s. Any publications must meet all of %s and %s</string>
@@ -1153,6 +1155,10 @@ Campfire has anime fandoms and gaming fandoms.</string>
     <string name="activities_support">Support project</string>
     <string name="activities_support_card_title">Collected money to pay for the server this month:</string>
     <string name="activities_support_card_action">Donate</string>
+    <string name="activities_support_mobile_alert">Attention! When using a mobile payment, the server will not be able to automatically know about its receipt, please immediately inform @Zeon that your donation was taken into account.</string>
+    <string name="activities_support_comment">Donate to Campfire</string>
+    <string name="activities_support_comment_user">Donate from: %s</string>
+    <string name="activities_support_sum">Sum ₽</string>
     <string name="activities_low_lvl">You are not worthy</string>
     <string name="activities_subscribe_alert">Subscribe on this activity?</string>
     <string name="activities_unsubscribe_alert">Unsubscribe from this activity?</string>
