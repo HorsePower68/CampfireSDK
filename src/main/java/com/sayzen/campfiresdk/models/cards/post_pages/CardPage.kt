@@ -45,6 +45,7 @@ abstract class CardPage(
     var postIsDraft: Boolean = false
     var clickable = true
     var widgetMenu: WidgetMenu
+    var isSpoilerAvalible = true
     private var onMoveClicked: ((CardPage) -> Unit)? = null
     private var onChangeClicked: ((CardPage) -> Unit)? = null
     private var onRemoveClicked: ((CardPage) -> Unit)? = null

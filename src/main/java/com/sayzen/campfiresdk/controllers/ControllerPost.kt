@@ -281,8 +281,8 @@ object ControllerPost {
 
     fun updateSpoilers(listMine: ArrayList<CardPage>) {
         val list = ArrayList<CardPage>()
-        for (c in listMine) list.add(c)
-        while (!list.isEmpty()) {
+        for (c in listMine) if(c.isSpoilerAvalible) list.add(c)
+        while (list.isNotEmpty()) {
             val card = list.removeAt(0)
             if (card is CardPageSpoiler) parseSpoiler(
                     list,
@@ -294,7 +294,7 @@ object ControllerPost {
 
     private fun parseSpoiler(list: ArrayList<CardPage>, maxCount: Int, hide: Boolean) {
         var parsedPages = 0
-        while (!list.isEmpty()) {
+        while (list.isNotEmpty()) {
             val card = list.removeAt(0)
             parsedPages++
             card.setHidedX(hide)

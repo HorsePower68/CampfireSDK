@@ -97,6 +97,7 @@ class SDonate private constructor(
         vSum.addTextChangedListener(TextWatcherChanged {
             updateEnabled()
         })
+        vSum.setText("10")
         vIcon_yandex.setOnClickListener { setSelected(vIcon_yandex) }
         vIcon_card.setOnClickListener { setSelected(vIcon_card) }
         vIcon_phone.setOnClickListener { setSelected(vIcon_phone) }

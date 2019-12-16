@@ -232,7 +232,7 @@ class FieldLogic(
         if (publicationChange != null) {
             vText.setText(publicationChange.text)
             vText.setSelection(vText.text!!.length)
-            ToolsView.showKeyboard(vText)
+            ToolsThreads.main(true) { ToolsView.showKeyboard(vText) }
             setQuote(publicationChange.quoteText, publicationChange.quoteId)
         }
     }

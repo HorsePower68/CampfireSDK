@@ -72,6 +72,7 @@ class CardPageUserActivity(
     private var xAccount = XAccount(Account()){update()}
 
     init {
+        isSpoilerAvalible = false
         recreateXAccount()
     }
 

@@ -221,6 +221,7 @@
     <string name="app_viceroy">Наместник</string>
     <string name="app_assign">Назначить</string>
     <string name="app_donate">Пожертвования</string>
+    <string name="app_sponsor">Спонсор</string>
 
     <string name="he">Он</string>
     <string name="she">Она</string>
@@ -1156,7 +1157,7 @@
     <string name="post_open_confirm">Открыть этот пост?</string>
 
     <string name="activities_support">Поддержать проект</string>
-    <string name="activities_support_card_title">Собранно денег на оплату сервера в этом месяце:</string>
+    <string name="activities_support_card_title">Собрано денег на оплату сервера в этом месяце:</string>
     <string name="activities_support_card_action">Пожертвовать</string>
     <string name="activities_support_mobile_alert">Внимание! При использовании мобильного платежа, сервер не сможет автоматически узнать о его поступлении, просьба сразу сообщить @Zeon, чтобы ваш донат был учтен.</string>
     <string name="activities_support_comment">Пожертвования проекту Campfire</string>

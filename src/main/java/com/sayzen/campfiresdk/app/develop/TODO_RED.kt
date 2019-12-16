@@ -9,6 +9,7 @@ package com.sayzen.campfiresdk.app.develop
     XXX Доработать тотальный гайд. Сделать категории. Добавить ссылку на кемп
     XXX Ограничить количество показов 10 в день на пользователя
     XXX Нельзя удалить черновик
+    Used to be useful but after coming back to it after a while I keep getting an 888 betting ad that keeps crashing the damn app making me need to restart it making it useless.
 
 
     Ключ авторизации

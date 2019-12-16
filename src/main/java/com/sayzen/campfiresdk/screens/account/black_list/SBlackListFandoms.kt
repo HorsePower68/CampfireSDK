@@ -35,10 +35,17 @@ class SBlackListFandoms(
                     for (c in adapter!!.get(CardFandom::class)) if (c.fandom.id == it.fandomId) adapter?.remove(c)
             }
 
+    var loaded = false
+
     init {
         setTitle(R.string.settings_black_list_fandoms)
         setTextEmpty(R.string.settings_black_list_empty)
         setBackgroundImage(R.drawable.bg_22)
+    }
+
+    override fun reload() {
+        loaded = false
+        super.reload()
     }
 
     override fun instanceAdapter(): RecyclerCardAdapterLoading<CardFandom, Fandom> {
@@ -49,8 +56,14 @@ class SBlackListFandoms(
             c
         }
                 .setBottomLoader { onLoad, _ ->
+                    if(loaded){
+                        onLoad.invoke(emptyArray())
+                        return@setBottomLoader
+                    }
+
                     subscription = RFandomsGetAllById(feedIgnoreFandoms)
                             .onComplete { r ->
+                                loaded = true
                                 onLoad.invoke(r.fandoms)
                             }
                             .onNetworkError { onLoad.invoke(null) }

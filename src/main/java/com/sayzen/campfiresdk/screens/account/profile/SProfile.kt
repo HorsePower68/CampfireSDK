@@ -22,6 +22,7 @@ import com.sayzen.campfiresdk.models.widgets.WidgetAdminBlock
 import com.sayzen.campfiresdk.screens.account.search.SAccountSearch
 import com.sayzen.campfiresdk.models.events.account.*
 import com.sayzen.campfiresdk.models.events.publications.EventPostPinedProfile
+import com.sayzen.campfiresdk.screens.activities.support.SDonate
 import com.sayzen.campfiresdk.screens.administation.SAdministrationDeepBlocked
 import com.sup.dev.android.libs.api_simple.ApiRequestsSupporter
 import com.sup.dev.android.libs.screens.Screen
@@ -75,6 +76,7 @@ class SProfile private constructor(
     private val vToolbarCollapsingShadow: View = findViewById(R.id.vToolbarCollapsingShadow)
     private val vTitle: TextView = findViewById(R.id.vToolbarTitle)
     private val vRecycler: RecyclerView = findViewById(R.id.vRecycler)
+    private val vSponsor: TextView = findViewById(R.id.vSponsor)
     private val vMore: View = findViewById(R.id.vMore)
     private val vImage: ImageView = findViewById(R.id.vImage)
     private val vAvatar: ImageView = findViewById(R.id.vAvatar)
@@ -93,6 +95,9 @@ class SProfile private constructor(
 
         vMore.setOnClickListener { showDialog() }
         vRecycler.layoutManager = LinearLayoutManager(context)
+
+        vSponsor.setOnClickListener { SDonate.instance(Navigator.TO) }
+        vSponsor.visibility = if(r.sponsor) View.VISIBLE else View.GONE
 
         vAvatar.setOnClickListener {
             if (ControllerApi.isCurrentAccount(r.account.id)) onChangeAvatarClicked()
