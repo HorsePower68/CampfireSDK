@@ -100,6 +100,7 @@
     <attr name="ic_map_24dp" format="reference"/>
 
     <style name="CampfireRootThemeBlack" parent="AppThemeDark">
+        <item name="android:statusBarColor">?colorPrimaryDark</item>
         <item name="them_use_navigation_icons_filters">true</item>
         <item name="icon_games">@drawable/icon_games_white</item>
         <item name="icon_anime">@drawable/icon_anime_white</item>
@@ -202,6 +203,7 @@
     </style>
 
     <style name="CampfireRootThemeWhite" parent="AppThemeLight">
+        <item name="android:statusBarColor">?colorPrimaryDark</item>
         <item name="them_use_navigation_icons_filters">true</item>
         <item name="icon_games">@drawable/icon_games_black</item>
         <item name="icon_anime">@drawable/icon_anime_black</item>

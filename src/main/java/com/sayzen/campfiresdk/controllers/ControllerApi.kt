@@ -20,7 +20,6 @@ import com.dzen.campfire.api_media.APIMedia
 import com.dzen.campfire.api_media.requests.RResourcesGet
 import com.dzen.campfire.api_media.requests.RResourcesGetByTag
 import com.sayzen.campfiresdk.R
-import com.sayzen.campfiresdk.models.events.account.EventAccountChanged
 import com.sayzen.campfiresdk.models.events.account.EventAccountCurrentChanged
 import com.sayzen.campfiresdk.models.events.account.EventAccountReportsCleared
 import com.sayzen.campfiresdk.models.events.project.EventApiVersionChanged
