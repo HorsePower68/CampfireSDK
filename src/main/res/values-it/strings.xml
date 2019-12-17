@@ -1161,6 +1161,8 @@ Campfire has anime fandoms and gaming fandoms.</string>
     <string name="activities_support_comment">Donate to Campfire</string>
     <string name="activities_support_comment_user">Donate from: %s</string>`
     <string name="activities_support_sum">Sum ₽</string>
+    <string name="activities_support_comment_hint">Comment (not compulsory)</string>
+    <string name="activities_support_message">Thanks you for support!</string>
     <string name="activities_low_lvl">You are not worthy</string>
     <string name="activities_subscribe_alert">Subscribe on this activity?</string>
     <string name="activities_unsubscribe_alert">Unsubscribe from this activity?</string>

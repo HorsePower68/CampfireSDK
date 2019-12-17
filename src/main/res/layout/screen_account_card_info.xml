@@ -7,10 +7,10 @@
 
     <TextView
         android:id="@+id/vLogin"
+        android:layout_gravity="center"
         style="@style/TextAppearance.AppCompat.Title"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"/>
+        android:layout_height="wrap_content"/>
 
     <TextView
         android:id="@+id/vOnlineText"
@@ -18,7 +18,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:layout_marginTop="4dp"
+        android:layout_marginTop="2dp"
         android:layout_marginBottom="12dp"/>
 
     <com.sup.dev.android.views.views.ViewTextLinkable
@@ -55,6 +55,15 @@
             android:gravity="center"/>
 
     </FrameLayout>
+
+    <com.sup.dev.android.views.views.ViewChip
+        android:id="@+id/vSponsor"
+        style="@style/Chip"
+        android:layout_gravity="center"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp"
+        android:text="@string/app_sponsor"
+        app:chipBackgroundColor="@color/green_700"/>
 
     <View android:id="@+id/vButtonsContainerDivider"
         style="@style/Divider"/>

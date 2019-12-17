@@ -295,8 +295,8 @@
     <string name="she_react">отреагировала</string>
     <string name="he_give">передал</string>
     <string name="she_give">передала</string>
-    <string name="he_denied">лешил</string>
-    <string name="she_denied">лешила</string>
+    <string name="he_denied">лишил</string>
+    <string name="she_denied">лишила</string>
 
     <string name="filter_events">События</string>
     <string name="filter_posts">Посты</string>
@@ -1163,6 +1163,8 @@
     <string name="activities_support_comment">Пожертвования проекту Campfire</string>
     <string name="activities_support_comment_user">Пожертвования от: %s</string>
     <string name="activities_support_sum">Сумма ₽</string>
+    <string name="activities_support_comment_hint">Коментарий (Не обязательно)</string>
+    <string name="activities_support_message">Спасибо за вашу потдержку!</string>
     <string name="activities_low_lvl">Вы недостойны</string>
     <string name="activities_subscribe_alert">Подписаться на эту активность?</string>
     <string name="activities_unsubscribe_alert">Отписаться от этой активности?</string>

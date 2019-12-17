@@ -76,7 +76,6 @@ class SProfile private constructor(
     private val vToolbarCollapsingShadow: View = findViewById(R.id.vToolbarCollapsingShadow)
     private val vTitle: TextView = findViewById(R.id.vToolbarTitle)
     private val vRecycler: RecyclerView = findViewById(R.id.vRecycler)
-    private val vSponsor: TextView = findViewById(R.id.vSponsor)
     private val vMore: View = findViewById(R.id.vMore)
     private val vImage: ImageView = findViewById(R.id.vImage)
     private val vAvatar: ImageView = findViewById(R.id.vAvatar)
@@ -95,9 +94,6 @@ class SProfile private constructor(
 
         vMore.setOnClickListener { showDialog() }
         vRecycler.layoutManager = LinearLayoutManager(context)
-
-        vSponsor.setOnClickListener { SDonate.instance(Navigator.TO) }
-        vSponsor.visibility = if(r.sponsor) View.VISIBLE else View.GONE
 
         vAvatar.setOnClickListener {
             if (ControllerApi.isCurrentAccount(r.account.id)) onChangeAvatarClicked()
@@ -145,7 +141,7 @@ class SProfile private constructor(
 
         cardInfo = CardInfo(xAccount, r.account.karma30, r.account.dateCreate, r.account.sex,
                 r.banDate, r.isFollow, r.followsCount, r.followersCount, r.moderateFandomsCount, r.status,
-                r.ratesCount, r.bansCount, r.warnsCount, r.note, r.fandomsCount, r.blackFandomsCount, r.blackAccountCount, r.stickersCount)
+                r.ratesCount, r.bansCount, r.warnsCount, r.note, r.fandomsCount, r.blackFandomsCount, r.blackAccountCount, r.stickersCount, r.sponsor)
         cardFilters = CardFilters {
             if (cardPinnedPost != null) setPinnedPost(cardPinnedPost!!.xPublication.publication as PublicationPost)
             adapter.reloadBottom()

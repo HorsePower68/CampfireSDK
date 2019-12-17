@@ -30,11 +30,14 @@ import com.sayzen.campfiresdk.screens.account.fandoms.SAcounFandoms
 import com.sayzen.campfiresdk.screens.achievements.SAchievements
 import com.sayzen.campfiresdk.screens.fandoms.search.SFandomsModeration
 import com.sayzen.campfiresdk.screens.account.stickers.SStickersPacks
+import com.sayzen.campfiresdk.screens.activities.support.SDonate
 import com.sup.dev.android.libs.api_simple.ApiRequestsSupporter
 import com.sup.dev.android.libs.screens.navigator.Navigator
 import com.sup.dev.android.tools.ToolsResources
 import com.sup.dev.android.tools.ToolsToast
 import com.sup.dev.android.views.cards.Card
+import com.sup.dev.android.views.views.ViewChip
+import com.sup.dev.android.views.views.ViewChipMini
 import com.sup.dev.android.views.views.ViewTextLinkable
 import com.sup.dev.android.views.widgets.WidgetField
 import com.sup.dev.java.libs.eventBus.EventBus
@@ -59,7 +62,8 @@ class CardInfo(
         private var fandomsCount: Long,
         private var blackFandomsCount: Long,
         private var blackAccountCount: Long,
-        private var stickersCount: Long
+        private var stickersCount: Long,
+        private var sponsor: Boolean
 ) : Card(R.layout.screen_account_card_info) {
 
     private val eventBus = EventBus
@@ -103,6 +107,10 @@ class CardInfo(
         val vStickersCount: TextView = view.findViewById(R.id.vStickersCount)
         val vFandoms: View = view.findViewById(R.id.vFandoms)
         val vFandomsCount: TextView = view.findViewById(R.id.vFandomsCount)
+        val vSponsor: View = view.findViewById(R.id.vSponsor)
+
+        vSponsor.setOnClickListener { SDonate.instance(Navigator.TO) }
+        vSponsor.visibility = if(sponsor) VISIBLE else GONE
 
         if (xAccount.isBot()) {
             vOnline.text = ToolsResources.s(R.string.app_bot)

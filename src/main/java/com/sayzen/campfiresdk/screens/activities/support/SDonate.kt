@@ -9,6 +9,9 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.dzen.campfire.api.API
 import com.dzen.campfire.api.models.notifications.project.NotificationDonate
+import com.dzen.campfire.api.models.project.Donate
+import com.dzen.campfire.api.requests.project.RProjectDonatesCreateDraft
+import com.dzen.campfire.api.requests.project.RProjectDonatesGetAll
 import com.dzen.campfire.api.requests.project.RProjectSupportAdd
 import com.dzen.campfire.api.requests.project.RProjectSupportGetInfo
 import com.sayzen.campfiresdk.R
@@ -28,7 +31,7 @@ import com.sup.dev.android.tools.ToolsAndroid
 import com.sup.dev.android.tools.ToolsIntent
 import com.sup.dev.android.tools.ToolsResources
 import com.sup.dev.android.tools.ToolsToast
-import com.sup.dev.android.views.support.adapters.recycler_view.RecyclerCardAdapter
+import com.sup.dev.android.views.support.adapters.recycler_view.RecyclerCardAdapterLoading
 import com.sup.dev.android.views.support.watchers.TextWatcherChanged
 import com.sup.dev.android.views.views.ViewIcon
 import com.sup.dev.android.views.views.ViewTextLinkable
@@ -62,19 +65,21 @@ class SDonate private constructor(
     private val vShadow: View = findViewById(R.id.vShadow)
     private val vButton: Button = findViewById(R.id.vButton)
     private val vSum: EditText = findViewById(R.id.vSum)
+    private val vComment: EditText = findViewById(R.id.vComment)
     private val vIcon_yandex: ViewIcon = findViewById(R.id.vIcon_yandex)
     private val vIcon_card: ViewIcon = findViewById(R.id.vIcon_card)
     private val vIcon_phone: ViewIcon = findViewById(R.id.vIcon_phone)
     private val vFab: View = findViewById(R.id.vFab)
+    private val vDonateContainer: View = findViewById(R.id.vDonateContainer)
+    private val vMessageContainer: View = findViewById(R.id.vMessageContainer)
     private val vMobileAlert: ViewTextLinkable = findViewById(R.id.vMobileAlert)
-    private val adapter = RecyclerCardAdapter()
+    private val adapter = RecyclerCardAdapterLoading<CardDonate, Donate>(CardDonate::class){CardDonate(it)}
 
     init {
         isNavigationShadowAvailable = false
 
         vRecycler.layoutManager = LinearLayoutManager(context)
         vRecycler.adapter = adapter
-        reset()
         ControllerAppodeal.cashVideoReward()
 
         vSwipe.setOnRefreshListener {
@@ -92,9 +97,11 @@ class SDonate private constructor(
 
         vButton.setOnClickListener {
             donate()
-
         }
         vSum.addTextChangedListener(TextWatcherChanged {
+            updateEnabled()
+        })
+        vComment.addTextChangedListener(TextWatcherChanged {
             updateEnabled()
         })
         vSum.setText("10")
@@ -107,6 +114,16 @@ class SDonate private constructor(
         updateEnabled()
 
         ControllerLinks.makeLinkable(vMobileAlert)
+        adapter.add(CardSupportTotal(r.totalCount, 1000))
+        adapter.setBottomLoader{ onloaded, cards->
+            RProjectDonatesGetAll(cards.size.toLong())
+                    .onComplete { onloaded.invoke(it.donates) }
+                    .onError { onloaded.invoke(null) }
+                    .send(api)
+        }
+        adapter.loadBottom()
+
+        vMessageContainer.visibility = View.GONE
     }
 
     private fun setSelected(v: ViewIcon) {
@@ -118,7 +135,7 @@ class SDonate private constructor(
     }
 
     private fun updateEnabled() {
-        vButton.isEnabled = ToolsMapper.isIntCastable(vSum.text.toString())
+        vButton.isEnabled = ToolsMapper.isIntCastable(vSum.text.toString()) && vComment.text.length <= API.DONATE_COMMENT_MAX_L
     }
 
     private fun addDonate() {
@@ -140,6 +157,12 @@ class SDonate private constructor(
     }
 
     private fun donate() {
+        ApiRequestsSupporter.executeProgressDialog(RProjectDonatesCreateDraft(vComment.text.toString())){r->
+            donateNow(r.donateId)
+        }
+    }
+
+    private fun donateNow(donateId:Long) {
 
         val sum = vSum.text.toString().toInt()
         val type = if (vIcon_yandex.isIconSelected) "PC" else if (vIcon_card.isIconSelected) "AC" else "MC"
@@ -150,7 +173,7 @@ class SDonate private constructor(
                 .param("quickpay-form", "donate")
                 .param("paymentType", type)
                 .param("sum", "$sum")
-                .param("label", "${ControllerApi.account.id}-${System.currentTimeMillis()}-${sum}")
+                .param("label", "${ControllerApi.account.id}-${donateId}-${sum}")
                 .param("comment", ToolsResources.s(R.string.activities_support_comment_user, ControllerApi.account.name))
                 .param("targets", ToolsResources.s(R.string.activities_support_comment))
                 .param("formcomment", ToolsResources.s(R.string.activities_support_comment))
@@ -161,21 +184,16 @@ class SDonate private constructor(
             ToolsToast.show(R.string.error_app_not_found)
         }
         ToolsThreads.main(2000) {
-            vSum.setText("")
+            vDonateContainer.visibility = View.GONE
+            vMessageContainer.visibility = View.VISIBLE
         }
-    }
-
-    private fun reset() {
-        adapter.clear()
-        adapter.add(CardSupportTotal(r.totalCount, 1000))
-        for (i in r.accounts.indices) adapter.add(CardSupportUser(r.accounts[i], r.values[i]))
     }
 
     private fun reload() {
         RProjectSupportGetInfo()
                 .onComplete {
                     r = it
-                    reset()
+                    adapter.reloadBottom()
                 }.onFinish {
                     vSwipe.isRefreshing = false
                 }
