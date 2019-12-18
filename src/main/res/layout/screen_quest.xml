@@ -29,7 +29,8 @@
                 <ImageView
                     android:id="@+id/vTitleImage"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent" />
+                    android:layout_height="match_parent"
+                    android:scaleType="fitXY"/>
 
             </com.sup.dev.android.views.views.layouts.LayoutAspectRatio>
 
