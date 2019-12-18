@@ -10,7 +10,7 @@ import com.dzen.campfire.api.requests.stickers.RStickersPackCreate
 import com.sayzen.campfiresdk.R
 import com.sayzen.campfiresdk.models.events.stickers.EventStickersPackChanged
 import com.sayzen.campfiresdk.models.events.stickers.EventStickersPackCreate
-import com.sup.dev.android.libs.api_simple.ApiRequestsSupporter
+import com.sayzen.campfiresdk.tools.ApiRequestsSupporter
 import com.sup.dev.android.libs.screens.Screen
 import com.sup.dev.android.libs.screens.navigator.Navigator
 import com.sup.dev.android.tools.ToolsBitmap

@@ -6,7 +6,7 @@ import androidx.recyclerview.widget.RecyclerView
 import android.view.View
 
 import com.dzen.campfire.api.requests.fandoms.RFandomsModerationGet
-import com.sup.dev.android.libs.api_simple.ApiRequestsSupporter
+import com.sayzen.campfiresdk.tools.ApiRequestsSupporter
 import com.sayzen.campfiresdk.adapters.AdapterComments
 import com.dzen.campfire.api.models.publications.moderations.PublicationModeration
 import com.sayzen.campfiresdk.R

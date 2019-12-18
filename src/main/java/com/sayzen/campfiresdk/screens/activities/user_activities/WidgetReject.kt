@@ -5,7 +5,7 @@ import com.dzen.campfire.api.requests.activities.RActivitiesRelayRaceReject
 import com.sayzen.campfiresdk.R
 import com.sayzen.campfiresdk.models.events.activities.EventActivitiesRelayRaceRejected
 import com.sayzen.campfiresdk.screens.account.search.SAccountSearch
-import com.sup.dev.android.libs.api_simple.ApiRequestsSupporter
+import com.sayzen.campfiresdk.tools.ApiRequestsSupporter
 import com.sup.dev.android.libs.screens.navigator.Navigator
 import com.sup.dev.android.tools.ToolsImagesLoader
 import com.sup.dev.android.tools.ToolsToast

@@ -7,7 +7,7 @@ import android.widget.ImageView
 import com.dzen.campfire.api.API
 import com.dzen.campfire.api.requests.tags.RTagsChange
 import com.dzen.campfire.api.requests.tags.RTagsCreate
-import com.sup.dev.android.libs.api_simple.ApiRequestsSupporter
+import com.sayzen.campfiresdk.tools.ApiRequestsSupporter
 import com.dzen.campfire.api.models.publications.tags.PublicationTag
 import com.sayzen.campfiresdk.R
 import com.sayzen.campfiresdk.screens.fandoms.STags

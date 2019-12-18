@@ -16,16 +16,14 @@ import com.dzen.campfire.api.requests.comments.RCommentReactionRemove
 import com.sayzen.campfiresdk.R
 import com.sayzen.campfiresdk.controllers.*
 import com.sayzen.campfiresdk.models.cards.CardPublication
-import com.sayzen.campfiresdk.models.events.publications.EventCommentChange
-import com.sayzen.campfiresdk.models.events.publications.EventCommentRemove
-import com.sayzen.campfiresdk.models.events.publications.EventPublicationDeepBlockRestore
+import com.sayzen.campfiresdk.models.events.publications.*
 import com.sayzen.campfiresdk.models.widgets.WidgetComment
 import com.sayzen.campfiresdk.screens.account.stickers.SStickersView
 import com.sayzen.campfiresdk.screens.post.history.SPublicationHistory
 import com.sayzen.campfiresdk.views.ViewKarma
 import com.sayzen.campfiresdk.views.WidgetReactions
 import com.sup.dev.android.app.SupAndroid
-import com.sup.dev.android.libs.api_simple.ApiRequestsSupporter
+import com.sayzen.campfiresdk.tools.ApiRequestsSupporter
 import com.sup.dev.android.libs.screens.navigator.Navigator
 import com.sup.dev.android.tools.*
 import com.sup.dev.android.views.views.*
@@ -197,10 +195,8 @@ abstract class CardComment protected constructor(
 
     private fun sendReaction(reactionIndex: Long) {
         ApiRequestsSupporter.executeProgressDialog(RCommentReactionAdd(xPublication.publication.id, reactionIndex)) { _ ->
-            xPublication.publication as PublicationComment
-            xPublication.publication.reactions = ToolsCollections.add(PublicationComment.Reaction(ControllerApi.account.id, reactionIndex), xPublication.publication.reactions)
-            updateReactions()
             ToolsToast.show(R.string.app_done)
+            EventBus.post(EventPublicationReactionAdd(xPublication.publication.id, reactionIndex))
         }
                 .onApiError(API.ERROR_ALREADY) { ToolsToast.show(R.string.app_done) }
                 .onApiError(API.ERROR_GONE) { ToolsToast.show(R.string.comment_error_gone) }
@@ -208,15 +204,13 @@ abstract class CardComment protected constructor(
 
     private fun removeReaction(reactionIndex: Long) {
         ApiRequestsSupporter.executeProgressDialog(RCommentReactionRemove(xPublication.publication.id, reactionIndex)) { _ ->
-            xPublication.publication as PublicationComment
-            xPublication.publication.reactions = ToolsCollections.removeIf(xPublication.publication.reactions) { it.accountId == ControllerApi.account.id && it.reactionIndex == reactionIndex }
-            updateReactions()
             ToolsToast.show(R.string.app_done)
+            EventBus.post(EventPublicationReactionRemove(xPublication.publication.id, reactionIndex))
         }
                 .onApiError(API.ERROR_GONE) { ToolsToast.show(R.string.comment_error_gone) }
     }
 
-    fun updateReactions() {
+    override fun updateReactions() {
         if (getView() == null) return
         val vReactions: ViewGroup? = getView()!!.findViewById(R.id.vReactions)
         if (vReactions == null) return

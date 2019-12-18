@@ -9,7 +9,7 @@ import com.sayzen.campfiresdk.controllers.ControllerCampfireSDK
 import com.sayzen.campfiresdk.models.cards.CardFandom
 import com.sayzen.campfiresdk.models.events.fandom.EventFandomBlackListChange
 import com.sayzen.campfiresdk.controllers.api
-import com.sup.dev.android.libs.api_simple.ApiRequestsSupporter
+import com.sayzen.campfiresdk.tools.ApiRequestsSupporter
 import com.sup.dev.android.libs.screens.navigator.NavigationAction
 import com.sup.dev.android.views.screens.SLoadingRecycler
 import com.sup.dev.android.views.support.adapters.recycler_view.RecyclerCardAdapterLoading

@@ -8,7 +8,7 @@ import com.dzen.campfire.api.requests.fandoms.RFandomsReviewCreate
 import com.sayzen.campfiresdk.R
 import com.sayzen.campfiresdk.models.events.fandom.EventFandomReviewChanged
 import com.sayzen.campfiresdk.models.events.fandom.EventFandomReviewCreated
-import com.sup.dev.android.libs.api_simple.ApiRequestsSupporter
+import com.sayzen.campfiresdk.tools.ApiRequestsSupporter
 import com.sup.dev.android.tools.ToolsResources
 import com.sup.dev.android.tools.ToolsView
 import com.sup.dev.android.views.support.watchers.TextWatcherChanged

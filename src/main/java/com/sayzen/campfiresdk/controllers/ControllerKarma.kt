@@ -6,7 +6,7 @@ import com.sayzen.campfiresdk.R
 import com.sayzen.campfiresdk.app.CampfireConstants
 import com.sayzen.campfiresdk.models.events.publications.EventPublicationKarmaAdd
 import com.sayzen.campfiresdk.models.events.publications.EventPublicationKarmaStateChanged
-import com.sup.dev.android.libs.api_simple.ApiRequestsSupporter
+import com.sayzen.campfiresdk.tools.ApiRequestsSupporter
 import com.sup.dev.android.tools.ToolsToast
 import com.sup.dev.java.classes.Subscription
 import com.sup.dev.java.libs.eventBus.EventBus

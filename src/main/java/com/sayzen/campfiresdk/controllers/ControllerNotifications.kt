@@ -49,7 +49,7 @@ import com.sayzen.campfiresdk.models.events.notifications.EventNotificationReade
 import com.sayzen.campfiresdk.models.events.notifications.EventNotificationsCountChanged
 import com.sayzen.devsupandroidgoogle.GoogleNotifications
 import com.sup.dev.android.app.SupAndroid
-import com.sup.dev.android.libs.api_simple.ApiRequestsSupporter
+import com.sayzen.campfiresdk.tools.ApiRequestsSupporter
 import com.sup.dev.android.tools.ToolsNotifications
 import com.sup.dev.android.tools.ToolsStorage
 import com.sup.dev.java.libs.debug.info

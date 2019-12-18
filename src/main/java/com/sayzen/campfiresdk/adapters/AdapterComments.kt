@@ -20,7 +20,7 @@ import com.sup.dev.android.tools.ToolsView
 import com.sup.dev.android.views.cards.CardSpace
 import com.sup.dev.android.views.support.adapters.recycler_view.RecyclerCardAdapterLoading
 import com.sup.dev.android.views.widgets.WidgetAlert
-import com.sup.dev.java.libs.api_simple.client.ApiClient
+import com.dzen.campfire.api.tools.client.ApiClient
 import com.sup.dev.java.libs.eventBus.EventBus
 import com.sup.dev.java.tools.ToolsThreads
 

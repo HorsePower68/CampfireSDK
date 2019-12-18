@@ -13,7 +13,7 @@ import com.sayzen.campfiresdk.models.events.notifications.EventNotification
 import com.sayzen.campfiresdk.models.events.project.EventAchiProgressIncr
 import com.sayzen.campfiresdk.screens.activities.user_activities.SRelayRaceCreate
 import com.sayzen.campfiresdk.screens.activities.user_activities.WidgetReject
-import com.sup.dev.android.libs.api_simple.ApiRequestsSupporter
+import com.sayzen.campfiresdk.tools.ApiRequestsSupporter
 import com.sup.dev.android.libs.screens.navigator.Navigator
 import com.sup.dev.android.tools.ToolsAndroid
 import com.sup.dev.android.tools.ToolsToast

@@ -19,7 +19,7 @@ import com.sayzen.campfiresdk.models.events.fandom.EventFandomChatRemove
 import com.sayzen.campfiresdk.models.events.notifications.EventNotification
 import com.sayzen.campfiresdk.screens.chat.create.SChatCreate
 import com.sayzen.campfiresdk.screens.fandoms.chats.SFandomChatsCreate
-import com.sup.dev.android.libs.api_simple.ApiRequestsSupporter
+import com.sayzen.campfiresdk.tools.ApiRequestsSupporter
 import com.sup.dev.android.libs.screens.navigator.Navigator
 import com.sup.dev.android.tools.*
 import com.sup.dev.android.views.screens.SCrop

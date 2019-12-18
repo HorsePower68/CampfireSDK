@@ -31,13 +31,11 @@ import com.sayzen.campfiresdk.screens.achievements.SAchievements
 import com.sayzen.campfiresdk.screens.fandoms.search.SFandomsModeration
 import com.sayzen.campfiresdk.screens.account.stickers.SStickersPacks
 import com.sayzen.campfiresdk.screens.activities.support.SDonate
-import com.sup.dev.android.libs.api_simple.ApiRequestsSupporter
+import com.sayzen.campfiresdk.tools.ApiRequestsSupporter
 import com.sup.dev.android.libs.screens.navigator.Navigator
 import com.sup.dev.android.tools.ToolsResources
 import com.sup.dev.android.tools.ToolsToast
 import com.sup.dev.android.views.cards.Card
-import com.sup.dev.android.views.views.ViewChip
-import com.sup.dev.android.views.views.ViewChipMini
 import com.sup.dev.android.views.views.ViewTextLinkable
 import com.sup.dev.android.views.widgets.WidgetField
 import com.sup.dev.java.libs.eventBus.EventBus

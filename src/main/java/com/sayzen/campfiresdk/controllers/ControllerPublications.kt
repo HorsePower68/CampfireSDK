@@ -27,7 +27,7 @@ import com.dzen.campfire.api.requests.tags.RTagsMove
 import com.dzen.campfire.api.requests.tags.RTagsMoveCategory
 import com.dzen.campfire.api.requests.tags.RTagsMoveTag
 import com.dzen.campfire.api.requests.publications.RPublicationsAdminRestoreDeepBlock
-import com.dzen.campfire.api.requests.publications.RPublicationsBookmarksChange
+import com.dzen.campfire.api.requests.bookmarks.RBookmarksChange
 import com.dzen.campfire.api.requests.comments.RCommentsWatchChange
 import com.sayzen.campfiresdk.R
 import com.sayzen.campfiresdk.models.events.fandom.EventFandomTagMove
@@ -43,7 +43,7 @@ import com.sayzen.campfiresdk.screens.account.stickers.SStickersView
 import com.sayzen.campfiresdk.screens.activities.user_activities.relay_race.SRelayRaceInfo
 import com.sayzen.campfiresdk.screens.chat.SChat
 import com.sayzen.campfiresdk.screens.fandoms.rubrics.SRubricPosts
-import com.sup.dev.android.libs.api_simple.ApiRequestsSupporter
+import com.sayzen.campfiresdk.tools.ApiRequestsSupporter
 import com.sup.dev.android.libs.screens.navigator.Navigator
 import com.sup.dev.android.tools.ToolsAndroid
 import com.sup.dev.android.tools.ToolsResources
@@ -280,7 +280,7 @@ object ControllerPublications {
     }
 
     fun changeBookmark(publicationId: Long) {
-        ApiRequestsSupporter.executeProgressDialog(RPublicationsBookmarksChange(publicationId)) { r ->
+        ApiRequestsSupporter.executeProgressDialog(RBookmarksChange(publicationId)) { r ->
             ControllerStoryQuest.incrQuest(API.QUEST_STORY_BOOKMARKS)
             EventBus.post(EventPublicationBookmarkChange(publicationId, r.bookmark))
             if (r.bookmark) ToolsToast.show(R.string.bookmarks_added)

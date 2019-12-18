@@ -357,6 +357,10 @@ abstract class CardChatMessage constructor(
         }
     }
 
+    override fun updateReactions() {
+        update()
+    }
+
     override fun updateComments() {
         update()
     }

@@ -22,14 +22,6 @@
                 android:inputType="textCapSentences|textMultiLine|textAutoCorrect|textAutoComplete"
                 android:hint="@string/app_description"/>
 
-            <com.sup.dev.android.views.settings.SettingsField
-                android:id="@+id/vComment"
-                android:layout_weight="1"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:inputType="textMultiLine|textCapSentences|textAutoCorrect|textAutoComplete"
-                android:hint="@string/moderation_widget_comment"/>
-
         </LinearLayout>
 
     </androidx.core.widget.NestedScrollView>

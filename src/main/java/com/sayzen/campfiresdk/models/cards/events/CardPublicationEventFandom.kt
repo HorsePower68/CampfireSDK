@@ -167,6 +167,10 @@ class CardPublicationEventFandom(
         update()
     }
 
+    override fun updateReactions() {
+        update()
+    }
+
     override fun notifyItem() {
 
     }

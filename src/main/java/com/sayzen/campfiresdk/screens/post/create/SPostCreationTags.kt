@@ -18,7 +18,7 @@ import com.sayzen.campfiresdk.models.events.publications.EventPostStatusChange
 import com.sayzen.campfiresdk.screens.other.rules.SGoogleRules
 import com.sayzen.campfiresdk.screens.post.pending.SPending
 import com.sayzen.campfiresdk.screens.post.view.SPost
-import com.sup.dev.android.libs.api_simple.ApiRequestsSupporter
+import com.sayzen.campfiresdk.tools.ApiRequestsSupporter
 import com.sup.dev.android.libs.screens.Screen
 import com.sup.dev.android.libs.screens.activity.SActivityTypeBottomNavigation
 import com.sup.dev.android.libs.screens.navigator.NavigationAction

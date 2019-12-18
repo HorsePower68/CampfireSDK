@@ -16,7 +16,7 @@ import com.sayzen.campfiresdk.R
 import com.sayzen.campfiresdk.controllers.ControllerApi
 import com.sayzen.campfiresdk.models.events.wiki.EventWikiChanged
 import com.sayzen.campfiresdk.models.events.wiki.EventWikiCreated
-import com.sup.dev.android.libs.api_simple.ApiRequestsSupporter
+import com.sayzen.campfiresdk.tools.ApiRequestsSupporter
 import com.sup.dev.android.libs.screens.Screen
 import com.sup.dev.android.libs.screens.navigator.Navigator
 import com.sup.dev.android.tools.*
@@ -202,13 +202,13 @@ class SWikiItemCreate(
 
         if (item.itemId == 0L) {
             item.itemType = if (vTypeArticle.isChecked) API.WIKI_TYPE_ARTICLE else API.WIKI_TYPE_SECION
-            ApiRequestsSupporter.executeProgressDialog(RWikiItemCreate(fandomId, parentItemId, item, imageMini, image)) { _,r ->
+            ApiRequestsSupporter.executeProgressDialog(RWikiItemCreate(fandomId, parentItemId, item, imageMini, image)) { _, r ->
                 ToolsToast.show(R.string.app_done)
                 Navigator.remove(this)
                 EventBus.post(EventWikiCreated(r.item))
             }
         } else {
-            ApiRequestsSupporter.executeProgressDialog(RWikiItemChange(item, parentItemId, imageMini, image)) { _,r ->
+            ApiRequestsSupporter.executeProgressDialog(RWikiItemChange(item, parentItemId, imageMini, image)) { _, r ->
                 ToolsToast.show(R.string.app_done)
                 Navigator.remove(this)
                 EventBus.post(EventWikiChanged(r.item))

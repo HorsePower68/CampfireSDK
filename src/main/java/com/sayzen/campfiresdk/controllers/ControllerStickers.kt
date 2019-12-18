@@ -11,7 +11,7 @@ import com.sayzen.campfiresdk.models.events.stickers.EventStickerCollectionChang
 import com.sayzen.campfiresdk.models.events.stickers.EventStickersPackCollectionChanged
 import com.sayzen.campfiresdk.models.events.publications.EventPublicationRemove
 import com.sayzen.campfiresdk.screens.account.stickers.SStickersPackCreate
-import com.sup.dev.android.libs.api_simple.ApiRequestsSupporter
+import com.sayzen.campfiresdk.tools.ApiRequestsSupporter
 import com.sup.dev.android.libs.screens.navigator.Navigator
 import com.sup.dev.android.tools.ToolsAndroid
 import com.sup.dev.android.tools.ToolsToast

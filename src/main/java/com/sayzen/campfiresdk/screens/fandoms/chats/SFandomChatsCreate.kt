@@ -1,7 +1,6 @@
 package com.sayzen.campfiresdk.screens.fandoms.chats
 
 import android.graphics.Bitmap
-import com.google.android.material.floatingactionbutton.FloatingActionButton
 import android.view.Gravity
 import android.view.View
 import android.view.inputmethod.EditorInfo
@@ -19,7 +18,7 @@ import com.sayzen.campfiresdk.controllers.ControllerApi
 import com.sayzen.campfiresdk.models.events.fandom.EventFandomChatChanged
 import com.sayzen.campfiresdk.models.events.fandom.EventFandomChatCreated
 import com.sayzen.campfiresdk.screens.chat.SChat
-import com.sup.dev.android.libs.api_simple.ApiRequestsSupporter
+import com.sayzen.campfiresdk.tools.ApiRequestsSupporter
 import com.sup.dev.android.libs.screens.Screen
 import com.sup.dev.android.libs.screens.navigator.NavigationAction
 import com.sup.dev.android.libs.screens.navigator.Navigator
@@ -27,7 +26,6 @@ import com.sup.dev.android.tools.*
 import com.sup.dev.android.views.screens.SCrop
 import com.sup.dev.android.views.settings.SettingsField
 import com.sup.dev.android.views.support.watchers.TextWatcherChanged
-import com.sup.dev.android.views.views.ViewAvatarTitle
 import com.sup.dev.android.views.widgets.WidgetAlert
 import com.sup.dev.android.views.widgets.WidgetChooseImage
 import com.sup.dev.android.views.widgets.WidgetField

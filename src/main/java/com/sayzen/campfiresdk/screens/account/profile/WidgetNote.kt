@@ -4,7 +4,7 @@ import com.dzen.campfire.api.API
 import com.dzen.campfire.api.requests.accounts.RAccountsChangeNote
 import com.sayzen.campfiresdk.R
 import com.sayzen.campfiresdk.models.events.account.EventAccountNoteChanged
-import com.sup.dev.android.libs.api_simple.ApiRequestsSupporter
+import com.sayzen.campfiresdk.tools.ApiRequestsSupporter
 import com.sup.dev.android.tools.ToolsResources
 import com.sup.dev.android.tools.ToolsToast
 import com.sup.dev.android.views.views.ViewCircleImage

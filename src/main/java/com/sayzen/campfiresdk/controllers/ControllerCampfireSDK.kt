@@ -29,7 +29,7 @@ import com.sayzen.campfiresdk.screens.post.create.SPostCreationTags
 import com.sayzen.campfiresdk.screens.post.view.SPost
 import com.sayzen.devsupandroidgoogle.ControllerFirebaseAnalytics
 import com.sayzen.devsupandroidgoogle.ControllerGoogleAuth
-import com.sup.dev.android.libs.api_simple.ApiRequestsSupporter
+import com.sayzen.campfiresdk.tools.ApiRequestsSupporter
 import com.sup.dev.android.libs.screens.navigator.NavigationAction
 import com.sup.dev.android.tools.ToolsIntent
 import com.sup.dev.android.tools.ToolsToast

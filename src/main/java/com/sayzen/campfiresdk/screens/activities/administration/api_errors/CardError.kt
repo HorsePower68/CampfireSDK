@@ -7,7 +7,7 @@ import com.dzen.campfire.api.API
 import com.dzen.campfire.api.models.project.StatisticError
 import com.dzen.campfire.api.requests.project.RProjectStatisticErrorsRemove
 import com.sayzen.campfiresdk.models.events.project.EventStatisticErrorRemove
-import com.sup.dev.android.libs.api_simple.ApiRequestsSupporter
+import com.sayzen.campfiresdk.tools.ApiRequestsSupporter
 import com.sup.dev.android.tools.ToolsResources
 import com.sup.dev.android.tools.ToolsToast
 import com.sup.dev.android.views.cards.Card

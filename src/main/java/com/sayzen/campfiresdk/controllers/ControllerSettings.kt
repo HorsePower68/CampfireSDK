@@ -2,10 +2,11 @@ package com.sayzen.campfiresdk.controllers
 
 
 import com.dzen.campfire.api.API
+import com.dzen.campfire.api.models.BookmarksFolder
 import com.dzen.campfire.api.models.account.AccountSettings
 import com.dzen.campfire.api.requests.accounts.RAccountSetSettings
 import com.sayzen.campfiresdk.app.CampfireConstants
-import com.sup.dev.android.libs.api_simple.ApiRequestsSupporter
+import com.sayzen.campfiresdk.tools.ApiRequestsSupporter
 import com.sup.dev.android.models.EventStyleChanged
 import com.sup.dev.android.tools.ToolsAndroid
 import com.sup.dev.android.tools.ToolsStorage
@@ -31,7 +32,7 @@ object ControllerSettings {
         setSettings(0, settings)
     }
 
-    private fun onSettingsUpdated() {
+    fun onSettingsUpdated() {
         updateSettingsTime = System.currentTimeMillis() + 1000
         EventBus.post(EventStyleChanged())
         if (!updateSettingsStarted) {
@@ -632,5 +633,16 @@ object ControllerSettings {
 
         return list.toTypedArray()
     }
+
+    //
+    //  Bookmarks
+    //
+
+    var bookmarksFolders: Array<BookmarksFolder>
+        get() = accountSettings.bookmarksFolders
+        set(b) {
+            accountSettings.bookmarksFolders = b
+            onSettingsUpdated()
+        }
 
 }

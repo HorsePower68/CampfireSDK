@@ -86,6 +86,10 @@ class CardReview(
         xPublication.xReports.setView(getView()!!.findViewById(R.id.vReports))
     }
 
+    override fun updateReactions() {
+        update()
+    }
+
     private fun onMenuClicked() {
         val publication = xPublication.publication as PublicationReview
 

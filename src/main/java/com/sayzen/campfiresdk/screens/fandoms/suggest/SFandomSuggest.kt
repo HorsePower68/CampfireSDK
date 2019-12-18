@@ -17,7 +17,7 @@ import com.sayzen.campfiresdk.controllers.ControllerApi
 import com.sayzen.campfiresdk.controllers.api
 import com.sayzen.campfiresdk.models.objects.FandomParam
 import com.sayzen.campfiresdk.screens.fandoms.search.SFandomsSearch
-import com.sup.dev.android.libs.api_simple.ApiRequestsSupporter
+import com.sayzen.campfiresdk.tools.ApiRequestsSupporter
 import com.sup.dev.android.libs.screens.Screen
 import com.sup.dev.android.libs.screens.navigator.NavigationAction
 import com.sup.dev.android.libs.screens.navigator.Navigator
@@ -31,7 +31,7 @@ import com.sup.dev.android.views.views.ViewChip
 import com.sup.dev.android.views.views.layouts.LayoutFlow
 import com.sup.dev.android.views.widgets.WidgetChooseImage
 import com.sup.dev.java.classes.Subscription
-import com.sup.dev.java.libs.api_simple.client.Request
+import com.dzen.campfire.api.tools.client.Request
 import com.sup.dev.java.libs.eventBus.EventBus
 import com.sup.dev.java.tools.ToolsDate
 import com.sup.dev.java.tools.ToolsText

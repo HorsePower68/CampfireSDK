@@ -13,7 +13,7 @@ import com.sayzen.campfiresdk.screens.achievements.lvl.PageLvl
 import com.sayzen.campfiresdk.controllers.ControllerApi
 import com.sayzen.campfiresdk.controllers.ControllerStoryQuest
 import com.sayzen.devsupandroidgoogle.ControllerFirebaseAnalytics
-import com.sup.dev.android.libs.api_simple.ApiRequestsSupporter
+import com.sayzen.campfiresdk.tools.ApiRequestsSupporter
 import com.sup.dev.android.libs.screens.navigator.NavigationAction
 import com.sup.dev.android.libs.screens.Screen
 import com.sup.dev.android.libs.screens.navigator.Navigator

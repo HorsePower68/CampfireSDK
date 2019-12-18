@@ -17,7 +17,7 @@ import com.sayzen.campfiresdk.models.events.publications.EventCommentChange
 import com.sayzen.campfiresdk.models.events.publications.EventPublicationCommentWatchChange
 import com.sayzen.campfiresdk.models.support.Attach
 import com.sayzen.campfiresdk.screens.other.rules.SGoogleRules
-import com.sup.dev.android.libs.api_simple.ApiRequestsSupporter
+import com.sayzen.campfiresdk.tools.ApiRequestsSupporter
 import com.sup.dev.android.tools.ToolsBitmap
 import com.sup.dev.android.tools.ToolsResources
 import com.sup.dev.android.tools.ToolsToast

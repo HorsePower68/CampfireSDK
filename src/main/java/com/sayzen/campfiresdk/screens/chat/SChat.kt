@@ -25,7 +25,7 @@ import com.sayzen.campfiresdk.models.events.fandom.EventFandomBackgroundImageCha
 import com.sayzen.campfiresdk.models.events.notifications.EventNotification
 import com.sayzen.campfiresdk.screens.chat.create.SChatCreate
 import com.sup.dev.android.app.SupAndroid
-import com.sup.dev.android.libs.api_simple.ApiRequestsSupporter
+import com.sayzen.campfiresdk.tools.ApiRequestsSupporter
 import com.sup.dev.android.libs.screens.activity.SActivityTypeBottomNavigation
 import com.sup.dev.android.libs.screens.navigator.NavigationAction
 import com.sup.dev.android.libs.screens.navigator.Navigator
@@ -37,7 +37,7 @@ import com.sup.dev.android.views.support.adapters.recycler_view.RecyclerCardAdap
 import com.sup.dev.android.views.views.ViewAvatarTitle
 import com.sup.dev.android.views.views.ViewIcon
 import com.sup.dev.android.views.widgets.WidgetAlert
-import com.sup.dev.java.libs.api_simple.client.ApiClient
+import com.dzen.campfire.api.tools.client.ApiClient
 import com.sup.dev.java.libs.eventBus.EventBus
 import com.sup.dev.java.libs.json.Json
 import com.sup.dev.java.tools.*

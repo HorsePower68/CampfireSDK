@@ -276,6 +276,10 @@ class CardPost constructor(
         xPublication.xReports.setView(getView()!!.findViewById(R.id.vReports))
     }
 
+    override fun updateReactions() {
+        update()
+    }
+
     private fun toggleShowFull() {
         isShowFull = !isShowFull
 

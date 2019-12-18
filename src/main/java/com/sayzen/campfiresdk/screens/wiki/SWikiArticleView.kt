@@ -21,7 +21,7 @@ import com.sayzen.campfiresdk.controllers.api
 import com.sayzen.campfiresdk.models.cards.post_pages.CardPage
 import com.sayzen.campfiresdk.models.events.wiki.EventWikiPagesChanged
 import com.sayzen.campfiresdk.models.events.wiki.EventWikiRemove
-import com.sup.dev.android.libs.api_simple.ApiRequestsSupporter
+import com.sayzen.campfiresdk.tools.ApiRequestsSupporter
 import com.sup.dev.android.libs.screens.Screen
 import com.sup.dev.android.libs.screens.navigator.NavigationAction
 import com.sup.dev.android.libs.screens.navigator.Navigator

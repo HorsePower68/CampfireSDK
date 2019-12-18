@@ -23,6 +23,11 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"/>
 
+                <ImageView
+                    android:id="@+id/vImageHoliday"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"/>
+
                 <View
                     android:id="@+id/vToolbarCollapsingShadow"
                     android:layout_width="match_parent"

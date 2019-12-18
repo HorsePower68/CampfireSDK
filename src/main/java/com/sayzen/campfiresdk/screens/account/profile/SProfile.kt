@@ -22,9 +22,10 @@ import com.sayzen.campfiresdk.models.widgets.WidgetAdminBlock
 import com.sayzen.campfiresdk.screens.account.search.SAccountSearch
 import com.sayzen.campfiresdk.models.events.account.*
 import com.sayzen.campfiresdk.models.events.publications.EventPostPinedProfile
-import com.sayzen.campfiresdk.screens.activities.support.SDonate
 import com.sayzen.campfiresdk.screens.administation.SAdministrationDeepBlocked
-import com.sup.dev.android.libs.api_simple.ApiRequestsSupporter
+import com.sayzen.campfiresdk.tools.ApiRequestsSupporter
+import com.sup.dev.android.libs.image_loader.ImageLoader
+import com.sup.dev.android.libs.image_loader.ImageLoaderId
 import com.sup.dev.android.libs.screens.Screen
 import com.sup.dev.android.libs.screens.navigator.NavigationAction
 import com.sup.dev.android.libs.screens.navigator.Navigator
@@ -78,6 +79,7 @@ class SProfile private constructor(
     private val vRecycler: RecyclerView = findViewById(R.id.vRecycler)
     private val vMore: View = findViewById(R.id.vMore)
     private val vImage: ImageView = findViewById(R.id.vImage)
+    private val vImageHoliday: ImageView = findViewById(R.id.vImageHoliday)
     private val vAvatar: ImageView = findViewById(R.id.vAvatar)
     val xAccount = XAccount(r.account, 0, r.titleImageId, r.titleImageGifId) { update() }
     private val adapter: RecyclerCardAdapterLoading<CardPublication, Publication>
@@ -113,6 +115,11 @@ class SProfile private constructor(
             if (xAccount.titleImageGifId > 0) Navigator.to(SImageView(xAccount.titleImageGifId))
             else Navigator.to(SImageView(xAccount.titleImageId))
             true
+        }
+
+        val holidayImage = ControllerHoliday.getProfileBackgroundImage()
+        if(holidayImage != null){
+            ImageLoaderId(holidayImage).into(vImageHoliday)
         }
 
 

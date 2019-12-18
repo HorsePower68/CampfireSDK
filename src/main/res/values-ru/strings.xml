@@ -563,7 +563,7 @@
     <string name="feed_loading_88">Т... Ты слышишь эту музыку?!</string>
     <string name="feed_loading_89">И зачем я это пишу?</string>
     <string name="feed_loading_1000">Привет датамайнерам!</string>
-    <string name="feed_all">Все побликации</string>
+    <string name="feed_all">Все публикации</string>
     <string name="feed_subscribed">Только подписки</string>
     <string name="feed_important">Только важные</string>
     <string name="feed_subscribes">Не показывать подписки в бездне</string>
@@ -662,6 +662,7 @@
     <string name="chat_report_confirm">Пожаловаться на это сообщение?</string>
     <string name="chat_clear_reports_confirm">Удалить жалобы на это сообщение?</string>
     <string name="chat_error_gone">Похоже кто-то удалил это сообщение</string>
+    <string name="chat_error_quote_same_message">Нельзя цитировать это сообщение</string>
     <string name="chat_error_gone_block">Сообщение заблокировано доблестными модераторами Campfire.</string>
     <string name="chat_error_gone_remove">Сообщение удалёно пользователем.</string>
     <string name="chat_create_title">Создание чата</string>
@@ -1017,6 +1018,9 @@
     <string name="bookmarks_remove">Удалить из закладок</string>
     <string name="bookmarks_added">Добавлено в закладки</string>
     <string name="bookmarks_removed">Удалено из закладок</string>
+    <string name="bookmarks_folder_create">Создать папку</string>
+    <string name="bookmarks_folder_error_max">У вас максимальное количество папок</string>
+    <string name="bookmarks_folder_remove_alert">Удалить эту папку?</string>
 
     <string name="notifications_empty">У вас пока нет уведомлений</string>
     <string name="notifications_loading">Загрузка ваших уведомлений</string>

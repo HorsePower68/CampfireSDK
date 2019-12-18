@@ -667,6 +667,7 @@
     <string name="chat_report_confirm">Report this message?</string>
     <string name="chat_clear_reports_confirm">Clear this message reports?</string>
     <string name="chat_error_gone">Looks like someone deleted this message</string>
+    <string name="chat_error_quote_same_message">You cannot quote this message</string>
     <string name="chat_error_gone_block">Comment blocked by moderators of Campfire.</string>
     <string name="chat_error_gone_remove">Comment removed by user.</string>
     <string name="chat_create_title">Chat creation</string>
@@ -1022,6 +1023,9 @@
     <string name="bookmarks_remove">Remove bookmark</string>
     <string name="bookmarks_added">Bookmark is added</string>
     <string name="bookmarks_removed">Bookmark is removed</string>
+    <string name="bookmarks_folder_create">Create folder</string>
+    <string name="bookmarks_folder_error_max">You have the maximum count of folders</string>
+    <string name="bookmarks_folder_remove_alert">Remove this folder?</string>
 
     <string name="notifications_empty">You don\'t have any notification</string>
     <string name="notifications_loading">Loading your notifications</string>

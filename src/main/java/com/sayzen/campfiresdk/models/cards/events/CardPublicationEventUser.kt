@@ -207,6 +207,10 @@ class CardPublicationEventUser(
         update()
     }
 
+    override fun updateReactions() {
+        update()
+    }
+
     override fun notifyItem() {
 
     }

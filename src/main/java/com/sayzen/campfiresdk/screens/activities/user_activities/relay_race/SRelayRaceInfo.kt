@@ -4,12 +4,11 @@ import com.dzen.campfire.api.models.activities.UserActivity
 import com.dzen.campfire.api.models.publications.Publication
 import com.dzen.campfire.api.requests.activities.RActivitiesGetRelayRaceFullInfo
 import com.dzen.campfire.api.requests.activities.RActivitiesGetPosts
-import com.sayzen.campfiresdk.R
 import com.sayzen.campfiresdk.controllers.api
 import com.sayzen.campfiresdk.models.cards.CardPublication
 import com.sayzen.campfiresdk.models.events.activities.EventActivitiesRemove
 import com.sayzen.campfiresdk.screens.activities.user_activities.CardUserActivity
-import com.sup.dev.android.libs.api_simple.ApiRequestsSupporter
+import com.sayzen.campfiresdk.tools.ApiRequestsSupporter
 import com.sup.dev.android.libs.screens.navigator.NavigationAction
 import com.sup.dev.android.libs.screens.navigator.Navigator
 import com.sup.dev.android.tools.ToolsResources

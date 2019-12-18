@@ -32,4 +32,8 @@ class CardPublicationUnknown(
 
     }
 
+    override fun updateReactions() {
+
+    }
+
 }

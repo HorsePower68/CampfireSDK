@@ -11,7 +11,7 @@ import com.sayzen.campfiresdk.models.events.fandom.EventFandomAccountBaned
 import com.sayzen.campfiresdk.models.events.account.EventAccountBaned
 import com.sayzen.campfiresdk.models.events.account.EventAccountPunishmentRemove
 import com.sayzen.campfiresdk.screens.fandoms.view.SFandom
-import com.sup.dev.android.libs.api_simple.ApiRequestsSupporter
+import com.sayzen.campfiresdk.tools.ApiRequestsSupporter
 import com.sup.dev.android.libs.screens.navigator.Navigator
 import com.sup.dev.android.tools.ToolsImagesLoader
 import com.sup.dev.android.tools.ToolsResources

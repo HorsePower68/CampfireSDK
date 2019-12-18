@@ -17,13 +17,13 @@ import com.sayzen.campfiresdk.controllers.*
 import com.sayzen.campfiresdk.models.cards.post_pages.CardPage
 import com.sayzen.campfiresdk.models.events.publications.*
 import com.sup.dev.android.app.SupAndroid
-import com.sup.dev.android.libs.api_simple.ApiRequestsSupporter
+import com.sayzen.campfiresdk.tools.ApiRequestsSupporter
 import com.sup.dev.android.libs.screens.Screen
 import com.sup.dev.android.libs.screens.navigator.NavigationAction
 import com.sup.dev.android.libs.screens.navigator.Navigator
 import com.sup.dev.android.tools.ToolsView
 import com.sup.dev.android.views.screens.SAlert
-import com.sup.dev.java.libs.api_simple.client.ApiClient
+import com.dzen.campfire.api.tools.client.ApiClient
 import com.sup.dev.java.libs.eventBus.EventBus
 import com.sup.dev.java.libs.eventBus.EventBusSubscriber
 import com.sup.dev.java.tools.ToolsThreads
@@ -73,7 +73,8 @@ class SPost constructor(
             },
             onChangedReports = { cardInfo.updateReports() },
             onChangedImportance = {},
-            onRemove = { Navigator.remove(this) }
+            onRemove = { Navigator.remove(this) },
+            onChangedReactions = { }
     )
     private val cardInfo: CardInfo = CardInfo(xPublication, tags)
 

@@ -79,7 +79,8 @@ abstract class CardPublication(
             onChangedComments = { updateComments() },
             onChangedReports = { updateReports() },
             onChangedImportance = { update() },
-            onRemove = { adapter?.remove(this) }
+            onRemove = { adapter?.remove(this) },
+            onChangedReactions = { updateReactions() }
     )
     private var flash = false
     private var animationFlash: AnimationPendulumColor? = null
@@ -109,6 +110,8 @@ abstract class CardPublication(
     abstract fun updateComments()
 
     abstract fun updateReports()
+
+    abstract fun updateReactions()
 
     fun updateFlash() {
         if (getView() == null) return

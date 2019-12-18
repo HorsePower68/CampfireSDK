@@ -1,7 +1,8 @@
 package com.sayzen.campfiresdk.screens.post.bookmarks
 
 import com.dzen.campfire.api.API
-import com.dzen.campfire.api.requests.publications.RPublicationsBookmarksGetAll
+import com.dzen.campfire.api.models.BookmarksFolder
+import com.dzen.campfire.api.requests.bookmarks.RBookmarksGetAll
 import com.sayzen.campfiresdk.models.cards.CardPublication
 import com.dzen.campfire.api.models.publications.Publication
 import com.sayzen.campfiresdk.R
@@ -9,8 +10,6 @@ import com.sayzen.campfiresdk.controllers.ControllerCampfireSDK
 import com.sayzen.campfiresdk.controllers.ControllerStoryQuest
 import com.sayzen.campfiresdk.models.events.publications.EventPublicationBookmarkChange
 import com.sayzen.campfiresdk.controllers.api
-import com.sup.dev.android.libs.screens.navigator.NavigationAction
-import com.sup.dev.android.libs.screens.navigator.Navigator
 import com.sup.dev.android.tools.ToolsResources
 import com.sup.dev.android.views.support.adapters.recycler_view.RecyclerCardAdapterLoading
 import com.sup.dev.android.views.screens.SLoadingRecycler
@@ -32,13 +31,17 @@ class SBookmarks constructor() : SLoadingRecycler<CardPublication, Publication>(
     }
 
     override fun instanceAdapter(): RecyclerCardAdapterLoading<CardPublication, Publication> {
-        return RecyclerCardAdapterLoading<CardPublication, Publication>(CardPublication::class) { publication -> CardPublication.instance(publication, vRecycler) }
+        val adapterX =  RecyclerCardAdapterLoading<CardPublication, Publication>(CardPublication::class) { publication -> CardPublication.instance(publication, vRecycler) }
                 .setBottomLoader { onLoad, cards ->
-                    RPublicationsBookmarksGetAll(cards.size.toLong(), "", ControllerCampfireSDK.ROOT_FANDOM_ID, 0)
+                    RBookmarksGetAll(cards.size.toLong(), "", ControllerCampfireSDK.ROOT_FANDOM_ID, 0, 0)
                             .onComplete { r -> onLoad.invoke(r.publications) }
                             .onNetworkError { onLoad.invoke(null) }
                             .send(api)
                 }
+
+        adapterX.add(CardButtons())
+
+        return adapterX
     }
 
     //

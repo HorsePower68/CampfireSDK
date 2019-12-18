@@ -14,7 +14,7 @@ import com.sayzen.campfiresdk.models.events.account.EventAccountBioChangedAge
 import com.sayzen.campfiresdk.models.events.account.EventAccountBioChangedDescription
 import com.sayzen.campfiresdk.models.events.account.EventAccountBioChangedLinks
 import com.sayzen.campfiresdk.models.events.account.EventAccountBioChangedSex
-import com.sup.dev.android.libs.api_simple.ApiRequestsSupporter
+import com.sayzen.campfiresdk.tools.ApiRequestsSupporter
 import com.sup.dev.android.tools.ToolsAndroid
 import com.sup.dev.android.tools.ToolsResources
 import com.sup.dev.android.tools.ToolsToast

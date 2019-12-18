@@ -16,7 +16,7 @@ import com.sayzen.campfiresdk.controllers.ControllerSettings
 import com.sayzen.campfiresdk.controllers.api
 import com.sayzen.campfiresdk.models.events.chat.EventChatMessageChanged
 import com.sayzen.campfiresdk.models.support.Attach
-import com.sup.dev.android.libs.api_simple.ApiRequestsSupporter
+import com.sayzen.campfiresdk.tools.ApiRequestsSupporter
 import com.sup.dev.android.tools.ToolsBitmap
 import com.sup.dev.android.tools.ToolsResources
 import com.sup.dev.android.tools.ToolsToast
@@ -136,6 +136,10 @@ class FieldLogic(
     }
 
     fun setQuote(quoteText: String, quoteId: Long = 0) {
+        if(publicationChange != null && quoteId == publicationChange!!.id){
+            ToolsToast.show(R.string.chat_error_quote_same_message)
+            return
+        }
         this.quoteText = quoteText
         if (this.quoteText.length > API.CHAT_MESSAGE_QUOTE_MAX_SIZE) this.quoteText = this.quoteText.substring(0, API.CHAT_MESSAGE_QUOTE_MAX_SIZE) + "..."
         this.quoteId = quoteId
@@ -262,7 +266,7 @@ class FieldLogic(
         beforeSend()
         ToolsToast.show(R.string.app_changed)
         ApiRequestsSupporter.execute(RChatMessageChange(publicationChangeId, quoteIdV, text)) {
-            EventBus.post(EventChatMessageChanged(publicationChangeId, text, quoteIdV, quoteTextV))
+            EventBus.post(EventChatMessageChanged(publicationChangeId, it.message.text, quoteIdV, quoteTextV))
         }
                 .onApiError(API.ERROR_ACCESS) { ToolsToast.show(R.string.error_chat_access) }
 

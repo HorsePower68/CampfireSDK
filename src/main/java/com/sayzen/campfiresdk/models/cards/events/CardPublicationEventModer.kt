@@ -82,6 +82,10 @@ class CardPublicationEventModer(
         update()
     }
 
+    override fun updateReactions() {
+        update()
+    }
+
     override fun notifyItem() {
 
     }

@@ -2,7 +2,7 @@ package com.sayzen.campfiresdk.screens.fandoms.rating
 
 import com.dzen.campfire.api.requests.fandoms.RFandomsRatingGet
 import com.sayzen.campfiresdk.R
-import com.sup.dev.android.libs.api_simple.ApiRequestsSupporter
+import com.sayzen.campfiresdk.tools.ApiRequestsSupporter
 import com.sup.dev.android.libs.screens.navigator.NavigationAction
 import com.sup.dev.android.tools.ToolsResources
 import com.sup.dev.android.views.screens.SLoadingRecycler

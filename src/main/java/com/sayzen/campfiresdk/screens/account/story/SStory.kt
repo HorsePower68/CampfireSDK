@@ -3,9 +3,8 @@ package com.sayzen.campfiresdk.screens.account.story
 import android.widget.TextView
 import com.dzen.campfire.api.requests.accounts.RAccountsGetStory
 import com.sayzen.campfiresdk.R
-import com.sayzen.campfiresdk.controllers.ControllerApi
 import com.sayzen.campfiresdk.controllers.ControllerLinks
-import com.sup.dev.android.libs.api_simple.ApiRequestsSupporter
+import com.sayzen.campfiresdk.tools.ApiRequestsSupporter
 import com.sup.dev.android.libs.screens.Screen
 import com.sup.dev.android.libs.screens.navigator.NavigationAction
 import com.sup.dev.android.tools.ToolsResources

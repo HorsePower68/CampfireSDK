@@ -22,7 +22,7 @@ import com.sayzen.campfiresdk.controllers.api
 import com.sayzen.campfiresdk.models.events.activities.EventVideoAdView
 import com.sayzen.campfiresdk.models.events.notifications.EventNotification
 import com.sayzen.campfiresdk.screens.account.search.SAccountSearch
-import com.sup.dev.android.libs.api_simple.ApiRequestsSupporter
+import com.sayzen.campfiresdk.tools.ApiRequestsSupporter
 import com.sup.dev.android.libs.screens.Screen
 import com.sup.dev.android.libs.screens.activity.SActivityTypeBottomNavigation
 import com.sup.dev.android.libs.screens.navigator.NavigationAction
@@ -157,7 +157,7 @@ class SDonate private constructor(
     }
 
     private fun donate() {
-        ApiRequestsSupporter.executeProgressDialog(RProjectDonatesCreateDraft(vComment.text.toString())){r->
+        ApiRequestsSupporter.executeProgressDialog(RProjectDonatesCreateDraft(vComment.text.toString())){ r->
             donateNow(r.donateId)
         }
     }

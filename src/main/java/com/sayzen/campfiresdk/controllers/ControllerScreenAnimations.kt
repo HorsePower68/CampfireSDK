@@ -76,6 +76,7 @@ object ControllerScreenAnimations {
     }
 
     fun addAnimationWithClear(animation: DrawAnimation) {
+        if(SupAndroid.activity!!.vActivityDrawAnimations!!.contains(animation::class)) return
         clearAnimation()
         val myKey = System.currentTimeMillis()
         key = myKey

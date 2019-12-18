@@ -74,6 +74,10 @@ class CardSticker(
         xPublication.xReports.setView(getView()!!.findViewById(R.id.vReports))
     }
 
+    override fun updateReactions() {
+        update()
+    }
+
     override fun notifyItem() {
         val publication = xPublication.publication as PublicationSticker
         ToolsImagesLoader.load(publication.imageId).intoCash()

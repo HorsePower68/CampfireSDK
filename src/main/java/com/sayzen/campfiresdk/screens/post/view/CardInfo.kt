@@ -67,7 +67,7 @@ class CardInfo(
         xPublication.xAccount.setView(vAvatar)
         val publication = xPublication.publication as PublicationPost
         if (publication.rubricId > 0) {
-            vAvatar.vSubtitle.text = vAvatar.getSubTitle() + "  " + publication.rubricName
+            vAvatar.vSubtitle.text = vAvatar.getSubTitle() + "\n" + publication.rubricName
             ToolsView.addLink(vAvatar.vSubtitle, publication.rubricName) {
                 SRubricPosts.instance(publication.rubricId, Navigator.TO)
             }

@@ -14,7 +14,7 @@ import com.sayzen.campfiresdk.models.events.fandom.EventFandomReviewCreated
 import com.sayzen.campfiresdk.models.events.fandom.EventFandomReviewRemoved
 import com.sayzen.campfiresdk.controllers.api
 import com.sayzen.campfiresdk.models.widgets.WidgetReview
-import com.sup.dev.android.libs.api_simple.ApiRequestsSupporter
+import com.sayzen.campfiresdk.tools.ApiRequestsSupporter
 import com.sup.dev.android.libs.screens.navigator.NavigationAction
 import com.sup.dev.android.tools.ToolsToast
 import com.sup.dev.android.views.cards.CardSpace

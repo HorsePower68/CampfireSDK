@@ -5,7 +5,7 @@ import com.dzen.campfire.api.requests.post.RPostPagePollingGet
 import com.dzen.campfire.api.requests.post.RPostPagePollingVote
 import com.sayzen.campfiresdk.app.CampfireConstants
 import com.sayzen.campfiresdk.models.events.publications.EventPollingChanged
-import com.sup.dev.android.libs.api_simple.ApiRequestsSupporter
+import com.sayzen.campfiresdk.tools.ApiRequestsSupporter
 import com.sup.dev.java.classes.Subscription
 import com.sup.dev.java.libs.eventBus.EventBus
 import com.sup.dev.java.tools.ToolsThreads

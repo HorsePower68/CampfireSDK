@@ -10,7 +10,7 @@ import com.sayzen.campfiresdk.controllers.ControllerApi
 import com.sayzen.campfiresdk.controllers.ControllerStoryQuest
 import com.sayzen.campfiresdk.models.events.chat.EventChatMemberStatusChanged
 import com.sayzen.campfiresdk.models.events.chat.EventChatNewBottomMessage
-import com.sup.dev.android.libs.api_simple.ApiRequestsSupporter
+import com.sayzen.campfiresdk.tools.ApiRequestsSupporter
 import com.sup.dev.android.tools.ToolsToast
 import com.sup.dev.android.views.cards.Card
 import com.sup.dev.java.libs.eventBus.EventBus

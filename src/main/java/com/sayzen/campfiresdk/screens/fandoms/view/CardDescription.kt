@@ -9,7 +9,7 @@ import com.sayzen.campfiresdk.adapters.XFandom
 import com.sayzen.campfiresdk.controllers.ControllerApi
 import com.sayzen.campfiresdk.models.events.fandom.EventFandomDescriptionChanged
 import com.sayzen.campfiresdk.models.events.fandom.EventFandomNamesChanged
-import com.sup.dev.android.libs.api_simple.ApiRequestsSupporter
+import com.sayzen.campfiresdk.tools.ApiRequestsSupporter
 import com.sup.dev.android.tools.ToolsResources
 import com.sup.dev.android.tools.ToolsToast
 import com.sup.dev.android.views.cards.Card
@@ -41,8 +41,8 @@ class CardDescription(
 
 
     private fun changeDescription() {
-        WidgetDescription(description) { description, comment ->
-            ApiRequestsSupporter.executeProgressDialog(RFandomsModerationDescriptionChange(xFandom.fandomId, xFandom.languageId, description, comment)) { _ ->
+        WidgetDescription(description) { description ->
+            ControllerApi.moderation(R.string.app_moderation, R.string.app_confirm, {RFandomsModerationDescriptionChange(xFandom.fandomId, xFandom.languageId, description, it)}){
                 EventBus.post(EventFandomDescriptionChanged(xFandom.fandomId, xFandom.languageId, description))
                 ToolsToast.show(R.string.app_done)
             }

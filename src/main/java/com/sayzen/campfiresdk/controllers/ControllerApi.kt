@@ -4,6 +4,7 @@ import android.graphics.Bitmap
 import android.text.Html
 import android.widget.TextView
 import com.dzen.campfire.api.API
+import com.dzen.campfire.api.models.ApiInfo
 import com.dzen.campfire.api.models.account.Account
 import com.dzen.campfire.api.models.lvl.LvlInfo
 import com.dzen.campfire.api.models.lvl.LvlInfoAdmin
@@ -16,6 +17,7 @@ import com.dzen.campfire.api.requests.publications.RPublicationsAdminClearReport
 import com.dzen.campfire.api.requests.publications.RPublicationsOnShare
 import com.dzen.campfire.api.requests.publications.RPublicationsRemove
 import com.dzen.campfire.api.requests.publications.RPublicationsReport
+import com.dzen.campfire.api.tools.ApiException
 import com.dzen.campfire.api_media.APIMedia
 import com.dzen.campfire.api_media.requests.RResourcesGet
 import com.dzen.campfire.api_media.requests.RResourcesGetByTag
@@ -31,7 +33,7 @@ import com.sayzen.campfiresdk.screens.fandoms.moderation.view.SModerationView
 import com.sup.dev.java.libs.text_format.TextFormatter
 import com.sayzen.devsupandroidgoogle.ControllerGoogleAuth
 import com.sup.dev.android.app.SupAndroid
-import com.sup.dev.android.libs.api_simple.ApiRequestsSupporter
+import com.sayzen.campfiresdk.tools.ApiRequestsSupporter
 import com.sup.dev.android.libs.image_loader.ImageLoaderId
 import com.sup.dev.android.libs.image_loader.ImageLoaderTag
 import com.sup.dev.android.libs.screens.navigator.NavigationAction
@@ -43,9 +45,8 @@ import com.sup.dev.android.views.widgets.WidgetField
 import com.sup.dev.android.views.widgets.WidgetMenu
 import com.sup.dev.java.classes.items.Item3
 import com.sup.dev.java.classes.items.ItemNullable
-import com.sup.dev.java.libs.api_simple.ApiException
-import com.sup.dev.java.libs.api_simple.client.Request
-import com.sup.dev.java.libs.api_simple.client.TokenProvider
+import com.dzen.campfire.api.tools.client.Request
+import com.dzen.campfire.api.tools.client.TokenProvider
 import com.sup.dev.java.libs.debug.err
 import com.sup.dev.java.libs.eventBus.EventBus
 import com.sup.dev.java.libs.json.Json
@@ -54,10 +55,9 @@ import com.sup.dev.java.tools.ToolsMapper
 import com.sup.dev.java.tools.ToolsThreads
 import java.lang.Exception
 
-
 val api: API = API(
         ControllerCampfireSDK.projectKey,
-        ControllerGoogleAuth.instanceTokenProvider(),
+        instanceTokenProvider(),
         if (ControllerCampfireSDK.IS_DEBUG) (if (ControllerCampfireSDK.IS_USE_SECOND_IP) ControllerCampfireSDK.SECOND_IP else "192.168.0.64") else API.IP,
         API.PORT_HTTPS,
         API.PORT_CERTIFICATE,
@@ -67,7 +67,7 @@ val api: API = API(
 
 val apiMedia: APIMedia = APIMedia(
         ControllerCampfireSDK.projectKey,
-        instanceTokenProvider(),
+        instanceTokenProviderMedia(),
         APIMedia.IP,
         APIMedia.PORT_HTTPS,
         APIMedia.PORT_CERTIFICATE,
@@ -75,6 +75,28 @@ val apiMedia: APIMedia = APIMedia(
 )
 
 fun instanceTokenProvider(): TokenProvider {
+    return object : TokenProvider {
+
+        override fun getToken(callbackSource: (String?) -> Unit) {
+            ControllerGoogleAuth.getToken {
+                ControllerGoogleAuth.tokenPostExecutor.invoke(it) { token ->
+                    callbackSource.invoke(token)
+                }
+            }
+        }
+
+        override fun clearToken() {
+            ControllerGoogleAuth.clearToken()
+        }
+
+        override fun onLoginFailed() {
+            ControllerGoogleAuth.onLoginFailed()
+        }
+    }
+}
+
+
+fun instanceTokenProviderMedia(): TokenProvider {
     return object : TokenProvider {
 
         override fun getToken(callbackSource: (String?) -> Unit) {
@@ -100,6 +122,7 @@ object ControllerApi {
     private var fandomsKarmaCounts: Array<Item3<Long, Long, Long>?>? = null
     private var version = ""
     private var supported = ""
+    private var apiInfo = ApiInfo()
 
     internal fun init() {
         ApiRequestsSupporter.init(api)
@@ -132,6 +155,12 @@ object ControllerApi {
         }
         return englishId
     }
+
+    fun setApiInfo(apiInfo: ApiInfo) {
+        this.apiInfo = apiInfo
+    }
+
+    fun getApiInfo() = apiInfo
 
     fun isOldVersion() = version.isNotEmpty() && version != API.VERSION
 
@@ -355,7 +384,7 @@ object ControllerApi {
         val w = WidgetAlert()
         w.setText(text)
         w.setOnCancel(R.string.app_ok)
-        if(moderationId > 0) {
+        if (moderationId > 0) {
             w.setOnEnter(R.string.app_details) {
                 SModerationView.instance(moderationId, Navigator.TO)
             }
@@ -378,7 +407,11 @@ object ControllerApi {
 
     fun isModerator(lvl: Long) = lvl >= API.LVL_MODERATOR_BLOCK.lvl
 
+    fun isModerator(lvl: Long, karma30: Long) = isModerator(lvl) && karma30 >= API.LVL_MODERATOR_BLOCK.karmaCount
+
     fun isAdmin(lvl: Long) = lvl >= API.LVL_ADMIN_MODER.lvl
+
+    fun isAdmin(lvl: Long, karma30: Long) = isAdmin(lvl) && karma30 >= API.LVL_ADMIN_MODER.karmaCount
 
     fun isProtoadmin(accountId: Long, lvl: Long) = protoadmins.contains(accountId) || lvl >= API.LVL_PROTOADMIN.lvl
 

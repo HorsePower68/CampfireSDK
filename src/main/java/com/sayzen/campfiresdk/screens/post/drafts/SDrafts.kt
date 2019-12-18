@@ -16,7 +16,7 @@ import com.sayzen.campfiresdk.controllers.api
 import com.sayzen.campfiresdk.models.events.publications.EventPostDraftCreated
 import com.sayzen.campfiresdk.models.events.publications.EventPostStatusChange
 import com.sayzen.campfiresdk.screens.post.pending.SPending
-import com.sup.dev.android.libs.api_simple.ApiRequestsSupporter
+import com.sayzen.campfiresdk.tools.ApiRequestsSupporter
 import com.sup.dev.android.libs.screens.navigator.Navigator
 import com.sup.dev.android.tools.ToolsResources
 import com.sup.dev.android.views.screens.SLoadingRecycler

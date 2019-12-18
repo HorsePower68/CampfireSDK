@@ -12,7 +12,7 @@ import com.sayzen.campfiresdk.adapters.XAccount
 import com.sayzen.campfiresdk.adapters.XFandom
 import com.sayzen.campfiresdk.controllers.ControllerApi
 import com.sayzen.campfiresdk.models.events.publications.EventPublicationBlockedRemove
-import com.sup.dev.android.libs.api_simple.ApiRequestsSupporter
+import com.sayzen.campfiresdk.tools.ApiRequestsSupporter
 import com.sup.dev.android.tools.ToolsResources
 import com.sup.dev.android.tools.ToolsToast
 import com.sup.dev.android.views.cards.Card

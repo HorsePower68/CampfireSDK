@@ -12,7 +12,7 @@ import com.sayzen.campfiresdk.controllers.api
 import com.sayzen.campfiresdk.models.events.notifications.EventNotification
 import com.sayzen.campfiresdk.models.events.notifications.EventNotificationsCountChanged
 import com.sup.dev.android.app.SupAndroid
-import com.sup.dev.android.libs.api_simple.ApiRequestsSupporter
+import com.sayzen.campfiresdk.tools.ApiRequestsSupporter
 import com.sup.dev.android.libs.screens.navigator.NavigationAction
 import com.sup.dev.android.libs.screens.navigator.Navigator
 import com.sup.dev.android.tools.ToolsResources
@@ -20,7 +20,7 @@ import com.sup.dev.android.tools.ToolsToast
 import com.sup.dev.android.views.screens.SLoadingRecycler
 import com.sup.dev.android.views.support.adapters.recycler_view.RecyclerCardAdapterLoading
 import com.sup.dev.android.views.widgets.WidgetCheckBoxes
-import com.sup.dev.java.libs.api_simple.client.Request
+import com.dzen.campfire.api.tools.client.Request
 import com.sup.dev.java.libs.eventBus.EventBus
 
 class SNotifications private constructor() : SLoadingRecycler<CardNotification, Notification>() {

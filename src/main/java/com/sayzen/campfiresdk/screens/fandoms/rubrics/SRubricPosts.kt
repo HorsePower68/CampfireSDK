@@ -11,7 +11,7 @@ import com.sayzen.campfiresdk.models.cards.CardPublication
 import com.sayzen.campfiresdk.models.events.rubrics.EventRubricChangeName
 import com.sayzen.campfiresdk.models.events.rubrics.EventRubricChangeOwner
 import com.sayzen.campfiresdk.models.events.rubrics.EventRubricRemove
-import com.sup.dev.android.libs.api_simple.ApiRequestsSupporter
+import com.sayzen.campfiresdk.tools.ApiRequestsSupporter
 import com.sup.dev.android.libs.screens.navigator.NavigationAction
 import com.sup.dev.android.libs.screens.navigator.Navigator
 import com.sup.dev.android.tools.ToolsResources

@@ -19,7 +19,7 @@ import com.sayzen.campfiresdk.models.events.publications.EventPostChanged
 import com.sayzen.campfiresdk.models.events.publications.EventPostDraftCreated
 import com.sayzen.campfiresdk.models.events.publications.EventPublicationRemove
 import com.sayzen.campfiresdk.screens.post.view.SPost
-import com.sup.dev.android.libs.api_simple.ApiRequestsSupporter
+import com.sayzen.campfiresdk.tools.ApiRequestsSupporter
 import com.sup.dev.android.libs.screens.Screen
 import com.sup.dev.android.libs.screens.navigator.NavigationAction
 import com.sup.dev.android.libs.screens.navigator.Navigator

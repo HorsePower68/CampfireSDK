@@ -3,7 +3,7 @@ package com.sayzen.campfiresdk.screens.fandoms.tags
 import android.widget.Button
 
 import com.dzen.campfire.api.requests.tags.RTagsRemove
-import com.sup.dev.android.libs.api_simple.ApiRequestsSupporter
+import com.sayzen.campfiresdk.tools.ApiRequestsSupporter
 import com.dzen.campfire.api.models.publications.tags.PublicationTag
 import com.sayzen.campfiresdk.R
 import com.sayzen.campfiresdk.screens.fandoms.STags

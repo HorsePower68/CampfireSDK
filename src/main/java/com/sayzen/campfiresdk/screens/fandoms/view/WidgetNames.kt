@@ -6,7 +6,7 @@ import com.dzen.campfire.api.API
 import com.dzen.campfire.api.requests.fandoms.RFandomsModerationNames
 import com.sayzen.campfiresdk.R
 import com.sayzen.campfiresdk.models.events.fandom.EventFandomNamesChanged
-import com.sup.dev.android.libs.api_simple.ApiRequestsSupporter
+import com.sayzen.campfiresdk.tools.ApiRequestsSupporter
 import com.sup.dev.android.tools.ToolsToast
 import com.sup.dev.android.views.settings.SettingsField
 import com.sup.dev.android.views.views.ViewChip

@@ -13,6 +13,7 @@ import com.dzen.campfire.api.models.notifications.project.NotificationProjectABP
 import com.sayzen.campfiresdk.R
 import com.sayzen.campfiresdk.controllers.ControllerApi
 import com.sayzen.campfiresdk.controllers.ControllerCampfireSDK
+import com.sayzen.campfiresdk.controllers.ControllerHoliday
 import com.sayzen.campfiresdk.models.events.account.EventAccountChanged
 import com.sayzen.campfiresdk.models.events.account.EventAccountOnlineChanged
 import com.sayzen.campfiresdk.models.events.notifications.EventNotification
@@ -36,7 +37,7 @@ class XAccount(
         var onChanged: () -> Unit
 ) {
 
-    companion object{
+    companion object {
         var online = HashMap<Long, Long>()
 
         private val eventBus = EventBus
@@ -132,7 +133,15 @@ class XAccount(
     }
 
     fun setView(vImage: ImageView) {
-        ToolsImagesLoader.load(imageId).into(vImage)
+        val holidayImage = ControllerHoliday.getAvatar(accountId, lvl, karma30)
+        if(holidayImage != null){
+            val background = ControllerHoliday.getBackground(accountId)
+            ToolsImagesLoader.load(holidayImage).into(vImage)
+            if(background != null) vImage.setBackgroundColor(background)
+        }else{
+
+            ToolsImagesLoader.load(imageId).into(vImage)
+        }
     }
 
     fun setView(vTitle: TextView) {

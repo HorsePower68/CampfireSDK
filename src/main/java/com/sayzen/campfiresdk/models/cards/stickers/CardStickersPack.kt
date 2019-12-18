@@ -86,6 +86,10 @@ class CardStickersPack(
         xPublication.xKarma.setView(viewKarma)
     }
 
+    override fun updateReactions() {
+        update()
+    }
+
     override fun notifyItem() {
         val publication = xPublication.publication as PublicationStickersPack
         ToolsImagesLoader.load(publication.imageId).intoCash()

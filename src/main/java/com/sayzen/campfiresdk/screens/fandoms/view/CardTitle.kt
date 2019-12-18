@@ -14,7 +14,7 @@ import com.sayzen.campfiresdk.controllers.ControllerCampfireSDK
 import com.sayzen.campfiresdk.controllers.ControllerStoryQuest
 import com.sayzen.campfiresdk.models.events.fandom.EventFandomCategoryChanged
 import com.sayzen.campfiresdk.models.events.fandom.EventFandomSubscribe
-import com.sup.dev.android.libs.api_simple.ApiRequestsSupporter
+import com.sayzen.campfiresdk.tools.ApiRequestsSupporter
 import com.sup.dev.android.libs.screens.navigator.Navigator
 import com.sup.dev.android.tools.ToolsToast
 import com.sup.dev.android.views.cards.Card
