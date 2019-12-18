@@ -9,7 +9,7 @@ class Achievement(
         val text: Int,
         val colorRes: Int,
         val clickable: Boolean,
-        val image: Int,
+        val image: Long,
         val textFormat: Array<String> = emptyArray()
 ) {
 

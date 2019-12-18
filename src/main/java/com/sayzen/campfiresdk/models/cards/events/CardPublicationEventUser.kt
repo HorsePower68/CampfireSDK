@@ -14,6 +14,7 @@ import com.sayzen.campfiresdk.controllers.ControllerPublications
 import com.sayzen.campfiresdk.models.cards.CardPublication
 import com.sayzen.campfiresdk.screens.fandoms.view.SFandom
 import com.sup.dev.android.libs.screens.navigator.Navigator
+import com.sup.dev.android.tools.ToolsImagesLoader
 import com.sup.dev.android.tools.ToolsResources
 import com.sup.dev.android.tools.ToolsView
 import com.sup.dev.android.views.views.ViewAvatar
@@ -50,24 +51,24 @@ class CardPublicationEventUser(
 
         val e = publication.event!!
         var text = ""
-        var imageRedId = 0
+        var willResetimage = true
 
         xPublication.xAccount.lvl = 0    //  Чтоб везде небыло уровней а не на 90% крточек
 
         when (e) {
             is ApiEventUserAchievement -> {
+                willResetimage = false
                 text = ToolsResources.sCap(R.string.publication_event_achievement, ToolsResources.sex(e.ownerAccountSex, R.string.he_gained, R.string.she_gained), CampfireConstants.getAchievement(e.achievementIndex).getText(false))
-                imageRedId = CampfireConstants.getAchievement(e.achievementIndex).image
-                vAvatarTitle.vImageView.tag = null
+                ToolsImagesLoader.load(CampfireConstants.getAchievement(e.achievementIndex).image).into(vAvatarTitle.vImageView)
                 vAvatarTitle.vImageView.setBackgroundColor(ToolsResources.getColor(CampfireConstants.getAchievement(e.achievementIndex).colorRes))
                 vAvatarTitle.setOnClickListener { ControllerCampfireSDK.onToAchievementClicked(publication.creatorId, publication.creatorName, e.achievementIndex, false, Navigator.TO) }
                 view.setOnClickListener { ControllerCampfireSDK.onToAchievementClicked(publication.creatorId, publication.creatorName, e.achievementIndex, false, Navigator.TO) }
             }
             is ApiEventUserQuestFinish -> {
+                willResetimage = false
                 text = ToolsResources.sCap(R.string.publication_event_quest_finish, ToolsResources.sex(e.ownerAccountSex, R.string.he_finished, R.string.she_finished)) + ":"
                 text += "\n" + ToolsResources.s(CampfireConstants.getQuest(e.questIndex).text)
-                imageRedId = CampfireConstants.getAchievement(API.ACHI_QUESTS).image
-                vAvatarTitle.vImageView.tag = null
+                ToolsImagesLoader.load(CampfireConstants.getAchievement(API.ACHI_QUESTS).image).into(vAvatarTitle.vImageView)
                 vAvatarTitle.vImageView.setBackgroundColor(ToolsResources.getColor(CampfireConstants.getAchievement(API.ACHI_QUESTS).colorRes))
                 vAvatarTitle.setOnClickListener { ControllerCampfireSDK.onToAchievementClicked(publication.creatorId, publication.creatorName, API.ACHI_QUESTS.index, false, Navigator.TO) }
                 view.setOnClickListener { ControllerCampfireSDK.onToAchievementClicked(publication.creatorId, publication.creatorName, API.ACHI_QUESTS.index, false, Navigator.TO) }
@@ -164,18 +165,17 @@ class CardPublicationEventUser(
         vText.text = text
         ControllerLinks.makeLinkable(vText)
 
-        if (imageRedId != 0) {
-            vAvatarTitle.vImageView.tag = null
-            vAvatarTitle.vImageView.setImageResource(imageRedId)
-        } else if (showFandom && publication.fandomId > 0) {
-            xPublication.xFandom.setView(vAvatarTitle)
-            vName.text = xPublication.xFandom.name
-        } else if (e.adminAccountId > 0) {
-            xAccountAdmin.setView(vAvatarTitle)
-            vName.text = xAccountAdmin.name
-        } else {
-            xAccount.setView(vAvatarTitle)
-            vName.text = xAccount.name
+        if(willResetimage) {
+             if (showFandom && publication.fandomId > 0) {
+                xPublication.xFandom.setView(vAvatarTitle)
+                vName.text = xPublication.xFandom.name
+            } else if (e.adminAccountId > 0) {
+                xAccountAdmin.setView(vAvatarTitle)
+                vName.text = xAccountAdmin.name
+            } else {
+                xAccount.setView(vAvatarTitle)
+                vName.text = xAccount.name
+            }
         }
 
         when (e) {

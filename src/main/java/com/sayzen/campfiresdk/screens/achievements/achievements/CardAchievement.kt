@@ -15,7 +15,9 @@ import com.sayzen.campfiresdk.screens.fandoms.suggest.SFandomSuggest
 import com.sayzen.campfiresdk.app.CampfireConstants
 import com.sayzen.campfiresdk.controllers.*
 import com.sayzen.campfiresdk.tools.ApiRequestsSupporter
+import com.sup.dev.android.libs.image_loader.ImageLoader
 import com.sup.dev.android.libs.screens.navigator.Navigator
+import com.sup.dev.android.tools.ToolsImagesLoader
 import com.sup.dev.android.tools.ToolsResources
 import com.sup.dev.android.tools.ToolsToast
 import com.sup.dev.android.views.cards.Card
@@ -102,7 +104,7 @@ class CardAchievement(
             vImage.visibility = View.VISIBLE
             vProgress.visibility = View.GONE
 
-            vImage.setImage(ach.image)
+            ToolsImagesLoader.load(ach.image).into(vImage.vImageView)
             vImage.vChip.setText(ToolsText.numToStringRoundAndTrim(ach.info.getForce() * lvl, 2))
         } else {
 
@@ -112,7 +114,7 @@ class CardAchievement(
             vImage.visibility = View.GONE
             vProgress.visibility = View.VISIBLE
 
-            vImage1.setImage(ach.image)
+            ToolsImagesLoader.load(ach.image).into(vImage1.vImageView)
             vImage1.vChip.setText(ToolsText.numToStringRoundAndTrim(ach.info.getForce() * lvl, 2))
             vChip2.setText(ToolsText.numToStringRoundAndTrim(ach.info.getForce(), 2))
         }
