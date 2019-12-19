@@ -222,6 +222,7 @@
     <string name="app_assign">Assign</string>
     <string name="app_donate">Donate</string>
     <string name="app_sponsor">Sponsor</string>
+    <string name="app_root">Root</string>
 
     <string name="he">He</string>
     <string name="she">She</string>
@@ -1017,6 +1018,7 @@
     <string name="into_hello_sex">How can we call you?</string>
 
     <string name="bookmarks_empty">You don\'t have any bookmarks</string>
+    <string name="bookmarks_empty_folder">You don\'t have any bookmarks in this folder</string>
     <string name="bookmarks_loading">Loading your bookmarks</string>
     <string name="bookmark">Bookmark</string>
     <string name="bookmarks_add">Add bookmark</string>

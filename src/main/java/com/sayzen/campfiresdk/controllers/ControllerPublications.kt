@@ -22,12 +22,14 @@ import com.dzen.campfire.api.models.publications.moderations.tags.*
 import com.dzen.campfire.api.models.publications.moderations.publications.ModerationBlock
 import com.dzen.campfire.api.models.publications.moderations.publications.ModerationForgive
 import com.dzen.campfire.api.models.publications.tags.PublicationTag
+import com.dzen.campfire.api.requests.bookmarks.RBookmarksAdd
 import com.dzen.campfire.api.requests.post.RPostToDrafts
 import com.dzen.campfire.api.requests.tags.RTagsMove
 import com.dzen.campfire.api.requests.tags.RTagsMoveCategory
 import com.dzen.campfire.api.requests.tags.RTagsMoveTag
 import com.dzen.campfire.api.requests.publications.RPublicationsAdminRestoreDeepBlock
-import com.dzen.campfire.api.requests.bookmarks.RBookmarksChange
+import com.dzen.campfire.api.requests.bookmarks.RBookmarksRemove
+import com.dzen.campfire.api.requests.bookmarks.RBookmarksStatus
 import com.dzen.campfire.api.requests.comments.RCommentsWatchChange
 import com.sayzen.campfiresdk.R
 import com.sayzen.campfiresdk.models.events.fandom.EventFandomTagMove
@@ -50,6 +52,7 @@ import com.sup.dev.android.tools.ToolsResources
 import com.sup.dev.android.tools.ToolsToast
 import com.sup.dev.android.tools.ToolsView
 import com.sup.dev.android.views.views.ViewTextLinkable
+import com.sup.dev.android.views.widgets.Widget
 import com.sup.dev.android.views.widgets.WidgetField
 import com.sup.dev.android.views.widgets.WidgetMenu
 import com.sup.dev.java.libs.eventBus.EventBus
@@ -280,11 +283,34 @@ object ControllerPublications {
     }
 
     fun changeBookmark(publicationId: Long) {
-        ApiRequestsSupporter.executeProgressDialog(RBookmarksChange(publicationId)) { r ->
-            ControllerStoryQuest.incrQuest(API.QUEST_STORY_BOOKMARKS)
-            EventBus.post(EventPublicationBookmarkChange(publicationId, r.bookmark))
-            if (r.bookmark) ToolsToast.show(R.string.bookmarks_added)
-            else ToolsToast.show(R.string.bookmarks_removed)
+        ControllerStoryQuest.incrQuest(API.QUEST_STORY_BOOKMARKS)
+
+        ApiRequestsSupporter.executeProgressDialog(RBookmarksStatus(publicationId, Array(ControllerSettings.bookmarksFolders.size){ControllerSettings.bookmarksFolders[it].id})){ w,r->
+            if(ControllerSettings.bookmarksFolders.isEmpty()){
+                if(r.bookmark) removeBookmarkNow(w, publicationId)
+                 else addBookmarkNow(w, publicationId, 0)
+            } else{
+                w.hide()
+                val vMenu = WidgetMenu()
+                for(f in ControllerSettings.bookmarksFolders) vMenu.add(f.name){ww,i-> addBookmarkNow(null, publicationId, f.id)}.condition(f.id != r.folderId)
+                vMenu.add(R.string.app_root) {ww,i-> addBookmarkNow(null, publicationId, 0)}.condition(!r.bookmark || r.folderId != 0L)
+                vMenu.add(R.string.app_remove) {ww,i-> removeBookmarkNow(null, publicationId)}.condition(r.bookmark)
+                vMenu.asSheetShow()
+            }
+        }
+    }
+
+    private fun removeBookmarkNow(w:Widget?, publicationId: Long){
+        ApiRequestsSupporter.executeProgressDialog(w, RBookmarksRemove(publicationId)) { rr ->
+            EventBus.post(EventPublicationBookmarkChange(publicationId, false))
+            ToolsToast.show(R.string.bookmarks_removed)
+        }
+    }
+
+    private fun addBookmarkNow(w:Widget?, publicationId: Long, folderId:Long){
+        ApiRequestsSupporter.executeProgressDialog(w, RBookmarksAdd(publicationId, folderId)) { r ->
+            EventBus.post(EventPublicationBookmarkChange(publicationId, true))
+            ToolsToast.show(R.string.bookmarks_added)
         }
     }
 

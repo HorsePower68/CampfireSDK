@@ -24,7 +24,7 @@ class SBookmarksFolder constructor(
     init {
         vScreenRoot!!.setBackgroundColor(ToolsResources.getBackgroundColor(context))
         setTitle(folder.name)
-        setTextEmpty(R.string.bookmarks_empty)
+        setTextEmpty(R.string.bookmarks_empty_folder)
         setTextProgress(R.string.bookmarks_loading)
         setBackgroundImage(API_RESOURCES.IMAGE_BACKGROUND_1)
     }

@@ -27,7 +27,6 @@ class SBookmarks constructor() : SLoadingRecycler<CardPublication, Publication>(
         setTitle(R.string.app_bookmarks)
         setTextEmpty(R.string.bookmarks_empty)
         setTextProgress(R.string.bookmarks_loading)
-        setBackgroundImage(API_RESOURCES.IMAGE_BACKGROUND_1)
 
         ControllerStoryQuest.incrQuest(API.QUEST_STORY_BOOKMARKS_SCREEN)
     }

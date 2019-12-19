@@ -1,5 +1,6 @@
 package com.sayzen.campfiresdk.adapters
 
+import android.graphics.Color
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
@@ -59,15 +60,16 @@ class XFandom(
         viewAvatar.setChipText("")
 
         if (showLanguage && languageId != 0L && languageId != ControllerApi.getLanguageId()) {
+            viewAvatar.vChip.setBackgroundColor(ToolsResources.getAccentColor(viewAvatar.context))
             ControllerApi.getIconForLanguage(languageId).setOnLoaded {
                 viewAvatar.vChipIcon.visibility = View.VISIBLE
             }.into(viewAvatar.vChipIcon)
         }else{
-            viewAvatar.vChipIcon.visibility = View.INVISIBLE
+            viewAvatar.vChip.setBackgroundColor(Color.TRANSPARENT)
             viewAvatar.vChipIcon.setImageDrawable(null)
+            viewAvatar.vChipIcon.visibility = View.GONE
         }
 
-        viewAvatar.vChip.setBackgroundColor(ToolsResources.getAccentColor(viewAvatar.context))
         viewAvatar.setOnClickListener { ControllerCampfireSDK.onToFandomClicked(fandomId, languageId, Navigator.TO) }
     }
 
