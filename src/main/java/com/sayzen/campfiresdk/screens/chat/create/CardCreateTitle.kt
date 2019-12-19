@@ -9,7 +9,7 @@ import com.dzen.campfire.api.models.chat.ChatParamsConf
 import com.sayzen.campfiresdk.R
 import com.sup.dev.android.libs.screens.navigator.Navigator
 import com.sup.dev.android.tools.ToolsBitmap
-import com.sup.dev.android.tools.ToolsImagesLoader
+import com.sup.dev.android.libs.image_loader.ImageLoader
 import com.sup.dev.android.tools.ToolsResources
 import com.sup.dev.android.tools.ToolsView
 import com.sup.dev.android.views.cards.Card
@@ -64,7 +64,7 @@ class CardCreateTitle(
         }
 
         if (changeImageId != 0L) {
-            ToolsImagesLoader.load(changeImageId).into(vImage)
+            ImageLoader.load(changeImageId).into(vImage)
             vImageIcon.visibility = View.GONE
         }
 

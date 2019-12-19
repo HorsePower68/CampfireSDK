@@ -1,5 +1,6 @@
 package com.sayzen.campfiresdk.screens.account.stickers
 
+import com.dzen.campfire.api.API_RESOURCES
 import com.dzen.campfire.api.models.publications.stickers.PublicationStickersPack
 import com.dzen.campfire.api.requests.stickers.RStickersSearch
 import com.sayzen.campfiresdk.R
@@ -13,7 +14,7 @@ class SStickersPacksSearch() : SLoadingRecycler<CardStickersPack, PublicationSti
     init {
         setTitle(R.string.app_search)
         setTextEmpty(R.string.stickers_packs_empty)
-        setBackgroundImage(R.drawable.bg_4)
+        setBackgroundImage(API_RESOURCES.IMAGE_BACKGROUND_4)
     }
 
     override fun instanceAdapter(): RecyclerCardAdapterLoading<CardStickersPack, PublicationStickersPack> {

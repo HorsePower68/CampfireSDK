@@ -9,7 +9,7 @@ import com.dzen.campfire.api.models.publications.chat.PublicationChatMessage
 import com.sayzen.campfiresdk.R
 import com.sayzen.campfiresdk.controllers.ControllerApi
 import com.sup.dev.android.libs.screens.navigator.Navigator
-import com.sup.dev.android.tools.ToolsImagesLoader
+import com.sup.dev.android.libs.image_loader.ImageLoader
 import com.sup.dev.android.tools.ToolsView
 import com.sup.dev.android.views.screens.SImageView
 
@@ -40,7 +40,7 @@ class CardChatMessageImage(
 
         vLabelRemoved.tag = publication
         vLabelRemoved.visibility = GONE
-        ToolsImagesLoader.loadGif(publication.resourceId, publication.gifId, publication.imageW, publication.imageH, vImage, vGifProgressBar, 1.7f) {
+        ImageLoader.loadGif(publication.resourceId, publication.gifId, publication.imageW, publication.imageH, vImage, vGifProgressBar, 1.7f) {
             if (vLabelRemoved.tag == publication && publication.dateCreate < ControllerApi.currentTime() - 1000L * 60 * 60 * 24) vLabelRemoved.visibility = VISIBLE
         }
         vImage.setOnClickListener { Navigator.to(SImageView(if (publication.gifId == 0L) publication.resourceId else publication.gifId)) }

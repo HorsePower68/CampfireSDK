@@ -4,7 +4,6 @@ import android.view.View
 import com.dzen.campfire.api.API
 import com.dzen.campfire.api.models.publications.Rate
 import com.sayzen.campfiresdk.R
-import com.sayzen.campfiresdk.controllers.ControllerApi
 import com.sayzen.campfiresdk.controllers.ControllerLinks
 import com.sayzen.campfiresdk.controllers.ControllerPublications
 import com.sayzen.campfiresdk.screens.fandoms.moderation.view.SModerationView
@@ -13,7 +12,7 @@ import com.sayzen.campfiresdk.screens.fandoms.view.SFandom
 import com.sayzen.campfiresdk.screens.post.view.SPost
 import com.sayzen.campfiresdk.screens.account.stickers.SStickersView
 import com.sup.dev.android.libs.screens.navigator.Navigator
-import com.sup.dev.android.tools.ToolsImagesLoader
+import com.sup.dev.android.libs.image_loader.ImageLoader
 import com.sup.dev.android.tools.ToolsResources
 import com.sup.dev.android.views.cards.CardAvatar
 import com.sup.dev.android.views.support.adapters.NotifyItem
@@ -85,10 +84,10 @@ class CardRate(
 
     override fun onBind(vAvatar: ViewAvatarTitle) {
         ControllerLinks.makeLinkable(vAvatar.vTitle)
-        ToolsImagesLoader.load(rate.fandomImageId).into(vAvatar.vAvatar.vImageView)
+        ImageLoader.load(rate.fandomImageId).into(vAvatar.vAvatar.vImageView)
     }
 
     override fun notifyItem() {
-        ToolsImagesLoader.load(rate.fandomImageId).intoCash()
+        ImageLoader.load(rate.fandomImageId).intoCash()
     }
 }

@@ -1,5 +1,6 @@
 package com.sayzen.campfiresdk.screens.account.followers
 
+import com.dzen.campfire.api.API_RESOURCES
 import com.dzen.campfire.api.requests.accounts.RAccountsFollowsGetAll
 import com.dzen.campfire.api.models.account.Account
 import com.sayzen.campfiresdk.R
@@ -31,7 +32,7 @@ class SFollows(
     init {
         addToolbarIcon(ToolsResources.getDrawableAttrId(R.attr.ic_search_24dp)) { Navigator.to(SAccountSearch { SProfile.instance(it.name, Navigator.TO) }) }
         setTextEmpty(if (ControllerApi.isCurrentAccount(xAccount.accountId)) R.string.profile_follows_empty else R.string.profile_follows_empty_another)
-        setBackgroundImage(R.drawable.bg_4)
+        setBackgroundImage(API_RESOURCES.IMAGE_BACKGROUND_4)
         update()
     }
 

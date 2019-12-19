@@ -32,6 +32,7 @@ import com.sup.dev.android.views.views.layouts.LayoutFlow
 import com.sup.dev.android.views.widgets.WidgetChooseImage
 import com.sup.dev.java.classes.Subscription
 import com.dzen.campfire.api.tools.client.Request
+import com.sup.dev.android.libs.image_loader.ImageLoader
 import com.sup.dev.java.libs.eventBus.EventBus
 import com.sup.dev.java.tools.ToolsDate
 import com.sup.dev.java.tools.ToolsText
@@ -136,8 +137,8 @@ class SFandomSuggest(
             updateSearch()
             vImagePlus.visibility = View.GONE
             vImageMiniPlus.visibility = View.GONE
-            ToolsImagesLoader.load(changeFandom.imageTitleId).into(vImage)
-            ToolsImagesLoader.load(changeFandom.imageId).into(vImageMini)
+            ImageLoader.load(changeFandom.imageTitleId).into(vImage)
+            ImageLoader.load(changeFandom.imageId).into(vImageMini)
 
             for (i in 0 until vCategoriesContainer.childCount) {
                 val v = vCategoriesContainer.getChildAt(i) as ViewChip
@@ -265,7 +266,7 @@ class SFandomSuggest(
                     for (fandom in r.fandoms) {
                         val v = ViewChip.instance(context)
                         v.text = fandom.name
-                        ToolsImagesLoader.load(fandom.imageId).into { bytes -> v.setIcon(ToolsBitmap.decode(bytes)) }
+                        ImageLoader.load(fandom.imageId).into { bytes -> v.setIcon(ToolsBitmap.decode(bytes)) }
                         v.setOnClickListener { SFandom.instance(fandom.id, Navigator.TO) }
                         v.setChipBackgroundColorResource(R.color.focus)
                         vFandomsContainer.addView(v)

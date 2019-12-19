@@ -1,6 +1,7 @@
 package com.sayzen.campfiresdk.screens.post.pending
 
 import android.view.View
+import com.dzen.campfire.api.API_RESOURCES
 import com.dzen.campfire.api.models.publications.post.PublicationPost
 import com.dzen.campfire.api.requests.post.RPostPendingGetAll
 import com.sayzen.campfiresdk.R
@@ -19,7 +20,7 @@ class SPending : SLoadingRecycler<CardPost, PublicationPost>() {
         setTitle(R.string.app_pending)
         setTextEmpty(R.string.post_drafts_empty_text)
         setTextProgress(R.string.post_drafts_loading)
-        setBackgroundImage(R.drawable.bg_2)
+        setBackgroundImage(API_RESOURCES.IMAGE_BACKGROUND_2)
 
         (vFab as View).visibility = View.VISIBLE
         vFab.setImageResource(R.drawable.ic_add_white_24dp)

@@ -7,7 +7,7 @@ import com.sayzen.campfiresdk.R
 import com.sayzen.campfiresdk.screens.account.search.SAccountSearch
 import com.sayzen.campfiresdk.tools.ApiRequestsSupporter
 import com.sup.dev.android.libs.screens.navigator.Navigator
-import com.sup.dev.android.tools.ToolsImagesLoader
+import com.sup.dev.android.libs.image_loader.ImageLoader
 import com.sup.dev.android.tools.ToolsToast
 import com.sup.dev.android.views.views.ViewAvatarTitle
 import com.sup.dev.android.views.widgets.Widget
@@ -33,7 +33,7 @@ class WidgetTagsRelayRaceNextUser(
             Navigator.to(SAccountSearch(true, true) {
                 nextAccountId = it.id
                 vUser.setTitle(it.name)
-                ToolsImagesLoader.load(it.imageId).into(vUser.vAvatar.vImageView)
+                ImageLoader.load(it.imageId).into(vUser.vAvatar.vImageView)
                 ToolsThreads.main(true) { asSheetShow() }
             })
         }

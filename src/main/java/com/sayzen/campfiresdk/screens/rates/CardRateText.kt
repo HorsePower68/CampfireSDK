@@ -5,7 +5,7 @@ import android.widget.TextView
 import com.dzen.campfire.api.models.publications.Rate
 import com.sayzen.campfiresdk.R
 import com.sayzen.campfiresdk.adapters.XAccount
-import com.sup.dev.android.tools.ToolsImagesLoader
+import com.sup.dev.android.libs.image_loader.ImageLoader
 import com.sup.dev.android.tools.ToolsResources
 import com.sup.dev.android.views.cards.CardAvatar
 import com.sup.dev.android.views.support.adapters.NotifyItem
@@ -49,6 +49,6 @@ class CardRateText(
     }
 
     override fun notifyItem() {
-        ToolsImagesLoader.load(rate.fandomImageId).intoCash()
+        ImageLoader.load(rate.fandomImageId).intoCash()
     }
 }

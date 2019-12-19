@@ -12,7 +12,7 @@ import com.sayzen.campfiresdk.screens.comments.SComments
 import com.sayzen.campfiresdk.screens.account.stickers.SStickersView
 import com.sayzen.campfiresdk.views.ViewKarma
 import com.sup.dev.android.libs.screens.navigator.Navigator
-import com.sup.dev.android.tools.ToolsImagesLoader
+import com.sup.dev.android.libs.image_loader.ImageLoader
 import com.sup.dev.android.tools.ToolsResources
 import com.sup.dev.android.views.views.ViewAvatarTitle
 import com.sup.dev.java.libs.eventBus.EventBus
@@ -46,7 +46,7 @@ class CardStickersPack(
         vTitle.visibility = if(isShowFullInfo) View.VISIBLE else View.GONE
         vTitle.text = ToolsResources.sCap(R.string.sticker_event_create_stickers_pack, ToolsResources.sex(publication.creatorSex, R.string.he_created, R.string.she_created))
 
-        ToolsImagesLoader.load(publication.imageId).into(vAvatar.vAvatar.vImageView)
+        ImageLoader.load(publication.imageId).into(vAvatar.vAvatar.vImageView)
         vAvatar.setTitle(publication.name)
         vAvatar.setSubtitle(publication.creatorName)
 
@@ -92,7 +92,7 @@ class CardStickersPack(
 
     override fun notifyItem() {
         val publication = xPublication.publication as PublicationStickersPack
-        ToolsImagesLoader.load(publication.imageId).intoCash()
+        ImageLoader.load(publication.imageId).intoCash()
     }
 
 

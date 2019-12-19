@@ -1,12 +1,14 @@
 package com.sayzen.campfiresdk.screens.post.bookmarks
 
 import com.dzen.campfire.api.API
+import com.dzen.campfire.api.API_RESOURCES
 import com.dzen.campfire.api.models.BookmarksFolder
 import com.dzen.campfire.api.requests.bookmarks.RBookmarksGetAll
 import com.sayzen.campfiresdk.models.cards.CardPublication
 import com.dzen.campfire.api.models.publications.Publication
 import com.sayzen.campfiresdk.R
 import com.sayzen.campfiresdk.controllers.ControllerCampfireSDK
+import com.sayzen.campfiresdk.controllers.ControllerSettings
 import com.sayzen.campfiresdk.controllers.ControllerStoryQuest
 import com.sayzen.campfiresdk.models.events.publications.EventPublicationBookmarkChange
 import com.sayzen.campfiresdk.controllers.api
@@ -25,15 +27,18 @@ class SBookmarks constructor() : SLoadingRecycler<CardPublication, Publication>(
         setTitle(R.string.app_bookmarks)
         setTextEmpty(R.string.bookmarks_empty)
         setTextProgress(R.string.bookmarks_loading)
-        setBackgroundImage(R.drawable.bg_1)
+        setBackgroundImage(API_RESOURCES.IMAGE_BACKGROUND_1)
 
         ControllerStoryQuest.incrQuest(API.QUEST_STORY_BOOKMARKS_SCREEN)
     }
 
     override fun instanceAdapter(): RecyclerCardAdapterLoading<CardPublication, Publication> {
-        val adapterX =  RecyclerCardAdapterLoading<CardPublication, Publication>(CardPublication::class) { publication -> CardPublication.instance(publication, vRecycler) }
+        val adapterX = RecyclerCardAdapterLoading<CardPublication, Publication>(CardPublication::class) { publication -> CardPublication.instance(publication, vRecycler) }
                 .setBottomLoader { onLoad, cards ->
-                    RBookmarksGetAll(cards.size.toLong(), "", ControllerCampfireSDK.ROOT_FANDOM_ID, 0, 0)
+
+                    val foldersIds = Array(ControllerSettings.bookmarksFolders.size) { ControllerSettings.bookmarksFolders[it].id }
+
+                    RBookmarksGetAll(cards.size.toLong(), "", ControllerCampfireSDK.ROOT_FANDOM_ID, 0, 0, foldersIds)
                             .onComplete { r -> onLoad.invoke(r.publications) }
                             .onNetworkError { onLoad.invoke(null) }
                             .send(api)
@@ -49,7 +54,7 @@ class SBookmarks constructor() : SLoadingRecycler<CardPublication, Publication>(
     //
 
     private fun onEventUnitBookmarkChange(e: EventPublicationBookmarkChange) {
-        if(adapter == null) return
-        for(c in adapter!!.get(CardPublication::class)) if(c.xPublication.publication.id == e.publicationId) adapter!!.remove(c)
+        if (adapter == null) return
+        for (c in adapter!!.get(CardPublication::class)) if (c.xPublication.publication.id == e.publicationId) adapter!!.remove(c)
     }
 }

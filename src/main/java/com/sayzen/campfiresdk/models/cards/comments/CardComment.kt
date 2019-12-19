@@ -24,12 +24,12 @@ import com.sayzen.campfiresdk.views.ViewKarma
 import com.sayzen.campfiresdk.views.WidgetReactions
 import com.sup.dev.android.app.SupAndroid
 import com.sayzen.campfiresdk.tools.ApiRequestsSupporter
+import com.sup.dev.android.libs.image_loader.ImageLoader
 import com.sup.dev.android.libs.screens.navigator.Navigator
 import com.sup.dev.android.tools.*
 import com.sup.dev.android.views.views.*
 import com.sup.dev.android.views.widgets.WidgetMenu
 import com.sup.dev.java.libs.eventBus.EventBus
-import com.sup.dev.java.tools.ToolsCollections
 import com.sup.dev.java.tools.ToolsDate
 import com.sup.dev.java.tools.ToolsHTML
 
@@ -291,7 +291,7 @@ abstract class CardComment protected constructor(
 
     override fun notifyItem() {
         val publication = xPublication.publication as PublicationComment
-        ToolsImagesLoader.load(publication.creatorImageId).intoCash()
+        ImageLoader.load(publication.creatorImageId).intoCash()
     }
 
     //

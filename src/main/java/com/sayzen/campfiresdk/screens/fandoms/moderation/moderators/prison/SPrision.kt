@@ -1,6 +1,7 @@
 package com.sayzen.campfiresdk.screens.fandoms.moderation.moderators.prison
 
 import com.dzen.campfire.api.API
+import com.dzen.campfire.api.API_RESOURCES
 import com.dzen.campfire.api.models.account.AccountPrison
 import com.dzen.campfire.api.requests.fandoms.RFandomsPrisonGetAll
 import com.dzen.campfire.api.requests.fandoms.RFandomsModerationForgive
@@ -25,7 +26,7 @@ class SPrision(
 ) : SLoadingRecycler<CardAccount, AccountPrison>() {
 
     init {
-        setBackgroundImage(R.drawable.bg_8)
+        setBackgroundImage(API_RESOURCES.IMAGE_BACKGROUND_8)
         setTitle(R.string.moderation_screen_prison)
         setTextEmpty(R.string.moderation_screen_prison_empty)
     }

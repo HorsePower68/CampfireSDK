@@ -2,6 +2,7 @@ package com.sayzen.campfiresdk.screens.fandoms.search
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import android.view.View
+import com.dzen.campfire.api.API_RESOURCES
 import com.dzen.campfire.api.models.fandoms.Fandom
 import com.dzen.campfire.api.requests.fandoms.RFandomsGetAll
 import com.sayzen.campfiresdk.R
@@ -63,7 +64,7 @@ class SFandomsSearch private constructor(
         setTitle(R.string.app_fandoms)
         setTextEmpty(R.string.fandoms_empty)
         setTextProgress(R.string.fandoms_loading)
-        setBackgroundImage(R.drawable.bg_7)
+        setBackgroundImage(API_RESOURCES.IMAGE_BACKGROUND_7)
 
         if(ROOT_CATEGORY_ID > 0) categoryId = ROOT_CATEGORY_ID
 

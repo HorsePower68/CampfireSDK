@@ -26,6 +26,7 @@ import com.sayzen.campfiresdk.screens.account.stickers.SStickersView
 import com.sayzen.campfiresdk.screens.chat.SChat
 import com.sayzen.campfiresdk.screens.post.history.SPublicationHistory
 import com.sup.dev.android.app.SupAndroid
+import com.sup.dev.android.libs.image_loader.ImageLoader
 import com.sup.dev.android.libs.screens.navigator.Navigator
 import com.sup.dev.android.models.EventStyleChanged
 import com.sup.dev.android.tools.*
@@ -397,7 +398,7 @@ abstract class CardChatMessage constructor(
 
     override fun notifyItem() {
         val publication = xPublication.publication as PublicationChatMessage
-        ToolsImagesLoader.load(publication.creatorImageId).intoCash()
+        ImageLoader.load(publication.creatorImageId).intoCash()
     }
 
     //

@@ -1,5 +1,6 @@
 package com.sayzen.campfiresdk.screens.activities.administration.reports
 
+import com.dzen.campfire.api.API_RESOURCES
 import com.sayzen.campfiresdk.R
 import com.dzen.campfire.api.models.account.AccountReports
 import com.dzen.campfire.api.requests.accounts.RAccountsReportsGetAll
@@ -11,7 +12,7 @@ class SAdministrationUserReports(
 ) : SLoadingRecycler<CardUserReport, AccountReports>() {
 
     init {
-        setBackgroundImage(R.drawable.bg_15)
+        setBackgroundImage(API_RESOURCES.IMAGE_BACKGROUND_15)
         setTitle(R.string.administration_user_reports)
         setTextEmpty(R.string.administration_user_reports_empty)
     }

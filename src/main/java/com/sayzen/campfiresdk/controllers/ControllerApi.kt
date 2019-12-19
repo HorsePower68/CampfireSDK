@@ -4,6 +4,7 @@ import android.graphics.Bitmap
 import android.text.Html
 import android.widget.TextView
 import com.dzen.campfire.api.API
+import com.dzen.campfire.api.API_RESOURCES
 import com.dzen.campfire.api.models.ApiInfo
 import com.dzen.campfire.api.models.account.Account
 import com.dzen.campfire.api.models.lvl.LvlInfo
@@ -47,6 +48,8 @@ import com.sup.dev.java.classes.items.Item3
 import com.sup.dev.java.classes.items.ItemNullable
 import com.dzen.campfire.api.tools.client.Request
 import com.dzen.campfire.api.tools.client.TokenProvider
+import com.sup.dev.android.libs.image_loader.ImageLoader
+import com.sup.dev.android.libs.image_loader.ImageLoaderA
 import com.sup.dev.java.libs.debug.err
 import com.sup.dev.java.libs.eventBus.EventBus
 import com.sup.dev.java.libs.json.Json
@@ -191,17 +194,17 @@ object ControllerApi {
 
     fun getLanguage(languageId: Long) = API.getLanguage(languageId)
 
-    fun getIconForLanguage(languageId: Long): Int {
+    fun getIconForLanguage(languageId: Long): ImageLoaderA {
         return when (languageId) {
-            API.LANGUAGE_EN -> R.drawable.icon_flag_en
-            API.LANGUAGE_RU -> R.drawable.icon_flag_ru
-            API.LANGUAGE_PT -> R.drawable.icon_flag_pt
-            API.LANGUAGE_UK -> R.drawable.icon_flag_uk
-            API.LANGUAGE_DE -> R.drawable.icon_flag_de
-            API.LANGUAGE_IT -> R.drawable.icon_flag_it
-            API.LANGUAGE_PL -> R.drawable.icon_flag_pl
-            API.LANGUAGE_FR -> R.drawable.icon_flag_fr
-            else -> R.drawable.icon_flag_world
+            API.LANGUAGE_EN -> ImageLoader.load(API_RESOURCES.FLAG_EN)
+            API.LANGUAGE_RU -> ImageLoader.load(API_RESOURCES.FLAG_RU)
+            API.LANGUAGE_PT -> ImageLoader.load(API_RESOURCES.FLAG_PT)
+            API.LANGUAGE_UK -> ImageLoader.load(API_RESOURCES.FLAG_UK)
+            API.LANGUAGE_DE -> ImageLoader.load(API_RESOURCES.FLAG_DE)
+            API.LANGUAGE_IT -> ImageLoader.load(API_RESOURCES.FLAG_IT)
+            API.LANGUAGE_PL -> ImageLoader.load(API_RESOURCES.FLAG_PL)
+            API.LANGUAGE_FR -> ImageLoader.load(API_RESOURCES.FLAG_FR)
+            else -> ImageLoader.load(API_RESOURCES.FLAG_WORLD)
         }
     }
 

@@ -2,6 +2,7 @@ package com.sayzen.campfiresdk.screens.fandoms.reviews
 
 import android.view.View
 import com.dzen.campfire.api.API
+import com.dzen.campfire.api.API_RESOURCES
 import com.dzen.campfire.api.models.publications.PublicationReview
 import com.dzen.campfire.api.models.publications.Publication
 import com.dzen.campfire.api.requests.fandoms.RFandomsReviewGet
@@ -60,7 +61,7 @@ class SReviews private constructor(
             }
 
     init {
-        setBackgroundImage(R.drawable.bg_12)
+        setBackgroundImage(API_RESOURCES.IMAGE_BACKGROUND_12)
         setTitle(R.string.app_reviews)
         setTextEmpty(R.string.fandom_review_empty)
 

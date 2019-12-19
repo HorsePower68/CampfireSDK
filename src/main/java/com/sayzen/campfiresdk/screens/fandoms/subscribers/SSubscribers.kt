@@ -1,5 +1,6 @@
 package com.sayzen.campfiresdk.screens.fandoms.subscribers
 
+import com.dzen.campfire.api.API_RESOURCES
 import com.dzen.campfire.api.models.account.Account
 import com.dzen.campfire.api.requests.fandoms.RFandomsSubscribersGetAll
 import com.sayzen.campfiresdk.R
@@ -24,7 +25,7 @@ class SSubscribers private constructor(
     }
 
     init {
-        setBackgroundImage(R.drawable.bg_13)
+        setBackgroundImage(API_RESOURCES.IMAGE_BACKGROUND_13)
         setTitle(R.string.app_subscribers)
         setTextEmpty(R.string.fandom_subscribers_empty)
     }

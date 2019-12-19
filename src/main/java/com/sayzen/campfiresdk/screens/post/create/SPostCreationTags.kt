@@ -2,8 +2,10 @@ package com.sayzen.campfiresdk.screens.post.create
 
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.TextView
 import com.dzen.campfire.api.API
+import com.dzen.campfire.api.API_RESOURCES
 import com.dzen.campfire.api.models.activities.UserActivity
 import com.dzen.campfire.api.models.publications.tags.PublicationTag
 import com.dzen.campfire.api.requests.post.RPostGet
@@ -19,6 +21,7 @@ import com.sayzen.campfiresdk.screens.other.rules.SGoogleRules
 import com.sayzen.campfiresdk.screens.post.pending.SPending
 import com.sayzen.campfiresdk.screens.post.view.SPost
 import com.sayzen.campfiresdk.tools.ApiRequestsSupporter
+import com.sup.dev.android.libs.image_loader.ImageLoader
 import com.sup.dev.android.libs.screens.Screen
 import com.sup.dev.android.libs.screens.activity.SActivityTypeBottomNavigation
 import com.sup.dev.android.libs.screens.navigator.NavigationAction
@@ -77,6 +80,7 @@ class SPostCreationTags private constructor(
     private val vMenuContainer: ViewGroup = findViewById(R.id.vMenuContainer)
     private val vParams: View = findViewById(R.id.vParams)
     private val vParamsText: TextView = findViewById(R.id.vParamsText)
+    private val vImage: ImageView = findViewById(R.id.vImage)
 
     private val widgetTagsAdditional = WidgetTagsAdditional(fandomId, language, closed, publicationTag3, presetActivity, nextUserId, vParamsText)
     private val chips = ArrayList<ViewChip>()
@@ -90,7 +94,10 @@ class SPostCreationTags private constructor(
         isSingleInstanceInBackStack = true
 
         if (tags.isNotEmpty()) vMessageContainer.visibility = View.GONE
-        else vMessageContainer.visibility = View.VISIBLE
+        else {
+            vMessageContainer.visibility = View.VISIBLE
+            ImageLoader.load(API_RESOURCES.IMAGE_BACKGROUND_11).noHolder().into(vImage)
+        }
 
         vFab.setOnClickListener { sendPublication() }
         vParams.setOnClickListener { widgetTagsAdditional.asSheetShow() }
@@ -162,7 +169,7 @@ class SPostCreationTags private constructor(
                 chips.add(v)
                 if (t.imageId != 0L) {
                     v.setIcon(R.color.focus)
-                    ToolsImagesLoader.load(t.imageId).into { bytes -> v.setIcon(ToolsBitmap.resize(ToolsBitmap.decode(bytes)!!, 32, 32)) }
+                    ImageLoader.load(t.imageId).into { bytes -> v.setIcon(ToolsBitmap.resize(ToolsBitmap.decode(bytes)!!, 32, 32)) }
                 } else {
                     v.setIcon(null)
                 }

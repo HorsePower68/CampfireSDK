@@ -1,5 +1,6 @@
 package com.sayzen.campfiresdk.screens.account.fandoms
 
+import com.dzen.campfire.api.API_RESOURCES
 import com.dzen.campfire.api.models.fandoms.Fandom
 import com.dzen.campfire.api.requests.fandoms.RFandomsGetAllSubscribed
 import com.sayzen.campfiresdk.R
@@ -15,7 +16,7 @@ class SAcounFandoms(
     init {
         setTitle(R.string.app_fandoms)
         setTextEmpty(R.string.fandoms_empty)
-        setBackgroundImage(R.drawable.bg_4)
+        setBackgroundImage(API_RESOURCES.IMAGE_BACKGROUND_4)
     }
 
     override fun instanceAdapter(): RecyclerCardAdapterLoading<CardFandom, Fandom> {

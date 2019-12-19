@@ -1,15 +1,5 @@
 <resources>
 
-    <attr name="icon_games" format="reference"/>
-    <attr name="icon_anime" format="reference"/>
-    <attr name="icon_youtube" format="reference"/>
-    <attr name="icon_discord" format="reference"/>
-    <attr name="icon_wiki" format="reference"/>
-    <attr name="icon_twitter" format="reference"/>
-    <attr name="icon_vk" format="reference"/>
-    <attr name="icon_steam" format="reference"/>
-    <attr name="icon_app_store" format="reference"/>
-    <attr name="icon_gp" format="reference"/>
     <attr name="ic_access_time_24dp" format="reference"/>
     <attr name="ic_account_balance_24dp" format="reference"/>
     <attr name="ic_account_box_24dp" format="reference"/>
@@ -102,16 +92,6 @@
     <style name="CampfireRootThemeBlack" parent="AppThemeDark">
         <item name="android:statusBarColor">?colorPrimaryDark</item>
         <item name="them_use_navigation_icons_filters">true</item>
-        <item name="icon_games">@drawable/icon_games_white</item>
-        <item name="icon_anime">@drawable/icon_anime_white</item>
-        <item name="icon_youtube">@drawable/icon_youtube_white</item>
-        <item name="icon_discord">@drawable/icon_discord_white</item>
-        <item name="icon_wiki">@drawable/icon_wiki_white</item>
-        <item name="icon_twitter">@drawable/icon_twitter_white</item>
-        <item name="icon_vk">@drawable/icon_vk_white</item>
-        <item name="icon_steam">@drawable/icon_steam_white</item>
-        <item name="icon_gp">@drawable/icon_gp_white</item>
-        <item name="icon_app_store">@drawable/icon_app_store_white</item>
         <item name="ic_access_time_24dp">@drawable/ic_access_time_white_24dp</item>
         <item name="ic_account_balance_24dp">@drawable/ic_account_balance_white_24dp</item>
         <item name="ic_account_box_24dp">@drawable/ic_account_box_white_24dp</item>
@@ -205,16 +185,6 @@
     <style name="CampfireRootThemeWhite" parent="AppThemeLight">
         <item name="android:statusBarColor">?colorPrimaryDark</item>
         <item name="them_use_navigation_icons_filters">true</item>
-        <item name="icon_games">@drawable/icon_games_black</item>
-        <item name="icon_anime">@drawable/icon_anime_black</item>
-        <item name="icon_youtube">@drawable/icon_youtube_black</item>
-        <item name="icon_discord">@drawable/icon_discord_black</item>
-        <item name="icon_wiki">@drawable/icon_wiki_black</item>
-        <item name="icon_twitter">@drawable/icon_twitter_black</item>
-        <item name="icon_vk">@drawable/icon_vk_black</item>
-        <item name="icon_steam">@drawable/icon_steam_black</item>
-        <item name="icon_gp">@drawable/icon_gp_black</item>
-        <item name="icon_app_store">@drawable/icon_app_store_black</item>
         <item name="ic_access_time_24dp">@drawable/ic_access_time_grey_700_24dp</item>
         <item name="ic_account_balance_24dp">@drawable/ic_account_balance_grey_700_24dp</item>
         <item name="ic_account_box_24dp">@drawable/ic_account_box_grey_700_24dp</item>

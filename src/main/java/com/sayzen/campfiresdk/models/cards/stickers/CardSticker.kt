@@ -9,7 +9,7 @@ import com.sayzen.campfiresdk.controllers.ControllerStickers
 import com.sayzen.campfiresdk.models.cards.CardPublication
 import com.sayzen.campfiresdk.screens.account.stickers.SStickersView
 import com.sup.dev.android.libs.screens.navigator.Navigator
-import com.sup.dev.android.tools.ToolsImagesLoader
+import com.sup.dev.android.libs.image_loader.ImageLoader
 import com.sup.dev.android.tools.ToolsResources
 import com.sup.dev.android.tools.ToolsView
 
@@ -50,7 +50,7 @@ class CardSticker(
             vRootContainer.setBackgroundColor(0x00000000)
         }
 
-        ToolsImagesLoader.loadGif(publication.imageId, publication.gifId, 0, 0, vImage, vProgress)
+        ImageLoader.loadGif(publication.imageId, publication.gifId, 0, 0, vImage, vProgress)
     }
 
     override fun updateAccount() {
@@ -80,7 +80,7 @@ class CardSticker(
 
     override fun notifyItem() {
         val publication = xPublication.publication as PublicationSticker
-        ToolsImagesLoader.load(publication.imageId).intoCash()
+        ImageLoader.load(publication.imageId).intoCash()
     }
 
 }

@@ -19,6 +19,7 @@ import com.sayzen.campfiresdk.models.events.fandom.EventFandomChatChanged
 import com.sayzen.campfiresdk.models.events.fandom.EventFandomChatCreated
 import com.sayzen.campfiresdk.screens.chat.SChat
 import com.sayzen.campfiresdk.tools.ApiRequestsSupporter
+import com.sup.dev.android.libs.image_loader.ImageLoader
 import com.sup.dev.android.libs.screens.Screen
 import com.sup.dev.android.libs.screens.navigator.NavigationAction
 import com.sup.dev.android.libs.screens.navigator.Navigator
@@ -76,7 +77,7 @@ class SFandomChatsCreate(
         vName.vField.addTextChangedListener(TextWatcherChanged { update() })
 
         if (imageId > 0) {
-            ToolsImagesLoader.load(imageId).into(vImage)
+            ImageLoader.load(imageId).into(vImage)
             vImageIcon.visibility = View.GONE
             vFinish.text = ToolsResources.s(R.string.app_change)
         }
@@ -116,7 +117,7 @@ class SFandomChatsCreate(
                     } else {
                         ApiRequestsSupporter.executeProgressDialog(RFandomsModerationChatChange(chatId, name, vField.text.toString(), comment, image)) { _ ->
                             ToolsToast.show(R.string.app_done)
-                            ToolsImagesLoader.clear(imageId)
+                            ImageLoader.clear(imageId)
                             Navigator.remove(this)
                             EventBus.post(EventFandomChatChanged(chatId, name, vField.text.toString()))
                         }

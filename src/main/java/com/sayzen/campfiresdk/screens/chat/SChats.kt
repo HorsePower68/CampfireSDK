@@ -1,5 +1,6 @@
 package com.sayzen.campfiresdk.screens.chat
 
+import com.dzen.campfire.api.API_RESOURCES
 import com.dzen.campfire.api.models.notifications.chat.NotificationChatMessage
 import com.dzen.campfire.api.models.publications.chat.Chat
 import com.dzen.campfire.api.models.publications.chat.PublicationChatMessage
@@ -37,7 +38,7 @@ class SChats constructor(
             .subscribe(EventChatNewBottomMessage::class) { reorder(it.chatMessage) }
 
     init {
-        setBackgroundImage(R.drawable.bg_5)
+        setBackgroundImage(API_RESOURCES.IMAGE_BACKGROUND_5)
         setTextEmpty(R.string.chats_empty)
         setTextProgress(R.string.chats_loading)
         setTitle(R.string.app_chats)

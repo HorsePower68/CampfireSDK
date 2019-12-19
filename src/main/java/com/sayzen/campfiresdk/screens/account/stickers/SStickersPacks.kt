@@ -2,6 +2,7 @@ package com.sayzen.campfiresdk.screens.account.stickers
 
 import android.view.View
 import com.dzen.campfire.api.API
+import com.dzen.campfire.api.API_RESOURCES
 import com.dzen.campfire.api.models.publications.stickers.PublicationStickersPack
 import com.dzen.campfire.api.requests.stickers.RStickersPacksGetAllByAccount
 import com.sayzen.campfiresdk.R
@@ -27,7 +28,7 @@ class SStickersPacks(
     init {
         setTitle(R.string.app_stickers)
         setTextEmpty(R.string.stickers_packs_empty)
-        setBackgroundImage(R.drawable.bg_4)
+        setBackgroundImage(API_RESOURCES.IMAGE_BACKGROUND_4)
         if (accountId == ControllerApi.account.id) {
             if(ControllerApi.can(API.LVL_CREATE_STICKERS)) {
                 addToolbarIcon(ToolsResources.getDrawableAttrId(R.attr.ic_add_24dp)) {

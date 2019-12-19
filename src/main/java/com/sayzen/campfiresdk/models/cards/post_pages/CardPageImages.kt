@@ -6,13 +6,11 @@ import com.dzen.campfire.api.models.publications.PagesContainer
 
 import com.dzen.campfire.api.models.publications.post.PageImages
 import com.sayzen.campfiresdk.R
-import com.sayzen.campfiresdk.controllers.ControllerApi
 import com.sayzen.campfiresdk.controllers.ControllerLinks
 import com.sayzen.campfiresdk.controllers.ControllerPost
-import com.sup.dev.android.tools.ToolsImagesLoader
+import com.sup.dev.android.libs.image_loader.ImageLoader
 import com.sup.dev.android.views.views.ViewImagesContainer
 import com.sup.dev.android.views.views.ViewTextLinkable
-import com.sup.dev.java.libs.debug.Debug
 
 class CardPageImages(
         pagesContainer: PagesContainer?,
@@ -60,7 +58,7 @@ class CardPageImages(
 
     override fun notifyItem() {
         for (i in 0 until (page as PageImages).imagesIds.size) {
-            ToolsImagesLoader.load((page as PageImages).imagesIds[i]).intoCash()
+            ImageLoader.load((page as PageImages).imagesIds[i]).intoCash()
         }
     }
 }

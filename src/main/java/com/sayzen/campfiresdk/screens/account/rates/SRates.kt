@@ -1,5 +1,6 @@
 package com.sayzen.campfiresdk.screens.account.rates
 
+import com.dzen.campfire.api.API_RESOURCES
 import com.dzen.campfire.api.models.publications.Rate
 import com.dzen.campfire.api.requests.accounts.RAccountsRatesGetAll
 import com.sayzen.campfiresdk.R
@@ -19,7 +20,7 @@ class SRates(
     private val xAccount = XAccount(accountId, accountName){ update() }
 
     init {
-        setBackgroundImage(R.drawable.bg_21)
+        setBackgroundImage(API_RESOURCES.IMAGE_BACKGROUND_21)
         setTextEmpty(if (ControllerApi.isCurrentAccount(accountId)) R.string.profile_rates_empty else R.string.profile_rates_empty_another)
         update()
     }

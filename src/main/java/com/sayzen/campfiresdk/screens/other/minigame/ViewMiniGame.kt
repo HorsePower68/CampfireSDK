@@ -1,4 +1,4 @@
-package com.sayzen.campfiresdk.screens.other.offline
+package com.sayzen.campfiresdk.screens.other.minigame
 
 import android.content.Context
 import android.graphics.Canvas
@@ -20,14 +20,10 @@ class ViewMiniGame @JvmOverloads constructor(
         attrs: AttributeSet? = null
 ) : FrameLayout(context, attrs) {
 
-    var onFocus = {}
     var onWinHuman = {}
     var onWinRobot = {}
 
-    private var wasToFocusColor = false
-    private val color = ToolsResources.getColor(R.color.focus)
-    private val colorOnFocus = ToolsResources.getColorAttr(R.attr.toolbar_content_color)
-    private var currentColor = color
+    private var currentColor = ToolsResources.getColorAttr(R.attr.toolbar_content_color)
 
 
     private val PLAYER_ROBOT = 1
@@ -43,7 +39,8 @@ class ViewMiniGame @JvmOverloads constructor(
 
     init {
         setWillNotDraw(false)
-        paint.color = color
+        paint.color = currentColor
+        for(i in cells) i. setFilter(currentColor)
         paint.strokeWidth = DP
         for (i in cells.indices) {
             val v = cells[i]
@@ -51,24 +48,11 @@ class ViewMiniGame @JvmOverloads constructor(
             v.setImageDrawable(null)
             v.setPadding(ToolsView.dpToPx(4).toInt(), ToolsView.dpToPx(4).toInt(), ToolsView.dpToPx(4).toInt(), ToolsView.dpToPx(4).toInt())
             v.setOnClickListener {
-                if(wasToFocusColor){
-                    setCell(PLAYER_HUMAN, i)
-                    if (!checkWinFor(i)) pcTurn()
-                }else {
-                    wasToFocusColor = true
-                    toFocusColor()
-                }
+                setCell(PLAYER_HUMAN, i)
+                if (!checkWinFor(i)) pcTurn()
             }
         }
         pcTurn()
-    }
-
-    private fun toFocusColor(){
-        currentColor = colorOnFocus
-        paint.color = currentColor
-        for(i in cells) i. setFilter(currentColor)
-        invalidate()
-        onFocus.invoke()
     }
 
     fun restart() {

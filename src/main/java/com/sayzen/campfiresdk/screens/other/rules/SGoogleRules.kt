@@ -5,15 +5,17 @@ import android.text.Spanned
 import android.text.style.ClickableSpan
 import android.view.View
 import android.widget.CheckBox
+import android.widget.ImageView
 import android.widget.TextView
+import com.dzen.campfire.api.API_RESOURCES
 import com.sayzen.campfiresdk.R
 import com.sayzen.campfiresdk.app.CampfireConstants
-import com.sayzen.campfiresdk.controllers.ControllerCampfireSDK
 import com.sayzen.campfiresdk.controllers.ControllerLinks
 import com.sayzen.campfiresdk.controllers.ControllerSettings
 import com.sup.dev.android.libs.screens.Screen
 import com.sup.dev.android.libs.screens.navigator.NavigationAction
 import com.sup.dev.android.libs.screens.navigator.Navigator
+import com.sup.dev.android.libs.image_loader.ImageLoader
 import com.sup.dev.android.tools.ToolsIntent
 import com.sup.dev.android.tools.ToolsResources
 import com.sup.dev.android.tools.ToolsView
@@ -96,6 +98,7 @@ class SGoogleRules(
     private val vText: ViewTextLinkable = findViewById(R.id.vText)
     private val vButton: TextView = findViewById(R.id.vButton)
     private val vCheck: CheckBox = findViewById(R.id.vCheck)
+    private val vImage: ImageView = findViewById(R.id.vImage)
 
     init {
         activityRootBackground = ToolsResources.getColorAttr(R.attr.colorPrimary)
@@ -109,6 +112,7 @@ class SGoogleRules(
         vButton.isEnabled = false
         vCheck.setOnCheckedChangeListener { _, b -> vButton.isEnabled = b }
         ToolsView.makeLinksClickable(vText)
+        ImageLoader.load(API_RESOURCES.IMAGE_BACKGROUND_14).noHolder().into(vImage)
     }
 
 

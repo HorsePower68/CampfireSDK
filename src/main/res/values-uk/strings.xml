@@ -362,8 +362,8 @@
     <string name="notification_activities_relay_race_turn_from_system">Вам передана эстафета "%s" в фэндоме %s</string>
     <string name="notification_activities_relay_race_lost">Вы не успели создать пост для эстафеты "%s".</string>
     <string name="notification_activities_relay_race_lost_with_new">Вы не успели создать пост для эстафеты "%s". Эстафета передана %s.</string>
-    <string name="notification_activities_relay_race_rejected">%s %s от эстафеты "%s".</string>
-    <string name="notification_activities_relay_race_rejected_with_new">%s %s от эстафеты "%s". Эстафета передана %s</string>
+    <string name="notification_activities_relay_race_rejected">%s %s эстафету "%s".</string>
+    <string name="notification_activities_relay_race_rejected_with_new">%s %s эстафету "%s". Эстафета передана %s</string>
     <string name="notification_activities_relay_race_new_post">В эстафете "%s" появился новый пост.</string>
     <string name="notification_quest_finish">Ежедневное задание завершено</string>
     <string name="notification_rubric_change_name">%s %s название рубрики с %s на %s</string>

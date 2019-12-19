@@ -2,6 +2,7 @@ package com.sayzen.campfiresdk.screens.notifications
 
 import android.view.View
 import com.dzen.campfire.api.API
+import com.dzen.campfire.api.API_RESOURCES
 import com.dzen.campfire.api.models.notifications.Notification
 import com.dzen.campfire.api.requests.accounts.RAccountsNotificationsGetAll
 import com.dzen.campfire.api.requests.accounts.RAccountsNotificationsView
@@ -49,7 +50,7 @@ class SNotifications private constructor() : SLoadingRecycler<CardNotification, 
         setTitle(R.string.app_notifications)
         setTextEmpty(R.string.notifications_empty)
         setTextProgress(R.string.notifications_loading)
-        setBackgroundImage(R.drawable.bg_6)
+        setBackgroundImage(API_RESOURCES.IMAGE_BACKGROUND_6)
         vFab.setImageResource(R.drawable.ic_done_all_white_24dp)
         vFab.setOnClickListener {
             ControllerNotifications.removeNotificationFromNewAll()

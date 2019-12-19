@@ -25,7 +25,7 @@ import com.sayzen.campfiresdk.controllers.ControllerNotifications
 import com.sayzen.campfiresdk.models.events.notifications.EventNotificationsCountChanged
 import com.sayzen.campfiresdk.screens.fandoms.view.SFandom
 import com.sup.dev.android.libs.screens.navigator.Navigator
-import com.sup.dev.android.tools.ToolsImagesLoader
+import com.sup.dev.android.libs.image_loader.ImageLoader
 import com.sup.dev.android.tools.ToolsResources
 import com.sup.dev.android.tools.ToolsView
 import com.sup.dev.android.views.cards.CardAvatar
@@ -108,7 +108,7 @@ class CardNotification(
 
         vAvatar.vAvatar.vChip.setBackgroundColor(ToolsResources.getAccentColor(vAvatar.context))
         if (notification.imageId > 0)
-            ToolsImagesLoader.load(notification.imageId).into(vAvatar.vAvatar.vImageView)
+            ImageLoader.load(notification.imageId).into(vAvatar.vAvatar.vImageView)
         else
             vAvatar.vAvatar.setImage(R.drawable.logo_campfire_128x128)
 
@@ -121,6 +121,6 @@ class CardNotification(
     }
 
     override fun notifyItem() {
-        if (notification.imageId > 0) ToolsImagesLoader.load(notification.imageId).intoCash()
+        if (notification.imageId > 0) ImageLoader.load(notification.imageId).intoCash()
     }
 }

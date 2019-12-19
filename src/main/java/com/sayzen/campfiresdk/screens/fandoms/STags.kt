@@ -3,8 +3,10 @@ package com.sayzen.campfiresdk.screens.fandoms
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.TextView
 import com.dzen.campfire.api.API
+import com.dzen.campfire.api.API_RESOURCES
 import com.dzen.campfire.api.models.publications.tags.PublicationTag
 import com.dzen.campfire.api.requests.tags.RTagsGetAll
 import com.sayzen.campfiresdk.screens.fandoms.tags.WidgetTagCreate
@@ -20,7 +22,7 @@ import com.sup.dev.android.libs.screens.Screen
 import com.sup.dev.android.libs.screens.navigator.NavigationAction
 import com.sup.dev.android.libs.screens.navigator.Navigator
 import com.sup.dev.android.tools.ToolsBitmap
-import com.sup.dev.android.tools.ToolsImagesLoader
+import com.sup.dev.android.libs.image_loader.ImageLoader
 import com.sup.dev.android.tools.ToolsToast
 import com.sup.dev.android.tools.ToolsView
 import com.sup.dev.android.views.views.ViewChip
@@ -53,6 +55,7 @@ class STags private constructor(
     private val vFab: FloatingActionButton = findViewById(R.id.vFab)
     private val vContainer: ViewGroup = findViewById(R.id.vTagsContainer)
     private val vMessageContainer: View = findViewById(R.id.vMessageContainer)
+    private val vImage: ImageView= findViewById(R.id.vImage)
     private val tags: Array<TagParent>
 
     init {
@@ -63,7 +66,10 @@ class STags private constructor(
         tags = ControllerPublications.parseTags(tagsOriginal)
 
         if (tags.isNotEmpty()) vMessageContainer.visibility = View.GONE
-        else vMessageContainer.visibility = View.VISIBLE
+        else {
+            vMessageContainer.visibility = View.VISIBLE
+            ImageLoader.load(API_RESOURCES.IMAGE_BACKGROUND_11).noHolder().into(vImage)
+        }
 
         for (tag in tags) {
 
@@ -86,7 +92,7 @@ class STags private constructor(
                 ControllerPublications.createTagMenu(v, t, tags)
                 if (t.imageId != 0L) {
                     v.setIcon(R.color.focus)
-                    ToolsImagesLoader.load(t.imageId).into { bytes -> v.setIcon(ToolsBitmap.resize(ToolsBitmap.decode(bytes)!!, 32, 32)) }
+                    ImageLoader.load(t.imageId).into { bytes -> v.setIcon(ToolsBitmap.resize(ToolsBitmap.decode(bytes)!!, 32, 32)) }
                 }else{
                     v.setIcon(null)
                 }

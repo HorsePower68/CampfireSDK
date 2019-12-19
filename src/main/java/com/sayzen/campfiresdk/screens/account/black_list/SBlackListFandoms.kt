@@ -1,5 +1,6 @@
 package com.sayzen.campfiresdk.screens.account.black_list
 
+import com.dzen.campfire.api.API_RESOURCES
 import com.dzen.campfire.api.models.fandoms.Fandom
 import com.dzen.campfire.api.requests.accounts.RAccountsGetIgnoredFandoms
 import com.dzen.campfire.api.requests.fandoms.RFandomsGetAllById
@@ -40,7 +41,7 @@ class SBlackListFandoms(
     init {
         setTitle(R.string.settings_black_list_fandoms)
         setTextEmpty(R.string.settings_black_list_empty)
-        setBackgroundImage(R.drawable.bg_22)
+        setBackgroundImage(API_RESOURCES.IMAGE_BACKGROUND_22)
     }
 
     override fun reload() {

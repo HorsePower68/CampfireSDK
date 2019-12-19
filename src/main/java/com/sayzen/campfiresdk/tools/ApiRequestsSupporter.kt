@@ -16,6 +16,7 @@ import com.sup.dev.java.tools.ToolsDate
 
 object ApiRequestsSupporter {
 
+    var USE_ID_RESOURCES = false
 
     private var api: ApiClient? = null
 

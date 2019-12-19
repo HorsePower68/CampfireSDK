@@ -7,7 +7,7 @@ import android.widget.TextView
 import com.sayzen.campfiresdk.R
 import com.sayzen.campfiresdk.controllers.ControllerApi
 import com.sup.dev.android.libs.screens.Screen
-import com.sup.dev.android.tools.ToolsImagesLoader
+import com.sup.dev.android.libs.image_loader.ImageLoader
 import com.sup.dev.android.tools.ToolsResources
 import com.sup.dev.android.tools.ToolsView
 
@@ -54,7 +54,7 @@ abstract class SQuest : Screen(R.layout.screen_quest) {
     fun setQuestItemNoAnimation(item: QuestItem) {
         this.currentItem = item
 
-        ToolsImagesLoader.load(item.imageId).into(vTitleImage)
+        ImageLoader.load(item.imageId).into(vTitleImage)
 
         vLabel.text = parseText(item.label)
 

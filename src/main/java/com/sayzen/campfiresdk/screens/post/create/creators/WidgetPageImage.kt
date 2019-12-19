@@ -16,6 +16,7 @@ import com.sup.dev.java.tools.ToolsBytes
 import com.sup.dev.java.tools.ToolsThreads
 import com.sayzen.campfiresdk.models.cards.post_pages.CardPage
 import com.sayzen.campfiresdk.models.cards.post_pages.CardPageImages
+import com.sup.dev.android.libs.image_loader.ImageLoader
 import com.sup.dev.android.libs.screens.Screen
 import com.sup.dev.android.tools.*
 import com.sup.dev.android.views.widgets.WidgetAlert
@@ -82,11 +83,11 @@ class WidgetPageImage(
                    requestChangePage: (page: Page, card: CardPage, screen: Screen?, widget: Widget?, (Page) -> Unit) -> Unit,
                    card: CardPage) {
             if ((page as PageImage).gifId != 0L) {
-                ToolsImagesLoader.load(page.gifId).into { bytes ->
+                ImageLoader.load(page.gifId).into { bytes ->
                     parseChangeBytes(bytes, requestPutPage, requestChangePage, card)
                 }
             } else {
-                ToolsImagesLoader.load(page.imageId).into { bytes ->
+                ImageLoader.load(page.imageId).into { bytes ->
                     parseChangeBytes(bytes, requestPutPage, requestChangePage, card)
                 }
             }

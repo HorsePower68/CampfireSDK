@@ -22,7 +22,7 @@ import com.sayzen.campfiresdk.models.events.notifications.EventNotification
 import com.sayzen.campfiresdk.screens.chat.SChat
 import com.sayzen.campfiresdk.screens.chat.create.SChatCreate
 import com.sup.dev.android.libs.screens.navigator.Navigator
-import com.sup.dev.android.tools.ToolsImagesLoader
+import com.sup.dev.android.libs.image_loader.ImageLoader
 import com.sup.dev.android.tools.ToolsResources
 import com.sup.dev.android.views.cards.Card
 import com.sup.dev.android.views.views.ViewAvatarTitle
@@ -94,7 +94,7 @@ class CardChat(
             xAccount.setView(vAvatar.vAvatar)
             vAvatar.vAvatar.vChip.visibility = View.VISIBLE
         } else {
-            ToolsImagesLoader.load(chat.anotherAccountImageId).into(vAvatar.vAvatar.vImageView)
+            ImageLoader.load(chat.anotherAccountImageId).into(vAvatar.vAvatar.vImageView)
             vAvatar.setTitle(chat.anotherAccountName)
             vAvatar.vAvatar.setOnClickListener { SChatCreate.instance(chat.tag.targetId, Navigator.TO) }
             vAvatar.vAvatar.vChip.visibility = View.GONE

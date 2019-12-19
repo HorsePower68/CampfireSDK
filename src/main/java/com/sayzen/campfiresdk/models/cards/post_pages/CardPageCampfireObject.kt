@@ -14,7 +14,7 @@ import com.sayzen.campfiresdk.screens.fandoms.view.SFandom
 import com.sayzen.campfiresdk.screens.post.view.SPost
 import com.sayzen.campfiresdk.screens.account.stickers.SStickersView
 import com.sup.dev.android.libs.screens.navigator.Navigator
-import com.sup.dev.android.tools.ToolsImagesLoader
+import com.sup.dev.android.libs.image_loader.ImageLoader
 import com.sup.dev.android.views.views.ViewAvatarTitle
 
 class CardPageCampfireObject(
@@ -38,7 +38,7 @@ class CardPageCampfireObject(
             if (vAvatar.tag == this) {
                 vAvatar.setTitle(title)
                 vAvatar.setSubtitle(subtitle)
-                if (imageId > 0) ToolsImagesLoader.load(imageId).into(vAvatar.vAvatar.vImageView)
+                if (imageId > 0) ImageLoader.load(imageId).into(vAvatar.vAvatar.vImageView)
                 else vAvatar.vAvatar.vImageView.setImageResource(R.color.focus)
             }
         }

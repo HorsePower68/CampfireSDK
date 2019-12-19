@@ -8,6 +8,7 @@ import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
 import com.dzen.campfire.api.API
+import com.dzen.campfire.api.API_RESOURCES
 import com.dzen.campfire.api.models.chat.ChatTag
 import com.dzen.campfire.api.models.notifications.chat.NotificationChatAnswer
 import com.dzen.campfire.api.models.notifications.chat.NotificationChatMessage
@@ -38,6 +39,7 @@ import com.sup.dev.android.views.views.ViewAvatarTitle
 import com.sup.dev.android.views.views.ViewIcon
 import com.sup.dev.android.views.widgets.WidgetAlert
 import com.dzen.campfire.api.tools.client.ApiClient
+import com.sup.dev.android.libs.image_loader.ImageLoader
 import com.sup.dev.java.libs.eventBus.EventBus
 import com.sup.dev.java.libs.json.Json
 import com.sup.dev.java.tools.*
@@ -141,7 +143,7 @@ class SChat private constructor(
             ControllerChats.instanceChatPopup(tag, chatParams, chatImageId, memberStatus) { Navigator.remove(this) }.asSheetShow()
         }
 
-        setBackgroundImage(R.drawable.bg_5)
+        setBackgroundImage(API_RESOURCES.IMAGE_BACKGROUND_5)
         setTextEmpty(if (tag.chatType == API.CHAT_TYPE_FANDOM_ROOT) R.string.chat_empty_fandom else R.string.chat_empty_private)
         setTextProgress(R.string.chat_loading)
 
@@ -202,7 +204,7 @@ class SChat private constructor(
                 vAvatarTitle.vSubtitle.setTextColor(ToolsResources.getColor(R.color.green_700))
             }
         } else {
-            ToolsImagesLoader.load(chatImageId).into(vAvatarTitle.vAvatar.vImageView)
+            ImageLoader.load(chatImageId).into(vAvatarTitle.vAvatar.vImageView)
             vAvatarTitle.vSubtitle.setTextColor(ToolsResources.getColor(R.color.grey_500))
             vAvatarTitle.setSubtitle(ToolsResources.s(R.string.app_subscribers) + ": $chatInfo_1")
             vAvatarTitle.setTitle(chatName)
@@ -216,7 +218,7 @@ class SChat private constructor(
     private fun updateBackground() {
         if (chatBackgroundImageId > 0 && ControllerSettings.fandomBackground) {
             vFandomBackground.visibility = View.VISIBLE
-            ToolsImagesLoader.load(chatBackgroundImageId).holder(0x00000000).into(vFandomBackground)
+            ImageLoader.load(chatBackgroundImageId).holder(0x00000000).into(vFandomBackground)
             vFandomBackground.setColorFilter(ToolsColor.setAlpha(210, ToolsResources.getColorAttr(R.attr.window_background)))
         } else {
             vFandomBackground.setImageBitmap(null)

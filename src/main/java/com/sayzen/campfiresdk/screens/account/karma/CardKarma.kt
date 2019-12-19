@@ -5,11 +5,10 @@ import android.widget.TextView
 import com.dzen.campfire.api.models.fandoms.KarmaInFandom
 import com.sayzen.campfiresdk.R
 import com.sayzen.campfiresdk.adapters.XFandom
-import com.sayzen.campfiresdk.controllers.ControllerApi
 import com.sayzen.campfiresdk.controllers.ControllerLinks
 import com.sayzen.campfiresdk.screens.fandoms.view.SFandom
 import com.sup.dev.android.libs.screens.navigator.Navigator
-import com.sup.dev.android.tools.ToolsImagesLoader
+import com.sup.dev.android.libs.image_loader.ImageLoader
 import com.sup.dev.android.tools.ToolsResources
 import com.sup.dev.android.views.cards.CardAvatar
 import com.sup.dev.android.views.support.adapters.NotifyItem
@@ -39,10 +38,10 @@ class CardKarma(
     override fun onBind(vAvatar: ViewAvatarTitle) {
         xFandom.setView(vAvatar)
         ControllerLinks.makeLinkable(vAvatar.vTitle)
-        ToolsImagesLoader.load(karma.fandomImageId).into(vAvatar.vAvatar.vImageView)
+        ImageLoader.load(karma.fandomImageId).into(vAvatar.vAvatar.vImageView)
     }
 
     override fun notifyItem() {
-        ToolsImagesLoader.load(karma.fandomImageId).intoCash()
+        ImageLoader.load(karma.fandomImageId).intoCash()
     }
 }

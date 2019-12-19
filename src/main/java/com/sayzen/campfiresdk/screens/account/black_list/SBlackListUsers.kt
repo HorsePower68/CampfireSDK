@@ -1,5 +1,6 @@
 package com.sayzen.campfiresdk.screens.account.black_list
 
+import com.dzen.campfire.api.API_RESOURCES
 import com.dzen.campfire.api.models.account.Account
 import com.dzen.campfire.api.models.account.AccountSettings
 import com.dzen.campfire.api.requests.accounts.RAccountsBlackListGetAll
@@ -26,7 +27,7 @@ class SBlackListUsers(
     init {
         setTitle(R.string.settings_black_list_users)
         setTextEmpty(R.string.settings_black_list_empty)
-        setBackgroundImage(R.drawable.bg_22)
+        setBackgroundImage(API_RESOURCES.IMAGE_BACKGROUND_22)
     }
 
     override fun instanceAdapter(): RecyclerCardAdapterLoading<CardAccount, Account> {

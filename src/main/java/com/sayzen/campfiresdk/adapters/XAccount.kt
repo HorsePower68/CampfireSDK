@@ -18,7 +18,7 @@ import com.sayzen.campfiresdk.models.events.account.EventAccountChanged
 import com.sayzen.campfiresdk.models.events.account.EventAccountOnlineChanged
 import com.sayzen.campfiresdk.models.events.notifications.EventNotification
 import com.sup.dev.android.libs.screens.navigator.Navigator
-import com.sup.dev.android.tools.ToolsImagesLoader
+import com.sup.dev.android.libs.image_loader.ImageLoader
 import com.sup.dev.android.views.views.ViewAvatar
 import com.sup.dev.android.views.views.ViewAvatarTitle
 import com.sup.dev.android.views.views.ViewChipMini
@@ -99,7 +99,7 @@ class XAccount(
     }
 
     init {
-        ToolsImagesLoader.load(imageId).intoCash()
+        ImageLoader.load(imageId).intoCash()
     }
 
     fun setView(viewAvatar: ViewAvatar) {
@@ -128,7 +128,7 @@ class XAccount(
 
     fun setViewBig(vImage: ImageView) {
         if (titleImageId != 0L) {
-            ToolsImagesLoader.loadGif(titleImageId, titleImageGifId, 0, 0, vImage, null)
+            ImageLoader.loadGif(titleImageId, titleImageGifId, 0, 0, vImage, null)
         } else vImage.setImageBitmap(null)
     }
 
@@ -136,11 +136,11 @@ class XAccount(
         val holidayImage = ControllerHoliday.getAvatar(accountId, lvl, karma30)
         if(holidayImage != null){
             val background = ControllerHoliday.getBackground(accountId)
-            ToolsImagesLoader.load(holidayImage).into(vImage)
+            ImageLoader.load(holidayImage).into(vImage)
             if(background != null) vImage.setBackgroundColor(background)
         }else{
 
-            ToolsImagesLoader.load(imageId).into(vImage)
+            ImageLoader.load(imageId).into(vImage)
         }
     }
 

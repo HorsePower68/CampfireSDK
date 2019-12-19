@@ -2,6 +2,7 @@ package com.sayzen.campfiresdk.screens.post.drafts
 
 import android.view.View
 import com.dzen.campfire.api.API
+import com.dzen.campfire.api.API_RESOURCES
 import com.dzen.campfire.api.models.publications.Publication
 import com.dzen.campfire.api.models.publications.post.PublicationPost
 import com.dzen.campfire.api.requests.fandoms.RFandomsGet
@@ -37,7 +38,7 @@ class SDrafts constructor(
         setTitle(R.string.app_drafts)
         setTextEmpty(R.string.post_drafts_empty_text)
         setTextProgress(R.string.post_drafts_loading)
-        setBackgroundImage(R.drawable.bg_2)
+        setBackgroundImage(API_RESOURCES.IMAGE_BACKGROUND_2)
 
         addToolbarIcon(ToolsResources.getDrawableAttr(R.attr.ic_more_vert_24dp)!!) { view ->
             WidgetMenu()

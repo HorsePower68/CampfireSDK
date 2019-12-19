@@ -1,9 +1,16 @@
 package com.sayzen.campfiresdk.screens.fandoms.view
 
 
+import android.graphics.Color
 import android.widget.Button
 import com.dzen.campfire.api.API
+import com.dzen.campfire.api.API_RESOURCES
 import com.sayzen.campfiresdk.R
+import com.sayzen.campfiresdk.controllers.ControllerApi
+import com.sayzen.campfiresdk.controllers.ControllerSettings
+import com.sayzen.campfiresdk.controllers.notifications.ControllerApp
+import com.sup.dev.android.libs.image_loader.ImageLoader
+import com.sup.dev.android.tools.ToolsResources
 import com.sup.dev.android.views.settings.SettingsField
 import com.sup.dev.android.views.views.ViewIcon
 import com.sup.dev.android.views.widgets.Widget
@@ -51,6 +58,15 @@ internal class WidgetLink(
         vIcon_6.setOnClickListener { setSelectedIcon(6L) }
         vIcon_7.setOnClickListener { setSelectedIcon(7L) }
         vIcon_8.setOnClickListener { setSelectedIcon(8L) }
+
+        ImageLoader.load(if (ControllerApp.isDarkThem()) API_RESOURCES.ICON_YOUTUBE_WHITE else API_RESOURCES.ICON_YOUTUBE_BLACK).into(vIcon_1)
+        ImageLoader.load(if (ControllerApp.isDarkThem()) API_RESOURCES.ICON_DISCORD_WHITE else API_RESOURCES.ICON_DISCORD_BLACK).into(vIcon_2)
+        ImageLoader.load(if (ControllerApp.isDarkThem()) API_RESOURCES.ICON_WIKI_WHITE else API_RESOURCES.ICON_WIKI_BLACK).into(vIcon_3)
+        ImageLoader.load(if (ControllerApp.isDarkThem()) API_RESOURCES.ICON_TWITTER_WHITE else API_RESOURCES.ICON_TWITTER_BLACK).into(vIcon_4)
+        ImageLoader.load(if (ControllerApp.isDarkThem()) API_RESOURCES.ICON_STEAM_WHITE else API_RESOURCES.ICON_STEAM_BLACK).into(vIcon_5)
+        ImageLoader.load(if (ControllerApp.isDarkThem()) API_RESOURCES.ICON_GOOGLE_PLAY_WHITE else API_RESOURCES.ICON_GOOGLE_PLAY_BLACK).into(vIcon_6)
+        ImageLoader.load(if (ControllerApp.isDarkThem()) API_RESOURCES.ICON_APPSTORE_WHITE else API_RESOURCES.ICON_APPSTORE_BLACK).into(vIcon_7)
+        ImageLoader.load(API_RESOURCES.ICON_CAMPFIRE).into(vIcon_8)
 
         updateFinishEnabled()
     }

@@ -1,5 +1,6 @@
 package com.sayzen.campfiresdk.screens.account.karma
 
+import com.dzen.campfire.api.API_RESOURCES
 import com.dzen.campfire.api.models.fandoms.KarmaInFandom
 import com.dzen.campfire.api.requests.accounts.RAccountsKarmaInFandomsGetAll
 import com.sayzen.campfiresdk.R
@@ -18,7 +19,7 @@ class ScreenAccountKarma(
     private val xAccount = XAccount(accountId, accountName){ update() }
 
     init {
-        setBackgroundImage(R.drawable.bg_9)
+        setBackgroundImage(API_RESOURCES.IMAGE_BACKGROUND_9)
         setTextEmpty(if (ControllerApi.isCurrentAccount(accountId)) R.string.profile_karma_empty else R.string.profile_karma_empty_another)
         update()
     }

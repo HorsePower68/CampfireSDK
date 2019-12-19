@@ -1,5 +1,6 @@
 package com.sayzen.campfiresdk.screens.post.history
 
+import com.dzen.campfire.api.API_RESOURCES
 import com.dzen.campfire.api.models.publications.history.HistoryPublication
 import com.dzen.campfire.api.requests.publications.RPublicationsHistoryGetAll
 import com.sayzen.campfiresdk.R
@@ -15,7 +16,7 @@ class SPublicationHistory(
     init {
         setTitle(R.string.app_history)
         setTextEmpty(R.string.app_empty)
-        setBackgroundImage(R.drawable.bg_4)
+        setBackgroundImage(API_RESOURCES.IMAGE_BACKGROUND_4)
     }
 
     override fun instanceAdapter(): RecyclerCardAdapterLoading<CardHistoryUnit, HistoryPublication> {

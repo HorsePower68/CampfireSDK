@@ -20,8 +20,8 @@ public class NotificationActivitiesRelayRejectedParser(override val n: Notificat
 
     override fun asString(html: Boolean): String {
         if (n.newAccountId > 0)
-            return ToolsResources.sCap(R.string.notification_activities_relay_race_rejected_with_new, ControllerLinks.linkToAccount(n.rejectedAccountName), ToolsResources.sex(n.rejectedAccountSex, R.string.he_reject, R.string.she_reject), n.activityName, ControllerLinks.linkToAccount(n.newAccountName))
-        return ToolsResources.sCap(R.string.notification_activities_relay_race_rejected, ControllerLinks.linkToAccount(n.rejectedAccountName), ToolsResources.sex(n.rejectedAccountSex, R.string.he_reject, R.string.she_reject), n.activityName)
+            return ToolsResources.sCap(R.string.notification_activities_relay_race_rejected_with_new, "@${n.rejectedAccountName}", ToolsResources.sex(n.rejectedAccountSex, R.string.he_reject, R.string.she_reject), n.activityName, ControllerLinks.linkToAccount(n.newAccountName))
+        return ToolsResources.sCap(R.string.notification_activities_relay_race_rejected, "@${n.rejectedAccountName}", ToolsResources.sex(n.rejectedAccountSex, R.string.he_reject, R.string.she_reject), n.activityName)
     }
 
     override fun getTitle() = ToolsResources.s(R.string.app_relay_race)

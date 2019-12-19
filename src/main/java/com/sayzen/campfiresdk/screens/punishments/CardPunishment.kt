@@ -13,7 +13,7 @@ import com.sayzen.campfiresdk.models.events.account.EventAccountPunishmentRemove
 import com.sayzen.campfiresdk.screens.fandoms.view.SFandom
 import com.sayzen.campfiresdk.tools.ApiRequestsSupporter
 import com.sup.dev.android.libs.screens.navigator.Navigator
-import com.sup.dev.android.tools.ToolsImagesLoader
+import com.sup.dev.android.libs.image_loader.ImageLoader
 import com.sup.dev.android.tools.ToolsResources
 import com.sup.dev.android.tools.ToolsToast
 import com.sup.dev.android.tools.ToolsView
@@ -77,8 +77,8 @@ class CardPunishment(
     override fun onBind(vAvatar: ViewAvatarTitle) {
         ControllerLinks.makeLinkable(vAvatar.vTitle)
 
-        if (punishment.fandomImageId > 0) ToolsImagesLoader.load(punishment.fandomImageId).into(vAvatar.vAvatar.vImageView)
-        else ToolsImagesLoader.load(punishment.fromAccountImageId).into(vAvatar.vAvatar.vImageView)
+        if (punishment.fandomImageId > 0) ImageLoader.load(punishment.fandomImageId).into(vAvatar.vAvatar.vImageView)
+        else ImageLoader.load(punishment.fromAccountImageId).into(vAvatar.vAvatar.vImageView)
 
         if (punishment.fandomId != 0L) {
             ToolsView.addLink(vAvatar.vTitle, punishment.fandomName) { SFandom.instance(punishment.fandomId, punishment.languageId, Navigator.TO) }
@@ -86,8 +86,8 @@ class CardPunishment(
     }
 
     override fun notifyItem() {
-        if (punishment.fandomImageId > 0) ToolsImagesLoader.load(punishment.fandomImageId).intoCash()
-        else ToolsImagesLoader.load(punishment.fromAccountImageId).intoCash()
+        if (punishment.fandomImageId > 0) ImageLoader.load(punishment.fandomImageId).intoCash()
+        else ImageLoader.load(punishment.fromAccountImageId).intoCash()
     }
 
     //

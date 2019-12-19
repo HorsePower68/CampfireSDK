@@ -1,5 +1,6 @@
 package com.sayzen.campfiresdk.screens.activities.administration.reports
 
+import com.dzen.campfire.api.API_RESOURCES
 import com.sayzen.campfiresdk.R
 import com.dzen.campfire.api.models.publications.Publication
 import com.dzen.campfire.api.requests.publications.RPublicationsReportedGetAll
@@ -24,7 +25,7 @@ class SAdministrationReports : SLoadingRecycler<CardPublication, Publication>() 
 
     init {
         vScreenRoot?.setBackgroundColor(ToolsResources.getBackgroundColor(context))
-        setBackgroundImage(R.drawable.bg_15)
+        setBackgroundImage(API_RESOURCES.IMAGE_BACKGROUND_15)
         setTitle(R.string.moderation_screen_reports)
         setTextEmpty(R.string.moderation_screen_reports_empty)
         addToolbarIcon(ToolsResources.getDrawableAttrId(R.attr.ic_translate_24dp)){

@@ -25,7 +25,7 @@ import com.sayzen.campfiresdk.tools.ApiRequestsSupporter
 import com.sup.dev.android.libs.screens.Screen
 import com.sup.dev.android.libs.screens.navigator.NavigationAction
 import com.sup.dev.android.libs.screens.navigator.Navigator
-import com.sup.dev.android.tools.ToolsImagesLoader
+import com.sup.dev.android.libs.image_loader.ImageLoader
 import com.sup.dev.android.views.support.adapters.recycler_view.RecyclerCardAdapter
 import com.sup.dev.java.libs.eventBus.EventBus
 
@@ -68,8 +68,8 @@ class SWikiArticleView(
 
     init {
         vToolbarCollapsingShadow.background = GradientDrawable(GradientDrawable.Orientation.TOP_BOTTOM, intArrayOf(0x60000000, 0x00000000))
-        ToolsImagesLoader.loadGif(wikiTitle.imageId, 0, 0, 0, vAvatar)
-        ToolsImagesLoader.loadGif(wikiTitle.imageBigId, 0, 0, 0, vImageTitle)
+        ImageLoader.loadGif(wikiTitle.imageId, 0, 0, 0, vAvatar)
+        ImageLoader.loadGif(wikiTitle.imageBigId, 0, 0, 0, vImageTitle)
         vToolbarTitle.text = wikiTitle.getName(ControllerApi.getLanguageCode())
 
         vRecycler.layoutManager = LinearLayoutManager(context)

@@ -1,5 +1,6 @@
 package com.sayzen.campfiresdk.screens.fandoms.rating
 
+import com.dzen.campfire.api.API_RESOURCES
 import com.dzen.campfire.api.requests.fandoms.RFandomsRatingGet
 import com.sayzen.campfiresdk.R
 import com.sayzen.campfiresdk.tools.ApiRequestsSupporter
@@ -25,7 +26,7 @@ class SRating private constructor(
     init {
         setTitle(R.string.app_karma_count_30_days)
         setTextEmpty(R.string.app_empty)
-        setBackgroundImage(R.drawable.bg_10)
+        setBackgroundImage(API_RESOURCES.IMAGE_BACKGROUND_10)
     }
 
     override fun instanceAdapter(): RecyclerCardAdapterLoading<CardRating, CardRating> {

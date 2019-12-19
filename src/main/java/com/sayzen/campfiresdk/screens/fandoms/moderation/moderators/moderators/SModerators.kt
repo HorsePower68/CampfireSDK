@@ -1,6 +1,7 @@
 package com.sayzen.campfiresdk.screens.fandoms.moderation.moderators.moderators
 
 import com.dzen.campfire.api.API
+import com.dzen.campfire.api.API_RESOURCES
 import com.dzen.campfire.api.models.account.Account
 import com.dzen.campfire.api.requests.fandoms.RFandomsAdminRemoveModerator
 import com.dzen.campfire.api.requests.fandoms.RFandomsModeratorsGetAll
@@ -30,7 +31,7 @@ class SModerators(
     }
 
     init {
-        setBackgroundImage(R.drawable.bg_14)
+        setBackgroundImage(API_RESOURCES.IMAGE_BACKGROUND_14)
         setTitle(R.string.moderation_screen_moderators)
         setTextEmpty(R.string.moderation_screen_moderators_empty)
     }

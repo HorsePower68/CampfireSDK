@@ -24,8 +24,8 @@ import com.sayzen.campfiresdk.models.events.account.*
 import com.sayzen.campfiresdk.models.events.publications.EventPostPinedProfile
 import com.sayzen.campfiresdk.screens.administation.SAdministrationDeepBlocked
 import com.sayzen.campfiresdk.tools.ApiRequestsSupporter
-import com.sup.dev.android.libs.image_loader.ImageLoader
 import com.sup.dev.android.libs.image_loader.ImageLoaderId
+import com.sup.dev.android.libs.image_loader.ImageLoader
 import com.sup.dev.android.libs.screens.Screen
 import com.sup.dev.android.libs.screens.navigator.NavigationAction
 import com.sup.dev.android.libs.screens.navigator.Navigator
@@ -307,7 +307,7 @@ class SProfile private constructor(
 
     private fun changeAvatarNow(dialog: WidgetProgressTransparent, bytes: ByteArray) {
         ApiRequestsSupporter.executeProgressDialog(dialog, RAccountsChangeAvatar(bytes)) { _ ->
-            ToolsImagesLoader.clear(xAccount.imageId)
+            ImageLoader.clear(xAccount.imageId)
             EventBus.post(EventAccountChanged(xAccount.accountId, xAccount.name, xAccount.imageId))
         }
     }
@@ -367,8 +367,8 @@ class SProfile private constructor(
 
     private fun changeTitleImageNow(d: WidgetProgressTransparent, bytes: ByteArray, bytesGif: ByteArray?) {
         ApiRequestsSupporter.executeProgressDialog(d, RAccountsChangeTitleImage(bytes, bytesGif)) { r ->
-            ToolsImagesLoader.clear(xAccount.titleImageId)
-            ToolsImagesLoader.clear(xAccount.titleImageGifId)
+            ImageLoader.clear(xAccount.titleImageId)
+            ImageLoader.clear(xAccount.titleImageGifId)
             EventBus.post(EventAccountChanged(xAccount.accountId, xAccount.name, xAccount.imageId, r.imageId, r.imageGifId))
         }
     }
@@ -382,7 +382,7 @@ class SProfile private constructor(
                 .setOnEnter(R.string.app_remove) { w, comment ->
                     ApiRequestsSupporter.executeEnabled(w, RAccountsRemoveAvatar(xAccount.accountId, comment)) {
                         ToolsToast.show(R.string.app_done)
-                        ToolsImagesLoader.clear(xAccount.imageId)
+                        ImageLoader.clear(xAccount.imageId)
                         EventBus.post(EventAccountChanged(xAccount.accountId, xAccount.name, xAccount.imageId))
                     }
                 }

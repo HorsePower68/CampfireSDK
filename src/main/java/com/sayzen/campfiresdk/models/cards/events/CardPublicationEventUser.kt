@@ -14,7 +14,7 @@ import com.sayzen.campfiresdk.controllers.ControllerPublications
 import com.sayzen.campfiresdk.models.cards.CardPublication
 import com.sayzen.campfiresdk.screens.fandoms.view.SFandom
 import com.sup.dev.android.libs.screens.navigator.Navigator
-import com.sup.dev.android.tools.ToolsImagesLoader
+import com.sup.dev.android.libs.image_loader.ImageLoader
 import com.sup.dev.android.tools.ToolsResources
 import com.sup.dev.android.tools.ToolsView
 import com.sup.dev.android.views.views.ViewAvatar
@@ -59,7 +59,7 @@ class CardPublicationEventUser(
             is ApiEventUserAchievement -> {
                 willResetimage = false
                 text = ToolsResources.sCap(R.string.publication_event_achievement, ToolsResources.sex(e.ownerAccountSex, R.string.he_gained, R.string.she_gained), CampfireConstants.getAchievement(e.achievementIndex).getText(false))
-                ToolsImagesLoader.load(CampfireConstants.getAchievement(e.achievementIndex).image).into(vAvatarTitle.vImageView)
+                ImageLoader.load(CampfireConstants.getAchievement(e.achievementIndex).image).into(vAvatarTitle.vImageView)
                 vAvatarTitle.vImageView.setBackgroundColor(ToolsResources.getColor(CampfireConstants.getAchievement(e.achievementIndex).colorRes))
                 vAvatarTitle.setOnClickListener { ControllerCampfireSDK.onToAchievementClicked(publication.creatorId, publication.creatorName, e.achievementIndex, false, Navigator.TO) }
                 view.setOnClickListener { ControllerCampfireSDK.onToAchievementClicked(publication.creatorId, publication.creatorName, e.achievementIndex, false, Navigator.TO) }
@@ -68,7 +68,7 @@ class CardPublicationEventUser(
                 willResetimage = false
                 text = ToolsResources.sCap(R.string.publication_event_quest_finish, ToolsResources.sex(e.ownerAccountSex, R.string.he_finished, R.string.she_finished)) + ":"
                 text += "\n" + ToolsResources.s(CampfireConstants.getQuest(e.questIndex).text)
-                ToolsImagesLoader.load(CampfireConstants.getAchievement(API.ACHI_QUESTS).image).into(vAvatarTitle.vImageView)
+                ImageLoader.load(CampfireConstants.getAchievement(API.ACHI_QUESTS).image).into(vAvatarTitle.vImageView)
                 vAvatarTitle.vImageView.setBackgroundColor(ToolsResources.getColor(CampfireConstants.getAchievement(API.ACHI_QUESTS).colorRes))
                 vAvatarTitle.setOnClickListener { ControllerCampfireSDK.onToAchievementClicked(publication.creatorId, publication.creatorName, API.ACHI_QUESTS.index, false, Navigator.TO) }
                 view.setOnClickListener { ControllerCampfireSDK.onToAchievementClicked(publication.creatorId, publication.creatorName, API.ACHI_QUESTS.index, false, Navigator.TO) }

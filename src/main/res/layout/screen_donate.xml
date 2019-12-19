@@ -86,21 +86,18 @@
                 style="@style/Icon.18"
                 android:layout_gravity="center"
                 android:layout_marginLeft="18dp"
-                android:src="@drawable/icon_yandex_dengi"
                 app:ViewIcon_accentColor="@color/focus" />
 
             <com.sup.dev.android.views.views.ViewIcon
                 android:id="@+id/vIcon_card"
                 style="@style/Icon.18"
                 android:layout_gravity="center"
-                android:src="@drawable/icon_bank_card"
                 app:ViewIcon_accentColor="@color/focus" />
 
             <com.sup.dev.android.views.views.ViewIcon
                 android:id="@+id/vIcon_phone"
                 style="@style/Icon.18"
                 android:layout_gravity="center"
-                android:src="@drawable/icon_phone"
                 app:ViewIcon_accentColor="@color/focus" />
 
         </LinearLayout>

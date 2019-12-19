@@ -8,7 +8,7 @@ import com.sayzen.campfiresdk.R
 import com.sayzen.campfiresdk.controllers.ControllerApi
 import com.sayzen.campfiresdk.screens.account.stickers.SStickersView
 import com.sup.dev.android.libs.screens.navigator.Navigator
-import com.sup.dev.android.tools.ToolsImagesLoader
+import com.sup.dev.android.libs.image_loader.ImageLoader
 import com.sup.dev.android.tools.ToolsView
 import com.sup.dev.java.tools.ToolsHTML
 
@@ -52,6 +52,6 @@ class CardCommentSticker(
 
         vImage.setOnClickListener { SStickersView.instanceBySticker(publication.stickerId, Navigator.TO) }
 
-        ToolsImagesLoader.loadGif(publication.stickerImageId, publication.stickerGifId, publication.imageW, publication.imageH, vImage, vGifProgressBar, 1.7f)
+        ImageLoader.loadGif(publication.stickerImageId, publication.stickerGifId, publication.imageW, publication.imageH, vImage, vGifProgressBar, 1.7f)
     }
 }

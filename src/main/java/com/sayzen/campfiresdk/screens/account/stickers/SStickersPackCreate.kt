@@ -14,7 +14,7 @@ import com.sayzen.campfiresdk.tools.ApiRequestsSupporter
 import com.sup.dev.android.libs.screens.Screen
 import com.sup.dev.android.libs.screens.navigator.Navigator
 import com.sup.dev.android.tools.ToolsBitmap
-import com.sup.dev.android.tools.ToolsImagesLoader
+import com.sup.dev.android.libs.image_loader.ImageLoader
 import com.sup.dev.android.tools.ToolsResources
 import com.sup.dev.android.views.screens.SCrop
 import com.sup.dev.android.views.settings.SettingsField
@@ -40,7 +40,7 @@ class SStickersPackCreate(
 
         if(publication != null){
             vName.setText(publication.name)
-            ToolsImagesLoader.load(publication.imageId).into(vImage)
+            ImageLoader.load(publication.imageId).into(vImage)
             vImageIcon.visibility = View.GONE
             vCreate.text = ToolsResources.s(R.string.app_change)
         }

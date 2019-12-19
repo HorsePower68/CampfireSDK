@@ -20,6 +20,7 @@ import com.sayzen.campfiresdk.models.events.notifications.EventNotification
 import com.sayzen.campfiresdk.screens.chat.create.SChatCreate
 import com.sayzen.campfiresdk.screens.fandoms.chats.SFandomChatsCreate
 import com.sayzen.campfiresdk.tools.ApiRequestsSupporter
+import com.sup.dev.android.libs.image_loader.ImageLoader
 import com.sup.dev.android.libs.screens.navigator.Navigator
 import com.sup.dev.android.tools.*
 import com.sup.dev.android.views.screens.SCrop
@@ -94,7 +95,7 @@ object ControllerChats {
     fun showFandomChatInfo(tag: ChatTag, paramsJson:Json, imageId:Long){
         val chatParams = ChatParamsFandomSub(paramsJson)
         WidgetAlert()
-                .setTitleImage { ToolsImagesLoader.load(imageId).into(it) }
+                .setTitleImage { ImageLoader.load(imageId).into(it) }
                 .setText(chatParams.text)
                 .setOnEnter(R.string.app_continue) {
                     ControllerSettings.viewedChats = ToolsCollections.add(tag.targetId, ControllerSettings.viewedChats)

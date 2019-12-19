@@ -41,10 +41,10 @@
                     android:padding="16dp">
 
                     <com.sup.dev.android.views.views.ViewAvatarTitle
+                        android:id="@+id/vPhotoZeon"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginRight="24dp"
-                        android:src="@drawable/photo_zeon"
                         app:ViewAvatarTitle_subtitle="@string/about_creators_zeon_subtitle"
                         app:ViewAvatarTitle_title="@string/about_creators_zeon" />
 
@@ -74,9 +74,9 @@
                     android:padding="16dp">
 
                     <com.sup.dev.android.views.views.ViewAvatarTitle
+                        android:id="@+id/vPhotoSaynok"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:src="@drawable/photo_saynok"
                         android:layout_marginRight="24dp"
                         app:ViewAvatarTitle_subtitle="@string/about_creators_saynok_subtitle"
                         app:ViewAvatarTitle_title="@string/about_creators_saynok" />
@@ -108,10 +108,10 @@
                     android:padding="16dp">
 
                     <com.sup.dev.android.views.views.ViewAvatarTitle
+                        android:id="@+id/vPhotoEgor"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginRight="24dp"
-                        android:src="@drawable/photo_egor"
                         app:ViewAvatarTitle_subtitle="@string/about_creators_egor_subtitle"
                         app:ViewAvatarTitle_title="@string/about_creators_egor" />
 
@@ -142,9 +142,9 @@
                     android:padding="16dp">
 
                     <com.sup.dev.android.views.views.ViewAvatarTitle
+                        android:id="@+id/vPhotoTurbo"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:src="@drawable/photo_turbo"
                         android:layout_marginRight="24dp"
                         app:ViewAvatarTitle_subtitle="@string/about_creators_turbo_subtitle"
                         app:ViewAvatarTitle_title="@string/about_creators_turbo" />

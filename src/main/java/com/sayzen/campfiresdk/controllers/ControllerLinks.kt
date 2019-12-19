@@ -20,6 +20,7 @@ import com.sayzen.campfiresdk.screens.fandoms.rubrics.SRubricPosts
 import com.sayzen.campfiresdk.screens.fandoms.view.SFandom
 import com.sayzen.campfiresdk.screens.other.about.SAboutApp
 import com.sayzen.campfiresdk.screens.other.about.SAboutCreators
+import com.sayzen.campfiresdk.screens.other.minigame.SMinigame
 import com.sayzen.campfiresdk.screens.other.rules.SRulesModerators
 import com.sayzen.campfiresdk.screens.other.rules.SRulesUser
 import com.sayzen.campfiresdk.screens.post.search.SPostsSearch
@@ -69,6 +70,7 @@ object ControllerLinks {
                 API.LINK_BOX_WITH_BOMB.link -> ControllerScreenAnimations.bomb()
                 API.LINK_BOX_WITH_CRASH.link -> ControllerScreenAnimations.crash()
                 API.LINK_BOX_WITH_SNOW.link -> ControllerScreenAnimations.snow()
+                API.LINK_BOX_WITH_MINIGAME.link -> SMinigame.instance(Navigator.TO)
                 API.LINK_STICKER.link -> SStickersView.instanceBySticker(params[0].toLong(), Navigator.TO)
                 API.LINK_STICKERS_PACK.link -> {
                     if (params.size == 1) SStickersView.instance(params[0].toLong(), Navigator.TO)

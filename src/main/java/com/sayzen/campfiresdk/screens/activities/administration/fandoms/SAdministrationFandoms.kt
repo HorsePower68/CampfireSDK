@@ -1,5 +1,6 @@
 package com.sayzen.campfiresdk.screens.activities.administration.fandoms
 
+import com.dzen.campfire.api.API_RESOURCES
 import com.sayzen.campfiresdk.R
 import com.dzen.campfire.api.models.fandoms.Fandom
 import com.dzen.campfire.api.requests.fandoms.RFandomsSuggestedGetAll
@@ -29,7 +30,7 @@ class SAdministrationFandoms private constructor(
             .subscribe(EventFandomAccepted::class) { this.onEventFandomAccepted(it) }
 
     init {
-        setBackgroundImage(R.drawable.bg_2)
+        setBackgroundImage(API_RESOURCES.IMAGE_BACKGROUND_2)
         setTitle(R.string.administration_fandoms)
         setTextEmpty(R.string.administration_fandoms_empty)
     }

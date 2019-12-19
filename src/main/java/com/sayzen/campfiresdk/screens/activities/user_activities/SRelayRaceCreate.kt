@@ -16,7 +16,7 @@ import com.sayzen.campfiresdk.screens.account.search.SAccountSearch
 import com.sayzen.campfiresdk.screens.fandoms.search.SFandomsSearch
 import com.sup.dev.android.libs.screens.Screen
 import com.sup.dev.android.libs.screens.navigator.Navigator
-import com.sup.dev.android.tools.ToolsImagesLoader
+import com.sup.dev.android.libs.image_loader.ImageLoader
 import com.sup.dev.android.tools.ToolsResources
 import com.sup.dev.android.tools.ToolsToast
 import com.sup.dev.android.views.support.watchers.TextWatcherChanged
@@ -57,7 +57,7 @@ class SRelayRaceCreate constructor(
             Navigator.to(SAccountSearch(true, true) {
                 accountId = it.id
                 vUser.setTitle(it.name)
-                ToolsImagesLoader.load(it.imageId).into(vUser.vAvatar.vImageView)
+                ImageLoader.load(it.imageId).into(vUser.vAvatar.vImageView)
                 updateFinishEnabled()
             })
         }
@@ -66,7 +66,7 @@ class SRelayRaceCreate constructor(
                 fandomId = it.id
                 languageId = it.languageId
                 vFandom.setTitle(it.name)
-                ToolsImagesLoader.load(it.imageId).into(vFandom.vAvatar.vImageView)
+                ImageLoader.load(it.imageId).into(vFandom.vAvatar.vImageView)
                 updateFinishEnabled()
             }
         }

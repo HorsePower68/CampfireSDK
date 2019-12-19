@@ -7,7 +7,7 @@ import com.dzen.campfire.api.models.publications.post.PageImage
 import com.sayzen.campfiresdk.R
 import com.sayzen.campfiresdk.controllers.ControllerPost
 import com.sup.dev.android.libs.screens.navigator.Navigator
-import com.sup.dev.android.tools.ToolsImagesLoader
+import com.sup.dev.android.libs.image_loader.ImageLoader
 import com.sup.dev.android.views.screens.SImageView
 
 class CardPageImage(
@@ -30,7 +30,7 @@ class CardPageImage(
         vImage.isClickable = clickable
         vImage.isFocusableInTouchMode = false
 
-        ToolsImagesLoader.loadGif(page.imageId, page.gifId, page.w, page.h, vImage, vGifProgressBar)
+        ImageLoader.loadGif(page.imageId, page.gifId, page.w, page.h, vImage, vGifProgressBar)
     }
 
     private fun onImageClicked() {
@@ -43,7 +43,7 @@ class CardPageImage(
     }
 
     override fun notifyItem() {
-        ToolsImagesLoader.load((page as PageImage).imageId).size((page as PageImage).w, (page as PageImage).h).intoCash()
+        ImageLoader.load((page as PageImage).imageId).size((page as PageImage).w, (page as PageImage).h).intoCash()
     }
 
 }

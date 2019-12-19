@@ -10,7 +10,7 @@ import com.sayzen.campfiresdk.screens.fandoms.rubrics.SRubricPosts
 import com.sayzen.campfiresdk.screens.post.search.SPostsSearch
 import com.sup.dev.android.libs.screens.navigator.Navigator
 import com.sup.dev.android.tools.ToolsBitmap
-import com.sup.dev.android.tools.ToolsImagesLoader
+import com.sup.dev.android.libs.image_loader.ImageLoader
 import com.sup.dev.android.tools.ToolsView
 import com.sup.dev.android.views.cards.Card
 import com.sup.dev.android.views.views.ViewAvatar
@@ -96,7 +96,7 @@ class CardInfo(
         ControllerPublications.createTagMenu(vChip, t)
         if (vFlow.childCount != 0 && t.parentPublicationId == 0L) vFlow.addView(ViewSpace(vFlow.context, ToolsView.dpToPx(1).toInt(), 0))
         vFlow.addView(vChip)
-        if (t.imageId != 0L) ToolsImagesLoader.load(t.imageId).into { bytes -> vChip.setIcon(ToolsBitmap.decode(bytes)) }
+        if (t.imageId != 0L) ImageLoader.load(t.imageId).into { bytes -> vChip.setIcon(ToolsBitmap.decode(bytes)) }
     }
 
 

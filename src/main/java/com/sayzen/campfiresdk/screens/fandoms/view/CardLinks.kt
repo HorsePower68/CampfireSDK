@@ -6,6 +6,7 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import com.dzen.campfire.api.API
+import com.dzen.campfire.api.API_RESOURCES
 import com.dzen.campfire.api.models.fandoms.FandomLink
 import com.dzen.campfire.api.requests.fandoms.RFandomsModerationLinkAdd
 import com.dzen.campfire.api.requests.fandoms.RFandomsModerationLinkRemove
@@ -13,8 +14,10 @@ import com.sayzen.campfiresdk.R
 import com.sayzen.campfiresdk.adapters.XFandom
 import com.sayzen.campfiresdk.controllers.ControllerApi
 import com.sayzen.campfiresdk.controllers.ControllerLinks
+import com.sayzen.campfiresdk.controllers.notifications.ControllerApp
 import com.sayzen.campfiresdk.models.events.fandom.EventFandomInfoChanged
 import com.sayzen.campfiresdk.tools.ApiRequestsSupporter
+import com.sup.dev.android.libs.image_loader.ImageLoader
 import com.sup.dev.android.tools.ToolsAndroid
 import com.sup.dev.android.tools.ToolsResources
 import com.sup.dev.android.tools.ToolsToast
@@ -69,10 +72,10 @@ class CardLinks(
             vLink.setOnClickListener { ControllerLinks.openLink(link.url) }
 
             when (link.imageIndex) {
-                1L -> vLinkImage.setImageResource(ToolsResources.getDrawableAttrId(R.attr.icon_youtube))
-                2L -> vLinkImage.setImageResource(ToolsResources.getDrawableAttrId(R.attr.icon_discord))
-                3L -> vLinkImage.setImageResource(ToolsResources.getDrawableAttrId(R.attr.icon_wiki))
-                4L -> vLinkImage.setImageResource(ToolsResources.getDrawableAttrId(R.attr.icon_twitter))
+                1L -> ImageLoader.load(if (ControllerApp.isDarkThem()) API_RESOURCES.ICON_YOUTUBE_WHITE else API_RESOURCES.ICON_YOUTUBE_BLACK).into(vLinkImage)
+                2L -> ImageLoader.load(if (ControllerApp.isDarkThem()) API_RESOURCES.ICON_DISCORD_WHITE else API_RESOURCES.ICON_DISCORD_BLACK).into(vLinkImage)
+                3L -> ImageLoader.load(if (ControllerApp.isDarkThem()) API_RESOURCES.ICON_WIKI_WHITE else API_RESOURCES.ICON_WIKI_BLACK).into(vLinkImage)
+                4L -> ImageLoader.load(if (ControllerApp.isDarkThem()) API_RESOURCES.ICON_TWITTER_WHITE else API_RESOURCES.ICON_TWITTER_BLACK).into(vLinkImage)
                 else -> vLinkImage.setImageResource(ToolsResources.getDrawableAttrId(R.attr.ic_insert_link_24dp))
             }
 

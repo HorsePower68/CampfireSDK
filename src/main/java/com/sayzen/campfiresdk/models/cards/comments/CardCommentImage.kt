@@ -6,7 +6,7 @@ import android.widget.TextView
 import com.dzen.campfire.api.models.publications.PublicationComment
 import com.sayzen.campfiresdk.R
 import com.sup.dev.android.libs.screens.navigator.Navigator
-import com.sup.dev.android.tools.ToolsImagesLoader
+import com.sup.dev.android.libs.image_loader.ImageLoader
 import com.sup.dev.android.tools.ToolsView
 import com.sup.dev.android.views.screens.SImageView
 
@@ -34,6 +34,6 @@ class CardCommentImage(
 
         vImage.setOnClickListener { Navigator.to(SImageView(if (publication.gifId == 0L) publication.imageId else publication.gifId)) }
 
-        ToolsImagesLoader.loadGif(publication.imageId, publication.gifId, publication.imageW, publication.imageH, vImage, vGifProgressBar, 1.7f)
+        ImageLoader.loadGif(publication.imageId, publication.gifId, publication.imageW, publication.imageH, vImage, vGifProgressBar, 1.7f)
     }
 }

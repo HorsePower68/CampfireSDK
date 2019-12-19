@@ -1,6 +1,7 @@
 package com.sayzen.campfiresdk.screens.account.search
 
 
+import com.dzen.campfire.api.API_RESOURCES
 import com.dzen.campfire.api.models.account.Account
 import com.dzen.campfire.api.requests.accounts.RAccountsGetAll
 import com.sayzen.campfiresdk.R
@@ -70,7 +71,7 @@ class SAccountSearch(
                             .onComplete { r ->
                                 onLoad.invoke(removeMyAccount(r.accounts))
                                 setTextEmpty(R.string.app_nothing_found)
-                                setBackgroundImage(R.drawable.bg_4)
+                                setBackgroundImage(API_RESOURCES.IMAGE_BACKGROUND_4)
                             }
                             .onNetworkError { onLoad.invoke(null) }
                             .send(api)

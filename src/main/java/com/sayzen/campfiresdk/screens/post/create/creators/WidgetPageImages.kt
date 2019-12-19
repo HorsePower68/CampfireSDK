@@ -15,6 +15,7 @@ import com.sayzen.campfiresdk.R
 import com.sayzen.campfiresdk.controllers.ControllerApi
 import com.sayzen.campfiresdk.models.cards.post_pages.CardPage
 import com.sup.dev.android.app.SupAndroid
+import com.sup.dev.android.libs.image_loader.ImageLoader
 import com.sup.dev.android.libs.screens.Screen
 import com.sup.dev.android.libs.screens.navigator.Navigator
 import com.sup.dev.android.tools.*
@@ -203,7 +204,7 @@ class WidgetPageImages(
             if (bytes != null) {
                 vImage.setImageBitmap(ToolsBitmap.decode(bytes, dp, dp, null, dp, dp))
             } else {
-                ToolsImagesLoader.load(id).into { bytes -> vImage.setImageBitmap(ToolsBitmap.decode(bytes, dp, dp, null, dp, dp)) }
+                ImageLoader.load(id).into { bytes -> vImage.setImageBitmap(ToolsBitmap.decode(bytes, dp, dp, null, dp, dp)) }
             }
         }
 
@@ -213,7 +214,7 @@ class WidgetPageImages(
             if (bytes != null) {
                 crop(bytes!!, dialog)
             } else {
-                ToolsImagesLoader.load(id).into { bytes ->
+                ImageLoader.load(id).into { bytes ->
                     crop(bytes!!, dialog)
                 }
             }

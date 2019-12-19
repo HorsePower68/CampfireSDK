@@ -1,5 +1,6 @@
 package com.sayzen.campfiresdk.screens.fandoms.moderation.moderators.reports
 
+import com.dzen.campfire.api.API_RESOURCES
 import com.dzen.campfire.api.models.publications.Publication
 import com.dzen.campfire.api.requests.publications.RPublicationsReportedGetAll
 import com.sayzen.campfiresdk.R
@@ -20,7 +21,7 @@ class SReports(
     }
 
     init {
-        setBackgroundImage(R.drawable.bg_15)
+        setBackgroundImage(API_RESOURCES.IMAGE_BACKGROUND_15)
         setTitle(R.string.moderation_screen_reports)
         setTextEmpty(R.string.moderation_screen_reports_empty)
     }

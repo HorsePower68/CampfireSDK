@@ -2,6 +2,7 @@ package com.sayzen.campfiresdk.screens.activities.user_activities
 
 import android.view.View
 import com.dzen.campfire.api.API
+import com.dzen.campfire.api.API_RESOURCES
 import com.dzen.campfire.api.models.activities.UserActivity
 import com.dzen.campfire.api.requests.activities.RActivitiesGetAllForAccount
 import com.dzen.campfire.api.requests.activities.RActivitiesGetAllNotForAccount
@@ -31,7 +32,7 @@ class SUserActivitiesList constructor(
         setTitle(R.string.app_relay_races)
         setTextEmpty(if (fandomId > 0) R.string.activities_empty_user else R.string.activities_empty)
         setTextProgress(R.string.activities_loading)
-        setBackgroundImage(R.drawable.bg_7)
+        setBackgroundImage(API_RESOURCES.IMAGE_BACKGROUND_7)
 
         val vFab: FloatingActionButton = findViewById(R.id.vFab)
         (vFab as View).visibility = if (ControllerApi.account.lvl >= API.LVL_MODERATOR_RELAY_RACE.lvl) View.VISIBLE else View.GONE

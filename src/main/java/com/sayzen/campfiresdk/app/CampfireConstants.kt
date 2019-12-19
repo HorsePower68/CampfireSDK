@@ -275,30 +275,6 @@ object CampfireConstants {
         return FandomParam(API.CATEGORY_UNKNOWN, R.string.error_unknown)
     }
 
-    @DrawableRes
-    fun getCategoryIcon(categoryId: Long): Int {
-        return ToolsResources.getDrawableAttrId(
-                when (categoryId) {
-                    API.CATEGORY_GAMES -> R.attr.icon_games
-                    API.CATEGORY_ANIME -> R.attr.icon_anime
-                    API.CATEGORY_MUSIC -> R.attr.ic_music_note_18dp
-                    API.CATEGORY_PROGRAMS -> R.attr.ic_memory_18dp
-                    API.CATEGORY_MOVIES -> R.attr.ic_movie_creation_18dp
-                    API.CATEGORY_SITE -> R.attr.ic_language_24dp
-                    API.CATEGORY_COMPANY -> R.attr.ic_rowing_24dp
-                    API.CATEGORY_OTHER -> R.attr.ic_widgets_24dp
-                    API.CATEGORY_BOOKS -> R.attr.ic_book_24dp
-                    API.CATEGORY_ANIMALS -> R.attr.ic_pets_24dp
-                    API.CATEGORY_HOBBIES -> R.attr.ic_directions_bike_24dp
-                    API.CATEGORY_PEOPLE -> R.attr.ic_person_24dp
-                    API.CATEGORY_EVENT -> R.attr.ic_access_time_24dp
-                    API.CATEGORY_PLANTS -> R.attr.ic_spa_24dp
-                    API.CATEGORY_PLACES -> R.attr.ic_map_24dp
-                    else -> R.attr.ic_clear_24dp
-                }
-        )
-    }
-
     fun getParamTitle(categoryId: Long, paramsPosition: Int): String? {
         return when (categoryId) {
             API.CATEGORY_GAMES ->
@@ -473,18 +449,18 @@ object CampfireConstants {
         return FandomParam(0, R.string.error_unknown)
     }
 
-    fun getLvlImage(lvl: Long): Int {
+    fun getLvlImage(lvl: Long): Long {
         return when (lvl / 100) {
-            1L -> R.drawable.bg_lvl_1
-            2L -> R.drawable.bg_lvl_2
-            3L -> R.drawable.bg_lvl_3
-            4L -> R.drawable.bg_lvl_4
-            5L -> R.drawable.bg_lvl_5
-            6L -> R.drawable.bg_lvl_6
-            7L -> R.drawable.bg_lvl_7
-            8L -> R.drawable.bg_lvl_8
-            9L -> R.drawable.bg_lvl_9
-            else -> R.drawable.bg_lvl_10
+            1L -> API_RESOURCES.IMAGE_BACKGROUND_LEVEL_1
+            2L -> API_RESOURCES.IMAGE_BACKGROUND_LEVEL_2
+            3L -> API_RESOURCES.IMAGE_BACKGROUND_LEVEL_3
+            4L -> API_RESOURCES.IMAGE_BACKGROUND_LEVEL_4
+            5L -> API_RESOURCES.IMAGE_BACKGROUND_LEVEL_5
+            6L -> API_RESOURCES.IMAGE_BACKGROUND_LEVEL_6
+            7L -> API_RESOURCES.IMAGE_BACKGROUND_LEVEL_7
+            8L -> API_RESOURCES.IMAGE_BACKGROUND_LEVEL_8
+            9L -> API_RESOURCES.IMAGE_BACKGROUND_LEVEL_9
+            else -> API_RESOURCES.IMAGE_BACKGROUND_LEVEL_10
         }
     }
 

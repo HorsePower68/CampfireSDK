@@ -2,6 +2,7 @@ package com.sayzen.campfiresdk.screens.fandoms.rubrics
 
 import android.view.View
 import com.dzen.campfire.api.API
+import com.dzen.campfire.api.API_RESOURCES
 import com.dzen.campfire.api.models.fandoms.Rubric
 import com.dzen.campfire.api.requests.rubrics.RRubricsGetAll
 import com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -31,7 +32,7 @@ class SRubricsList constructor(
         else if (ControllerApi.isCurrentAccount(ownerId)) setTextEmpty(R.string.rubric_empty_my)
         else setTextEmpty(R.string.rubric_empty_other)
         setTextProgress(R.string.rubric_loading)
-        setBackgroundImage(R.drawable.bg_7)
+        setBackgroundImage(API_RESOURCES.IMAGE_BACKGROUND_7)
 
         val vFab: FloatingActionButton = findViewById(R.id.vFab)
         if (ControllerApi.can(fandomId, languageId, API.LVL_MODERATOR_RUBRIC)) (vFab as View).visibility = View.VISIBLE

@@ -11,7 +11,7 @@ import com.sayzen.campfiresdk.controllers.ControllerWiki
 import com.sayzen.campfiresdk.models.events.wiki.EventWikiChanged
 import com.sayzen.campfiresdk.models.events.wiki.EventWikiRemove
 import com.sup.dev.android.libs.screens.navigator.Navigator
-import com.sup.dev.android.tools.ToolsImagesLoader
+import com.sup.dev.android.libs.image_loader.ImageLoader
 import com.sup.dev.android.views.cards.Card
 import com.sup.dev.android.views.support.adapters.NotifyItem
 import com.sup.dev.java.libs.eventBus.EventBus
@@ -36,7 +36,7 @@ class CardWikiItem(
         val vName: TextView = view.findViewById(R.id.vName)
         val vSectionIcon: ImageView = view.findViewById(R.id.vSectionIcon)
 
-        ToolsImagesLoader.loadGif(wikiItem.imageId, 0, 0, 0, vImage)
+        ImageLoader.loadGif(wikiItem.imageId, 0, 0, 0, vImage)
         vName.text = wikiItem.getName(API.getLanguage(prefLanguageId).code)
         vSectionIcon.visibility = if (wikiItem.itemType == API.WIKI_TYPE_SECION) View.VISIBLE else View.GONE
 
@@ -53,7 +53,7 @@ class CardWikiItem(
 
 
     override fun notifyItem() {
-        ToolsImagesLoader.load(wikiItem.imageId).intoCash()
+        ImageLoader.load(wikiItem.imageId).intoCash()
     }
 
 }

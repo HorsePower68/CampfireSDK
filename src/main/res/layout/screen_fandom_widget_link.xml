@@ -53,29 +53,25 @@
                     android:id="@+id/vIcon_1"
                     android:layout_width="48dp"
                     android:layout_height="48dp"
-                    style="@style/Icon"
-                    android:src="?icon_youtube" />
+                    style="@style/Icon" />
 
                 <com.sup.dev.android.views.views.ViewIcon
                     android:id="@+id/vIcon_2"
                     android:layout_width="48dp"
                     android:layout_height="48dp"
-                    style="@style/Icon"
-                    android:src="?icon_discord" />
+                    style="@style/Icon" />
 
                 <com.sup.dev.android.views.views.ViewIcon
                     android:id="@+id/vIcon_3"
                     android:layout_width="48dp"
                     android:layout_height="48dp"
-                    style="@style/Icon"
-                    android:src="?icon_wiki" />
+                    style="@style/Icon" />
 
                 <com.sup.dev.android.views.views.ViewIcon
                     android:id="@+id/vIcon_4"
                     android:layout_width="48dp"
                     android:layout_height="48dp"
-                    style="@style/Icon"
-                    android:src="?icon_twitter" />
+                    style="@style/Icon" />
 
             </LinearLayout>
 
@@ -88,29 +84,25 @@
                     android:id="@+id/vIcon_5"
                     android:layout_width="48dp"
                     android:layout_height="48dp"
-                    style="@style/Icon"
-                    android:src="?icon_steam" />
+                    style="@style/Icon"/>
 
                 <com.sup.dev.android.views.views.ViewIcon
                     android:id="@+id/vIcon_6"
                     android:layout_width="48dp"
                     android:layout_height="48dp"
-                    style="@style/Icon"
-                    android:src="?icon_gp" />
+                    style="@style/Icon" />
 
                 <com.sup.dev.android.views.views.ViewIcon
                     android:id="@+id/vIcon_7"
                     android:layout_width="48dp"
                     android:layout_height="48dp"
-                    style="@style/Icon"
-                    android:src="?icon_app_store" />
+                    style="@style/Icon" />
 
                 <com.sup.dev.android.views.views.ViewIcon
                     android:id="@+id/vIcon_8"
                     android:layout_width="48dp"
                     android:layout_height="48dp"
-                    style="@style/Icon"
-                    android:src="@drawable/icon_campfire" />
+                    style="@style/Icon" />
 
             </LinearLayout>
 

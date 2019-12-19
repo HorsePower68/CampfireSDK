@@ -1,5 +1,6 @@
 package com.sayzen.campfiresdk.adapters
 
+import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
 import com.dzen.campfire.api.models.fandoms.Fandom
@@ -7,13 +8,16 @@ import com.dzen.campfire.api.models.publications.Publication
 import com.sayzen.campfiresdk.controllers.ControllerApi
 import com.sayzen.campfiresdk.controllers.ControllerCampfireSDK
 import com.sayzen.campfiresdk.controllers.ControllerLinks
+import com.sayzen.campfiresdk.controllers.ControllerSettings
 import com.sayzen.campfiresdk.models.events.fandom.EventFandomChanged
 import com.sayzen.campfiresdk.models.events.publications.EventPublicationFandomChanged
 import com.sup.dev.android.libs.screens.navigator.Navigator
-import com.sup.dev.android.tools.ToolsImagesLoader
+import com.sup.dev.android.libs.image_loader.ImageLoader
+import com.sup.dev.android.tools.ToolsBitmap
 import com.sup.dev.android.tools.ToolsResources
 import com.sup.dev.android.views.views.ViewAvatar
 import com.sup.dev.android.views.views.ViewAvatarTitle
+import com.sup.dev.java.libs.debug.log
 import com.sup.dev.java.libs.eventBus.EventBus
 import com.sup.dev.java.tools.ToolsDate
 
@@ -46,15 +50,22 @@ class XFandom(
             : this(0, fandomId, languageId, name, imageId, 0, 0, 0, onChanged)
 
     init {
-        ToolsImagesLoader.load(imageId).intoCash()
+        ImageLoader.load(imageId).intoCash()
     }
 
     fun setView(viewAvatar: ViewAvatar) {
-        ToolsImagesLoader.load(imageId).into(viewAvatar.vImageView)
+        ImageLoader.load(imageId).into(viewAvatar.vImageView)
         viewAvatar.setChipIcon(0)
         viewAvatar.setChipText("")
 
-        if (showLanguage && languageId != 0L) viewAvatar.setChipIcon(ControllerApi.getIconForLanguage(languageId))
+        if (showLanguage && languageId != 0L && languageId != ControllerApi.getLanguageId()) {
+            ControllerApi.getIconForLanguage(languageId).setOnLoaded {
+                viewAvatar.vChipIcon.visibility = View.VISIBLE
+            }.into(viewAvatar.vChipIcon)
+        }else{
+            viewAvatar.vChipIcon.visibility = View.INVISIBLE
+            viewAvatar.vChipIcon.setImageDrawable(null)
+        }
 
         viewAvatar.vChip.setBackgroundColor(ToolsResources.getAccentColor(viewAvatar.context))
         viewAvatar.setOnClickListener { ControllerCampfireSDK.onToFandomClicked(fandomId, languageId, Navigator.TO) }
@@ -78,12 +89,12 @@ class XFandom(
     }
 
     fun setViewBig(vImage: ImageView) {
-        if (imageTitleId != 0L) ToolsImagesLoader.loadGif(imageTitleId, imageTitleGifId, 0, 0, vImage, null)
+        if (imageTitleId != 0L) ImageLoader.loadGif(imageTitleId, imageTitleGifId, 0, 0, vImage, null)
         else vImage.setImageBitmap(null)
     }
 
     fun setView(vImage: ImageView) {
-        ToolsImagesLoader.load(imageId).into(vImage)
+        ImageLoader.load(imageId).into(vImage)
     }
 
     fun setView(vText: TextView) {

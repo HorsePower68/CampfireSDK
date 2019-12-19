@@ -13,7 +13,7 @@ import com.sayzen.campfiresdk.R
 import com.sayzen.campfiresdk.screens.fandoms.STags
 import com.sup.dev.android.libs.screens.navigator.Navigator
 import com.sup.dev.android.tools.ToolsBitmap
-import com.sup.dev.android.tools.ToolsImagesLoader
+import com.sup.dev.android.libs.image_loader.ImageLoader
 import com.sup.dev.android.tools.ToolsToast
 import com.sup.dev.android.views.screens.SCrop
 import com.sup.dev.android.views.settings.SettingsField
@@ -55,7 +55,7 @@ class WidgetTagCreate private constructor(
             vName.setText(tag.name)
             vEnter.setText(R.string.app_change)
             if (tag.imageId != 0L) {
-                ToolsImagesLoader.load(tag.imageId).into(vImage)
+                ImageLoader.load(tag.imageId).into(vImage)
                 vImageIcon.visibility = View.GONE
             }
         }

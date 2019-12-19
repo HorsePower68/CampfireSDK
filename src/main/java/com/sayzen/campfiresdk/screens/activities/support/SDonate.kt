@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.dzen.campfire.api.API
+import com.dzen.campfire.api.API_RESOURCES
 import com.dzen.campfire.api.models.notifications.project.NotificationDonate
 import com.dzen.campfire.api.models.project.Donate
 import com.dzen.campfire.api.requests.project.RProjectDonatesCreateDraft
@@ -23,6 +24,7 @@ import com.sayzen.campfiresdk.models.events.activities.EventVideoAdView
 import com.sayzen.campfiresdk.models.events.notifications.EventNotification
 import com.sayzen.campfiresdk.screens.account.search.SAccountSearch
 import com.sayzen.campfiresdk.tools.ApiRequestsSupporter
+import com.sup.dev.android.libs.image_loader.ImageLoader
 import com.sup.dev.android.libs.screens.Screen
 import com.sup.dev.android.libs.screens.activity.SActivityTypeBottomNavigation
 import com.sup.dev.android.libs.screens.navigator.NavigationAction
@@ -124,6 +126,10 @@ class SDonate private constructor(
         adapter.loadBottom()
 
         vMessageContainer.visibility = View.GONE
+
+        ImageLoader.load(API_RESOURCES.ICON_YANDEX_DENGI).into(vIcon_yandex)
+        ImageLoader.load(API_RESOURCES.ICON_BANK_CARD).into(vIcon_card)
+        ImageLoader.load(API_RESOURCES.ICON_PHONE).into(vIcon_phone)
     }
 
     private fun setSelected(v: ViewIcon) {

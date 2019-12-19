@@ -17,6 +17,7 @@ import com.sayzen.campfiresdk.controllers.ControllerApi
 import com.sayzen.campfiresdk.models.events.wiki.EventWikiChanged
 import com.sayzen.campfiresdk.models.events.wiki.EventWikiCreated
 import com.sayzen.campfiresdk.tools.ApiRequestsSupporter
+import com.sup.dev.android.libs.image_loader.ImageLoader
 import com.sup.dev.android.libs.screens.Screen
 import com.sup.dev.android.libs.screens.navigator.Navigator
 import com.sup.dev.android.tools.*
@@ -101,11 +102,11 @@ class SWikiItemCreate(
 
         if (item.imageId > 0) {
             vImageMiniPlus.visibility = View.GONE
-            ToolsImagesLoader.loadGif(item.imageId, 0, 0, 0, vImageMini)
+            ImageLoader.loadGif(item.imageId, 0, 0, 0, vImageMini)
         }
         if (item.imageBigId > 0) {
             vImageBigPlus.visibility = View.GONE
-            ToolsImagesLoader.loadGif(item.imageBigId, 0, 0, 0, vImageBig)
+            ImageLoader.loadGif(item.imageBigId, 0, 0, 0, vImageBig)
         }
 
         if (item.itemId > 0) {

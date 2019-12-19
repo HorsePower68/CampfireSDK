@@ -1,5 +1,6 @@
 package com.sayzen.campfiresdk.screens.punishments
 
+import com.dzen.campfire.api.API_RESOURCES
 import com.dzen.campfire.api.models.account.AccountPunishment
 import com.dzen.campfire.api.requests.accounts.RAccountsPunishmentsGetAll
 import com.sayzen.campfiresdk.R
@@ -18,7 +19,7 @@ class SPunishments(
     private val xAccount = XAccount(accountId, accountName){ update() }
 
     init {
-        setBackgroundImage(R.drawable.bg_8)
+        setBackgroundImage(API_RESOURCES.IMAGE_BACKGROUND_8)
         setTextEmpty(if (ControllerApi.isCurrentAccount(accountId)) R.string.profile_punishments_empty else R.string.profile_punishments_empty_another)
         update()
     }
