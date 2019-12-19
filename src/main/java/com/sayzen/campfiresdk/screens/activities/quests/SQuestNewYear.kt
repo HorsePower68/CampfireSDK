@@ -30,22 +30,22 @@ class SQuestNewYear : SQuest() {
     val item_0 = QuestItem("И так... где вы:\nЭто новая система Campfire - Квесты.\n").setLabel("Вступление").setImage(API_RESOURCES.EPIC_QUEST_NEW_YEAR_1)
             .addButton("Квесты?") { to(item_0_1) }
 
-    val item_0_1 = QuestItem("В планах создавать различные квесты, возмонжо они будут свзяанны с какми-то событиями, возможно нет.\nВсё зависит от тога как их воспримут пользователи.").setLabel("Вступление").setImage(API_RESOURCES.EPIC_QUEST_NEW_YEAR_1)
-            .addButton("Пока ничго не понимаю...") { to(item_0_2) }
+    val item_0_1 = QuestItem("В планах создавать различные квесты, возможно они будут связаны с какими-то событиями, возможно нет. \nВсё зависит от тога как их воспримут пользователи.").setLabel("Вступление").setImage(API_RESOURCES.EPIC_QUEST_NEW_YEAR_1)
+            .addButton("Пока ничего не понимаю...") { to(item_0_2) }
 
-    val item_0_2 = QuestItem("Квсеты - некая история, разбавленная юмором и эпичностью, загадками, энтерактивами и кучей всего другого что мы пока не придумали.").setLabel("Вступление").setImage(API_RESOURCES.EPIC_QUEST_NEW_YEAR_1)
+    val item_0_2 = QuestItem("Квесты - некая история, разбавленная юмором и эпичностью, загадками, интерактивами и кучей всего другого что мы пока не придумали.").setLabel("Вступление").setImage(API_RESOURCES.EPIC_QUEST_NEW_YEAR_1)
             .addButton("Это как бесконечно лето?"){ to(item_0_3) }
 
-    val item_0_3 = QuestItem("Да!\n Именно так!\nЯ прсото стеснялся сказать.").setLabel("Вступление").setImage(API_RESOURCES.EPIC_QUEST_NEW_YEAR_1)
+    val item_0_3 = QuestItem("Да!\nИменно так!\nЯ просто стеснялся сказать.").setLabel("Вступление").setImage(API_RESOURCES.EPIC_QUEST_NEW_YEAR_1)
             .addButton("Смогу ли я создать свой квест?"){ to(item_0_4) }
 
-    val item_0_4 = QuestItem("Пока не известно.\nВсе зависит от пользователей, если им понраится такой формат, то мы будем развивать эту идею и дальше.").setLabel("Вступление").setImage(API_RESOURCES.EPIC_QUEST_NEW_YEAR_1)
+    val item_0_4 = QuestItem("Пока не известно. \nВсе зависит от пользователей, если им понравится такой формат, то мы будем развивать эту идею и дальше.").setLabel("Вступление").setImage(API_RESOURCES.EPIC_QUEST_NEW_YEAR_1)
             .addButton("Ясно. Давайте посмотрим как это работает."){ to(item_0_5) }
 
     val item_0_5 = QuestItem("Чтож, это наш первый квест, так что не судите строго, будем рады отзывам и замечаниям. :)").setLabel("Вступление").setImage(API_RESOURCES.EPIC_QUEST_NEW_YEAR_1)
             .addButton("Да начинайте уже!"){ makeDarknes{to(item_1)} }
 
-    val item_1 = QuestItem("Расвет. Идет мелкий снег.\nРядом слышено потрескивание тлеющих углей\nВы спите у почти потухшего костра...").setLabel("Глухой лес, утро").setImage(API_RESOURCES.EPIC_QUEST_NEW_YEAR_2)
+    val item_1 = QuestItem("Рассвет. Идет мелкий снег. \nРядом слышно потрескивание тлеющих углей \nВы спите у почти потухшего костра...").setLabel("Глухой лес, утро").setImage(API_RESOURCES.EPIC_QUEST_NEW_YEAR_2)
             .addButton("Поспать ещё") { makeDarknes() }
             .addButton("Проснуться") { sleepCounter--;if (sleepCounter < 0) makeThunderBig() else makeThunder() }
 
@@ -55,37 +55,37 @@ class SQuestNewYear : SQuest() {
             .addButton("Размяться") { to(item_2_1) }
             .addButton("Осмотреться возле костра") { stic = true;to(item_2_2) }
 
-    val item_2_1 = QuestItem("Вы снаяли доспехи и немного размялись, умыли лицо снегом, почистили одежду. Вы чувствуете себя намного лучше.").setImage(API_RESOURCES.EPIC_QUEST_NEW_YEAR_2).setLabel("Глухой лес, утро")
+    val item_2_1 = QuestItem("Вы сняли доспехи и немного размялись, умыли лицо снегом, почистили одежду. Вы чувствуете себя намного лучше.").setImage(API_RESOURCES.EPIC_QUEST_NEW_YEAR_2).setLabel("Глухой лес, утро")
             .addTextJump(effect_good("Подъем сил"))
             .setOnStart { phisic = true }
             .addButton("Так... Что-же дальше?") { phisic = true;to(item_3) }
 
-    val item_2_2 = QuestItem("Вокруг вас лес.\nЛагерь разбит рядом с одиноким камнем, больше похожем на кусок скалы.\nВы замечате множество следов идущх в разные стороны от костра.").setImage(API_RESOURCES.EPIC_QUEST_NEW_YEAR_2).setLabel("Глухой лес, утро")
-            .addButton("Поискать чтонибудь полезное") { to(item_2_3) }
+    val item_2_2 = QuestItem("Вокруг вас лес. \nЛагерь разбит рядом с одиноким камнем, больше похожем на кусок скалы. \nВы замечаете множество следов идущих в разные стороны от костра.").setImage(API_RESOURCES.EPIC_QUEST_NEW_YEAR_2).setLabel("Глухой лес, утро")
+            .addButton("Поискать что нибудь полезное") { to(item_2_3) }
 
     val item_2_3 = QuestItem("Вы осматриваете сугробы вокруг лагеря и находите длинную палку, как опытный игрок РПГ вы понимаете что она вам еще понадобиться и забираете её.").setImage(API_RESOURCES.EPIC_QUEST_NEW_YEAR_2).setLabel("Глухой лес, утро")
-            .addTextJump(item("Подозрителньо длинная палка"))
+            .addTextJump(item("Подозрительно длинная палка"))
             .addButton("Так... Что-же дальше?") { to(item_3) }
 
-    val item_3 = QuestItem("Вы задумались...\nВы пытаетесь вспомнить что-же вы здесь делает\n...\n...\nО нееееет!\nВас окутывает ужас...\nВ вашей глове только одна мысль:").setImage(API_RESOURCES.EPIC_QUEST_NEW_YEAR_2).setLabel("Глухой лес, утро")
+    val item_3 = QuestItem("Вы задумались... \nВы пытаетесь вспомнить что-же вы здесь делает \n... \nО нееееет! \nВас окутывает ужас... \nВ вашей голове только одна мысль:").setImage(API_RESOURCES.EPIC_QUEST_NEW_YEAR_2).setLabel("Глухой лес, утро")
             .addButton("Похоже это банальный ход с амнезией главного героя!") { to(item_3_1) }
 
-    val item_3_1 = QuestItem("К сожалению это именно он.\nВы стараетесь успокоиться, но вам все еще не посебе.").setImage(API_RESOURCES.EPIC_QUEST_NEW_YEAR_2).setLabel("Глухой лес, утро")
+    val item_3_1 = QuestItem("К сожалению это именно он. \nВы стараетесь успокоиться, но вам все еще не пособие.").setImage(API_RESOURCES.EPIC_QUEST_NEW_YEAR_2).setLabel("Глухой лес, утро")
             .addButton("Они не могли придумать что-то поинтересней?") { to(item_3_2) }
 
     val item_3_2 = QuestItem("Постепенно к вам приходит осознание что это не так уж и плохо, и что лучше вам быть благодарным и за это, на другие праздники не было вообще ничего.").setImage(API_RESOURCES.EPIC_QUEST_NEW_YEAR_2).setLabel("Глухой лес, утро")
             .addButton("Нет, я все еще возмущен!") { to(item_3_3) }
             .addButton("Да, продолжим.") { to(item_4) }
 
-    val item_3_3 = QuestItem("Нед вами сгущаются тучи. Все вокруг погружается во мрак. Вы слышите раскаты грома...\nВдруг над вами заноситься банхамер. Уще один раскат грома, молния... Вы ослеплены на мгновение...").setImage(API_RESOURCES.EPIC_QUEST_NEW_YEAR_2).setLabel("Глухой лес, утро")
+    val item_3_3 = QuestItem("Нед вами сгущаются тучи. Все вокруг погружается во мрак. Вы слышите раскаты грома... \nВдруг над вами заноситься банхамер. Еще один раскат грома, молния... Вы ослеплены на мгновение...").setImage(API_RESOURCES.EPIC_QUEST_NEW_YEAR_2).setLabel("Глухой лес, утро")
             .setOnStart { startThunder() }
             .setOnFinish { stopThunder() }
-            .addButton("Что происходит?") { to(item_3_4) }
+            .addButton("Что происходит?") {  makeDarknes{to(item_3_4)} }
 
     //  TODO Выдать пользователю проклятье хейтера
-    val item_3_4 = QuestItem("Тучи пропали. Но вы чусвуете слабость и опустошение.").setImage(API_RESOURCES.EPIC_QUEST_NEW_YEAR_2).setLabel("Глухой лес, утро")
+    val item_3_4 = QuestItem("Тучи пропали. Но вы чувствуете слабость и опустошение.").setImage(API_RESOURCES.EPIC_QUEST_NEW_YEAR_2).setLabel("Глухой лес, утро")
             .addTextJump(effect_bad("Проклятье хейтера"))
-            .setOnStart { makeDarknes();makeThunderBig() }
+            .setOnStart {;makeThunderBig() }
             .addButton("Смириться с таким сюжетом и продолжить.") { to(item_4) }
 
     val item_4 = QuestItem("...").setImage(API_RESOURCES.EPIC_QUEST_NEW_YEAR_2).setLabel("Глухой лес, утро")
@@ -144,7 +144,7 @@ class SQuestNewYear : SQuest() {
 
     private fun stepThunder() {
         if (!weather_thunder) return
-        ToolsThreads.thread(ToolsMath.randomLong(1000, 4000)) {
+        ToolsThreads.thread(ToolsMath.randomLong(1000, 200)) {
             makeThunder()
             stepThunder()
         }
