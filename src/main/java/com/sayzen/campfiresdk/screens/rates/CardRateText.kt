@@ -44,7 +44,7 @@ class CardRateText(
 
         if(rate.accountId == 0L){
             vAvatar.setTitle(R.string.rate_anon)
-            vAvatar.vAvatar.setImage(R.drawable.image_128x128)
+            vAvatar.vAvatar.setImage(R.drawable.logo_campfire_128x128)
         }
     }
 

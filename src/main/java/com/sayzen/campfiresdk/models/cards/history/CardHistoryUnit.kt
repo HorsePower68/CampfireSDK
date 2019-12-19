@@ -15,7 +15,7 @@ import com.sup.dev.java.tools.ToolsDate
 
 class CardHistoryUnit(
         val historyPublication: HistoryPublication
-) : Card(R.layout.card_history_unit) {
+) : Card(R.layout.card_history_publication) {
 
     val history = historyPublication.history
 
