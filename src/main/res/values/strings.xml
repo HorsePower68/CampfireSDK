@@ -1042,6 +1042,7 @@
     <string name="settings_fandom_background">Show background in chats</string>
     <string name="settings_language">Language</string>
     <string name="settings_anon_rate">Rate anonymously</string>
+    <string name="settings_user_activities_subscribe">Automatically subscribe to relay races</string>
     <string name="settings_actions">Actions</string>
     <string name="settings_rate">Rate application</string>
     <string name="settings_start_screen">Start screen</string>

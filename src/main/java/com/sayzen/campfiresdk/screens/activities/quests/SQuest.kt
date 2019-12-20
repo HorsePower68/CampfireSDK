@@ -13,9 +13,11 @@ import com.sup.dev.android.libs.image_loader.ImageLoader
 import com.sup.dev.android.tools.ToolsResources
 import com.sup.dev.android.tools.ToolsView
 import com.sup.dev.android.views.views.ViewTextLinkable
+import com.sup.dev.java.libs.debug.log
 
 abstract class SQuest : Screen(R.layout.screen_quest) {
 
+    var quest = ArrayList<QuestItem>()
     val vTitleImage: ImageView = findViewById(R.id.vTitleImage)
     val vLabel: TextView = findViewById(R.id.vLabel)
     val vText: ViewTextLinkable = findViewById(R.id.vText)
@@ -26,11 +28,30 @@ abstract class SQuest : Screen(R.layout.screen_quest) {
     val vButtonContainer: ViewGroup = findViewById(R.id.vButtonContainer)
 
     var currentItem: QuestItem? = null
+    var globalLabel:String? = null
+    var globalImage:Long? = null
 
     init {
         isNavigationAllowed = false
         navigationBarColor = ToolsResources.getColorAttr(R.attr.content_background_screen)
         statusBarColor = ToolsResources.getColorAttr(R.attr.content_background_screen)
+    }
+
+    fun addQuest(vararg items:QuestItem){
+        for(i in items){
+            if(globalLabel != null && i.label.isEmpty()) i.label = globalLabel!!
+            if(globalImage != null && i.imageId == 0L) i.imageId = globalImage!!
+            quest.add(i)
+        }
+        quest.addAll(items)
+    }
+
+    fun to(index: String) {
+        for(i in quest) if(i.index == index) {
+            to(i)
+            return
+        }
+        throw RuntimeException("Can't find item with index[$index]")
     }
 
     fun to(item: QuestItem) {
@@ -70,23 +91,33 @@ abstract class SQuest : Screen(R.layout.screen_quest) {
         vText.text = parseText(item.text)
         ControllerLinks.makeLinkable(vText)
 
-        vButton_1.text = parseText(item.button_1)
-        vButton_2.text = parseText(item.button_2)
-        vButton_3.text = parseText(item.button_3)
-        vButton_4.text = parseText(item.button_4)
-
-        vButton_1.setOnClickListener { item.action_1.invoke() }
-        vButton_2.setOnClickListener { item.action_2.invoke() }
-        vButton_3.setOnClickListener { item.action_3.invoke() }
-        vButton_4.setOnClickListener { item.action_4.invoke() }
-
         vLabel.visibility = if (vLabel.text.isEmpty()) View.GONE else View.VISIBLE
 
+        val buttons = arrayListOf(vButton_1, vButton_2, vButton_3, vButton_4)
+
         vButtonContainer.removeAllViews()
-        if (vButton_1.text.isNotEmpty()) vButtonContainer.addView(vButton_1)
-        if (vButton_2.text.isNotEmpty()) vButtonContainer.addView(vButton_2)
-        if (vButton_3.text.isNotEmpty()) vButtonContainer.addView(vButton_3)
-        if (vButton_4.text.isNotEmpty()) vButtonContainer.addView(vButton_4)
+
+        var i = 0
+        var n = 0
+
+        while(n < item.buttons.size && i < buttons.size ){
+            val vButton = buttons[i]
+            val button = item.buttons[n]
+
+            if(!button.visible.invoke()){
+                n++
+                continue
+            }
+
+            vButton.text = parseText(button.text)
+            vButton.setOnClickListener { button.action.invoke() }
+            vButton.isEnabled = button.enabled.invoke()
+            vButtonContainer.addView(vButton)
+
+            i++
+            n++
+
+        }
 
     }
 

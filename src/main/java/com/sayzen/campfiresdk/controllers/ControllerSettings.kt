@@ -396,6 +396,13 @@ object ControllerSettings {
             onSettingsUpdated()
         }
 
+    var userActivitiesAutoSubscribe: Boolean
+        get() = accountSettings.userActivitiesAutoSubscribe
+        set(b) {
+            accountSettings.userActivitiesAutoSubscribe = b
+            onSettingsUpdated()
+        }
+
     //
     //  Feed
     //

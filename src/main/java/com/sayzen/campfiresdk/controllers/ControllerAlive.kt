@@ -15,7 +15,7 @@ import com.sup.dev.java.tools.ToolsDate
 
 object ControllerAlive {
 
-    private val eventVus = EventBus
+    private val eventBus = EventBus
             .subscribe(EventAccountCurrentChanged::class){ schedule() }
             .subscribe(EventNotification::class){ if(it.notification is NotificationAlive) onPush() }
 
@@ -66,7 +66,7 @@ object ControllerAlive {
 
     private fun checkPush(){
         val time = ToolsStorage.getLong("ControllerAlive.push", 0)
-        if(time < System.currentTimeMillis() - 1000L * 60 * 5){
+        if(time < System.currentTimeMillis() - 1000L * 60 * 60){
             info("ControllerAlive", "Check push ERROR")
             ControllerNotifications.chanelOther.post(R.drawable.logo_campfire_alpha_black_and_white_no_margins, "Алерт!", "Пуши не работают. Последнйи пуш: ${ToolsDate.dateToString(time)}", Intent(), "ControllerAlive_2")
         }else{

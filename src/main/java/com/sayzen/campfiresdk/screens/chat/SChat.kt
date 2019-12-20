@@ -40,6 +40,7 @@ import com.sup.dev.android.views.views.ViewIcon
 import com.sup.dev.android.views.widgets.WidgetAlert
 import com.dzen.campfire.api.tools.client.ApiClient
 import com.sup.dev.android.libs.image_loader.ImageLoader
+import com.sup.dev.java.libs.debug.log
 import com.sup.dev.java.libs.eventBus.EventBus
 import com.sup.dev.java.libs.json.Json
 import com.sup.dev.java.tools.*
@@ -345,10 +346,17 @@ class SChat private constructor(
                     for (i in adapter!!.get(CardChatMessage::class)) {
                         if (i.xPublication.publication.id == id) {
                             i.flash()
-                            ToolsView.scrollRecycler(vRecycler, adapter!!.indexOf(i) + 1)
-                            break
+                            val indexReal = adapter!!.indexOf(i)
+                            val indexOffset = if (u.dateCreate < i.xPublication.publication.dateCreate) 1 else -1
+                            val indexResult = indexReal + indexOffset
+                            ToolsView.scrollRecycler(vRecycler, indexResult)
+                            return@instance
                         }
                     }
+                    ApiRequestsSupporter.executeInterstitial(Navigator.REPLACE, RChatGet(tag, 0)) { r ->
+                        onChatLoaded(r, id) {}
+                    }
+
                 },
                 onBlocked = {
                     addMessage(it, false)

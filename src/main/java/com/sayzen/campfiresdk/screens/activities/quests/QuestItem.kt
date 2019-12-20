@@ -5,31 +5,31 @@ class QuestItem() {
     var imageId = 0L
 
     var label = ""
+    var index = ""
     var text = ""
 
-    var button_1 = ""
-    var button_2 = ""
-    var button_3 = ""
-    var button_4 = ""
+    val buttons = ArrayList<QuestButton>()
 
     var onStart: () -> Unit = {}
     var onFinish: () -> Unit = {}
 
-    var action_1: () -> Unit = {}
-    var action_2: () -> Unit = {}
-    var action_3: () -> Unit = {}
-    var action_4: () -> Unit = {}
 
-    constructor(text: String) : this() {
-        this.text = text
+    constructor(index:String) : this() {
+        this.index = index
     }
 
-    fun addText(text:String): QuestItem{
-        this.text +="\n$text"
+    fun text(text: String):QuestItem{
+        this.text = text
         return this
     }
-    fun addTextJump(text:String): QuestItem{
-        this.text +="\n\n$text"
+
+    fun addText(text: String): QuestItem {
+        this.text += "\n$text"
+        return this
+    }
+
+    fun addTextJump(text: String): QuestItem {
+        this.text += "\n\n$text"
         return this
     }
 
@@ -43,35 +43,16 @@ class QuestItem() {
         return this
     }
 
+    fun addButtonParams(text: String, action: () -> Unit): QuestButton {
+        val button = QuestButton()
+        button.text = text
+        button.action = action
+        buttons.add(button)
+        return button
+    }
+
     fun addButton(text: String, action: () -> Unit): QuestItem {
-        if (button_1.isEmpty()) setButton_1(text, action)
-        else if (button_2.isEmpty()) setButton_2(text, action)
-        else if (button_3.isEmpty()) setButton_3(text, action)
-        else if (button_4.isEmpty()) setButton_4(text, action)
-        return this
-    }
-
-    fun setButton_1(text: String, action: () -> Unit): QuestItem {
-        button_1 = text
-        action_1 = action
-        return this
-    }
-
-    fun setButton_2(text: String, action: () -> Unit): QuestItem {
-        button_2 = text
-        action_2 = action
-        return this
-    }
-
-    fun setButton_3(text: String, action: () -> Unit): QuestItem {
-        button_3 = text
-        action_3 = action
-        return this
-    }
-
-    fun setButton_4(text: String, action: () -> Unit): QuestItem {
-        button_4 = text
-        action_4 = action
+        addButtonParams(text, action)
         return this
     }
 
@@ -83,6 +64,31 @@ class QuestItem() {
     fun setOnFinish(onFinish: () -> Unit): QuestItem {
         this.onFinish = onFinish
         return this
+    }
+
+    //
+    //  Support
+    //
+
+    inner class QuestButton {
+
+        var text = ""
+        var enabled : () -> Boolean = {true}
+        var visible : () -> Boolean = {true}
+        var action: () -> Unit = {}
+
+        fun enabled(enabled:() -> Boolean):QuestButton{
+            this.enabled = enabled
+            return this
+        }
+
+        fun visible(visible:() -> Boolean):QuestButton{
+            this.visible = visible
+            return this
+        }
+
+        fun finish() = this@QuestItem
+
     }
 
 }
