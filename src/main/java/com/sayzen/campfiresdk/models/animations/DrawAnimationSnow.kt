@@ -7,6 +7,7 @@ import com.sup.dev.android.R
 import com.sup.dev.android.tools.ToolsResources
 import com.sup.dev.android.tools.ToolsView
 import com.sup.dev.android.views.views.draw_animations.DrawAnimation
+import com.sup.dev.java.libs.debug.log
 import com.sup.dev.java.tools.ToolsCollections
 import com.sup.dev.java.tools.ToolsColor
 import com.sup.dev.java.tools.ToolsMath
@@ -30,6 +31,7 @@ class DrawAnimationSnow : DrawAnimation() {
     }
 
     fun inflate(time:Long){
+        log(inflateTime)
         inflateTime = time / 1000f
     }
 
