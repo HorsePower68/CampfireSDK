@@ -4,16 +4,16 @@
 
 Campfire has anime fandoms and gaming fandoms.</string>
 
-    <string name="app_whoops">Whoops!</string>
-    <string name="app_retry">Retry</string>
-    <string name="app_cancel">Cancel</string>
+    <string name="app_whoops">Oups!</string>
+    <string name="app_retry">Recommence</string>
+    <string name="app_cancel">Annuler</string>
     <string name="app_continue">Continue</string>
-    <string name="app_back">Back</string>
-    <string name="app_dont_show_again">Don\'t show again</string>
+    <string name="app_back">Retour</string>
+    <string name="app_dont_show_again">Ne plus afficher</string>
     <string name="app_attention">Attention</string>
-    <string name="app_download">Download</string>
-    <string name="app_downloading">Downloading</string>
-    <string name="app_downloaded">Downloaded</string>
+    <string name="app_download">Télécharger</string>
+    <string name="app_downloading">Téléchargement en cours</string>
+    <string name="app_downloaded">Téléchargé</string>
     <string name="app_loading">Loading</string>
     <string name="app_loading_dots">Loading…</string>
     <string name="app_done">Done</string>
